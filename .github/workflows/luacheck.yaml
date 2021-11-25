@@ -1,0 +1,8 @@
+name: Luacheck
+on: [push, pull_request]
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: luacheck
+        uses: nebularg/actions-luacheck@v1.1.0

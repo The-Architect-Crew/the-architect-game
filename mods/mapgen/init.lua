@@ -1,4 +1,4 @@
-mapgen = {} 
+mapgen = {}
 --
 -- Detect mapgen to select functions
 --

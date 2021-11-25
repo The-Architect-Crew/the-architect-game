@@ -13,6 +13,9 @@ read_globals = {
     "vector", "ItemStack",
     "dump", "DIR_DELIM", "VoxelArea", "Settings",
 
+		-- Legacy
+		"spawn_falling_node",
+
     -- MTG
     "default", "sfinv", "creative",
 

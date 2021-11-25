@@ -12,8 +12,8 @@ minetest.register_craftitem("blocks:clay_lump", {
 
 minetest.register_node("blocks:clay", {
 	description = S("Clay"),
-	tiles = {"blocks_clay.png"},
-	groups = {crumbly = 3},
+	tiles = { "blocks_clay.png" },
+	groups = { crumbly = 3 },
 	drop = "blocks:clay_lump 4",
 	sounds = default.node_sound_dirt_defaults(),
 })
@@ -27,7 +27,7 @@ minetest.register_node("blocks:brick", {
 		"blocks_brick.png",
 	},
 	is_ground_content = false,
-	groups = {cracky = 3},
+	groups = { cracky = 3 },
 	sounds = default.node_sound_stone_defaults(),
 })
 
@@ -38,15 +38,15 @@ minetest.register_node("blocks:brick", {
 minetest.register_craft({
 	output = "blocks:clay_brick 4",
 	recipe = {
-		{"blocks:brick"},
-	}
+		{ "blocks:brick" },
+	},
 })
 
 minetest.register_craft({
 	output = "blocks:clay_lump 4",
 	recipe = {
-		{"blocks:clay"},
-	}
+		{ "blocks:clay" },
+	},
 })
 
 minetest.register_craft({
@@ -58,15 +58,15 @@ minetest.register_craft({
 minetest.register_craft({
 	output = "blocks:clay",
 	recipe = {
-		{"blocks:clay_lump", "blocks:clay_lump"},
-		{"blocks:clay_lump", "blocks:clay_lump"},
-	}
+		{ "blocks:clay_lump", "blocks:clay_lump" },
+		{ "blocks:clay_lump", "blocks:clay_lump" },
+	},
 })
 
 minetest.register_craft({
 	output = "blocks:brick",
 	recipe = {
-		{"blocks:clay_brick", "blocks:clay_brick"},
-		{"blocks:clay_brick", "blocks:clay_brick"},
-	}
+		{ "blocks:clay_brick", "blocks:clay_brick" },
+		{ "blocks:clay_brick", "blocks:clay_brick" },
+	},
 })

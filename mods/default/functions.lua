@@ -1,4 +1,3 @@
-
 -- Definitions made by this mod that other mods can use too
 default.LIGHT_MAX = 14
 
@@ -22,7 +21,7 @@ function default.get_inventory_drops(pos, inventory, drops)
 	for i = 1, inv:get_size(inventory) do
 		local stack = inv:get_stack(inventory, i)
 		if stack:get_count() > 0 then
-			drops[n+1] = stack:to_table()
+			drops[n + 1] = stack:to_table()
 			n = n + 1
 		end
 	end
@@ -33,8 +32,10 @@ end
 --
 
 function default.dig_up(pos, node, digger)
-	if digger == nil then return end
-	local np = {x = pos.x, y = pos.y + 1, z = pos.z}
+	if digger == nil then
+		return
+	end
+	local np = { x = pos.x, y = pos.y + 1, z = pos.z }
 	local nn = minetest.get_node(np)
 	if nn.name == node.name then
 		minetest.node_dig(np, nn, digger)
@@ -57,8 +58,7 @@ end
 
 -- Leafdecay
 local function leafdecay_after_destruct(pos, oldnode, def)
-	for _, v in pairs(minetest.find_nodes_in_area(vector.subtract(pos, def.radius),
-			vector.add(pos, def.radius), def.leaves)) do
+	for _, v in pairs(minetest.find_nodes_in_area(vector.subtract(pos, def.radius), vector.add(pos, def.radius), def.leaves)) do
 		local node = minetest.get_node(v)
 		local timer = minetest.get_node_timer(v)
 		if node.param2 ~= 1 and not timer:is_started() then
@@ -67,8 +67,7 @@ local function leafdecay_after_destruct(pos, oldnode, def)
 	end
 end
 
-local movement_gravity = tonumber(
-	minetest.settings:get("movement_gravity")) or 9.81
+local movement_gravity = tonumber(minetest.settings:get("movement_gravity")) or 9.81
 
 local function leafdecay_on_timer(pos, def)
 	if minetest.find_node_near(pos, def.radius, def.trunks) then
@@ -84,8 +83,7 @@ local function leafdecay_on_timer(pos, def)
 				is_leaf = true
 			end
 		end
-		if minetest.get_item_group(item, "leafdecay_drop") ~= 0 or
-				not is_leaf then
+		if minetest.get_item_group(item, "leafdecay_drop") ~= 0 or not is_leaf then
 			minetest.add_item({
 				x = pos.x - 0.5 + math.random(),
 				y = pos.y - 0.5 + math.random(),
@@ -101,8 +99,8 @@ local function leafdecay_on_timer(pos, def)
 	minetest.add_particlespawner({
 		amount = 8,
 		time = 0.001,
-		minpos = vector.subtract(pos, {x=0.5, y=0.5, z=0.5}),
-		maxpos = vector.add(pos, {x=0.5, y=0.5, z=0.5}),
+		minpos = vector.subtract(pos, { x = 0.5, y = 0.5, z = 0.5 }),
+		maxpos = vector.add(pos, { x = 0.5, y = 0.5, z = 0.5 }),
 		minvel = vector.new(-0.5, -1, -0.5),
 		maxvel = vector.new(0.5, 0, 0.5),
 		minacc = vector.new(0, -movement_gravity, 0),
@@ -141,7 +139,7 @@ function default.register_craft_metadata_copy(ingredient, result)
 	minetest.register_craft({
 		type = "shapeless",
 		output = result,
-		recipe = {ingredient, result}
+		recipe = { ingredient, result },
 	})
 
 	minetest.register_on_craft(function(itemstack, player, old_craft_grid, craft_inv)
@@ -166,7 +164,6 @@ function default.register_craft_metadata_copy(ingredient, result)
 		craft_inv:set_stack("craft", index, original)
 	end)
 end
-
 
 --
 -- NOTICE: This method is not an official part of the API yet.

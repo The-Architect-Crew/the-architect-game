@@ -24,18 +24,18 @@ local item = {
 		minetest.add_particlespawner({
 			amount = 3,
 			time = 0.1,
-			minpos = {x = p.x - 0.1, y = p.y + 0.1, z = p.z - 0.1 },
-			maxpos = {x = p.x + 0.1, y = p.y + 0.2, z = p.z + 0.1 },
-			minvel = {x = 0, y = 2.5, z = 0},
-			maxvel = {x = 0, y = 2.5, z = 0},
-			minacc = {x = -0.15, y = -0.02, z = -0.15},
-			maxacc = {x = 0.15, y = -0.01, z = 0.15},
+			minpos = { x = p.x - 0.1, y = p.y + 0.1, z = p.z - 0.1 },
+			maxpos = { x = p.x + 0.1, y = p.y + 0.2, z = p.z + 0.1 },
+			minvel = { x = 0, y = 2.5, z = 0 },
+			maxvel = { x = 0, y = 2.5, z = 0 },
+			minacc = { x = -0.15, y = -0.02, z = -0.15 },
+			maxacc = { x = 0.15, y = -0.01, z = 0.15 },
 			minexptime = 4,
 			maxexptime = 6,
 			minsize = 5,
 			maxsize = 5,
 			collisiondetection = true,
-			texture = "default_item_smoke.png"
+			texture = "default_item_smoke.png",
 		})
 	end,
 
@@ -62,8 +62,7 @@ local item = {
 					self:burn_up()
 				else
 					--  otherwise there'll be a chance based on its igniter value
-					local burn_chance = self.flammable
-						* minetest.get_item_group(node.name, "igniter")
+					local burn_chance = self.flammable * minetest.get_item_group(node.name, "igniter")
 					if burn_chance > 0 and math.random(0, burn_chance) ~= 0 then
 						self:burn_up()
 					end

@@ -6,41 +6,43 @@ local S = default.get_translator
 --
 
 function blocks.get_furnace_active_formspec(fuel_percent, item_percent)
-	return "size[8,8.5]"..
-		"list[context;src;2.75,0.5;1,1;]"..
-		"list[context;fuel;2.75,2.5;1,1;]"..
-		"image[2.75,1.5;1,1;blocks_furnace_fire_bg.png^[lowpart:"..
-		(fuel_percent)..":blocks_furnace_fire_fg.png]"..
-		"image[3.75,1.5;1,1;gui_furnace_arrow_bg.png^[lowpart:"..
-		(item_percent)..":gui_furnace_arrow_fg.png^[transformR270]"..
-		"list[context;dst;4.75,0.96;2,2;]"..
-		"list[current_player;main;0,4.25;8,1;]"..
-		"list[current_player;main;0,5.5;8,3;8]"..
-		"listring[context;dst]"..
-		"listring[current_player;main]"..
-		"listring[context;src]"..
-		"listring[current_player;main]"..
-		"listring[context;fuel]"..
-		"listring[current_player;main]"..
-		default.get_hotbar_bg(0, 4.25)
+	return "size[8,8.5]"
+		.. "list[context;src;2.75,0.5;1,1;]"
+		.. "list[context;fuel;2.75,2.5;1,1;]"
+		.. "image[2.75,1.5;1,1;blocks_furnace_fire_bg.png^[lowpart:"
+		.. fuel_percent
+		.. ":blocks_furnace_fire_fg.png]"
+		.. "image[3.75,1.5;1,1;gui_furnace_arrow_bg.png^[lowpart:"
+		.. item_percent
+		.. ":gui_furnace_arrow_fg.png^[transformR270]"
+		.. "list[context;dst;4.75,0.96;2,2;]"
+		.. "list[current_player;main;0,4.25;8,1;]"
+		.. "list[current_player;main;0,5.5;8,3;8]"
+		.. "listring[context;dst]"
+		.. "listring[current_player;main]"
+		.. "listring[context;src]"
+		.. "listring[current_player;main]"
+		.. "listring[context;fuel]"
+		.. "listring[current_player;main]"
+		.. default.get_hotbar_bg(0, 4.25)
 end
 
 function blocks.get_furnace_inactive_formspec()
-	return "size[8,8.5]"..
-		"list[context;src;2.75,0.5;1,1;]"..
-		"list[context;fuel;2.75,2.5;1,1;]"..
-		"image[2.75,1.5;1,1;blocks_furnace_fire_bg.png]"..
-		"image[3.75,1.5;1,1;gui_furnace_arrow_bg.png^[transformR270]"..
-		"list[context;dst;4.75,0.96;2,2;]"..
-		"list[current_player;main;0,4.25;8,1;]"..
-		"list[current_player;main;0,5.5;8,3;8]"..
-		"listring[context;dst]"..
-		"listring[current_player;main]"..
-		"listring[context;src]"..
-		"listring[current_player;main]"..
-		"listring[context;fuel]"..
-		"listring[current_player;main]"..
-		default.get_hotbar_bg(0, 4.25)
+	return "size[8,8.5]"
+		.. "list[context;src;2.75,0.5;1,1;]"
+		.. "list[context;fuel;2.75,2.5;1,1;]"
+		.. "image[2.75,1.5;1,1;blocks_furnace_fire_bg.png]"
+		.. "image[3.75,1.5;1,1;gui_furnace_arrow_bg.png^[transformR270]"
+		.. "list[context;dst;4.75,0.96;2,2;]"
+		.. "list[current_player;main;0,4.25;8,1;]"
+		.. "list[current_player;main;0,5.5;8,3;8]"
+		.. "listring[context;dst]"
+		.. "listring[current_player;main]"
+		.. "listring[context;src]"
+		.. "listring[current_player;main]"
+		.. "listring[context;fuel]"
+		.. "listring[current_player;main]"
+		.. default.get_hotbar_bg(0, 4.25)
 end
 
 --
@@ -48,7 +50,7 @@ end
 --
 
 local function can_dig(pos, player)
-	local meta = minetest.get_meta(pos);
+	local meta = minetest.get_meta(pos)
 	local inv = meta:get_inventory()
 	return inv:is_empty("fuel") and inv:is_empty("dst") and inv:is_empty("src")
 end
@@ -60,7 +62,7 @@ local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 	local meta = minetest.get_meta(pos)
 	local inv = meta:get_inventory()
 	if listname == "fuel" then
-		if minetest.get_craft_result({method="fuel", width=1, items={stack}}).time ~= 0 then
+		if minetest.get_craft_result({ method = "fuel", width = 1, items = { stack } }).time ~= 0 then
 			if inv:is_empty("src") then
 				meta:set_string("infotext", S("Furnace is empty"))
 			end
@@ -130,7 +132,7 @@ local function furnace_node_timer(pos, elapsed)
 
 		-- Check if we have cookable content
 		local aftercooked
-		cooked, aftercooked = minetest.get_craft_result({method = "cooking", width = 1, items = srclist})
+		cooked, aftercooked = minetest.get_craft_result({ method = "cooking", width = 1, items = srclist })
 		cookable = cooked.time ~= 0
 
 		local el = math.min(elapsed, fuel_totaltime - fuel_time)
@@ -156,8 +158,7 @@ local function furnace_node_timer(pos, elapsed)
 						dst_full = true
 					end
 					-- Play cooling sound
-					minetest.sound_play("default_cool_lava",
-						{pos = pos, max_hear_distance = 16, gain = 0.1}, true)
+					minetest.sound_play("default_cool_lava", { pos = pos, max_hear_distance = 16, gain = 0.1 }, true)
 				else
 					-- Item could not be cooked: probably missing fuel
 					update = true
@@ -168,7 +169,7 @@ local function furnace_node_timer(pos, elapsed)
 			if cookable then
 				-- We need to get new fuel
 				local afterfuel
-				fuel, afterfuel = minetest.get_craft_result({method = "fuel", width = 1, items = fuellist})
+				fuel, afterfuel = minetest.get_craft_result({ method = "fuel", width = 1, items = fuellist })
 
 				if fuel.time == 0 then
 					-- No valid fuel in fuel list
@@ -176,7 +177,11 @@ local function furnace_node_timer(pos, elapsed)
 					src_time = 0
 				else
 					-- prevent blocking of fuel inventory (for automatization mods)
-					local is_fuel = minetest.get_craft_result({method = "fuel", width = 1, items = {afterfuel.items[1]:to_string()}})
+					local is_fuel = minetest.get_craft_result({
+						method = "fuel",
+						width = 1,
+						items = { afterfuel.items[1]:to_string() },
+					})
 					if is_fuel.time == 0 then
 						table.insert(fuel.replacements, afterfuel.items[1])
 						inv:set_stack("fuel", 1, "")
@@ -190,7 +195,7 @@ local function furnace_node_timer(pos, elapsed)
 						local leftover = inv:add_item("dst", replacements[1])
 						if not leftover:is_empty() then
 							local above = vector.new(pos.x, pos.y + 1, pos.z)
-							local drop_pos = minetest.find_node_near(above, 1, {"air"}) or above
+							local drop_pos = minetest.find_node_near(above, 1, { "air" }) or above
 							minetest.item_drop(replacements[1], nil, drop_pos)
 						end
 					end
@@ -250,9 +255,8 @@ local function furnace_node_timer(pos, elapsed)
 		result = true
 
 		-- Play sound every 5 seconds while the furnace is active
-		if timer_elapsed == 0 or (timer_elapsed+1) % 5 == 0 then
-			minetest.sound_play("default_furnace_active",
-				{pos = pos, max_hear_distance = 16, gain = 0.5}, true)
+		if timer_elapsed == 0 or (timer_elapsed + 1) % 5 == 0 then
+			minetest.sound_play("default_furnace_active", { pos = pos, max_hear_distance = 16, gain = 0.5 }, true)
 		end
 	else
 		if fuellist and not fuellist[1]:is_empty() then
@@ -264,7 +268,6 @@ local function furnace_node_timer(pos, elapsed)
 		minetest.get_node_timer(pos):stop()
 		meta:set_int("timer_elapsed", 0)
 	end
-
 
 	local infotext
 	if active then
@@ -293,12 +296,15 @@ end
 minetest.register_node("blocks:furnace", {
 	description = S("Furnace"),
 	tiles = {
-		"blocks_furnace_top.png", "blocks_furnace_bottom.png",
-		"blocks_furnace_side.png", "blocks_furnace_side.png",
-		"blocks_furnace_side.png", "blocks_furnace_front.png"
+		"blocks_furnace_top.png",
+		"blocks_furnace_bottom.png",
+		"blocks_furnace_side.png",
+		"blocks_furnace_side.png",
+		"blocks_furnace_side.png",
+		"blocks_furnace_front.png",
 	},
 	paramtype2 = "facedir",
-	groups = {cracky=2},
+	groups = { cracky = 2 },
 	legacy_facedir_simple = true,
 	is_ground_content = false,
 	sounds = default.node_sound_stone_defaults(),
@@ -310,9 +316,9 @@ minetest.register_node("blocks:furnace", {
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
-		inv:set_size('src', 1)
-		inv:set_size('fuel', 1)
-		inv:set_size('dst', 4)
+		inv:set_size("src", 1)
+		inv:set_size("fuel", 1)
+		inv:set_size("dst", 4)
 		furnace_node_timer(pos, 0)
 	end,
 
@@ -332,7 +338,7 @@ minetest.register_node("blocks:furnace", {
 		default.get_inventory_drops(pos, "src", drops)
 		default.get_inventory_drops(pos, "fuel", drops)
 		default.get_inventory_drops(pos, "dst", drops)
-		drops[#drops+1] = "blocks:furnace"
+		drops[#drops + 1] = "blocks:furnace"
 		minetest.remove_node(pos)
 		return drops
 	end,
@@ -345,8 +351,10 @@ minetest.register_node("blocks:furnace", {
 minetest.register_node("blocks:furnace_active", {
 	description = S("Furnace"),
 	tiles = {
-		"blocks_furnace_top.png", "blocks_furnace_bottom.png",
-		"blocks_furnace_side.png", "blocks_furnace_side.png",
+		"blocks_furnace_top.png",
+		"blocks_furnace_bottom.png",
+		"blocks_furnace_side.png",
+		"blocks_furnace_side.png",
 		"blocks_furnace_side.png",
 		{
 			image = "blocks_furnace_front_active.png",
@@ -355,14 +363,14 @@ minetest.register_node("blocks:furnace_active", {
 				type = "vertical_frames",
 				aspect_w = 16,
 				aspect_h = 16,
-				length = 1.5
+				length = 1.5,
 			},
-		}
+		},
 	},
 	paramtype2 = "facedir",
 	light_source = 8,
 	drop = "blocks:furnace",
-	groups = {cracky=2, not_in_creative_inventory=1},
+	groups = { cracky = 2, not_in_creative_inventory = 1 },
 	legacy_facedir_simple = true,
 	is_ground_content = false,
 	sounds = default.node_sound_stone_defaults(),
@@ -378,8 +386,8 @@ minetest.register_node("blocks:furnace_active", {
 minetest.register_craft({
 	output = "blocks:furnace",
 	recipe = {
-		{"group:stone", "group:stone", "group:stone"},
-		{"group:stone", "", "group:stone"},
-		{"group:stone", "group:stone", "group:stone"},
-	}
+		{ "group:stone", "group:stone", "group:stone" },
+		{ "group:stone", "", "group:stone" },
+		{ "group:stone", "group:stone", "group:stone" },
+	},
 })

@@ -15,8 +15,8 @@ minetest.register_abm({
 	--[[nodenames = {"default:cobble", "stairs:slab_cobble", "stairs:stair_cobble",
 		"stairs:stair_inner_cobble", "stairs:stair_outer_cobble",
 		"walls:cobble"},]]
-	nodenames = {"blocks:cobble"},
-	neighbors = {"group:water"},
+	nodenames = { "blocks:cobble" },
+	neighbors = { "group:water" },
 	interval = 16,
 	chance = 200,
 	catch_up = false,
@@ -25,5 +25,5 @@ minetest.register_abm({
 		if node.name then
 			minetest.set_node(pos, node)
 		end
-	end
+	end,
 })

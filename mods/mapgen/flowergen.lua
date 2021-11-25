@@ -10,9 +10,8 @@ function flowers.flower_spread(pos, node)
 	-- Replace flora with dry shrub in desert sand and silver sand,
 	-- as this is the only way to generate them.
 	-- However, preserve grasses in sand dune biomes.
-	if minetest.get_item_group(under.name, "sand") == 1 and
-			under.name ~= "blocks:sand" then
-		minetest.set_node(pos, {name = "flora:dry_shrub"})
+	if minetest.get_item_group(under.name, "sand") == 1 and under.name ~= "blocks:sand" then
+		minetest.set_node(pos, { name = "flora:dry_shrub" })
 		return
 	end
 
@@ -33,21 +32,23 @@ function flowers.flower_spread(pos, node)
 		return
 	end
 
-	local soils = minetest.find_nodes_in_area_under_air(
-		pos0, pos1, "group:soil")
+	local soils = minetest.find_nodes_in_area_under_air(pos0, pos1, "group:soil")
 	local num_soils = #soils
 	if num_soils >= 1 then
 		for si = 1, math.min(3, num_soils) do
 			local soil = soils[math.random(num_soils)]
 			local soil_name = minetest.get_node(soil).name
-			local soil_above = {x = soil.x, y = soil.y + 1, z = soil.z}
+			local soil_above = { x = soil.x, y = soil.y + 1, z = soil.z }
 			light = minetest.get_node_light(soil_above)
-			if light and light >= 13 and
-					-- Only spread to same surface node
-					soil_name == under.name and
-					-- Desert sand is in the soil group
-					soil_name ~= "blocks:desert_sand" then
-				minetest.set_node(soil_above, {name = node.name})
+			if
+				light
+				and light >= 13
+				-- Only spread to same surface node
+				and soil_name == under.name
+				-- Desert sand is in the soil group
+				and soil_name ~= "blocks:desert_sand"
+			then
+				minetest.set_node(soil_above, { name = node.name })
 			end
 		end
 	end
@@ -55,7 +56,7 @@ end
 
 minetest.register_abm({
 	label = "Flower spread",
-	nodenames = {"group:flora"},
+	nodenames = { "group:flora" },
 	interval = 13,
 	chance = 300,
 	action = function(...)
@@ -73,22 +74,23 @@ function flowers.mushroom_spread(pos, node)
 		return
 	end
 	local positions = minetest.find_nodes_in_area_under_air(
-		{x = pos.x - 1, y = pos.y - 2, z = pos.z - 1},
-		{x = pos.x + 1, y = pos.y + 1, z = pos.z + 1},
-		{"group:soil", "group:tree"})
+		{ x = pos.x - 1, y = pos.y - 2, z = pos.z - 1 },
+		{ x = pos.x + 1, y = pos.y + 1, z = pos.z + 1 },
+		{ "group:soil", "group:tree" }
+	)
 	if #positions == 0 then
 		return
 	end
 	local pos2 = positions[math.random(#positions)]
 	pos2.y = pos2.y + 1
 	if minetest.get_node_light(pos2, 0.5) <= 3 then
-		minetest.set_node(pos2, {name = node.name})
+		minetest.set_node(pos2, { name = node.name })
 	end
 end
 
 minetest.register_abm({
 	label = "Mushroom spread",
-	nodenames = {"group:mushroom"},
+	nodenames = { "group:mushroom" },
 	interval = 11,
 	chance = 150,
 	action = function(...)
@@ -102,41 +104,41 @@ minetest.register_abm({
 
 local function register_mgv6_flower(flower_name)
 	minetest.register_decoration({
-		name = "flora:"..flower_name,
+		name = "flora:" .. flower_name,
 		deco_type = "simple",
-		place_on = {"blocks:dirt_with_grass"},
+		place_on = { "blocks:dirt_with_grass" },
 		sidelen = 16,
 		noise_params = {
 			offset = 0,
 			scale = 0.006,
-			spread = {x = 100, y = 100, z = 100},
+			spread = { x = 100, y = 100, z = 100 },
 			seed = 436,
 			octaves = 3,
-			persist = 0.6
+			persist = 0.6,
 		},
 		y_max = 30,
 		y_min = 1,
-		decoration = "flora:"..flower_name,
+		decoration = "flora:" .. flower_name,
 	})
 end
 
 local function register_mgv6_mushroom(mushroom_name)
 	minetest.register_decoration({
-		name = "flora:"..mushroom_name,
+		name = "flora:" .. mushroom_name,
 		deco_type = "simple",
-		place_on = {"blocks:dirt_with_grass"},
+		place_on = { "blocks:dirt_with_grass" },
 		sidelen = 16,
 		noise_params = {
 			offset = 0,
 			scale = 0.04,
-			spread = {x = 100, y = 100, z = 100},
+			spread = { x = 100, y = 100, z = 100 },
 			seed = 7133,
 			octaves = 3,
-			persist = 0.6
+			persist = 0.6,
 		},
 		y_max = 30,
 		y_min = 1,
-		decoration = "flora:"..mushroom_name,
+		decoration = "flora:" .. mushroom_name,
 		spawn_by = "blocks:tree",
 		num_spawn_by = 1,
 	})
@@ -146,15 +148,15 @@ local function register_mgv6_waterlily()
 	minetest.register_decoration({
 		name = "flora:waterlily",
 		deco_type = "simple",
-		place_on = {"blocks:dirt"},
+		place_on = { "blocks:dirt" },
 		sidelen = 16,
 		noise_params = {
 			offset = -0.12,
 			scale = 0.3,
-			spread = {x = 100, y = 100, z = 100},
+			spread = { x = 100, y = 100, z = 100 },
 			seed = 33,
 			octaves = 3,
-			persist = 0.7
+			persist = 0.7,
 		},
 		y_max = 0,
 		y_min = 0,
@@ -179,50 +181,49 @@ function flowers.register_mgv6_decorations()
 	register_mgv6_waterlily()
 end
 
-
 --
 -- All other biome API mapgens
 --
 
 local function register_flower(seed, flower_name)
 	minetest.register_decoration({
-		name = "flora:"..flower_name,
+		name = "flora:" .. flower_name,
 		deco_type = "simple",
-		place_on = {"blocks:dirt_with_grass"},
+		place_on = { "blocks:dirt_with_grass" },
 		sidelen = 16,
 		noise_params = {
 			offset = -0.02,
 			scale = 0.04,
-			spread = {x = 200, y = 200, z = 200},
+			spread = { x = 200, y = 200, z = 200 },
 			seed = seed,
 			octaves = 3,
-			persist = 0.6
+			persist = 0.6,
 		},
-		biomes = {"grassland", "deciduous_forest"},
+		biomes = { "grassland", "deciduous_forest" },
 		y_max = 31000,
 		y_min = 1,
-		decoration = "flora:"..flower_name,
+		decoration = "flora:" .. flower_name,
 	})
 end
 
 local function register_mushroom(mushroom_name)
 	minetest.register_decoration({
-		name = "flora:"..mushroom_name,
+		name = "flora:" .. mushroom_name,
 		deco_type = "simple",
-		place_on = {"blocks:dirt_with_grass", "blocks:dirt_with_coniferous_litter"},
+		place_on = { "blocks:dirt_with_grass", "blocks:dirt_with_coniferous_litter" },
 		sidelen = 16,
 		noise_params = {
 			offset = 0,
 			scale = 0.006,
-			spread = {x = 250, y = 250, z = 250},
+			spread = { x = 250, y = 250, z = 250 },
 			seed = 2,
 			octaves = 3,
-			persist = 0.66
+			persist = 0.66,
 		},
-		biomes = {"deciduous_forest", "coniferous_forest"},
+		biomes = { "deciduous_forest", "coniferous_forest" },
 		y_max = 31000,
 		y_min = 1,
-		decoration = "flora:"..mushroom_name,
+		decoration = "flora:" .. mushroom_name,
 	})
 end
 
@@ -230,17 +231,17 @@ local function register_waterlily()
 	minetest.register_decoration({
 		name = "flora:waterlily",
 		deco_type = "simple",
-		place_on = {"blocks:dirt"},
+		place_on = { "blocks:dirt" },
 		sidelen = 16,
 		noise_params = {
 			offset = -0.12,
 			scale = 0.3,
-			spread = {x = 200, y = 200, z = 200},
+			spread = { x = 200, y = 200, z = 200 },
 			seed = 33,
 			octaves = 3,
-			persist = 0.7
+			persist = 0.7,
 		},
-		biomes = {"rainforest_swamp", "savanna_shore", "deciduous_forest_shore"},
+		biomes = { "rainforest_swamp", "savanna_shore", "deciduous_forest_shore" },
 		y_max = 0,
 		y_min = 0,
 		decoration = "flora:waterlily_waving",
@@ -251,14 +252,14 @@ local function register_waterlily()
 end
 
 function flowers.register_decorations()
-	register_flower(436,     "rose")
-	register_flower(19822,   "tulip")
+	register_flower(436, "rose")
+	register_flower(19822, "tulip")
 	register_flower(1220999, "dandelion_yellow")
-	register_flower(800081,  "chrysanthemum_green")
-	register_flower(36662,   "geranium")
-	register_flower(1133,    "viola")
-	register_flower(73133,   "dandelion_white")
-	register_flower(42,      "tulip_black")
+	register_flower(800081, "chrysanthemum_green")
+	register_flower(36662, "geranium")
+	register_flower(1133, "viola")
+	register_flower(73133, "dandelion_white")
+	register_flower(42, "tulip_black")
 
 	register_mushroom("mushroom_brown")
 	register_mushroom("mushroom_red")

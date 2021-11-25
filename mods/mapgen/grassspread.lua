@@ -1,6 +1,6 @@
 minetest.register_abm({
 	label = "Grass spread",
-	nodenames = {"blocks:dirt"},
+	nodenames = { "blocks:dirt" },
 	neighbors = {
 		"air",
 		"group:grass",
@@ -13,7 +13,7 @@ minetest.register_abm({
 	action = function(pos, node)
 		-- Check for darkness: night, shadow or under a light-blocking node
 		-- Returns if ignore above
-		local above = {x = pos.x, y = pos.y + 1, z = pos.z}
+		local above = { x = pos.x, y = pos.y + 1, z = pos.z }
 		if (minetest.get_node_light(above) or 0) < 13 then
 			return
 		end
@@ -22,7 +22,7 @@ minetest.register_abm({
 		local p2 = minetest.find_node_near(pos, 1, "group:spreading_dirt_type")
 		if p2 then
 			local n3 = minetest.get_node(p2)
-			minetest.set_node(pos, {name = n3.name})
+			minetest.set_node(pos, { name = n3.name })
 			return
 		end
 
@@ -30,15 +30,14 @@ minetest.register_abm({
 		local name = minetest.get_node(above).name
 		-- Snow check is cheapest, so comes first
 		if name == "blocks:snow" then
-			minetest.set_node(pos, {name = "blocks:dirt_with_snow"})
+			minetest.set_node(pos, { name = "blocks:dirt_with_snow" })
 		elseif minetest.get_item_group(name, "grass") ~= 0 then
-			minetest.set_node(pos, {name = "blocks:dirt_with_grass"})
+			minetest.set_node(pos, { name = "blocks:dirt_with_grass" })
 		elseif minetest.get_item_group(name, "dry_grass") ~= 0 then
-			minetest.set_node(pos, {name = "blocks:dirt_with_dry_grass"})
+			minetest.set_node(pos, { name = "blocks:dirt_with_dry_grass" })
 		end
-	end
+	end,
 })
-
 
 --
 -- Grass and dry grass removed in darkness
@@ -46,22 +45,24 @@ minetest.register_abm({
 
 minetest.register_abm({
 	label = "Grass covered",
-	nodenames = {"group:spreading_dirt_type", "blocks:dry_dirt_with_dry_grass"},
+	nodenames = { "group:spreading_dirt_type", "blocks:dry_dirt_with_dry_grass" },
 	interval = 8,
 	chance = 50,
 	catch_up = false,
 	action = function(pos, node)
-		local above = {x = pos.x, y = pos.y + 1, z = pos.z}
+		local above = { x = pos.x, y = pos.y + 1, z = pos.z }
 		local name = minetest.get_node(above).name
 		local nodedef = minetest.registered_nodes[name]
-		if name ~= "ignore" and nodedef and not ((nodedef.sunlight_propagates or
-				nodedef.paramtype == "light") and
-				nodedef.liquidtype == "none") then
+		if
+			name ~= "ignore"
+			and nodedef
+			and not ((nodedef.sunlight_propagates or nodedef.paramtype == "light") and nodedef.liquidtype == "none")
+		then
 			if node.name == "blocks:dry_dirt_with_dry_grass" then
-				minetest.set_node(pos, {name = "blocks:dry_dirt"})
+				minetest.set_node(pos, { name = "blocks:dry_dirt" })
 			else
-				minetest.set_node(pos, {name = "blocks:dirt"})
+				minetest.set_node(pos, { name = "blocks:dirt" })
 			end
 		end
-	end
+	end,
 })

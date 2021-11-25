@@ -12,19 +12,19 @@ end
 
 minetest.register_node("flora:tree", {
 	description = S("Apple Tree"),
-	tiles = {"flora_tree_top.png", "flora_tree_top.png", "flora_tree.png"},
+	tiles = { "flora_tree_top.png", "flora_tree_top.png", "flora_tree.png" },
 	paramtype2 = "facedir",
 	is_ground_content = false,
-	groups = {tree = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2},
+	groups = { tree = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2 },
 	sounds = default.node_sound_wood_defaults(),
 
-	on_place = minetest.rotate_node
+	on_place = minetest.rotate_node,
 })
 
 minetest.register_node("flora:sapling", {
 	description = S("Apple Tree Sapling"),
 	drawtype = "plantlike",
-	tiles = {"flora_sapling.png"},
+	tiles = { "flora_sapling.png" },
 	inventory_image = "flora_sapling.png",
 	wield_image = "flora_sapling.png",
 	paramtype = "light",
@@ -33,10 +33,9 @@ minetest.register_node("flora:sapling", {
 	on_timer = grow_sapling,
 	selection_box = {
 		type = "fixed",
-		fixed = {-4 / 16, -0.5, -4 / 16, 4 / 16, 7 / 16, 4 / 16}
+		fixed = { -4 / 16, -0.5, -4 / 16, 4 / 16, 7 / 16, 4 / 16 },
 	},
-	groups = {snappy = 2, dig_immediate = 3, flammable = 2,
-		attached_node = 1, sapling = 1},
+	groups = { snappy = 2, dig_immediate = 3, flammable = 2, attached_node = 1, sapling = 1 },
 	sounds = default.node_sound_leaves_defaults(),
 
 	on_construct = function(pos)
@@ -44,14 +43,18 @@ minetest.register_node("flora:sapling", {
 	end,
 
 	on_place = function(itemstack, placer, pointed_thing)
-		itemstack = flora.sapling_on_place(itemstack, placer, pointed_thing,
+		itemstack = flora.sapling_on_place(
+			itemstack,
+			placer,
+			pointed_thing,
 			"flora:sapling",
 			-- minp, maxp to be checked, relative to sapling pos
 			-- minp_relative.y = 1 because sapling pos has been checked
-			{x = -3, y = 1, z = -3},
-			{x = 3, y = 6, z = 3},
+			{ x = -3, y = 1, z = -3 },
+			{ x = 3, y = 6, z = 3 },
 			-- maximum interval of interior volume check
-			4)
+			4
+		)
 
 		return itemstack
 	end,
@@ -61,25 +64,25 @@ minetest.register_node("flora:leaves", {
 	description = S("Apple Tree Leaves"),
 	drawtype = "allfaces_optional",
 	waving = 1,
-	tiles = {"flora_leaves.png"},
-	special_tiles = {"flora_leaves_simple.png"},
+	tiles = { "flora_leaves.png" },
+	special_tiles = { "flora_leaves_simple.png" },
 	paramtype = "light",
 	is_ground_content = false,
-	groups = {snappy = 3, leafdecay = 3, flammable = 2, leaves = 1},
+	groups = { snappy = 3, leafdecay = 3, flammable = 2, leaves = 1 },
 	drop = {
 		max_items = 1,
 		items = {
 			{
 				-- player will get sapling with 1/20 chance
-				items = {"flora:sapling"},
+				items = { "flora:sapling" },
 				rarity = 20,
 			},
 			{
 				-- player will get leaves only if he get no saplings,
 				-- this is because max_items is 1
-				items = {"flora:leaves"},
-			}
-		}
+				items = { "flora:leaves" },
+			},
+		},
 	},
 	sounds = default.node_sound_leaves_defaults(),
 
@@ -89,7 +92,7 @@ minetest.register_node("flora:leaves", {
 minetest.register_node("flora:apple", {
 	description = S("Apple"),
 	drawtype = "plantlike",
-	tiles = {"flora_apple.png"},
+	tiles = { "flora_apple.png" },
 	inventory_image = "flora_apple.png",
 	paramtype = "light",
 	sunlight_propagates = true,
@@ -97,20 +100,19 @@ minetest.register_node("flora:apple", {
 	is_ground_content = false,
 	selection_box = {
 		type = "fixed",
-		fixed = {-3 / 16, -7 / 16, -3 / 16, 3 / 16, 4 / 16, 3 / 16}
+		fixed = { -3 / 16, -7 / 16, -3 / 16, 3 / 16, 4 / 16, 3 / 16 },
 	},
-	groups = {fleshy = 3, dig_immediate = 3, flammable = 2,
-		leafdecay = 3, leafdecay_drop = 1, food_apple = 1},
+	groups = { fleshy = 3, dig_immediate = 3, flammable = 2, leafdecay = 3, leafdecay_drop = 1, food_apple = 1 },
 	on_use = minetest.item_eat(2),
 	sounds = default.node_sound_leaves_defaults(),
 
 	after_place_node = function(pos, placer, itemstack)
-		minetest.set_node(pos, {name = "flora:apple", param2 = 1})
+		minetest.set_node(pos, { name = "flora:apple", param2 = 1 })
 	end,
 
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		if oldnode.param2 == 0 then
-			minetest.set_node(pos, {name = "flora:apple_mark"})
+			minetest.set_node(pos, { name = "flora:apple_mark" })
 			minetest.get_node_timer(pos):start(math.random(300, 1500))
 		end
 	end,
@@ -128,46 +130,44 @@ minetest.register_node("flora:apple_mark", {
 	diggable = false,
 	buildable_to = true,
 	drop = "",
-	groups = {not_in_creative_inventory = 1},
+	groups = { not_in_creative_inventory = 1 },
 	on_timer = function(pos, elapsed)
 		if not minetest.find_node_near(pos, 1, "flora:leaves") then
 			minetest.remove_node(pos)
 		elseif minetest.get_node_light(pos) < 11 then
 			minetest.get_node_timer(pos):start(200)
 		else
-			minetest.set_node(pos, {name = "flora:apple"})
+			minetest.set_node(pos, { name = "flora:apple" })
 		end
-	end
+	end,
 })
-
 
 minetest.register_node("flora:jungletree", {
 	description = S("Jungle Tree"),
-	tiles = {"flora_jungletree_top.png", "flora_jungletree_top.png",
-		"flora_jungletree.png"},
+	tiles = { "flora_jungletree_top.png", "flora_jungletree_top.png", "flora_jungletree.png" },
 	paramtype2 = "facedir",
 	is_ground_content = false,
-	groups = {tree = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2},
+	groups = { tree = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2 },
 	sounds = default.node_sound_wood_defaults(),
 
-	on_place = minetest.rotate_node
+	on_place = minetest.rotate_node,
 })
 
 minetest.register_node("flora:jungleleaves", {
 	description = S("Jungle Tree Leaves"),
 	drawtype = "allfaces_optional",
 	waving = 1,
-	tiles = {"flora_jungleleaves.png"},
-	special_tiles = {"flora_jungleleaves_simple.png"},
+	tiles = { "flora_jungleleaves.png" },
+	special_tiles = { "flora_jungleleaves_simple.png" },
 	paramtype = "light",
 	is_ground_content = false,
-	groups = {snappy = 3, leafdecay = 3, flammable = 2, leaves = 1},
+	groups = { snappy = 3, leafdecay = 3, flammable = 2, leaves = 1 },
 	drop = {
 		max_items = 1,
 		items = {
-			{items = {"flora:junglesapling"}, rarity = 20},
-			{items = {"flora:jungleleaves"}}
-		}
+			{ items = { "flora:junglesapling" }, rarity = 20 },
+			{ items = { "flora:jungleleaves" } },
+		},
 	},
 	sounds = default.node_sound_leaves_defaults(),
 
@@ -177,7 +177,7 @@ minetest.register_node("flora:jungleleaves", {
 minetest.register_node("flora:junglesapling", {
 	description = S("Jungle Tree Sapling"),
 	drawtype = "plantlike",
-	tiles = {"flora_junglesapling.png"},
+	tiles = { "flora_junglesapling.png" },
 	inventory_image = "flora_junglesapling.png",
 	wield_image = "flora_junglesapling.png",
 	paramtype = "light",
@@ -186,10 +186,9 @@ minetest.register_node("flora:junglesapling", {
 	on_timer = grow_sapling,
 	selection_box = {
 		type = "fixed",
-		fixed = {-4 / 16, -0.5, -4 / 16, 4 / 16, 7 / 16, 4 / 16}
+		fixed = { -4 / 16, -0.5, -4 / 16, 4 / 16, 7 / 16, 4 / 16 },
 	},
-	groups = {snappy = 2, dig_immediate = 3, flammable = 2,
-		attached_node = 1, sapling = 1},
+	groups = { snappy = 2, dig_immediate = 3, flammable = 2, attached_node = 1, sapling = 1 },
 	sounds = default.node_sound_leaves_defaults(),
 
 	on_construct = function(pos)
@@ -197,14 +196,18 @@ minetest.register_node("flora:junglesapling", {
 	end,
 
 	on_place = function(itemstack, placer, pointed_thing)
-		itemstack = flora.sapling_on_place(itemstack, placer, pointed_thing,
+		itemstack = flora.sapling_on_place(
+			itemstack,
+			placer,
+			pointed_thing,
 			"flora:junglesapling",
 			-- minp, maxp to be checked, relative to sapling pos
 			-- minp_relative.y = 1 because sapling pos has been checked
-			{x = -2, y = 1, z = -2},
-			{x = 2, y = 15, z = 2},
+			{ x = -2, y = 1, z = -2 },
+			{ x = 2, y = 15, z = 2 },
 			-- maximum interval of interior volume check
-			4)
+			4
+		)
 
 		return itemstack
 	end,
@@ -213,7 +216,7 @@ minetest.register_node("flora:junglesapling", {
 minetest.register_node("flora:emergent_jungle_sapling", {
 	description = S("Emergent Jungle Tree Sapling"),
 	drawtype = "plantlike",
-	tiles = {"flora_emergent_jungle_sapling.png"},
+	tiles = { "flora_emergent_jungle_sapling.png" },
 	inventory_image = "flora_emergent_jungle_sapling.png",
 	wield_image = "flora_emergent_jungle_sapling.png",
 	paramtype = "light",
@@ -222,10 +225,9 @@ minetest.register_node("flora:emergent_jungle_sapling", {
 	on_timer = grow_sapling,
 	selection_box = {
 		type = "fixed",
-		fixed = {-4 / 16, -0.5, -4 / 16, 4 / 16, 7 / 16, 4 / 16}
+		fixed = { -4 / 16, -0.5, -4 / 16, 4 / 16, 7 / 16, 4 / 16 },
 	},
-	groups = {snappy = 2, dig_immediate = 3, flammable = 2,
-		attached_node = 1, sapling = 1},
+	groups = { snappy = 2, dig_immediate = 3, flammable = 2, attached_node = 1, sapling = 1 },
 	sounds = default.node_sound_leaves_defaults(),
 
 	on_construct = function(pos)
@@ -233,45 +235,47 @@ minetest.register_node("flora:emergent_jungle_sapling", {
 	end,
 
 	on_place = function(itemstack, placer, pointed_thing)
-		itemstack = flora.sapling_on_place(itemstack, placer, pointed_thing,
+		itemstack = flora.sapling_on_place(
+			itemstack,
+			placer,
+			pointed_thing,
 			"flora:emergent_jungle_sapling",
 			-- minp, maxp to be checked, relative to sapling pos
-			{x = -3, y = -5, z = -3},
-			{x = 3, y = 31, z = 3},
+			{ x = -3, y = -5, z = -3 },
+			{ x = 3, y = 31, z = 3 },
 			-- maximum interval of interior volume check
-			4)
+			4
+		)
 
 		return itemstack
 	end,
 })
 
-
 minetest.register_node("flora:pine_tree", {
 	description = S("Pine Tree"),
-	tiles = {"flora_pine_tree_top.png", "flora_pine_tree_top.png",
-		"flora_pine_tree.png"},
+	tiles = { "flora_pine_tree_top.png", "flora_pine_tree_top.png", "flora_pine_tree.png" },
 	paramtype2 = "facedir",
 	is_ground_content = false,
-	groups = {tree = 1, choppy = 3, oddly_breakable_by_hand = 1, flammable = 3},
+	groups = { tree = 1, choppy = 3, oddly_breakable_by_hand = 1, flammable = 3 },
 	sounds = default.node_sound_wood_defaults(),
 
-	on_place = minetest.rotate_node
+	on_place = minetest.rotate_node,
 })
 
-minetest.register_node("flora:pine_needles",{
+minetest.register_node("flora:pine_needles", {
 	description = S("Pine Needles"),
 	drawtype = "allfaces_optional",
-	tiles = {"flora_pine_needles.png"},
+	tiles = { "flora_pine_needles.png" },
 	waving = 1,
 	paramtype = "light",
 	is_ground_content = false,
-	groups = {snappy = 3, leafdecay = 3, flammable = 2, leaves = 1},
+	groups = { snappy = 3, leafdecay = 3, flammable = 2, leaves = 1 },
 	drop = {
 		max_items = 1,
 		items = {
-			{items = {"flora:pine_sapling"}, rarity = 20},
-			{items = {"flora:pine_needles"}}
-		}
+			{ items = { "flora:pine_sapling" }, rarity = 20 },
+			{ items = { "flora:pine_needles" } },
+		},
 	},
 	sounds = default.node_sound_leaves_defaults(),
 
@@ -281,7 +285,7 @@ minetest.register_node("flora:pine_needles",{
 minetest.register_node("flora:pine_sapling", {
 	description = S("Pine Tree Sapling"),
 	drawtype = "plantlike",
-	tiles = {"flora_pine_sapling.png"},
+	tiles = { "flora_pine_sapling.png" },
 	inventory_image = "flora_pine_sapling.png",
 	wield_image = "flora_pine_sapling.png",
 	paramtype = "light",
@@ -290,10 +294,9 @@ minetest.register_node("flora:pine_sapling", {
 	on_timer = grow_sapling,
 	selection_box = {
 		type = "fixed",
-		fixed = {-4 / 16, -0.5, -4 / 16, 4 / 16, 7 / 16, 4 / 16}
+		fixed = { -4 / 16, -0.5, -4 / 16, 4 / 16, 7 / 16, 4 / 16 },
 	},
-	groups = {snappy = 2, dig_immediate = 3, flammable = 3,
-		attached_node = 1, sapling = 1},
+	groups = { snappy = 2, dig_immediate = 3, flammable = 3, attached_node = 1, sapling = 1 },
 	sounds = default.node_sound_leaves_defaults(),
 
 	on_construct = function(pos)
@@ -301,47 +304,49 @@ minetest.register_node("flora:pine_sapling", {
 	end,
 
 	on_place = function(itemstack, placer, pointed_thing)
-		itemstack = flora.sapling_on_place(itemstack, placer, pointed_thing,
+		itemstack = flora.sapling_on_place(
+			itemstack,
+			placer,
+			pointed_thing,
 			"flora:pine_sapling",
 			-- minp, maxp to be checked, relative to sapling pos
 			-- minp_relative.y = 1 because sapling pos has been checked
-			{x = -2, y = 1, z = -2},
-			{x = 2, y = 14, z = 2},
+			{ x = -2, y = 1, z = -2 },
+			{ x = 2, y = 14, z = 2 },
 			-- maximum interval of interior volume check
-			4)
+			4
+		)
 
 		return itemstack
 	end,
 })
 
-
 minetest.register_node("flora:acacia_tree", {
 	description = S("Acacia Tree"),
-	tiles = {"flora_acacia_tree_top.png", "flora_acacia_tree_top.png",
-		"flora_acacia_tree.png"},
+	tiles = { "flora_acacia_tree_top.png", "flora_acacia_tree_top.png", "flora_acacia_tree.png" },
 	paramtype2 = "facedir",
 	is_ground_content = false,
-	groups = {tree = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2},
+	groups = { tree = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2 },
 	sounds = default.node_sound_wood_defaults(),
 
-	on_place = minetest.rotate_node
+	on_place = minetest.rotate_node,
 })
 
 minetest.register_node("flora:acacia_leaves", {
 	description = S("Acacia Tree Leaves"),
 	drawtype = "allfaces_optional",
-	tiles = {"flora_acacia_leaves.png"},
-	special_tiles = {"flora_acacia_leaves_simple.png"},
+	tiles = { "flora_acacia_leaves.png" },
+	special_tiles = { "flora_acacia_leaves_simple.png" },
 	waving = 1,
 	paramtype = "light",
 	is_ground_content = false,
-	groups = {snappy = 3, leafdecay = 3, flammable = 2, leaves = 1},
+	groups = { snappy = 3, leafdecay = 3, flammable = 2, leaves = 1 },
 	drop = {
 		max_items = 1,
 		items = {
-			{items = {"flora:acacia_sapling"}, rarity = 20},
-			{items = {"flora:acacia_leaves"}}
-		}
+			{ items = { "flora:acacia_sapling" }, rarity = 20 },
+			{ items = { "flora:acacia_leaves" } },
+		},
 	},
 	sounds = default.node_sound_leaves_defaults(),
 
@@ -351,7 +356,7 @@ minetest.register_node("flora:acacia_leaves", {
 minetest.register_node("flora:acacia_sapling", {
 	description = S("Acacia Tree Sapling"),
 	drawtype = "plantlike",
-	tiles = {"flora_acacia_sapling.png"},
+	tiles = { "flora_acacia_sapling.png" },
 	inventory_image = "flora_acacia_sapling.png",
 	wield_image = "flora_acacia_sapling.png",
 	paramtype = "light",
@@ -360,10 +365,9 @@ minetest.register_node("flora:acacia_sapling", {
 	on_timer = grow_sapling,
 	selection_box = {
 		type = "fixed",
-		fixed = {-4 / 16, -0.5, -4 / 16, 4 / 16, 7 / 16, 4 / 16}
+		fixed = { -4 / 16, -0.5, -4 / 16, 4 / 16, 7 / 16, 4 / 16 },
 	},
-	groups = {snappy = 2, dig_immediate = 3, flammable = 2,
-		attached_node = 1, sapling = 1},
+	groups = { snappy = 2, dig_immediate = 3, flammable = 2, attached_node = 1, sapling = 1 },
 	sounds = default.node_sound_leaves_defaults(),
 
 	on_construct = function(pos)
@@ -371,14 +375,18 @@ minetest.register_node("flora:acacia_sapling", {
 	end,
 
 	on_place = function(itemstack, placer, pointed_thing)
-		itemstack = flora.sapling_on_place(itemstack, placer, pointed_thing,
+		itemstack = flora.sapling_on_place(
+			itemstack,
+			placer,
+			pointed_thing,
 			"flora:acacia_sapling",
 			-- minp, maxp to be checked, relative to sapling pos
 			-- minp_relative.y = 1 because sapling pos has been checked
-			{x = -4, y = 1, z = -4},
-			{x = 4, y = 7, z = 4},
+			{ x = -4, y = 1, z = -4 },
+			{ x = 4, y = 7, z = 4 },
 			-- maximum interval of interior volume check
-			4)
+			4
+		)
 
 		return itemstack
 	end,
@@ -386,30 +394,29 @@ minetest.register_node("flora:acacia_sapling", {
 
 minetest.register_node("flora:aspen_tree", {
 	description = S("Aspen Tree"),
-	tiles = {"flora_aspen_tree_top.png", "flora_aspen_tree_top.png",
-		"flora_aspen_tree.png"},
+	tiles = { "flora_aspen_tree_top.png", "flora_aspen_tree_top.png", "flora_aspen_tree.png" },
 	paramtype2 = "facedir",
 	is_ground_content = false,
-	groups = {tree = 1, choppy = 3, oddly_breakable_by_hand = 1, flammable = 3},
+	groups = { tree = 1, choppy = 3, oddly_breakable_by_hand = 1, flammable = 3 },
 	sounds = default.node_sound_wood_defaults(),
 
-	on_place = minetest.rotate_node
+	on_place = minetest.rotate_node,
 })
 
 minetest.register_node("flora:aspen_leaves", {
 	description = S("Aspen Tree Leaves"),
 	drawtype = "allfaces_optional",
-	tiles = {"flora_aspen_leaves.png"},
+	tiles = { "flora_aspen_leaves.png" },
 	waving = 1,
 	paramtype = "light",
 	is_ground_content = false,
-	groups = {snappy = 3, leafdecay = 3, flammable = 2, leaves = 1},
+	groups = { snappy = 3, leafdecay = 3, flammable = 2, leaves = 1 },
 	drop = {
 		max_items = 1,
 		items = {
-			{items = {"flora:aspen_sapling"}, rarity = 20},
-			{items = {"flora:aspen_leaves"}}
-		}
+			{ items = { "flora:aspen_sapling" }, rarity = 20 },
+			{ items = { "flora:aspen_leaves" } },
+		},
 	},
 	sounds = default.node_sound_leaves_defaults(),
 
@@ -419,7 +426,7 @@ minetest.register_node("flora:aspen_leaves", {
 minetest.register_node("flora:aspen_sapling", {
 	description = S("Aspen Tree Sapling"),
 	drawtype = "plantlike",
-	tiles = {"flora_aspen_sapling.png"},
+	tiles = { "flora_aspen_sapling.png" },
 	inventory_image = "flora_aspen_sapling.png",
 	wield_image = "flora_aspen_sapling.png",
 	paramtype = "light",
@@ -428,10 +435,9 @@ minetest.register_node("flora:aspen_sapling", {
 	on_timer = grow_sapling,
 	selection_box = {
 		type = "fixed",
-		fixed = {-3 / 16, -0.5, -3 / 16, 3 / 16, 0.5, 3 / 16}
+		fixed = { -3 / 16, -0.5, -3 / 16, 3 / 16, 0.5, 3 / 16 },
 	},
-	groups = {snappy = 2, dig_immediate = 3, flammable = 3,
-		attached_node = 1, sapling = 1},
+	groups = { snappy = 2, dig_immediate = 3, flammable = 3, attached_node = 1, sapling = 1 },
 	sounds = default.node_sound_leaves_defaults(),
 
 	on_construct = function(pos)
@@ -439,14 +445,18 @@ minetest.register_node("flora:aspen_sapling", {
 	end,
 
 	on_place = function(itemstack, placer, pointed_thing)
-		itemstack = flora.sapling_on_place(itemstack, placer, pointed_thing,
+		itemstack = flora.sapling_on_place(
+			itemstack,
+			placer,
+			pointed_thing,
 			"flora:aspen_sapling",
 			-- minp, maxp to be checked, relative to sapling pos
 			-- minp_relative.y = 1 because sapling pos has been checked
-			{x = -2, y = 1, z = -2},
-			{x = 2, y = 12, z = 2},
+			{ x = -2, y = 1, z = -2 },
+			{ x = 2, y = 12, z = 2 },
 			-- maximum interval of interior volume check
-			4)
+			4
+		)
 
 		return itemstack
 	end,
@@ -458,45 +468,45 @@ minetest.register_node("flora:aspen_sapling", {
 
 if minetest.get_mapgen_setting("mg_name") == "v6" then
 	default.register_leafdecay({
-		trunks = {"flora:tree"},
-		leaves = {"flora:apple", "flora:leaves"},
+		trunks = { "flora:tree" },
+		leaves = { "flora:apple", "flora:leaves" },
 		radius = 2,
 	})
 
 	default.register_leafdecay({
-		trunks = {"flora:jungletree"},
-		leaves = {"flora:jungleleaves"},
+		trunks = { "flora:jungletree" },
+		leaves = { "flora:jungleleaves" },
 		radius = 3,
 	})
 else
 	default.register_leafdecay({
-		trunks = {"flora:tree"},
-		leaves = {"flora:apple", "flora:leaves"},
+		trunks = { "flora:tree" },
+		leaves = { "flora:apple", "flora:leaves" },
 		radius = 3,
 	})
 
 	default.register_leafdecay({
-		trunks = {"flora:jungletree"},
-		leaves = {"flora:jungleleaves"},
+		trunks = { "flora:jungletree" },
+		leaves = { "flora:jungleleaves" },
 		radius = 2,
 	})
 end
 
 default.register_leafdecay({
-	trunks = {"flora:pine_tree"},
-	leaves = {"flora:pine_needles"},
+	trunks = { "flora:pine_tree" },
+	leaves = { "flora:pine_needles" },
 	radius = 3,
 })
 
 default.register_leafdecay({
-	trunks = {"flora:acacia_tree"},
-	leaves = {"flora:acacia_leaves"},
+	trunks = { "flora:acacia_tree" },
+	leaves = { "flora:acacia_leaves" },
 	radius = 2,
 })
 
 default.register_leafdecay({
-	trunks = {"flora:aspen_tree"},
-	leaves = {"flora:aspen_leaves"},
+	trunks = { "flora:aspen_tree" },
+	leaves = { "flora:aspen_leaves" },
 	radius = 3,
 })
 
@@ -507,10 +517,10 @@ default.register_leafdecay({
 minetest.register_craft({
 	output = "flora:emergent_jungle_sapling",
 	recipe = {
-		{"flora:junglesapling", "flora:junglesapling", "flora:junglesapling"},
-		{"flora:junglesapling", "flora:junglesapling", "flora:junglesapling"},
-		{"flora:junglesapling", "flora:junglesapling", "flora:junglesapling"},
-	}
+		{ "flora:junglesapling", "flora:junglesapling", "flora:junglesapling" },
+		{ "flora:junglesapling", "flora:junglesapling", "flora:junglesapling" },
+		{ "flora:junglesapling", "flora:junglesapling", "flora:junglesapling" },
+	},
 })
 
 minetest.register_craft({

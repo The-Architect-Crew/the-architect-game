@@ -1,4 +1,4 @@
-mapgen = {} 
+mapgen = {}
 --
 -- Detect mapgen to select functions
 --
@@ -8,12 +8,12 @@ minetest.clear_registered_ores()
 minetest.clear_registered_decorations()
 
 local path = minetest.get_modpath("mapgen")
-dofile(path.."/alias.lua")
-dofile(path.."/oregen.lua")
-dofile(path.."/mapgen.lua")
-dofile(path.."/flowergen.lua")
-dofile(path.."/grassspread.lua")
-dofile(path.."/mossspread.lua")
+dofile(path .. "/alias.lua")
+dofile(path .. "/oregen.lua")
+dofile(path .. "/mapgen.lua")
+dofile(path .. "/flowergen.lua")
+dofile(path .. "/grassspread.lua")
+dofile(path .. "/mossspread.lua")
 
 local mg_name = minetest.get_mapgen_setting("mg_name")
 

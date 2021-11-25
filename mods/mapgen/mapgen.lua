@@ -5,7 +5,6 @@
 -- All mapgens except mgv6
 
 function mapgen.register_biomes()
-
 	-- Icesheet
 
 	minetest.register_biome({
@@ -50,7 +49,7 @@ function mapgen.register_biomes()
 
 	minetest.register_biome({
 		name = "icesheet_under",
-		node_cave_liquid = {"blocks:water_source", "blocks:lava_source"},
+		node_cave_liquid = { "blocks:water_source", "blocks:lava_source" },
 		node_dungeon = "blocks:cobble",
 		node_dungeon_alt = "blocks:mossycobble",
 		--node_dungeon_stair = "stairs:stair_cobble",
@@ -133,7 +132,7 @@ function mapgen.register_biomes()
 
 	minetest.register_biome({
 		name = "tundra_under",
-		node_cave_liquid = {"blocks:water_source", "blocks:lava_source"},
+		node_cave_liquid = { "blocks:water_source", "blocks:lava_source" },
 		node_dungeon = "blocks:cobble",
 		node_dungeon_alt = "blocks:mossycobble",
 		--node_dungeon_stair = "stairs:stair_cobble",
@@ -185,7 +184,7 @@ function mapgen.register_biomes()
 
 	minetest.register_biome({
 		name = "taiga_under",
-		node_cave_liquid = {"blocks:water_source", "blocks:lava_source"},
+		node_cave_liquid = { "blocks:water_source", "blocks:lava_source" },
 		node_dungeon = "blocks:cobble",
 		node_dungeon_alt = "blocks:mossycobble",
 		--node_dungeon_stair = "stairs:stair_cobble",
@@ -237,7 +236,7 @@ function mapgen.register_biomes()
 
 	minetest.register_biome({
 		name = "snowy_grassland_under",
-		node_cave_liquid = {"blocks:water_source", "blocks:lava_source"},
+		node_cave_liquid = { "blocks:water_source", "blocks:lava_source" },
 		node_dungeon = "blocks:cobble",
 		node_dungeon_alt = "blocks:mossycobble",
 		--node_dungeon_stair = "stairs:stair_cobble",
@@ -304,7 +303,7 @@ function mapgen.register_biomes()
 
 	minetest.register_biome({
 		name = "grassland_under",
-		node_cave_liquid = {"blocks:water_source", "blocks:lava_source"},
+		node_cave_liquid = { "blocks:water_source", "blocks:lava_source" },
 		node_dungeon = "blocks:cobble",
 		node_dungeon_alt = "blocks:mossycobble",
 		--node_dungeon_stair = "stairs:stair_cobble",
@@ -371,7 +370,7 @@ function mapgen.register_biomes()
 
 	minetest.register_biome({
 		name = "coniferous_forest_under",
-		node_cave_liquid = {"blocks:water_source", "blocks:lava_source"},
+		node_cave_liquid = { "blocks:water_source", "blocks:lava_source" },
 		node_dungeon = "blocks:cobble",
 		node_dungeon_alt = "blocks:mossycobble",
 		--node_dungeon_stair = "stairs:stair_cobble",
@@ -438,7 +437,7 @@ function mapgen.register_biomes()
 
 	minetest.register_biome({
 		name = "deciduous_forest_under",
-		node_cave_liquid = {"blocks:water_source", "blocks:lava_source"},
+		node_cave_liquid = { "blocks:water_source", "blocks:lava_source" },
 		node_dungeon = "blocks:cobble",
 		node_dungeon_alt = "blocks:mossycobble",
 		--node_dungeon_stair = "stairs:stair_cobble",
@@ -488,7 +487,7 @@ function mapgen.register_biomes()
 
 	minetest.register_biome({
 		name = "desert_under",
-		node_cave_liquid = {"blocks:water_source", "blocks:lava_source"},
+		node_cave_liquid = { "blocks:water_source", "blocks:lava_source" },
 		node_dungeon = "blocks:cobble",
 		node_dungeon_alt = "blocks:mossycobble",
 		--node_dungeon_stair = "stairs:stair_cobble",
@@ -537,7 +536,7 @@ function mapgen.register_biomes()
 
 	minetest.register_biome({
 		name = "sandstone_desert_under",
-		node_cave_liquid = {"blocks:water_source", "blocks:lava_source"},
+		node_cave_liquid = { "blocks:water_source", "blocks:lava_source" },
 		node_dungeon = "blocks:cobble",
 		node_dungeon_alt = "blocks:mossycobble",
 		--node_dungeon_stair = "stairs:stair_cobble",
@@ -587,7 +586,7 @@ function mapgen.register_biomes()
 
 	minetest.register_biome({
 		name = "cold_desert_under",
-		node_cave_liquid = {"blocks:water_source", "blocks:lava_source"},
+		node_cave_liquid = { "blocks:water_source", "blocks:lava_source" },
 		node_dungeon = "blocks:cobble",
 		node_dungeon_alt = "blocks:mossycobble",
 		--node_dungeon_stair = "stairs:stair_cobble",
@@ -654,7 +653,7 @@ function mapgen.register_biomes()
 
 	minetest.register_biome({
 		name = "savanna_under",
-		node_cave_liquid = {"blocks:water_source", "blocks:lava_source"},
+		node_cave_liquid = { "blocks:water_source", "blocks:lava_source" },
 		node_dungeon = "blocks:cobble",
 		node_dungeon_alt = "blocks:mossycobble",
 		--node_dungeon_stair = "stairs:stair_cobble",
@@ -721,7 +720,7 @@ function mapgen.register_biomes()
 
 	minetest.register_biome({
 		name = "rainforest_under",
-		node_cave_liquid = {"blocks:water_source", "blocks:lava_source"},
+		node_cave_liquid = { "blocks:water_source", "blocks:lava_source" },
 		node_dungeon = "blocks:cobble",
 		node_dungeon_alt = "blocks:mossycobble",
 		--node_dungeon_stair = "stairs:stair_cobble",
@@ -732,7 +731,6 @@ function mapgen.register_biomes()
 	})
 end
 
-
 --
 -- Register decorations
 --
@@ -740,21 +738,20 @@ end
 -- Mgv6
 
 function mapgen.register_mgv6_decorations()
-
 	-- Papyrus
 
 	minetest.register_decoration({
 		name = "flora:papyrus",
 		deco_type = "simple",
-		place_on = {"blocks:dirt_with_grass"},
+		place_on = { "blocks:dirt_with_grass" },
 		sidelen = 16,
 		noise_params = {
 			offset = -0.3,
 			scale = 0.7,
-			spread = {x = 100, y = 100, z = 100},
+			spread = { x = 100, y = 100, z = 100 },
 			seed = 354,
 			octaves = 3,
-			persist = 0.7
+			persist = 0.7,
 		},
 		y_max = 1,
 		y_min = 1,
@@ -770,42 +767,42 @@ function mapgen.register_mgv6_decorations()
 	minetest.register_decoration({
 		name = "flora:cactus",
 		deco_type = "simple",
-		place_on = {"blocks:desert_sand"},
+		place_on = { "blocks:desert_sand" },
 		sidelen = 16,
 		noise_params = {
 			offset = -0.012,
 			scale = 0.024,
-			spread = {x = 100, y = 100, z = 100},
+			spread = { x = 100, y = 100, z = 100 },
 			seed = 230,
 			octaves = 3,
-			persist = 0.6
+			persist = 0.6,
 		},
 		y_max = 30,
 		y_min = 1,
 		decoration = "flora:cactus",
 		height = 3,
-	        height_max = 4,
+		height_max = 4,
 	})
 
 	-- Long grasses
 
 	for length = 1, 5 do
 		minetest.register_decoration({
-			name = "flora:grass_"..length,
+			name = "flora:grass_" .. length,
 			deco_type = "simple",
-			place_on = {"blocks:dirt_with_grass"},
+			place_on = { "blocks:dirt_with_grass" },
 			sidelen = 16,
 			noise_params = {
 				offset = 0,
 				scale = 0.007,
-				spread = {x = 100, y = 100, z = 100},
+				spread = { x = 100, y = 100, z = 100 },
 				seed = 329,
 				octaves = 3,
-				persist = 0.6
+				persist = 0.6,
 			},
 			y_max = 30,
 			y_min = 1,
-			decoration = "flora:grass_"..length,
+			decoration = "flora:grass_" .. length,
 		})
 	end
 
@@ -814,15 +811,15 @@ function mapgen.register_mgv6_decorations()
 	minetest.register_decoration({
 		name = "flora:dry_shrub",
 		deco_type = "simple",
-		place_on = {"blocks:desert_sand", "blocks:dirt_with_snow"},
+		place_on = { "blocks:desert_sand", "blocks:dirt_with_snow" },
 		sidelen = 16,
 		noise_params = {
 			offset = 0,
 			scale = 0.035,
-			spread = {x = 100, y = 100, z = 100},
+			spread = { x = 100, y = 100, z = 100 },
 			seed = 329,
 			octaves = 3,
-			persist = 0.6
+			persist = 0.6,
 		},
 		y_max = 30,
 		y_min = 1,
@@ -831,24 +828,23 @@ function mapgen.register_mgv6_decorations()
 	})
 end
 
-
 -- All mapgens except mgv6
 
 local function register_grass_decoration(offset, scale, length)
 	minetest.register_decoration({
 		name = "flora:grass_" .. length,
 		deco_type = "simple",
-		place_on = {"blocks:dirt_with_grass"},
+		place_on = { "blocks:dirt_with_grass" },
 		sidelen = 16,
 		noise_params = {
 			offset = offset,
 			scale = scale,
-			spread = {x = 200, y = 200, z = 200},
+			spread = { x = 200, y = 200, z = 200 },
 			seed = 329,
 			octaves = 3,
-			persist = 0.6
+			persist = 0.6,
 		},
-		biomes = {"grassland", "deciduous_forest"},
+		biomes = { "grassland", "deciduous_forest" },
 		y_max = 31000,
 		y_min = 1,
 		decoration = "flora:grass_" .. length,
@@ -859,17 +855,17 @@ local function register_dry_grass_decoration(offset, scale, length)
 	minetest.register_decoration({
 		name = "flora:dry_grass_" .. length,
 		deco_type = "simple",
-		place_on = {"blocks:dry_dirt_with_dry_grass"},
+		place_on = { "blocks:dry_dirt_with_dry_grass" },
 		sidelen = 16,
 		noise_params = {
 			offset = offset,
 			scale = scale,
-			spread = {x = 200, y = 200, z = 200},
+			spread = { x = 200, y = 200, z = 200 },
 			seed = 329,
 			octaves = 3,
-			persist = 0.6
+			persist = 0.6,
 		},
-		biomes = {"savanna"},
+		biomes = { "savanna" },
 		y_max = 31000,
 		y_min = 1,
 		decoration = "flora:dry_grass_" .. length,
@@ -880,23 +876,22 @@ local function register_fern_decoration(seed, length)
 	minetest.register_decoration({
 		name = "flora:fern_" .. length,
 		deco_type = "simple",
-		place_on = {"blocks:dirt_with_coniferous_litter"},
+		place_on = { "blocks:dirt_with_coniferous_litter" },
 		sidelen = 16,
 		noise_params = {
 			offset = 0,
 			scale = 0.2,
-			spread = {x = 100, y = 100, z = 100},
+			spread = { x = 100, y = 100, z = 100 },
 			seed = seed,
 			octaves = 3,
-			persist = 0.7
+			persist = 0.7,
 		},
-		biomes = {"coniferous_forest"},
+		biomes = { "coniferous_forest" },
 		y_max = 31000,
 		y_min = 6,
 		decoration = "flora:fern_" .. length,
 	})
 end
-
 
 function mapgen.register_decorations()
 	-- Savanna bare dirt patches.
@@ -906,17 +901,17 @@ function mapgen.register_decorations()
 
 	minetest.register_decoration({
 		deco_type = "simple",
-		place_on = {"blocks:dry_dirt_with_dry_grass"},
+		place_on = { "blocks:dry_dirt_with_dry_grass" },
 		sidelen = 4,
 		noise_params = {
 			offset = -1.5,
 			scale = -1.5,
-			spread = {x = 200, y = 200, z = 200},
+			spread = { x = 200, y = 200, z = 200 },
 			seed = 329,
 			octaves = 4,
-			persist = 1.0
+			persist = 1.0,
 		},
-		biomes = {"savanna"},
+		biomes = { "savanna" },
 		y_max = 31000,
 		y_min = 1,
 		decoration = "blocks:dry_dirt",
@@ -929,17 +924,17 @@ function mapgen.register_decorations()
 	minetest.register_decoration({
 		name = "mapgen:apple_tree",
 		deco_type = "schematic",
-		place_on = {"blocks:dirt_with_grass"},
+		place_on = { "blocks:dirt_with_grass" },
 		sidelen = 16,
 		noise_params = {
 			offset = 0.024,
 			scale = 0.015,
-			spread = {x = 250, y = 250, z = 250},
+			spread = { x = 250, y = 250, z = 250 },
 			seed = 2,
 			octaves = 3,
-			persist = 0.66
+			persist = 0.66,
 		},
-		biomes = {"deciduous_forest"},
+		biomes = { "deciduous_forest" },
 		y_max = 31000,
 		y_min = 1,
 		schematic = minetest.get_modpath("flora") .. "/schematics/apple_tree.mts",
@@ -950,18 +945,18 @@ function mapgen.register_decorations()
 	minetest.register_decoration({
 		name = "mapgen:apple_log",
 		deco_type = "schematic",
-		place_on = {"blocks:dirt_with_grass"},
+		place_on = { "blocks:dirt_with_grass" },
 		place_offset_y = 1,
 		sidelen = 16,
 		noise_params = {
 			offset = 0.0012,
 			scale = 0.0007,
-			spread = {x = 250, y = 250, z = 250},
+			spread = { x = 250, y = 250, z = 250 },
 			seed = 2,
 			octaves = 3,
-			persist = 0.66
+			persist = 0.66,
 		},
-		biomes = {"deciduous_forest"},
+		biomes = { "deciduous_forest" },
 		y_max = 31000,
 		y_min = 1,
 		schematic = minetest.get_modpath("flora") .. "/schematics/apple_log.mts",
@@ -979,21 +974,20 @@ function mapgen.register_decorations()
 		minetest.register_decoration({
 			name = "mapgen:emergent_jungle_tree",
 			deco_type = "schematic",
-			place_on = {"blocks:dirt_with_rainforest_litter"},
+			place_on = { "blocks:dirt_with_rainforest_litter" },
 			sidelen = 80,
 			noise_params = {
 				offset = 0.0,
 				scale = 0.0025,
-				spread = {x = 250, y = 250, z = 250},
+				spread = { x = 250, y = 250, z = 250 },
 				seed = 2685,
 				octaves = 3,
-				persist = 0.7
+				persist = 0.7,
 			},
-			biomes = {"rainforest"},
+			biomes = { "rainforest" },
 			y_max = 32,
 			y_min = 1,
-			schematic = minetest.get_modpath("flora") ..
-					"/schematics/emergent_jungle_tree.mts",
+			schematic = minetest.get_modpath("flora") .. "/schematics/emergent_jungle_tree.mts",
 			flags = "place_center_x, place_center_z",
 			rotation = "random",
 			place_offset_y = -4,
@@ -1005,10 +999,10 @@ function mapgen.register_decorations()
 	minetest.register_decoration({
 		name = "mapgen:jungle_tree",
 		deco_type = "schematic",
-		place_on = {"blocks:dirt_with_rainforest_litter"},
+		place_on = { "blocks:dirt_with_rainforest_litter" },
 		sidelen = 80,
 		fill_ratio = 0.1,
-		biomes = {"rainforest"},
+		biomes = { "rainforest" },
 		y_max = 31000,
 		y_min = 1,
 		schematic = minetest.get_modpath("flora") .. "/schematics/jungle_tree.mts",
@@ -1021,18 +1015,18 @@ function mapgen.register_decorations()
 	minetest.register_decoration({
 		name = "mapgen:jungle_tree(swamp)",
 		deco_type = "schematic",
-		place_on = {"blocks:dirt"},
+		place_on = { "blocks:dirt" },
 		sidelen = 16,
 		-- Noise tuned to place swamp trees where papyrus is absent
 		noise_params = {
 			offset = 0.0,
 			scale = -0.1,
-			spread = {x = 200, y = 200, z = 200},
+			spread = { x = 200, y = 200, z = 200 },
 			seed = 354,
 			octaves = 1,
-			persist = 0.5
+			persist = 0.5,
 		},
-		biomes = {"rainforest_swamp"},
+		biomes = { "rainforest_swamp" },
 		y_max = 0,
 		y_min = -1,
 		schematic = minetest.get_modpath("flora") .. "/schematics/jungle_tree.mts",
@@ -1043,11 +1037,11 @@ function mapgen.register_decorations()
 	minetest.register_decoration({
 		name = "mapgen:jungle_log",
 		deco_type = "schematic",
-		place_on = {"blocks:dirt_with_rainforest_litter"},
+		place_on = { "blocks:dirt_with_rainforest_litter" },
 		place_offset_y = 1,
 		sidelen = 80,
 		fill_ratio = 0.005,
-		biomes = {"rainforest"},
+		biomes = { "rainforest" },
 		y_max = 31000,
 		y_min = 1,
 		schematic = minetest.get_modpath("flora") .. "/schematics/jungle_log.mts",
@@ -1062,17 +1056,17 @@ function mapgen.register_decorations()
 	minetest.register_decoration({
 		name = "mapgen:pine_tree",
 		deco_type = "schematic",
-		place_on = {"blocks:dirt_with_snow", "blocks:dirt_with_coniferous_litter"},
+		place_on = { "blocks:dirt_with_snow", "blocks:dirt_with_coniferous_litter" },
 		sidelen = 16,
 		noise_params = {
 			offset = 0.010,
 			scale = 0.048,
-			spread = {x = 250, y = 250, z = 250},
+			spread = { x = 250, y = 250, z = 250 },
 			seed = 2,
 			octaves = 3,
-			persist = 0.66
+			persist = 0.66,
 		},
-		biomes = {"taiga", "coniferous_forest"},
+		biomes = { "taiga", "coniferous_forest" },
 		y_max = 31000,
 		y_min = 4,
 		schematic = minetest.get_modpath("flora") .. "/schematics/pine_tree.mts",
@@ -1082,17 +1076,17 @@ function mapgen.register_decorations()
 	minetest.register_decoration({
 		name = "mapgen:small_pine_tree",
 		deco_type = "schematic",
-		place_on = {"blocks:dirt_with_snow", "blocks:dirt_with_coniferous_litter"},
+		place_on = { "blocks:dirt_with_snow", "blocks:dirt_with_coniferous_litter" },
 		sidelen = 16,
 		noise_params = {
 			offset = 0.010,
 			scale = -0.048,
-			spread = {x = 250, y = 250, z = 250},
+			spread = { x = 250, y = 250, z = 250 },
 			seed = 2,
 			octaves = 3,
-			persist = 0.66
+			persist = 0.66,
 		},
-		biomes = {"taiga", "coniferous_forest"},
+		biomes = { "taiga", "coniferous_forest" },
 		y_max = 31000,
 		y_min = 4,
 		schematic = minetest.get_modpath("flora") .. "/schematics/small_pine_tree.mts",
@@ -1102,17 +1096,17 @@ function mapgen.register_decorations()
 	minetest.register_decoration({
 		name = "mapgen:pine_log",
 		deco_type = "schematic",
-		place_on = {"blocks:dirt_with_snow", "blocks:dirt_with_coniferous_litter"},
+		place_on = { "blocks:dirt_with_snow", "blocks:dirt_with_coniferous_litter" },
 		place_offset_y = 1,
 		sidelen = 80,
 		fill_ratio = 0.0018,
-		biomes = {"taiga", "coniferous_forest"},
+		biomes = { "taiga", "coniferous_forest" },
 		y_max = 31000,
 		y_min = 4,
 		schematic = minetest.get_modpath("flora") .. "/schematics/pine_log.mts",
 		flags = "place_center_x",
 		rotation = "random",
-		spawn_by = {"blocks:dirt_with_snow", "blocks:dirt_with_coniferous_litter"},
+		spawn_by = { "blocks:dirt_with_snow", "blocks:dirt_with_coniferous_litter" },
 		num_spawn_by = 8,
 	})
 
@@ -1121,17 +1115,17 @@ function mapgen.register_decorations()
 	minetest.register_decoration({
 		name = "mapgen:acacia_tree",
 		deco_type = "schematic",
-		place_on = {"blocks:dry_dirt_with_dry_grass"},
+		place_on = { "blocks:dry_dirt_with_dry_grass" },
 		sidelen = 16,
 		noise_params = {
 			offset = 0,
 			scale = 0.002,
-			spread = {x = 250, y = 250, z = 250},
+			spread = { x = 250, y = 250, z = 250 },
 			seed = 2,
 			octaves = 3,
-			persist = 0.66
+			persist = 0.66,
 		},
-		biomes = {"savanna"},
+		biomes = { "savanna" },
 		y_max = 31000,
 		y_min = 1,
 		schematic = minetest.get_modpath("flora") .. "/schematics/acacia_tree.mts",
@@ -1142,18 +1136,18 @@ function mapgen.register_decorations()
 	minetest.register_decoration({
 		name = "mapgen:acacia_log",
 		deco_type = "schematic",
-		place_on = {"blocks:dry_dirt_with_dry_grass"},
+		place_on = { "blocks:dry_dirt_with_dry_grass" },
 		place_offset_y = 1,
 		sidelen = 16,
 		noise_params = {
 			offset = 0,
 			scale = 0.001,
-			spread = {x = 250, y = 250, z = 250},
+			spread = { x = 250, y = 250, z = 250 },
 			seed = 2,
 			octaves = 3,
-			persist = 0.66
+			persist = 0.66,
 		},
-		biomes = {"savanna"},
+		biomes = { "savanna" },
 		y_max = 31000,
 		y_min = 1,
 		schematic = minetest.get_modpath("flora") .. "/schematics/acacia_log.mts",
@@ -1168,17 +1162,17 @@ function mapgen.register_decorations()
 	minetest.register_decoration({
 		name = "mapgen:aspen_tree",
 		deco_type = "schematic",
-		place_on = {"blocks:dirt_with_grass"},
+		place_on = { "blocks:dirt_with_grass" },
 		sidelen = 16,
 		noise_params = {
 			offset = 0.0,
 			scale = -0.015,
-			spread = {x = 250, y = 250, z = 250},
+			spread = { x = 250, y = 250, z = 250 },
 			seed = 2,
 			octaves = 3,
-			persist = 0.66
+			persist = 0.66,
 		},
-		biomes = {"deciduous_forest"},
+		biomes = { "deciduous_forest" },
 		y_max = 31000,
 		y_min = 1,
 		schematic = minetest.get_modpath("flora") .. "/schematics/aspen_tree.mts",
@@ -1188,18 +1182,18 @@ function mapgen.register_decorations()
 	minetest.register_decoration({
 		name = "mapgen:aspen_log",
 		deco_type = "schematic",
-		place_on = {"blocks:dirt_with_grass"},
+		place_on = { "blocks:dirt_with_grass" },
 		place_offset_y = 1,
 		sidelen = 16,
 		noise_params = {
 			offset = 0.0,
 			scale = -0.0008,
-			spread = {x = 250, y = 250, z = 250},
+			spread = { x = 250, y = 250, z = 250 },
 			seed = 2,
 			octaves = 3,
-			persist = 0.66
+			persist = 0.66,
 		},
-		biomes = {"deciduous_forest"},
+		biomes = { "deciduous_forest" },
 		y_max = 31000,
 		y_min = 1,
 		schematic = minetest.get_modpath("flora") .. "/schematics/aspen_log.mts",
@@ -1214,17 +1208,17 @@ function mapgen.register_decorations()
 	minetest.register_decoration({
 		name = "mapgen:large_cactus",
 		deco_type = "schematic",
-		place_on = {"blocks:desert_sand"},
+		place_on = { "blocks:desert_sand" },
 		sidelen = 16,
 		noise_params = {
 			offset = -0.0003,
 			scale = 0.0009,
-			spread = {x = 200, y = 200, z = 200},
+			spread = { x = 200, y = 200, z = 200 },
 			seed = 230,
 			octaves = 3,
-			persist = 0.6
+			persist = 0.6,
 		},
-		biomes = {"desert"},
+		biomes = { "desert" },
 		y_max = 31000,
 		y_min = 4,
 		schematic = minetest.get_modpath("flora") .. "/schematics/large_cactus.mts",
@@ -1237,17 +1231,17 @@ function mapgen.register_decorations()
 	minetest.register_decoration({
 		name = "mapgen:cactus",
 		deco_type = "simple",
-		place_on = {"blocks:desert_sand"},
+		place_on = { "blocks:desert_sand" },
 		sidelen = 16,
 		noise_params = {
 			offset = -0.0003,
 			scale = 0.0009,
-			spread = {x = 200, y = 200, z = 200},
+			spread = { x = 200, y = 200, z = 200 },
 			seed = 230,
 			octaves = 3,
-			persist = 0.6
+			persist = 0.6,
 		},
-		biomes = {"desert"},
+		biomes = { "desert" },
 		y_max = 31000,
 		y_min = 4,
 		decoration = "flora:cactus",
@@ -1262,17 +1256,17 @@ function mapgen.register_decorations()
 	minetest.register_decoration({
 		name = "mapgen:papyrus_on_dirt",
 		deco_type = "schematic",
-		place_on = {"blocks:dirt"},
+		place_on = { "blocks:dirt" },
 		sidelen = 16,
 		noise_params = {
 			offset = -0.3,
 			scale = 0.7,
-			spread = {x = 200, y = 200, z = 200},
+			spread = { x = 200, y = 200, z = 200 },
 			seed = 354,
 			octaves = 3,
-			persist = 0.7
+			persist = 0.7,
 		},
-		biomes = {"rainforest_swamp"},
+		biomes = { "rainforest_swamp" },
 		y_max = 0,
 		y_min = 0,
 		schematic = minetest.get_modpath("flora") .. "/schematics/papyrus_on_dirt.mts",
@@ -1283,21 +1277,20 @@ function mapgen.register_decorations()
 	minetest.register_decoration({
 		name = "mapgen:papyrus_on_dry_dirt",
 		deco_type = "schematic",
-		place_on = {"blocks:dry_dirt"},
+		place_on = { "blocks:dry_dirt" },
 		sidelen = 16,
 		noise_params = {
 			offset = -0.3,
 			scale = 0.7,
-			spread = {x = 200, y = 200, z = 200},
+			spread = { x = 200, y = 200, z = 200 },
 			seed = 354,
 			octaves = 3,
-			persist = 0.7
+			persist = 0.7,
 		},
-		biomes = {"savanna_shore"},
+		biomes = { "savanna_shore" },
 		y_max = 0,
 		y_min = 0,
-		schematic = minetest.get_modpath("flora") ..
-			"/schematics/papyrus_on_dry_dirt.mts",
+		schematic = minetest.get_modpath("flora") .. "/schematics/papyrus_on_dry_dirt.mts",
 	})
 
 	-- Bush
@@ -1305,17 +1298,17 @@ function mapgen.register_decorations()
 	minetest.register_decoration({
 		name = "mapgen:bush",
 		deco_type = "schematic",
-		place_on = {"blocks:dirt_with_grass"},
+		place_on = { "blocks:dirt_with_grass" },
 		sidelen = 16,
 		noise_params = {
 			offset = -0.004,
 			scale = 0.01,
-			spread = {x = 100, y = 100, z = 100},
+			spread = { x = 100, y = 100, z = 100 },
 			seed = 137,
 			octaves = 3,
 			persist = 0.7,
 		},
-		biomes = {"grassland", "deciduous_forest"},
+		biomes = { "grassland", "deciduous_forest" },
 		y_max = 31000,
 		y_min = 1,
 		schematic = minetest.get_modpath("flora") .. "/schematics/bush.mts",
@@ -1327,17 +1320,17 @@ function mapgen.register_decorations()
 	minetest.register_decoration({
 		name = "mapgen:blueberry_bush",
 		deco_type = "schematic",
-		place_on = {"blocks:dirt_with_grass", "blocks:dirt_with_snow"},
+		place_on = { "blocks:dirt_with_grass", "blocks:dirt_with_snow" },
 		sidelen = 16,
 		noise_params = {
 			offset = -0.004,
 			scale = 0.01,
-			spread = {x = 100, y = 100, z = 100},
+			spread = { x = 100, y = 100, z = 100 },
 			seed = 697,
 			octaves = 3,
 			persist = 0.7,
 		},
-		biomes = {"grassland", "snowy_grassland"},
+		biomes = { "grassland", "snowy_grassland" },
 		y_max = 31000,
 		y_min = 1,
 		place_offset_y = 1,
@@ -1350,17 +1343,17 @@ function mapgen.register_decorations()
 	minetest.register_decoration({
 		name = "mapgen:acacia_bush",
 		deco_type = "schematic",
-		place_on = {"blocks:dry_dirt_with_dry_grass"},
+		place_on = { "blocks:dry_dirt_with_dry_grass" },
 		sidelen = 16,
 		noise_params = {
 			offset = -0.004,
 			scale = 0.01,
-			spread = {x = 100, y = 100, z = 100},
+			spread = { x = 100, y = 100, z = 100 },
 			seed = 90155,
 			octaves = 3,
 			persist = 0.7,
 		},
-		biomes = {"savanna"},
+		biomes = { "savanna" },
 		y_max = 31000,
 		y_min = 1,
 		schematic = minetest.get_modpath("flora") .. "/schematics/acacia_bush.mts",
@@ -1372,17 +1365,17 @@ function mapgen.register_decorations()
 	minetest.register_decoration({
 		name = "mapgen:pine_bush",
 		deco_type = "schematic",
-		place_on = {"blocks:dirt_with_snow"},
+		place_on = { "blocks:dirt_with_snow" },
 		sidelen = 16,
 		noise_params = {
 			offset = -0.004,
 			scale = 0.01,
-			spread = {x = 100, y = 100, z = 100},
+			spread = { x = 100, y = 100, z = 100 },
 			seed = 137,
 			octaves = 3,
 			persist = 0.7,
 		},
-		biomes = {"taiga", "snowy_grassland"},
+		biomes = { "taiga", "snowy_grassland" },
 		y_max = 31000,
 		y_min = 4,
 		schematic = minetest.get_modpath("flora") .. "/schematics/pine_bush.mts",
@@ -1391,35 +1384,35 @@ function mapgen.register_decorations()
 
 	-- Grasses
 
-	register_grass_decoration(-0.03,  0.09,  5)
+	register_grass_decoration(-0.03, 0.09, 5)
 	register_grass_decoration(-0.015, 0.075, 4)
-	register_grass_decoration(0,      0.06,  3)
-	register_grass_decoration(0.015,  0.045, 2)
-	register_grass_decoration(0.03,   0.03,  1)
+	register_grass_decoration(0, 0.06, 3)
+	register_grass_decoration(0.015, 0.045, 2)
+	register_grass_decoration(0.03, 0.03, 1)
 
 	-- Dry grasses
 
-	register_dry_grass_decoration(0.01, 0.05,  5)
-	register_dry_grass_decoration(0.03, 0.03,  4)
-	register_dry_grass_decoration(0.05, 0.01,  3)
+	register_dry_grass_decoration(0.01, 0.05, 5)
+	register_dry_grass_decoration(0.03, 0.03, 4)
+	register_dry_grass_decoration(0.05, 0.01, 3)
 	register_dry_grass_decoration(0.07, -0.01, 2)
 	register_dry_grass_decoration(0.09, -0.03, 1)
 
 	-- Ferns
 
 	register_fern_decoration(14936, 3)
-	register_fern_decoration(801,   2)
-	register_fern_decoration(5,     1)
+	register_fern_decoration(801, 2)
+	register_fern_decoration(5, 1)
 
 	-- Junglegrass
 
 	minetest.register_decoration({
 		name = "mapgen:junglegrass",
 		deco_type = "simple",
-		place_on = {"blocks:dirt_with_rainforest_litter"},
+		place_on = { "blocks:dirt_with_rainforest_litter" },
 		sidelen = 80,
 		fill_ratio = 0.1,
-		biomes = {"rainforest"},
+		biomes = { "rainforest" },
 		y_max = 31000,
 		y_min = 1,
 		decoration = "flora:junglegrass",
@@ -1430,18 +1423,17 @@ function mapgen.register_decorations()
 	minetest.register_decoration({
 		name = "mapgen:dry_shrub",
 		deco_type = "simple",
-		place_on = {"blocks:desert_sand",
-			"blocks:sand", "blocks:silver_sand"},
+		place_on = { "blocks:desert_sand", "blocks:sand", "blocks:silver_sand" },
 		sidelen = 16,
 		noise_params = {
 			offset = 0,
 			scale = 0.02,
-			spread = {x = 200, y = 200, z = 200},
+			spread = { x = 200, y = 200, z = 200 },
 			seed = 329,
 			octaves = 3,
-			persist = 0.6
+			persist = 0.6,
 		},
-		biomes = {"desert", "sandstone_desert", "cold_desert"},
+		biomes = { "desert", "sandstone_desert", "cold_desert" },
 		y_max = 31000,
 		y_min = 2,
 		decoration = "flora:dry_shrub",
@@ -1453,18 +1445,18 @@ function mapgen.register_decorations()
 	minetest.register_decoration({
 		name = "mapgen:marram_grass",
 		deco_type = "simple",
-		place_on = {"blocks:sand"},
+		place_on = { "blocks:sand" },
 		sidelen = 4,
 		noise_params = {
 			offset = -0.7,
 			scale = 4.0,
-			spread = {x = 16, y = 16, z = 16},
+			spread = { x = 16, y = 16, z = 16 },
 			seed = 513337,
 			octaves = 1,
 			persist = 0.0,
-			flags = "absvalue, eased"
+			flags = "absvalue, eased",
 		},
-		biomes = {"coniferous_forest_dunes", "grassland_dunes"},
+		biomes = { "coniferous_forest_dunes", "grassland_dunes" },
 		y_max = 6,
 		y_min = 4,
 		decoration = {
@@ -1478,17 +1470,17 @@ function mapgen.register_decorations()
 
 	minetest.register_decoration({
 		deco_type = "simple",
-		place_on = {"blocks:permafrost_with_stones"},
+		place_on = { "blocks:permafrost_with_stones" },
 		sidelen = 4,
 		noise_params = {
 			offset = -0.8,
 			scale = 2.0,
-			spread = {x = 100, y = 100, z = 100},
+			spread = { x = 100, y = 100, z = 100 },
 			seed = 53995,
 			octaves = 3,
-			persist = 1.0
+			persist = 1.0,
 		},
-		biomes = {"tundra"},
+		biomes = { "tundra" },
 		y_max = 50,
 		y_min = 2,
 		decoration = "blocks:permafrost_with_moss",
@@ -1504,18 +1496,18 @@ function mapgen.register_decorations()
 			"blocks:permafrost_with_moss",
 			"blocks:permafrost_with_stones",
 			"blocks:stone",
-			"blocks:gravel"
+			"blocks:gravel",
 		},
 		sidelen = 4,
 		noise_params = {
 			offset = 0,
 			scale = 1.0,
-			spread = {x = 100, y = 100, z = 100},
+			spread = { x = 100, y = 100, z = 100 },
 			seed = 172555,
 			octaves = 3,
-			persist = 1.0
+			persist = 1.0,
 		},
-		biomes = {"tundra", "tundra_beach"},
+		biomes = { "tundra", "tundra_beach" },
 		y_max = 50,
 		y_min = 1,
 		decoration = "blocks:snow",
@@ -1526,13 +1518,13 @@ function mapgen.register_decorations()
 	minetest.register_decoration({
 		name = "mapgen:corals",
 		deco_type = "simple",
-		place_on = {"blocks:sand"},
+		place_on = { "blocks:sand" },
 		place_offset_y = -1,
 		sidelen = 4,
 		noise_params = {
 			offset = -4,
 			scale = 4,
-			spread = {x = 50, y = 50, z = 50},
+			spread = { x = 50, y = 50, z = 50 },
 			seed = 7013,
 			octaves = 3,
 			persist = 0.7,
@@ -1546,9 +1538,12 @@ function mapgen.register_decorations()
 		y_min = -8,
 		flags = "force_placement",
 		decoration = {
-			"flora:coral_green", "flora:coral_pink",
-			"flora:coral_cyan", "flora:coral_brown",
-			"flora:coral_orange", "flora:coral_skeleton",
+			"flora:coral_green",
+			"flora:coral_pink",
+			"flora:coral_cyan",
+			"flora:coral_brown",
+			"flora:coral_orange",
+			"flora:coral_skeleton",
 		},
 	})
 
@@ -1557,16 +1552,16 @@ function mapgen.register_decorations()
 	minetest.register_decoration({
 		name = "mapgen:kelp",
 		deco_type = "simple",
-		place_on = {"blocks:sand"},
+		place_on = { "blocks:sand" },
 		place_offset_y = -1,
 		sidelen = 16,
 		noise_params = {
 			offset = -0.04,
 			scale = 0.1,
-			spread = {x = 200, y = 200, z = 200},
+			spread = { x = 200, y = 200, z = 200 },
 			seed = 87112,
 			octaves = 3,
-			persist = 0.7
+			persist = 0.7,
 		},
 		biomes = {
 			"taiga_ocean",
@@ -1575,7 +1570,8 @@ function mapgen.register_decorations()
 			"coniferous_forest_ocean",
 			"deciduous_forest_ocean",
 			"sandstone_desert_ocean",
-			"cold_desert_ocean"},
+			"cold_desert_ocean",
+		},
 		y_max = -5,
 		y_min = -10,
 		flags = "force_placement",

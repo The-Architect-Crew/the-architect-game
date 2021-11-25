@@ -12,7 +12,7 @@ local random = math.random
 -- 'can grow' function
 
 function flora.can_grow(pos)
-	local node_under = minetest.get_node_or_nil({x = pos.x, y = pos.y - 1, z = pos.z})
+	local node_under = minetest.get_node_or_nil({ x = pos.x, y = pos.y - 1, z = pos.z })
 	if not node_under then
 		return false
 	end
@@ -26,13 +26,11 @@ function flora.can_grow(pos)
 	return true
 end
 
-
 -- 'is snow nearby' function
 
 local function is_snow_nearby(pos)
-	return minetest.find_node_near(pos, 1, {"group:snowy"})
+	return minetest.find_node_near(pos, 1, { "group:snowy" })
 end
-
 
 -- Grow sapling
 
@@ -46,24 +44,21 @@ function flora.grow_sapling(pos)
 	local mg_name = minetest.get_mapgen_setting("mg_name")
 	local node = minetest.get_node(pos)
 	if node.name == "flora:sapling" then
-		minetest.log("action", "A sapling grows into a tree at "..
-			minetest.pos_to_string(pos))
+		minetest.log("action", "A sapling grows into a tree at " .. minetest.pos_to_string(pos))
 		if mg_name == "v6" then
 			flora.grow_tree(pos, random(1, 4) == 1)
 		else
 			flora.grow_new_apple_tree(pos)
 		end
 	elseif node.name == "flora:junglesapling" then
-		minetest.log("action", "A jungle sapling grows into a tree at "..
-			minetest.pos_to_string(pos))
+		minetest.log("action", "A jungle sapling grows into a tree at " .. minetest.pos_to_string(pos))
 		if mg_name == "v6" then
 			flora.grow_jungle_tree(pos)
 		else
 			flora.grow_new_jungle_tree(pos)
 		end
 	elseif node.name == "flora:pine_sapling" then
-		minetest.log("action", "A pine sapling grows into a tree at "..
-			minetest.pos_to_string(pos))
+		minetest.log("action", "A pine sapling grows into a tree at " .. minetest.pos_to_string(pos))
 		local snow = is_snow_nearby(pos)
 		if mg_name == "v6" then
 			flora.grow_pine_tree(pos, snow)
@@ -73,44 +68,41 @@ function flora.grow_sapling(pos)
 			flora.grow_new_pine_tree(pos)
 		end
 	elseif node.name == "flora:acacia_sapling" then
-		minetest.log("action", "An acacia sapling grows into a tree at "..
-			minetest.pos_to_string(pos))
+		minetest.log("action", "An acacia sapling grows into a tree at " .. minetest.pos_to_string(pos))
 		flora.grow_new_acacia_tree(pos)
 	elseif node.name == "flora:aspen_sapling" then
-		minetest.log("action", "An aspen sapling grows into a tree at "..
-			minetest.pos_to_string(pos))
+		minetest.log("action", "An aspen sapling grows into a tree at " .. minetest.pos_to_string(pos))
 		flora.grow_new_aspen_tree(pos)
 	elseif node.name == "flora:bush_sapling" then
-		minetest.log("action", "A bush sapling grows into a bush at "..
-			minetest.pos_to_string(pos))
+		minetest.log("action", "A bush sapling grows into a bush at " .. minetest.pos_to_string(pos))
 		flora.grow_bush(pos)
 	elseif node.name == "flora:blueberry_bush_sapling" then
-		minetest.log("action", "A blueberry bush sapling grows into a bush at "..
-			minetest.pos_to_string(pos))
+		minetest.log("action", "A blueberry bush sapling grows into a bush at " .. minetest.pos_to_string(pos))
 		flora.grow_blueberry_bush(pos)
 	elseif node.name == "flora:acacia_bush_sapling" then
-		minetest.log("action", "An acacia bush sapling grows into a bush at "..
-			minetest.pos_to_string(pos))
+		minetest.log("action", "An acacia bush sapling grows into a bush at " .. minetest.pos_to_string(pos))
 		flora.grow_acacia_bush(pos)
 	elseif node.name == "flora:pine_bush_sapling" then
-		minetest.log("action", "A pine bush sapling grows into a bush at "..
-			minetest.pos_to_string(pos))
+		minetest.log("action", "A pine bush sapling grows into a bush at " .. minetest.pos_to_string(pos))
 		flora.grow_pine_bush(pos)
 	elseif node.name == "flora:emergent_jungle_sapling" then
-		minetest.log("action", "An emergent jungle sapling grows into a tree at "..
-			minetest.pos_to_string(pos))
+		minetest.log("action", "An emergent jungle sapling grows into a tree at " .. minetest.pos_to_string(pos))
 		flora.grow_new_emergent_jungle_tree(pos)
 	end
 end
 
 minetest.register_lbm({
 	name = "flora:convert_saplings_to_node_timer",
-	nodenames = {"flora:sapling", "flora:junglesapling",
-			"flora:pine_sapling", "flora:acacia_sapling",
-			"flora:aspen_sapling"},
+	nodenames = {
+		"flora:sapling",
+		"flora:junglesapling",
+		"flora:pine_sapling",
+		"flora:acacia_sapling",
+		"flora:aspen_sapling",
+	},
 	action = function(pos)
 		minetest.get_node_timer(pos):start(math.random(300, 1500))
-	end
+	end,
 })
 
 --
@@ -119,8 +111,7 @@ minetest.register_lbm({
 
 -- Apple tree and jungle tree trunk and leaves function
 
-local function add_trunk_and_leaves(data, a, pos, tree_cid, leaves_cid,
-		height, size, iters, is_apple_tree)
+local function add_trunk_and_leaves(data, a, pos, tree_cid, leaves_cid, height, size, iters, is_apple_tree)
 	local x, y, z = pos.x, pos.y, pos.z
 	local c_air = minetest.get_content_id("air")
 	local c_ignore = minetest.get_content_id("ignore")
@@ -138,19 +129,19 @@ local function add_trunk_and_leaves(data, a, pos, tree_cid, leaves_cid,
 
 	-- Force leaves near the trunk
 	for z_dist = -1, 1 do
-	for y_dist = -size, 1 do
-		local vi = a:index(x - 1, y + height + y_dist, z + z_dist)
-		for x_dist = -1, 1 do
-			if data[vi] == c_air or data[vi] == c_ignore then
-				if is_apple_tree and random(1, 8) == 1 then
-					data[vi] = c_apple
-				else
-					data[vi] = leaves_cid
+		for y_dist = -size, 1 do
+			local vi = a:index(x - 1, y + height + y_dist, z + z_dist)
+			for x_dist = -1, 1 do
+				if data[vi] == c_air or data[vi] == c_ignore then
+					if is_apple_tree and random(1, 8) == 1 then
+						data[vi] = c_apple
+					else
+						data[vi] = leaves_cid
+					end
 				end
+				vi = vi + 1
 			end
-			vi = vi + 1
 		end
-	end
 	end
 
 	-- Randomly add leaves in 2x2x2 clusters.
@@ -160,22 +151,21 @@ local function add_trunk_and_leaves(data, a, pos, tree_cid, leaves_cid,
 		local clust_z = z + random(-size, size - 1)
 
 		for xi = 0, 1 do
-		for yi = 0, 1 do
-		for zi = 0, 1 do
-			local vi = a:index(clust_x + xi, clust_y + yi, clust_z + zi)
-			if data[vi] == c_air or data[vi] == c_ignore then
-				if is_apple_tree and random(1, 8) == 1 then
-					data[vi] = c_apple
-				else
-					data[vi] = leaves_cid
+			for yi = 0, 1 do
+				for zi = 0, 1 do
+					local vi = a:index(clust_x + xi, clust_y + yi, clust_z + zi)
+					if data[vi] == c_air or data[vi] == c_ignore then
+						if is_apple_tree and random(1, 8) == 1 then
+							data[vi] = c_apple
+						else
+							data[vi] = leaves_cid
+						end
+					end
 				end
 			end
 		end
-		end
-		end
 	end
 end
-
 
 -- Apple tree
 
@@ -195,11 +185,8 @@ function flora.grow_tree(pos, is_apple_tree, bad)
 	local c_leaves = minetest.get_content_id("flora:leaves")
 
 	local vm = minetest.get_voxel_manip()
-	local minp, maxp = vm:read_from_map(
-		{x = x - 2, y = y, z = z - 2},
-		{x = x + 2, y = y + height + 1, z = z + 2}
-	)
-	local a = VoxelArea:new({MinEdge = minp, MaxEdge = maxp})
+	local minp, maxp = vm:read_from_map({ x = x - 2, y = y, z = z - 2 }, { x = x + 2, y = y + height + 1, z = z + 2 })
+	local a = VoxelArea:new({ MinEdge = minp, MaxEdge = maxp })
 	local data = vm:get_data()
 
 	add_trunk_and_leaves(data, a, pos, c_tree, c_leaves, height, 2, 8, is_apple_tree)
@@ -208,7 +195,6 @@ function flora.grow_tree(pos, is_apple_tree, bad)
 	vm:write_to_map()
 	vm:update_map()
 end
-
 
 -- Jungle tree
 
@@ -231,14 +217,13 @@ function flora.grow_jungle_tree(pos, bad)
 
 	local vm = minetest.get_voxel_manip()
 	local minp, maxp = vm:read_from_map(
-		{x = x - 3, y = y - 1, z = z - 3},
-		{x = x + 3, y = y + height + 1, z = z + 3}
+		{ x = x - 3, y = y - 1, z = z - 3 },
+		{ x = x + 3, y = y + height + 1, z = z + 3 }
 	)
-	local a = VoxelArea:new({MinEdge = minp, MaxEdge = maxp})
+	local a = VoxelArea:new({ MinEdge = minp, MaxEdge = maxp })
 	local data = vm:get_data()
 
-	add_trunk_and_leaves(data, a, pos, c_jungletree, c_jungleleaves,
-		height, 3, 30, false)
+	add_trunk_and_leaves(data, a, pos, c_jungletree, c_jungleleaves, height, 3, 30, false)
 
 	-- Roots
 	for z_dist = -1, 1 do
@@ -261,7 +246,6 @@ function flora.grow_jungle_tree(pos, bad)
 	vm:write_to_map()
 	vm:update_map()
 end
-
 
 -- Pine tree from mg mapgen mod, design by sfan5, pointy top added by paramat
 
@@ -286,15 +270,12 @@ function flora.grow_pine_tree(pos, snow)
 	local c_air = minetest.get_content_id("air")
 	local c_ignore = minetest.get_content_id("ignore")
 	local c_pine_tree = minetest.get_content_id("flora:pine_tree")
-	local c_pine_needles  = minetest.get_content_id("flora:pine_needles")
+	local c_pine_needles = minetest.get_content_id("flora:pine_needles")
 	local c_snow = minetest.get_content_id("blocks:snow")
 
 	local vm = minetest.get_voxel_manip()
-	local minp, maxp = vm:read_from_map(
-		{x = x - 3, y = y, z = z - 3},
-		{x = x + 3, y = maxy + 3, z = z + 3}
-	)
-	local a = VoxelArea:new({MinEdge = minp, MaxEdge = maxp})
+	local minp, maxp = vm:read_from_map({ x = x - 3, y = y, z = z - 3 }, { x = x + 3, y = maxy + 3, z = z + 3 })
+	local a = VoxelArea:new({ MinEdge = minp, MaxEdge = maxp })
 	local data = vm:get_data()
 
 	-- Upper branches layer
@@ -305,13 +286,12 @@ function flora.grow_pine_tree(pos, snow)
 			local via = a:index(x - dev, yy + 1, zz)
 			for xx = x - dev, x + dev do
 				if random() < 0.95 - dev * 0.05 then
-					add_pine_needles(data, vi, c_air, c_ignore, c_snow,
-						c_pine_needles)
+					add_pine_needles(data, vi, c_air, c_ignore, c_snow, c_pine_needles)
 					if snow then
 						add_snow(data, via, c_air, c_ignore, c_snow)
 					end
 				end
-				vi  = vi + 1
+				vi = vi + 1
 				via = via + 1
 			end
 		end
@@ -319,10 +299,8 @@ function flora.grow_pine_tree(pos, snow)
 	end
 
 	-- Centre top nodes
-	add_pine_needles(data, a:index(x, maxy + 1, z), c_air, c_ignore, c_snow,
-		c_pine_needles)
-	add_pine_needles(data, a:index(x, maxy + 2, z), c_air, c_ignore, c_snow,
-		c_pine_needles) -- Paramat added a pointy top node
+	add_pine_needles(data, a:index(x, maxy + 1, z), c_air, c_ignore, c_snow, c_pine_needles)
+	add_pine_needles(data, a:index(x, maxy + 2, z), c_air, c_ignore, c_snow, c_pine_needles) -- Paramat added a pointy top node
 	if snow then
 		add_snow(data, a:index(x, maxy + 3, z), c_air, c_ignore, c_snow)
 	end
@@ -336,16 +314,15 @@ function flora.grow_pine_tree(pos, snow)
 		if yy > my then
 			my = yy
 		end
-		for zz = zi, zi+1 do
+		for zz = zi, zi + 1 do
 			local vi = a:index(xi, yy, zz)
 			local via = a:index(xi, yy + 1, zz)
 			for xx = xi, xi + 1 do
-				add_pine_needles(data, vi, c_air, c_ignore, c_snow,
-					c_pine_needles)
+				add_pine_needles(data, vi, c_air, c_ignore, c_snow, c_pine_needles)
 				if snow then
 					add_snow(data, via, c_air, c_ignore, c_snow)
 				end
-				vi  = vi + 1
+				vi = vi + 1
 				via = via + 1
 			end
 		end
@@ -358,13 +335,12 @@ function flora.grow_pine_tree(pos, snow)
 			local via = a:index(x - dev, yy + 1, zz)
 			for xx = x - dev, x + dev do
 				if random() < 0.95 - dev * 0.05 then
-					add_pine_needles(data, vi, c_air, c_ignore, c_snow,
-						c_pine_needles)
+					add_pine_needles(data, vi, c_air, c_ignore, c_snow, c_pine_needles)
 					if snow then
 						add_snow(data, via, c_air, c_ignore, c_snow)
 					end
 				end
-				vi  = vi + 1
+				vi = vi + 1
 				via = via + 1
 			end
 		end
@@ -377,8 +353,7 @@ function flora.grow_pine_tree(pos, snow)
 	for yy = y + 1, maxy do
 		local vi = a:index(x, yy, z)
 		local node_id = data[vi]
-		if node_id == c_air or node_id == c_ignore or
-				node_id == c_pine_needles or node_id == c_snow then
+		if node_id == c_air or node_id == c_ignore or node_id == c_pine_needles or node_id == c_snow then
 			data[vi] = c_pine_tree
 		end
 	end
@@ -388,88 +363,64 @@ function flora.grow_pine_tree(pos, snow)
 	vm:update_map()
 end
 
-
 -- New apple tree
 
 function flora.grow_new_apple_tree(pos)
-	local path = minetest.get_modpath("flora") ..
-		"/schematics/apple_tree_from_sapling.mts"
-	minetest.place_schematic({x = pos.x - 3, y = pos.y - 1, z = pos.z - 3},
-		path, "random", nil, false)
+	local path = minetest.get_modpath("flora") .. "/schematics/apple_tree_from_sapling.mts"
+	minetest.place_schematic({ x = pos.x - 3, y = pos.y - 1, z = pos.z - 3 }, path, "random", nil, false)
 end
-
 
 -- New jungle tree
 
 function flora.grow_new_jungle_tree(pos)
-	local path = minetest.get_modpath("flora") ..
-		"/schematics/jungle_tree_from_sapling.mts"
-	minetest.place_schematic({x = pos.x - 2, y = pos.y - 1, z = pos.z - 2},
-		path, "random", nil, false)
+	local path = minetest.get_modpath("flora") .. "/schematics/jungle_tree_from_sapling.mts"
+	minetest.place_schematic({ x = pos.x - 2, y = pos.y - 1, z = pos.z - 2 }, path, "random", nil, false)
 end
-
 
 -- New emergent jungle tree
 
 function flora.grow_new_emergent_jungle_tree(pos)
-	local path = minetest.get_modpath("flora") ..
-		"/schematics/emergent_jungle_tree_from_sapling.mts"
-	minetest.place_schematic({x = pos.x - 3, y = pos.y - 5, z = pos.z - 3},
-		path, "random", nil, false)
+	local path = minetest.get_modpath("flora") .. "/schematics/emergent_jungle_tree_from_sapling.mts"
+	minetest.place_schematic({ x = pos.x - 3, y = pos.y - 5, z = pos.z - 3 }, path, "random", nil, false)
 end
-
 
 -- New pine tree
 
 function flora.grow_new_pine_tree(pos)
 	local path
 	if math.random() > 0.5 then
-		path = minetest.get_modpath("flora") ..
-			"/schematics/pine_tree_from_sapling.mts"
+		path = minetest.get_modpath("flora") .. "/schematics/pine_tree_from_sapling.mts"
 	else
-		path = minetest.get_modpath("flora") ..
-			"/schematics/small_pine_tree_from_sapling.mts"
+		path = minetest.get_modpath("flora") .. "/schematics/small_pine_tree_from_sapling.mts"
 	end
-	minetest.place_schematic({x = pos.x - 2, y = pos.y - 1, z = pos.z - 2},
-		path, "0", nil, false)
+	minetest.place_schematic({ x = pos.x - 2, y = pos.y - 1, z = pos.z - 2 }, path, "0", nil, false)
 end
-
 
 -- New snowy pine tree
 
 function flora.grow_new_snowy_pine_tree(pos)
 	local path
 	if math.random() > 0.5 then
-		path = minetest.get_modpath("flora") ..
-			"/schematics/snowy_pine_tree_from_sapling.mts"
+		path = minetest.get_modpath("flora") .. "/schematics/snowy_pine_tree_from_sapling.mts"
 	else
-		path = minetest.get_modpath("flora") ..
-			"/schematics/snowy_small_pine_tree_from_sapling.mts"
+		path = minetest.get_modpath("flora") .. "/schematics/snowy_small_pine_tree_from_sapling.mts"
 	end
-	minetest.place_schematic({x = pos.x - 2, y = pos.y - 1, z = pos.z - 2},
-		path, "random", nil, false)
+	minetest.place_schematic({ x = pos.x - 2, y = pos.y - 1, z = pos.z - 2 }, path, "random", nil, false)
 end
-
 
 -- New acacia tree
 
 function flora.grow_new_acacia_tree(pos)
-	local path = minetest.get_modpath("flora") ..
-		"/schematics/acacia_tree_from_sapling.mts"
-	minetest.place_schematic({x = pos.x - 4, y = pos.y - 1, z = pos.z - 4},
-		path, "random", nil, false)
+	local path = minetest.get_modpath("flora") .. "/schematics/acacia_tree_from_sapling.mts"
+	minetest.place_schematic({ x = pos.x - 4, y = pos.y - 1, z = pos.z - 4 }, path, "random", nil, false)
 end
-
 
 -- New aspen tree
 
 function flora.grow_new_aspen_tree(pos)
-	local path = minetest.get_modpath("flora") ..
-		"/schematics/aspen_tree_from_sapling.mts"
-	minetest.place_schematic({x = pos.x - 2, y = pos.y - 1, z = pos.z - 2},
-		path, "0", nil, false)
+	local path = minetest.get_modpath("flora") .. "/schematics/aspen_tree_from_sapling.mts"
+	minetest.place_schematic({ x = pos.x - 2, y = pos.y - 1, z = pos.z - 2 }, path, "0", nil, false)
 end
-
 
 -- Bushes do not need 'from sapling' schematic variants because
 -- only the stem node is force-placed in the schematic.
@@ -477,66 +428,49 @@ end
 -- Bush
 
 function flora.grow_bush(pos)
-	local path = minetest.get_modpath("flora") ..
-		"/schematics/bush.mts"
-	minetest.place_schematic({x = pos.x - 1, y = pos.y - 1, z = pos.z - 1},
-		path, "0", nil, false)
+	local path = minetest.get_modpath("flora") .. "/schematics/bush.mts"
+	minetest.place_schematic({ x = pos.x - 1, y = pos.y - 1, z = pos.z - 1 }, path, "0", nil, false)
 end
 
 -- Blueberry bush
 
 function flora.grow_blueberry_bush(pos)
-	local path = minetest.get_modpath("flora") ..
-		"/schematics/blueberry_bush.mts"
-	minetest.place_schematic({x = pos.x - 1, y = pos.y, z = pos.z - 1},
-		path, "0", nil, false)
+	local path = minetest.get_modpath("flora") .. "/schematics/blueberry_bush.mts"
+	minetest.place_schematic({ x = pos.x - 1, y = pos.y, z = pos.z - 1 }, path, "0", nil, false)
 end
-
 
 -- Acacia bush
 
 function flora.grow_acacia_bush(pos)
-	local path = minetest.get_modpath("flora") ..
-		"/schematics/acacia_bush.mts"
-	minetest.place_schematic({x = pos.x - 1, y = pos.y - 1, z = pos.z - 1},
-		path, "0", nil, false)
+	local path = minetest.get_modpath("flora") .. "/schematics/acacia_bush.mts"
+	minetest.place_schematic({ x = pos.x - 1, y = pos.y - 1, z = pos.z - 1 }, path, "0", nil, false)
 end
-
 
 -- Pine bush
 
 function flora.grow_pine_bush(pos)
-	local path = minetest.get_modpath("flora") ..
-		"/schematics/pine_bush.mts"
-	minetest.place_schematic({x = pos.x - 1, y = pos.y - 1, z = pos.z - 1},
-		path, "0", nil, false)
+	local path = minetest.get_modpath("flora") .. "/schematics/pine_bush.mts"
+	minetest.place_schematic({ x = pos.x - 1, y = pos.y - 1, z = pos.z - 1 }, path, "0", nil, false)
 end
-
 
 -- Large cactus
 
 function flora.grow_large_cactus(pos)
-	local path = minetest.get_modpath("flora") ..
-		"/schematics/large_cactus.mts"
-	minetest.place_schematic({x = pos.x - 2, y = pos.y - 1, z = pos.z - 2},
-		path, "random", nil, false)
+	local path = minetest.get_modpath("flora") .. "/schematics/large_cactus.mts"
+	minetest.place_schematic({ x = pos.x - 2, y = pos.y - 1, z = pos.z - 2 }, path, "random", nil, false)
 end
-
 
 --
 -- Sapling 'on place' function to check protection of node and resulting tree volume
 --
 
-function flora.sapling_on_place(itemstack, placer, pointed_thing,
-		sapling_name, minp_relative, maxp_relative, interval)
+function flora.sapling_on_place(itemstack, placer, pointed_thing, sapling_name, minp_relative, maxp_relative, interval)
 	-- Position of sapling
 	local pos = pointed_thing.under
 	local node = minetest.get_node_or_nil(pos)
 	local pdef = node and minetest.registered_nodes[node.name]
 
-	if pdef and pdef.on_rightclick and
-			not (placer and placer:is_player() and
-			placer:get_player_control().sneak) then
+	if pdef and pdef.on_rightclick and not (placer and placer:is_player() and placer:get_player_control().sneak) then
 		return pdef.on_rightclick(pos, node, placer, itemstack, pointed_thing)
 	end
 
@@ -556,35 +490,37 @@ function flora.sapling_on_place(itemstack, placer, pointed_thing,
 		return itemstack
 	end
 	-- Check tree volume for protection
-	if minetest.is_area_protected(
+	if
+		minetest.is_area_protected(
 			vector.add(pos, minp_relative),
 			vector.add(pos, maxp_relative),
 			player_name,
-			interval) then
+			interval
+		)
+	then
 		minetest.record_protection_violation(pos, player_name)
 		-- Print extra information to explain
---		minetest.chat_send_player(player_name,
---			itemstack:get_definition().description .. " will intersect protection " ..
---			"on growth")
-		minetest.chat_send_player(player_name,
-		    S("@1 will intersect protection on growth.",
-			itemstack:get_definition().description))
+		--		minetest.chat_send_player(player_name,
+		--			itemstack:get_definition().description .. " will intersect protection " ..
+		--			"on growth")
+		minetest.chat_send_player(
+			player_name,
+			S("@1 will intersect protection on growth.", itemstack:get_definition().description)
+		)
 		return itemstack
 	end
 
-	minetest.log("action", player_name .. " places node "
-			.. sapling_name .. " at " .. minetest.pos_to_string(pos))
+	minetest.log("action", player_name .. " places node " .. sapling_name .. " at " .. minetest.pos_to_string(pos))
 
 	local take_item = not minetest.is_creative_enabled(player_name)
-	local newnode = {name = sapling_name}
+	local newnode = { name = sapling_name }
 	local ndef = minetest.registered_nodes[sapling_name]
 	minetest.set_node(pos, newnode)
 
 	-- Run callback
 	if ndef and ndef.after_place_node then
 		-- Deepcopy place_to and pointed_thing because callback can modify it
-		if ndef.after_place_node(table.copy(pos), placer,
-				itemstack, table.copy(pointed_thing)) then
+		if ndef.after_place_node(table.copy(pos), placer, itemstack, table.copy(pointed_thing)) then
 			take_item = false
 		end
 	end
@@ -592,9 +528,16 @@ function flora.sapling_on_place(itemstack, placer, pointed_thing,
 	-- Run script hook
 	for _, callback in ipairs(minetest.registered_on_placenodes) do
 		-- Deepcopy pos, node and pointed_thing because callback can modify them
-		if callback(table.copy(pos), table.copy(newnode),
-				placer, table.copy(node or {}),
-				itemstack, table.copy(pointed_thing)) then
+		if
+			callback(
+				table.copy(pos),
+				table.copy(newnode),
+				placer,
+				table.copy(node or {}),
+				itemstack,
+				table.copy(pointed_thing)
+			)
+		then
 			take_item = false
 		end
 	end

@@ -4,36 +4,54 @@ local esc = minetest.formspec_escape
 local formspec_size = "size[8,8]"
 
 local function formspec_core(tab)
-	if tab == nil then tab = 1 else tab = tostring(tab) end
-	return "tabheader[0,0;book_header;" ..
-		esc(S("Write")) .. "," ..
-		esc(S("Read")) .. ";" ..
-		tab  ..  ";false;false]"
+	if tab == nil then
+		tab = 1
+	else
+		tab = tostring(tab)
+	end
+	return "tabheader[0,0;book_header;" .. esc(S("Write")) .. "," .. esc(S("Read")) .. ";" .. tab .. ";false;false]"
 end
 
 local function formspec_write(title, text)
-	return "field[0.5,1;7.5,0;title;" .. esc(S("Title:")) .. ";" ..
-			esc(title) .. "]" ..
-		"textarea[0.5,1.5;7.5,7;text;" .. esc(S("Contents:")) .. ";" ..
-			esc(text) .. "]" ..
-		"button_exit[2.5,7.5;3,1;save;" .. esc(S("Save")) .. "]"
+	return "field[0.5,1;7.5,0;title;"
+		.. esc(S("Title:"))
+		.. ";"
+		.. esc(title)
+		.. "]"
+		.. "textarea[0.5,1.5;7.5,7;text;"
+		.. esc(S("Contents:"))
+		.. ";"
+		.. esc(text)
+		.. "]"
+		.. "button_exit[2.5,7.5;3,1;save;"
+		.. esc(S("Save"))
+		.. "]"
 end
 
 local function formspec_read(owner, title, string, text, page, page_max)
-	return "label[0.5,0.5;" .. esc(S("by @1", owner)) .. "]" ..
-		"tablecolumns[color;text]" ..
-		"tableoptions[background=#00000000;highlight=#00000000;border=false]" ..
-		"table[0.4,0;7,0.5;title;#FFFF00," .. esc(title) .. "]" ..
-		"textarea[0.5,1.5;7.5,7;;" ..
-			esc(string ~= "" and string or text) .. ";]" ..
-		"button[2.4,7.6;0.8,0.8;book_prev;<]" ..
-		"label[3.2,7.7;" .. esc(S("Page @1 of @2", page, page_max)) .. "]" ..
-		"button[4.9,7.6;0.8,0.8;book_next;>]"
+	return "label[0.5,0.5;"
+		.. esc(S("by @1", owner))
+		.. "]"
+		.. "tablecolumns[color;text]"
+		.. "tableoptions[background=#00000000;highlight=#00000000;border=false]"
+		.. "table[0.4,0;7,0.5;title;#FFFF00,"
+		.. esc(title)
+		.. "]"
+		.. "textarea[0.5,1.5;7.5,7;;"
+		.. esc(string ~= "" and string or text)
+		.. ";]"
+		.. "button[2.4,7.6;0.8,0.8;book_prev;<]"
+		.. "label[3.2,7.7;"
+		.. esc(S("Page @1 of @2", page, page_max))
+		.. "]"
+		.. "button[4.9,7.6;0.8,0.8;book_next;>]"
 end
 
 local function formspec_string(lpp, page, lines, string)
 	for i = ((lpp * page) - lpp) + 1, lpp * page do
-		if not lines[i] then break end
+		if not lines[i] then
+			break
+		end
 		string = string .. lines[i] .. "\n"
 	end
 	return string
@@ -61,7 +79,7 @@ local function book_on_use(itemstack, user)
 		owner = data.owner
 
 		for str in (text .. "\n"):gmatch("([^\n]*)[\n]") do
-			lines[#lines+1] = str
+			lines[#lines + 1] = str
 		end
 
 		if data.page then
@@ -77,8 +95,7 @@ local function book_on_use(itemstack, user)
 	elseif owner == player_name then
 		local tab = tab_number or 1
 		if tab == 2 then
-			formspec = formspec_core(tab) ..
-				formspec_read(owner, title, string, text, page, page_max)
+			formspec = formspec_core(tab) .. formspec_read(owner, title, string, text, page, page_max)
 		else
 			formspec = formspec_core(tab) .. formspec_write(title, text)
 		end
@@ -94,7 +111,9 @@ local max_text_size = 10000
 local max_title_size = 80
 local short_title_size = 35
 minetest.register_on_player_receive_fields(function(player, formname, fields)
-	if formname ~= "blocks:book" then return end
+	if formname ~= "blocks:book" then
+		return
+	end
 	local player_name = player:get_player_name()
 	local inv = player:get_inventory()
 	local stack = player:get_wielded_item()
@@ -107,16 +126,14 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		local contents
 		local tab = tonumber(fields.book_header)
 		if tab == 1 then
-			contents = formspec_core(tab) ..
-				formspec_write(title, text)
+			contents = formspec_core(tab) .. formspec_write(title, text)
 		elseif tab == 2 then
 			local lines, string = {}, ""
 			for str in (text .. "\n"):gmatch("([^\n]*)[\n]") do
-				lines[#lines+1] = str
+				lines[#lines + 1] = str
 			end
 			string = formspec_string(lpp, data.page, lines, string)
-			contents = formspec_read(player_name, title, string,
-				text, data.page, data.page_max)
+			contents = formspec_read(player_name, title, string, text, data.page, data.page_max)
 		end
 		tab_number = tab
 		local formspec = formspec_size .. formspec_core(tab) .. contents
@@ -140,7 +157,9 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 			return
 		end
 
-		if not data then data = {} end
+		if not data then
+			data = {}
+		end
 		data.title = fields.title:sub(1, max_title_size)
 		data.owner = player:get_player_name()
 		local short_title = data.title
@@ -148,7 +167,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		if #short_title > short_title_size + 3 then
 			short_title = short_title:sub(1, short_title_size) .. "..."
 		end
-		data.description = S("\"@1\" by @2", short_title, data.owner)
+		data.description = S('"@1" by @2', short_title, data.owner)
 		data.text = fields.text:sub(1, max_text_size)
 		data.text = data.text:gsub("\r\n", "\n"):gsub("\r", "\n")
 		data.page = 1
@@ -164,7 +183,6 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		else
 			stack:get_meta():from_table({ fields = data })
 		end
-
 	elseif fields.book_next or fields.book_prev then
 		if not data.page then
 			return
@@ -185,7 +203,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 			end
 		end
 
-		stack:get_meta():from_table({fields = data})
+		stack:get_meta():from_table({ fields = data })
 		stack = book_on_use(stack, player)
 	end
 
@@ -196,32 +214,31 @@ end)
 minetest.register_craftitem("blocks:paper", {
 	description = S("Paper"),
 	inventory_image = "blocks_paper.png",
-	groups = {flammable = 3},
+	groups = { flammable = 3 },
 })
 
 minetest.register_craftitem("blocks:book", {
 	description = S("Book"),
 	inventory_image = "blocks_book.png",
-	groups = {book = 1, flammable = 3},
+	groups = { book = 1, flammable = 3 },
 	on_use = book_on_use,
 })
 
 minetest.register_craftitem("blocks:book_written", {
 	description = S("Book with Text"),
 	inventory_image = "blocks_book_written.png",
-	groups = {book = 1, not_in_creative_inventory = 1, flammable = 3},
+	groups = { book = 1, not_in_creative_inventory = 1, flammable = 3 },
 	stack_max = 1,
 	on_use = book_on_use,
 })
 
-local bookshelf_formspec =
-	"size[8,7;]" ..
-	"list[context;books;0,0.3;8,2;]" ..
-	"list[current_player;main;0,2.85;8,1;]" ..
-	"list[current_player;main;0,4.08;8,3;8]" ..
-	"listring[context;books]" ..
-	"listring[current_player;main]" ..
-	default.get_hotbar_bg(0,2.85)
+local bookshelf_formspec = "size[8,7;]"
+	.. "list[context;books;0,0.3;8,2;]"
+	.. "list[current_player;main;0,2.85;8,1;]"
+	.. "list[current_player;main;0,4.08;8,3;8]"
+	.. "listring[context;books]"
+	.. "listring[current_player;main]"
+	.. default.get_hotbar_bg(0, 2.85)
 
 local function update_bookshelf(pos)
 	local meta = minetest.get_meta(pos)
@@ -239,8 +256,7 @@ local function update_bookshelf(pos)
 		end
 		local stack = invlist[i]
 		if stack:is_empty() then
-			formspec = formspec ..
-				"image[" .. bx .. "," .. by .. ";1,1;blocks_bookshelf_slot.png]"
+			formspec = formspec .. "image[" .. bx .. "," .. by .. ";1,1;blocks_bookshelf_slot.png]"
 		else
 			local metatable = stack:get_meta():to_table() or {}
 			if metatable.fields and metatable.fields.text then
@@ -261,11 +277,17 @@ end
 
 minetest.register_node("blocks:bookshelf", {
 	description = S("Bookshelf"),
-	tiles = {"blocks_wood.png", "blocks_wood.png", "blocks_wood.png",
-		"blocks_wood.png", "blocks_bookshelf.png", "blocks_bookshelf.png"},
+	tiles = {
+		"blocks_wood.png",
+		"blocks_wood.png",
+		"blocks_wood.png",
+		"blocks_wood.png",
+		"blocks_bookshelf.png",
+		"blocks_bookshelf.png",
+	},
 	paramtype2 = "facedir",
 	is_ground_content = false,
-	groups = {choppy = 3, oddly_breakable_by_hand = 2, flammable = 3},
+	groups = { choppy = 3, oddly_breakable_by_hand = 2, flammable = 3 },
 	sounds = default.node_sound_wood_defaults(),
 
 	on_construct = function(pos)
@@ -274,7 +296,7 @@ minetest.register_node("blocks:bookshelf", {
 		inv:set_size("books", 8 * 2)
 		update_bookshelf(pos)
 	end,
-	can_dig = function(pos,player)
+	can_dig = function(pos, player)
 		local inv = minetest.get_meta(pos):get_inventory()
 		return inv:is_empty("books")
 	end,
@@ -285,24 +307,30 @@ minetest.register_node("blocks:bookshelf", {
 		return 0
 	end,
 	on_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
-		minetest.log("action", player:get_player_name() ..
-			" moves stuff in bookshelf at " .. minetest.pos_to_string(pos))
+		minetest.log(
+			"action",
+			player:get_player_name() .. " moves stuff in bookshelf at " .. minetest.pos_to_string(pos)
+		)
 		update_bookshelf(pos)
 	end,
 	on_metadata_inventory_put = function(pos, listname, index, stack, player)
-		minetest.log("action", player:get_player_name() ..
-			" puts stuff to bookshelf at " .. minetest.pos_to_string(pos))
+		minetest.log(
+			"action",
+			player:get_player_name() .. " puts stuff to bookshelf at " .. minetest.pos_to_string(pos)
+		)
 		update_bookshelf(pos)
 	end,
 	on_metadata_inventory_take = function(pos, listname, index, stack, player)
-		minetest.log("action", player:get_player_name() ..
-			" takes stuff from bookshelf at " .. minetest.pos_to_string(pos))
+		minetest.log(
+			"action",
+			player:get_player_name() .. " takes stuff from bookshelf at " .. minetest.pos_to_string(pos)
+		)
 		update_bookshelf(pos)
 	end,
 	on_blast = function(pos)
 		local drops = {}
 		default.get_inventory_drops(pos, "books", drops)
-		drops[#drops+1] = "blocks:bookshelf"
+		drops[#drops + 1] = "blocks:bookshelf"
 		minetest.remove_node(pos)
 		return drops
 	end,
@@ -315,34 +343,34 @@ minetest.register_node("blocks:bookshelf", {
 minetest.register_craft({
 	output = "blocks:paper",
 	recipe = {
-		{"flora:papyrus", "flora:papyrus", "flora:papyrus"},
-	}
+		{ "flora:papyrus", "flora:papyrus", "flora:papyrus" },
+	},
 })
 
 default.register_craft_metadata_copy("blocks:book", "blocks:book_written")
 minetest.register_craft({
 	output = "blocks:book",
 	recipe = {
-		{"blocks:paper"},
-		{"blocks:paper"},
-		{"blocks:paper"},
-	}
+		{ "blocks:paper" },
+		{ "blocks:paper" },
+		{ "blocks:paper" },
+	},
 })
 
 minetest.register_craft({
 	output = "blocks:paper",
 	recipe = {
-		{"flora:papyrus", "flora:papyrus", "flora:papyrus"},
-	}
+		{ "flora:papyrus", "flora:papyrus", "flora:papyrus" },
+	},
 })
 
 minetest.register_craft({
 	output = "blocks:bookshelf",
 	recipe = {
-		{"group:wood", "group:wood", "group:wood"},
-		{"blocks:book", "blocks:book", "blocks:book"},
-		{"group:wood", "group:wood", "group:wood"},
-	}
+		{ "group:wood", "group:wood", "group:wood" },
+		{ "blocks:book", "blocks:book", "blocks:book" },
+		{ "group:wood", "group:wood", "group:wood" },
+	},
 })
 
 minetest.register_craft({

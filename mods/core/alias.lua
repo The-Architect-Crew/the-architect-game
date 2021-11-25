@@ -1,10 +1,8 @@
-
 -- blocks / brick.lua
 minetest.register_alias("default:clay_brick", "blocks:clay_brick")
 minetest.register_alias("default:clay_lump", "blocks:clay_lump")
 minetest.register_alias("default:clay", "blocks:clay")
 minetest.register_alias("default:brick", "blocks:stone")
-
 
 -- blocks / book.lua
 minetest.register_alias("default:paper", "blocks:paper")

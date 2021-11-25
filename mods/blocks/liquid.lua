@@ -39,8 +39,8 @@ minetest.register_node("blocks:water_source", {
 	liquid_alternative_flowing = "blocks:water_flowing",
 	liquid_alternative_source = "blocks:water_source",
 	liquid_viscosity = 1,
-	post_effect_color = {a = 103, r = 30, g = 60, b = 90},
-	groups = {water = 3, liquid = 3, cools_lava = 1},
+	post_effect_color = { a = 103, r = 30, g = 60, b = 90 },
+	groups = { water = 3, liquid = 3, cools_lava = 1 },
 	sounds = default.node_sound_water_defaults(),
 })
 
@@ -48,7 +48,7 @@ minetest.register_node("blocks:water_flowing", {
 	description = S("Flowing Water"),
 	drawtype = "flowingliquid",
 	waving = 3,
-	tiles = {"blocks_water.png"},
+	tiles = { "blocks_water.png" },
 	special_tiles = {
 		{
 			name = "blocks_water_flowing_animated.png",
@@ -85,12 +85,10 @@ minetest.register_node("blocks:water_flowing", {
 	liquid_alternative_flowing = "blocks:water_flowing",
 	liquid_alternative_source = "blocks:water_source",
 	liquid_viscosity = 1,
-	post_effect_color = {a = 103, r = 30, g = 60, b = 90},
-	groups = {water = 3, liquid = 3, not_in_creative_inventory = 1,
-		cools_lava = 1},
+	post_effect_color = { a = 103, r = 30, g = 60, b = 90 },
+	groups = { water = 3, liquid = 3, not_in_creative_inventory = 1, cools_lava = 1 },
 	sounds = default.node_sound_water_defaults(),
 })
-
 
 minetest.register_node("blocks:river_water_source", {
 	description = S("River Water Source"),
@@ -136,15 +134,15 @@ minetest.register_node("blocks:river_water_source", {
 	-- option used in the 'bucket' mod by the river water bucket.
 	liquid_renewable = false,
 	liquid_range = 2,
-	post_effect_color = {a = 103, r = 30, g = 76, b = 90},
-	groups = {water = 3, liquid = 3, cools_lava = 1},
+	post_effect_color = { a = 103, r = 30, g = 76, b = 90 },
+	groups = { water = 3, liquid = 3, cools_lava = 1 },
 	sounds = default.node_sound_water_defaults(),
 })
 
 minetest.register_node("blocks:river_water_flowing", {
 	description = S("Flowing River Water"),
 	drawtype = "flowingliquid",
-	tiles = {"blocks_river_water.png"},
+	tiles = { "blocks_river_water.png" },
 	special_tiles = {
 		{
 			name = "blocks_river_water_flowing_animated.png",
@@ -183,12 +181,10 @@ minetest.register_node("blocks:river_water_flowing", {
 	liquid_viscosity = 1,
 	liquid_renewable = false,
 	liquid_range = 2,
-	post_effect_color = {a = 103, r = 30, g = 76, b = 90},
-	groups = {water = 3, liquid = 3, not_in_creative_inventory = 1,
-		cools_lava = 1},
+	post_effect_color = { a = 103, r = 30, g = 76, b = 90 },
+	groups = { water = 3, liquid = 3, not_in_creative_inventory = 1, cools_lava = 1 },
 	sounds = default.node_sound_water_defaults(),
 })
-
 
 minetest.register_node("blocks:lava_source", {
 	description = S("Lava Source"),
@@ -230,14 +226,14 @@ minetest.register_node("blocks:lava_source", {
 	liquid_viscosity = 7,
 	liquid_renewable = false,
 	damage_per_second = 4 * 2,
-	post_effect_color = {a = 191, r = 255, g = 64, b = 0},
-	groups = {lava = 3, liquid = 2, igniter = 1},
+	post_effect_color = { a = 191, r = 255, g = 64, b = 0 },
+	groups = { lava = 3, liquid = 2, igniter = 1 },
 })
 
 minetest.register_node("blocks:lava_flowing", {
 	description = S("Flowing Lava"),
 	drawtype = "flowingliquid",
-	tiles = {"blocks_lava.png"},
+	tiles = { "blocks_lava.png" },
 	special_tiles = {
 		{
 			name = "blocks_lava_flowing_animated.png",
@@ -276,9 +272,8 @@ minetest.register_node("blocks:lava_flowing", {
 	liquid_viscosity = 7,
 	liquid_renewable = false,
 	damage_per_second = 4 * 2,
-	post_effect_color = {a = 191, r = 255, g = 64, b = 0},
-	groups = {lava = 3, liquid = 2, igniter = 1,
-		not_in_creative_inventory = 1},
+	post_effect_color = { a = 191, r = 255, g = 64, b = 0 },
+	groups = { lava = 3, liquid = 2, igniter = 1, not_in_creative_inventory = 1 },
 })
 
 --

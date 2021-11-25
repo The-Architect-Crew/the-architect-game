@@ -5,10 +5,10 @@ function blocks.register_mesepost(name, def)
 	minetest.register_craft({
 		output = name .. " 4",
 		recipe = {
-			{'', 'blocks:glass', ''},
-			{'blocks:mese_crystal', 'blocks:mese_crystal', 'blocks:mese_crystal'},
-			{'', def.material, ''},
-		}
+			{ "", "blocks:glass", "" },
+			{ "blocks:mese_crystal", "blocks:mese_crystal", "blocks:mese_crystal" },
+			{ "", def.material, "" },
+		},
 	})
 
 	local post_texture = def.texture .. "^blocks_mese_post_light_side.png^[makealpha:0,0,0"
@@ -20,16 +20,16 @@ function blocks.register_mesepost(name, def)
 		node_box = {
 			type = "fixed",
 			fixed = {
-				{-2 / 16, -8 / 16, -2 / 16, 2 / 16, 8 / 16, 2 / 16},
+				{ -2 / 16, -8 / 16, -2 / 16, 2 / 16, 8 / 16, 2 / 16 },
 			},
 		},
 		paramtype = "light",
-		tiles = {def.texture, def.texture, post_texture_dark, post_texture_dark, post_texture, post_texture},
+		tiles = { def.texture, def.texture, post_texture_dark, post_texture_dark, post_texture, post_texture },
 		use_texture_alpha = "opaque",
 		light_source = default.LIGHT_MAX,
 		sunlight_propagates = true,
 		is_ground_content = false,
-		groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2},
+		groups = { choppy = 2, oddly_breakable_by_hand = 2, flammable = 2 },
 		sounds = default.node_sound_wood_defaults(),
 	}
 	for k, v in pairs(default_fields) do
@@ -47,11 +47,11 @@ end
 minetest.register_node("blocks:meselamp", {
 	description = S("Mese Lamp"),
 	drawtype = "glasslike",
-	tiles = {"blocks_meselamp.png"},
+	tiles = { "blocks_meselamp.png" },
 	paramtype = "light",
 	sunlight_propagates = true,
 	is_ground_content = false,
-	groups = {cracky = 3, oddly_breakable_by_hand = 3},
+	groups = { cracky = 3, oddly_breakable_by_hand = 3 },
 	sounds = default.node_sound_glass_defaults(),
 	light_source = default.LIGHT_MAX,
 })
@@ -92,7 +92,7 @@ blocks.register_mesepost("blocks:mese_post_light_aspen_wood", {
 minetest.register_craft({
 	output = "blocks:meselamp",
 	recipe = {
-		{"blocks:glass"},
-		{"blocks:mese_crystal"},
-	}
+		{ "blocks:glass" },
+		{ "blocks:mese_crystal" },
+	},
 })

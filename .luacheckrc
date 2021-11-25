@@ -17,5 +17,5 @@ read_globals = {
     "default", "sfinv", "creative",
 
     -- Mods
-    "stairs", "stairsplus",
+    "stairs", "stairsplus", "dungeon_loot",
 }

@@ -38,7 +38,11 @@ function furniture.register_for_base(base_node)
 		local base_node_full_name = string.gmatch(base_node, "([^:]+)")
 
 		-- First call will give us the modname
-		local _base_node_modname = base_node_full_name()
+		-- local base_node_modname = base_node_full_name()
+
+		-- Unused variable warning...
+		base_node_full_name()
+
 		-- and the second will give us the node name
 		local base_node_name = base_node_full_name()
 
@@ -53,7 +57,7 @@ function furniture.register_for_base(base_node)
 		-- Of course lua table indicies start with one, why wouldn't they?
 		local tiles = {base_definition.tiles[1]}
 
-		-- Of course lua doesn't have a built-in table append function, 
+		-- Of course lua doesn't have a built-in table append function,
 		-- why would it?
 		if part.custom_tiles then
 			for _, tile in ipairs(part.custom_tiles) do

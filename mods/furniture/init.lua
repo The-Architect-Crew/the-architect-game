@@ -2,65 +2,24 @@ furniture = {}
 
 furniture.parts = {
 	{
-		name = "tall_table",
-		description = "Tall Table",
-		node_box = {
-			{-0.5, 0.4375, -0.5, 0.5, 0.5, 0.5}, -- Top
-			{0.3125, -0.5, -0.4375, 0.4375, 0.4375, -0.3125}, -- Leg_1
-			{0.3125, -0.5, 0.3125, 0.4375, 0.4375, 0.4375}, -- Leg_2
-			{-0.4375, -0.5, -0.4375, -0.3125, 0.4375, -0.3125}, -- Leg_3
-			{-0.4375, -0.5, 0.3125, -0.3125, 0.4375, 0.4375}, -- Leg_4
-		},
-	},
-	{
-		name = "short_table",
-		description = "Short Table",
-		node_box = {
-			{-0.5, 0, -0.5, 0.5, 0.0625, 0.5}, -- Top
-			{0.3125, -0.5, -0.4375, 0.4375, 0, -0.3125}, -- Leg_1
-			{-0.4375, -0.5, 0.3125, -0.3125, 0, 0.4375}, -- Leg_2
-			{0.3125, -0.5, 0.3125, 0.4375, 0, 0.4375}, -- Leg_3
-			{-0.4375, -0.5, -0.4375, -0.3125, 0, -0.3125}, -- Leg_4
-		},
-	},
-	{
 		name = "chair",
 		description = "Chair",
-		node_box = {
-			{-0.3125, 0, -0.3125, 0.3125, 0.0625, 0.3125}, -- Seat
-			{-0.3125, -0.5, -0.3125, -0.1875, 0, -0.1875}, -- Leg_1
-			{-0.3125, -0.5, 0.1875, -0.1875, 0, 0.3125}, -- Leg_2
-			{0.1875, -0.5, -0.3125, 0.3125, 0, -0.1875}, -- Leg_3
-			{0.1875, -0.5, 0.1875, 0.3125, 0, 0.3125}, -- Leg_4
-			{-0.3125, 0.0625, 0.1875, -0.1875, 0.5, 0.3125}, -- Top_Leg_1
-			{0.1875, 0.0625, 0.1875, 0.3125, 0.5, 0.3125}, -- Top_Leg_2
-			{-0.1875, 0.125, 0.25, 0.1875, 0.4375, 0.3125}, -- Top
-		},
+		mesh = "chair.obj",
+		collision_box = {-0.25, -0.5, -0.25, 0.25, 0.55, 0.25},
 	},
 	{
-		name = "flowerpot_big",
-		description = "Big Flowerpot",
-		node_box = {
-			{-0.25, -0.5, -0.25, 0.25, -0.4375, 0.25}, -- Base_1
-			{-0.3125, -0.4375, -0.3125, 0.3125, -0.375, 0.3125}, -- Base_2
-			{-0.375, -0.375, -0.375, 0.375, -0.25, 0.375}, -- Base_3
-			{-0.4375, -0.25, -0.4375, 0.4375, 0, 0.4375}, -- Base_4
-			{-0.5, 0, -0.5, 0.5, 0.4375, 0.5}, -- Base_5
-			{0.4375, 0.4375, -0.5, 0.5, 0.5, 0.5}, -- Top_1
-			{-0.5, 0.4375, -0.5, -0.4375, 0.5, 0.5}, -- Top_2
-			{-0.4375, 0.4375, 0.4375, 0.4375, 0.5, 0.5}, -- Top_3
-			{-0.4375, 0.4375, -0.5, 0.4375, 0.5, -0.4375}, -- Top_4
-		},
+		name = "flowerpot",
+		description = "Flower Pot",
+		mesh = "flowerpot.obj",
+		collision_box = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
+		custom_tiles = {"default_dirt.png",
+										"default_gold_block.png"},
 	},
 	{
-		name = "flowerpot_tall",
-		description = "Tall Flowerpot",
-		node_box = {
-			{-0.25, -0.4375, -0.25, 0.25, -0.1875, 0.25}, -- Body_1
-			{-0.3125, -0.1875, -0.3125, 0.3125, 0.1875, 0.3125}, -- Body_2
-			{-0.375, 0.1875, -0.375, 0.375, 0.5, 0.375}, -- Body_3
-			{-0.375, -0.5, -0.375, 0.375, -0.4375, 0.375}, -- Base
-		},
+		name = "stool",
+		description = "Stool",
+		mesh = "stool.obj",
+		collision_box = {-0.35, -0.5, -0.25, 0.35, -0.1, 0.25},
 	},
 }
 
@@ -78,20 +37,36 @@ function furniture.register_for_base(base_node)
 
 		local part_name = "furniture:" .. base_node_name .. "_" .. part.name
 		local part_description = base_definition.description .. " " .. part.description
+		
+		local collision_box = {
+			type = "fixed",
+			fixed = part.collision_box,
+		}
+
+		-- Of course lua table indicies start with one, why wouldn't they?
+		local tiles = {base_definition.tiles[1]}
+
+		-- Of course lua doesn't have a built-in table append function, 
+		-- why would it?
+		if part.custom_tiles then 
+			for _, tile in ipairs(part.custom_tiles) do
+					table.insert(tiles, tile)
+			end
+		end
 
 		minetest.register_node(part_name, {
 			description = part_description,
 
-			tiles = base_definition.tiles,
+			tiles = tiles,
 			groups = base_definition.groups,
 
-			drawtype = "nodebox",
+			collision_box = collision_box, 
+			selection_box = collision_box,
+
+			drawtype = "mesh",
+			mesh = part.mesh,
 			paramtype = "light",
 			paramtype2 = "facedir",
-			node_box = {
-				type = "fixed",
-				fixed = part.node_box,
-			}
 		})
 	end
 end

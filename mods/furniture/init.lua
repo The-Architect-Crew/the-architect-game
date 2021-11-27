@@ -8,6 +8,13 @@ furniture.parts = {
 		collision_box = {-0.25, -0.5, -0.25, 0.25, 0.55, 0.25},
 	},
 	{
+		name = "big_chair",
+		description = "Big Chair",
+		mesh = "chair_big.obj",
+		collision_box = {-0.25, -0.5, -0.25, 0.25, 0.55, 0.25},
+		custom_tiles = {"wool_black.png"},
+	},
+	{
 		name = "flowerpot",
 		description = "Flower Pot",
 		mesh = "flowerpot.obj",

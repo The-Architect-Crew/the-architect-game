@@ -32,19 +32,19 @@ furniture.parts = {
 
 function furniture.register_for_base(base_node)
 	local base_definition = minetest.registered_nodes[base_node]
-	
+
 	for _, part in ipairs(furniture.parts) do
 		-- We get an iterator function over substrings split by :
 		local base_node_full_name = string.gmatch(base_node, "([^:]+)")
-	
+
 		-- First call will give us the modname
-		local base_node_modname = base_node_full_name()
+		local _base_node_modname = base_node_full_name()
 		-- and the second will give us the node name
-		local base_node_name = base_node_full_name()		
+		local base_node_name = base_node_full_name()
 
 		local part_name = "furniture:" .. base_node_name .. "_" .. part.name
 		local part_description = base_definition.description .. " " .. part.description
-		
+
 		local collision_box = {
 			type = "fixed",
 			fixed = part.collision_box,
@@ -55,7 +55,7 @@ function furniture.register_for_base(base_node)
 
 		-- Of course lua doesn't have a built-in table append function, 
 		-- why would it?
-		if part.custom_tiles then 
+		if part.custom_tiles then
 			for _, tile in ipairs(part.custom_tiles) do
 					table.insert(tiles, tile)
 			end
@@ -67,7 +67,7 @@ function furniture.register_for_base(base_node)
 			tiles = tiles,
 			groups = base_definition.groups,
 
-			collision_box = collision_box, 
+			collision_box = collision_box,
 			selection_box = collision_box,
 
 			drawtype = "mesh",

@@ -20,6 +20,7 @@ shapes:register_shapes("<modname>:<nodename>", {
 	global_tiles = {"texture1", "texture2"..},		-- Not applicable for pane/fence/wall
 	texture = "texture1",							-- global texture for only pane/fence/wall
 	<shape>_sunlight_propagates = <boolean>,
+	groups = {groups}								-- not_in_creative_inventory in applied by default
 	<shape>_drop = <dropname>,						-- Priority over drop
 	drop = <dropname>,
 	<shape>_light_source = <integer>,
@@ -50,9 +51,9 @@ righthalfstair		Half-cut stairs facing right
 outerstair			Outerfacing stairs
 stair				Stairs (Base)
 innerstair			Innerfacing stairs
-doublestep1			Double-step stairs: 1/16 height
-doublestep4			Double-step stairs: 4/16 height
-doublestep			Double-step stairs: 8/16 height (Base)
+splitstair1			Split stairs: 1/16 height
+splitstair4			Split stairs: 4/16 height
+splitstair			Double-step stairs: 8/16 height (Base)
 forkstair			Fork stairs
 pane				Panes (Connects) - Includes pane_flat
 fence				Fences (Connects) - Includes fencerail
@@ -72,12 +73,12 @@ corner1				"L"-shaped: 1/16 height
 corner2				"L"-shaped: 2/16 height
 corner4				"L"-shaped: 4/16 height
 corner				"L"-shaped: 8/16 height (Base)
-corner12			"L"-shaped: 12/16 height (Base)
+corner12			"L"-shaped: 12/16 height
 
 Mesenodes
 =====================================
 (name)
-sphere
+sphere				-- disabled by default, add to "disabled" to enable
 slope
 slope2
 slope3

@@ -2,52 +2,51 @@ shapes = {}
 -- Cubic shapes
 local nodebox_list = {
 	-- description, name, nodebox, cost, sunlight_propagates
+	-- Slabs
 	{ "Slab (1/16)", 	"slab1", 	{-0.5, -0.5, -0.5, 0.5, -0.4375, 0.5},	1, true },
 	{ "Slab (2/16)", 	"slab2", 	{-0.5, -0.5, -0.5, 0.5, -0.375, 0.5},	1, true },
 	{ "Slab (4/16)", 	"slab4", 	{-0.5, -0.5, -0.5, 0.5, -0.25, 0.5}, 	2, true },
 	{ "Slab", 			"slab", 	{-0.5, -0.5, -0.5, 0.5, 0, 0.5}, 		4, true },
 	{ "Slab (12/16)", 	"slab12",	{-0.5, -0.5, -0.5, 0.5, 0.25, 0.5}, 	6, true },
-	
+	-- Cubes
 	{ "Cube (1/16)", 	"cube1", 	{-0.5, -0.5, 0, 0, -0.4375, 0.5}, 		1, true },
 	{ "Cube (2/16)", 	"cube2", 	{-0.5, -0.5, 0, 0, -0.375, 0.5}, 		1, true },
 	{ "Cube (4/16)", 	"cube4", 	{-0.5, -0.5, 0, 0, -0.25, 0.5}, 		1, true },
 	{ "Cube", 			"cube", 	{-0.5, -0.5, 0, 0, 0, 0.5}, 			1, true },
 	{ "Cube (12/16)", 	"cube12", 	{-0.5, -0.5, 0, 0, 0.25, 0.5}, 			2, true },
-	
+	-- Steps
 	{ "Step (1/16)", 	"step1", 	{-0.5, -0.5, 0, 0.5, -0.4375, 0.5}, 	1, true },
 	{ "Step (2/16)", 	"step2", 	{-0.5, -0.5, 0, 0.5, -0.375, 0.5}, 	1, true },
 	{ "Step (4/16)", 	"step4", 	{-0.5, -0.5, 0, 0.5, -0.25, 0.5}, 		1, true },
 	{ "Step", 			"step", 	{-0.5, -0.5, 0, 0.5, 0, 0.5}, 			2, true },
 	{ "Step (12/16)", 	"step12", 	{-0.5, -0.5, 0, 0.5, 0.25, 0.5}, 		3, true },
-	
+	-- Stairs
 	{ "Left Halfstair", 	"halfstair", 		{{-0.5, -0.5, -0.5, 0, 0, 0.5},{-0.5, 0, 0, 0, 0.5, 0.5},}, 								3, true},
 	{ "Right Halfstair", 	"righthalfstair", 	{{0, -0.5, -0.5, 0.5, 0, 0.5},	{0, 0, 0, 0.5, 0.5, 0.5},}, 								3, true},
 	{ "Outerstair", 		"outerstair", 		{{-0.5, -0.5, -0.5, 0.5, 0, 0.5},{-0.5, 0, 0, 0, 0.5, 0.5},}, 								5, true},
 	{ "Stair", 				"stair", 			{{-0.5, -0.5, -0.5, 0.5, 0, 0.5},{-0.5, 0, 0, 0.5, 0.5, 0.5},}, 							6, true},
 	{ "Innerstair", 		"innerstair", 		{{-0.5, -0.5, -0.5, 0.5, 0, 0.5},{-0.5, 0, 0, 0.5, 0.5, 0.5},{-0.5, 0, -0.5, 0, 0.5, 0},}, 	7, false},
-	
-	{ "Doublestep (1/16)", 	"doublestep1", 		{{-0.5, -0.0625, -0.5, 0.5, 0, 0},	{-0.5, 0.4375, 0, 0.5, 0.5, 0.5},}, 					1, true},
-	{ "Doublestep (4/16)", 	"doublestep4", 		{{-0.5, -0.25, -0.5, 0.5, 0, 0},	{-0.5, 0.25, 0, 0.5, 0.5, 0.5},}, 						2, true},
-	{ "Doublestep", 		"doublestep", 		{{-0.5, -0.5, -0.5, 0.5, 0, 0},		{-0.5, 0, 0, 0.5, 0.5, 0.5},}, 							4, true},
+	-- Split Stairs
+	{ "Splitstair (1/16)", 	"splitstair1", 		{{-0.5, -0.0625, -0.5, 0.5, 0, 0},	{-0.5, 0.4375, 0, 0.5, 0.5, 0.5},}, 					1, true},
+	{ "Splitstair (4/16)", 	"splitstair4", 		{{-0.5, -0.25, -0.5, 0.5, 0, 0},	{-0.5, 0.25, 0, 0.5, 0.5, 0.5},}, 						2, true},
+	{ "Splitstair", 		"splitstair", 		{{-0.5, -0.5, -0.5, 0.5, 0, 0},		{-0.5, 0, 0, 0.5, 0.5, 0.5},}, 							4, true},
 	{ "Forkstair", 			"forkstair", 		{{-0.5, -0.5, 0, 0, 0.5, 0.5},{0, -0.5, 0, 0.5, 0, 0.5},{-0.5, -0.5, -0.5, 0, 0, 0}}, 		4, true},
-	
+	-- Pole/pillar
 	{ "Pole", 			"pole", 		{-1/8, -1/2, -1/8, 1/8, 1/2, 1/8},	2, true},
 	{ "Pillar", 		"pillar", 		{-1/4, -1/2, -1/4, 1/4, 1/2, 1/4}, 	4, true},
-	
 	{ "Wall-Pillar", 	"wallpillar", 	{-1/4, -1/2, 0, 1/4, 1/2, 1/2},		4, true},
 	{ "Half-Pillar", 	"halfpillar", 	{-1/4, -1/2, 1/2, 1/4, 1/2, 1/4}, 	2, true},
-	
 	--{ "Pillar Top",	 		"pillartop",	 	{{-0.25, -0.5, -0.25, 0.25, 0.5, 0.25},{-0.5, 0.25, -0.5, 0.5, 0.5, 0.5},{-0.375, 0, -0.375, 0.375, 0.5, 0.375},},		6, true},
 	{ "Pillar Crown", 		"pillarcrown", 		{{-0.25, -0.5, -0.25, 0.25, 0.5, 0.25},{-0.5, -0.5, -0.5, 0.5, -0.25, 0.5},{-0.375, -0.5, -0.375, 0.375, 0, 0.375},}, 	6, true},
 	--{ "Half-Pillar Top", 	"halfpillartop", 	{{-0.25, -0.5, 0.25, 0.25, 0.5, 0.5},{-0.5, 0.25, 0, 0.5, 0.5, 0.5},{-0.375, 0, 0.125, 0.375, 0.5, 0.5},},				3, true},
 	{ "Half-Pillar Crown", "halfpillarcrown", 	{{-0.25, -0.5, 0.25, 0.25, 0.5, 0.5},{-0.5, -0.5, 0, 0.5, -0.25, 0.5},{-0.375, -0.5, 0.125, 0.375, 0, 0.5},}, 			3, true},
 	{ "Wall-Pillar Crown", "wallpillarcrown", 	{{-0.25, -0.5, 0, 0.25, 0.5, 0.5},{-0.5, -0.5, -0.25, 0.5, -0.25, 0.5},{-0.375, -0.5, -0.125, 0.375, 0, 0.5},}, 		5, true},
-	
+	-- Beams
 	{ "Crossbeam", 		"crossbeam", 		{{-0.25, -0.5, -0.5, 0.25, 0, 0.5}, {-0.5, -0.5, -0.25, 0.5, 0, 0.25},},		4, true},
 	{ "Beam", 			"beam", 			{-0.25, -0.5, -0.5, 0.25, 0, 0.5},												2, true},
 	{ "Linkdown", 		"linkdown", 		{{-0.25, 0, -0.5, 0.25, 0.5, 0.5},{-0.125, -0.5, -0.125, 0.125, 0, 0.125},{-0.1875, -0.5, -0.1875, 0.1875, -0.375, 0.1875}, {-0.1875, -0.125, -0.1875, 0.1875, 0, 0.1875},},	4, true},
 	{ "Crosslink", 		"crosslink", 		{{-0.25, -0.5, -0.25, 0.25, 0.5, 0.25},{-0.5, -0.5, -0.25, 0.5, -0, 0.25},{-0.25, -0.5, -0.5, 0.25, -0, 0.5},{-0.4375, -0.4375, -0.4375, 0.4375, -0.0625, 0.4375},},			7, true},
-	
+	-- Corners
 	{ "Corner (1/16)", 	"corner1",	{{-0.5, -0.5, -0.5, 0, -0.4375, 0.5}, {0, -0.5, 0, 0.5, -0.4375, -0.5}}, 1, true},
 	{ "Corner (2/16)", 	"corner2", 	{{-0.5, -0.5, -0.5, 0, -0.375, 0.5}, {0, -0.5, 0, 0.5, -0.375, -0.5}}, 1, true},
 	{ "Corner (4/16)", 	"corner4", 	{{-0.5, -0.5, -0.5, 0, -0.25, 0.5}, {0, -0.5, 0, 0.5, -0.25, -0.5}}, 2, true},
@@ -58,24 +57,23 @@ local nodebox_list = {
 -- Model-based shapes
 local model_list = {
 	{ "Sphere", "sphere", "shapes_sphere.obj", 7},
-	
+	-- Slopes
 	{ "Slope", "slope", "shapes_slope.obj", 4},
 	{ "Slope (1/2)", "slope2", "shapes_slope_half.obj", 2},
 	{ "Slope (3/4)", "slope3", "shapes_slope_half_raised.obj", 4},
-	
-	
+	-- Innerslopes
 	{ "Innerslope", "innerslope", "shapes_slope_inner.obj", 4},
 	{ "Innerslope (1/2)", "innerslope2", "shapes_slope_inner_half.obj", 2},
 	{ "Innerslope (3/4)", "innerslope3", "shapes_slope_inner_half_raised.obj", 4},
-	
+	-- Cut innerslopes
 	{ "Cut Innerslope", "cutinnerslope", "shapes_slope_inner_cut.obj", 4},
 	{ "Cut Innerslope (1/2)", "cutinnerslope2", "shapes_slope_inner_cut_half.obj", 2},
 	{ "Cut Innerslope (3/4)", "cutinnerslope3", "shapes_slope_inner_cut_half_raised.obj", 4},
-	
+	-- Outerslopes
 	{ "Outerslope", "outerslope", "shapes_slope_outer.obj", 4},
 	{ "Outerslope (1/2)", "outerslope2", "shapes_slope_outer_half.obj", 2},
 	{ "Outerslope (3/4)", "outerslope3", "shapes_slope_outer_half_raised.obj", 4},
-	
+	-- Cut outerslopes
 	{ "Cut Outerslope", "cutouterslope", "shapes_slope_outer_cut.obj", 4},
 	{ "Cut Outerslope (1/2)", "cutouterslope2", "shapes_slope_outer_cut_half.obj", 2},
 	{ "Cut Outerslope (3/4)", "cutouterslope3", "shapes_slope_outer_cut_half_raised.obj", 4},
@@ -84,14 +82,25 @@ local model_list = {
 
 shapes.rotate_node = function(itemstack, placer, pointed_thing)
 	minetest.rotate_and_place(itemstack, placer, pointed_thing,
-	minetest.settings:get_bool("creative_mode") or creative.is_enabled_for(placer:get_player_name()), {invert_wall = placer:get_player_control().sneak})
+		minetest.settings:get_bool("creative_mode") or creative.is_enabled_for(placer:get_player_name()),
+		{invert_wall = placer:get_player_control().sneak})
 	local pos = pointed_thing.above
 	minetest.check_single_for_falling(pos)
 	return itemstack
 end
 
 local is_disabled = function(disabled, name)
-	local output = string.match(disabled, '(.*)'..name..'(.*)')
+	local disabled = ", "..disabled..", "
+	local output = string.find(disabled, ", "..name..", ")
+	
+	if name == "sphere" then
+		if output ~= nil then
+			return true
+		elseif output == nil then
+			return false
+		end
+	end
+	
 	if output ~= nil then
 		return false
 	elseif output == nil then
@@ -117,7 +126,6 @@ local function connects_dir(pos, name, dir)
 
 	local list = minetest.find_nodes_in_area(aside, aside, connects_to)
 	if #list > 0 then return true end
-	
 	return false
 end
 
@@ -128,7 +136,6 @@ end
 
 local function update_pane(pos)
 	if not is_pane(pos) then return end
-	
 	local node = minetest.get_node(pos)
 	local name = node.name
 	if name:sub(-5) == "_flat" then
@@ -184,16 +191,15 @@ function shapes:register_shapes(name, def)
 	local sname = string.match(name, ':(.*)')
 	local mname = string.match(name, '(.*):')
 	local itemmeta = minetest.registered_items[name]
-	
 	if itemmeta == nil then
 		minetest.log("error", "[shapes] "..name.." does not exist!")
 		return
 	end
 	
-	local r_group = table.copy(itemmeta.groups)
+	local n_group = def.groups or itemmeta.groups
+	local r_group = table.copy(n_group)
 	r_group.not_in_creative_inventory = 1
-	local stexture = def.texture or string.match(minetest.serialize(itemmeta.tiles), '{"(.*)"}')
-	
+	local stexture = def.texture or itemmeta.tiles[1]
 	-- Registering nodebox shapes
 	for i in ipairs(nodebox_list) do
 		local tdesc = nodebox_list[i][1]
@@ -201,7 +207,6 @@ function shapes:register_shapes(name, def)
 		local tnobo = nodebox_list[i][3]
 		local tcraf = nodebox_list[i][4]
 		local tsunl = nodebox_list[i][5]
-		
 		if itemmeta.sunlight_propagates == true then
 			tsunl = true
 		end
@@ -215,6 +220,7 @@ function shapes:register_shapes(name, def)
 				paramtype = "light",
 				paramtype2 = "facedir",
 				sunlight_propagates = def[tname.."_sunlight_propagates"] or tsunl,
+				use_texture_alpha = itemmeta.use_texture_alpha,
 				drop = def[tname.."_drop"] or def.drop,
 				light_source = def[tname.."_light_source"] or itemmeta.light_source,
 				sounds = itemmeta.sounds,
@@ -257,6 +263,7 @@ function shapes:register_shapes(name, def)
 				paramtype = "light",
 				paramtype2 = "facedir",
 				sunlight_propagates = def[tname.."_sunlight_propagates"] or tsunl,
+				use_texture_alpha = itemmeta.use_texture_alpha,
 				drop = def[tname.."_drop"] or def.drop,
 				light_source = def[tname.."_light_source"] or itemmeta.light_source,
 				sounds = itemmeta.sounds,
@@ -279,12 +286,12 @@ function shapes:register_shapes(name, def)
 	-- Credit to original authors
 	
 	if is_disabled(disabled, "fence") then
-		local f_group = table.copy(itemmeta.groups)
+		local n_group = def.groups or itemmeta.groups
+		local f_group = table.copy(n_group)
 		f_group.not_in_creative_inventory = 1
 		f_group.fence = 1
-		local fence_texture = "shapes_df_fence_overlay.png^" .. stexture .. "^shapes_df_fence_overlay.png^[makealpha:255,126,126"
-		local fencerail_texture = "shapes_df_fencerail_overlay.png^" .. stexture .. "^shapes_df_fencerail_overlay.png^[makealpha:255,126,126"
-		
+		local fence_texture = "shapes_df_fence_overlay.png^"..stexture.."^shapes_df_fence_overlay.png^[makealpha:255,126,126"
+		local fencerail_texture = "shapes_df_fencerail_overlay.png^"..stexture.."^shapes_df_fencerail_overlay.png^[makealpha:255,126,126"
 		minetest.register_node(":"..mname..":shapes_"..sname.."_fence", {
 			description = def.fence_description or itemmeta.description.." Fence",
 			drawtype = "nodebox",
@@ -294,6 +301,7 @@ function shapes:register_shapes(name, def)
 			wield_image = fence_texture,
 			paramtype = "light",
 			sunlight_propagates = def.fence_sunlight_propagates or true,
+			use_texture_alpha = itemmeta.use_texture_alpha,
 			drop = def.fence_drop or def.drop,
 			light_source = def.fence_light_source or itemmeta.light_source,
 			sounds = itemmeta.sounds,
@@ -329,7 +337,6 @@ function shapes:register_shapes(name, def)
 			recipe = {{mname..':shapes_'..sname..'_fence'}}
 		})
 		
-		---------------------------------
 		minetest.register_node(":"..mname..":shapes_"..sname.."_fencerail", {
 			description = def.fencerail_description or itemmeta.description.." Fencerail",
 			drawtype = "nodebox",
@@ -339,6 +346,7 @@ function shapes:register_shapes(name, def)
 			wield_image = fencerail_texture,
 			paramtype = "light",
 			sunlight_propagates = def.fencerail_sunlight_propagates or true,
+			use_texture_alpha = itemmeta.use_texture_alpha,
 			drop = def.fencerail_drop or def.drop,
 			light_source = def.fencerail_light_source or itemmeta.light_source,
 			sounds = itemmeta.sounds,
@@ -374,7 +382,6 @@ function shapes:register_shapes(name, def)
 			output = mname..':shapes_'..sname..'_cube 2',
 			recipe = {{mname..':shapes_'..sname..'_fencerail'}}
 		})
-		---------------------------------
 	end
 	
 	-- Registering walls
@@ -384,11 +391,11 @@ function shapes:register_shapes(name, def)
 	-- Credit to original authors
 	
 	if is_disabled(disabled, "wall") then
-		local w_group = table.copy(itemmeta.groups)
+		local n_group = def.groups or itemmeta.groups
+		local w_group = table.copy(n_group)
 		w_group.not_in_creative_inventory = 1
 		w_group.wall = 1
 		local wall_texture = "shapes_df_wall_overlay.png^" .. stexture .. "^shapes_df_wall_overlay.png^[makealpha:255,126,126"
-		
 		minetest.register_node(":"..mname..":shapes_"..sname.."_wall", {
 			description = def.wall_description or itemmeta.description.." Wall",
 			drawtype = "nodebox",
@@ -398,6 +405,7 @@ function shapes:register_shapes(name, def)
 			wield_image = wall_texture,
 			paramtype = "light",
 			sunlight_propagates = def.wall_sunlight_propagates or true,
+			use_texture_alpha = itemmeta.use_texture_alpha,
 			drop = def.wall_drop or def.drop,
 			light_source = def.wall_light_source or itemmeta.light_source,
 			sounds = itemmeta.sounds,
@@ -431,10 +439,10 @@ function shapes:register_shapes(name, def)
 	
 	-- Registering panes
 	if is_disabled(disabled, "pane") then
-		local p_group = table.copy(itemmeta.groups)
+		local n_group = def.groups or itemmeta.groups
+		local p_group = table.copy(n_group)
 		p_group.not_in_creative_inventory = 1
 		p_group.pane = 1
-	
 		minetest.register_node(":"..mname..":shapes_"..sname.."_pane_flat", {
 			description = def.pane_description or itemmeta.description.." Pane" or "Pane",
 			drawtype = "nodebox",
@@ -445,6 +453,7 @@ function shapes:register_shapes(name, def)
 			paramtype = "light",
 			paramtype2 = "facedir",
 			sunlight_propagates = def.pane_flat_sunlight_propagates or def.pane_sunlight_propagates or true,
+			use_texture_alpha = itemmeta.use_texture_alpha,
 			drop = def.pane_flat_drop or def.pane_drop or def.drop,
 			light_source = def.pane_flat_light_source or def.pane_light_source or itemmeta.light_source,
 			sounds = itemmeta.sounds,
@@ -458,10 +467,11 @@ function shapes:register_shapes(name, def)
 		minetest.register_node(":"..mname..":shapes_"..sname.."_pane", {
 			description = def.pane_description or itemmeta.description.. " Pane" or "Pane",
 			drawtype = "nodebox",
-			groups = r_group,
+			groups = p_group,
 			tiles = def.pane_tiles or {stexture},
 			paramtype = "light",
 			sunlight_propagates = def.pane_sunlight_propagates or true,
+			use_texture_alpha = itemmeta.use_texture_alpha,
 			drop = mname..":shapes_"..sname.."_pane_flat",
 			light_source = def.pane_light_source or itemmeta.light_source,
 			sounds = itemmeta.sounds,

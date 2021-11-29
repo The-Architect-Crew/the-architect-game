@@ -90,9 +90,8 @@ shapes.rotate_node = function(itemstack, placer, pointed_thing)
 end
 
 local is_disabled = function(disabled, name)
-	local disabled = ", "..disabled..", "
-	local output = string.find(disabled, ", "..name..", ")
-	
+	local disabled2 = ", "..disabled..", "
+	local output = string.find(disabled2, ", "..name..", ")
 	if name == "sphere" then
 		if output ~= nil then
 			return true
@@ -100,7 +99,6 @@ local is_disabled = function(disabled, name)
 			return false
 		end
 	end
-	
 	if output ~= nil then
 		return false
 	elseif output == nil then
@@ -195,7 +193,6 @@ function shapes:register_shapes(name, def)
 		minetest.log("error", "[shapes] "..name.." does not exist!")
 		return
 	end
-	
 	local n_group = def.groups or itemmeta.groups
 	local r_group = table.copy(n_group)
 	r_group.not_in_creative_inventory = 1
@@ -210,7 +207,6 @@ function shapes:register_shapes(name, def)
 		if itemmeta.sunlight_propagates == true then
 			tsunl = true
 		end
-	
 		if is_disabled(disabled, tname) then
 			minetest.register_node(":"..mname..":shapes_"..sname.."_"..tname, {
 				description = def[tname.."_description"] or itemmeta.description.." "..tdesc,
@@ -230,21 +226,18 @@ function shapes:register_shapes(name, def)
 				},
 				on_place = shapes.rotate_node,
 			})
-			
 			if tcraf ~= nil then
 				minetest.register_craft({
 					output = mname..':shapes_'..sname..'_cube '..tcraf,
 					recipe = {{mname..':shapes_'..sname..'_'..tname}}
 				})
 			end
-			
 			minetest.register_craft({
 				output = mname..':shapes_'..sname..'_righthalfstair',
 				recipe = {{mname..':shapes_'..sname..'_halfstair'}}
 			})
 		end
 	end
-	
 	-- Registering model-based shapes
 	for i in ipairs(model_list) do
 		local tdesc = model_list[i][1]
@@ -252,7 +245,6 @@ function shapes:register_shapes(name, def)
 		local tmodl = model_list[i][3]
 		local tcraf = model_list[i][4]
 		local tsunl = model_list[i][5]
-		
 		if is_disabled(disabled, tname) then
 			minetest.register_node(":"..mname..":shapes_"..sname.."_"..tname, {
 				description = def[tname.."_description"] or itemmeta.description.." "..tdesc,
@@ -269,7 +261,6 @@ function shapes:register_shapes(name, def)
 				sounds = itemmeta.sounds,
 				on_place = shapes.rotate_node,
 			})
-			
 			if tcraf ~= nil then
 				minetest.register_craft({
 					output = mname..':shapes_'..sname..'_cube '..tcraf,
@@ -278,16 +269,14 @@ function shapes:register_shapes(name, def)
 			end
 		end
 	end
-	
 	-- Registering fences
 	--=== FENCES FUCTIONALITY ===
 	-- Obtained from minetest-game/default/functions.lua
 	-- [ https://github.com/minetest/minetest_game/tree/master/mods/default ]
 	-- Credit to original authors
-	
 	if is_disabled(disabled, "fence") then
-		local n_group = def.groups or itemmeta.groups
-		local f_group = table.copy(n_group)
+		local n_group2 = def.groups or itemmeta.groups
+		local f_group = table.copy(n_group2)
 		f_group.not_in_creative_inventory = 1
 		f_group.fence = 1
 		local fence_texture = "shapes_df_fence_overlay.png^"..stexture.."^shapes_df_fence_overlay.png^[makealpha:255,126,126"
@@ -331,12 +320,10 @@ function shapes:register_shapes(name, def)
 			},
 			connects_to = {"group:fence", "group:wood", "group:tree", "group:wall", "group:stone"},
 		})
-		
 		minetest.register_craft({
 			output = mname..':shapes_'..sname..'_cube 2',
 			recipe = {{mname..':shapes_'..sname..'_fence'}}
 		})
-		
 		minetest.register_node(":"..mname..":shapes_"..sname.."_fencerail", {
 			description = def.fencerail_description or itemmeta.description.." Fencerail",
 			drawtype = "nodebox",
@@ -377,22 +364,19 @@ function shapes:register_shapes(name, def)
 			},
 			connects_to = {"group:fence", "group:wood", "group:tree", "group:wall", "group:stone"},
 		})
-		
 		minetest.register_craft({
 			output = mname..':shapes_'..sname..'_cube 2',
 			recipe = {{mname..':shapes_'..sname..'_fencerail'}}
 		})
 	end
-	
 	-- Registering walls
 	--=== WALLS FUCTIONALITY ===
 	-- Obtained from minetest-game/walls
 	-- [ https://github.com/minetest/minetest_game/tree/master/mods/walls ]
 	-- Credit to original authors
-	
 	if is_disabled(disabled, "wall") then
-		local n_group = def.groups or itemmeta.groups
-		local w_group = table.copy(n_group)
+		local n_group3 = def.groups or itemmeta.groups
+		local w_group = table.copy(n_group3)
 		w_group.not_in_creative_inventory = 1
 		w_group.wall = 1
 		local wall_texture = "shapes_df_wall_overlay.png^" .. stexture .. "^shapes_df_wall_overlay.png^[makealpha:255,126,126"
@@ -430,17 +414,15 @@ function shapes:register_shapes(name, def)
 			},
 			connects_to = { "group:wall", "group:stone", "group:fence" },
 		})
-		
 		minetest.register_craft({
 			output = mname..':shapes_'..sname..'_cube 4',
 			recipe = {{mname..':shapes_'..sname..'_wall'}}
 		})
 	end
-	
 	-- Registering panes
 	if is_disabled(disabled, "pane") then
-		local n_group = def.groups or itemmeta.groups
-		local p_group = table.copy(n_group)
+		local n_group4 = def.groups or itemmeta.groups
+		local p_group = table.copy(n_group4)
 		p_group.not_in_creative_inventory = 1
 		p_group.pane = 1
 		minetest.register_node(":"..mname..":shapes_"..sname.."_pane_flat", {
@@ -463,7 +445,6 @@ function shapes:register_shapes(name, def)
 			},
 			connect_sides = { "left", "right" },
 		})
-		
 		minetest.register_node(":"..mname..":shapes_"..sname.."_pane", {
 			description = def.pane_description or itemmeta.description.. " Pane" or "Pane",
 			drawtype = "nodebox",
@@ -485,7 +466,6 @@ function shapes:register_shapes(name, def)
 			},
 			connects_to = {"group:pane", "group:stone", "group:glass", "group:wood", "group:tree"},
 		})
-		
 		minetest.register_craft({
 			output = mname..':shapes_'..sname..'_cube',
 			recipe = {{mname..':shapes_'..sname..'_pane_flat'}}

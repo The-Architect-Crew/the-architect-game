@@ -1,0 +1,96 @@
+Shapes API Reference
+====================
+
+Basic Registration
+==================
+shapes:register_shapes("<modname>:<nodename>")
+
+-- Register all shapes based on the definition from <nodename>
+-- adds "not_in_creative_inventory" to groups
+-- sunlight_propagates depends on the shapes' defintion by default.
+
+Optional Customization
+======================
+If any of these values are not provided, the api will attempt to retrieve data based from either the node definition or shape definition
+
+shapes:register_shapes("<modname>:<nodename>", {
+	disabled = "<shape1>, <shape2>, <shape3>"		-- Makes certain shape not generate
+	<shape>_description = "Description",
+	<shape>_tiles = {"texture1", "texture2"..},		-- Priority over global_tiles
+	global_tiles = {"texture1", "texture2"..},		-- Not applicable for pane/fence/wall
+	texture = "texture1",							-- global texture for only pane/fence/wall
+	<shape>_sunlight_propagates = <boolean>,
+	<shape>_drop = <dropname>,						-- Priority over drop
+	drop = <dropname>,
+	<shape>_light_source = <integer>,
+})
+
+List of Shapes
+=====================================
+Nodeboxes
+=====================================
+(name)				(description)
+slab1				Slab: 1/16 height
+slab2				Slab: 2/16 height
+slab4				Slab: 4/16 height
+slab				Slab: 8/16 height (Base)
+slab12				Slab: 12/16 height
+cube1				Cube: 1/16 height
+cube2				Cube: 2/16 height
+cube4				Cube: 4/16 height
+cube				Cube: 8/16 height (Base) - Do not disable, serves as the most basic unit
+cube12				Cube: 12/16 height
+step1				Step: 1/16 height
+step2				Step: 2/16 height
+step4				Step: 4/16 height
+step				Step: 8/16 height (Base)
+step12				Step: 12/16 height
+halfstair			Half-cut stairs facing left
+righthalfstair		Half-cut stairs facing right
+outerstair			Outerfacing stairs
+stair				Stairs (Base)
+innerstair			Innerfacing stairs
+doublestep1			Double-step stairs: 1/16 height
+doublestep4			Double-step stairs: 4/16 height
+doublestep			Double-step stairs: 8/16 height (Base)
+forkstair			Fork stairs
+pane				Panes (Connects) - Includes pane_flat
+fence				Fences (Connects) - Includes fencerail
+pole				Pole (Fence-like but doesn't connect)
+wall				Walls (Connects)
+pillar				Pillar (Wall-like but doesn't connect)
+wallpillar			Pillar resting on wall
+halfpillar			Half-cut pillar resting on wall
+pillarcrown			Pillar crown molding
+wallpillarcrown		Pillar resting on wall crown molding
+halfpillarcrown		Half-cut pillar resting on wall crown molding
+crossbeam			"+"-shape beam
+beam				Beam
+linkdown			Fancy beam
+crosslink			"+"-shape pillar crown molding
+corner1				"L"-shaped: 1/16 height
+corner2				"L"-shaped: 2/16 height
+corner4				"L"-shaped: 4/16 height
+corner				"L"-shaped: 8/16 height (Base)
+corner12			"L"-shaped: 12/16 height (Base)
+
+Mesenodes
+=====================================
+(name)
+sphere
+slope
+slope2
+slope3
+innerslope
+innerslope2
+innerslope3
+cutinnerslope
+cutinnerslope2
+cutinnerslope3
+outerslope
+outerslope2
+outerslope3
+cutouterslope
+cutouterslope2
+cutouterslope3
+cutouterslope4

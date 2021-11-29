@@ -48,26 +48,20 @@ variations.variations = {
 	},
 }
 
-function variations.register_for_base(base_node, transparent)
-	
+function variations.register_for_base(base_node, transparent)	
 	local base_definition = minetest.registered_nodes[base_node]
-	for _, variation in ipairs(variations.variations) do
-		
+	for _, variation in ipairs(variations.variations) do		
 		-- We get an iterator function over substrings split by :
 		local base_node_full_name = string.gmatch(base_node, "([^:]+)")
 		-- First call will give us the modname
-		-- local base_node_modname = base_node_full_name()
-		
+		-- local base_node_modname = base_node_full_name()		
 		-- Unused variable warning...
 		base_node_full_name()
 		-- and the second will give us the node name
 		local base_node_name = base_node_full_name()
-
 		local variation_name = "variations:" .. base_node_name .. "_" .. variation.name
 		local variation_description = base_definition.description .. " " .. variation.description
-		
 		local tiles = {"variations_" .. base_node_name .. ".png^[sheet:3x3:" .. variation.texture}
-		
 		minetest.register_node(variation_name, {
 			description = variation_description,
 			tiles = tiles,

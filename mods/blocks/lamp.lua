@@ -124,17 +124,17 @@ minetest.register_craft({
 minetest.register_craft({
 	output = "blocks:amethyst_lantern",
 	recipe = {
-		{"blocks:steel_ingot", "blocks:amethyst", "blocks:steel_ingot"}
+		{"blocks:steel_ingot", "blocks:amethyst", "blocks:steel_ingot"},
 		{"blocks:amethyst", "blocks:torch", "blocks:amethyst"},
-		{"blocks:steel_ingot", "blocks:amethyst", "blocks:steel_ingot"}
+		{"blocks:steel_ingot", "blocks:amethyst", "blocks:steel_ingot"},
 	}
 })
 
 minetest.register_craft({
 	output = "blocks:garnet_lantern",
 	recipe = {
-		{"blocks:steel_ingot", "blocks:garnet", "blocks:steel_ingot"}
+		{"blocks:steel_ingot", "blocks:garnet", "blocks:steel_ingot"},
 		{"blocks:garnet", "blocks:torch", "blocks:garnet"},
-		{"blocks:steel_ingot", "blocks:garnet", "blocks:steel_ingot"}
+		{"blocks:steel_ingot", "blocks:garnet", "blocks:steel_ingot"},
 	}
 })

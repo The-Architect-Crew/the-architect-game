@@ -865,7 +865,7 @@ function mapgen.register_ores()
 	})
 
 	-- Amber
-    
+
 	minetest.register_ore({
 		ore_type       = "scatter",
 		ore            = "blocks:stone_with_amber",

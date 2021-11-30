@@ -93,4 +93,5 @@ variations.register_for_base("semiprecious:amethyst_block", true)
 variations.register_for_base("semiprecious:garnet_block", true)
 variations.register_for_base("semiprecious:lapis_lazuli_block")
 variations.register_for_base("semiprecious:malachite_block")
-variations.register_for_base("semiprecious:turquoise_block") ]]--
+variations.register_for_base("semiprecious:turquoise_block")
+variations.register_for_base("blocks:amber")]]--

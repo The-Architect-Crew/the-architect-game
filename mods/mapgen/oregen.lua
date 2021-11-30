@@ -561,6 +561,27 @@ function mapgen.register_ores()
 		},
 	})
 
+	-- Sheet ores
+
+	minetest.register_ore({
+		ore_type        = "sheet",
+		ore             = "blocks:amber",
+		wherein         = {"blocks:stone"},
+		clust_scarcity  = 24 * 24 * 24,
+		clust_size      = 12,
+		y_max           = -512,
+		y_min           = -31000,
+		noise_threshold = 0.6,
+		noise_params    = {
+			offset = 0.5,
+			scale = 0.5,
+			spread = {x = 4, y = 4, z = 4},
+			seed = 1337,
+			octaves = 1,
+			persist = 0.0
+		},
+	})
+
 	-- Scatter ores
 
 	-- Coal
@@ -840,6 +861,41 @@ function mapgen.register_ores()
 		clust_num_ores = 5,
 		clust_size     = 3,
 		y_max          = -4096,
+		y_min          = -31000,
+	})
+
+	-- Amber
+    
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:stone_with_amber",
+		wherein        = "blocks:stone",
+		clust_scarcity = 8 * 8 * 8,
+		clust_num_ores = 9,
+		clust_size     = 3,
+		y_max          = 31000,
+		y_min          = 1025,
+	})
+
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:stone_with_amber",
+		wherein        = "blocks:stone",
+		clust_scarcity = 8 * 8 * 8,
+		clust_num_ores = 8,
+		clust_size     = 3,
+		y_max          = 64,
+		y_min          = -31000,
+	})
+
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:stone_with_amber",
+		wherein        = "blocks:stone",
+		clust_scarcity = 24 * 24 * 24,
+		clust_num_ores = 27,
+		clust_size     = 6,
+		y_max          = 0,
 		y_min          = -31000,
 	})
 end

@@ -561,6 +561,65 @@ function mapgen.register_ores()
 		},
 	})
 
+	-- Sheet ores
+
+		minetest.register_ore({
+		ore_type        = "sheet",
+		ore             = "blocks:turquoise",
+		wherein         = {"blocks:stone"},
+		y_max           = -128,
+		y_min           = -31000,
+		noise_threshold = 0.7,
+		column_height_max = 6,
+		column_height_min = 2,
+		noise_params    = {
+			offset = -0.16,
+			scale =1,
+			spread = {x = 25, y = 25, z = 25},
+			seed = 23,
+			octaves = 3,
+			persist = 0.70
+		},
+	})
+
+		minetest.register_ore({
+		ore_type        = "sheet",
+		ore             = "blocks:lapis_lazuli",
+		wherein         = {"blocks:stone"},
+		y_max           = -256,
+		y_min           = -31000,
+		noise_threshold = 0.7,
+		column_height_max = 6,
+		column_height_min = 2,
+		noise_params    = {
+			offset = -0.16,
+			scale =1,
+			spread = {x = 25, y = 25, z = 25},
+			seed = 24,
+			octaves = 3,
+			persist = 0.70
+		},
+	})
+
+		minetest.register_ore({
+		ore_type        = "sheet",
+		ore             = "blocks:malachite",
+		wherein         = {"blocks:stone"},
+		y_max           = -512,
+		y_min           = -31000,
+		noise_threshold = 0.7,
+		column_height_max = 6,
+		column_height_min = 2,
+		noise_params    = {
+			offset = -0.16,
+			scale =1,
+			spread = {x = 25, y = 25, z = 25},
+			seed = 25,
+			octaves = 3,
+			persist = 0.70
+		},
+	})
+
 	-- Scatter ores
 
 	-- Coal
@@ -840,6 +899,98 @@ function mapgen.register_ores()
 		clust_num_ores = 5,
 		clust_size     = 3,
 		y_max          = -4096,
+		y_min          = -31000,
+	})
+
+	-- Amethyst
+
+		minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:stone_with_amethyst",
+		wherein        = "blocks:stone",
+		clust_scarcity = 15 * 15 * 15,
+		clust_num_ores = 3,
+		clust_size     = 2,
+		y_max          = -84,
+		y_min          = -255,
+	})
+
+		minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:stone_with_amethyst",
+		wherein        = "blocks:stone",
+		clust_scarcity = 13 * 13 * 13,
+		clust_num_ores = 5,
+		clust_size     = 3,
+		y_max          = -256,
+		y_min          = -31000,
+	})
+
+		minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:amethyst",
+		wherein        = "blocks:stone",
+		clust_scarcity = 15 * 15 * 15,
+		clust_num_ores = 3,
+		clust_size     = 5,
+		y_max          = -512,
+		y_min          = -1023,
+	})
+
+		minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:amethyst",
+		wherein        = "blocks:stone",
+		clust_scarcity = 13 * 13 * 13,
+		clust_num_ores = 3,
+		clust_size     = 5,
+		y_max          = -1024,
+		y_min          = -31000,
+	})
+
+	-- Garnet
+
+		minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:stone_with_garnet",
+		wherein        = "blocks:stone",
+		clust_scarcity = 14 * 14 * 14,
+		clust_num_ores = 3,
+		clust_size     = 2,
+		y_max          = -128,
+		y_min          = -512,
+	})
+
+		minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:stone_with_garnet",
+		wherein        = "blocks:stone",
+		clust_scarcity = 12 * 12 * 12,
+		clust_num_ores = 5,
+		clust_size     = 3,
+		y_max          = -512,
+		y_min          = -31000,
+	})
+
+		minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:garnet",
+		wherein        = "blocks:stone",
+		clust_scarcity = 14 * 14 * 14,
+		clust_num_ores = 3,
+		clust_size     = 2,
+		y_max          = -512,
+		y_min          = -1023,
+	})
+
+		minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:garnet",
+		wherein        = "blocks:stone",
+		clust_scarcity = 12 * 12 * 12,
+		clust_num_ores = 5,
+		clust_size     = 3,
+		y_max          = -1024,
 		y_min          = -31000,
 	})
 end

@@ -86,6 +86,8 @@ variations.register_for_base("blocks:tinblock")
 variations.register_for_base("blocks:goldblock")
 variations.register_for_base("blocks:brick")
 variations.register_for_base("blocks:ice")
+variations.register_for_base("blocks:dirt")
+variations.register_for_base("blocks:coalblock")
 --[[
 variations.register_for_base("semiprecious:amethyst_block", true)
 variations.register_for_base("semiprecious:garnet_block", true)

@@ -33,7 +33,7 @@ furniture.parts = {
 		description = "Stool",
 		mesh = "stool.obj",
 		collision_box = {-0.35, -0.5, -0.25, 0.35, -0.1, 0.25},
-	},	
+	},
 	{
 		name = "shelves",
 		description = "Shelves",

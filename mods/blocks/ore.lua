@@ -16,9 +16,9 @@ minetest.register_node("blocks:stone_with_coal", {
 	sounds = default.node_sound_stone_defaults(),
 })
 
-minetest.register_node("blocks:coalblock", {
-	description = S("Coal Block"),
-	tiles = {"blocks_coal_block.png"},
+minetest.register_node("blocks:coal", {
+	description = S("Coal"),
+	tiles = {"blocks_coal.png"},
 	is_ground_content = false,
 	groups = {cracky = 3},
 	sounds = default.node_sound_stone_defaults(),
@@ -43,9 +43,9 @@ minetest.register_craftitem("blocks:steel_ingot", {
 	inventory_image = "blocks_steel_ingot.png"
 })
 
-minetest.register_node("blocks:steelblock", {
-	description = S("Steel Block"),
-	tiles = {"blocks_steel_block.png"},
+minetest.register_node("blocks:steel", {
+	description = S("Steel"),
+	tiles = {"blocks_steel.png"},
 	is_ground_content = false,
 	groups = {cracky = 1, level = 2},
 	sounds = default.node_sound_metal_defaults(),
@@ -70,9 +70,9 @@ minetest.register_node("blocks:stone_with_copper", {
 	sounds = default.node_sound_stone_defaults(),
 })
 
-minetest.register_node("blocks:copperblock", {
-	description = S("Copper Block"),
-	tiles = {"blocks_copper_block.png"},
+minetest.register_node("blocks:copper", {
+	description = S("Copper"),
+	tiles = {"blocks_copper.png"},
 	is_ground_content = false,
 	groups = {cracky = 1, level = 2},
 	sounds = default.node_sound_metal_defaults(),
@@ -97,9 +97,9 @@ minetest.register_node("blocks:stone_with_tin", {
 	sounds = default.node_sound_stone_defaults(),
 })
 
-minetest.register_node("blocks:tinblock", {
-	description = S("Tin Block"),
-	tiles = {"blocks_tin_block.png"},
+minetest.register_node("blocks:tin", {
+	description = S("Tin"),
+	tiles = {"blocks_tin.png"},
 	is_ground_content = false,
 	groups = {cracky = 1, level = 2},
 	sounds = default.node_sound_metal_defaults(),
@@ -111,9 +111,9 @@ minetest.register_craftitem("blocks:bronze_ingot", {
 	inventory_image = "blocks_bronze_ingot.png"
 })
 
-minetest.register_node("blocks:bronzeblock", {
-	description = S("Bronze Block"),
-	tiles = {"blocks_bronze_block.png"},
+minetest.register_node("blocks:bronze", {
+	description = S("Bronze"),
+	tiles = {"blocks_bronze.png"},
 	is_ground_content = false,
 	groups = {cracky = 1, level = 2},
 	sounds = default.node_sound_metal_defaults(),
@@ -166,9 +166,9 @@ minetest.register_node("blocks:stone_with_gold", {
 	sounds = default.node_sound_stone_defaults(),
 })
 
-minetest.register_node("blocks:goldblock", {
-	description = S("Gold Block"),
-	tiles = {"blocks_gold_block.png"},
+minetest.register_node("blocks:gold", {
+	description = S("Goldk"),
+	tiles = {"blocks_gold.png"},
 	is_ground_content = false,
 	groups = {cracky = 1},
 	sounds = default.node_sound_metal_defaults(),
@@ -247,7 +247,7 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = "blocks:steelblock",
+	output = "blocks:steel",
 	recipe = {
 		{"blocks:steel_ingot", "blocks:steel_ingot", "blocks:steel_ingot"},
 		{"blocks:steel_ingot", "blocks:steel_ingot", "blocks:steel_ingot"},
@@ -256,7 +256,7 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = "blocks:copperblock",
+	output = "blocks:copper",
 	recipe = {
 		{"blocks:copper_ingot", "blocks:copper_ingot", "blocks:copper_ingot"},
 		{"blocks:copper_ingot", "blocks:copper_ingot", "blocks:copper_ingot"},
@@ -265,7 +265,7 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = "blocks:tinblock",
+	output = "blocks:tin",
 	recipe = {
 		{"blocks:tin_ingot", "blocks:tin_ingot", "blocks:tin_ingot"},
 		{"blocks:tin_ingot", "blocks:tin_ingot", "blocks:tin_ingot"},
@@ -274,7 +274,7 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = "blocks:bronzeblock",
+	output = "blocks:bronze",
 	recipe = {
 		{"blocks:bronze_ingot", "blocks:bronze_ingot", "blocks:bronze_ingot"},
 		{"blocks:bronze_ingot", "blocks:bronze_ingot", "blocks:bronze_ingot"},
@@ -285,12 +285,12 @@ minetest.register_craft({
 minetest.register_craft({
 	output = "blocks:bronze_ingot 9",
 	recipe = {
-		{"blocks:bronzeblock"},
+		{"blocks:bronze"},
 	}
 })
 
 minetest.register_craft({
-	output = "blocks:goldblock",
+	output = "blocks:gold",
 	recipe = {
 		{"blocks:gold_ingot", "blocks:gold_ingot", "blocks:gold_ingot"},
 		{"blocks:gold_ingot", "blocks:gold_ingot", "blocks:gold_ingot"},
@@ -342,14 +342,14 @@ minetest.register_craft({
 minetest.register_craft({
 	output = "blocks:steel_ingot 9",
 	recipe = {
-		{"blocks:steelblock"},
+		{"blocks:steel"},
 	}
 })
 
 minetest.register_craft({
 	output = "blocks:tin_ingot 9",
 	recipe = {
-		{"blocks:tinblock"},
+		{"blocks:tin"},
 	}
 })
 

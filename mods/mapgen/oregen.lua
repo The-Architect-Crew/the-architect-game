@@ -562,7 +562,7 @@ function mapgen.register_ores()
 	})
 
 	-- Sheet ores
-    
+
 	minetest.register_ore({
 		ore_type        = "sheet",
 		ore             = "blocks:amethyst",

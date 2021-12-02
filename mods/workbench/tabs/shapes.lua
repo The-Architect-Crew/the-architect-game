@@ -207,7 +207,7 @@ function wb_shapes:get_output(modname, material, amount, max, tab)
 		local t = wb_shapes.names[tab][i]
 		local cost = wb_shapes.costs[tab][i]
 		local balance = math.min(math.floor(amount/cost), max)
-		nodename = modname..":shapes_"..material.."_"..t[1]
+		local nodename = modname..":shapes_"..material.."_"..t[1]
 		if minetest.registered_nodes[nodename] then
 			pos = pos + 1
 			list[pos] = nodename.." "..balance

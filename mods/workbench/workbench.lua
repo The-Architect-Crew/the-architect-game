@@ -13,12 +13,21 @@ minetest.register_craftitem("workbench:nil", {
 	inventory_image = "workbench_nil.png",
 })
 
-function workbench.detect(pos, nodename)
+function workbench.detect(pos, savename)
 	local pos1 = vector.subtract(pos, 5)
 	local pos2 = vector.add(pos, 5)
-	local position = minetest.find_nodes_in_area(pos1, pos2, nodename)
+	local position = minetest.find_nodes_in_area(pos1, pos2, "workbench:workbench")
 	if #position > 0 then
-		return #position, position
+		if savename then
+			for i = 1, #position do
+				local wb_meta = minetest.get_meta(position[i])
+				if wb_meta:get_string("station_"..savename) == "" then
+					return true
+				end
+			end
+		else
+			return #position, position
+		end
 	end
 end
 

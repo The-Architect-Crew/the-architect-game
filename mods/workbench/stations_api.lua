@@ -179,7 +179,7 @@ end
 
 local function link_to_wb(pos, savename)
 	local meta = minetest.get_meta(pos)
-	local wbcount, wbpos = workbench.detect(pos, "workbench:workbench")
+	local wbcount, wbpos = workbench.detect(pos)
 	if wbcount and wbcount >= 1 then
 		for i = 1, wbcount do
 			local wb_meta = minetest.get_meta(wbpos[i])
@@ -232,7 +232,7 @@ function workbench:register_workstation(name, def)
 			burner_timer(pos, name, desc, fueltype, fueldesc)
 		end,
 		on_construct = function(pos)
-			local wbcount = workbench.detect(pos, "workbench:workbench")
+			local wbcount = workbench.detect(pos, sname)
 			if not wbcount then
 				minetest.remove_node(pos)
 				return
@@ -246,10 +246,10 @@ function workbench:register_workstation(name, def)
 		end,
 		after_place_node = function(pos, placer, itemstack, pointed_thing)
 			local ppos = pointed_thing.above
-			local wbcount = workbench.detect(ppos, "workbench:workbench")
+			local wbcount = workbench.detect(ppos, sname)
 			if placer then
 				if not wbcount then
-					workbench.send(placer, "Please place the "..desc.." nearby (5 node radius) to a workbench")
+					workbench.send(placer, "Please place the "..desc.." nearby (5 node radius) to an unlinked workbench.")
 					minetest.remove_node(ppos)
 					return true
 				end

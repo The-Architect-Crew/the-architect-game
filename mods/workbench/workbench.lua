@@ -83,7 +83,6 @@ end
 
 local function allow_move(pos, from_list, from_index, to_list, to_index, count, player)
 	local meta = minetest.get_meta(pos)
-	local tab = meta:get_string("tab")
 	-- Lock checks
 	if wb_lock.check(pos, player) then
 		return 0
@@ -93,9 +92,6 @@ end
 
 local function allow_put(pos, listname, index, stack, player)
 	local meta = minetest.get_meta(pos)
-	local inv = meta:get_inventory()
-	local stackname = stack:get_name()
-	local count = stack:get_count()
 	local tab = meta:get_string("tab")
 	-- Lock checks
 	if wb_lock.check(pos, player) then
@@ -115,11 +111,8 @@ end
 
 local function allow_take(pos, listname, index, stack, player)
 	local meta = minetest.get_meta(pos)
-	local inv = meta:get_inventory()
-	local stackname = stack:get_name()
 	local count = stack:get_count()
 	local tab = meta:get_string("tab")
-	local player_inv = player:get_inventory()
 	-- Lock checks
 	if wb_lock.check(pos, player) then
 		return 0
@@ -166,7 +159,6 @@ end
 
 local function on_construct(pos)
 	local meta = minetest.get_meta(pos)
-	local tab = meta:get_string("tab")
 	meta:set_string("tab", "shapes")
 	-- ====================
 	-- on_construct updates
@@ -198,7 +190,7 @@ local function on_receive_fields(pos, formname, fields, sender)
 	-- ==============
 	wb_shapes.on_receive_fields(pos, formname, fields, sender)
 	wb_furnace.on_receive_fields(pos, formname, fields, sender)
-	-- =======================
+	-- ==============
 	if wb_lock.noaccess(pos, sender) ~= true then
 		-- Lock workbench
 		if fields.workbench_lock then

@@ -32,11 +32,11 @@ local function create_tab(pos, def)
 		local stpostext = stpos.x..", "..stpos.y..", "..stpos.z
 		return ""..
 			"image_button["..calcti..",-1.2;1.1,1.1;"..tabimage..".png;"..tabfield..";;true;false;"..tabimage..".png]"..
-			"tooltip["..tabfield..";"..savedesc.." \nLinked to "..savedesc.." ("..stpostext..") \nRequires active "..savedesc.."]"
+			"tooltip["..tabfield..";"..tabdesc.." \nLinked to "..savedesc.." ("..stpostext..") \nRequires active "..savedesc.."]"
 	else
 		return ""..
 			"image_button["..calcti..",-1.2;1.1,1.1;"..tabimage.."_locked.png;"..tabfield.."_locked;;true;false;"..tabimage.."_locked.png]"..
-			"tooltip["..tabfield.."_locked;"..minetest.formspec_escape("[Locked]").." "..savedesc.." \nAdd a "..savedesc.." nearby (within 5 nodes) to unlock!]"
+			"tooltip["..tabfield.."_locked;"..minetest.formspec_escape("[Locked]").." "..tabdesc.." \nAdd a "..savedesc.." nearby (within 5 nodes) to unlock!]"
 	end
 end
 

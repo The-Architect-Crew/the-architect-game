@@ -69,18 +69,15 @@ local function burner_timer(pos, name, desc, fueltype, fueldesc)
 	local meta = minetest.get_meta(pos)
 	local inv = meta:get_inventory()
 	local fuellist = inv:get_list("fuel")
-	
 	if not fuellist then return end
-	
 	if meta:get_string("elasped") == "" then
 		meta:set_float("elasped", 0.0)
 	elseif meta:get_string("fueltime") == "" then
 		meta:set_float("fueltime", 0.0)
 	end
-	
+	-- if no fuel detected, revert to inactive state
 	local fuel = get_fueltype(inv, fueltype)
 	local fuelinfo = fueldesc or ""
-	-- if no fuel detected, revert to inactive state
 	if meta:get_float("fueltime") == 0 then
 		if not fuel or fuel.time <= 0 or inv:is_empty("fuel") then
 			meta:set_string("infotext", linktext(pos).." \n"..desc.." out of fuel \n"..fuelinfo)
@@ -96,15 +93,12 @@ local function burner_timer(pos, name, desc, fueltype, fueldesc)
 			return
 		end
 	end
-	
 	-- if fuel detected and not running, change to active active
 	local meta = minetest.get_meta(pos)
-	local elasped = meta:get_float("elasped")
 	local fueltime = meta:get_float("fueltime")
 	if fueltime == 0 then
 		meta:set_float("elasped", 0)
 		meta:set_float("fueltime", fuel.time)
-		
 		local percent = math.floor(100 - (meta:get_float("elasped") / meta:get_float("fueltime") * 100))
 		meta:set_string("infotext", linktext(pos).." \n"..desc.." active: "..percent.."% fuel left \n"..fuelinfo)
 		swap_node(pos,"workbench:"..name.."_active")
@@ -126,7 +120,6 @@ local function burner_timer(pos, name, desc, fueltype, fueldesc)
 		-- restart timer
 		minetest.get_node_timer(pos):start(1.0)
 	end
-	
 	-- if fuel not fully expended, continue running timer
 	local meta = minetest.get_meta(pos)
 	local elasped2 = meta:get_float("elasped")
@@ -139,7 +132,6 @@ local function burner_timer(pos, name, desc, fueltype, fueldesc)
 		-- restart timer
 		minetest.get_node_timer(pos):start(1.0)
 	end
-	
 	-- if fuel fully expended, reset to 0
 	local elasped3 = meta:get_float("elasped") or 0
 	local fueltime3 = meta:get_float("fueltime") or 0
@@ -184,7 +176,6 @@ end
 local function link_to_wb(pos, savename)
 	local meta = minetest.get_meta(pos)
 	local wbcount, wbpos = workbench.detect(pos, "workbench:workbench")
-	
 	if wbcount and wbcount >= 1 then
 		for i = 1, wbcount do
 			local wb_meta = minetest.get_meta(wbpos[i])
@@ -217,7 +208,6 @@ function workbench:register_workstation(name, def)
 	local fueldesc = def.fueldesc
 	local desc = def.description
 	local sname = def.savename
-	
 	minetest.register_node("workbench:"..name, {
 		description = desc,
 		drawtype = "mesh",
@@ -246,12 +236,12 @@ function workbench:register_workstation(name, def)
 			burner_timer(pos, name, desc, fueltype, fueldesc)
 		end,
 		after_place_node = function(pos, placer, itemstack, pointed_thing)
-			local pos = pointed_thing.above
-			local wbcount = workbench.detect(pos, "workbench:workbench")
+			local ppos = pointed_thing.above
+			local wbcount = workbench.detect(ppos, "workbench:workbench")
 			if placer then
 				if not wbcount or wbcount == 0 then
 					workbench.send(placer, "Please place the "..desc.." nearby (5 node radius) to a workbench")
-					minetest.remove_node(pos)
+					minetest.remove_node(ppos)
 					return true
 				end
 			end
@@ -276,7 +266,6 @@ function workbench:register_workstation(name, def)
 		end,
 		allow_metadata_inventory_take = allow_take,
 	})
-	
 	local r_group = table.copy(def.groups)
 	r_group.not_in_creative_inventory = 1
 	minetest.register_node("workbench:"..name.."_active", {

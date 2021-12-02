@@ -22,7 +22,7 @@ end
 function wb_lock.check(pos, player)
 	if wb_lock.is_locked(pos) then
 		if wb_lock.noaccess(pos, player) then
-			minetest.chat_send_player(playername, "Workbench is locked!")
+			workbench.send(player, "Workbench is locked!")
 			return true
 		end
 	end

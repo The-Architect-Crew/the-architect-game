@@ -2,7 +2,7 @@ wb_shapes = {}
 
 wb_shapes.costs = {
 	-- simple shapes
-	{	
+	{
 		2,2,2,4,1,
 		1,1,2,4,6,
 		1,1,1,1,2,
@@ -24,7 +24,7 @@ wb_shapes.costs = {
 		4,2,4,0,0,
 		4,2,4,0,0,
 		4,2,4,4,0,
-	}, 
+	},
 }
 
 wb_shapes.names = {
@@ -170,12 +170,11 @@ function wb_shapes:reset(pos)
 	inv:set_list("shapes_micro",  {})
 	inv:set_list("shapes_output", {})
 	meta:set_int("shapes_micro", 0)
-	
+	-- update infotext
 	local owner = meta:get_string("owner") or ""
 	local stack = inv:get_stack("shapes_input", 1)
 	if not stack:is_empty() then
 		local nodename = stack:get_name() or ""
-		local modname = nodename:match("(.*):")
 		local material = nodename:match(":(.*)")
 		if wb_lock.is_locked(pos) then
 			meta:set_string("infotext", "Workbench is working on "..material.." (owned by "..owner..") \nWorkbench is locked.")
@@ -224,28 +223,22 @@ function wb_shapes:update(pos, amount, tab)
 		self:reset(pos)
 		return
 	end
-	
 	local stack = inv:get_stack("shapes_input", 1)
 	if stack:is_empty() then
 		if not inv:get_stack("shapes_micro", 1):is_empty() then
 			local microstack = inv:get_stack("shapes_micro",  1)
 			local nodename = microstack:get_name() or ""
-		
 			local modname = nodename:match("(.*):")
 			local microname = nodename:gsub(modname..":shapes_", "", 1)
 			local material = microname:gsub("_cube", "", 1)
-			
 			if amount >= 8 then -- if sufficient microblocks, convert to fullblocks
 				inv:set_list("shapes_input", {modname..":"..material.." "..math.floor(amount / 8)})
 				inv:set_list("shapes_micro", {nodename.." "..(amount % 8)})
 			elseif amount < 8 then
 				inv:set_list("shapes_micro", {nodename.." "..(amount)})
 			end
-			
-			
 			inv:set_list("shapes_output", self:get_output(modname, material, amount, max, tab))
 			meta:set_int("shapes_micro", amount)
-			
 			local owner = meta:get_string("owner") or ""
 			if wb_lock.is_locked(pos) then
 				meta:set_string("infotext", "Workbench is working on "..material.." (owned by "..owner..") \nWorkbench is locked.")
@@ -257,13 +250,10 @@ function wb_shapes:update(pos, amount, tab)
 		local nodename = stack:get_name() or ""
 		local modname = nodename:match("(.*):")
 		local material = nodename:match(":(.*)")
-		
 		inv:set_list("shapes_input", {nodename.." "..math.floor(amount / 8)})
 		inv:set_list("shapes_micro", {modname..":shapes_"..material.."_cube " ..(amount % 8)})
-		
 		inv:set_list("shapes_output", self:get_output(modname, material, amount, max, tab))
 		meta:set_int("shapes_micro", amount)
-		
 		local owner = meta:get_string("owner") or ""
 		if wb_lock.is_locked(pos) then
 			meta:set_string("infotext", "Workbench is working on "..material.." (owned by "..owner..") \nWorkbench is locked.")
@@ -291,13 +281,13 @@ function wb_shapes.allow_metadata_inventory_put(pos, listname, index, stack, pla
 				return 0
 			end
 		end
-	
+		-- allow adding more input only if it matchs the existing input & cubes
 		local micro_stack = inv:get_stack("shapes_micro", 1)
 		local micro_name = micro_stack:get_name()
 		if micro_stack:is_empty() then
 			return count
 		else
-			if micro_name == modname..":shapes_"..material.."_cube" then	
+			if micro_name == modname..":shapes_"..material.."_cube" then
 				return count
 			else
 				return 0
@@ -312,7 +302,7 @@ function wb_shapes.allow_metadata_inventory_put(pos, listname, index, stack, pla
 				return 0
 			end
 		end
-		
+		-- allow adding more cubes only if it matches the existing cubes & input
 		local input_stack = inv:get_stack("shapes_input", 1)
 		local input_name = input_stack:get_name()
 		if input_stack:is_empty() then
@@ -320,7 +310,7 @@ function wb_shapes.allow_metadata_inventory_put(pos, listname, index, stack, pla
 		else
 			local input_material = input_name:match(":(.*)")
 			local input_modname = input_name:match("(.*):")
-			if stackname == input_modname..":shapes_"..input_material.."_cube" then	
+			if stackname == input_modname..":shapes_"..input_material.."_cube" then
 				return count
 			else
 				return 0
@@ -342,7 +332,7 @@ function wb_shapes.allow_metadata_inventory_take(pos, listname, index, stack, pl
 	if not player_inv:room_for_item("main", input_stack) then
 		return 0
 	else
-		local tab = meta:get_int("shapes_tab")	
+		local tab = meta:get_int("shapes_tab")
 		if listname == "shapes_output" then
 			if tab == 1 then
 				return count
@@ -367,7 +357,7 @@ end
 function wb_shapes.on_metadata_inventory_put(pos, listname, index, stack, player)
 	local meta = minetest.get_meta(pos)
 	local count = stack:get_count()
-	local tab = meta:get_int("shapes_tab")	
+	local tab = meta:get_int("shapes_tab")
 	-- update inventory once something has been placed
 	if listname == "shapes_input" then
 		wb_shapes:update(pos, 8 * count, tab)
@@ -381,7 +371,7 @@ function wb_shapes.on_metadata_inventory_take(pos, listname, index, stack, playe
 	local inv = meta:get_inventory()
 	local input_stack = inv:get_stack(listname, index)
 	local tab = meta:get_int("shapes_tab")
-	
+	-- reset if invalid data
 	if not input_stack:is_empty() and input_stack:get_name()~= stack:get_name() then
 		local player_inv = player:get_inventory()
 		if player_inv:room_for_item("main", input_stack) then
@@ -390,7 +380,7 @@ function wb_shapes.on_metadata_inventory_take(pos, listname, index, stack, playe
 		wb_shapes:reset(pos)
 		return
 	end
-
+	-- update if anything is taken
 	if listname == "shapes_output" then
 		local cost = wb_shapes.costs[tab][index] * stack:get_count()
 		wb_shapes:update(pos, -cost, tab)
@@ -438,7 +428,6 @@ function wb_shapes.on_receive_fields(pos, formname, fields, sender)
 		meta:set_string("max_offered",  max)
 		wb_shapes:update(pos, 0, tab)
 	end
-	
 	if fields.wbtab_shapes_basic then
 		meta:set_int("shapes_tab", 1)
 		meta:set_string("tab", "shapes")

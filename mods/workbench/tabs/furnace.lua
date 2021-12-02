@@ -1,6 +1,5 @@
 wb_furnace = {}
 local function fuel_icons(pos)
-	local meta = minetest.get_meta(pos)
 	if workbench.check_active(pos, "station_furnace", "furnace") then
 		return "animated_image[4.775,3.525;1,1;wadawname;workbench_furnace_fire_animated.png;8;500;1]"
 	else
@@ -29,7 +28,6 @@ function wb_furnace.on_receive_fields(pos, formname, fields, sender)
 			wb_furnace.update(pos, 0)
 		end
 	end
-	
 	if fields.wbtab_furnace then
 		meta:set_string("tab", "furnace")
 		meta:set_string("formspec", wb_furnace.formspec(pos, locked))
@@ -49,7 +47,7 @@ function wb_furnace.on_construct(pos)
 end
 
 function wb_furnace.output_count(list)
-	local cooked, aftercooked = minetest.get_craft_result({method = "cooking", width = 1, items = list})
+	local cooked = minetest.get_craft_result({method = "cooking", width = 1, items = list})
 	if cooked and cooked.item then
 		local ccount = cooked.item:get_count()
 		return ccount
@@ -61,20 +59,18 @@ function wb_furnace.update(pos, amount, listname)
 	local inv = meta:get_inventory()
 	local max = meta:get_int("max_offered")
 	if (not max or max < 1 or max > 99) then max = 99 end
-	
+	-- if moving items out of output, update input
 	local stack = inv:get_stack("furnace_input", 1)
 	if listname == "furnace_output" then
 		local nodename = stack:get_name() or ""
 		local cooklist = inv:get_list("furnace_input")
-		local cooked, aftercooked = minetest.get_craft_result({method = "cooking", width = 1, items = cooklist})
+		local cooked = minetest.get_craft_result({method = "cooking", width = 1, items = cooklist})
 		local incount = stack:get_count()
 		local ccount = cooked.item:get_count()
 		local newamt = incount - (amount / ccount)
-		
-		local nodename = stack:get_name() or ""
 		inv:set_list("furnace_input", {nodename.." "..newamt})
 	end
-	
+	-- if no items in input
 	local stack = inv:get_stack("furnace_input", 1)
 	if stack:is_empty() then
 		inv:set_list("furnace_input", {""})
@@ -85,24 +81,24 @@ function wb_furnace.update(pos, amount, listname)
 		else
 			meta:set_string("infotext", "Workbench is empty (owned by "..owner..")")
 		end
+	-- update output based on items from input
 	elseif not stack:is_empty() then
 		local nodename = stack:get_name() or ""
 		local cooklist = inv:get_list("furnace_input")
-		local cooked, aftercooked = minetest.get_craft_result({method = "cooking", width = 1, items = cooklist})
+		local cooked = minetest.get_craft_result({method = "cooking", width = 1, items = cooklist})
 		if cooked and cooked.item then
 			local incount = stack:get_count()
 			local stackname = stack:get_name()
 			local ccount = cooked.item:get_count()
 			local cname = cooked.item:get_name()
 			local snameshort = stackname:match(":(.*)")
-			
 			local owner = meta:get_string("owner") or ""
 			if wb_lock.is_locked(pos) then
 				meta:set_string("infotext", "Workbench is cooking "..snameshort.." (owned by "..owner..") \nWorkbench is locked.")
 			else
 				meta:set_string("infotext", "Workbench is cooking "..snameshort.." (owned by "..owner..")")
 			end
-			
+			-- ensure count matches max count set
 			local newamt = ccount * incount
 			if newamt > max then
 				local rem = max % ccount
@@ -116,6 +112,7 @@ function wb_furnace.update(pos, amount, listname)
 	else
 		inv:set_list("furnace_input", {""})
 		inv:set_list("furnace_output", {""})
+		local owner = meta:get_string("owner") or ""
 		if wb_lock.is_locked(pos) then
 			meta:set_string("infotext", "Workbench is empty (owned by "..owner..") \nWorkbench is locked.")
 		else
@@ -125,12 +122,11 @@ function wb_furnace.update(pos, amount, listname)
 end
 
 function wb_furnace.allow_metadata_inventory_put(pos, listname, index, stack, player)
-	local meta = minetest.get_meta(pos)
 	local stackname = stack:get_name()
 	local count = stack:get_count()
 	if listname == "furnace_input" then
-		local cooked, aftercooked = minetest.get_craft_result({method = "cooking", width = 1, items = {stackname}})
-		if cooked and cooked.item then	
+		local cooked = minetest.get_craft_result({method = "cooking", width = 1, items = {stackname}})
+		if cooked and cooked.item then
 			if cooked.item:get_name() ~= "" then
 				return count
 			end
@@ -145,7 +141,6 @@ function wb_furnace.allow_metadata_inventory_take(pos, listname, index, stack, p
 	local count = stack:get_count()
 	local player_inv = player:get_inventory()
 	local input_stack = inv:get_stack(listname,	index)
-	local input_name = input_stack:get_name()
 	local cooklist = inv:get_list("furnace_input")
 	local ccount = wb_furnace.output_count(cooklist)
 	-- Detect for an active furnace that is linked
@@ -177,10 +172,7 @@ end
 
 function wb_furnace.on_metadata_inventory_put(pos, listname, index, stack, player)
 	local meta = minetest.get_meta(pos)
-	local inv = meta:get_inventory()
 	local count = stack:get_count()
-	local max = meta:get_int("max_offered")
-	
 	wb_furnace.update(pos, count, listname)
 end
 

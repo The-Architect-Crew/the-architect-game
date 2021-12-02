@@ -1,6 +1,8 @@
 local path = minetest.get_modpath("workbench")
 dofile(path.."/tabs/lock.lua")
 dofile(path.."/tabs/tabs.lua")
+-- Crafting grid
+dofile(path.."/tabs/craft.lua")
 -- Shapes
 dofile(path.."/tabs/shapes.lua")
 -- Furnace
@@ -82,9 +84,14 @@ function workbench.send(player, text)
 end
 
 local function allow_move(pos, from_list, from_index, to_list, to_index, count, player)
+	local meta = minetest.get_meta(pos)
+	local tab = meta:get_string("tab")
 	-- Lock checks
 	if wb_lock.check(pos, player) then
 		return 0
+	end
+	if tab == "craft" then
+		return count
 	end
 	return 0
 end
@@ -99,7 +106,9 @@ local function allow_put(pos, listname, index, stack, player)
 	-- =================
 	-- allow_put updates
 	-- =================
-	if tab == "shapes" then
+	if tab == "craft" then
+		return wb_craft.allow_metadata_inventory_put(pos, listname, index, stack, player)
+	elseif tab == "shapes" then
 		return wb_shapes.allow_metadata_inventory_put(pos, listname, index, stack, player)
 	elseif tab == "furnace" then
 		return wb_furnace.allow_metadata_inventory_put(pos, listname, index, stack, player)
@@ -119,7 +128,9 @@ local function allow_take(pos, listname, index, stack, player)
 	-- ==================
 	-- allow_take updates
 	-- ==================
-	if tab == "shapes" then
+	if tab == "craft" then
+		return wb_craft.allow_metadata_inventory_take(pos, listname, index, stack, player)
+	elseif tab == "shapes" then
 		return wb_shapes.allow_metadata_inventory_take(pos, listname, index, stack, player)
 	elseif tab == "furnace" then
 		return wb_furnace.allow_metadata_inventory_take(pos, listname, index, stack, player)
@@ -134,7 +145,9 @@ local function on_put(pos, listname, index, stack, player)
 	-- ==============
 	-- on_put updates
 	-- ==============
-	if tab == "shapes" then
+	if tab == "craft" then
+		wb_craft.on_metadata_inventory_put(pos, listname, index, stack, player)
+	elseif tab == "shapes" then
 		wb_shapes.on_metadata_inventory_put(pos, listname, index, stack, player)
 	elseif tab == "furnace" then
 		wb_furnace.on_metadata_inventory_put(pos, listname, index, stack, player)
@@ -148,7 +161,9 @@ local function on_take(pos, listname, index, stack, player)
 	-- ===============
 	-- on_take updates
 	-- ===============
-	if tab == "shapes" then
+	if tab == "craft" then
+		wb_craft.on_metadata_inventory_take(pos, listname, index, stack, player)
+	elseif tab == "shapes" then
 		wb_shapes.on_metadata_inventory_take(pos, listname, index, stack, player)
 	elseif tab == "furnace" then
 		wb_furnace.on_metadata_inventory_take(pos, listname, index, stack, player)
@@ -156,14 +171,23 @@ local function on_take(pos, listname, index, stack, player)
 	-- ===============
 end
 
+local function on_move(pos, from_list, from_index, to_list, to_index, count, player)
+	local meta = minetest.get_meta(pos)
+	local tab = meta:get_string("tab")
+	if tab == "craft" then
+		wb_craft.on_metadata_inventory_move(pos, from_list, from_index, to_list, to_index, count, player)
+	end
+end
+
 local function on_construct(pos)
 	local meta = minetest.get_meta(pos)
-	meta:set_string("tab", "shapes")
+	meta:set_string("tab", "craft")
 	-- ====================
 	-- on_construct updates
 	-- ====================
-	wb_furnace.on_construct(pos)
 	wb_shapes.on_construct(pos)
+	wb_furnace.on_construct(pos)
+	wb_craft.on_construct(pos)
 	-- ====================
 end
 
@@ -171,11 +195,17 @@ function workbench.update(pos, locked)
 	local meta = minetest.get_meta(pos)
 	local tab = meta:get_string("tab")
 	local lock = locked or meta:get_string("lock")
-	if tab == "shapes" then
+	-- ================
+	-- formspec updates
+	-- ================
+	if tab == "craft" then
+		meta:set_string("formspec", wb_craft.formspec(pos, lock))
+	elseif tab == "shapes" then
 		meta:set_string("formspec", wb_shapes.formspec(pos, lock))
 	elseif tab == "furnace" then
 		meta:set_string("formspec", wb_furnace.formspec(pos, lock))
 	end
+	-- ====================
 end
 
 local function on_receive_fields(pos, formname, fields, sender)
@@ -187,6 +217,7 @@ local function on_receive_fields(pos, formname, fields, sender)
 	-- ==============
 	-- fields updates
 	-- ==============
+	wb_craft.on_receive_fields(pos, formname, fields, sender)
 	wb_shapes.on_receive_fields(pos, formname, fields, sender)
 	wb_furnace.on_receive_fields(pos, formname, fields, sender)
 	-- ==============
@@ -218,8 +249,11 @@ local function can_dig(pos, player)
 	-- ===============
 	-- can_dig updates
 	-- ===============
+	-- craft
+	if not inv:is_empty("craft_grid") then
+		return false
 	-- shapes
-	if not inv:is_empty("shapes_input") or not inv:is_empty("shapes_micro") then
+	elseif not inv:is_empty("shapes_input") or not inv:is_empty("shapes_micro") then
 		return false
 	-- furnace
 	elseif not inv:is_empty("furnace_input") then
@@ -233,11 +267,7 @@ local function after_place_node(pos, placer)
 	local meta = minetest.get_meta(pos)
 	local owner = placer and placer:get_player_name() or ""
 	meta:set_string("owner",  owner)
-	-- ===================
-	-- after_place updates
-	-- ===================
-	wb_shapes.after_place_node(pos, placer)
-	-- ===================
+	meta:set_string("infotext", "Workbench is empty (owned by "..owner..") \nWorkbench is locked")
 end
 
 local function on_destruct(pos)
@@ -275,4 +305,5 @@ minetest.register_node("workbench:workbench",  {
 	allow_metadata_inventory_take = allow_take,
 	on_metadata_inventory_put = on_put,
 	on_metadata_inventory_take = on_take,
+	on_metadata_inventory_move = on_move,
 })

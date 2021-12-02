@@ -402,21 +402,12 @@ function wb_shapes.on_construct(pos)
 	-- set inventory sizes
 	local inv = meta:get_inventory()
 	inv:set_size("shapes_input", 1)    -- Input slot for full blocks of material x.
-	inv:set_size("shapes_micro", 1)    -- Storage for microblocks.
-	inv:set_size("shapes_output", 25)  -- versions of stair-parts of material x.
+	inv:set_size("shapes_micro", 1)    -- Input/storage slot for cubes 
+	inv:set_size("shapes_output", 25)  -- Output with shapes
 	wb_shapes:reset(pos)
 	-- detect if there's any stations nearby
 	workbench.link_to_stations(pos, "tablesaw", "shapes_complex")
 	workbench.link_to_stations(pos, "cnc", "shapes_slope")
-	-- update formspec
-	local locked = meta:get_string("lock")
-	meta:set_string("formspec", wb_shapes.formspec(pos, locked))
-end
-
-function wb_shapes.after_place_node(pos, placer)
-	local meta = minetest.get_meta(pos)
-	local owner = meta:get_string("owner") or ""
-	meta:set_string("infotext", "Workbench is empty (owned by "..owner..") \nWorkbench is locked")
 end
 
 function wb_shapes.on_receive_fields(pos, formname, fields, sender)

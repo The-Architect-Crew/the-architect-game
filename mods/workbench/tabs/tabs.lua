@@ -26,7 +26,7 @@ local function create_tab(pos, def)
 	local savedesc = def.stdesc
 	local meta = minetest.get_meta(pos)
 	local stdata = meta:get_string(savename)
-	local calcti = (tabindex * 1.2)
+	local calcti = (tabindex * 1.2) + 1.2
 	if stdata ~= "" then
 		local stpos = minetest.deserialize(stdata)
 		local stpostext = stpos.x..", "..stpos.y..", "..stpos.z
@@ -46,7 +46,9 @@ function workbench.tabs(pos, locked)
 		-- player
 		"list[current_player;main;0.4,6.75;8,4;]" ..
 		-- shapes
-		"image_button[0,-1.2;1.1,1.1;workbench_tab_basic.png;wbtab_shapes_basic;;true;false;workbench_tab_basic.png]" ..
+		"image_button[0,-1.2;1.1,1.1;workbench_tab_craft.png;wbtab_craft;;true;false;workbench_tab_craft.png]" ..
+		"tooltip[wbtab_craft;Crafting Grid]" ..
+		"image_button[1.2,-1.2;1.1,1.1;workbench_tab_basic.png;wbtab_shapes_basic;;true;false;workbench_tab_basic.png]" ..
 		"tooltip[wbtab_shapes_basic;Simple Shapes (Fences, Slabs, Stairs, Step, Cube)]" ..
 		create_tab(pos, {
 			index = 1,

@@ -75,8 +75,8 @@ function wb_furnace.update(pos, amount, listname)
 		inv:set_list("furnace_input", {nodename.." "..newamt})
 	end
 	-- if no items in input
-	local stack = inv:get_stack("furnace_input", 1)
-	if stack:is_empty() then
+	local stack2 = inv:get_stack("furnace_input", 1)
+	if stack2:is_empty() then
 		inv:set_list("furnace_input", {""})
 		inv:set_list("furnace_output", {""})
 		local owner = meta:get_string("owner") or ""
@@ -86,13 +86,13 @@ function wb_furnace.update(pos, amount, listname)
 			meta:set_string("infotext", "Workbench is empty (owned by "..owner..")")
 		end
 	-- update output based on items from input
-	elseif not stack:is_empty() then
-		local nodename = stack:get_name() or ""
+	elseif not stack2:is_empty() then
+		local nodename = stack2:get_name() or ""
 		local cooklist = inv:get_list("furnace_input")
 		local cooked = minetest.get_craft_result({method = "cooking", width = 1, items = cooklist})
 		if cooked and cooked.item then
-			local incount = stack:get_count()
-			local stackname = stack:get_name()
+			local incount = stack2:get_count()
+			local stackname = stack2:get_name()
 			local ccount = cooked.item:get_count()
 			local cname = cooked.item:get_name()
 			local snameshort = stackname:match(":(.*)")

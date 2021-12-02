@@ -98,15 +98,15 @@ local function burner_timer(pos, name, desc, fueltype, fueldesc)
 		end
 	end
 	-- if fuel detected and not running, change to active active
-	local meta = minetest.get_meta(pos)
-	local fueltime = meta:get_float("fueltime")
+	local meta2 = minetest.get_meta(pos)
+	local fueltime = meta2:get_float("fueltime")
 	if fueltime == 0 then
-		meta:set_float("elasped", 0)
-		meta:set_float("fueltime", fuel.time)
-		local percent = math.floor(100 - (meta:get_float("elasped") / meta:get_float("fueltime") * 100))
-		meta:set_string("infotext", linktext(pos).." \n"..desc.." active: "..percent.."% fuel left \n"..fuelinfo)
+		meta2:set_float("elasped", 0)
+		meta2:set_float("fueltime", fuel.time)
+		local percent = math.floor(100 - (meta2:get_float("elasped") / meta2:get_float("fueltime") * 100))
+		meta2:set_string("infotext", linktext(pos).." \n"..desc.." active: "..percent.."% fuel left \n"..fuelinfo)
 		swap_node(pos,"workbench:"..name.."_active")
-		meta:set_string("formspec", active_formspec(percent, fueltype))
+		meta2:set_string("formspec", active_formspec(percent, fueltype))
 		-- consume fuel
 		local stack = inv:get_stack("fuel", 1)
 		local stackcount = stack:get_count()
@@ -115,8 +115,8 @@ local function burner_timer(pos, name, desc, fueltype, fueldesc)
 			inv:set_stack("fuel", 1, stack)
 		end
 		-- update workbench fuel icon
-		if meta:get_string("link") ~= "" then
-			local wbpos = minetest.deserialize(meta:get_string("link"))
+		if meta2:get_string("link") ~= "" then
+			local wbpos = minetest.deserialize(meta2:get_string("link"))
 			if minetest.get_node(wbpos).name == "workbench:workbench" then
 				workbench.update(wbpos)
 			end
@@ -125,23 +125,23 @@ local function burner_timer(pos, name, desc, fueltype, fueldesc)
 		minetest.get_node_timer(pos):start(1.0)
 	end
 	-- if fuel not fully expended, continue running timer
-	local meta = minetest.get_meta(pos)
-	local elasped2 = meta:get_float("elasped")
-	local fueltime2 = meta:get_float("fueltime")
+	local meta3 = minetest.get_meta(pos)
+	local elasped2 = meta3:get_float("elasped")
+	local fueltime2 = meta3:get_float("fueltime")
 	if elasped2 < fueltime2 then
-		meta:set_float("elasped", meta:get_float("elasped") + 1)
-		local percent = math.floor(100 - (meta:get_float("elasped") / meta:get_float("fueltime") * 100))
-		meta:set_string("infotext", linktext(pos).." \n"..desc.." active: "..percent.."% fuel left \n"..fuelinfo)
-		meta:set_string("formspec", active_formspec(percent, fueltype))
+		meta3:set_float("elasped", meta3:get_float("elasped") + 1)
+		local percent = math.floor(100 - (meta3:get_float("elasped") / meta3:get_float("fueltime") * 100))
+		meta3:set_string("infotext", linktext(pos).." \n"..desc.." active: "..percent.."% fuel left \n"..fuelinfo)
+		meta3:set_string("formspec", active_formspec(percent, fueltype))
 		-- restart timer
 		minetest.get_node_timer(pos):start(1.0)
 	end
 	-- if fuel fully expended, reset to 0
-	local elasped3 = meta:get_float("elasped") or 0
-	local fueltime3 = meta:get_float("fueltime") or 0
+	local elasped3 = meta3:get_float("elasped") or 0
+	local fueltime3 = meta3:get_float("fueltime") or 0
 	if elasped3 >= fueltime3 and fueltime3 ~= 0 then
-		meta:set_float("elasped", 0.0)
-		meta:set_float("fueltime", 0.0)
+		meta3:set_float("elasped", 0.0)
+		meta3:set_float("fueltime", 0.0)
 	end
 end
 

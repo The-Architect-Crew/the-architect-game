@@ -207,7 +207,6 @@ function wb_shapes:get_output(modname, material, amount, max, tab)
 		local t = wb_shapes.names[tab][i]
 		local cost = wb_shapes.costs[tab][i]
 		local balance = math.min(math.floor(amount/cost), max)
-		local nodename = ""
 		nodename = modname..":shapes_"..material.."_"..t[1]
 		if minetest.registered_nodes[nodename] then
 			pos = pos + 1
@@ -220,10 +219,10 @@ function wb_shapes:get_output(modname, material, amount, max, tab)
 	return list
 end
 
-function wb_shapes:update(pos, amount, tab)
+function wb_shapes:update(pos, baseamt, tab)
 	local meta = minetest.get_meta(pos)
 	local inv = meta:get_inventory()
-	local amount = meta:get_int("shapes_micro") + amount
+	local amount = meta:get_int("shapes_micro") + baseamt
 	local max = meta:get_int("max_offered")
 	if amount < 1 then
 		self:reset(pos)

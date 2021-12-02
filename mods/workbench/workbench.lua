@@ -82,7 +82,6 @@ function workbench.send(player, text)
 end
 
 local function allow_move(pos, from_list, from_index, to_list, to_index, count, player)
-	local meta = minetest.get_meta(pos)
 	-- Lock checks
 	if wb_lock.check(pos, player) then
 		return 0

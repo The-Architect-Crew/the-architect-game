@@ -3,6 +3,7 @@ workbench:register_workstation("tablesaw", {
 	savename = "shapes_complex",
 	description = "Table Saw",
 	mesh = "workbench_tablesaw.obj",
+	light_source = 3,
 	groups = {choppy = 2,oddly_breakable_by_hand = 2},
 	tiles = {"workbench_tablesaw.png"},
 	animated_tiles = {{
@@ -41,6 +42,7 @@ workbench:register_workstation("cnc", {
 	savename = "shapes_slope",
 	description = "CNC Table",
 	mesh = "workbench_cnc.obj",
+	light_source = 6,
 	groups = {choppy = 2,oddly_breakable_by_hand = 2},
 	tiles = {"workbench_cnc.png"},
 	animated_tiles = {{
@@ -60,6 +62,7 @@ workbench:register_workstation("furnace", {
 	savename = "furnace",
 	description = "Furnace",
 	mesh = "workbench_furnace.obj",
+	light_source = 8,
 	groups = {choppy = 2,oddly_breakable_by_hand = 2},
 	tiles = {"workbench_furnace.png"},
 	animated_tiles = {{

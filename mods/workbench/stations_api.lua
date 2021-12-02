@@ -287,6 +287,7 @@ function workbench:register_workstation(name, def)
 		paramtype2 = "facedir",
 		sunlight_propagates = true,
 		use_texture_alpha = "clip",
+		light_source = def.light_source,
 		drop = "workbench:"..name,
 		sounds = def.sounds,
 		can_dig = function(pos, player)

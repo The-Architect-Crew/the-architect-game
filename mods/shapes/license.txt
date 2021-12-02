@@ -18,7 +18,7 @@ Nodeboxes:
 
 Authors of media files
 -----------------------
-General License: CC-BY-SA 3.0
+General License: neinwhal (CC-BY-SA 3.0)
 	
 Hugo Locurcio [Calinou] (CC BY-SA 3.0)
 	circular_saw_*
@@ -26,6 +26,3 @@ Hugo Locurcio [Calinou] (CC BY-SA 3.0)
 
 Various Minetest developers and contributors (CC BY-SA 3.0)
 	shapes_df_*
-
-neinwhal (CC-BY-SA 3.0)
-	shapes_sphere.obj

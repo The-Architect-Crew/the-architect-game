@@ -317,7 +317,16 @@ function wb_shapes.allow_metadata_inventory_put(pos, listname, index, stack, pla
 			local input_material = input_name:match(":(.*)")
 			local input_modname = input_name:match("(.*):")
 			if stackname == input_modname..":shapes_"..input_material.."_cube" then
-				return count
+				-- ensure added cubes does not exceed when combined with input
+				local blockamt = count / 8
+				local icount = input_stack:get_count()
+				if (icount + blockamt) > 99 then
+					-- calculate amount so it doesn't exceed and return that amount
+					local maxcount = math.floor((99 - icount) * 8)
+					return maxcount
+				else
+					return count
+				end
 			else
 				return 0
 			end

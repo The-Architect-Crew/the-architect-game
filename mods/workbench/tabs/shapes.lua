@@ -151,15 +151,21 @@ end
 
 function wb_shapes.formspec(pos, locked)
 	return workbench.tabs(pos, locked)..
-		"image[0.45,0.5;0.8,0.8;workbench_input.png]" ..
-		"list[context;shapes_input;0.4,0.4;1,1;]" ..
-		"image[1.75,0.5;0.8,0.8;workbench_arrow.png^[transformFYR90]" ..
-		"image[0.46,1.75;0.8,0.8;workbench_cube.png]" ..
-		"list[context;shapes_micro;0.4,1.65;1,1;]" ..
-		"image[1.75,1.75;0.8,0.8;workbench_arrow.png^[transformFYR90]" ..
+		"image[0.45,0.5;0.8,0.8;workbench_input.png]"..
+		"list[context;shapes_input;0.4,0.4;1,1;]"..
+		"image[1.75,0.5;0.8,0.8;workbench_arrow.png^[transformFYR90]"..
+		"image[0.46,1.75;0.8,0.8;workbench_cube.png]"..
+		"list[context;shapes_micro;0.4,1.65;1,1;]"..
+		"image[1.75,1.75;0.8,0.8;workbench_arrow.png^[transformFYR90]"..
 		"list[context;shapes_output;2.9,0.4;5,5;]"..
-		"field[9.15,2.9;1,1;max_offered;" .."Max".. ":;${max_offered}]" ..
-		"button[9.15,4.15;1,1;Set;" .."Set".. "]"..
+		"field[9.15,2.9;1,1;max_offered;".."Max"..":;${max_offered}]"..
+		"button[9.15,4.15;1,1;Set;".."Set".."]"..
+		"listring[current_player;main]"..
+		"listring[context;shapes_input]"..
+		"listring[current_player;main]"..
+		"listring[context;shapes_output]"..
+		"listring[current_player;main]"..
+		"listring[context;shapes_micro]"..
 		fuel_icons(pos)
 end
 
@@ -402,7 +408,7 @@ function wb_shapes.on_construct(pos)
 	-- set inventory sizes
 	local inv = meta:get_inventory()
 	inv:set_size("shapes_input", 1)    -- Input slot for full blocks of material x.
-	inv:set_size("shapes_micro", 1)    -- Input/storage slot for cubes 
+	inv:set_size("shapes_micro", 1)    -- Input/storage slot for cubes
 	inv:set_size("shapes_output", 25)  -- Output with shapes
 	wb_shapes:reset(pos)
 	-- detect if there's any stations nearby

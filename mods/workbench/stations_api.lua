@@ -15,6 +15,8 @@ local function active_formspec(fuel_percent, fueltype)
 		(fuel_percent)..":workbench_furnace_fire.png]"..
 		"list[current_player;main;0,4.25;8,1;]"..
 		"list[current_player;main;0,5.5;8,3;8]"..
+		"listring[current_player;main]"..
+		"listring[context;fuel]"..
 		default.get_hotbar_bg(0, 4.25)
 end
 
@@ -25,6 +27,8 @@ local function inactive_formspec(fueltype)
 		"image[3.49,1;1,1;workbench_furnace_fire_bg.png]"..
 		"list[current_player;main;0,4.25;8,1;]"..
 		"list[current_player;main;0,5.5;8,3;8]"..
+		"listring[current_player;main]"..
+		"listring[context;fuel]"..
 		default.get_hotbar_bg(0, 4.25)
 end
 

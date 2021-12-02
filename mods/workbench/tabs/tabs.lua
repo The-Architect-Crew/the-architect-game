@@ -44,12 +44,12 @@ function workbench.tabs(pos, locked)
 	return "formspec_version[4]"..
 		"size[10.5,11.9]"..
 		-- player
-		"list[current_player;main;0.4,6.75;8,4;]" ..
+		"list[current_player;main;0.4,6.75;8,4;]"..
 		-- shapes
-		"image_button[0,-1.2;1.1,1.1;workbench_tab_craft.png;wbtab_craft;;true;false;workbench_tab_craft.png]" ..
-		"tooltip[wbtab_craft;Crafting Grid]" ..
-		"image_button[1.2,-1.2;1.1,1.1;workbench_tab_basic.png;wbtab_shapes_basic;;true;false;workbench_tab_basic.png]" ..
-		"tooltip[wbtab_shapes_basic;Simple Shapes (Fences, Slabs, Stairs, Step, Cube)]" ..
+		"image_button[0,-1.2;1.1,1.1;workbench_tab_craft.png;wbtab_craft;;true;false;workbench_tab_craft.png]"..
+		"tooltip[wbtab_craft;Crafting Grid]"..
+		"image_button[1.2,-1.2;1.1,1.1;workbench_tab_basic.png;wbtab_shapes_basic;;true;false;workbench_tab_basic.png]"..
+		"tooltip[wbtab_shapes_basic;Simple Shapes (Fences, Slabs, Stairs, Step, Cube)]"..
 		create_tab(pos, {
 			index = 1,
 			image = "workbench_tab_complex",
@@ -57,7 +57,7 @@ function workbench.tabs(pos, locked)
 			desc = "Complex Shapes (Pillars, Beams, Doublesteps)",
 			data = "station_shapes_complex",
 			stdesc = "Tablesaw",
-		}) ..
+		})..
 		create_tab(pos, {
 			index = 2,
 			image = "workbench_tab_slope",
@@ -66,7 +66,7 @@ function workbench.tabs(pos, locked)
 			data = "station_shapes_slope",
 			stdesc = "CNC Table",
 		-- furnace
-		}) ..
+		})..
 		create_tab(pos, {
 			index = 3,
 			image = "workbench_tab_furnace",
@@ -74,9 +74,9 @@ function workbench.tabs(pos, locked)
 			desc = "Furnace (Cooking & Smelting)",
 			data = "station_furnace",
 			stdesc = "Furnace",
-		}) ..
+		})..
 		-- trash
-		trash_formspec() ..
+		trash_formspec()..
 		-- lock
 		wb_lock.formspec(locked)
 end

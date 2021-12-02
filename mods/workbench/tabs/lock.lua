@@ -32,11 +32,11 @@ end
 function wb_lock.formspec(locked)
 	if locked == "locked" then
 		return ""..
-			"image_button[0.4,4.15;1.05,1.05;workbench_lock.png;workbench_unlock;;;false;workbench_lock.png]" ..
+			"image_button[0.4,4.15;1.05,1.05;workbench_lock.png;workbench_unlock;;;false;workbench_lock.png]"..
 			"tooltip[workbench_unlock;Unlock workbench (Allow other players to access) \nCurrently locked]"
 	elseif locked == "unlocked" then
 		return "" ..
-			"image_button[0.4,4.15;1.05,1.05;workbench_unlock.png;workbench_lock;;;false;workbench_unlock.png]" ..
+			"image_button[0.4,4.15;1.05,1.05;workbench_unlock.png;workbench_lock;;;false;workbench_unlock.png]"..
 			"tooltip[workbench_lock;Lock workbench (Disallow other players to access) \nCurrently unlocked]"
 	end
 end

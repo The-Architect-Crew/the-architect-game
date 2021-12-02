@@ -1,6 +1,5 @@
 wb_craft = {}
 
-
 function wb_craft.formspec(pos, locked)
 	local meta = minetest.get_meta(pos)
 	local craft_result = meta:get_string("craft_result")
@@ -23,14 +22,12 @@ function wb_craft.update(pos)
 	local meta = minetest.get_meta(pos)
 	local inv = meta:get_inventory()
 	local locked = meta:get_string("lock")
-	local gridlist = inv:get_list("craft_grid")
 	local crafted = wb_craft.get_craft_result(pos)
 	local cstack = crafted.item
 	local cname = cstack:get_name()
 	local ccount = cstack:get_count()
 	meta:set_string("craft_result", cname.." "..ccount)
 	meta:set_string("formspec", wb_craft.formspec(pos, locked))
-	
 	local owner = meta:get_string("owner") or ""
 	if ccount == 0 then
 		if inv:is_empty("craft_grid") then
@@ -57,7 +54,6 @@ end
 
 function wb_craft.on_receive_fields(pos, formname, fields, sender)
 	local meta = minetest.get_meta(pos)
-	local tab = meta:get_string("tab")
 	local locked = meta:get_string("lock")
 	if fields.wbtab_craft then
 		meta:set_string("tab", "craft")

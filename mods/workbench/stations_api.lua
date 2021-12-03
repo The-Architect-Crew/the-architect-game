@@ -231,11 +231,13 @@ function workbench:register_workstation(name, def)
 		on_timer = function(pos, elapsed)
 			burner_timer(pos, name, desc, fueltype, fueldesc)
 		end,
-		on_construct = function(pos)
-			local wbcount = workbench.detect(pos, sname)
-			if not wbcount then
-				minetest.remove_node(pos)
-				return
+		after_place_node = function(pos, placer, itemstack, pointed_thing)
+			if placer then
+				if not workbench.detect(pos, sname) then
+					workbench.send(placer, "Please place the "..desc.." nearby (5 node radius) to an unlinked workbench.")
+					minetest.remove_node(pos)
+					return true
+				end
 			end
 			local meta = minetest.get_meta(pos)
 			local inv = meta:get_inventory()
@@ -243,17 +245,6 @@ function workbench:register_workstation(name, def)
 			inv:set_size('fuel', 1)
 			link_to_wb(pos, sname)
 			burner_timer(pos, name, desc, fueltype, fueldesc)
-		end,
-		after_place_node = function(pos, placer, itemstack, pointed_thing)
-			local ppos = pointed_thing.above
-			local wbcount = workbench.detect(ppos, sname)
-			if placer then
-				if not wbcount then
-					workbench.send(placer, "Please place the "..desc.." nearby (5 node radius) to an unlinked workbench.")
-					minetest.remove_node(ppos)
-					return true
-				end
-			end
 		end,
 		on_destruct = function(pos)
 			unlink_to_wb(pos, sname)

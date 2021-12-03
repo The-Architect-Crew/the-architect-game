@@ -11,7 +11,6 @@ function mapgen.register_mgv6_ores()
 
 	-- Clay
 	-- This first to avoid clay in sand blobs
-
 	minetest.register_ore({
 		ore_type        = "blob",
 		ore             = "blocks:clay",
@@ -32,7 +31,6 @@ function mapgen.register_mgv6_ores()
 	})
 
 	-- Sand
-
 	minetest.register_ore({
 		ore_type        = "blob",
 		ore             = "blocks:sand",
@@ -53,7 +51,6 @@ function mapgen.register_mgv6_ores()
 	})
 
 	-- Dirt
-
 	minetest.register_ore({
 		ore_type        = "blob",
 		ore             = "blocks:dirt",
@@ -74,7 +71,6 @@ function mapgen.register_mgv6_ores()
 	})
 
 	-- Gravel
-
 	minetest.register_ore({
 		ore_type        = "blob",
 		ore             = "blocks:gravel",
@@ -95,9 +91,7 @@ function mapgen.register_mgv6_ores()
 	})
 
 	-- Scatter ores
-
 	-- Coal
-
 	minetest.register_ore({
 		ore_type       = "scatter",
 		ore            = "blocks:stone_with_coal",
@@ -132,7 +126,6 @@ function mapgen.register_mgv6_ores()
 	})
 
 	-- Iron
-
 	minetest.register_ore({
 		ore_type       = "scatter",
 		ore            = "blocks:stone_with_iron",
@@ -167,7 +160,6 @@ function mapgen.register_mgv6_ores()
 	})
 
 	-- Copper
-
 	minetest.register_ore({
 		ore_type       = "scatter",
 		ore            = "blocks:stone_with_copper",
@@ -202,7 +194,6 @@ function mapgen.register_mgv6_ores()
 	})
 
 	-- Tin
-
 	minetest.register_ore({
 		ore_type       = "scatter",
 		ore            = "blocks:stone_with_tin",
@@ -237,7 +228,6 @@ function mapgen.register_mgv6_ores()
 	})
 
 	-- Gold
-
 	minetest.register_ore({
 		ore_type       = "scatter",
 		ore            = "blocks:stone_with_gold",
@@ -272,7 +262,6 @@ function mapgen.register_mgv6_ores()
 	})
 
 	-- Mese crystal
-
 	minetest.register_ore({
 		ore_type       = "scatter",
 		ore            = "blocks:stone_with_mese",
@@ -307,7 +296,6 @@ function mapgen.register_mgv6_ores()
 	})
 
 	-- Diamond
-
 	minetest.register_ore({
 		ore_type       = "scatter",
 		ore            = "blocks:stone_with_diamond",
@@ -342,7 +330,6 @@ function mapgen.register_mgv6_ores()
 	})
 
 	-- Mese block
-
 	minetest.register_ore({
 		ore_type       = "scatter",
 		ore            = "blocks:mese",
@@ -366,7 +353,6 @@ function mapgen.register_mgv6_ores()
 	})
 	
 	-- Silver
-	
 	minetest.register_ore({
 		ore_type       = "scatter",
 		ore            = "blocks:stone_with_silver",
@@ -379,7 +365,6 @@ function mapgen.register_mgv6_ores()
 	})
 	
 	-- Mithril
-	
 	minetest.register_ore({
 		ore_type       = "scatter",
 		ore            = "blocks:stone_with_mithril",
@@ -401,7 +386,6 @@ function mapgen.register_ores()
 	-- These obviously first.
 
 	-- Silver sandstone
-
 	minetest.register_ore({
 		ore_type        = "stratum",
 		ore             = "blocks:silver_sandstone",
@@ -439,7 +423,6 @@ function mapgen.register_ores()
 	})
 
 	-- Desert sandstone
-
 	minetest.register_ore({
 		ore_type        = "stratum",
 		ore             = "blocks:desert_sandstone",
@@ -477,7 +460,6 @@ function mapgen.register_ores()
 	})
 
 	-- Sandstone
-
 	minetest.register_ore({
 		ore_type        = "stratum",
 		ore             = "blocks:sandstone",
@@ -498,9 +480,7 @@ function mapgen.register_ores()
 
 	-- Blob ore.
 	-- These before scatter ores to avoid other ores in blobs.
-
 	-- Clay
-
 	minetest.register_ore({
 		ore_type        = "blob",
 		ore             = "blocks:clay",
@@ -521,7 +501,6 @@ function mapgen.register_ores()
 	})
 
 	-- Silver sand
-
 	minetest.register_ore({
 		ore_type        = "blob",
 		ore             = "blocks:silver_sand",
@@ -542,7 +521,6 @@ function mapgen.register_ores()
 	})
 
 	-- Dirt
-
 	minetest.register_ore({
 		ore_type        = "blob",
 		ore             = "blocks:dirt",
@@ -567,7 +545,6 @@ function mapgen.register_ores()
 	})
 
 	-- Gravel
-
 	minetest.register_ore({
 		ore_type        = "blob",
 		ore             = "blocks:gravel",
@@ -588,9 +565,7 @@ function mapgen.register_ores()
 	})
 
 	-- Scatter ores
-
 	-- Coal
-
 	minetest.register_ore({
 		ore_type       = "scatter",
 		ore            = "blocks:stone_with_coal",
@@ -625,7 +600,6 @@ function mapgen.register_ores()
 	})
 
 	-- Tin
-
 	minetest.register_ore({
 		ore_type       = "scatter",
 		ore            = "blocks:stone_with_tin",
@@ -660,7 +634,6 @@ function mapgen.register_ores()
 	})
 
 	-- Copper
-
 	minetest.register_ore({
 		ore_type       = "scatter",
 		ore            = "blocks:stone_with_copper",
@@ -695,7 +668,6 @@ function mapgen.register_ores()
 	})
 
 	-- Iron
-
 	minetest.register_ore({
 		ore_type       = "scatter",
 		ore            = "blocks:stone_with_iron",
@@ -730,7 +702,6 @@ function mapgen.register_ores()
 	})
 
 	-- Gold
-
 	minetest.register_ore({
 		ore_type       = "scatter",
 		ore            = "blocks:stone_with_gold",
@@ -765,7 +736,6 @@ function mapgen.register_ores()
 	})
 
 	-- Mese crystal
-
 	minetest.register_ore({
 		ore_type       = "scatter",
 		ore            = "blocks:stone_with_mese",
@@ -800,7 +770,6 @@ function mapgen.register_ores()
 	})
 
 	-- Diamond
-
 	minetest.register_ore({
 		ore_type       = "scatter",
 		ore            = "blocks:stone_with_diamond",
@@ -835,7 +804,6 @@ function mapgen.register_ores()
 	})
 
 	-- Mese block
-
 	minetest.register_ore({
 		ore_type       = "scatter",
 		ore            = "blocks:mese",
@@ -866,6 +834,30 @@ function mapgen.register_ores()
 		clust_num_ores = 5,
 		clust_size     = 3,
 		y_max          = -4096,
+		y_min          = -31000,
+	})
+	
+	-- Silver
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:stone_with_silver",
+		wherein        = "blocks:stone",
+		clust_scarcity = 11 * 11 * 11,
+		clust_num_ores = 4,
+		clust_size     = 11,
+		y_max          = -512,
+		y_min          = -31000,
+	})
+	
+	-- Mithril
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:stone_with_mithril",
+		wherein        = "blocks:stone",
+		clust_scarcity = 11 * 11 * 11,
+		clust_num_ores = 1,
+		clust_size     = 11,
+		y_max          = -2,
 		y_min          = -31000,
 	})
 end

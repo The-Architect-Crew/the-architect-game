@@ -94,4 +94,6 @@ variations.register_for_base("blocks:garnet", true)
 variations.register_for_base("blocks:lapis_lazuli")
 variations.register_for_base("blocks:malachite")
 variations.register_for_base("blocks:turquoise")
-variations.register_for_base("blocks:amber")]]--
+variations.register_for_base("blocks:amber")
+variations.register_for_base("blocks:silver")
+variations.register_for_base("blocks:mithril")]]--

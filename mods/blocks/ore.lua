@@ -196,6 +196,60 @@ minetest.register_node("blocks:diamondblock", {
 	sounds = default.node_sound_stone_defaults(),
 })
 
+-- Silver
+minetest.register_craftitem("blocks:silver_ingot", {
+	description = S("Silver Ingot"),
+	inventory_image = "blocks_silver_ingot.png"
+})
+
+minetest.register_craftitem("blocks:silver_lump", {
+	description = S("Silver Lump"),
+	inventory_image = "blocks_silver_lump.png"
+})
+
+minetest.register_node("blocks:stone_with_silver", {
+	description = S("Silver Ore"),
+	tiles = {"blocks_stone.png^blocks_mineral_silver.png"},
+	groups = {cracky = 2},
+	drop = "blocks:silver_lump",
+	sounds = default.node_sound_stone_defaults(),
+})
+
+minetest.register_node("blocks:silverblock", {
+	description = S("Silver Block"),
+	tiles = {"blocks_silver_block.png"},
+	is_ground_content = false,
+	groups = {cracky = 1},
+	sounds = default.node_sound_metal_defaults(),
+})
+
+-- Mithril
+minetest.register_craftitem("blocks:mithril_ingot", {
+	description = S("Mithril Ingot"),
+	inventory_image = "blocks_mithril_ingot.png"
+})
+
+minetest.register_craftitem("blocks:mithril_lump", {
+	description = S("Mithril Lump"),
+	inventory_image = "blocks_mithril_lump.png"
+})
+
+minetest.register_node("blocks:stone_with_mithril", {
+	description = S("Mithril Ore"),
+	tiles = {"blocks_stone.png^blocks_mineral_mithril.png"},
+	groups = {cracky = 1},
+	drop = "blocks:gold_lump",
+	sounds = default.node_sound_stone_defaults(),
+})
+
+minetest.register_node("blocks:mithrilblock", {
+	description = S("Mithril Block"),
+	tiles = {"blocks_mithril_block.png"},
+	is_ground_content = false,
+	groups = {cracky = 1, level = 3},
+	sounds = default.node_sound_metal_defaults(),
+})
+
 --
 -- == CRAFTS
 --

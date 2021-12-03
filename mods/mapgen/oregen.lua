@@ -364,6 +364,32 @@ function mapgen.register_mgv6_ores()
 		y_max          = -1024,
 		y_min          = -31000,
 	})
+	
+	-- Silver
+	
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:stone_with_silver",
+		wherein        = "blocks:stone",
+		clust_scarcity = 11 * 11 * 11,
+		clust_num_ores = 4,
+		clust_size     = 11,
+		y_max          = -512,
+		y_min          = -31000,
+	})
+	
+	-- Mithril
+	
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:stone_with_mithril",
+		wherein        = "blocks:stone",
+		clust_scarcity = 11 * 11 * 11,
+		clust_num_ores = 1,
+		clust_size     = 11,
+		y_max          = -2,
+		y_min          = -31000,
+	})
 end
 
 

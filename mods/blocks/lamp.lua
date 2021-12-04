@@ -87,7 +87,6 @@ blocks.register_mesepost("blocks:mese_post_light_aspen_wood", {
 })
 
 -- Semiprecious Lanterns
-
 minetest.register_node("blocks:amethyst_lantern", {
 	description = S("Amethyst Lantern"),
 	tiles = {"blocks_amethyst.png^blocks_mosaic_frame.png"},
@@ -109,7 +108,6 @@ minetest.register_node("blocks:garnet_lantern", {
 	sounds = default.node_sound_glass_defaults(),
 	light_source = 13,
 })
-
 --
 -- == CRAFTS
 --

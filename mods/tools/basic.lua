@@ -97,6 +97,21 @@ minetest.register_tool("tools:pick_diamond", {
 	groups = {pickaxe = 1}
 })
 
+minetest.register_tool("tools:pick_mithril", {
+	description = S("Mithril Pickaxe"),
+	inventory_image = "tools_mithrilpick.png",
+	tool_capabilities = {
+		full_punch_interval = 0.9,
+		max_drop_level=3,
+		groupcaps={
+			cracky = {times={[1]=2.5, [2]=1.3, [3]=0.7}, uses=300, maxlevel=3},
+		},
+		damage_groups = {fleshy=5},
+	},
+	sound = {breaks = "default_tool_breaks"},
+	groups = {pickaxe = 1}
+})
+
 --
 -- Shovels
 --
@@ -190,6 +205,22 @@ minetest.register_tool("tools:shovel_diamond", {
 		max_drop_level=1,
 		groupcaps={
 			crumbly = {times={[1]=1.10, [2]=0.50, [3]=0.30}, uses=30, maxlevel=3},
+		},
+		damage_groups = {fleshy=4},
+	},
+	sound = {breaks = "default_tool_breaks"},
+	groups = {shovel = 1}
+})
+
+minetest.register_tool("tools:shovel_mithril", {
+	description = S("Mithril Shovel"),
+	inventory_image = "tools_mithrilshovel.png",
+	wield_image = "tools_mithrilshovel.png^[transformR90",
+	tool_capabilities = {
+		full_punch_interval = 1.0,
+		max_drop_level=1,
+		groupcaps={
+			crumbly = {times={[1]=1.25, [2]=0.70, [3]=0.40}, uses=300, maxlevel=3},
 		},
 		damage_groups = {fleshy=4},
 	},
@@ -291,6 +322,22 @@ minetest.register_tool("tools:axe_diamond", {
 	groups = {axe = 1}
 })
 
+minetest.register_tool("tools:axe_mithril", {
+	description = S("Mithril Axe"),
+	inventory_image = "tools_mithrilaxe.png",
+	tool_capabilities = {
+		full_punch_interval = 0.9,
+		max_drop_level=1,
+		groupcaps={
+			choppy={times={[1]=2.25, [2]=1.10, [3]=0.70}, uses=300, maxlevel=3},
+		},
+		damage_groups = {fleshy=7},
+	},
+	sound = {breaks = "default_tool_breaks"},
+	groups = {axe = 1}
+})
+
+
 --
 -- Swords
 --
@@ -385,6 +432,21 @@ minetest.register_tool("tools:sword_diamond", {
 	groups = {sword = 1}
 })
 
+minetest.register_tool("tools:sword_mithril", {
+	description = S("Mithril Sword"),
+	inventory_image = "tools_mithrilsword.png",
+	tool_capabilities = {
+		full_punch_interval = 0.7,
+		max_drop_level=1,
+		groupcaps={
+			snappy={times={[1]=2.1, [2]=1.05, [3]=0.35}, uses=30, maxlevel=3},
+		},
+		damage_groups = {fleshy=7},
+	},
+	sound = {breaks = "default_tool_breaks"},
+	groups = {sword = 1}
+})
+
 --
 -- Register Craft Recipies
 --
@@ -395,7 +457,8 @@ local craft_ingreds = {
 	steel = "blocks:steel_ingot",
 	bronze = "blocks:bronze_ingot",
 	mese = "blocks:mese_crystal",
-	diamond = "blocks:diamond"
+	diamond = "blocks:diamond",
+	mithril = "blocks:mithril_ingot"
 }
 
 for name, mat in pairs(craft_ingreds) do

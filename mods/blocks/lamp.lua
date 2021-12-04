@@ -86,6 +86,30 @@ blocks.register_mesepost("blocks:mese_post_light_aspen_wood", {
 	material = "blocks:aspen_wood",
 })
 
+-- Semiprecious Lanterns
+
+minetest.register_node("blocks:amethyst_lantern", {
+	description = S("Amethyst Lantern"),
+	tiles = {"blocks_amethyst.png^blocks_mosaic_frame.png"},
+	paramtype = "light",
+	sunlight_propagates = true,
+	is_ground_content = false,
+	groups = {cracky = 3, oddly_breakable_by_hand = 1},
+	sounds = default.node_sound_glass_defaults(),
+	light_source = 13,
+})
+
+minetest.register_node("blocks:garnet_lantern", {
+	description = S("Garnet Lantern"),
+	tiles = {"blocks_garnet.png^blocks_mosaic_frame.png"},
+	paramtype = "light",
+	sunlight_propagates = true,
+	is_ground_content = false,
+	groups = {cracky = 3, oddly_breakable_by_hand = 1},
+	sounds = default.node_sound_glass_defaults(),
+	light_source = 13,
+})
+
 --
 -- == CRAFTS
 --
@@ -94,5 +118,23 @@ minetest.register_craft({
 	recipe = {
 		{"blocks:glass"},
 		{"blocks:mese_crystal"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:amethyst_lantern",
+	recipe = {
+		{"blocks:steel_ingot", "blocks:amethyst", "blocks:steel_ingot"},
+		{"blocks:amethyst", "blocks:torch", "blocks:amethyst"},
+		{"blocks:steel_ingot", "blocks:amethyst", "blocks:steel_ingot"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:garnet_lantern",
+	recipe = {
+		{"blocks:steel_ingot", "blocks:garnet", "blocks:steel_ingot"},
+		{"blocks:garnet", "blocks:torch", "blocks:garnet"},
+		{"blocks:steel_ingot", "blocks:garnet", "blocks:steel_ingot"},
 	}
 })

@@ -523,7 +523,6 @@ function mapgen.register_ores()
 			persist = 0.0
 		},
 	})
-	
 	-- Sheet ores
 	-- Amethyst
 	minetest.register_ore({
@@ -656,7 +655,6 @@ function mapgen.register_ores()
 			persist = 0.70
 		},
 	})
-	
 	-- Scatter ores
 	-- Coal
 	minetest.register_ore({

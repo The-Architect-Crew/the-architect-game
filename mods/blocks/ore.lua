@@ -196,8 +196,61 @@ minetest.register_node("blocks:diamondblock", {
 	sounds = default.node_sound_stone_defaults(),
 })
 
--- Amethyst
+-- Silver
+minetest.register_craftitem("blocks:silver_ingot", {
+	description = S("Silver Ingot"),
+	inventory_image = "blocks_silver_ingot.png"
+})
 
+minetest.register_craftitem("blocks:silver_lump", {
+	description = S("Silver Lump"),
+	inventory_image = "blocks_silver_lump.png"
+})
+
+minetest.register_node("blocks:stone_with_silver", {
+	description = S("Silver Ore"),
+	tiles = {"blocks_stone.png^blocks_mineral_silver.png"},
+	groups = {cracky = 2},
+	drop = "blocks:silver_lump",
+	sounds = default.node_sound_stone_defaults(),
+})
+
+minetest.register_node("blocks:silverblock", {
+	description = S("Silver Block"),
+	tiles = {"blocks_silver_block.png"},
+	is_ground_content = false,
+	groups = {cracky = 1},
+	sounds = default.node_sound_metal_defaults(),
+})
+
+-- Mithril
+minetest.register_craftitem("blocks:mithril_ingot", {
+	description = S("Mithril Ingot"),
+	inventory_image = "blocks_mithril_ingot.png"
+})
+
+minetest.register_craftitem("blocks:mithril_lump", {
+	description = S("Mithril Lump"),
+	inventory_image = "blocks_mithril_lump.png"
+})
+
+minetest.register_node("blocks:stone_with_mithril", {
+	description = S("Mithril Ore"),
+	tiles = {"blocks_stone.png^blocks_mineral_mithril.png"},
+	groups = {cracky = 1},
+	drop = "blocks:gold_lump",
+	sounds = default.node_sound_stone_defaults(),
+})
+
+minetest.register_node("blocks:mithrilblock", {
+	description = S("Mithril Block"),
+	tiles = {"blocks_mithril_block.png"},
+	is_ground_content = false,
+	groups = {cracky = 1, level = 3},
+	sounds = default.node_sound_metal_defaults(),
+})
+
+-- Amethyst
 minetest.register_node("blocks:stone_with_amethyst", {
 	description = S("Amethyst Ore"),
 	tiles = {"blocks_stone.png^blocks_mineral_amethyst.png"},
@@ -216,7 +269,7 @@ minetest.register_node("blocks:amethyst", {
 	drawtype = "allfaces",
 	tiles = {"blocks_amethyst.png"},
 	paramtype = "light",
-	use_texture_alpha = true,
+	use_texture_alpha = "blend",
 	is_ground_content = true,
 	sunlight_propagates = true,
 	groups = {cracky = 2},
@@ -224,7 +277,6 @@ minetest.register_node("blocks:amethyst", {
 })
 
 -- Garnet
-
 minetest.register_node("blocks:stone_with_garnet", {
 	description = S("Garnet Ore"),
 	tiles = {"blocks_stone.png^blocks_mineral_garnet.png"},
@@ -243,7 +295,7 @@ minetest.register_node("blocks:garnet", {
 	drawtype = "allfaces",
 	tiles = {"blocks_garnet.png"},
 	paramtype = "light",
-	use_texture_alpha = true,
+	use_texture_alpha = "blend",
 	is_ground_content = true,
 	sunlight_propagates = true,
 	groups = {cracky = 2},
@@ -251,7 +303,6 @@ minetest.register_node("blocks:garnet", {
 })
 
 -- Turquoise
-
 minetest.register_node("blocks:turquoise", {
 	description = S("Turquoise"),
 	tiles = {"blocks_turquoise.png"},
@@ -261,7 +312,6 @@ minetest.register_node("blocks:turquoise", {
 })
 
 -- Lapis Lazuli
-
 minetest.register_node("blocks:lapis_lazuli", {
 	description = S("Lapis Lazuli"),
 	tiles = {"blocks_lapis_lazuli.png"},
@@ -271,7 +321,6 @@ minetest.register_node("blocks:lapis_lazuli", {
 })
 
 -- Malachite
-
 minetest.register_node("blocks:malachite", {
 	description = S("Malachite"),
 	tiles = {"blocks_malachite.png"},
@@ -279,7 +328,6 @@ minetest.register_node("blocks:malachite", {
 	groups = {cracky = 2},
 	sounds = default.node_sound_stone_defaults(),
 })
-
 --
 -- == CRAFTS
 --

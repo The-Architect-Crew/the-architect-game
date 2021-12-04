@@ -1,83 +1,102 @@
 shapes = {}
 -- Cubic shapes
 local nodebox_list = {
-	-- description, name, nodebox, cost, sunlight_propagates
+	--[[
+	{ cost, name, description, nodebox, sunlight_propagates, backface_culling, align_style }
+	1. Cost (How many microblocks make up the block, 1 block = 8 microblocks)
+	2. Name (Shapename; <modname>:shapes_<nodename>_<shapename>
+	3. Description (Shape Description; <nodedesc> <shapedesc>
+	4. Nodebox
+	5. Sunlight Propagates (Optional) (Use defined, else use itemmeta, else true)
+	6. Backface Culling (Optional) (Use defined, else true)
+	7. Align Style (Optional) (Use defined, else "world")
+	--]]
 	-- Slabs
-	{ "Slab (1/16)", "slab1", {-0.5, -0.5, -0.5, 0.5, -0.4375, 0.5}, 1, true },
-	{ "Slab (2/16)", "slab2", {-0.5, -0.5, -0.5, 0.5, -0.375, 0.5}, 1, true },
-	{ "Slab (4/16)", "slab4", {-0.5, -0.5, -0.5, 0.5, -0.25, 0.5}, 2, true },
-	{ "Slab", "slab", {-0.5, -0.5, -0.5, 0.5, 0, 0.5}, 4, true },
-	{ "Slab (12/16)", "slab12",	{-0.5, -0.5, -0.5, 0.5, 0.25, 0.5}, 6, true },
+	{ 1, "slab1", 			"Slab (1/16)", {-0.5, -0.5, -0.5, 0.5, -0.4375, 0.5}, true },
+	{ 1, "slab2", 			"Slab (2/16)", {-0.5, -0.5, -0.5, 0.5, -0.375, 0.5}, true },
+	{ 2, "slab4", 			"Slab (4/16)", {-0.5, -0.5, -0.5, 0.5, -0.25, 0.5}, true },
+	{ 3, "slab", 			"Slab", {-0.5, -0.5, -0.5, 0.5, 0, 0.5}, true },
+	{ 6, "slab12", 			"Slab (12/16)", {-0.5, -0.5, -0.5, 0.5, 0.25, 0.5}, true },
 	-- Cubes
-	{ "Cube (1/16)", "cube1", {-0.5, -0.5, 0, 0, -0.4375, 0.5}, 1, true},
-	{ "Cube (2/16)", "cube2", {-0.5, -0.5, 0, 0, -0.375, 0.5}, 1, true},
-	{ "Cube (4/16)", "cube4", {-0.5, -0.5, 0, 0, -0.25, 0.5}, 1, true},
-	{ "Cube", "cube", {-0.5, -0.5, 0, 0, 0, 0.5}, 1, true},
-	{ "Cube (12/16)", "cube12", {-0.5, -0.5, 0, 0, 0.25, 0.5}, 2, true},
+	{ 1, "cube1", 			"Cube (1/16)", {-0.5, -0.5, 0, 0, -0.4375, 0.5}, true },
+	{ 1, "cube2", 			"Cube (2/16)", {-0.5, -0.5, 0, 0, -0.375, 0.5}, true },
+	{ 1, "cube4", 			"Cube (4/16)", {-0.5, -0.5, 0, 0, -0.25, 0.5}, true },
+	{ 1, "cube", 			"Cube", {-0.5, -0.5, 0, 0, 0, 0.5}, true },
+	{ 2, "cube12", 			"Cube (12/16)", {-0.5, -0.5, 0, 0, 0.25, 0.5}, true },
 	-- Steps
-	{ "Step (1/16)", "step1", {-0.5, -0.5, 0, 0.5, -0.4375, 0.5}, 1, true},
-	{ "Step (2/16)", "step2", {-0.5, -0.5, 0, 0.5, -0.375, 0.5}, 1, true},
-	{ "Step (4/16)", "step4", {-0.5, -0.5, 0, 0.5, -0.25, 0.5}, 1, true},
-	{ "Step", "step", {-0.5, -0.5, 0, 0.5, 0, 0.5}, 2, true},
-	{ "Step (12/16)", "step12", {-0.5, -0.5, 0, 0.5, 0.25, 0.5}, 3, true},
+	{ 1, "step1", 			"Step (1/16)", {-0.5, -0.5, 0, 0.5, -0.4375, 0.5}, true },
+	{ 1, "step2", 			"Step (2/16)", {-0.5, -0.5, 0, 0.5, -0.375, 0.5}, true },
+	{ 1, "step4", 			"Step (4/16)", {-0.5, -0.5, 0, 0.5, -0.25, 0.5}, true },
+	{ 2, "step",			"Step",	{-0.5, -0.5, 0, 0.5, 0, 0.5}, true },
+	{ 3, "step12", 			"Step (12/16", {-0.5, -0.5, 0, 0.5, 0.25, 0.5}, true },
 	-- Stairs
-	{ "Left Halfstair", "halfstair", {{-0.5, -0.5, -0.5, 0, 0, 0.5},{-0.5, 0, 0, 0, 0.5, 0.5}}, 3, true},
-	{ "Right Halfstair", "righthalfstair", {{0, -0.5, -0.5, 0.5, 0, 0.5},	{0, 0, 0, 0.5, 0.5, 0.5}}, 3, true},
-	{ "Outerstair", "outerstair", {{-0.5, -0.5, -0.5, 0.5, 0, 0.5},{-0.5, 0, 0, 0, 0.5, 0.5}}, 5, true},
-	{ "Stair", "stair", {{-0.5, -0.5, -0.5, 0.5, 0, 0.5},{-0.5, 0, 0, 0.5, 0.5, 0.5}}, 6, true},
-	{ "Innerstair", "innerstair", {{-0.5, -0.5, -0.5, 0.5, 0, 0.5},{-0.5, 0, 0, 0.5, 0.5, 0.5},{-0.5, 0, -0.5, 0, 0.5, 0}}, 7, false},
+	{ 3, "halfstair", 		"Left Halfstair", {{-0.5, -0.5, -0.5, 0, 0, 0.5}, {-0.5, 0, 0, 0, 0.5, 0.5}}, true },
+	{ 3, "righthalfstair",  "Right Halfstair", {{0, -0.5, -0.5, 0.5, 0, 0.5}, {0, 0, 0, 0.5, 0.5, 0.5}}, true },
+	{ 5, "outerstair", 		"Outerstair", {{-0.5, -0.5, -0.5, 0.5, 0, 0.5}, {-0.5, 0, 0, 0, 0.5, 0.5}}, true },
+	{ 6, "stair", 			"Stair", {{-0.5, -0.5, -0.5, 0.5, 0, 0.5}, {-0.5, 0, 0, 0.5, 0.5, 0.5}}, true }, 
+	{ 7, "innerstair", 		"Innerstair", {{-0.5, -0.5, -0.5, 0.5, 0, 0.5}, {-0.5, 0, 0, 0.5, 0.5, 0.5}, {-0.5, 0, -0.5, 0, 0.5, 0}}, false },
 	-- Split Stairs
-	{ "Splitstair (1/16)", "splitstair1", {{-0.5, -0.0625, -0.5, 0.5, 0, 0},	{-0.5, 0.4375, 0, 0.5, 0.5, 0.5}}, 1, true},
-	{ "Splitstair (4/16)", "splitstair4", {{-0.5, -0.25, -0.5, 0.5, 0, 0},	{-0.5, 0.25, 0, 0.5, 0.5, 0.5}}, 2, true},
-	{ "Splitstair", "splitstair", {{-0.5, -0.5, -0.5, 0.5, 0, 0},		{-0.5, 0, 0, 0.5, 0.5, 0.5}}, 4, true},
-	{ "Forkstair", "forkstair", {{-0.5, -0.5, 0, 0, 0.5, 0.5},{0, -0.5, 0, 0.5, 0, 0.5},{-0.5, -0.5, -0.5, 0, 0, 0}}, 4, true},
-	-- Pole/pillar
-	{ "Pole", "pole", {-1/8, -1/2, -1/8, 1/8, 1/2, 1/8}, 2, true},
-	{ "Pillar", "pillar", {-1/4, -1/2, -1/4, 1/4, 1/2, 1/4}, 4, true},
-	{ "Wall-Pillar", "wallpillar", {-1/4, -1/2, 0, 1/4, 1/2, 1/2}, 4, true},
-	{ "Half-Pillar", "halfpillar", {-1/4, -1/2, 1/2, 1/4, 1/2, 1/4}, 2, true},
-	--{ "Pillar Top", "pillartop", {{-0.25, -0.5, -0.25, 0.25, 0.5, 0.25},{-0.5, 0.25, -0.5, 0.5, 0.5, 0.5},{-0.375, 0, -0.375, 0.375, 0.5, 0.375},}, 6, true},
-	{ "Pillar Crown", "pillarcrown", {{-0.25, -0.5, -0.25, 0.25, 0.5, 0.25},{-0.5, -0.5, -0.5, 0.5, -0.25, 0.5},{-0.375, -0.5, -0.375, 0.375, 0, 0.375}}, 6, true},
-	--{ "Half-Pillar Top", "halfpillartop", {{-0.25, -0.5, 0.25, 0.25, 0.5, 0.5},{-0.5, 0.25, 0, 0.5, 0.5, 0.5},{-0.375, 0, 0.125, 0.375, 0.5, 0.5}}, 3, true},
-	{ "Half-Pillar Crown", "halfpillarcrown", {{-0.25, -0.5, 0.25, 0.25, 0.5, 0.5},{-0.5, -0.5, 0, 0.5, -0.25, 0.5},{-0.375, -0.5, 0.125, 0.375, 0, 0.5}}, 3, true},
-	{ "Wall-Pillar Crown", "wallpillarcrown", {{-0.25, -0.5, 0, 0.25, 0.5, 0.5},{-0.5, -0.5, -0.25, 0.5, -0.25, 0.5},{-0.375, -0.5, -0.125, 0.375, 0, 0.5}}, 5, true},
+	{ 1, "splitstair1", 	"Splitstair (1/16)", {{-0.5, -0.0625, -0.5, 0.5, 0, 0}, {-0.5, 0.4375, 0, 0.5, 0.5, 0.5}}, true },
+	{ 2, "splitstair4", 	"Splitstair (4/16)", {{-0.5, -0.25, -0.5, 0.5, 0, 0}, {-0.5, 0.25, 0, 0.5, 0.5, 0.5}}, true },
+	{ 4, "splitstair", 		"Splitstair", {{-0.5, -0.5, -0.5, 0.5, 0, 0}, {-0.5, 0, 0, 0.5, 0.5, 0.5}}, true },
+	{ 4, "forkstair", 		"Forkstair", {{-0.5, -0.5, 0, 0, 0.5, 0.5}, {0, -0.5, 0, 0.5, 0, 0.5}, {-0.5, -0.5, -0.5, 0, 0, 0}}, true },
+	-- Pole/ Pillar
+	{ 2, "pole", 			"Pole", {-1/8, -1/2, -1/8, 1/8, 1/2, 1/8}, true },
+	{ 4, "pillar", 			"Pillar", {-1/4, -1/2, -1/4, 1/4, 1/2, 1/4}, true },
+	{ 4, "wallpillar", 		"Wall-Pillar", {-1/4, -1/2, 0, 1/4, 1/2, 1/2}, true },
+	{ 2, "halfpillar", 		"Half-Pillar", {-1/4, -1/2, 1/2, 1/4, 1/2, 1/4}, true },
+	--{ 6, "pillartop", 		"Pillar Top", {{-0.25, -0.5, -0.25, 0.25, 0.5, 0.25}, {-0.5, 0.25, -0.5, 0.5, 0.5, 0.5}, {-0.375, 0, -0.375, 0.375, 0.5, 0.375}}, true },
+	{ 6, "pillarcrown", 	"Pillar Crown", {{-0.25, -0.5, -0.25, 0.25, 0.5, 0.25}, {-0.5, -0.5, -0.5, 0.5, -0.25, 0.5}, {-0.375, -0.5, -0.375, 0.375, 0, 0.375}}, true },
+	--{ 3, "halfpillartop", 	"Half-Pillar Top", {{-0.25, -0.5, 0.25, 0.25, 0.5, 0.5}, {-0.5, 0.25, 0, 0.5, 0.5, 0.5}, {-0.375, 0, 0.125, 0.375, 0.5, 0.5}}, true },
+	{ 3, "halfpillarcrown", "Half-Pillar Crown", {{-0.25, -0.5, 0.25, 0.25, 0.5, 0.5}, {-0.5, -0.5, 0, 0.5, -0.25, 0.5}, {-0.375, -0.5, 0.125, 0.375, 0, 0.5}}, true },
+	{ 5, "wallpillarcrown", "Wall-Pillar Crown", {{-0.25, -0.5, 0, 0.25, 0.5, 0.5}, {-0.5, -0.5, -0.25, 0.5, -0.25, 0.5}, {-0.375, -0.5, -0.125, 0.375, 0, 0.5}}, true },
 	-- Beams
-	{ "Crossbeam", "crossbeam", {{-0.25, -0.5, -0.5, 0.25, 0, 0.5}, {-0.5, -0.5, -0.25, 0.5, 0, 0.25},}, 4, true},
-	{ "Beam", "beam", {-0.25, -0.5, -0.5, 0.25, 0, 0.5}, 2, true},
-	{ "Linkdown", "linkdown", {{-0.25, 0, -0.5, 0.25, 0.5, 0.5},{-0.125, -0.5, -0.125, 0.125, 0, 0.125},{-0.1875, -0.5, -0.1875, 0.1875, -0.375, 0.1875}, {-0.1875, -0.125, -0.1875, 0.1875, 0, 0.1875}}, 4, true},
-	{ "Crosslink", "crosslink", {{-0.25, -0.5, -0.25, 0.25, 0.5, 0.25},{-0.5, -0.5, -0.25, 0.5, -0, 0.25},{-0.25, -0.5, -0.5, 0.25, -0, 0.5},{-0.4375, -0.4375, -0.4375, 0.4375, -0.0625, 0.4375}}, 7, true},
+	{ 2, "beam", 			"Beam", {-0.25, -0.5, -0.5, 0.25, 0, 0.5}, true },
+	{ 4, "crossbeam", 		"Crossbeam", {{-0.25, -0.5, -0.5, 0.25, 0, 0.5}, {-0.5, -0.5, -0.25, 0.5, 0, 0.25}}, true },
+	{ 4, "linkdown", 		"Linkdown", {{-0.25, 0, -0.5, 0.25, 0.5, 0.5}, {-0.125, -0.5, -0.125, 0.125, 0, 0.125}, {-0.1875, -0.5, -0.1875, 0.1875, -0.375, 0.1875}, {-0.1875, -0.125, -0.1875, 0.1875, 0, 0.1875}}, true },
+	{ 7, "crosslink", 		"Crosslink", {{-0.25, -0.5, -0.25, 0.25, 0.5, 0.25}, {-0.5, -0.5, -0.25, 0.5, -0, 0.25}, {-0.25, -0.5, -0.5, 0.25, -0, 0.5},{-0.4375, -0.4375, -0.4375, 0.4375, -0.0625, 0.4375}}, true },
 	-- Corners
-	{ "Corner (1/16)", "corner1", {{-0.5, -0.5, -0.5, 0, -0.4375, 0.5}, {0, -0.5, 0, 0.5, -0.4375, -0.5}}, 1, true},
-	{ "Corner (2/16)", "corner2", {{-0.5, -0.5, -0.5, 0, -0.375, 0.5}, {0, -0.5, 0, 0.5, -0.375, -0.5}}, 1, true},
-	{ "Corner (4/16)", "corner4", {{-0.5, -0.5, -0.5, 0, -0.25, 0.5}, {0, -0.5, 0, 0.5, -0.25, -0.5}}, 2, true},
-	{ "Corner", "corner", {{-0.5, -0.5, -0.5, 0, 0, 0.5}, {0, -0.5, 0, 0.5, 0, -0.5}}, 3, true},
-	{ "Corner (12/16)", "corner12", {{-0.5, -0.5, -0.5, 0, 0.25, 0.5}, {0, -0.5, 0, 0.5, 0.25, -0.5}}, 5, true},
+	{ 1, "corner1", 		"Corner (1/16)", {{-0.5, -0.5, -0.5, 0, -0.4375, 0.5}, {0, -0.5, 0, 0.5, -0.4375, -0.5}}, true },
+	{ 1, "corner2", 		"Corner (2/16)", {{-0.5, -0.5, -0.5, 0, -0.375, 0.5}, {0, -0.5, 0, 0.5, -0.375, -0.5}}, true },
+	{ 2, "corner4", 		"Corner (4/16)", {{-0.5, -0.5, -0.5, 0, -0.25, 0.5}, {0, -0.5, 0, 0.5, -0.25, -0.5}}, true },
+	{ 3, "corner", 			"Corner", {{-0.5, -0.5, -0.5, 0, 0, 0.5}, {0, -0.5, 0, 0.5, 0, -0.5}}, true },
+	{ 5, "corner12", 		"Corner (12/16)", {{-0.5, -0.5, -0.5, 0, 0.25, 0.5}, {0, -0.5, 0, 0.5, 0.25, -0.5}}, true },
 }
 
 -- Model-based shapes
 local model_list = {
-	{ "Sphere", "sphere", "shapes_sphere.obj", 7, {{-0.5, -0.5, -0.5, 0.5, 0.5, 0.5}}},
+	--[[
+	{ cost, name, description, model, collision_box, selection_box, sunlight_propagates, backface_culling, align_style }
+	1. Cost (How many microblocks make up the block, 1 block = 8 microblocks)
+	2. Name (Shapename; <modname>:shapes_<nodename>_<shapename>
+	3. Description (Shape Description; <nodedesc> <shapedesc>
+	4. Model (Modelfile)
+	5. Collision Box
+	6. Selection Box (Optional) (Use defined, else use collision box)
+	7. Sunlight Propagates (Optional) (Use defined, else use itemmeta, else true)
+	--]]
+	{ 7, "sphere", 			"Sphere", "shapes_sphere.obj", {{-0.5, -0.5, -0.5, 0.5, 0.5, 0.5}}, nil, true },
 	-- Slopes
-	{ "Slope", "slope", "shapes_slope.obj", 4, {{-0.5, -0.5, -0.5, 0.5, -0.25, 0.5}, {-0.5, -0.25, -0.25, 0.5, 0, 0.5}, {-0.5, 0, 0, 0.5, 0.25, 0.5}, {-0.5, 0.25, 0.25, 0.5, 0.5, 0.5}}},
-	{ "Slope (1/2)", "slope2", "shapes_slope_half.obj", 2, {{-0.5, -0.5, -0.5, 0.5, -0.375, 0.5}, {-0.5, -0.375, -0.25, 0.5, -0.25, 0.5}, {-0.5, -0.25, 0, 0.5, -0.125, 0.5}, {-0.5, -0.125, 0.25, 0.5, 0, 0.5}}},
-	{ "Slope (3/4)", "slope3", "shapes_slope_half_raised.obj", 4, {{-0.5, -0.5, -0.5, 0.5, 0.125, 0.5}, {-0.5, 0.125, -0.25, 0.5, 0.25, 0.5}, {-0.5, 0.25, 0, 0.5, 0.375, 0.5}, {-0.5, 0.375, 0.25, 0.5, 0.5, 0.5}}},
+	{ 4, "slope", 			"Slope", "shapes_slope.obj", {{-0.5, -0.5, -0.5, 0.5, -0.25, 0.5}, {-0.5, -0.25, -0.25, 0.5, 0, 0.5}, {-0.5, 0, 0, 0.5, 0.25, 0.5}, {-0.5, 0.25, 0.25, 0.5, 0.5, 0.5}}, nil, true },
+	{ 2, "slope2", 			"Slope (1/2)", "shapes_slope_half.obj", {{-0.5, -0.5, -0.5, 0.5, -0.375, 0.5}, {-0.5, -0.375, -0.25, 0.5, -0.25, 0.5}, {-0.5, -0.25, 0, 0.5, -0.125, 0.5}, {-0.5, -0.125, 0.25, 0.5, 0, 0.5}}, nil, true },
+	{ 4, "slope3", 			"Slope (3/4)", "shapes_slope_half_raised.obj", {{-0.5, -0.5, -0.5, 0.5, 0.125, 0.5}, {-0.5, 0.125, -0.25, 0.5, 0.25, 0.5}, {-0.5, 0.25, 0, 0.5, 0.375, 0.5}, {-0.5, 0.375, 0.25, 0.5, 0.5, 0.5}}, nil, true },
 	-- Innerslopes
-	{ "Innerslope", "innerslope", "shapes_slope_inner.obj", 4, {{-0.5, -0.5, -0.5, 0.5, -0.25, 0.5}, {-0.5, -0.5, -0.25, 0.5, 0, 0.5}, {-0.5, -0.5, -0.5, 0.25, 0, 0.5}, {-0.5, 0, -0.5, 0, 0.25, 0.5}, {-0.5, 0, 0, 0.5, 0.25, 0.5}, {-0.5, 0.25, 0.25, 0.5, 0.5, 0.5}, {-0.5, 0.25, -0.5, -0.25, 0.5, 0.5}}},
-	{ "Innerslope (1/2)", "innerslope2", "shapes_slope_inner_half.obj", 2, {{-0.5, -0.5, -0.5, 0.5, -0.375, 0.5}, {-0.5, -0.375, -0.25, 0.5, -0.25, 0.5}, {-0.5, -0.375, -0.5, 0.25, -0.25, 0.5}, {-0.5, -0.25, -0.5, 0, -0.125, 0.5}, {-0.5, -0.25, 0, 0.5, -0.125, 0.5}, {-0.5, -0.125, 0.25, 0.5, 0, 0.5}, {-0.5, -0.125, -0.5, -0.25, 0, 0.5}}},
-	{ "Innerslope (3/4)", "innerslope3", "shapes_slope_inner_half_raised.obj", 4, {{-0.5, -0.5, -0.5, 0.5, 0.125, 0.5}, {-0.5, 0.125, -0.25, 0.5, 0.25, 0.5}, {-0.5, 0.125, -0.5, 0.25, 0.25, 0.5}, {-0.5, 0.25, -0.5, 0, 0.375, 0.5}, {-0.5, 0.25, 0, 0.5, 0.375, 0.5}, {-0.5, 0.375, 0.25, 0.5, 0.5, 0.5}, {-0.5, 0.375, -0.5, -0.25, 0.5, 0.5}}},
+	{ 4, "innerslope", 		"Innerslope", "shapes_slope_inner.obj", {{-0.5, -0.5, -0.5, 0.5, -0.25, 0.5}, {-0.5, -0.5, -0.25, 0.5, 0, 0.5}, {-0.5, -0.5, -0.5, 0.25, 0, 0.5}, {-0.5, 0, -0.5, 0, 0.25, 0.5}, {-0.5, 0, 0, 0.5, 0.25, 0.5}, {-0.5, 0.25, 0.25, 0.5, 0.5, 0.5}, {-0.5, 0.25, -0.5, -0.25, 0.5, 0.5}}, nil, true },
+	{ 2, "innerslope2", 	"Innerslope (1/2)", "shapes_slope_inner_half.obj", {{-0.5, -0.5, -0.5, 0.5, -0.375, 0.5}, {-0.5, -0.375, -0.25, 0.5, -0.25, 0.5}, {-0.5, -0.375, -0.5, 0.25, -0.25, 0.5}, {-0.5, -0.25, -0.5, 0, -0.125, 0.5}, {-0.5, -0.25, 0, 0.5, -0.125, 0.5}, {-0.5, -0.125, 0.25, 0.5, 0, 0.5}, {-0.5, -0.125, -0.5, -0.25, 0, 0.5}}, nil, true },
+	{ 4, "innerslope3", 	"Innerslope (3/4)", "shapes_slope_inner_half_raised.obj", {{-0.5, -0.5, -0.5, 0.5, 0.125, 0.5}, {-0.5, 0.125, -0.25, 0.5, 0.25, 0.5}, {-0.5, 0.125, -0.5, 0.25, 0.25, 0.5}, {-0.5, 0.25, -0.5, 0, 0.375, 0.5}, {-0.5, 0.25, 0, 0.5, 0.375, 0.5}, {-0.5, 0.375, 0.25, 0.5, 0.5, 0.5}, {-0.5, 0.375, -0.5, -0.25, 0.5, 0.5}}, nil, true },
 	-- Cut innerslopes
-	{ "Cut Innerslope", "cutinnerslope", "shapes_slope_inner_cut.obj", 4, {{-0.5, -0.5, -0.5, 0.5, -0.25, 0.5}, {-0.5, -0.5, -0.25, 0.5, 0, 0.5}, {-0.5, -0.5, -0.5, 0.25, 0, 0.5}, {-0.5, 0, -0.5, 0, 0.25, 0.5}, {-0.5, 0, 0, 0.5, 0.25, 0.5}, {-0.5, 0.25, 0.25, 0.5, 0.5, 0.5}, {-0.5, 0.25, -0.5, -0.25, 0.5, 0.5}}},
-	{ "Cut Innerslope (1/2)", "cutinnerslope2", "shapes_slope_inner_cut_half.obj", 2, {{-0.5, -0.5, -0.5, 0.5, -0.375, 0.5}, {-0.5, -0.375, -0.25, 0.5, -0.25, 0.5}, {-0.5, -0.375, -0.5, 0.25, -0.25, 0.5}, {-0.5, -0.25, -0.5, 0, -0.125, 0.5}, {-0.5, -0.25, 0, 0.5, -0.125, 0.5}, {-0.5, -0.125, 0.25, 0.5, 0, 0.5}, {-0.5, -0.125, -0.5, -0.25, 0, 0.5}}},
-	{ "Cut Innerslope (3/4)", "cutinnerslope3", "shapes_slope_inner_cut_half_raised.obj", 4, {{-0.5, -0.5, -0.5, 0.5, 0.125, 0.5}, {-0.5, 0.125, -0.25, 0.5, 0.25, 0.5}, {-0.5, 0.125, -0.5, 0.25, 0.25, 0.5}, {-0.5, 0.25, -0.5, 0, 0.375, 0.5}, {-0.5, 0.25, 0, 0.5, 0.375, 0.5}, {-0.5, 0.375, 0.25, 0.5, 0.5, 0.5}, {-0.5, 0.375, -0.5, -0.25, 0.5, 0.5}}},
+	{ 4, "cutinnerslope", 	"Cut Innerslope", "shapes_slope_inner_cut.obj", {{-0.5, -0.5, -0.5, 0.5, -0.25, 0.5}, {-0.5, -0.5, -0.25, 0.5, 0, 0.5}, {-0.5, -0.5, -0.5, 0.25, 0, 0.5}, {-0.5, 0, -0.5, 0, 0.25, 0.5}, {-0.5, 0, 0, 0.5, 0.25, 0.5}, {-0.5, 0.25, 0.25, 0.5, 0.5, 0.5}, {-0.5, 0.25, -0.5, -0.25, 0.5, 0.5}}, nil, true },
+	{ 2, "cutinnerslope2", 	"Cut Innerslope (1/2)", "shapes_slope_inner_cut_half.obj", {{-0.5, -0.5, -0.5, 0.5, -0.375, 0.5}, {-0.5, -0.375, -0.25, 0.5, -0.25, 0.5}, {-0.5, -0.375, -0.5, 0.25, -0.25, 0.5}, {-0.5, -0.25, -0.5, 0, -0.125, 0.5}, {-0.5, -0.25, 0, 0.5, -0.125, 0.5}, {-0.5, -0.125, 0.25, 0.5, 0, 0.5}, {-0.5, -0.125, -0.5, -0.25, 0, 0.5}}, nil, true },
+	{ 4, "cutinnerslope3", 	"Cut Innerslope (3/4)", "shapes_slope_inner_cut_half_raised.obj", {{-0.5, -0.5, -0.5, 0.5, 0.125, 0.5}, {-0.5, 0.125, -0.25, 0.5, 0.25, 0.5}, {-0.5, 0.125, -0.5, 0.25, 0.25, 0.5}, {-0.5, 0.25, -0.5, 0, 0.375, 0.5}, {-0.5, 0.25, 0, 0.5, 0.375, 0.5}, {-0.5, 0.375, 0.25, 0.5, 0.5, 0.5}, {-0.5, 0.375, -0.5, -0.25, 0.5, 0.5}}, nil, true },
 	-- Outerslopes
-	{ "Outerslope", "outerslope", "shapes_slope_outer.obj", 4, {{-0.5, -0.5, -0.5, 0.5, -0.25, 0.5}, {-0.5, -0.25, -0.25, 0.25, 0, 0.5}, {-0.5, 0, 0, 0, 0.25, 0.5}, {-0.5, 0.25, 0.25, -0.25, 0.5, 0.5}}},
-	{ "Outerslope (1/2)", "outerslope2", "shapes_slope_outer_half.obj", 2, {{-0.5, -0.5, -0.5, 0.5, -0.375, 0.5}, {-0.5, -0.375, -0.25, 0.25, -0.25, 0.5}, {-0.5, -0.25, 0, 0, -0.125, 0.5}, {-0.5, -0.125, 0.25, -0.25, 0, 0.5}}},
-	{ "Outerslope (3/4)", "outerslope3", "shapes_slope_outer_half_raised.obj", 4, {{-0.5, -0.5, -0.5, 0.5, 0.125, 0.5}, {-0.5, 0.125, -0.25, 0.25, 0.25, 0.5}, {-0.5, 0.25, 0, 0, 0.375, 0.5}, {-0.5, 0.375, 0.25, -0.25, 0.5, 0.5}}},
+	{ 4, "outerslope", 		"Outerslope", "shapes_slope_outer.obj", {{-0.5, -0.5, -0.5, 0.5, -0.25, 0.5}, {-0.5, -0.25, -0.25, 0.25, 0, 0.5}, {-0.5, 0, 0, 0, 0.25, 0.5}, {-0.5, 0.25, 0.25, -0.25, 0.5, 0.5}}, nil, true },
+	{ 2, "outerslope2", 	"Outerslope (1/2)", "shapes_slope_outer_half.obj", {{-0.5, -0.5, -0.5, 0.5, -0.375, 0.5}, {-0.5, -0.375, -0.25, 0.25, -0.25, 0.5}, {-0.5, -0.25, 0, 0, -0.125, 0.5}, {-0.5, -0.125, 0.25, -0.25, 0, 0.5}}, nil, true },
+	{ 4, "outerslope3", 	"Outerslope (3/4)", "shapes_slope_outer_half_raised.obj", {{-0.5, -0.5, -0.5, 0.5, 0.125, 0.5}, {-0.5, 0.125, -0.25, 0.25, 0.25, 0.5}, {-0.5, 0.25, 0, 0, 0.375, 0.5}, {-0.5, 0.375, 0.25, -0.25, 0.5, 0.5}}, nil, true },
 	-- Cut outerslopes
-	{ "Cut Outerslope", "cutouterslope", "shapes_slope_outer_cut.obj", 4, {{-0.5, -0.5, -0.5, 0.5, -0.25, 0.5}, {-0.5, -0.25, -0.25, 0.25, 0, 0.5}, {-0.5, 0, 0, 0, 0.25, 0.5}, {-0.5, 0.25, 0.25, -0.25, 0.5, 0.5}}},
-	{ "Cut Outerslope (1/2)", "cutouterslope2", "shapes_slope_outer_cut_half.obj", 2, {{-0.5, -0.5, -0.5, 0.5, -0.375, 0.5}, {-0.5, -0.375, -0.25, 0.25, -0.25, 0.5}, {-0.5, -0.25, 0, 0, -0.125, 0.5}, {-0.5, -0.125, 0.25, -0.25, 0, 0.5}}},
-	{ "Cut Outerslope (3/4)", "cutouterslope3", "shapes_slope_outer_cut_half_raised.obj", 4, {{-0.5, -0.5, -0.5, 0.5, 0.125, 0.5}, {-0.5, 0.125, -0.25, 0.25, 0.25, 0.5}, {-0.5, 0.25, 0, 0, 0.375, 0.5}, {-0.5, 0.375, 0.25, -0.25, 0.5, 0.5}}},
-	{ "Cut Outerslope (4/2)", "cutotherslope4", "shapes_slope_cut.obj", 4, {{-0.5, -0.5, -0.5, 0.5, -0.25, 0.5}, {-0.5, -0.25, -0.25, 0.25, 0, 0.5}, {-0.5, 0, 0, 0, 0.25, 0.5}, {-0.5, 0.25, 0.25, -0.25, 0.5, 0.5}}},
+	{ 4, "cutouterslope", 	"Cut Outerslope", "shapes_slope_outer_cut.obj", {{-0.5, -0.5, -0.5, 0.5, -0.25, 0.5}, {-0.5, -0.25, -0.25, 0.25, 0, 0.5}, {-0.5, 0, 0, 0, 0.25, 0.5}, {-0.5, 0.25, 0.25, -0.25, 0.5, 0.5}}, nil, true },
+	{ 2, "cutouterslope2", 	"Cut Outerslope (1/2)", "shapes_slope_outer_cut_half.obj", {{-0.5, -0.5, -0.5, 0.5, -0.375, 0.5}, {-0.5, -0.375, -0.25, 0.25, -0.25, 0.5}, {-0.5, -0.25, 0, 0, -0.125, 0.5}, {-0.5, -0.125, 0.25, -0.25, 0, 0.5}}, nil, true },
+	{ 4, "cutouterslope3", 	"Cut Outerslope (3/4)", "shapes_slope_outer_cut_half_raised.obj", {{-0.5, -0.5, -0.5, 0.5, 0.125, 0.5}, {-0.5, 0.125, -0.25, 0.25, 0.25, 0.5}, {-0.5, 0.25, 0, 0, 0.375, 0.5}, {-0.5, 0.375, 0.25, -0.25, 0.5, 0.5}}, nil, true },
+	{ 4, "cutotherslope4", 	"Cut Outerslope (4/2)", "shapes_slope_cut.obj", {{-0.5, -0.5, -0.5, 0.5, -0.25, 0.5}, {-0.5, -0.25, -0.25, 0.25, 0, 0.5}, {-0.5, 0, 0, 0, 0.25, 0.5}, {-0.5, 0.25, 0.25, -0.25, 0.5, 0.5}}, nil, true },
 }
 
 shapes.rotate_node = function(itemstack, placer, pointed_thing)
@@ -89,6 +108,7 @@ shapes.rotate_node = function(itemstack, placer, pointed_thing)
 	return itemstack
 end
 
+-- return true if shape is not disabled (exception: spheres)
 local is_disabled = function(disabled, name)
 	local disabled2 = ", "..disabled..", "
 	local output = string.find(disabled2, ", "..name..", ")
@@ -199,26 +219,38 @@ function shapes:register_shapes(name, def)
 	local stexture = def.texture or itemmeta.tiles[1]
 	-- Registering nodebox shapes
 	for i in ipairs(nodebox_list) do
-		local tdesc = nodebox_list[i][1]
+		local tcraf = nodebox_list[i][1]
 		local tname = nodebox_list[i][2]
-		local tnobo = nodebox_list[i][3]
-		local tcraf = nodebox_list[i][4]
-		local tsunl = nodebox_list[i][5]
-		if itemmeta.sunlight_propagates == true then
-			tsunl = true
-		end
+		local tdesc = nodebox_list[i][3]
+		local tnobo = nodebox_list[i][4]
+		local tsunl = def[tname.."_sunlight_propagates"] or nodebox_list[i][5] or itemmeta.sunlight_propagates or true
+		local tbfcg = def[tname.."_backface_culling"] or def.backface_culling or nodebox_list[i][6] or true
+		local tagst = def[tname.."_align_style"] or def.align_style or nodebox_list[i][7] or "world"
 		if is_disabled(disabled, tname) then
+			-- align style and backface_culling
+			local shape_images = {}
+			local images = def[tname.."_tiles"] or def.global_tiles or itemmeta.tiles
+			for i, image in ipairs(images) do
+				if type(image) == "string" then
+					shape_images[i] = {
+						name = image,
+						backface_culling = tbfcg,
+						align_style = tagst,
+					}
+				end
+			end
+			-- shapes nodebox registeration
 			minetest.register_node(":"..mname..":shapes_"..sname.."_"..tname, {
 				description = def[tname.."_description"] or itemmeta.description.." "..tdesc,
 				drawtype = "nodebox",
 				groups = r_group,
-				tiles = def[tname.."_tiles"] or def.global_tiles or itemmeta.tiles,
+				tiles = shape_images,
 				paramtype = "light",
 				paramtype2 = "facedir",
-				sunlight_propagates = def[tname.."_sunlight_propagates"] or tsunl,
+				sunlight_propagates = tsunl,
 				use_texture_alpha = itemmeta.use_texture_alpha,
 				drop = def[tname.."_drop"] or def.drop,
-				light_source = def[tname.."_light_source"] or itemmeta.light_source,
+				light_source = def[tname.."_light_source"] or def.light_source or itemmeta.light_source,
 				sounds = itemmeta.sounds,
 				node_box = {
 					type = "fixed",
@@ -232,22 +264,20 @@ function shapes:register_shapes(name, def)
 					recipe = {{mname..':shapes_'..sname..'_'..tname}}
 				})
 			end
-			minetest.register_craft({
-				output = mname..':shapes_'..sname..'_righthalfstair',
-				recipe = {{mname..':shapes_'..sname..'_halfstair'}}
-			})
 		end
 	end
 	-- Registering model-based shapes
 	for i in ipairs(model_list) do
-		local tdesc = model_list[i][1]
+		local tcraf = model_list[i][1]
 		local tname = model_list[i][2]
-		local tmodl = model_list[i][3]
-		local tcraf = model_list[i][4]
+		local tdesc = model_list[i][3]
+		local tmodl = model_list[i][4]
 		local tcoll = model_list[i][5]
 		local tsele = model_list[i][6] or tcoll
-		local tsunl = model_list[i][7]
+		local tsunl = def[tname.."_sunlight_propagates"] or model_list[i][7] or itemmeta.sunlight_propagates or true
+		
 		if is_disabled(disabled, tname) then
+			-- shapes models registeration
 			minetest.register_node(":"..mname..":shapes_"..sname.."_"..tname, {
 				description = def[tname.."_description"] or itemmeta.description.." "..tdesc,
 				drawtype = "mesh",
@@ -256,10 +286,10 @@ function shapes:register_shapes(name, def)
 				tiles = def[tname.."_tiles"] or def.global_tiles or itemmeta.tiles,
 				paramtype = "light",
 				paramtype2 = "facedir",
-				sunlight_propagates = def[tname.."_sunlight_propagates"] or tsunl,
+				sunlight_propagates = tsunl,
 				use_texture_alpha = itemmeta.use_texture_alpha,
 				drop = def[tname.."_drop"] or def.drop,
-				light_source = def[tname.."_light_source"] or itemmeta.light_source,
+				light_source = def[tname.."_light_source"] or def.light_source or itemmeta.light_source,
 				sounds = itemmeta.sounds,
 				collision_box = {
 					type = "fixed",
@@ -302,7 +332,7 @@ function shapes:register_shapes(name, def)
 			sunlight_propagates = def.fence_sunlight_propagates or true,
 			use_texture_alpha = itemmeta.use_texture_alpha,
 			drop = def.fence_drop or def.drop,
-			light_source = def.fence_light_source or itemmeta.light_source,
+			light_source = def.fence_light_source or def.light_source or itemmeta.light_source,
 			sounds = itemmeta.sounds,
 			node_box = {
 				type = "connected",
@@ -334,6 +364,7 @@ function shapes:register_shapes(name, def)
 			output = mname..':shapes_'..sname..'_cube 2',
 			recipe = {{mname..':shapes_'..sname..'_fence'}}
 		})
+		-- Fencerail
 		minetest.register_node(":"..mname..":shapes_"..sname.."_fencerail", {
 			description = def.fencerail_description or itemmeta.description.." Fencerail",
 			drawtype = "nodebox",
@@ -345,7 +376,7 @@ function shapes:register_shapes(name, def)
 			sunlight_propagates = def.fencerail_sunlight_propagates or true,
 			use_texture_alpha = itemmeta.use_texture_alpha,
 			drop = def.fencerail_drop or def.drop,
-			light_source = def.fencerail_light_source or itemmeta.light_source,
+			light_source = def.fencerail_light_source or def.light_source or itemmeta.light_source,
 			sounds = itemmeta.sounds,
 			node_box = {
 				type = "connected",
@@ -401,7 +432,7 @@ function shapes:register_shapes(name, def)
 			sunlight_propagates = def.wall_sunlight_propagates or true,
 			use_texture_alpha = itemmeta.use_texture_alpha,
 			drop = def.wall_drop or def.drop,
-			light_source = def.wall_light_source or itemmeta.light_source,
+			light_source = def.wall_light_source or def.light_source or itemmeta.light_source,
 			sounds = itemmeta.sounds,
 			node_box = {
 				type = "connected",
@@ -447,7 +478,7 @@ function shapes:register_shapes(name, def)
 			sunlight_propagates = def.pane_flat_sunlight_propagates or def.pane_sunlight_propagates or true,
 			use_texture_alpha = itemmeta.use_texture_alpha,
 			drop = def.pane_flat_drop or def.pane_drop or def.drop,
-			light_source = def.pane_flat_light_source or def.pane_light_source or itemmeta.light_source,
+			light_source = def.pane_flat_light_source or def.pane_light_source or def.light_source or itemmeta.light_source,
 			sounds = itemmeta.sounds,
 			node_box = {
 				type = "fixed",
@@ -464,7 +495,7 @@ function shapes:register_shapes(name, def)
 			sunlight_propagates = def.pane_sunlight_propagates or true,
 			use_texture_alpha = itemmeta.use_texture_alpha,
 			drop = mname..":shapes_"..sname.."_pane_flat",
-			light_source = def.pane_light_source or itemmeta.light_source,
+			light_source = def.pane_light_source or def.light_source or itemmeta.light_source,
 			sounds = itemmeta.sounds,
 			node_box = {
 				type = "connected",
@@ -479,6 +510,14 @@ function shapes:register_shapes(name, def)
 		minetest.register_craft({
 			output = mname..':shapes_'..sname..'_cube',
 			recipe = {{mname..':shapes_'..sname..'_pane_flat'}}
+		})
+	end
+	
+	-- Additional recipes
+	if is_disabled(disabled, "halfstair") and is_disabled(disabled, "righthalfstair") then
+		minetest.register_craft({
+			output = mname..':shapes_'..sname..'_righthalfstair',
+			recipe = {{mname..':shapes_'..sname..'_halfstair'}}
 		})
 	end
 end

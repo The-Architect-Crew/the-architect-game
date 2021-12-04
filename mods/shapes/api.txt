@@ -23,7 +23,12 @@ shapes:register_shapes("<modname>:<nodename>", {
 	groups = {groups}								-- not_in_creative_inventory in applied by default
 	<shape>_drop = <dropname>,						-- Priority over drop
 	drop = <dropname>,
-	<shape>_light_source = <integer>,
+	<shape>_light_source = <integer>,				-- Priority over light_source
+	light_source = <integer>,
+	<shape>_backface_culling = <boolean>,			-- Priority over backface_culling (Not applicable for meshnodes/pane/fence/wall)
+	backface_culling = <boolean>,					-- Not applicable for meshnodes/pane/fence/wall
+	<shape>_align_style = "style",					-- Priority over align_style (Not applicable for meshnodes/pane/fence/wall)
+	backface_culling = "style",						-- Not applicable for meshnodes/pane/fence/wall
 })
 
 List of Shapes

@@ -33,7 +33,7 @@ local nodebox_list = {
 	{ 3, "halfstair", 		"Left Halfstair", {{-0.5, -0.5, -0.5, 0, 0, 0.5}, {-0.5, 0, 0, 0, 0.5, 0.5}}, true },
 	{ 3, "righthalfstair",  "Right Halfstair", {{0, -0.5, -0.5, 0.5, 0, 0.5}, {0, 0, 0, 0.5, 0.5, 0.5}}, true },
 	{ 5, "outerstair", 		"Outerstair", {{-0.5, -0.5, -0.5, 0.5, 0, 0.5}, {-0.5, 0, 0, 0, 0.5, 0.5}}, true },
-	{ 6, "stair", 			"Stair", {{-0.5, -0.5, -0.5, 0.5, 0, 0.5}, {-0.5, 0, 0, 0.5, 0.5, 0.5}}, true }, 
+	{ 6, "stair", 			"Stair", {{-0.5, -0.5, -0.5, 0.5, 0, 0.5}, {-0.5, 0, 0, 0.5, 0.5, 0.5}}, true },
 	{ 7, "innerstair", 		"Innerstair", {{-0.5, -0.5, -0.5, 0.5, 0, 0.5}, {-0.5, 0, 0, 0.5, 0.5, 0.5}, {-0.5, 0, -0.5, 0, 0.5, 0}}, false },
 	-- Split Stairs
 	{ 1, "splitstair1", 	"Splitstair (1/16)", {{-0.5, -0.0625, -0.5, 0.5, 0, 0}, {-0.5, 0.4375, 0, 0.5, 0.5, 0.5}}, true },
@@ -230,9 +230,9 @@ function shapes:register_shapes(name, def)
 			-- align style and backface_culling
 			local shape_images = {}
 			local images = def[tname.."_tiles"] or def.global_tiles or itemmeta.tiles
-			for i, image in ipairs(images) do
+			for i2, image in ipairs(images) do
 				if type(image) == "string" then
-					shape_images[i] = {
+					shape_images[i2] = {
 						name = image,
 						backface_culling = tbfcg,
 						align_style = tagst,
@@ -275,7 +275,6 @@ function shapes:register_shapes(name, def)
 		local tcoll = model_list[i][5]
 		local tsele = model_list[i][6] or tcoll
 		local tsunl = def[tname.."_sunlight_propagates"] or model_list[i][7] or itemmeta.sunlight_propagates or true
-		
 		if is_disabled(disabled, tname) then
 			-- shapes models registeration
 			minetest.register_node(":"..mname..":shapes_"..sname.."_"..tname, {
@@ -512,7 +511,6 @@ function shapes:register_shapes(name, def)
 			recipe = {{mname..':shapes_'..sname..'_pane_flat'}}
 		})
 	end
-	
 	-- Additional recipes
 	if is_disabled(disabled, "halfstair") and is_disabled(disabled, "righthalfstair") then
 		minetest.register_craft({

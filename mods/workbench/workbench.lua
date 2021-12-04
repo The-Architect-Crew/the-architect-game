@@ -10,7 +10,8 @@ dofile(path.."/tabs/furnace.lua")
 
 minetest.register_craftitem("workbench:nil", {
 	description = "Not Available",
-	inventory_image = "workbench_nil.png",
+	inventory_image = "gui_cross.png",
+	groups = {not_in_creative_inventory = 1},
 })
 
 function workbench.detect(pos, savename)

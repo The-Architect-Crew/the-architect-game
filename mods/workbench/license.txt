@@ -14,6 +14,3 @@ furnace.lua (Modified from mtg furnace)
 Authors of media files
 -----------------------
 General License: neinwhal (CC-BY-SA 3.0)
-
-Gambit [PixelBOX] (WTFPL)
-	workbench_furnace_fire_*

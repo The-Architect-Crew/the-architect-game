@@ -5,9 +5,9 @@ function wb_craft.formspec(pos, locked)
 	local craft_result = meta:get_string("craft_result")
 	return workbench.tabs(pos, locked)..
 		"list[context;craft_grid;2.9,1.025;4,4;]"..
-		"style[wbtab_craft_result;border=false;bgimg=workbench_bg.png;bgimg_hovered=workbench_bg_hover.png]"..
+		"style[wbtab_craft_result;border=false;bgimg=gui_bg.png;bgimg_hovered=gui_bg_hover.png]"..
 		"item_image_button[9.15,2.9;1,1;"..craft_result..";wbtab_craft_result;]"..
-		"image[8,3;0.8,0.8;workbench_arrow.png^[transformFYR90]"..
+		"image[8,3;0.8,0.8;gui_arrow.png^[transformFYR90]"..
 		"listring[current_player;main]"..
 		"listring[context;craft_grid]"
 end

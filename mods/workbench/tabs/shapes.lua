@@ -136,27 +136,27 @@ local function fuel_icons(pos)
 		return ""
 	elseif tab == 2 then
 		if workbench.check_active(pos, "station_shapes_complex", "tablesaw") then
-			return "animated_image[0.4,5.4;1,1;wadawname;workbench_furnace_fire_animated.png;8;500;1]"
+			return "animated_image[0.4,5.4;1,1;;gui_fire_animated.png;8;500;1]"
 		else
-			return "image[0.4,5.4;1,1;workbench_furnace_fire_bg.png]"
+			return "image[0.4,5.4;1,1;gui_fire_bg.png]"
 		end
 	elseif tab == 3 then
 		if workbench.check_active(pos, "station_shapes_slope", "cnc") then
-			return "animated_image[0.4,5.4;1,1;wadawname;workbench_furnace_fire_animated.png;8;500;1]"
+			return "animated_image[0.4,5.4;1,1;;gui_fire_animated.png;8;500;1]"
 		else
-			return "image[0.4,5.4;1,1;workbench_furnace_fire_bg.png]"
+			return "image[0.4,5.4;1,1;gui_fire_bg.png]"
 		end
 	end
 end
 
 function wb_shapes.formspec(pos, locked)
 	return workbench.tabs(pos, locked)..
-		"image[0.45,0.5;0.8,0.8;workbench_input.png]"..
+		"image[0.45,0.5;0.8,0.8;gui_input.png]"..
 		"list[context;shapes_input;0.4,0.4;1,1;]"..
-		"image[1.75,0.5;0.8,0.8;workbench_arrow.png^[transformFYR90]"..
-		"image[0.46,1.75;0.8,0.8;workbench_cube.png]"..
+		"image[1.75,0.5;0.8,0.8;gui_arrow.png^[transformFYR90]"..
+		"image[0.46,1.75;0.8,0.8;gui_cube.png]"..
 		"list[context;shapes_micro;0.4,1.65;1,1;]"..
-		"image[1.75,1.75;0.8,0.8;workbench_arrow.png^[transformFYR90]"..
+		"image[1.75,1.75;0.8,0.8;gui_arrow.png^[transformFYR90]"..
 		"list[context;shapes_output;2.9,0.4;5,5;]"..
 		"field[9.15,2.9;1,1;max_offered;".."Max"..":;${max_offered}]"..
 		"button[9.15,4.15;1,1;Set;".."Set".."]"..

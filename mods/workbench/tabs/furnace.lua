@@ -1,9 +1,9 @@
 wb_furnace = {}
 local function fuel_icons(pos)
 	if workbench.check_active(pos, "station_furnace", "furnace") then
-		return "animated_image[4.775,3.525;1,1;wadawname;workbench_furnace_fire_animated.png;8;500;1]"
+		return "animated_image[4.775,3.525;1,1;;gui_fire_animated.png;8;500;1]"
 	else
-		return "image[4.775,3.525;1,1;workbench_furnace_fire_bg.png]"
+		return "image[4.775,3.525;1,1;gui_fire_bg.png]"
 	end
 end
 
@@ -11,7 +11,7 @@ function wb_furnace.formspec(pos, locked)
 	return workbench.tabs(pos, locked)..
 		"list[context;furnace_input;3.525,2.275;1,1;]"..
 		fuel_icons(pos)..
-		"image[4.875,2.375;0.8,0.8;workbench_arrow.png^[transformFYR90]"..
+		"image[4.875,2.375;0.8,0.8;gui_arrow.png^[transformFYR90]"..
 		"list[context;furnace_output;6.025,2.275;1,1;]"..
 		"field[9.15,2.9;1,1;max_offered;".."Max"..":;${max_offered}]"..
 		"button[9.15,4.15;1,1;Set;".."Set".."]"..

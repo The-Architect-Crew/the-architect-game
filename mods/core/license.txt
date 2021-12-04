@@ -1,0 +1,24 @@
+Authors of source code:
+-----------------------
+General License: neinwhal (LGPL 2.1)
+
+misc.lua
+	https://github.com/minetest/minetest_game/tree/master/mods/game_commands
+	rubenwardy (MIT)
+	Various Minetest developers and contributors (LGPL 2.1)
+
+Authors of media files
+-----------------------
+General License: (CC-BY-SA 3.0)
+
+neinwhal (CC-BY-SA 3.0)
+	gui_*
+
+Gambit [PixelBOX] (WTFPL)
+	gui_fire*
+
+Various Minetest developers and contributors (CC BY-SA 3.0)
+	bubble.png
+	heart.png
+	wieldhand.png
+	crack_anylength.png

@@ -14,7 +14,7 @@ trash:set_size("main", 1)
 local function trash_formspec()
 	return ""..
 		"list[detached:trash;main;0.4,2.9;1,1;]"..
-		"image[0.46,3;0.8,0.8;workbench_trash.png]"
+		"image[0.46,3;0.8,0.8;gui_trash.png]"
 end
 
 local function create_tab(pos, def)

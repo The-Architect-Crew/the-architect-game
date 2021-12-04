@@ -9,10 +9,10 @@ end
 
 local function active_formspec(fuel_percent, fueltype)
 	return "size[8,8.5]"..
-		"image[3.49,2;1,1;workbench_fuel_"..fueltype..".png]"..
+		"image[3.49,2;1,1;gui_fuel_"..fueltype..".png]"..
 		"list[context;fuel;3.49,2;1,1;]"..
-		"image[3.49,1;1,1;workbench_furnace_fire_bg.png^[lowpart:"..
-		(fuel_percent)..":workbench_furnace_fire.png]"..
+		"image[3.49,1;1,1;gui_fire_bg.png^[lowpart:"..
+		(fuel_percent)..":gui_fire.png]"..
 		"list[current_player;main;0,4.25;8,1;]"..
 		"list[current_player;main;0,5.5;8,3;8]"..
 		"listring[current_player;main]"..
@@ -22,9 +22,9 @@ end
 
 local function inactive_formspec(fueltype)
 	return "size[8,8.5]"..
-		"image[3.49,2;1,1;workbench_fuel_"..fueltype..".png]"..
+		"image[3.49,2;1,1;gui_fuel_"..fueltype..".png]"..
 		"list[context;fuel;3.49,2;1,1;]"..
-		"image[3.49,1;1,1;workbench_furnace_fire_bg.png]"..
+		"image[3.49,1;1,1;gui_fire_bg.png]"..
 		"list[current_player;main;0,4.25;8,1;]"..
 		"list[current_player;main;0,5.5;8,3;8]"..
 		"listring[current_player;main]"..

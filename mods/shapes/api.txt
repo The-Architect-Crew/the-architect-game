@@ -63,6 +63,8 @@ forkstair			Fork stairs
 pane				Panes (Connects) - Includes pane_flat
 fence				Fences (Connects) - Includes fencerail
 pole				Pole (Fence-like but doesn't connect)
+wallpole			Wall-Pole (Fence-like but doesn't connect)
+cornerpole			Corner-Pole (Fence-like but doesn't connect)
 wall				Walls (Connects)
 pillar				Pillar (Wall-like but doesn't connect)
 wallpillar			Pillar resting on wall

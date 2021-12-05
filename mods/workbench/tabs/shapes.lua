@@ -3,7 +3,7 @@ wb_shapes = {}
 wb_shapes.costs = {
 	-- simple shapes
 	{
-		2,2,2,4,1,
+		2,2,2,2,2,
 		1,1,2,4,6,
 		1,1,1,1,2,
 		1,1,1,2,3,
@@ -12,10 +12,10 @@ wb_shapes.costs = {
 	-- complex shapes
 	{
 		1,2,4,4,0,
-		4,4,2,2,4,
-		6,5,3,4,7,
+		4,4,2,4,1,
+		6,5,3,7,0,
 		1,1,2,3,5,
-		0,0,0,0,0,
+		2,4,4,0,0,
 	},
 	-- slopes
 	{
@@ -32,10 +32,10 @@ wb_shapes.names = {
 	{
 		-- row 1
 		{"pole", ""},
+		{"wallpole", ""},
+		{"cornerpole", ""},
 		{"fence", ""},
 		{"fencerail", ""},
-		{"wall", ""},
-		{"pane_flat", ""},
 		-- row 2
 		{"slab1", ""},
 		{"slab2", ""},
@@ -73,14 +73,14 @@ wb_shapes.names = {
 		{"pillar", ""},
 		{"wallpillar", ""},
 		{"halfpillar", ""},
-		{"beam", ""},
-		{"crossbeam", ""},
+		{"wall", ""},
+		{"pane_flat", ""},
 		-- row 3
 		{"pillarcrown", ""},
 		{"wallpillarcrown", ""},
 		{"halfpillarcrown", ""},
-		{"linkdown", ""},
 		{"crosslink", ""},
+		{"", ""},
 		-- row 4
 		{"corner1", ""},
 		{"corner2", ""},
@@ -88,9 +88,9 @@ wb_shapes.names = {
 		{"corner", ""},
 		{"corner12", ""},
 		-- row 5
-		{"", ""},
-		{"", ""},
-		{"", ""},
+		{"beam", ""},
+		{"linkdown", ""},
+		{"crossbeam", ""},
 		{"", ""},
 		{"", ""},
 	},

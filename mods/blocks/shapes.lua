@@ -1,8 +1,6 @@
 -- brick.lua
 shapes:register_shapes("blocks:clay")
-shapes:register_shapes("blocks:brick", {
-	disabled = "pane, fence, pole, wall",
-})
+shapes:register_shapes("blocks:brick", "pane, fence, pole, wall")
 -- dirt.lua
 shapes:register_shapes("blocks:dirt")
 shapes:register_shapes("blocks:dry_dirt")
@@ -57,26 +55,14 @@ shapes:register_shapes("blocks:pine_wood")
 shapes:register_shapes("blocks:acacia_wood")
 shapes:register_shapes("blocks:aspen_wood")
 -- sand.lua
-shapes:register_shapes("blocks:sand", {
-	disabled = "splitstair1, splitstair4, splitstair, pane, fence, pole, wall, pillar, wallpillar, halfpillar, pillarcrown, wallpillarcrown, halfpillarcrown, crossbeam, beam, linkdown, crosslink",
-})
-shapes:register_shapes("blocks:desert_sand", {
-	disabled = "splitstair1, splitstair4, splitstair, pane, fence, pole, wall, pillar, wallpillar, halfpillar, pillarcrown, wallpillarcrown, halfpillarcrown, crossbeam, beam, linkdown, crosslink",
-})
-shapes:register_shapes("blocks:silver_sand", {
-	disabled = "splitstair1, splitstair4, splitstair, pane, fence, pole, wall, pillar, wallpillar, halfpillar, pillarcrown, wallpillarcrown, halfpillarcrown, crossbeam, beam, linkdown, crosslink",
-})
-shapes:register_shapes("blocks:gravel", {
-	disabled = "splitstair1, splitstair4, splitstair, pane, fence, pole, wall, pillar, wallpillar, halfpillar, pillarcrown, wallpillarcrown, halfpillarcrown, crossbeam, beam, linkdown, crosslink",
-})
+shapes:register_shapes("blocks:sand", nil, "splitstair1, splitstair4, splitstair, pane, fence, pole, wall, pillar, wallpillar, halfpillar, pillarcrown, wallpillarcrown, halfpillarcrown, crossbeam, beam, linkdown, crosslink")
+shapes:register_shapes("blocks:desert_sand", nil, "splitstair1, splitstair4, splitstair, pane, fence, pole, wall, pillar, wallpillar, halfpillar, pillarcrown, wallpillarcrown, halfpillarcrown, crossbeam, beam, linkdown, crosslink")
+shapes:register_shapes("blocks:silver_sand", nil, "splitstair1, splitstair4, splitstair, pane, fence, pole, wall, pillar, wallpillar, halfpillar, pillarcrown, wallpillarcrown, halfpillarcrown, crossbeam, beam, linkdown, crosslink")
+shapes:register_shapes("blocks:gravel", nil, "splitstair1, splitstair4, splitstair, pane, fence, pole, wall, pillar, wallpillar, halfpillar, pillarcrown, wallpillarcrown, halfpillarcrown, crossbeam, beam, linkdown, crosslink")
 -- snow.lua
-shapes:register_shapes("blocks:snowblock", {
-	disabled = "splitstair1, splitstair4, splitstair, pane, fence, pole, wall, pillar, wallpillar, halfpillar, pillarcrown, wallpillarcrown, halfpillarcrown, crossbeam, beam, linkdown, crosslink",
-})
+shapes:register_shapes("blocks:snowblock", nil, "splitstair1, splitstair4, splitstair, pane, fence, pole, wall, pillar, wallpillar, halfpillar, pillarcrown, wallpillarcrown, halfpillarcrown, crossbeam, beam, linkdown, crosslink")
 shapes:register_shapes("blocks:ice")
-shapes:register_shapes("blocks:permafrost", {
-	disabled = "splitstair1, splitstair4, pane, fence, pole, wall, pillar, wallpillar, halfpillar, pillarcrown, wallpillarcrown, halfpillarcrown, crossbeam, beam, linkdown, crosslink",
-})
+shapes:register_shapes("blocks:permafrost", nil, "splitstair1, splitstair4, pane, fence, pole, wall, pillar, wallpillar, halfpillar, pillarcrown, wallpillarcrown, halfpillarcrown, crossbeam, beam, linkdown, crosslink")
 -- stone.lua
 shapes:register_shapes("blocks:stone")
 shapes:register_shapes("blocks:cobble")

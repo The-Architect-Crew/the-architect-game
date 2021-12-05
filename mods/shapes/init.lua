@@ -205,9 +205,9 @@ minetest.register_on_dignode(function(pos)
 	end
 end)
 
-function shapes:register_shapes(name, def)
+function shapes:register_shapes(name, def, disable_list)
 	def = def or {}
-	local disabled = def.disabled or ""
+	local disabled = def.disabled or disable_list or ""
 	local sname = string.match(name, ':(.*)')
 	local mname = string.match(name, '(.*):')
 	local itemmeta = minetest.registered_items[name]

@@ -60,10 +60,9 @@ function variations.register_for_base(base_node)
 		base_node_full_name()
 		-- and the second will give us the node name
 		local base_node_name = base_node_full_name()
-        local transparency = base_node_name.use_texture_alpha
-        if transparency == nil then
+		local transparency = base_node_name.use_texture_alpha
+		if (transparency == nil) or (transparency == "opaque") then
 			sunlight = false
-            transparency = "opaque"
 		end
 		local variation_name = "variations:" .. base_node_name .. "_" .. variation.name
 		local variation_description = base_definition.description .. " " .. variation.description

@@ -98,7 +98,7 @@ local model_list = {
 	{ 4, "cutouterslope", 	"Cut Outerslope", "shapes_slope_outer_cut.obj", {{-0.5, -0.5, -0.5, 0.5, -0.25, 0.5}, {-0.5, -0.25, -0.25, 0.25, 0, 0.5}, {-0.5, 0, 0, 0, 0.25, 0.5}, {-0.5, 0.25, 0.25, -0.25, 0.5, 0.5}}, nil, true },
 	{ 2, "cutouterslope2", 	"Cut Outerslope (1/2)", "shapes_slope_outer_cut_half.obj", {{-0.5, -0.5, -0.5, 0.5, -0.375, 0.5}, {-0.5, -0.375, -0.25, 0.25, -0.25, 0.5}, {-0.5, -0.25, 0, 0, -0.125, 0.5}, {-0.5, -0.125, 0.25, -0.25, 0, 0.5}}, nil, true },
 	{ 4, "cutouterslope3", 	"Cut Outerslope (3/4)", "shapes_slope_outer_cut_half_raised.obj", {{-0.5, -0.5, -0.5, 0.5, 0.125, 0.5}, {-0.5, 0.125, -0.25, 0.25, 0.25, 0.5}, {-0.5, 0.25, 0, 0, 0.375, 0.5}, {-0.5, 0.375, 0.25, -0.25, 0.5, 0.5}}, nil, true },
-	{ 4, "cutotherslope4", 	"Cut Outerslope (4/2)", "shapes_slope_cut.obj", {{-0.5, -0.5, -0.5, 0.5, -0.25, 0.5}, {-0.5, -0.25, -0.25, 0.25, 0, 0.5}, {-0.5, 0, 0, 0, 0.25, 0.5}, {-0.5, 0.25, 0.25, -0.25, 0.5, 0.5}}, nil, true },
+	{ 4, "cutouterslope4", 	"Cut Outerslope (4/2)", "shapes_slope_cut.obj", {{-0.5, -0.5, -0.5, 0.5, -0.25, 0.5}, {-0.5, -0.25, -0.25, 0.25, 0, 0.5}, {-0.5, 0, 0, 0, 0.25, 0.5}, {-0.5, 0.25, 0.25, -0.25, 0.5, 0.5}}, nil, true },
 }
 
 shapes.rotate_node = function(itemstack, placer, pointed_thing)

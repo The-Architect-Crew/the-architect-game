@@ -1,6 +1,6 @@
 -- brick.lua
 shapes:register_shapes("blocks:clay")
-shapes:register_shapes("blocks:brick", "pane, fence, pole, wall")
+shapes:register_shapes("blocks:brick", nil, "pane, fence, pole, wall")
 -- dirt.lua
 shapes:register_shapes("blocks:dirt")
 shapes:register_shapes("blocks:dry_dirt")

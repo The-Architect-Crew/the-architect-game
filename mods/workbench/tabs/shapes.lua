@@ -124,7 +124,7 @@ wb_shapes.names = {
 		{"cutouterslope", ""},
 		{"cutouterslope2", ""},
 		{"cutouterslope3", ""},
-		{"cutotherslope4", ""},
+		{"cutouterslope4", ""},
 		{"", ""},
 	},
 }

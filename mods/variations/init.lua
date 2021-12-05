@@ -48,9 +48,13 @@ variations.variations = {
 	},
 }
 
-function variations.register_for_base(base_node, transparent)
+function variations.register_for_base(base_node, transparency)
 	local base_definition = minetest.registered_nodes[base_node]
 	for _, variation in ipairs(variations.variations) do
+		local sunlight = true
+		if transparency == nil then
+			sunlight = false
+		end
 		-- We get an iterator function over substrings split by :
 		local base_node_full_name = string.gmatch(base_node, "([^:]+)")
 		-- First call will give us the modname
@@ -67,8 +71,8 @@ function variations.register_for_base(base_node, transparent)
 			tiles = tiles,
 			groups = base_definition.groups,
 			drawtype = base_definition.drawtype,
-			use_texture_alpha = transparent,
-			sunlight_propagates = transparent,
+			use_texture_alpha = transparency,
+			sunlight_propagates = sunlight,
 		})
 	end
 end
@@ -89,8 +93,8 @@ variations.register_for_base("blocks:ice")
 variations.register_for_base("blocks:dirt")
 variations.register_for_base("blocks:coalblock")
 --[[
-variations.register_for_base("blocks:amethyst", true)
-variations.register_for_base("blocks:garnet", true)
+variations.register_for_base("blocks:amethyst", "blend")
+variations.register_for_base("blocks:garnet", "blend")
 variations.register_for_base("blocks:lapis_lazuli")
 variations.register_for_base("blocks:malachite")
 variations.register_for_base("blocks:turquoise")

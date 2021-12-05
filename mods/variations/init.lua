@@ -54,6 +54,7 @@ function variations.register_for_base(base_node, transparency)
 		local sunlight = true
 		if transparency == nil then
 			sunlight = false
+            transparency = "opaque"
 		end
 		-- We get an iterator function over substrings split by :
 		local base_node_full_name = string.gmatch(base_node, "([^:]+)")

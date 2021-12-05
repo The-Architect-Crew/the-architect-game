@@ -7,8 +7,8 @@ variations.variations = {
 		texture = "0,0";
 	},
 	{
-		name = "block";
-		description = "Block";
+		name = "big_tile";
+		description = "Big Tile";
 		texture = "1,0";
 	},
 	{
@@ -79,15 +79,15 @@ variations.register_for_base("blocks:desert_stone")
 variations.register_for_base("blocks:sandstone")
 variations.register_for_base("blocks:silver_sandstone")
 variations.register_for_base("blocks:desert_sandstone")
-variations.register_for_base("blocks:steel")
-variations.register_for_base("blocks:copper")
-variations.register_for_base("blocks:bronze")
-variations.register_for_base("blocks:tin")
-variations.register_for_base("blocks:gold")
+variations.register_for_base("blocks:steelblock")
+variations.register_for_base("blocks:copperblock")
+variations.register_for_base("blocks:bronzeblock")
+variations.register_for_base("blocks:tinblock")
+variations.register_for_base("blocks:goldblock")
 variations.register_for_base("blocks:brick")
 variations.register_for_base("blocks:ice")
 variations.register_for_base("blocks:dirt")
-variations.register_for_base("blocks:coal")
+variations.register_for_base("blocks:coalblock")
 --[[
 variations.register_for_base("blocks:amethyst", true)
 variations.register_for_base("blocks:garnet", true)
@@ -95,5 +95,5 @@ variations.register_for_base("blocks:lapis_lazuli")
 variations.register_for_base("blocks:malachite")
 variations.register_for_base("blocks:turquoise")
 variations.register_for_base("blocks:amber")
-variations.register_for_base("blocks:silver")
-variations.register_for_base("blocks:mithril")]]--
+variations.register_for_base("blocks:silverblock")
+variations.register_for_base("blocks:mithrilblock")]]--

@@ -41,7 +41,9 @@ local nodebox_list = {
 	{ 4, "splitstair", 		"Splitstair", {{-0.5, -0.5, -0.5, 0.5, 0, 0}, {-0.5, 0, 0, 0.5, 0.5, 0.5}}, true },
 	{ 4, "forkstair", 		"Forkstair", {{-0.5, -0.5, 0, 0, 0.5, 0.5}, {0, -0.5, 0, 0.5, 0, 0.5}, {-0.5, -0.5, -0.5, 0, 0, 0}}, true },
 	-- Pole/ Pillar
-	{ 2, "pole", 			"Pole", {-1/8, -1/2, -1/8, 1/8, 1/2, 1/8}, true },
+	{ 2, "pole", 			"Pole", {-0.125, -0.5, -0.125, 0.125, 0.5, 0.125}, true },
+	{ 2, "wallpole", 		"Wall-Pole", {-0.125, -0.5, 0.25, 0.125, 0.5, 0.5}, true },
+	{ 2, "cornerpole", 		"Corner-Pole", {-0.5, -0.5, 0.25, -0.25, 0.5, 0.5}, true },
 	{ 4, "pillar", 			"Pillar", {-1/4, -1/2, -1/4, 1/4, 1/2, 1/4}, true },
 	{ 4, "wallpillar", 		"Wall-Pillar", {-1/4, -1/2, 0, 1/4, 1/2, 1/2}, true },
 	{ 2, "halfpillar", 		"Half-Pillar", {-1/4, -1/2, 1/2, 1/4, 1/2, 1/4}, true },

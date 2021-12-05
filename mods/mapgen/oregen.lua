@@ -601,6 +601,17 @@ function mapgen.register_ores()
 		ore_type       = "scatter",
 		ore            = "blocks:stone_with_coal",
 		wherein        = "blocks:stone",
+		clust_scarcity = 8 * 8 * 8,
+		clust_num_ores = 8,
+		clust_size     = 3,
+		y_max          = 64,
+		y_min          = -127,
+	})
+
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:stone_with_coal",
+		wherein        = "blocks:stone",
 		clust_scarcity = 12 * 12 * 12,
 		clust_num_ores = 30,
 		clust_size     = 5,

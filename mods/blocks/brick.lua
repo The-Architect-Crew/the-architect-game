@@ -18,6 +18,13 @@ minetest.register_node("blocks:clay", {
 	sounds = default.node_sound_dirt_defaults(),
 })
 
+minetest.register_node("blocks:clay_hard", {
+	description = S("Hardened Clay"),
+	tiles = {"blocks_clay_hard.png"},
+	groups = {crumbly = 2},
+	sounds = default.node_sound_dirt_defaults(),
+})
+
 minetest.register_node("blocks:brick", {
 	description = S("Brick Block"),
 	paramtype2 = "facedir",
@@ -68,5 +75,21 @@ minetest.register_craft({
 	recipe = {
 		{"blocks:clay_brick", "blocks:clay_brick"},
 		{"blocks:clay_brick", "blocks:clay_brick"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:clay_hard",
+	recipe = {
+		{"blocks:clay", "blocks:clay", "blocks:clay"},
+		{"blocks:clay", "blocks:clay", "blocks:clay"},
+		{"blocks:clay", "blocks:clay", "blocks:clay"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:clay 9",
+	recipe = {
+		{"blocks:clay_hard"},
 	}
 })

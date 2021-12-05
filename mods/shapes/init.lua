@@ -521,7 +521,3 @@ function shapes:register_shapes(name, def)
 		})
 	end
 end
-
-
-
-minetest.add_node(pos, {name=string, param1=number, param2=number})

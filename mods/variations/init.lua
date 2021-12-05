@@ -48,32 +48,26 @@ variations.variations = {
 	},
 }
 
-function variations.register_for_base(base_node)
+function variations.register_for_base(base_node, transparent, sunlight)
 	local base_definition = minetest.registered_nodes[base_node]
 	for _, variation in ipairs(variations.variations) do
-		local sunlight = true
-		-- We get an iterator function over substrings split by :
-		local base_node_full_name = string.gmatch(base_node, "([^:]+)")
-		-- First call will give us the modname
-		-- local base_node_modname = base_node_full_name()
-		-- Unused variable warning...
-		base_node_full_name()
-		-- and the second will give us the node name
-		local base_node_name = base_node_full_name()
-		local transparency = base_node_name.use_texture_alpha
-		if (transparency == nil) or (transparency == "opaque") then
-			sunlight = false
-		end
-		local variation_name = "variations:" .. base_node_name .. "_" .. variation.name
+		local sname = string.match(base_node, ':(.*)')
+		local variation_name = "variations:" .. sname .. "_" .. variation.name
 		local variation_description = base_definition.description .. " " .. variation.description
-		local tiles = {"variations_" .. base_node_name .. ".png^[sheet:3x3:" .. variation.texture}
+		local tiles = {"variations_" .. sname .. ".png^[sheet:3x3:" .. variation.texture}
+		local paramtype_light = ""
+		if not sunlight and transparent then
+			sunlight = true
+			paramtype_light = "light"
+		end
 		minetest.register_node(variation_name, {
 			description = variation_description,
 			tiles = tiles,
 			groups = base_definition.groups,
 			drawtype = base_definition.drawtype,
-			use_texture_alpha = transparency,
-			sunlight_propagates = sunlight,
+			use_texture_alpha = transparent or base_definition.use_texture_alpha,
+			paramtype = paramtype_light or base_definition.paramtype,
+			sunlight_propagates = sunlight or base_definition.sunlight_propagates,
 		})
 	end
 end

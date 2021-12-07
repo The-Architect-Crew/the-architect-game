@@ -562,7 +562,6 @@ minetest.register_craft({
 	output = "blocks:garnet_crystal 9",
 	recipe = {
 		{"blocks:garnet"},
->>>>>>> main
 	}
 })
 

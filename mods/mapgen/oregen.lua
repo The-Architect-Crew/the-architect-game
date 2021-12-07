@@ -540,7 +540,7 @@ function mapgen.register_ores()
 			spread = {x = 5, y = 5, z = 10},
 			seed = 1337,
 			octaves = 2,
-			persist = 1.25, 
+			persist = 1.25,
 		},
 	})
 	-- Amethyst
@@ -555,7 +555,7 @@ function mapgen.register_ores()
 		noise_threshold = 1.5,
 		noise_params    = {
 			offset = 0.0,
-			scale = 1.0,			
+			scale = 1.0,
 			spread = {x = 10, y = 10, z = 5},
 			seed = 1336,
 			octaves = 2,

@@ -196,6 +196,40 @@ minetest.register_node("blocks:diamondblock", {
 	sounds = default.node_sound_stone_defaults(),
 })
 
+
+-- Amber
+minetest.register_craftitem("blocks:amber_shard", {
+	description = S("Amber Shard"),
+	inventory_image = "blocks_amber_shard.png",
+})
+
+minetest.register_craftitem("blocks:amber_lump", {
+	description = S("Amber Lump"),
+	inventory_image = "blocks_amber_lump.png",
+})
+
+minetest.register_craftitem("blocks:amber_glass_tile", {
+	description = S("Amber Glass Tile"),
+	inventory_image = "blocks_amber_glass_tile.png",
+})
+
+minetest.register_node("blocks:stone_with_amber", {
+	description = S("Amber Ore"),
+	tiles = {"blocks_stone.png^blocks_mineral_amber.png"},
+	is_ground_content = true,
+	groups = {cracky = 3},
+	sounds = default.node_sound_stone_defaults(),
+})
+
+minetest.register_node("blocks:amber", {
+	description = S("Amber"),
+	tiles = {"blocks_amber.png"},
+	is_ground_content = false,
+	groups = {cracky = 3, oddly_breakable_by_hand = 3},
+	sounds = default.node_sound_glass_defaults(),
+})
+
+
 -- Silver
 minetest.register_craftitem("blocks:silver_ingot", {
 	description = S("Silver Ingot"),
@@ -328,6 +362,7 @@ minetest.register_node("blocks:malachite", {
 	groups = {cracky = 2},
 	sounds = default.node_sound_stone_defaults(),
 })
+
 --
 -- == CRAFTS
 --
@@ -486,6 +521,20 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
+	output = "blocks:amber",
+	recipe = {
+		{"blocks:amber_shard", "blocks:amber_shard", "blocks:amber_shard"},
+		{"blocks:amber_shard", "blocks:amber_shard", "blocks:amber_shard"},
+		{"blocks:amber_shard", "blocks:amber_shard", "blocks:amber_shard"},
+	}
+})
+minetest.register_craft({
+	output= "blocks:amber_shard 9",
+	recipe = {
+		{"blocks:amber"},
+	}
+})
+minetest.register_craft({
 	output = "blocks:amethyst",
 	recipe = {
 		{"blocks:amethyst_crystal", "blocks:amethyst_crystal", "blocks:amethyst_crystal"},
@@ -493,7 +542,6 @@ minetest.register_craft({
 		{"blocks:amethyst_crystal", "blocks:amethyst_crystal", "blocks:amethyst_crystal"},
 	}
 })
-
 minetest.register_craft({
 	output = "blocks:garnet",
 	recipe = {
@@ -539,6 +587,12 @@ minetest.register_craft({
 	type = "cooking",
 	output = "blocks:tin_ingot",
 	recipe = "blocks:tin_lump",
+})
+
+minetest.register_craft({
+	type = "cooking",
+	output = "blocks:amber_shard",
+	recipe = "blocks:amber_lump",
 })
 
 minetest.register_craft({

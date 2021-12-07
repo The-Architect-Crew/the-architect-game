@@ -1,6 +1,6 @@
 Authors of source code:
 -----------------------
-General License: neinwhal (LGPL 2.1)
+General License: (LGPL 2.1)
 
 dirt.lua / snow.lua / sand.lua / stone.lua / liquid.lua / plank.lua / misc.lua / ladder.lua / torch.lua / book.lua / chest.lua
 	https://github.com/minetest/minetest_game/tree/master/mods/default

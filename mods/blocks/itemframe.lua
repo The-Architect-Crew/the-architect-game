@@ -32,10 +32,13 @@ local function update_item(pos, node)
 
 	local entity = minetest.add_entity(pos, "blocks:f_item")
 	local yaw = (math.pi * 2) - node.param2 * (math.pi / 2)
-	entity:set_yaw(yaw)
-	-- start timer
-	local timer = minetest.get_node_timer(pos)
-	timer:start(15.0)
+	-- ensure entity still exists
+	if entity then
+		entity:set_yaw(yaw)
+		-- start timer
+		local timer = minetest.get_node_timer(pos)
+		timer:start(15.0)
+	end
 end
 
 local function drop_item(pos, node)
@@ -92,8 +95,7 @@ local function itemframe_punch(pos, node, puncher)
 	local player_name = puncher:get_player_name()
 	local owner = meta:get_string("owner")
 	local admin = minetest.check_player_privs(player_name, "protection_bypass")
-
-	if admin and player_name == owner then
+	if admin or player_name == owner then
 		drop_item(pos, node)
 	end
 end
@@ -185,12 +187,12 @@ end
 
 register_itemframe("wood", "Wooden", {
 	sounds = default.node_sound_wood_defaults(),
-	groups = {choppy = 2, flammable = 2, oddly_breakable_by_hand = 3}
+	groups = {choppy = 2, flammable = 2, oddly_breakable_by_hand = 3, itemframe = 1}
 })
 
 register_itemframe("steel", "Steel", {
 	sounds = default.node_sound_metal_defaults(),
-	groups = {cracky = 2}
+	groups = {cracky = 2, itemframe = 1}
 })
 
 minetest.register_entity("blocks:f_item", {
@@ -201,9 +203,11 @@ minetest.register_entity("blocks:f_item", {
 	textures = {"air"},
 	on_activate = function(self, staticdata)
 		local pos = self.object:get_pos()
-		--[[if minetest.get_node(pos).name ~= "blocks:itemframe_wood" or minetest.get_node(pos).name ~= "blocks:itemframe_steel" then
+		local nname = minetest.get_node(pos).name
+		if minetest.get_item_group(nname, "itemframe") == 0 then
 			self.object:remove()
-		end]]
+			return
+		end
 
 		if tmp.nodename and tmp.texture then
 			self.nodename = tmp.nodename

@@ -387,7 +387,7 @@ local function register_sign(material, desc, def)
 		end,
 		on_receive_fields = sign_on_receive_fields,
 		can_dig = sign_can_dig,
-		on_rotate = hang_sign_on_rotate,
+		on_rotate = hangsign_on_rotate,
 	})
 end
 

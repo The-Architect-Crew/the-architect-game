@@ -46,8 +46,8 @@ local function sign_on_receive_fields(pos, formname, fields, sender)
 	local playername = sender:get_player_name()
 	local owner = meta:get_string("owner")
 	local locked = meta:get_string("lock")
-	if minetest.is_protected(pos, player_name) then
-		minetest.record_protection_violation(pos, player_name)
+	if minetest.is_protected(pos, playername) then
+		minetest.record_protection_violation(pos, playername)
 		return
 	end
 	if owner == playername or owner == "" then
@@ -62,7 +62,6 @@ local function sign_on_receive_fields(pos, formname, fields, sender)
 			meta:set_string("formspec", sign_formspec(pos))
 		end
 	end
-		
 	local text = fields.sign_text
 	if not text then
 		return
@@ -77,16 +76,13 @@ local function sign_on_receive_fields(pos, formname, fields, sender)
 		minetest.record_protection_violation(pos, playername)
 		return
 	end
-		
 	if string.len(text) > 512 then
 		minetest.chat_send_player(playername, "[sign] Text too long")
 		return
 	end
-		
 	minetest.log("action", playername.." wrote \""..text:gsub("\n", " / ").."\" to the sign at "..minetest.pos_to_string(pos))
 	meta:set_string("text", text)
 	meta:set_string("formspec", sign_formspec(pos))
-		
 	if #text > 0 then
 		meta:set_string("infotext", '"'..text..'"')
 	else
@@ -116,27 +112,27 @@ local arrowsign_rotation = {
 	[16] = 20,
 	[20] = 12,
 	[12] = 0,
-	
+	--
 	[1] = 5,
 	[5] = 23,
 	[23] = 9,
 	[9] = 1,
-	
+	--
 	[2] = 14,
 	[14] = 22,
 	[22] = 18,
 	[18] = 2,
-	
+	--
 	[3] = 11,
 	[11] = 21,
 	[21] = 7,
 	[7] = 3,
-	
+	--
 	[4] = 19,
 	[19] = 10,
 	[10] = 13,
 	[13] = 4,
-	
+	--
 	[8] = 17,
 	[17] = 6,
 	[6] = 15,
@@ -338,9 +334,8 @@ local function register_sign(material, desc, def)
 		end,
 		on_receive_fields = sign_on_receive_fields,
 		can_dig = sign_can_dig,
-		on_rotate = hang_sign_on_rotate,
+		on_rotate = hangsign_on_rotate,
 	})
-	
 	minetest.register_node("blocks:hangarrowsign_right_"..material, {
 		description = desc.." Hanging Arrow-Sign (Right)",
 		drawtype = "nodebox",

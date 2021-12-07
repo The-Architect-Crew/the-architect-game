@@ -33,7 +33,6 @@ local function update_item(pos, node)
 	local entity = minetest.add_entity(pos, "blocks:f_item")
 	local yaw = (math.pi * 2) - node.param2 * (math.pi / 2)
 	entity:set_yaw(yaw)
-	
 	-- start timer
 	local timer = minetest.get_node_timer(pos)
 	timer:start(15.0)
@@ -85,7 +84,6 @@ local function itemframe_rightclick(pos, node, clicker, itemstack)
 	local itemstring = itemstack:take_item():to_string()
 	meta:set_string("item", itemstring)
 	update_item(pos, node)
-	
 	return itemstack
 end
 
@@ -142,7 +140,6 @@ local function register_itemframe(material, desc, def)
 		can_dig = itemframe_dig,
 		after_destruct = remove_item
 	})
-	
 	minetest.register_node("blocks:hangitemframe_"..material, {
 		description = desc.." Hanging Item Frame",
 		drawtype = "nodebox",
@@ -178,7 +175,6 @@ local function register_itemframe(material, desc, def)
 			end
 			minetest.remove_node(pos)
 		end,
-		
 		on_timer = itemframe_timer,
 		on_rightclick = itemframe_rightclick,
 		on_punch = itemframe_punch,

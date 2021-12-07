@@ -674,7 +674,6 @@ function mapgen.register_ores()
 			persist = 0.70
 		},
 	})
->>>>>>> main
 	-- Scatter ores
 	-- Coal
 	minetest.register_ore({

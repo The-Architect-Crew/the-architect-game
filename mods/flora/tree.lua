@@ -2,7 +2,7 @@ local S = default.get_translator
 
 -- Required wrapper to allow customization of default.after_place_leaves
 local function after_place_leaves(...)
-	return flora.after_place_leaves(...)
+	return default.after_place_leaves(...)
 end
 
 -- Required wrapper to allow customization of default.grow_sapling

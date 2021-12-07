@@ -1,0 +1,16 @@
+Authors of source code:
+-----------------------
+General License: neinwhal (LGPL 2.1)
+
+shapes.lua (Modified from moreblocks circular_saw)
+	https://github.com/minetest-mods/moreblocks/blob/master/circular_saw.lua
+	Hugo Locurcio [Calinou] (zlib)
+	Various moreblocks developers and contributors (zlib)
+
+furnace.lua (Modified from mtg furnace)
+	https://github.com/minetest/minetest_game/blob/master/mods/default/furnace.lua
+	Various Minetest developers and contributors (LGPL 2.1)
+
+Authors of media files
+-----------------------
+General License: neinwhal (CC-BY-SA 3.0)

@@ -4,7 +4,7 @@ local notify_ids = {}
 function core._notify(playername, message, timeout)
     assert(type(timeout) == nil or timeout > 0, "Invalid value: timeout must be a number > 0 or leave nil for default")
     local player = minetest.get_player_by_name(playername)
-    -- TODO: Implement queue of notifications to manage smooth transitioning 
+    -- TODO: Implement queue of notifications to manage smooth transitioning
     -- avoid missed notifications due to being replaced too quickly
     -- For now replace current notification
     if notify_ids[playername] ~= nil then

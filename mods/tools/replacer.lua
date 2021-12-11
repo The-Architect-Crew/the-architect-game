@@ -45,7 +45,7 @@ minetest.register_tool("tools:replacer", {
                 return replacer.replace(itemstack, placer, pointed_thing, 0);
             end
 
-            local pos = minetest.get_pointed_thing_position(pointed_thing, under);
+            local pos = minetest.get_pointed_thing_position(pointed_thing, false);
             local node = minetest.get_node_or_nil(pos);
 
             -- minetest.chat_send_player( name, "  Target node: "..minetest.serialize( node ).." at pos "..minetest.serialize( pos ).."."); 
@@ -65,7 +65,7 @@ minetest.register_tool("tools:replacer", {
 
             return replacer.replace(itemstack, placer, pointed_thing, 0)
         else
-            return replacer.replace(itemstack, placer, pointed_thing, above)
+            return replacer.replace(itemstack, placer, pointed_thing, false)
         end
     end,
 
@@ -79,10 +79,10 @@ minetest.register_tool("tools:replacer", {
             return nil
         end
         if mode == "legacy" then
-            return replacer.replace(itemstack, user, pointed_thing, above);
+            return replacer.replace(itemstack, user, pointed_thing, false);
         end
         if (keys["sneak"]) then
-            local pos = minetest.get_pointed_thing_position(pointed_thing, under)
+            local pos = minetest.get_pointed_thing_position(pointed_thing, false)
             local node = minetest.get_node_or_nil(pos)
             local metadata = "default:dirt 0 0"
             if (node ~= nil and node.name) then
@@ -94,7 +94,7 @@ minetest.register_tool("tools:replacer", {
 
             return itemstack -- nothing consumed but data changed
         else
-            return replacer.replace(itemstack, user, pointed_thing, above)
+            return replacer.replace(itemstack, user, pointed_thing, false)
         end
     end
 })

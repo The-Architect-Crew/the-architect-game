@@ -12,90 +12,91 @@ replacer.blacklist["protector:protect"] = true
 replacer.blacklist["protector:protect2"] = true
 
 minetest.register_tool("tools:replacer", {
-   description = "Node replacement tool",
-   groups = {},
-   inventory_image = "tools_replacer.png",
-   use_texture_alpha = true,
-   wield_image = "",
-   wield_scale = {
-      x = 1,
-      y = 1,
-      z = 1
-   },
-   stack_max = 1, -- it has to store information - thus only one can be stacked
-   liquids_pointable = true, -- it is ok to paint in/with water
-   node_placement_prediction = nil,
-   metadata = "default:dirt", -- default replacement: common dirt
+    description = "Node replacement tool",
+    groups = {},
+    inventory_image = "tools_replacer.png",
+    use_texture_alpha = true,
+    wield_image = "",
+    wield_scale = {
+        x = 1,
+        y = 1,
+        z = 1
+    },
+    stack_max = 1, -- it has to store information - thus only one can be stacked
+    liquids_pointable = true, -- it is ok to paint in/with water
+    node_placement_prediction = nil,
+    metadata = "default:dirt", -- default replacement: common dirt
 
-   on_place = function(itemstack, placer, pointed_thing)
-      if (placer == nil or pointed_thing == nil) then
-         return itemstack -- nothing consumed
-      end
-      if( pointed_thing.type ~= "node" ) then
-         -- minetest.chat_send_player( name, "  Error: No node selected.");
-          core.notify(name, "  Error: No node selected.");
-          return nil;
-      end
-      local name = placer:get_player_name()
-      local mode = replacer.get_mode(placer)
-      local keys = placer:get_player_control()
+    on_place = function(itemstack, placer, pointed_thing)
+        if (placer == nil or pointed_thing == nil) then
+            return itemstack -- nothing consumed
+        end
+        if (pointed_thing.type ~= "node") then
+            -- minetest.chat_send_player( name, "  Error: No node selected.");
+            core.notify(name, "  Error: No node selected.");
+            return nil;
+        end
+        local name = placer:get_player_name()
+        local mode = replacer.get_mode(placer)
+        local keys = placer:get_player_control()
 
-      if mode == "legacy" then
-         if( not( keys["sneak"] )) then
-            return replacer.replace( itemstack, placer, pointed_thing, 0  ); end
-  
-         local pos  = minetest.get_pointed_thing_position( pointed_thing, under );
-         local node = minetest.get_node_or_nil( pos );
-         
-         --minetest.chat_send_player( name, "  Target node: "..minetest.serialize( node ).." at pos "..minetest.serialize( pos ).."."); 
-         local metadata = "default:dirt 0 0";
-         if( node ~= nil and node.name ) then
-            metadata = node.name..' '..node.param1..' '..node.param2;
-         end
-         itemstack:set_metadata( metadata );
-  
-         --minetest.chat_send_player( name, "Node replacement tool set to: '"..metadata.."'.");
-         core.notify(name, "Node replacement tool set to: '"..metadata.."'.");
-         return itemstack; -- nothing consumed but data changed
-      end
+        if mode == "legacy" then
+            if (not (keys["sneak"])) then
+                return replacer.replace(itemstack, placer, pointed_thing, 0);
+            end
 
-      -- just place the stored node if now new one is to be selected
-      if (not (keys["sneak"])) then
+            local pos = minetest.get_pointed_thing_position(pointed_thing, under);
+            local node = minetest.get_node_or_nil(pos);
 
-         return replacer.replace(itemstack, placer, pointed_thing, 0)
-      else
-         return replacer.replace(itemstack, placer, pointed_thing, above)
-      end
-   end,
+            -- minetest.chat_send_player( name, "  Target node: "..minetest.serialize( node ).." at pos "..minetest.serialize( pos ).."."); 
+            local metadata = "default:dirt 0 0";
+            if (node ~= nil and node.name) then
+                metadata = node.name .. ' ' .. node.param1 .. ' ' .. node.param2;
+            end
+            itemstack:set_metadata(metadata);
 
-   on_use = function(itemstack, user, pointed_thing)
-      local name = user:get_player_name()
-      local keys = user:get_player_control()
-      local mode = replacer.get_mode(user)
+            -- minetest.chat_send_player( name, "Node replacement tool set to: '"..metadata.."'.");
+            core.notify(name, "Node replacement tool set to: '" .. metadata .. "'.");
+            return itemstack; -- nothing consumed but data changed
+        end
 
-      if (pointed_thing.type ~= "node") then
-         core.notify(name, "  Error: No node selected.")
-         return nil
-      end
-      if mode == "legacy" then 
-         return replacer.replace( itemstack, user, pointed_thing, above );
-      end
-      if (keys["sneak"]) then
-         local pos = minetest.get_pointed_thing_position(pointed_thing, under)
-         local node = minetest.get_node_or_nil(pos)
-         local metadata = "default:dirt 0 0"
-         if (node ~= nil and node.name) then
-               metadata = node.name .. ' ' .. node.param1 .. ' ' .. node.param2
-         end
-         itemstack:set_metadata(metadata)
+        -- just place the stored node if now new one is to be selected
+        if (not (keys["sneak"])) then
 
-         core.notify(name, "Node replacement tool set to: '" .. metadata .. "'.")
+            return replacer.replace(itemstack, placer, pointed_thing, 0)
+        else
+            return replacer.replace(itemstack, placer, pointed_thing, above)
+        end
+    end,
 
-         return itemstack -- nothing consumed but data changed
-      else
-         return replacer.replace(itemstack, user, pointed_thing, above)
-      end
-   end
+    on_use = function(itemstack, user, pointed_thing)
+        local name = user:get_player_name()
+        local keys = user:get_player_control()
+        local mode = replacer.get_mode(user)
+
+        if (pointed_thing.type ~= "node") then
+            core.notify(name, "  Error: No node selected.")
+            return nil
+        end
+        if mode == "legacy" then
+            return replacer.replace(itemstack, user, pointed_thing, above);
+        end
+        if (keys["sneak"]) then
+            local pos = minetest.get_pointed_thing_position(pointed_thing, under)
+            local node = minetest.get_node_or_nil(pos)
+            local metadata = "default:dirt 0 0"
+            if (node ~= nil and node.name) then
+                metadata = node.name .. ' ' .. node.param1 .. ' ' .. node.param2
+            end
+            itemstack:set_metadata(metadata)
+
+            core.notify(name, "Node replacement tool set to: '" .. metadata .. "'.")
+
+            return itemstack -- nothing consumed but data changed
+        else
+            return replacer.replace(itemstack, user, pointed_thing, above)
+        end
+    end
 })
 
 replacer.replace = function(itemstack, user, pointed_thing, mode)
@@ -193,9 +194,8 @@ replacer.replace = function(itemstack, user, pointed_thing, mode)
             local digged_node = minetest.get_node_or_nil(pos)
             if (not (digged_node) or digged_node.name == node.name) then
 
-                core.notify(name,
-                    "Replacing '" .. (node.name or "air") .. "' with '" .. (item["metadata"] or "?") ..
-                        "' failed.\nUnable to remove old node.")
+                core.notify(name, "Replacing '" .. (node.name or "air") .. "' with '" .. (item["metadata"] or "?") ..
+                    "' failed.\nUnable to remove old node.")
                 return nil
             end
 
@@ -261,34 +261,34 @@ end
 
 -- Handle mode setting/getting
 replacer.set_mode = function(player, mode_name)
-   if mode_name ~= "legacy" and mode_name ~= "paint" then
-      return core.notify(player:get_player_name(), "Invalid replacer mode!")
-   end   
-   local meta = player:get_meta()
-   meta:set_string('replacer_mode', mode_name)
-   core.notify(player:get_player_name(), "Replacer set to " .. mode_name .. " mode.")
+    if mode_name ~= "legacy" and mode_name ~= "paint" then
+        return core.notify(player:get_player_name(), "Invalid replacer mode!")
+    end
+    local meta = player:get_meta()
+    meta:set_string('replacer_mode', mode_name)
+    core.notify(player:get_player_name(), "Replacer set to " .. mode_name .. " mode.")
 end
 
 replacer.get_mode = function(player)
-   local meta = player:get_meta()
-   local mode_name = meta:get_string("replacer_mode")
-   if mode_name == nil then
-      mode_name = "paint"
-      replacer.set_mode(player, mode_name)
-   end
-   return mode_name
+    local meta = player:get_meta()
+    local mode_name = meta:get_string("replacer_mode")
+    if mode_name == nil then
+        mode_name = "paint"
+        replacer.set_mode(player, mode_name)
+    end
+    return mode_name
 end
-      
+
 -- Chat command to set mode
 minetest.register_chatcommand("replacer_mode", {
-   params = "<mode_name>",
-   description = "Sets replacer mode. Modes include 'legacy' or 'paint'",
-   func = function(name, param)
-      if param ~= "legacy" and param ~= "paint" then
-         return minetest.chat_send_player(name, "Invalid replacer mode: 'legacy' or 'paint'")
-      end
-      replacer.set_mode(minetest.get_player_by_name(name), param)
-   end
+    params = "<mode_name>",
+    description = "Sets replacer mode. Modes include 'legacy' or 'paint'",
+    func = function(name, param)
+        if param ~= "legacy" and param ~= "paint" then
+            return minetest.chat_send_player(name, "Invalid replacer mode: 'legacy' or 'paint'")
+        end
+        replacer.set_mode(minetest.get_player_by_name(name), param)
+    end
 })
 
 -- Crafting

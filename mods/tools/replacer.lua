@@ -31,11 +31,13 @@ minetest.register_tool("tools:replacer", {
         if (placer == nil or pointed_thing == nil) then
             return itemstack -- nothing consumed
         end
+        
+        local name = placer:get_player_name()
         if (pointed_thing.type ~= "node") then
             ccore.notify(name, "  Error: No node selected.");
             return nil;
         end
-        local name = placer:get_player_name()
+        
         local mode = replacer.get_mode(placer)
         local keys = placer:get_player_control()
 
@@ -52,7 +54,7 @@ minetest.register_tool("tools:replacer", {
             end
             itemstack:set_metadata(metadata);
 
-            core.notify(name, "Node replacement tool set to: '" .. metadata .. "'.");
+            ccore.notify(name, "Node replacement tool set to: '" .. metadata .. "'.");
             return itemstack; -- nothing consumed but data changed
         end
 
@@ -118,7 +120,7 @@ replacer.replace = function(itemstack, user, pointed_thing, mode)
 
     -- make sure it is defined
     if (not (item["metadata"]) or item["metadata"] == "") then
-        item["metadata"] = "default:dirt 0 0"
+        item["metadata"] = "default:dirt 0 0"local name = placer:get_player_name()
     end
 
     -- regain information about nodename, param1 and param2

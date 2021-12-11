@@ -2,7 +2,7 @@ local notify_ids = {}
 
 -- Support HUD notifications under weildhand with timeout. Leave timeout nil to use default of 12 seconds
 function core._notify(playername, message, timeout)
-    assert(type(timeout) == nil or timeout > 0, "Invalid value: timeout must be a number > 0 or leave nil for default")
+    assert(timeout == nil or timeout > 0, "Invalid value: timeout must be a number > 0 or leave nil for default")
     local player = minetest.get_player_by_name(playername)
     -- TODO: Implement queue of notifications to manage smooth transitioning
     -- avoid missed notifications due to being replaced too quickly

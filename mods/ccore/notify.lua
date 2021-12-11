@@ -1,46 +1,12 @@
-local notify_ids = {}
-
--- Support HUD notifications under weildhand with timeout. Leave timeout nil to use default of 12 seconds
-ccore._notify = function(playername, message, timeout)
-    assert(timeout == nil or timeout > 0, "Invalid value: timeout must be a number > 0 or leave nil for default")
-    local player = minetest.get_player_by_name(playername)
-    -- TODO: Implement queue of notifications to manage smooth transitioning
-    -- avoid missed notifications due to being replaced too quickly
-    -- For now replace current notification
-    if notify_ids[playername] ~= nil then
-        local id = notify_ids[playername]
-        player:hud_remove(id)
-    end
-    -- Create and store HUD
-    local id = player:hud_add({
-        hud_elem_type = "text",
-		name = "Wield",
-		number = 0xFFFFFF,
-		position = {x=0.7, y=1},
-		offset = {x=0, y=-8},
-		text = message,
-		scale = {x=200, y=60},
-		alignment = {x=1, y=-1},
-    });
-    notify_ids[playername] = id;
-    -- Handle notification expiration
-    if timeout == nil then
-        timeout = 12
-    end
-    minetest.after(timeout, function()
-        if notify_ids[playername] == id then
-            player:hud_remove(id)
-        end
-    end);
-end
+ccore.notify_ids = {}
 
 minetest.register_on_leaveplayer(function(player, timed_out)
     local name = player:get_player_name()
-    notify_ids[name] = nil
+    ccore.notify_ids[name] = nil
 end)
 
--- Test notification
+-- Test notification. Greets player on joining.
 minetest.register_on_joinplayer(function(player, last_login)
     local playername = player:get_player_name()
-    ccore._notify(playername, "Welcome "..playername.."!", 8)
+    ccore.notify(playername, "Welcome "..playername.."!", 8)
 end)

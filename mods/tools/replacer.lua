@@ -1,29 +1,15 @@
 local replacer = {}
 replacer.blacklist = {}
--- playing with tnt and creative building are usually contradictory
-replacer.blacklist["tnt:boom"] = true
-replacer.blacklist["tnt:gunpowder"] = true
-replacer.blacklist["tnt:gunpowder_burning"] = true
-replacer.blacklist["tnt:tnt"] = true
--- prevent accidental replacement of your protector
-replacer.blacklist["protector:protect"] = true
-replacer.blacklist["protector:protect2"] = true
+-- Black list example  
+-- replacer.blacklist["tnt:boom"] = true
 
 minetest.register_tool("tools:replacer", {
     description = "Node replacement tool",
-    groups = {},
     inventory_image = "tools_replacer.png",
-    use_texture_alpha = true,
-    wield_image = "",
-    wield_scale = {
-        x = 1,
-        y = 1,
-        z = 1
-    },
     stack_max = 1, -- it has to store information - thus only one can be stacked
     liquids_pointable = true, -- it is ok to paint in/with water
     node_placement_prediction = nil,
-    metadata = "default:dirt", -- default replacement: common dirt
+    metadata = "blocks:dirt", -- default replacement: common dirt
     on_place = function(itemstack, placer, pointed_thing)
         if (placer == nil or pointed_thing == nil) then
             return itemstack -- nothing consumed
@@ -41,7 +27,7 @@ minetest.register_tool("tools:replacer", {
             end
             local pos = minetest.get_pointed_thing_position(pointed_thing, false);
             local node = minetest.get_node_or_nil(pos);
-            local metadata = "default:dirt 0 0";
+            local metadata = "blocks:dirt 0 0";
             if (node ~= nil and node.name) then
                 metadata = node.name .. ' ' .. node.param1 .. ' ' .. node.param2;
             end
@@ -70,7 +56,7 @@ minetest.register_tool("tools:replacer", {
         if (keys["sneak"]) then
             local pos = minetest.get_pointed_thing_position(pointed_thing, false)
             local node = minetest.get_node_or_nil(pos)
-            local metadata = "default:dirt 0 0"
+            local metadata = "blocks:dirt 0 0"
             if (node ~= nil and node.name) then
                 metadata = node.name .. ' ' .. node.param1 .. ' ' .. node.param2
             end
@@ -105,7 +91,7 @@ replacer.replace = function(itemstack, user, pointed_thing, mode)
     local item = itemstack:to_table()
     -- make sure it is defined
     if (not (item["metadata"]) or item["metadata"] == "") then
-        item["metadata"] = "default:dirt 0 0"
+        item["metadata"] = "blocks:dirt 0 0"
     end
     -- regain information about nodename, param1 and param2
     local daten = item["metadata"]:split(" ")
@@ -146,9 +132,9 @@ replacer.replace = function(itemstack, user, pointed_thing, mode)
     }))) then
         -- players usually don't carry dirt_with_grass around it's safe to assume normal dirt here
         -- fortunately, dirt and dirt_with_grass does not make use of rotation
-        if (daten[1] == "default:dirt_with_grass") then
-            daten[1] = "default:dirt"
-            item["metadata"] = "default:dirt 0 0"
+        if (daten[1] == "blocks:dirt_with_grass") then
+            daten[1] = "blocks:dirt"
+            item["metadata"] = "blocks:dirt 0 0"
         end
 
         -- does the player carry at least one of the desired nodes with him?
@@ -157,10 +143,10 @@ replacer.replace = function(itemstack, user, pointed_thing, mode)
             return nil
         end
         -- give the player the item by simulating digging if possible
-        if (node.name ~= "air" and node.name ~= "ignore" and node.name ~= "default:lava_source" and node.name ~=
-            "default:lava_flowing" and node.name ~= "default:river_water_source" and node.name ~=
-            "default:river_water_flowing" and node.name ~= "default:water_source" and node.name ~=
-            "default:water_flowing") then
+        if (node.name ~= "air" and node.name ~= "ignore" and node.name ~= "blocks:lava_source" and node.name ~=
+            "blocks:lava_flowing" and node.name ~= "blocks:river_water_source" and node.name ~=
+            "blocks:river_water_flowing" and node.name ~= "blocks:water_source" and node.name ~=
+            "blocks:water_flowing") then
             minetest.node_dig(pos, node, user)
             local digged_node = minetest.get_node_or_nil(pos)
             if (not (digged_node) or digged_node.name == node.name) then
@@ -181,7 +167,6 @@ replacer.replace = function(itemstack, user, pointed_thing, mode)
     return nil -- no item shall be removed from inventory
 end
 -- protection checking from Vanessa Ezekowitz' homedecor mod
--- see http://forum.minetest.net/viewtopic.php?pid=26061 or https://github.com/VanessaE/homedecor for details!
 replacer.node_is_owned = function(pos, placer)
     if (not (placer) or not (pos)) then
         return true
@@ -203,13 +188,13 @@ replacer.set_mode = function(player, mode_name)
         return ccore.notify(player:get_player_name(), "Invalid replacer mode!")
     end
     local meta = player:get_meta()
-    meta:set_string('replacer_mode', mode_name)
+    meta:set_string('tools:replacer_mode', mode_name)
     ccore.notify(player:get_player_name(), "Replacer set to " .. mode_name .. " mode.")
 end
 
 replacer.get_mode = function(player)
     local meta = player:get_meta()
-    local mode_name = meta:get_string("replacer_mode")
+    local mode_name = meta:get_string("tools:replacer_mode")
     if mode_name == nil then
         mode_name = "paint"
         replacer.set_mode(player, mode_name)
@@ -232,6 +217,6 @@ minetest.register_chatcommand("replacer_mode", {
 -- Crafting
 minetest.register_craft({
     output = 'tools:replacer',
-    recipe = {{'default:chest', '', ''}, {'', 'default:stick', ''}, {'', '', 'default:chest'}}
+    recipe = {{'blocks:chest', '', ''}, {'', 'blocks:stick', ''}, {'', '', 'blocks:chest'}}
 })
 

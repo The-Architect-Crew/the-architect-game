@@ -4,13 +4,14 @@ local notify_ids = {}
 function core._notify(playername, message, timeout)
     assert(type(timeout) == nil or timeout > 0, "Invalid value: timeout must be a number > 0 or leave nil for default")
     local player = minetest.get_player_by_name(playername)
-    -- TODO implement queue of notifications to manage smooth transitioning and avoid missed notifications due to being replaced too quickly
+    -- TODO: Implement queue of notifications to manage smooth transitioning 
+    -- avoid missed notifications due to being replaced too quickly
     -- For now replace current notification
     if notify_ids[playername] ~= nil then
         local id = notify_ids[playername]
         player:hud_remove(id)
     end
-    -- Create and store HUD 
+    -- Create and store HUD
     local id = player:hud_add({
         hud_elem_type = "text",
 		name = "Wield",
@@ -40,6 +41,6 @@ end)
 
 -- Test notification
 minetest.register_on_joinplayer(function(player, last_login)
-    playername = player:get_player_name()
+    local playername = player:get_player_name()
     core._notify(playername, "Welcome "..playername.."!", 8)
 end)

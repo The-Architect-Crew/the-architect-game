@@ -32,12 +32,7 @@ minetest.register_tool("tools:replacer", {
             return itemstack -- nothing consumed
         end
         if (pointed_thing.type ~= "node") then
-<<<<<<< HEAD
             ccore.notify(name, "  Error: No node selected.");
-=======
-            -- minetest.chat_send_player( name, "  Error: No node selected.");
-            core.notify(name, "  Error: No node selected.");
->>>>>>> dd5d65cda742a7346149316bbba468e3748c3811
             return nil;
         end
         local name = placer:get_player_name()
@@ -51,23 +46,13 @@ minetest.register_tool("tools:replacer", {
 
             local pos = minetest.get_pointed_thing_position(pointed_thing, false);
             local node = minetest.get_node_or_nil(pos);
-<<<<<<< HEAD
-=======
-
-            -- minetest.chat_send_player( name, "  Target node: "..minetest.serialize( node ).." at pos "..minetest.serialize( pos ).."."); 
->>>>>>> dd5d65cda742a7346149316bbba468e3748c3811
             local metadata = "default:dirt 0 0";
             if (node ~= nil and node.name) then
                 metadata = node.name .. ' ' .. node.param1 .. ' ' .. node.param2;
             end
             itemstack:set_metadata(metadata);
 
-<<<<<<< HEAD
-            ccore.notify(name, "Node replacement tool set to: '" .. metadata .. "'.");
-=======
-            -- minetest.chat_send_player( name, "Node replacement tool set to: '"..metadata.."'.");
             core.notify(name, "Node replacement tool set to: '" .. metadata .. "'.");
->>>>>>> dd5d65cda742a7346149316bbba468e3748c3811
             return itemstack; -- nothing consumed but data changed
         end
 
@@ -86,11 +71,7 @@ minetest.register_tool("tools:replacer", {
         local mode = replacer.get_mode(user)
 
         if (pointed_thing.type ~= "node") then
-<<<<<<< HEAD
             ccore.notify(name, "  Error: No node selected.")
-=======
-            core.notify(name, "  Error: No node selected.")
->>>>>>> dd5d65cda742a7346149316bbba468e3748c3811
             return nil
         end
         if mode == "legacy" then
@@ -105,11 +86,7 @@ minetest.register_tool("tools:replacer", {
             end
             itemstack:set_metadata(metadata)
 
-<<<<<<< HEAD
             ccore.notify(name, "Node replacement tool set to: '" .. metadata .. "'.")
-=======
-            core.notify(name, "Node replacement tool set to: '" .. metadata .. "'.")
->>>>>>> dd5d65cda742a7346149316bbba468e3748c3811
 
             return itemstack -- nothing consumed but data changed
         else
@@ -126,22 +103,14 @@ replacer.replace = function(itemstack, user, pointed_thing, mode)
     local name = user:get_player_name()
 
     if (pointed_thing.type ~= "node") then
-<<<<<<< HEAD
         ccore.notify(name, "  Error: No node.")
-=======
-        core.notify(name, "  Error: No node.")
->>>>>>> dd5d65cda742a7346149316bbba468e3748c3811
         return nil
     end
 
     local pos = minetest.get_pointed_thing_position(pointed_thing, mode)
     local node = minetest.get_node_or_nil(pos)
     if (node == nil) then
-<<<<<<< HEAD
         ccore.notify(name, "Error: Target node not yet loaded. Please wait a moment for the server to catch up.")
-=======
-        core.notify(name, "Error: Target node not yet loaded. Please wait a moment for the server to catch up.")
->>>>>>> dd5d65cda742a7346149316bbba468e3748c3811
         return nil
     end
 
@@ -166,21 +135,13 @@ replacer.replace = function(itemstack, user, pointed_thing, mode)
     end
 
     if (node.name and node.name ~= "" and replacer.blacklist[node.name]) then
-<<<<<<< HEAD
         ccore.notify(name, "Replacing blocks of the type '" .. (node.name or "?") ..
-=======
-        core.notify(name, "Replacing blocks of the type '" .. (node.name or "?") ..
->>>>>>> dd5d65cda742a7346149316bbba468e3748c3811
             "' is not allowed on this server. Replacement failed.")
         return nil
     end
 
     if (replacer.blacklist[daten[1]]) then
-<<<<<<< HEAD
         ccore.notify(name, "Placing blocks of the type '" .. (daten[1] or "?") ..
-=======
-        core.notify(name, "Placing blocks of the type '" .. (daten[1] or "?") ..
->>>>>>> dd5d65cda742a7346149316bbba468e3748c3811
             "' with the replacer is not allowed on this server. Replacement failed.")
         return nil
     end
@@ -214,11 +175,7 @@ replacer.replace = function(itemstack, user, pointed_thing, mode)
 
         -- does the player carry at least one of the desired nodes with him?
         if (not (user:get_inventory():contains_item("main", daten[1]))) then
-<<<<<<< HEAD
             ccore.notify(name, "You have no further '" .. (daten[1] or "?") .. "'. Replacement failed.")
-=======
-            core.notify(name, "You have no further '" .. (daten[1] or "?") .. "'. Replacement failed.")
->>>>>>> dd5d65cda742a7346149316bbba468e3748c3811
             return nil
         end
 
@@ -233,11 +190,7 @@ replacer.replace = function(itemstack, user, pointed_thing, mode)
             local digged_node = minetest.get_node_or_nil(pos)
             if (not (digged_node) or digged_node.name == node.name) then
 
-<<<<<<< HEAD
                 ccore.notify(name, "Replacing '" .. (node.name or "air") .. "' with '" .. (item["metadata"] or "?") ..
-=======
-                core.notify(name, "Replacing '" .. (node.name or "air") .. "' with '" .. (item["metadata"] or "?") ..
->>>>>>> dd5d65cda742a7346149316bbba468e3748c3811
                     "' failed.\nUnable to remove old node.")
                 return nil
             end
@@ -269,11 +222,7 @@ replacer.node_is_owned = function(pos, placer)
         local res = minetest.is_protected(pos, pname)
         if (res) then
 
-<<<<<<< HEAD
             ccore.notify(pname, "Cannot replace node. It is protected.")
-=======
-            core.notify(pname, "Cannot replace node. It is protected.")
->>>>>>> dd5d65cda742a7346149316bbba468e3748c3811
         end
         return res
     end
@@ -283,19 +232,11 @@ end
 -- Handle mode setting/getting
 replacer.set_mode = function(player, mode_name)
     if mode_name ~= "legacy" and mode_name ~= "paint" then
-<<<<<<< HEAD
         return ccore.notify(player:get_player_name(), "Invalid replacer mode!")
     end
     local meta = player:get_meta()
     meta:set_string('replacer_mode', mode_name)
     ccore.notify(player:get_player_name(), "Replacer set to " .. mode_name .. " mode.")
-=======
-        return core.notify(player:get_player_name(), "Invalid replacer mode!")
-    end
-    local meta = player:get_meta()
-    meta:set_string('replacer_mode', mode_name)
-    core.notify(player:get_player_name(), "Replacer set to " .. mode_name .. " mode.")
->>>>>>> dd5d65cda742a7346149316bbba468e3748c3811
 end
 
 replacer.get_mode = function(player)

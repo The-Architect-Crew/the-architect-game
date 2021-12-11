@@ -1,3 +1,5 @@
 local path = minetest.get_modpath("core")
 dofile(path.."/alias.lua")
+dofile(path.."/functions.lua")
 dofile(path.."/commands/misc.lua")
+dofile(path.."/notify.lua")

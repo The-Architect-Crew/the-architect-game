@@ -1,6 +1,6 @@
 local replacer = {}
 replacer.blacklist = {}
--- Black list example  
+-- Black list example
 -- replacer.blacklist["tnt:boom"] = true
 
 minetest.register_tool("tools:replacer", {

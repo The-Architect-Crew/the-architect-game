@@ -105,7 +105,7 @@ replacer.replace = function(itemstack, user, pointed_thing, mode)
     local item = itemstack:to_table()
     -- make sure it is defined
     if (not (item["metadata"]) or item["metadata"] == "") then
-        item["metadata"] = "default:dirt 0 0"local name = placer:get_player_name()
+        item["metadata"] = "default:dirt 0 0"
     end
     -- regain information about nodename, param1 and param2
     local daten = item["metadata"]:split(" ")

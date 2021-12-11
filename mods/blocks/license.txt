@@ -1,0 +1,96 @@
+Authors of source code:
+-----------------------
+General License: (LGPL 2.1)
+
+dirt.lua / snow.lua / sand.lua / stone.lua / liquid.lua / plank.lua / misc.lua / ladder.lua / torch.lua / book.lua / chest.lua
+	https://github.com/minetest/minetest_game/tree/master/mods/default
+	Various Minetest developers and contributors (LGPL 2.1)
+	
+wool.lua
+	https://github.com/minetest/minetest_game/tree/master/mods/wool
+	Various Minetest developers and contributors (MIT)
+	
+vessel.lua
+	https://github.com/minetest/minetest_game/tree/master/mods/vessels
+	Various Minetest developers and contributors (LGPL 2.1)
+
+brick.lua
+	Hardened Clay
+		neinwhal (LGPL 2.1)
+	Others
+		https://github.com/minetest/minetest_game/tree/master/mods/default
+		Various Minetest developers and contributors (LGPL 2.1)
+
+ore.lua
+	Amethyst / Garnet / Turquoise / Lapis Lazuli / Malachite
+		theraven262 & lumberJack (LGPL 2.1)
+	Amber
+		theraven262 (LGPL 2.1)
+	Silver / Mithril
+		https://github.com/minetest-mods/moreblocks/
+		Hugo Locurio (zlib)
+	Others
+		https://github.com/minetest/minetest_game/tree/master/mods/default
+		Various Minetest developers and contributors (LGPL 2.1)
+
+glass.lua
+	Amber Glass
+		theraven262 (LGPL 2.1)
+	Glass / Obsidian Glass
+		https://github.com/minetest/minetest_game/tree/master/mods/default
+		Various Minetest developers and contributors (LGPL 2.1)
+
+lamp.lua
+	Amethyst Lantern / Garnet Lantern
+		theraven262 & lumberJack (LGPL 2.1)
+	Mese Lamp / Mese Lamppost
+		https://github.com/minetest/minetest_game/tree/master/mods/default
+		Various Minetest developers and contributors (LGPL 2.1)
+
+sign.lua
+	Signs
+		https://github.com/minetest/minetest_game/tree/master/mods/default
+		Various Minetest developers and contributors (LGPL 2.1)
+		Modified: neinwhal (LGPL 2.1)
+	Arrow Signs
+		https://bitbucket.org/adrido/arrow_signs/
+		addi (CC BY-SA 3.0)
+		Modified: neinwhal (LGPL 2.1)
+	Sign Support
+		https://bitbucket.org/Infinatum/medieval/src/master/
+		Infinatum (CC-BY-SA 4.0)
+	
+itemframe.lua
+	https://github.com/minetest-mods/xdecor/
+	kilbith (BSD)
+	Modified: neinwhal (LGPL 2.1)
+
+shapes.lua
+	neinwhal (LGPL 2.1)
+
+Authors of media files
+-----------------------
+General License: (CC-BY-SA 3.0)
+
+neinwhal (CC-BY-SA 3.0) (Modified from minetest_game)
+	blocks_clay_hard.png
+	blocks_itemframe*
+	blocks_sign*
+
+theraven262 (CC-BY-SA 3.0)
+	blocks_amber*
+	blocks_mosaic_frame.png
+	*amethyst*
+	*garnet*
+	*lapis_lazuli*
+	*malachite*
+
+Hugo Locurcio (CC-BY-SA 3.0)
+	*mithril*
+	*silver*
+	
+Infiantum (CC-BY-SA 4.0)
+	blocks_sign_support*
+
+Not otherwise stated / Taken from minetest_game:
+Various Minetest developers and contributors (CC BY-SA 3.0)

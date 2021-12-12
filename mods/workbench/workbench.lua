@@ -253,7 +253,7 @@ local function can_dig(pos, player)
 	local meta = minetest.get_meta(pos)
 	local inv = meta:get_inventory()
 	-- Only owner can dig
-	if player:get_player_name() ~= meta:get_string("owner") then
+	if player:get_player_name() ~= meta:get_string("owner") and meta:get_string("owner") ~= "" then
 		return false
 	end
 	-- ===============

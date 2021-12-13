@@ -10,7 +10,7 @@ ccore.notify = function(playername, message, timeout)
         local id = ccore.notify_ids[playername]
         player:hud_remove(id)
     end
-    -- Wrap messages longer than 68 chars per line at first space found, else don't wrap.
+    -- Wrap messages longer than 64 chars per line at first space found, else don't wrap.
     local lines = 1
     if string.len(message) > 64 then
         lines = math.floor(string.len(message)/64)

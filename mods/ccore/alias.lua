@@ -17,8 +17,8 @@ minetest.register_alias("default:ladder_wood", "blocks:ladder_wood")
 minetest.register_alias("default:ladder_steel", "blocks:ladder_steel")
 
 -- blocks / sign.lua
-minetest.register_alias("default:sign_wall_wood", "blocks:sign_wall_wood")
-minetest.register_alias("default:sign_wall_steel", "blocks:sign_wall_steel")
+minetest.register_alias("default:sign_wall_wood", "blocks:sign_wood")
+minetest.register_alias("default:sign_wall_steel", "blocks:sign_steel")
 
 -- blocks / cloud.lua
 minetest.register_alias("default:cloud", "blocks:cloud")

@@ -10,21 +10,36 @@ ccore.notify = function(playername, message, timeout)
         local id = ccore.notify_ids[playername]
         player:hud_remove(id)
     end
-    -- Create and store HUD
+    -- Wrap messages longer than 68 chars per line at first space found, else don't wrap.
+    local lines = 1
+    if string.len(message) > 64 then
+        lines = math.floor(string.len(message)/64)
+    end
+    if lines > 1 then
+        for n = 1,lines do
+            local start, stop = string.find(message, " ", n*64)
+                if start ~= nil then
+                    message = message:sub(0, start) .. "\n" .. message:sub(stop)
+                end
+        end
+    end
+    -- Create HUD
     local id = player:hud_add({
         hud_elem_type = "text",
 		number = 0xFFFFFF,
-		position = {x=0.7, y=1},
-		offset = {x=0, y=-8},
+		position = {x=0.5, y=0.9},
+		offset = {x=-264, y=0},
 		text = message,
-		scale = {x=200, y=60},
+		scale = {x=0, y=60},
 		alignment = {x=1, y=-1},
     });
+    --store notification id
     ccore.notify_ids[playername] = id;
     -- Handle notification expiration
     if timeout == nil or type(timeout) ~= "number" then
         timeout = 12  -- use default
     end
+    -- Handle notification timeout
     minetest.after(timeout, function()
         if ccore.notify_ids[playername] == id then
             player:hud_remove(id)

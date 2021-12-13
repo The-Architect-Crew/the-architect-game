@@ -63,7 +63,7 @@ function workbench.link_to_stations(pos, nodename, savename)
 				stmeta:set_string("link", minetest.serialize(pos))
 				meta:set_string("station_"..savename, minetest.serialize(position[i]))
 				-- start work stations node timer to enable infotext update
-				minetest.get_node_timer(position[i]):start(0.0)
+				minetest.get_node_timer(position[i]):start(0)
 				return true
 			end
 		end

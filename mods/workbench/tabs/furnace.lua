@@ -8,17 +8,18 @@ local function fuel_icons(pos)
 end
 
 function wb_furnace.formspec(pos, locked)
+	local context = "nodemeta:"..pos.x..","..pos.y..","..pos.z
 	return workbench.tabs(pos, locked)..
-		"list[context;furnace_input;3.525,2.275;1,1;]"..
+		"list["..context..";furnace_input;3.525,2.275;1,1;]"..
 		fuel_icons(pos)..
 		"image[4.875,2.375;0.8,0.8;gui_arrow.png^[transformFYR90]"..
-		"list[context;furnace_output;6.025,2.275;1,1;]"..
+		"list["..context..";furnace_output;6.025,2.275;1,1;]"..
 		"field[9.15,2.9;1,1;max_offered;".."Max"..":;${max_offered}]"..
 		"button[9.15,4.15;1,1;Set;".."Set".."]"..
 		"listring[current_player;main]"..
-		"listring[context;furnace_input]"..
+		"listring["..context..";furnace_input]"..
 		"listring[current_player;main]"..
-		"listring[context;furnace_output]"
+		"listring["..context..";furnace_output]"
 end
 
 function wb_furnace.on_receive_fields(pos, formname, fields, sender)

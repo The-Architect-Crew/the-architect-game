@@ -150,22 +150,23 @@ local function fuel_icons(pos)
 end
 
 function wb_shapes.formspec(pos, locked)
+	local context = "nodemeta:"..pos.x..","..pos.y..","..pos.z
 	return workbench.tabs(pos, locked)..
 		"image[0.45,0.5;0.8,0.8;gui_input.png]"..
-		"list[context;shapes_input;0.4,0.4;1,1;]"..
+		"list["..context..";shapes_input;0.4,0.4;1,1;]"..
 		"image[1.75,0.5;0.8,0.8;gui_arrow.png^[transformFYR90]"..
 		"image[0.46,1.75;0.8,0.8;gui_cube.png]"..
-		"list[context;shapes_micro;0.4,1.65;1,1;]"..
+		"list["..context..";shapes_micro;0.4,1.65;1,1;]"..
 		"image[1.75,1.75;0.8,0.8;gui_arrow.png^[transformFYR90]"..
-		"list[context;shapes_output;2.9,0.4;5,5;]"..
+		"list["..context..";shapes_output;2.9,0.4;5,5;]"..
 		"field[9.15,2.9;1,1;max_offered;".."Max"..":;${max_offered}]"..
 		"button[9.15,4.15;1,1;Set;".."Set".."]"..
 		"listring[current_player;main]"..
-		"listring[context;shapes_input]"..
+		"listring["..context..";shapes_input]"..
 		"listring[current_player;main]"..
-		"listring[context;shapes_output]"..
+		"listring["..context..";shapes_output]"..
 		"listring[current_player;main]"..
-		"listring[context;shapes_micro]"..
+		"listring["..context..";shapes_micro]"..
 		fuel_icons(pos)
 end
 

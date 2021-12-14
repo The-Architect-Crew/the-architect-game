@@ -285,7 +285,6 @@ local function after_place_node(pos, placer)
 			return true
 		end
 	end
-	
 	meta:set_string("owner",  owner)
 	meta:set_string("infotext", "Workbench is empty (owned by "..owner..") \nWorkbench is locked")
 end

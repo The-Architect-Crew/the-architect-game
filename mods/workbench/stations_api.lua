@@ -8,28 +8,36 @@ local function swap_node(pos, name)
 end
 
 local function active_formspec(fuel_percent, fueltype)
-	return "size[8,8.5]"..
-		"image[3.49,2;1,1;gui_fuel_"..fueltype..".png]"..
-		"list[context;fuel;3.49,2;1,1;]"..
-		"image[3.49,1;1,1;gui_fire_bg.png^[lowpart:"..
+	return "formspec_version[4]"..
+		"size[10.5,11.9]"..
+		-- tabs
+		"image_button[0,-1.2;1.1,1.1;workbench_tab_fuel.png;wb_tab_fuel;;true;false;workbench_tab_fuel.png]"..
+		"tooltip[wb_tab_fuel;Fuel]"..
+		-- fuel input
+		"image[4.75,3.525;1,1;gui_fuel_"..fueltype..".png]"..
+		"list[context;fuel;4.75,3.525;1,1;]"..
+		"image[4.75,2.275;1,1;gui_fire_bg.png^[lowpart:"..
 		(fuel_percent)..":gui_fire.png]"..
-		"list[current_player;main;0,4.25;8,1;]"..
-		"list[current_player;main;0,5.5;8,3;8]"..
+		-- liststring
+		"list[current_player;main;0.4,6.75;8,4;]"..
 		"listring[current_player;main]"..
-		"listring[context;fuel]"..
-		default.get_hotbar_bg(0, 4.25)
+		"listring[context;fuel]"
 end
 
 local function inactive_formspec(fueltype)
-	return "size[8,8.5]"..
-		"image[3.49,2;1,1;gui_fuel_"..fueltype..".png]"..
-		"list[context;fuel;3.49,2;1,1;]"..
-		"image[3.49,1;1,1;gui_fire_bg.png]"..
-		"list[current_player;main;0,4.25;8,1;]"..
-		"list[current_player;main;0,5.5;8,3;8]"..
+	return "formspec_version[4]"..
+		"size[10.5,11.9]"..
+		-- tabs
+		"image_button[0,-1.2;1.1,1.1;workbench_tab_fuel.png;wb_tab_fuel;;true;false;workbench_tab_fuel.png]"..
+		"tooltip[wb_tab_fuel;Fuel]"..
+		-- fuel input
+		"image[4.75,3.525;1,1;gui_fuel_"..fueltype..".png]"..
+		"list[context;fuel;4.75,3.525;1,1;]"..
+		"image[4.75,2.275;1,1;gui_fire_bg.png]"..
+		-- liststring
+		"list[current_player;main;0.4,6.75;8,4;]"..
 		"listring[current_player;main]"..
-		"listring[context;fuel]"..
-		default.get_hotbar_bg(0, 4.25)
+		"listring[context;fuel]"
 end
 
 workbench.fuel_list = {}
@@ -216,6 +224,7 @@ function workbench:register_workstation(name, def)
 		description = desc,
 		drawtype = "mesh",
 		mesh = def.mesh,
+		selection_box = def.selection_box,
 		groups = def.groups,
 		tiles = def.tiles,
 		paramtype = "light",
@@ -235,6 +244,13 @@ function workbench:register_workstation(name, def)
 			if placer then
 				if not workbench.detect(pos, sname) then
 					workbench.send(placer, "Please place the "..desc.." nearby (5 node radius) to an unlinked workbench.")
+					minetest.remove_node(pos)
+					return true
+				end
+				local pos2 = vector.floor(pos)
+				pos2.y = pos2.y + 1
+				if minetest.get_node(pos2).name ~= "air" then
+					workbench.send(placer, "The workstation requires a empty space of 2 height.")
 					minetest.remove_node(pos)
 					return true
 				end
@@ -272,6 +288,7 @@ function workbench:register_workstation(name, def)
 		description = desc,
 		drawtype = "mesh",
 		mesh = def.mesh,
+		selection_box = def.selection_box,
 		groups = r_group,
 		tiles = def.animated_tiles,
 		paramtype = "light",

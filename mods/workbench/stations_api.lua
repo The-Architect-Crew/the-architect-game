@@ -224,6 +224,7 @@ function workbench:register_workstation(name, def)
 		description = desc,
 		drawtype = "mesh",
 		mesh = def.mesh,
+		selection_box = def.selection_box,
 		groups = def.groups,
 		tiles = def.tiles,
 		paramtype = "light",
@@ -243,6 +244,13 @@ function workbench:register_workstation(name, def)
 			if placer then
 				if not workbench.detect(pos, sname) then
 					workbench.send(placer, "Please place the "..desc.." nearby (5 node radius) to an unlinked workbench.")
+					minetest.remove_node(pos)
+					return true
+				end
+				local pos2 = vector.floor(pos)
+				pos2.y = pos2.y + 1
+				if minetest.get_node(pos2).name ~= "air" then
+					workbench.send(placer, "The workstation requires a empty space of 2 height.")
 					minetest.remove_node(pos)
 					return true
 				end
@@ -280,6 +288,7 @@ function workbench:register_workstation(name, def)
 		description = desc,
 		drawtype = "mesh",
 		mesh = def.mesh,
+		selection_box = def.selection_box,
 		groups = r_group,
 		tiles = def.animated_tiles,
 		paramtype = "light",

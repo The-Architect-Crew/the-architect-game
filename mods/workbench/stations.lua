@@ -3,6 +3,13 @@ workbench:register_workstation("tablesaw", {
 	savename = "shapes_complex",
 	description = "Table Saw",
 	mesh = "workbench_tablesaw.obj",
+	selection_box = {
+		type = "fixed",
+		fixed = {
+			{-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
+			{-0.125, 0.5, -0.5, 0.125, 0.75, 0.5},
+		},
+	},
 	light_source = 3,
 	groups = {choppy = 2,oddly_breakable_by_hand = 2},
 	tiles = {"workbench_tablesaw.png"},
@@ -42,6 +49,13 @@ workbench:register_workstation("cnc", {
 	savename = "shapes_slope",
 	description = "CNC Table",
 	mesh = "workbench_cnc.obj",
+	selection_box = {
+		type = "fixed",
+		fixed = {
+			{-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
+			{-0.4375, 0.5, -0.375, 0.4375, 1.125, 0.375},
+		},
+	},
 	light_source = 6,
 	groups = {choppy = 2,oddly_breakable_by_hand = 2},
 	tiles = {"workbench_cnc.png"},
@@ -62,6 +76,13 @@ workbench:register_workstation("furnace", {
 	savename = "furnace",
 	description = "Furnace",
 	mesh = "workbench_furnace.obj",
+	selection_box = {
+		type = "fixed",
+		fixed = {
+			{-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
+			{-0.375, 0.5, -0.375, 0.375, 1.5, 0.375},
+		},
+	},
 	light_source = 8,
 	groups = {choppy = 2,oddly_breakable_by_hand = 2},
 	tiles = {"workbench_furnace.png"},

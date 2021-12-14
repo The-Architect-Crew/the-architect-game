@@ -276,6 +276,16 @@ end
 local function after_place_node(pos, placer)
 	local meta = minetest.get_meta(pos)
 	local owner = placer and placer:get_player_name() or ""
+	if placer then
+		local pos2 = vector.floor(pos)
+			pos2.y = pos2.y + 1
+			if minetest.get_node(pos2).name ~= "air" then
+				workbench.send(placer, "The workbench requires a empty space of 2 height.")
+				minetest.remove_node(pos)
+			return true
+		end
+	end
+	
 	meta:set_string("owner",  owner)
 	meta:set_string("infotext", "Workbench is empty (owned by "..owner..") \nWorkbench is locked")
 end
@@ -296,7 +306,10 @@ minetest.register_node("workbench:workbench",  {
 	mesh = "workbench.obj",
 	selection_box = {
 		type = "fixed",
-		fixed = { -0.5, -0.5, -0.5, 0.5, 0.5, 0.5 }
+		fixed = {
+			{-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
+			{-0.4375, 0.5, 0.25, 0.4375, 1.5, 0.4375},
+		},
 	},
 	tiles = {"workbench_workbench.png"},
 	paramtype = "light",

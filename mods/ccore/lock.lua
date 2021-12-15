@@ -16,13 +16,16 @@ function locks.desc(type, level, disable_shared)
 	end
 end
 
+local function get_desc(add_desc)
+	if not add_desc then
+		return ""
+	else
+		return " \n"..add_desc
+	end
+end
+
 -- returns current order, next order
 function locks.icons(fieldname, lock, order, disable_shared, add_desc)
-	if not add_desc then
-		adesc = ""
-	else
-		adesc = " \n"..add_desc
-	end
 	for index, row in pairs(order) do
 		if row == lock then
 			local indexplus = index + 1
@@ -33,7 +36,7 @@ function locks.icons(fieldname, lock, order, disable_shared, add_desc)
 			end
 			local cicon, nicon = order[index], order[indexplus]
 			return "gui_"..cicon..".png;"..fieldname.."_"..nicon..";;true;false;]"..
-				"tooltip["..fieldname.."_"..nicon..";Current status: "..cicon.." \n"..locks.desc(cicon, 1, disable_shared).." \nPress to change to: "..nicon..""..adesc.."]"
+				"tooltip["..fieldname.."_"..nicon..";Current status: "..cicon.." \n"..locks.desc(cicon, 1, disable_shared).." \nPress to change to: "..nicon..""..get_desc(add_desc).."]"
 		end
 	end
 end

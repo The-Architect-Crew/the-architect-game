@@ -83,7 +83,6 @@ local function sign_can_dig(pos, player)
 	local meta = minetest.get_meta(pos)
 	local playername = player:get_player_name()
 	local owner = meta:get_string("owner")
-	local locked = meta:get_string("lock")
 	if locks.can_access(pos, player) then
 		return true
 	else

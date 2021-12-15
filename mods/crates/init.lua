@@ -57,7 +57,6 @@ function crates:register_storage(name, def)
 		else
 			crates.sorting_formspec = ""
 		end
-		
 		return "formspec_version[4]"..
 			"size[10.55,"..(8.35 + colw).."]"..
 			-- bg
@@ -153,7 +152,6 @@ function crates:register_storage(name, def)
 			meta:set_string("infotext", locks.desc(locko[1], 2).." "..desc.." (Owned by "..playername..")")
 		end,
 		on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
-			local meta = minetest.get_meta(pos)
 			local playername = clicker:get_player_name()
 			if locks.can_access(pos, clicker) then
 				show_formspec(playername, pos)
@@ -211,7 +209,7 @@ function crates:register_storage(name, def)
 		end,
 		on_blast = function() end,
 	})
-	
+	-- receive fields
 	minetest.register_on_player_receive_fields(function(player, formname, fields)
 		if formname ~= name or not player then
 			return
@@ -255,7 +253,6 @@ function crates:register_storage(name, def)
 				show_formspec(playername, pos)
 			end
 		end
-		
 		-- sorting
 		-- allow shared and owner access always
 		-- if protected + "protect/unlock": allow protection owner(s)
@@ -297,7 +294,7 @@ function crates:register_storage(name, def)
 				sort_inventory(inv, "all")
 			end
 		end
-		
+		-- quit field, reset pos
 		if fields.quit then
 			crates.pos[playername] = nil
 		end

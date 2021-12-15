@@ -18,7 +18,6 @@ end
 
 -- returns current order, next order
 function locks.icons(fieldname, lock, order, disable_shared, add_desc)
-	local adesc = ""
 	if not add_desc then
 		adesc = ""
 	else
@@ -41,7 +40,7 @@ end
 
 -- check whether valid access
 -- returns true if able to access protected area + has edit rights
--- return <value> if has edit rights but not access protected area 
+-- return <value> if has edit rights but not access protected area
 -- return "mail" if has mail rights
 function locks.can_access(pos, player)
 	local meta = minetest.get_meta(pos)

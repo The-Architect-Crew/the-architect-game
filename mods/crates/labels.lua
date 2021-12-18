@@ -45,7 +45,6 @@ for i in ipairs(colors) do
 		},
 		on_rotate = false,
 	})
-	
 	minetest.register_node("crates:label2_"..cname, {
 		drawtype = "nodebox",
 		tiles = {"crates_label.png^[colorize:"..chex..":180"},
@@ -80,7 +79,6 @@ function crates.label_formspec()
 		"style[storage_label_repos;bgimg=gui_refresh.png;border=false;bgimg_hovered=gui_refresh.png^[brighten;bgimg_pressed=gui_refresh.png^[brighten]"..
 		"button[8.965,0.25;0.3,0.3;storage_label_repos;]"..
 		"tooltip[storage_label_repos;Rotate position of colored label]"
-		
 	for i in ipairs(colors) do
 		lcstr = lcstr..
 			"style[storage_label_"..colors[i][1]..";bgimg=gui_white.png;border=true;bgcolor="..colors[i][2].."]"..
@@ -124,6 +122,7 @@ end
 
 function crates.label_add(pos, start, labelcol, labelno, repos)
 	local labelc = label_coords(pos)
+	-- label at top (rotation at top)
 	if repos and start >= 5 then
 		local labelup = labelc[5][1]
 		if minetest.get_node(labelup).name == "air" then
@@ -144,7 +143,6 @@ function crates.label_add(pos, start, labelcol, labelno, repos)
 			end
 		end
 	end
-	
 	for i = start, #labelc do
 		local labelpos = labelc[i][1]
 		if minetest.get_node(labelpos).name == "air" then
@@ -168,7 +166,6 @@ function crates.label_receive_fields(player, formname, fields, pos, labelno)
 	local playername = player:get_player_name()
 	local meta = minetest.get_meta(pos)
 	local currcolor = meta:get_string("colorlabel")
-	local labelc = label_coords(pos)
 	-- color buttons
 	for i = 1, #colors do
 		local labelcolor = colors[i][1]
@@ -176,7 +173,7 @@ function crates.label_receive_fields(player, formname, fields, pos, labelno)
 			local labelex = crates.label_exists(pos)
 			-- if there's existing labels, replace
 			if labelex then
-				local labelpos, labelord, labelp2 = crates.label_exists(pos)
+				local labelpos, _, labelp2 = crates.label_exists(pos)
 				minetest.set_node(labelpos, {name = "crates:label"..labelno.."_"..labelcolor, param2 = labelp2})
 				meta:set_string("colorlabel", labelcolor)
 			-- if no labels, add a new label
@@ -199,7 +196,7 @@ function crates.label_receive_fields(player, formname, fields, pos, labelno)
 		local labelex = crates.label_exists(pos)
 		-- ensuring there is existing labels
 		if labelex and currcolor ~= "" then
-			local labelpos, labelord, labelp2 = crates.label_exists(pos)
+			local _, labelord, labelp2 = crates.label_exists(pos)
 			crates.label_remove(pos)
 			local addlabel = crates.label_add(pos, labelord+1, currcolor, labelno, labelp2)
 			if not addlabel then

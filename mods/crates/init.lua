@@ -23,7 +23,6 @@ local function sort_inventory(inv, sorttype, sort)
 			end
 		end
 	end
-	
 	if sort then
 		table.sort(typekeys)
 	end
@@ -57,6 +56,7 @@ function crates:register_storage(name, def)
 		local label = meta:get_string("label")
 		local shared = meta:get_string("shared")
 		local lock = meta:get_string("lock")
+		-- sorting formspec
 		if def.sorting and scolumns > 1 then
 			crates.sorting_formspec =
 				"button[10.65,1.8;0.5,0.5;storage_sort;S]"..
@@ -74,13 +74,12 @@ function crates:register_storage(name, def)
 		else
 			crates.sorting_formspec = ""
 		end
-		
+		-- color label formspec
 		if def.colorlabel then
 			crates.label_formspec2 = crates.label_formspec()
 		else
 			crates.label_formspec2 = ""
 		end
-		
 		return "formspec_version[4]"..
 			"size[10.55,"..(8.35 + colw).."]"..
 			-- bg
@@ -316,13 +315,11 @@ function crates:register_storage(name, def)
 			elseif fields.storage_compress then
 				sort_inventory(inv, "all")
 			end
-			
 			-- colour labels
 			if def.colorlabel then
 				crates.label_receive_fields(player, formname, fields, pos, def.colorlabel)
 			end
 		end
-		
 		-- quit field, reset pos
 		if fields.quit then
 			crates.pos[playername] = nil

@@ -1,8 +1,11 @@
 crates = {}
 crates.pos = {}
 
+local path = minetest.get_modpath("crates")
+dofile(path.."/labels.lua")
+
 -- Inventory sorting ( Taken from https://github.com/minetest-mods/technic/blob/master/technic_chests/register.lua )
-local function sort_inventory(inv, sorttype, tslots)
+local function sort_inventory(inv, sorttype, sort)
 	local inlist = inv:get_list("main")
 	local typecnt = {}
 	local typekeys = {}
@@ -20,12 +23,24 @@ local function sort_inventory(inv, sorttype, tslots)
 			end
 		end
 	end
-	table.sort(typekeys)
+	
+	if sort then
+		table.sort(typekeys)
+	end
 	inv:set_list("main", {})
 	for _, k in ipairs(typekeys) do
 		for _, item in ipairs(typecnt[k]) do
 			inv:add_item("main", item)
 		end
+	end
+end
+
+-- label display
+local function label_display(label)
+	if label == "" then
+		return ""
+	else
+		return "Label: "..label
 	end
 end
 
@@ -46,9 +61,11 @@ function crates:register_storage(name, def)
 			crates.sorting_formspec =
 				"button[10.65,1.8;0.5,0.5;storage_sort;S]"..
 				"tooltip[storage_sort;Sort everything]"..
-				"button[10.65,2.4;0.5,0.5;storage_row_up;Ʌ]"..
+				"button[10.65,2.4;0.5,0.5;storage_compress;C]"..
+				"tooltip[storage_compress;Compress everything (Fill all the gaps)]"..
+				"button[10.65,3.0;0.5,0.5;storage_row_up;Ʌ]"..
 				"tooltip[storage_row_up;Move everything one row up]"..
-				"button[10.65,3.0;0.5,0.5;storage_row_down;V]"..
+				"button[10.65,3.6;0.5,0.5;storage_row_down;V]"..
 				"tooltip[storage_row_down;Move everything one row down]"
 		elseif def.sorting and scolumns == 1 then
 			crates.sorting_formspec =
@@ -57,11 +74,17 @@ function crates:register_storage(name, def)
 		else
 			crates.sorting_formspec = ""
 		end
+		
+		if def.colorlabel then
+			crates.label_formspec2 = crates.label_formspec()
+		else
+			crates.label_formspec2 = ""
+		end
+		
 		return "formspec_version[4]"..
 			"size[10.55,"..(8.35 + colw).."]"..
 			-- bg
 			"style_type[image;noclip=true]"..
-			"style_type[button;noclip=true;bgimg=gui_bg_curved.png;bgimg_hovered=gui_bg_hover_curved.png;border=false]"..
 			"image[-1.4,"..(6.9 + colw)..";1.4,1.4;gui_tab.png]"..
 			--"image[10.54,"..(6.9 + colw)..";1.4,1.4;gui_tab.png^[transformFX]"..
 			--"image[10.54,0.3;1.4,1.4;gui_tab.png^[transformFX]"..
@@ -69,7 +92,8 @@ function crates:register_storage(name, def)
 			-- label
 			"field[0.375,0.6;9.2,0.8;storage_label;"..desc.." Label;"..label.."]"..
 			"field_close_on_enter[storage_label;false]"..
-			"image_button[9.5,0.47;1,1;gui_enter.png;storage_label_save;;true;false;gui_enter.png]"..
+			"image_button[9.5,0.47;1,1;gui_enter.png;storage_label_save;;true;false;gui_enter.png^[colorize:black:80]"..
+			crates.label_formspec2..
 			-- storage
 			"list[nodemeta:"..spos..";main;0.4,1.8;8,"..scolumns..";]"..
 			-- player
@@ -79,20 +103,13 @@ function crates:register_storage(name, def)
 			"field[0.375,"..(7.2 + colw)..";9.2,0.8;storage_shared;Shared with (separate names with spaces):;"..shared.."]"..
 			"field_close_on_enter[storage_shared;false]"..
 			"tooltip[storage_shared;Player names here will have access regardless of locked status \nOnly the owner can change settings \nFormat: 'name1 name2 name3...']"..
-			"image_button[9.5,"..(7.07 + colw)..";1,1;gui_enter.png;storage_shared_save;;true;false;gui_enter.png]"..
+			"image_button[9.5,"..(7.07 + colw)..";1,1;gui_enter.png;storage_shared_save;;true;false;gui_enter.png^[colorize:black:80]"..
 			-- sorting
+			"style_type[button;noclip=true;bgimg=gui_bg_curved.png;bgimg_hovered=gui_bg_hover_curved.png;border=false]"..
 			crates.sorting_formspec..
 			-- listring
 			"listring[nodemeta:" .. spos .. ";main]"..
 			"listring[current_player;main]"
-	end
-	-- label display
-	local function label_display(label)
-		if label == "" then
-			return ""
-		else
-			return "Label: "..label
-		end
 	end
 	-- show formspec
 	local function show_formspec(playername, pos)
@@ -142,6 +159,7 @@ function crates:register_storage(name, def)
 			meta:set_string("owner", "")
 			meta:set_string("label", "")
 			meta:set_string("shared", "")
+			meta:set_string("colorlabel", "")
 			meta:set_string("lock", locko[1])
 			meta:set_string("infotext", locks.desc(locko[1], 2).." "..desc.." \nUnowned")
 		end,
@@ -206,6 +224,9 @@ function crates:register_storage(name, def)
 			if locks.can_access(pos, player) == true and inv:is_empty("main") then
 				return true
 			end
+		end,
+		on_destruct = function(pos)
+			crates.label_remove(pos)
 		end,
 		on_blast = function() end,
 	})
@@ -291,9 +312,17 @@ function crates:register_storage(name, def)
 				end
 				inv:set_list("main", newlist)
 			elseif fields.storage_sort then
+				sort_inventory(inv, "all", true)
+			elseif fields.storage_compress then
 				sort_inventory(inv, "all")
 			end
+			
+			-- colour labels
+			if def.colorlabel then
+				crates.label_receive_fields(player, formname, fields, pos, def.colorlabel)
+			end
 		end
+		
 		-- quit field, reset pos
 		if fields.quit then
 			crates.pos[playername] = nil
@@ -306,6 +335,7 @@ crates:register_storage("crates:crate", {
 	columns = 4,
 	sorting = true,
 	portable = true,
+	colorlabel = 2,
 	lock_order = {"lock", "protect", "unlock", "mail"},
 	drawtype = "mesh",
 	mesh = "crate.obj",

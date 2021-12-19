@@ -77,6 +77,9 @@ function crates:register_storage(name, def)
 		elseif def.sorting and scolumns == 1 then
 			crates.sorting_formspec =
 				"button[10.65,1.8;0.5,0.5;storage_sort;S]"..
+				"tooltip[storage_sort;Sort everything]"..
+				"button[10.65,2.4;0.5,0.5;storage_compress;C]"..
+				"tooltip[storage_compress;Compress everything (Fill all the gaps)]"..
 				"tooltip[storage_sort;Sort everything]"
 		else
 			crates.sorting_formspec = ""
@@ -498,14 +501,14 @@ end)
 
 crates:register_storage("crates:crate", {
 	description = "Crate",
-	columns = 4,
-	sorting = true,
-	portable = true,
-	colorlabel = 2,
-	lock_order = {"lock", "protect", "unlock", "mail"},
+	columns = 4, -- 4 * 8 inventory spaces
+	sorting = true, -- enable sorting functions
+	portable = true, -- enable portability
+	colorlabel = 2, -- enable colorlabels
+	lock_order = {"lock", "protect", "unlock", "mail"}, -- order of locking modes
 	drawtype = "mesh",
 	mesh = "crates_crate.obj",
-	groups = {oddly_breakable_by_hand = 1},
+	groups = {choppy = 2, oddly_breakable_by_hand = 2},
 	tiles = {"crates_crate.png"},
 	filled_tiles = {"crates_crate_filled.png"},
 	sunlight_propagates = true,

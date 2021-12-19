@@ -273,10 +273,8 @@ function crates:register_storage(name, def)
 				if pinv:room_for_item("main", {name=name.."_filled"}) then
 					pinv:add_item("main", storageitem)
 				else
-					local pos = digger:get_pos()
-					pos.y = math.floor(pos.y + 0.5)
 					minetest.add_item(pos, storageitem)
-				end 
+				end
 				return false
 			end
 			minetest.node_dig(pos, node, digger)
@@ -323,22 +321,18 @@ function crates:register_storage(name, def)
 			groups = {not_in_creative_inventory = 1},
 			drop = "",
 			stack_max = 1,
-			on_use = function(itemstack, user, pointed_thing)
-				local meta = itemstack:get_meta()
-			end,
 			on_place = function(itemstack, placer, pointed_thing)
-				local meta = itemstack:get_meta()
 				local addnode, addpos = minetest.item_place_node(ItemStack(name), placer, pointed_thing)
 				if addnode and addpos then
-					local meta = minetest.get_meta(addpos)
-					local inv = meta:get_inventory()
+					local nmeta = minetest.get_meta(addpos)
+					local inv = nmeta:get_inventory()
 					local imeta = itemstack:get_meta()
 					local playername = placer:get_player_name()
-					meta:set_string("label", imeta:get_string("label"))
-					meta:set_string("shared", imeta:get_string("shared"))
-					meta:set_string("lock", imeta:get_string("lock"))
-					meta:set_string("portable", imeta:get_string("portable"))
-					meta:set_string("infotext", locks.desc(imeta:get_string("lock"), 2).." "..desc.." (Owned by "..playername..") \n"..label_display(imeta:get_string("label")))
+					nmeta:set_string("label", imeta:get_string("label"))
+					nmeta:set_string("shared", imeta:get_string("shared"))
+					nmeta:set_string("lock", imeta:get_string("lock"))
+					nmeta:set_string("portable", imeta:get_string("portable"))
+					nmeta:set_string("infotext", locks.desc(imeta:get_string("lock"), 2).." "..desc.." (Owned by "..playername..") \n"..label_display(nmeta:get_string("label")))
 					local iinvdata = minetest.deserialize(imeta:get_string("invdata"))
 					inv:set_list("main", iinvdata)
 					if not minetest.is_creative_enabled(playername) then

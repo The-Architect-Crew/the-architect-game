@@ -43,6 +43,13 @@ local function label_display(label)
 	end
 end
 
+local function filled_desc(label, desc)
+	if label ~= "" then
+		return "Filled "..desc.." (Label: "..label..") \nPunch to see storage \nPlace down to access storage"
+	end
+	return "Filled "..desc.." \nPunch to see storage \nPlace down to access storage"
+end
+
 -- storage API
 function crates:register_storage(name, def)
 	local desc = def.description
@@ -80,6 +87,17 @@ function crates:register_storage(name, def)
 		else
 			crates.label_formspec2 = ""
 		end
+		-- portability formspec
+		if def.portable then
+			local portability = meta:get_string("portable")
+			crates.porta_formspec =
+				"image[-1.4,"..(5.6 + colw)..";1.4,1.4;gui_tab.png]"..
+				"image_button[-1.1,"..(5.8 + colw)..";1,1;gui_"..portability..".png;storage_"..portability..";;true;false;gui_"..portability..".png^[colorize:black:80]"..
+				"tooltip[storage_portable;Current mode: Portable \n(Able to pick up storage with filled inventory) \nPress to disable portability.]"..
+				"tooltip[storage_unportable;Current mode: Not portable \n(Unable to pick up storage with filled inventory) \nPress to enable portability.]"
+		else
+			crates.porta_formspec = ""
+		end
 		return "formspec_version[4]"..
 			"size[10.55,"..(8.35 + colw).."]"..
 			-- bg
@@ -106,8 +124,9 @@ function crates:register_storage(name, def)
 			-- sorting
 			"style_type[button;noclip=true;bgimg=gui_bg_curved.png;bgimg_hovered=gui_bg_hover_curved.png;border=false]"..
 			crates.sorting_formspec..
+			crates.porta_formspec..
 			-- listring
-			"listring[nodemeta:" .. spos .. ";main]"..
+			"listring[nodemeta:"..spos..";main]"..
 			"listring[current_player;main]"
 	end
 	-- show formspec
@@ -115,7 +134,7 @@ function crates:register_storage(name, def)
 		minetest.show_formspec(playername, name, storage_formspec(pos))
 	end
 	-- storage block
-	minetest.register_node(name, {
+	minetest.register_node(":"..name, {
 		description = desc,
 		drawtype = def.drawtype,
 		mesh = def.mesh,
@@ -156,10 +175,13 @@ function crates:register_storage(name, def)
 			local inv = meta:get_inventory()
 			inv:set_size("main", 8 * scolumns)
 			meta:set_string("owner", "")
+			meta:set_string("colorlabel", "")
 			meta:set_string("label", "")
 			meta:set_string("shared", "")
-			meta:set_string("colorlabel", "")
 			meta:set_string("lock", locko[1])
+			if def.portable then
+				meta:set_string("portable", "portable")
+			end
 			meta:set_string("infotext", locks.desc(locko[1], 2).." "..desc.." \nUnowned")
 		end,
 		after_place_node = function(pos, placer, itemstack, pointed_thing)
@@ -218,17 +240,115 @@ function crates:register_storage(name, def)
 				" from "..name.." at " .. minetest.pos_to_string(pos))
 		end,
 		can_dig = function(pos, player)
-			local meta = minetest.get_meta(pos);
+			local meta = minetest.get_meta(pos)
 			local inv = meta:get_inventory()
-			if locks.can_access(pos, player) == true and inv:is_empty("main") then
-				return true
+			if locks.can_access(pos, player) == true then
+				if def.portable and meta:get_string("portable") == "portable" then
+					return true
+				elseif inv:is_empty("main") then
+					return true
+				end
 			end
+		end,
+		on_dig = function(pos, node, digger)
+			local meta = minetest.get_meta(pos)
+			local inv = meta:get_inventory()
+			if def.portable and meta:get_string("portable") == "portable" and not inv:is_empty("main") then
+				local items = {}
+				for i = 1, (scolumns * 8) do
+					local stack = inv:get_stack("main", i)
+					items[i] = stack:to_string()
+				end
+				local storageitem = ItemStack(name.."_filled")
+				local simeta = storageitem:get_meta()
+				simeta:set_string("label", meta:get_string("label"))
+				simeta:set_string("shared", meta:get_string("shared"))
+				simeta:set_string("lock", meta:get_string("lock"))
+				simeta:set_string("portable", meta:get_string("portable"))
+				simeta:set_string("invdata", minetest.serialize(items))
+				simeta:set_string("description", filled_desc(meta:get_string("label"), desc))
+				minetest.remove_node(pos)
+				-- ensure sufficient space in player inventory, else drop as item
+				local pinv = digger:get_inventory()
+				if pinv:room_for_item("main", {name=name.."_filled"}) then
+					pinv:add_item("main", storageitem)
+				else
+					local pos = digger:get_pos()
+					pos.y = math.floor(pos.y + 0.5)
+					minetest.add_item(pos, storageitem)
+				end 
+				return false
+			end
+			minetest.node_dig(pos, node, digger)
+			return true
 		end,
 		on_destruct = function(pos)
 			crates.label_remove(pos)
 		end,
 		on_blast = function() end,
 	})
+	if def.portable then
+		minetest.register_node(":"..name.."_filled", {
+			description = "Filled "..desc.." \nPlace down to access storage",
+			drawtype = def.drawtype,
+			mesh = def.mesh,
+			visual_scale = def.visual_scale,
+			node_box = def.node_box,
+			selection_box = def.selection_box,
+			collision_box = def.collision_box,
+			tiles = def.filled_tiles or def.tiles,
+			overlay_tiles = def.overlay_tiles,
+			special_tiles = def.special_tiles,
+			inventory_image = def.inventory_image,
+			inventory_overlay = def.inventory_overlay,
+			wield_image = def.wield_image,
+			wield_overlay = def.wield_overlay,
+			wield_scale = def.wield_scale,
+			paramtype = def.paramtype,
+			paramtype2 = def.paramtype2,
+			sunlight_propagates = def.sunlight_propagates,
+			use_texture_alpha = def.use_texture_alpha,
+			range = def.range,
+			walkable = def.walkable,
+			pointable = def.pointable,
+			diggable = def.diggable,
+			climbable = def.climbable,
+			move_resistance = def.move_resistance,
+			buildable_to = def.buildable_to,
+			floodable = def.floodable,
+			leveled = def.leveled,
+			leveled_max = def.leveled_max,
+			light_source = def.light_source,
+			waving = def.waving,
+			groups = {not_in_creative_inventory = 1},
+			drop = "",
+			stack_max = 1,
+			on_use = function(itemstack, user, pointed_thing)
+				local meta = itemstack:get_meta()
+			end,
+			on_place = function(itemstack, placer, pointed_thing)
+				local meta = itemstack:get_meta()
+				local addnode, addpos = minetest.item_place_node(ItemStack(name), placer, pointed_thing)
+				if addnode and addpos then
+					local meta = minetest.get_meta(addpos)
+					local inv = meta:get_inventory()
+					local imeta = itemstack:get_meta()
+					local playername = placer:get_player_name()
+					meta:set_string("label", imeta:get_string("label"))
+					meta:set_string("shared", imeta:get_string("shared"))
+					meta:set_string("lock", imeta:get_string("lock"))
+					meta:set_string("portable", imeta:get_string("portable"))
+					meta:set_string("infotext", locks.desc(imeta:get_string("lock"), 2).." "..desc.." (Owned by "..playername..") \n"..label_display(imeta:get_string("label")))
+					local iinvdata = minetest.deserialize(imeta:get_string("invdata"))
+					inv:set_list("main", iinvdata)
+					if not minetest.is_creative_enabled(playername) then
+						itemstack:take_item(1)
+					end
+				end
+				return itemstack
+			end,
+		})
+	end
 	-- receive fields
 	minetest.register_on_player_receive_fields(function(player, formname, fields)
 		if formname ~= name or not player then
@@ -271,6 +391,16 @@ function crates:register_storage(name, def)
 				local newshared = fields.storage_shared
 				meta:set_string("shared", newshared)
 				show_formspec(playername, pos)
+			end
+			-- portability
+			if def.portable then
+				if fields.storage_portable then
+					meta:set_string("portable", "unportable")
+					show_formspec(playername, pos)
+				elseif fields.storage_unportable then
+					meta:set_string("portable", "portable")
+					show_formspec(playername, pos)
+				end
 			end
 		end
 		-- sorting
@@ -335,12 +465,22 @@ crates:register_storage("crates:crate", {
 	colorlabel = 2,
 	lock_order = {"lock", "protect", "unlock", "mail"},
 	drawtype = "mesh",
-	mesh = "crate.obj",
+	mesh = "crates_crate.obj",
 	groups = {oddly_breakable_by_hand = 1},
-	tiles = {"crate.png"},
+	tiles = {"crates_crate.png"},
+	filled_tiles = {"crates_crate_filled.png"},
 	sunlight_propagates = true,
 	use_texture_alpha = "opaque",
 	paramtype = "light",
 	paramtype2 = "facedir",
 	sounds = default.node_sound_wood_defaults(),
+})
+
+minetest.register_craft({
+	output = "crates:crate",
+	recipe = {
+		{"group:wood", "group:wood", "group:wood"},
+		{"group:wood", "blocks:chest_locked", "group:wood"},
+		{"group:wood", "group:wood", "group:wood"},
+	}
 })

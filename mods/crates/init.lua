@@ -259,7 +259,6 @@ function crates:register_storage(name, def)
 			local inv = meta:get_inventory()
 			if def.portable and meta:get_string("portable") == "portable" and not inv:is_empty("main") then
 				local items = {}
-				local itemnamelist = ""
 				for i = 1, (scolumns * 8) do
 					local stack = inv:get_stack("main", i)
 					items[i] = stack:to_string()
@@ -364,7 +363,7 @@ function crates:register_storage(name, def)
 		})
 	end
 	-- receive fields
-	minetest.register_on_player_receive_fields(function(player, formname, fields)	
+	minetest.register_on_player_receive_fields(function(player, formname, fields)
 		local playername = player:get_player_name()
 		local pos = crates.pos[playername]
 		if def.portable and formname == name.."_filled" then
@@ -496,12 +495,6 @@ minetest.register_on_joinplayer(function(player, last_login)
 	temp_crates:set_size("main", 0)
 	temp_crates:set_list("main", {})
 end)
-
-local function trash_formspec()
-	return ""..
-		"list[detached:trash;main;0.4,2.9;1,1;]"..
-		"image[0.46,3;0.8,0.8;gui_trash.png]"
-end
 
 crates:register_storage("crates:crate", {
 	description = "Crate",

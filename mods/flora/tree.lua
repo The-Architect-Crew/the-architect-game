@@ -11,7 +11,7 @@ local function grow_sapling(...)
 end
 
 minetest.register_node("flora:tree", {
-	description = S("Apple Tree"),
+	description = S("Apple Log"),
 	tiles = {"flora_tree_top.png", "flora_tree_top.png", "flora_tree.png"},
 	paramtype2 = "facedir",
 	is_ground_content = false,
@@ -142,7 +142,7 @@ minetest.register_node("flora:apple_mark", {
 
 
 minetest.register_node("flora:jungletree", {
-	description = S("Jungle Tree"),
+	description = S("Jungle Log"),
 	tiles = {"flora_jungletree_top.png", "flora_jungletree_top.png",
 		"flora_jungletree.png"},
 	paramtype2 = "facedir",
@@ -247,7 +247,7 @@ minetest.register_node("flora:emergent_jungle_sapling", {
 
 
 minetest.register_node("flora:pine_tree", {
-	description = S("Pine Tree"),
+	description = S("Pine Log"),
 	tiles = {"flora_pine_tree_top.png", "flora_pine_tree_top.png",
 		"flora_pine_tree.png"},
 	paramtype2 = "facedir",
@@ -316,7 +316,7 @@ minetest.register_node("flora:pine_sapling", {
 
 
 minetest.register_node("flora:acacia_tree", {
-	description = S("Acacia Tree"),
+	description = S("Acacia Log"),
 	tiles = {"flora_acacia_tree_top.png", "flora_acacia_tree_top.png",
 		"flora_acacia_tree.png"},
 	paramtype2 = "facedir",
@@ -385,7 +385,7 @@ minetest.register_node("flora:acacia_sapling", {
 })
 
 minetest.register_node("flora:aspen_tree", {
-	description = S("Aspen Tree"),
+	description = S("Aspen Log"),
 	tiles = {"flora_aspen_tree_top.png", "flora_aspen_tree_top.png",
 		"flora_aspen_tree.png"},
 	paramtype2 = "facedir",

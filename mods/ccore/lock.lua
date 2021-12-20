@@ -1,9 +1,9 @@
 locks = {}
 locks.dinfo = {}
-locks.dinfo["lock"] = {"Only the owner & shared can access & dig", "Locked"}
-locks.dinfo["unlock"] = {"Everyone can access & dig", "Public Access"}
-locks.dinfo["mail"] = {"Everyone can add items, but only owner & shared can access & dig", "Mailbox"}
-locks.dinfo["protect"] = {"If protected: The owner & shared & protection owner(s) can access & dig \nIf not protected: Everyone can access & dig", "Protected Access"}
+locks.dinfo["lock"] = {"Only the owner & shared can access & dig", "Locked", "Locked"}
+locks.dinfo["unlock"] = {"Everyone can access & dig", "Public Access", "Unlocked"}
+locks.dinfo["mail"] = {"Everyone can add items, but only owner & shared can access & dig", "Mailbox", "Mailbox"}
+locks.dinfo["protect"] = {"If protected: The owner & shared & protection owner(s) can access & dig \nIf not protected: Everyone can access & dig", "Protected Access", "Protected"}
 
 -- returns description
 function locks.desc(type, level, disable_shared)
@@ -35,8 +35,9 @@ function locks.icons(fieldname, lock, order, disable_shared, add_desc)
 				indexplus = index + 1
 			end
 			local cicon, nicon = order[index], order[indexplus]
-			return "gui_"..cicon..".png;"..fieldname.."_"..nicon..";;true;false;]"..
-				"tooltip["..fieldname.."_"..nicon..";Current status: "..cicon.." \n"..locks.desc(cicon, 1, disable_shared).." \nPress to change to: "..nicon..""..get_desc(add_desc).."]"
+			return
+				"gui_"..cicon..".png;"..fieldname.."_"..nicon..";;true;false;gui_"..cicon..".png^[colorize:black:80]"..
+				"tooltip["..fieldname.."_"..nicon..";Current mode: "..locks.desc(cicon, 3).." \n"..locks.desc(cicon, 1, disable_shared).." \nPress to change to: "..locks.desc(nicon, 3)..""..get_desc(add_desc).."]"
 		end
 	end
 end

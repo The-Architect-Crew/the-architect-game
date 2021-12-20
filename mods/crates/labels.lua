@@ -1,12 +1,3 @@
---[[
-north +Z	0
-east +X 	1
-south -Z	2
-west -X		3
-top
-4 / 13 / 10 / 19
-]]
-
 -- label colors
 local colors = {
 	{"red", "#FF0000"},
@@ -181,7 +172,7 @@ function crates.label_receive_fields(player, formname, fields, pos, labelno)
 				local addlabel = crates.label_add(pos, 1, labelcolor, labelno)
 				meta:set_string("colorlabel", labelcolor)
 				if not addlabel then
-					minetest.chat_send_player(playername, "Insufficient space to add a label, ensure there is at least an empty space (air) next to the storage.")
+					minetest.chat_send_player(playername, "[crates] Insufficient space to add a label, ensure there is at least an empty space (air) next to the storage.")
 					meta:set_string("colorlabel", "")
 				end
 			end
@@ -200,11 +191,11 @@ function crates.label_receive_fields(player, formname, fields, pos, labelno)
 			crates.label_remove(pos)
 			local addlabel = crates.label_add(pos, labelord+1, currcolor, labelno, labelp2)
 			if not addlabel then
-				minetest.chat_send_player(playername, "Insufficient space to add a label, ensure there is at least an empty space (air) next to the storage.")
+				minetest.chat_send_player(playername, "[crates] Insufficient space to add a label, ensure there is at least an empty space (air) next to the storage.")
 				meta:set_string("colorlabel", "")
 			end
 		else
-			minetest.chat_send_player(playername, "No existing labels found to reposition!")
+			minetest.chat_send_player(playername, "[crates] No existing labels found to reposition!")
 		end
 	end
 end

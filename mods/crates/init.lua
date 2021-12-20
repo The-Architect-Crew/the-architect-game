@@ -184,9 +184,11 @@ function crates:register_storage(name, def)
 	-- allow_metadata_inventory_put
 	local function storage_allow_metadata_inventory_put(pos, listname, index, stack, player)
 		if locks.can_access(pos, player) then
-		-- disallow filled storages (prevent excessive data)
-			if minetest.get_item_group(stack:get_name(), "filled_crates") > 0 then
-				return 0
+		-- disallow filled storages to be stored in portable storage (prevent excessive data)
+			if def.portable then
+				if minetest.get_item_group(stack:get_name(), "filled_crates") > 0 then
+					return 0
+				end
 			end
 			return stack:get_count()
 		end

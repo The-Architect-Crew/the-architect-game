@@ -443,9 +443,7 @@ function crates:register_storage(name, def)
 				nmeta:set_string("infotext", locks.desc(imeta:get_string("lock"), 2).." "..desc.." (Owned by "..playername..") \n"..label_display(nmeta:get_string("label")))
 				local iinvdata = minetest.deserialize(imeta:get_string("invdata"))
 				inv:set_list("main", iinvdata)
-				if not minetest.is_creative_enabled(playername) then
-					itemstack:take_item(1)
-				end
+				itemstack:take_item(1)
 			end
 			return itemstack
 		end

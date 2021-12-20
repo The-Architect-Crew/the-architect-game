@@ -187,6 +187,8 @@ function crates:register_storage(name, def)
 		-- disallow filled storages to be stored in portable storage (prevent excessive data)
 			if def.portable then
 				if minetest.get_item_group(stack:get_name(), "filled_crates") > 0 then
+					local playername = player:get_player_name()
+					minetest.chat_send_player(playername, "[crates] You can't store filled portable storage into portable storage!")
 					return 0
 				end
 			end

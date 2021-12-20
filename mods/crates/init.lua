@@ -713,11 +713,40 @@ crates:register_storage("crates:crate", {
 	sounds = default.node_sound_wood_defaults(),
 })
 
+crates:register_storage("crates:barrel", {
+	description = "Barrel",
+	columns = 2,
+	sorting = true,
+	portable = true,
+	dyeable = true,
+	colorlabel = 3,
+	lock_order = {"lock", "protect", "unlock", "mail"},
+	drawtype = "mesh",
+	mesh = "crates_barrel.obj",
+	groups = {choppy = 2, oddly_breakable_by_hand = 2},
+	tiles = {"crates_barrel.png"},
+	filled_tiles = {"crates_barrel_filled.png"},
+	sunlight_propagates = true,
+	use_texture_alpha = "opaque",
+	paramtype = "light",
+	paramtype2 = "facedir",
+	sounds = default.node_sound_wood_defaults(),
+})
+
 minetest.register_craft({
 	output = "crates:crate",
 	recipe = {
 		{"group:wood", "group:wood", "group:wood"},
 		{"group:wood", "blocks:chest_locked", "group:wood"},
 		{"group:wood", "group:wood", "group:wood"},
+	}
+})
+
+minetest.register_craft({
+	output = "crates:barrel",
+	recipe = {
+		{"group:wood"},
+		{"blocks:chest_locked"},
+		{"group:wood"},
 	}
 })

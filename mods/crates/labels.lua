@@ -29,9 +29,9 @@ for i in ipairs(colors) do
 		node_box = {
 			type = "fixed",
 			fixed = {
-				{0.125, 0, 0.46875, 0.3125, 0.5, 0.5}, -- NodeBox1
-				{0.125, -0.125, 0.46875, 0.1875, 0, 0.5}, -- NodeBox3
-				{0.25, -0.125, 0.46875, 0.3125, 0, 0.5}, -- NodeBox4
+				{0.125, 0, 0.46875, 0.3125, 0.5, 0.5},
+				{0.125, -0.125, 0.46875, 0.1875, 0, 0.5},
+				{0.25, -0.125, 0.46875, 0.3125, 0, 0.5},
 			}
 		},
 		on_rotate = false,
@@ -52,10 +52,32 @@ for i in ipairs(colors) do
 		node_box = {
 			type = "fixed",
 			fixed = {
-				{0.125, 0, 0.46875, 0.3125, 0.5, 0.5}, -- NodeBox1
-				{0.125, -0.125, 0.46875, 0.1875, 0, 0.5}, -- NodeBox3
-				{0.25, -0.125, 0.46875, 0.3125, 0, 0.5}, -- NodeBox4
-				{0.125, 0.4375, 0.5, 0.3125, 0.5, 0.5625}, -- NodeBox6
+				{0.125, 0, 0.46875, 0.3125, 0.5, 0.5},
+				{0.125, -0.125, 0.46875, 0.1875, 0, 0.5},
+				{0.25, -0.125, 0.46875, 0.3125, 0, 0.5},
+				{0.125, 0.4375, 0.5, 0.3125, 0.5, 0.5625},
+			}
+		},
+		on_rotate = false,
+	})
+	minetest.register_node("crates:label3_"..cname, {
+		drawtype = "nodebox",
+		tiles = {"crates_label3.png^[colorize:"..chex..":180"},
+		paramtype = "light",
+		paramtype2 = "facedir",
+		sunlight_propagates = true,
+		walkable = false,
+		pointable = false,
+		diggable = false,
+		buildable_to = true,
+		use_texture_alpha = "opaque",
+		groups = {not_in_creative_inventory = 1, storage_label = 1},
+		drop = "",
+		node_box = {
+			type = "fixed",
+			fixed = {
+				{-0.1875, -0.125, 0.46875, 0.1875, 0.125, 0.5},
+				{-0.125, -0.125, 0.5, 0.125, 0.125, 0.5625},
 			}
 		},
 		on_rotate = false,

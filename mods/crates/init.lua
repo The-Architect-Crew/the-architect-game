@@ -545,7 +545,6 @@ function crates:register_storage(name, def)
 			end
 		end
 	end
-	
 	-- receive fields
 	minetest.register_on_player_receive_fields(function(player, formname, fields)
 		local playername = player:get_player_name()

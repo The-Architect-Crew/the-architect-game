@@ -185,8 +185,8 @@ minetest.register_craftitem("bucket:bucket_empty", {
 })
 
 bucket.register_liquid(
-	"default:water_source",
-	"default:water_flowing",
+	"blocks:water_source",
+	"blocks:water_flowing",
 	"bucket:bucket_water",
 	"bucket_water.png",
 	S("Water Bucket"),
@@ -200,8 +200,8 @@ bucket.register_liquid(
 -- used here.
 
 bucket.register_liquid(
-	"default:river_water_source",
-	"default:river_water_flowing",
+	"blocks:river_water_source",
+	"blocks:river_water_flowing",
 	"bucket:bucket_river_water",
 	"bucket_river_water.png",
 	S("River Water Bucket"),
@@ -210,8 +210,8 @@ bucket.register_liquid(
 )
 
 bucket.register_liquid(
-	"default:lava_source",
-	"default:lava_flowing",
+	"blocks:lava_source",
+	"blocks:lava_flowing",
 	"bucket:bucket_lava",
 	"bucket_lava.png",
 	S("Lava Bucket"),

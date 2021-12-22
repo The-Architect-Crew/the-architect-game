@@ -55,15 +55,15 @@ for i in ipairs(colors) do
 	local cname = colors[i][1]
 	local chex = colors[i][2]
 	
-	for i in ipairs(crates.label_list) do
-		local name = crates.label_list[i].name
-		local use_texture_alpha = crates.label_list[i].use_texture_alpha
-		local nodebox = crates.label_list[i].nodebox
-		local tiles = crates.label_list[i].tiles
+	for j in ipairs(crates.label_list) do
+		local name = crates.label_list[j].name
+		local use_texture_alpha = crates.label_list[j].use_texture_alpha
+		local nodebox = crates.label_list[j].nodebox
+		local tiles = crates.label_list[j].tiles
 		-- create color tiles
 		local colortiles = {}
-		for i in ipairs(tiles) do
-			colortiles[i] = tiles[1].."^[colorize:"..chex..":180"
+		for k in ipairs(tiles) do
+			colortiles[k] = tiles[1].."^[colorize:"..chex..":180"
 		end
 		-- create labels
 		minetest.register_node("crates:label_"..name.."_"..cname, {

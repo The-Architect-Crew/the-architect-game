@@ -10,78 +10,82 @@ local colors = {
 	{"white", "#FFFFFF"},
 }
 
+crates.label_list = {}
+function crates:register_label(name, def)
+	table.insert(crates.label_list, {
+		name = name,
+		tiles = def.tiles,
+		use_texture_alpha = def.use_texture_alpha,
+		nodebox = def.nodebox,
+	})
+end
+
+crates:register_label("tag", {
+	tiles = {"crates_label.png"},
+	use_texture_alpha = "opaque",
+	nodebox = {
+		{0.125, 0, 0.46875, 0.3125, 0.5, 0.5},
+		{0.125, -0.125, 0.46875, 0.1875, 0, 0.5},
+		{0.25, -0.125, 0.46875, 0.3125, 0, 0.5},
+	},
+})
+
+crates:register_label("tag2", {
+	tiles = {"crates_label.png"},
+	use_texture_alpha = "opaque",
+	nodebox = {
+		{0.125, 0, 0.46875, 0.3125, 0.5, 0.5},
+		{0.125, -0.125, 0.46875, 0.1875, 0, 0.5},
+		{0.25, -0.125, 0.46875, 0.3125, 0, 0.5},
+		{0.125, 0.4375, 0.5, 0.3125, 0.5, 0.5625},
+	},
+})
+
+crates:register_label("sign", {
+	tiles = {"crates_label3.png"},
+	use_texture_alpha = "opaque",
+	nodebox = {
+		{-0.1875, -0.125, 0.46875, 0.1875, 0.125, 0.5},
+		{-0.125, -0.125, 0.5, 0.125, 0.125, 0.5625},
+	},
+})
+
+
 for i in ipairs(colors) do
 	local cname = colors[i][1]
 	local chex = colors[i][2]
-	minetest.register_node("crates:label1_"..cname, {
-		drawtype = "nodebox",
-		tiles = {"crates_label.png^[colorize:"..chex..":180"},
-		paramtype = "light",
-		paramtype2 = "facedir",
-		sunlight_propagates = true,
-		walkable = false,
-		pointable = false,
-		diggable = false,
-		buildable_to = true,
-		use_texture_alpha = "opaque",
-		groups = {not_in_creative_inventory = 1, storage_label = 1},
-		drop = "",
-		node_box = {
-			type = "fixed",
-			fixed = {
-				{0.125, 0, 0.46875, 0.3125, 0.5, 0.5},
-				{0.125, -0.125, 0.46875, 0.1875, 0, 0.5},
-				{0.25, -0.125, 0.46875, 0.3125, 0, 0.5},
-			}
-		},
-		on_rotate = false,
-	})
-	minetest.register_node("crates:label2_"..cname, {
-		drawtype = "nodebox",
-		tiles = {"crates_label.png^[colorize:"..chex..":180"},
-		paramtype = "light",
-		paramtype2 = "facedir",
-		sunlight_propagates = true,
-		walkable = false,
-		pointable = false,
-		diggable = false,
-		buildable_to = true,
-		use_texture_alpha = "opaque",
-		groups = {not_in_creative_inventory = 1, storage_label = 1},
-		drop = "",
-		node_box = {
-			type = "fixed",
-			fixed = {
-				{0.125, 0, 0.46875, 0.3125, 0.5, 0.5},
-				{0.125, -0.125, 0.46875, 0.1875, 0, 0.5},
-				{0.25, -0.125, 0.46875, 0.3125, 0, 0.5},
-				{0.125, 0.4375, 0.5, 0.3125, 0.5, 0.5625},
-			}
-		},
-		on_rotate = false,
-	})
-	minetest.register_node("crates:label3_"..cname, {
-		drawtype = "nodebox",
-		tiles = {"crates_label3.png^[colorize:"..chex..":180"},
-		paramtype = "light",
-		paramtype2 = "facedir",
-		sunlight_propagates = true,
-		walkable = false,
-		pointable = false,
-		diggable = false,
-		buildable_to = true,
-		use_texture_alpha = "opaque",
-		groups = {not_in_creative_inventory = 1, storage_label = 1},
-		drop = "",
-		node_box = {
-			type = "fixed",
-			fixed = {
-				{-0.1875, -0.125, 0.46875, 0.1875, 0.125, 0.5},
-				{-0.125, -0.125, 0.5, 0.125, 0.125, 0.5625},
-			}
-		},
-		on_rotate = false,
-	})
+	
+	for i in ipairs(crates.label_list) do
+		local name = crates.label_list[i].name
+		local use_texture_alpha = crates.label_list[i].use_texture_alpha
+		local nodebox = crates.label_list[i].nodebox
+		local tiles = crates.label_list[i].tiles
+		-- create color tiles
+		local colortiles = {}
+		for i in ipairs(tiles) do
+			colortiles[i] = tiles[1].."^[colorize:"..chex..":180"
+		end
+		-- create labels
+		minetest.register_node("crates:label_"..name.."_"..cname, {
+			drawtype = "nodebox",
+			tiles = colortiles,
+			paramtype = "light",
+			paramtype2 = "facedir",
+			sunlight_propagates = true,
+			walkable = false,
+			pointable = false,
+			diggable = false,
+			buildable_to = true,
+			use_texture_alpha = use_texture_alpha,
+			groups = {not_in_creative_inventory = 1, storage_label = 1},
+			drop = "",
+			node_box = {
+				type = "fixed",
+				fixed = nodebox,
+			},
+			on_rotate = false,
+		})
+	end
 end
 
 function crates.label_formspec()
@@ -140,17 +144,17 @@ function crates.label_add(pos, start, labelcol, labelno, repos)
 		local labelup = labelc[5][1]
 		if minetest.get_node(labelup).name == "air" then
 			if repos == 4 then
-				minetest.add_node(labelup, {name = "crates:label"..labelno.."_"..labelcol, param2 = 13})
+				minetest.add_node(labelup, {name = "crates:label_"..labelno.."_"..labelcol, param2 = 13})
 				return labelup, 5
 			elseif repos == 13 then
-				minetest.add_node(labelup, {name = "crates:label"..labelno.."_"..labelcol, param2 = 10})
+				minetest.add_node(labelup, {name = "crates:label_"..labelno.."_"..labelcol, param2 = 10})
 				return labelup, 5
 			elseif repos == 10 then
-				minetest.add_node(labelup, {name = "crates:label"..labelno.."_"..labelcol, param2 = 19})
+				minetest.add_node(labelup, {name = "crates:label_"..labelno.."_"..labelcol, param2 = 19})
 				return labelup, 5
 			else
 				if repos ~= 19 then
-					minetest.add_node(labelup, {name = "crates:label"..labelno.."_"..labelcol, param2 = 4})
+					minetest.add_node(labelup, {name = "crates:label_"..labelno.."_"..labelcol, param2 = 4})
 					return labelup, 5
 				end
 			end
@@ -159,7 +163,7 @@ function crates.label_add(pos, start, labelcol, labelno, repos)
 	for i = start, #labelc do
 		local labelpos = labelc[i][1]
 		if minetest.get_node(labelpos).name == "air" then
-			minetest.add_node(labelpos, {name = "crates:label"..labelno.."_"..labelcol, param2 = labelc[i][2]})
+			minetest.add_node(labelpos, {name = "crates:label_"..labelno.."_"..labelcol, param2 = labelc[i][2]})
 			return labelpos, i
 		end
 	end
@@ -168,7 +172,7 @@ function crates.label_add(pos, start, labelcol, labelno, repos)
 		for i = 1, start do
 			local labelpos = labelc[i][1]
 			if minetest.get_node(labelpos).name == "air" then
-				minetest.add_node(labelpos, {name = "crates:label"..labelno.."_"..labelcol, param2 = labelc[i][2]})
+				minetest.add_node(labelpos, {name = "crates:label_"..labelno.."_"..labelcol, param2 = labelc[i][2]})
 				return labelpos, i
 			end
 		end
@@ -187,7 +191,7 @@ function crates.label_receive_fields(player, formname, fields, pos, labelno)
 			-- if there's existing labels, replace
 			if labelex then
 				local labelpos, _, labelp2 = crates.label_exists(pos)
-				minetest.set_node(labelpos, {name = "crates:label"..labelno.."_"..labelcolor, param2 = labelp2})
+				minetest.set_node(labelpos, {name = "crates:label_"..labelno.."_"..labelcolor, param2 = labelp2})
 				meta:set_string("colorlabel", labelcolor)
 			-- if no labels, add a new label
 			else

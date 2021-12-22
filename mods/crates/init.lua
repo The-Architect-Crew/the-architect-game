@@ -701,7 +701,7 @@ crates:register_storage("crates:crate", {
 	sorting = true, -- enable sorting functions
 	portable = true, -- enable portability (Able to be picked up)
 	dyeable = true, -- registers multi-coloured storage based on dye
-	colorlabel = 2, -- enable colorlabels (Ability to add little colour labels)
+	colorlabel = "tag2", -- enable colorlabels (Ability to add little colour labels)
 	lock_order = {"lock", "protect", "unlock", "mail"}, -- order of locking modes
 	drawtype = "mesh",
 	mesh = "crates_crate.obj",
@@ -721,7 +721,7 @@ crates:register_storage("crates:barrel", {
 	sorting = true,
 	portable = true,
 	dyeable = true,
-	colorlabel = 3,
+	colorlabel = "sign",
 	lock_order = {"lock", "protect", "unlock", "mail"},
 	drawtype = "mesh",
 	mesh = "crates_barrel.obj",

@@ -54,7 +54,6 @@ crates:register_label("sign", {
 for i in ipairs(colors) do
 	local cname = colors[i][1]
 	local chex = colors[i][2]
-	
 	for j in ipairs(crates.label_list) do
 		local name = crates.label_list[j].name
 		local use_texture_alpha = crates.label_list[j].use_texture_alpha

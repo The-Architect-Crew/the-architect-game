@@ -1,12 +1,12 @@
 -- brick.lua
 shapes:register_shape("blocks:clay")
-shapes:register_shape("blocks:brick", "group:pane, group:fence, group:pole, wall")
+shapes:register_shape("blocks:brick", "cat:pane, cat:fence, cat:pole, wall")
 -- dirt.lua
 shapes:register_shape("blocks:dirt")
 shapes:register_shape("blocks:dry_dirt")
 shapes:register_shape("blocks:dirt_with_grass", {
 	description_prefix = "Grass",
-	disabled = "group:splitstair, group:pane, group:fence, group:pole, group:pillar, group:pillarcrown, group:beam",
+	disabled = "cat:splitstair, cat:pane, cat:fence, cat:pole, cat:pillar, cat:pillarcrown, cat:beam",
 	global_tiles = {"blocks_grass.png"},
 	groups = {crumbly = 3},
 })
@@ -56,14 +56,14 @@ shapes:register_shape("blocks:pine_wood")
 shapes:register_shape("blocks:acacia_wood")
 shapes:register_shape("blocks:aspen_wood")
 -- sand.lua
-shapes:register_shape("blocks:sand", "group:splitstair, group:pane, group:fence, group:pole, group:pillar, group:pillarcrown, group:beam")
-shapes:register_shape("blocks:desert_sand", "group:splitstair, group:pane, group:fence, group:pole, group:pillar, group:pillarcrown, group:beam")
-shapes:register_shape("blocks:silver_sand", "group:splitstair, group:pane, group:fence, group:pole, group:pillar, group:pillarcrown, group:beam")
-shapes:register_shape("blocks:gravel", "group:splitstair, group:pane, group:fence, group:pole, group:pillar, group:pillarcrown, group:beam")
+shapes:register_shape("blocks:sand", "cat:splitstair, cat:pane, cat:fence, cat:pole, cat:pillar, cat:pillarcrown, cat:beam")
+shapes:register_shape("blocks:desert_sand", "cat:splitstair, cat:pane, cat:fence, cat:pole, cat:pillar, cat:pillarcrown, cat:beam")
+shapes:register_shape("blocks:silver_sand", "cat:splitstair, cat:pane, cat:fence, cat:pole, cat:pillar, cat:pillarcrown, cat:beam")
+shapes:register_shape("blocks:gravel", "cat:splitstair, cat:pane, cat:fence, cat:pole, cat:pillar, cat:pillarcrown, cat:beam")
 -- snow.lua
-shapes:register_shape("blocks:snowblock", "group:splitstair, group:pane, group:fence, group:pole, group:pillar, group:pillarcrown, group:beam")
+shapes:register_shape("blocks:snowblock", "cat:splitstair, cat:pane, cat:fence, cat:pole, cat:pillar, cat:pillarcrown, cat:beam")
 shapes:register_shape("blocks:ice")
-shapes:register_shape("blocks:permafrost", "group:splitstair, group:pane, group:fence, group:pole, group:pillar, group:pillarcrown, group:beam")
+shapes:register_shape("blocks:permafrost", "cat:splitstair, cat:pane, cat:fence, cat:pole, cat:pillar, cat:pillarcrown, cat:beam")
 -- stone.lua
 shapes:register_shape("blocks:stone")
 shapes:register_shape("blocks:cobble")

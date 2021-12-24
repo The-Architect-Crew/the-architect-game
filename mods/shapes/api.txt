@@ -32,12 +32,12 @@ shapes:register_shapedef("<shapename>", {
 
 Basic shape registration
 ========================
-shapes:register_shapes("<modname>:<nodename>", "<shape1>, <shape2>, <group:shgroup1>")
+shapes:register_shape("<modname>:<nodename>", "<shape1>, <shape2>, <group:shgroup1>")
 -- Second field is for `disabled`, see below
 
 Optional shape customization(s)
 ===============================
-shapes:register_shapes("<modname>:<nodename>",  {
+shapes:register_shape("<modname>:<nodename>",  {
 	disabled = "<shape1>, <shape2>, <group:shape>"	-- Makes certain shape not generate, supports category (shgroup)
 	description_prefix = "Description Prefix",
 	<shape>_description = "Description",

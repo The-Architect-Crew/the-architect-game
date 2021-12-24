@@ -9,7 +9,7 @@ shapes:register_shapedef("<shapename>", {
 	mesh = "<mesh>",					-- (optional)
 	collision_box = {<collision_box>},	-- (optional) If not provided, uses node_box
 	selection_box = {<selection_box>},	-- (optional) If not provided, uses node_box/collision_box
-	shgroup = "<shgroup>",				-- Adds a category to the shape, can be called when disabling with "group:shgroup"
+	category = "<category>",			-- Adds a category to the shape, can be called when disabling with "cat:<category>"
 	groups = {<groups>},				-- (optional)
 	sunlight_propagates = <boolean>,	-- (optional) defaults to true
 	drop = "<drop>",					-- (optional) Currently doesn't support tables, only provide strings
@@ -38,7 +38,7 @@ shapes:register_shape("<modname>:<nodename>", "<shape1>, <shape2>, <group:shgrou
 Optional shape customization(s)
 ===============================
 shapes:register_shape("<modname>:<nodename>",  {
-	disabled = "<shape1>, <shape2>, <group:shape>"	-- Makes certain shape not generate, supports category (shgroup)
+	disabled = "<shape1>, <shape2>, <cat:shape>"	-- Makes certain shape not generate, supports category with `cat:`
 	description_prefix = "Description Prefix",
 	<shape>_description = "Description",
 	<shape>_tiles = {"texture1", "texture2"..},		-- Priority over global_tiles
@@ -60,7 +60,7 @@ shapes:register_shape("<modname>:<nodename>",  {
 
 Shapes List
 ===========
-group:slab
+cat:slab
 ==========
 slab1
 slab2
@@ -68,7 +68,7 @@ slab4
 slab
 slab12
 ==========
-group:cube
+cat:cube
 ==========
 cube1
 cube2
@@ -76,7 +76,7 @@ cube4
 cube
 cube12
 ==========
-group:step
+cat:step
 ==========
 step1
 step2
@@ -84,7 +84,7 @@ step4
 step
 step12
 ===========
-group:stair
+cat:stair
 ===========
 stair
 halfstair
@@ -93,39 +93,39 @@ outerstair
 innerstair
 forkstair
 ================
-group:splitstair
+cat:splitstair
 ================
 splitstair1
 splitstair4
 splitstair
 ==========
-group:pole
+cat:pole
 ==========
 pole
 wallpole
 cornerpole
 ============
-group:pillar
+cat:pillar
 ============
 pillar
 wallpillar
 halfpillar
 wall
 =================
-group:pillarcrown
+cat:pillarcrown
 =================
 pillarcrown
 halfpillarcrown
 wallpillarcrown
 crosscrown
 ==========
-group:beam
+cat:beam
 ==========
 beam
 crossbeam
 linkdown
 ============
-group:corner
+cat:corner
 ============
 corner1
 corner2
@@ -133,11 +133,11 @@ corner4
 corner
 corner12
 ============
-group:sphere
+cat:sphere
 ============
 sphere (mesh)
 ===========
-group:slope
+cat:slope
 ===========
 slope (mesh)
 slope2 (mesh)
@@ -156,12 +156,12 @@ cutouterslope2 (mesh)
 cutouterslope3 (mesh)
 cutouterslope4 (mesh)
 ===========
-group:fence
+cat:fence
 ===========
 fence
 fencerail
 ==========
-group:pane
+cat:pane
 ==========
 pane_flat
 pane

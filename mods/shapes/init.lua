@@ -9,7 +9,7 @@ function shapes:register_shapedef(name, def)
 		mesh = def.mesh,
 		collision_box = def.collision_box,
 		selection_box = def.selection_box,
-		shgroup = def.shgroup,
+		category = def.category,
 		groups = def.groups,
 		sunlight_propagates = def.sunlight_propagates,
 		drop = def.drop,
@@ -56,8 +56,8 @@ local function check_disabled(disabled, name, groupname, dbd)
 			return nil
 		end
 	end
-	-- group check
-	local groupfind = string.find(disabled2, ", group:"..groupname..", ")
+	-- category check
+	local groupfind = string.find(disabled2, ", cat:"..groupname..", ")
 	if groupfind then
 		if not dbd then
 			return true
@@ -102,7 +102,7 @@ function shapes:register_shape(name, def)
 		local tmesh = shapes.shape_list[i].mesh
 		local tcobo = shapes.shape_list[i].collision_box or tnobo
 		local tsebo = shapes.shape_list[i].selection_box or tnobo or tcobo
-		local tsshg = shapes.shape_list[i].shgroup
+		local tcate = shapes.shape_list[i].category
 		local tgrou = shapes.shape_list[i].groups
 		local tsunl = shapes.shape_list[i].sunlight_propagates or true
 		local tdrop = shapes.shape_list[i].drop
@@ -140,7 +140,7 @@ function shapes:register_shape(name, def)
 			udesc = def[tname.."_description"] or itemmeta.description.." "..tdesc
 		end
 		-- ensure enabled
-		if not check_disabled(disabled, tname, tsshg, tdbyd) then
+		if not check_disabled(disabled, tname, tcate, tdbyd) then
 			-- registering nodebox
 			if tnobo then
 				-- align style and backface_culling

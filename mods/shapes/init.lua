@@ -71,10 +71,6 @@ local function check_disabled(disabled, name, groupname, dbd)
 	end
 end
 
-local function extend(t1, t2)
-    return table.move(t2, 1, #t2, #t1 + 1, t1)
-end
-
 function shapes:register_shape(name, def)
 	-- short form vs long form
 	shapes.disabled = {}
@@ -201,18 +197,16 @@ function shapes:register_shape(name, def)
 					on_place = shapes.rotate_node,
 				})
 			end
-			
 			-- registering crafting
 			if tcraf then
 				local recipes = {}
-				for i in ipairs(tcraf.recipe) do
-					recipes[i] = recipes[i] or {}
-					for j, indg in pairs(tcraf.recipe[i]) do
-						recipes[i][j] = string.gsub(indg, "shapes:self", name)
-						recipes[i][j] = string.gsub(recipes[i][j], "shapes:shape", mname..":shapes_"..sname)
+				for j in ipairs(tcraf.recipe) do
+					recipes[j] = recipes[j] or {}
+					for k, indg in pairs(tcraf.recipe[j]) do
+						recipes[j][k] = string.gsub(indg, "shapes:self", name)
+						recipes[j][k] = string.gsub(recipes[j][k], "shapes:shape", mname..":shapes_"..sname)
 					end
 				end
-				
 				local amount = tcraf.amount or 1
 				minetest.register_craft({
 					output = mname..":shapes_"..sname.."_"..tname.." "..amount,

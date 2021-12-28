@@ -38,5 +38,7 @@ function wb_lock.formspec(locked)
 		return "" ..
 			"image_button[0.4,4.15;1.05,1.05;gui_unlock.png;workbench_lock;;;false;gui_unlock.png]"..
 			"tooltip[workbench_lock;Lock workbench (Disallow other players to access) \nCurrently unlocked]"
+	else
+		return ""
 	end
 end

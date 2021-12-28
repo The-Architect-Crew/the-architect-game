@@ -524,6 +524,25 @@ function mapgen.register_ores()
 		},
 	})
 	-- Sheet ores
+	-- Amber
+	minetest.register_ore({
+		ore_type        = "sheet",
+		ore             = "blocks:amber",
+		wherein		= {"blocks_stone"},
+		clust_size 	= 8,
+		y_max 		= -512,
+		y_min 		= -31000,
+		column_midpoint_factor = 1.0,
+		noise_threshold	= 1.5,
+		noise_params	= {
+			offset = 0.0,
+			scale = 1.0,
+			spread = {x = 5, y = 5, z = 10},
+			seed = 1337,
+			octaves = 2,
+			persist = 1.25,
+		},
+	})
 	-- Amethyst
 	minetest.register_ore({
 		ore_type        = "sheet",
@@ -903,6 +922,37 @@ function mapgen.register_ores()
 		clust_size     = 3,
 		y_max          = -4096,
 		y_min          = -31000,
+	})
+	-- Amber
+
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:stone_with_amber",
+		wherein        = "blocks:stone",
+		clust_scarcity = 8 * 8 * 8,
+		clust_num_ores = 9,
+		clust_size     = 3,
+		y_max          = 31000,
+		y_min          = 1025,
+	})
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:stone_with_amber",
+		wherein        = "blocks:stone",
+		clust_scarcity = 8 * 8 * 8,
+		clust_num_ores = 8,
+		clust_size     = 3,
+		y_max          = 64,
+		y_min          = -31000,
+	})
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:stone_with_amber",
+		wherein        = "blocks:stone",
+		clust_scarcity = 24 * 24 * 24,
+		clust_num_ores = 27,
+		clust_size     = 6,
+		y_max          = 0,
 	})
 	-- Silver
 	minetest.register_ore({

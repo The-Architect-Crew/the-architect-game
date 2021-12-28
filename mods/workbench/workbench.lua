@@ -63,7 +63,7 @@ function workbench.link_to_stations(pos, nodename, savename)
 				stmeta:set_string("link", minetest.serialize(pos))
 				meta:set_string("station_"..savename, minetest.serialize(position[i]))
 				-- start work stations node timer to enable infotext update
-				minetest.get_node_timer(position[i]):start(0.0)
+				minetest.get_node_timer(position[i]):start(0)
 				return true
 			end
 		end
@@ -253,7 +253,7 @@ local function can_dig(pos, player)
 	local meta = minetest.get_meta(pos)
 	local inv = meta:get_inventory()
 	-- Only owner can dig
-	if player:get_player_name() ~= meta:get_string("owner") then
+	if player:get_player_name() ~= meta:get_string("owner") and meta:get_string("owner") ~= "" then
 		return false
 	end
 	-- ===============
@@ -276,6 +276,15 @@ end
 local function after_place_node(pos, placer)
 	local meta = minetest.get_meta(pos)
 	local owner = placer and placer:get_player_name() or ""
+	if placer then
+		local pos2 = vector.floor(pos)
+			pos2.y = pos2.y + 1
+			if minetest.get_node(pos2).name ~= "air" then
+				workbench.send(placer, "The workbench requires a empty space of 2 height.")
+				minetest.remove_node(pos)
+			return true
+		end
+	end
 	meta:set_string("owner",  owner)
 	meta:set_string("infotext", "Workbench is empty (owned by "..owner..") \nWorkbench is locked")
 end
@@ -296,7 +305,10 @@ minetest.register_node("workbench:workbench",  {
 	mesh = "workbench.obj",
 	selection_box = {
 		type = "fixed",
-		fixed = { -0.5, -0.5, -0.5, 0.5, 0.5, 0.5 }
+		fixed = {
+			{-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
+			{-0.4375, 0.5, 0.25, 0.4375, 1.5, 0.4375},
+		},
 	},
 	tiles = {"workbench_workbench.png"},
 	paramtype = "light",

@@ -102,29 +102,29 @@ function blocks.chest.register_chest(prefixed_name, d)
 			local meta = minetest.get_meta(pos);
 			local inv = meta:get_inventory()
 			return inv:is_empty("main") and
-					blocks.can_interact_with_node(player, pos)
+					default.can_interact_with_node(player, pos)
 		end
 		def.allow_metadata_inventory_move = function(pos, from_list, from_index,
 				to_list, to_index, count, player)
-			if not blocks.can_interact_with_node(player, pos) then
+			if not default.can_interact_with_node(player, pos) then
 				return 0
 			end
 			return count
 		end
 		def.allow_metadata_inventory_put = function(pos, listname, index, stack, player)
-			if not blocks.can_interact_with_node(player, pos) then
+			if not default.can_interact_with_node(player, pos) then
 				return 0
 			end
 			return stack:get_count()
 		end
 		def.allow_metadata_inventory_take = function(pos, listname, index, stack, player)
-			if not blocks.can_interact_with_node(player, pos) then
+			if not default.can_interact_with_node(player, pos) then
 				return 0
 			end
 			return stack:get_count()
 		end
 		def.on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
-			if not blocks.can_interact_with_node(clicker, pos) then
+			if not default.can_interact_with_node(clicker, pos) then
 				return itemstack
 			end
 

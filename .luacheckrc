@@ -3,23 +3,24 @@ allow_defined_top = true
 max_line_length = 400
 
 globals = {
-    "minetest",
+	"minetest",
+	"core",
 }
 
 read_globals = {
-    string = {fields = {"split"}},
-    table = {fields = {"copy", "getn"}},
+	string = {fields = {"split"}},
+	table = {fields = {"copy", "getn"}},
 
-    -- Builtin
-    "vector", "ItemStack",
-    "dump", "DIR_DELIM", "VoxelArea", "Settings",
+	-- Builtin
+	"vector", "ItemStack",
+	"dump", "DIR_DELIM", "VoxelArea", "Settings",
 
-		-- Legacy
-		"spawn_falling_node",
+	-- Legacy
+	"spawn_falling_node",
 
-    -- MTG
-    "default", "sfinv", "creative",
+	-- MTG
+	"default", "sfinv", "creative",
 
-    -- Mods
-    "stairs", "stairsplus", "dungeon_loot",
+	-- Mods
+	"stairs", "stairsplus", "dungeon_loot",
 }

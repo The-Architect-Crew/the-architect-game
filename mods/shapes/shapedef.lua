@@ -5,7 +5,7 @@ shapes:register_shapedef("slab1", {
 		type = "fixed",
 		fixed = {-0.5, -0.5, -0.5, 0.5, -0.4375, 0.5},
 	},
-	shgroup = "slab",
+	category = "slab",
 	sunlight_propagates = true,
 })
 
@@ -15,7 +15,7 @@ shapes:register_shapedef("slab2", {
 		type = "fixed",
 		fixed = {-0.5, -0.5, -0.5, 0.5, -0.375, 0.5},
 	},
-	shgroup = "slab",
+	category = "slab",
 	sunlight_propagates = true,
 })
 
@@ -25,7 +25,7 @@ shapes:register_shapedef("slab4", {
 		type = "fixed",
 		fixed = {-0.5, -0.5, -0.5, 0.5, -0.25, 0.5},
 	},
-	shgroup = "slab",
+	category = "slab",
 	sunlight_propagates = true,
 })
 
@@ -35,7 +35,7 @@ shapes:register_shapedef("slab", {
 		type = "fixed",
 		fixed = {-0.5, -0.5, -0.5, 0.5, 0, 0.5},
 	},
-	shgroup = "slab",
+	category = "slab",
 	groups = {not_in_creative_inventory = 0},
 	sunlight_propagates = true,
 	crafting = {
@@ -53,7 +53,7 @@ shapes:register_shapedef("slab12", {
 		type = "fixed",
 		fixed = {-0.5, -0.5, -0.5, 0.5, 0.25, 0.5},
 	},
-	shgroup = "slab",
+	category = "slab",
 	sunlight_propagates = true,
 })
 
@@ -64,7 +64,7 @@ shapes:register_shapedef("cube1", {
 		type = "fixed",
 		fixed = {-0.5, -0.5, 0, 0, -0.4375, 0.5},
 	},
-	shgroup = "cube",
+	category = "cube",
 	sunlight_propagates = true,
 })
 
@@ -74,7 +74,7 @@ shapes:register_shapedef("cube2", {
 		type = "fixed",
 		fixed = {-0.5, -0.5, 0, 0, -0.375, 0.5},
 	},
-	shgroup = "cube",
+	category = "cube",
 	sunlight_propagates = true,
 })
 
@@ -84,7 +84,7 @@ shapes:register_shapedef("cube4", {
 		type = "fixed",
 		fixed = {-0.5, -0.5, 0, 0, -0.25, 0.5},
 	},
-	shgroup = "cube",
+	category = "cube",
 	sunlight_propagates = true,
 })
 
@@ -94,7 +94,7 @@ shapes:register_shapedef("cube", {
 		type = "fixed",
 		fixed = {-0.5, -0.5, 0, 0, 0, 0.5},
 	},
-	shgroup = "cube",
+	category = "cube",
 	sunlight_propagates = true,
 })
 
@@ -104,7 +104,7 @@ shapes:register_shapedef("cube12", {
 		type = "fixed",
 		fixed = {-0.5, -0.5, 0, 0, 0.25, 0.5},
 	},
-	shgroup = "cube",
+	category = "cube",
 	sunlight_propagates = true,
 })
 
@@ -115,7 +115,7 @@ shapes:register_shapedef("step1", {
 		type = "fixed",
 		fixed = {-0.5, -0.5, 0, 0.5, -0.4375, 0.5},
 	},
-	shgroup = "step",
+	category = "step",
 	sunlight_propagates = true,
 })
 
@@ -125,7 +125,7 @@ shapes:register_shapedef("step2", {
 		type = "fixed",
 		fixed = {-0.5, -0.5, 0, 0.5, -0.375, 0.5},
 	},
-	shgroup = "step",
+	category = "step",
 	sunlight_propagates = true,
 })
 
@@ -135,7 +135,7 @@ shapes:register_shapedef("step4", {
 		type = "fixed",
 		fixed = {-0.5, -0.5, 0, 0.5, -0.25, 0.5},
 	},
-	shgroup = "step",
+	category = "step",
 	sunlight_propagates = true,
 })
 
@@ -145,7 +145,7 @@ shapes:register_shapedef("step", {
 		type = "fixed",
 		fixed = {-0.5, -0.5, 0, 0.5, 0, 0.5},
 	},
-	shgroup = "step",
+	category = "step",
 	sunlight_propagates = true,
 })
 
@@ -155,7 +155,7 @@ shapes:register_shapedef("step12", {
 		type = "fixed",
 		fixed = {-0.5, -0.5, 0, 0.5, 0.25, 0.5},
 	},
-	shgroup = "step",
+	category = "step",
 	sunlight_propagates = true,
 })
 
@@ -169,7 +169,7 @@ shapes:register_shapedef("stair", {
 			{-0.5, 0, 0, 0.5, 0.5, 0.5},
 		},
 	},
-	shgroup = "stair",
+	category = "stair",
 	groups = {not_in_creative_inventory = 0},
 	sunlight_propagates = true,
 	crafting = {
@@ -191,7 +191,7 @@ shapes:register_shapedef("halfstair", {
 			{-0.5, 0, 0, 0, 0.5, 0.5},
 		},
 	},
-	shgroup = "stair",
+	category = "stair",
 	sunlight_propagates = true,
 	crafting = {
 		recipe = {
@@ -209,7 +209,7 @@ shapes:register_shapedef("righthalfstair", {
 			{0, 0, 0, 0.5, 0.5, 0.5},
 		},
 	},
-	shgroup = "stair",
+	category = "stair",
 	sunlight_propagates = true,
 	crafting = {
 		recipe = {
@@ -227,7 +227,7 @@ shapes:register_shapedef("outerstair", {
 			{-0.5, 0, 0, 0, 0.5, 0.5},
 		},
 	},
-	shgroup = "stair",
+	category = "stair",
 	sunlight_propagates = true,
 })
 
@@ -241,7 +241,7 @@ shapes:register_shapedef("innerstair", {
 			{-0.5, 0, -0.5, 0, 0.5, 0},
 		},
 	},
-	shgroup = "stair",
+	category = "stair",
 	sunlight_propagates = false,
 })
 
@@ -255,7 +255,7 @@ shapes:register_shapedef("forkstair", {
 			{-0.5, -0.5, -0.5, 0, 0, 0},
 		},
 	},
-	shgroup = "stair",
+	category = "stair",
 	sunlight_propagates = false,
 })
 
@@ -269,7 +269,7 @@ shapes:register_shapedef("splitstair1", {
 			{-0.5, 0.4375, 0, 0.5, 0.5, 0.5},
 		},
 	},
-	shgroup = "splitstair",
+	category = "splitstair",
 	sunlight_propagates = true,
 })
 
@@ -282,7 +282,7 @@ shapes:register_shapedef("splitstair4", {
 			{-0.5, 0.25, 0, 0.5, 0.5, 0.5},
 		},
 	},
-	shgroup = "splitstair",
+	category = "splitstair",
 	sunlight_propagates = true,
 })
 
@@ -295,7 +295,7 @@ shapes:register_shapedef("splitstair", {
 			{-0.5, 0, 0, 0.5, 0.5, 0.5},
 		},
 	},
-	shgroup = "splitstair",
+	category = "splitstair",
 	sunlight_propagates = true,
 })
 
@@ -306,7 +306,7 @@ shapes:register_shapedef("pole", {
 		type = "fixed",
 		fixed = {-0.125, -0.5, -0.125, 0.125, 0.5, 0.125},
 	},
-	shgroup = "pole",
+	category = "pole",
 	sunlight_propagates = true,
 	crafting = {
 		amount = 8,
@@ -324,7 +324,7 @@ shapes:register_shapedef("wallpole", {
 		type = "fixed",
 		fixed = {-0.125, -0.5, 0.25, 0.125, 0.5, 0.5},
 	},
-	shgroup = "pole",
+	category = "pole",
 	sunlight_propagates = true,
 })
 
@@ -334,7 +334,7 @@ shapes:register_shapedef("cornerpole", {
 		type = "fixed",
 		fixed = {-0.5, -0.5, 0.25, -0.25, 0.5, 0.5},
 	},
-	shgroup = "pole",
+	category = "pole",
 	sunlight_propagates = true,
 })
 
@@ -345,7 +345,7 @@ shapes:register_shapedef("pillar", {
 		type = "fixed",
 		fixed = {-1/4, -1/2, -1/4, 1/4, 1/2, 1/4},
 	},
-	shgroup = "pillar",
+	category = "pillar",
 	sunlight_propagates = true,
 	crafting = {
 		amount = 12,
@@ -363,7 +363,7 @@ shapes:register_shapedef("wallpillar", {
 		type = "fixed",
 		fixed = {-1/4, -1/2, 0, 1/4, 1/2, 1/2},
 	},
-	shgroup = "pillar",
+	category = "pillar",
 	sunlight_propagates = true,
 })
 
@@ -373,7 +373,7 @@ shapes:register_shapedef("halfpillar", {
 		type = "fixed",
 		fixed = {-1/4, -1/2, 1/2, 1/4, 1/2, 1/4},
 	},
-	shgroup = "pillar",
+	category = "pillar",
 	sunlight_propagates = true,
 })
 
@@ -387,7 +387,7 @@ shapes:register_shapedef("pillarcrown", {
 			{-0.375, -0.5, -0.375, 0.375, 0, 0.375},
 		},
 	},
-	shgroup = "pillarcrown",
+	category = "pillarcrown",
 	sunlight_propagates = true,
 })
 
@@ -401,7 +401,7 @@ shapes:register_shapedef("wallpillarcrown", {
 			{-0.375, -0.5, -0.125, 0.375, 0, 0.5},
 		},
 	},
-	shgroup = "pillarcrown",
+	category = "pillarcrown",
 	sunlight_propagates = true,
 })
 
@@ -416,7 +416,7 @@ shapes:register_shapedef("halfpillarcrown", {
 			{-0.375, -0.5, 0.125, 0.375, 0, 0.5},
 		},
 	},
-	shgroup = "pillarcrown",
+	category = "pillarcrown",
 	sunlight_propagates = true,
 })
 
@@ -431,7 +431,7 @@ shapes:register_shapedef("crosscrown", {
 			{-0.4375, -0.4375, -0.4375, 0.4375, -0.0625, 0.4375},
 		},
 	},
-	shgroup = "pillarcrown",
+	category = "pillarcrown",
 	sunlight_propagates = true,
 })
 
@@ -442,7 +442,7 @@ shapes:register_shapedef("beam", {
 		type = "fixed",
 		fixed = {-0.25, -0.5, -0.5, 0.25, 0, 0.5},
 	},
-	shgroup = "beam",
+	category = "beam",
 	sunlight_propagates = true,
 })
 
@@ -455,7 +455,7 @@ shapes:register_shapedef("crossbeam", {
 			{-0.5, -0.5, -0.25, 0.5, 0, 0.25},
 		},
 	},
-	shgroup = "beam",
+	category = "beam",
 	sunlight_propagates = true,
 })
 
@@ -470,7 +470,7 @@ shapes:register_shapedef("linkdown", {
 			{-0.1875, -0.125, -0.1875, 0.1875, 0, 0.1875},
 		},
 	},
-	shgroup = "beam",
+	category = "beam",
 	sunlight_propagates = true,
 })
 
@@ -484,7 +484,7 @@ shapes:register_shapedef("corner1", {
 			{0, -0.5, 0, 0.5, -0.4375, -0.5},
 		},
 	},
-	shgroup = "corner",
+	category = "corner",
 	sunlight_propagates = true,
 })
 
@@ -497,7 +497,7 @@ shapes:register_shapedef("corner2", {
 			{0, -0.5, 0, 0.5, -0.375, -0.5},
 		},
 	},
-	shgroup = "corner",
+	category = "corner",
 	sunlight_propagates = true,
 })
 
@@ -510,7 +510,7 @@ shapes:register_shapedef("corner4", {
 			{0, -0.5, 0, 0.5, -0.25, -0.5},
 		},
 	},
-	shgroup = "corner",
+	category = "corner",
 	sunlight_propagates = true,
 })
 
@@ -523,7 +523,7 @@ shapes:register_shapedef("corner", {
 			{0, -0.5, 0, 0.5, 0, -0.5},
 		},
 	},
-	shgroup = "corner",
+	category = "corner",
 	sunlight_propagates = true,
 })
 
@@ -536,7 +536,7 @@ shapes:register_shapedef("corner12", {
 			{0, -0.5, 0, 0.5, 0.25, -0.5},
 		},
 	},
-	shgroup = "corner",
+	category = "corner",
 	sunlight_propagates = true,
 })
 
@@ -551,7 +551,7 @@ shapes:register_shapedef("sphere", {
 		type = "fixed",
 		fixed = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
 	},
-	shgroup = "sphere",
+	category = "sphere",
 	sunlight_propagates = true,
 	disable_by_default = true,
 })
@@ -569,7 +569,7 @@ shapes:register_shapedef("slope", {
 			{-0.5, 0.25, 0.25, 0.5, 0.5, 0.5},
 		},
 	},
-	shgroup = "slope",
+	category = "slope",
 	sunlight_propagates = true,
 })
 
@@ -585,7 +585,7 @@ shapes:register_shapedef("slope2", {
 			{-0.5, -0.125, 0.25, 0.5, 0, 0.5},
 		},
 	},
-	shgroup = "slope",
+	category = "slope",
 	sunlight_propagates = true,
 })
 
@@ -601,7 +601,7 @@ shapes:register_shapedef("slope3", {
 			{-0.5, 0.375, 0.25, 0.5, 0.5, 0.5},
 		},
 	},
-	shgroup = "slope",
+	category = "slope",
 	sunlight_propagates = true,
 })
 
@@ -620,7 +620,7 @@ shapes:register_shapedef("innerslope", {
 			{-0.5, 0.25, -0.5, -0.25, 0.5, 0.5},
 		},
 	},
-	shgroup = "slope",
+	category = "slope",
 	sunlight_propagates = true,
 })
 
@@ -639,7 +639,7 @@ shapes:register_shapedef("innerslope2", {
 			{-0.5, -0.125, -0.5, -0.25, 0, 0.5},
 		},
 	},
-	shgroup = "slope",
+	category = "slope",
 	sunlight_propagates = true,
 })
 
@@ -658,7 +658,7 @@ shapes:register_shapedef("innerslope3", {
 			{-0.5, 0.375, -0.5, -0.25, 0.5, 0.5},
 		},
 	},
-	shgroup = "slope",
+	category = "slope",
 	sunlight_propagates = true,
 })
 
@@ -677,7 +677,7 @@ shapes:register_shapedef("cutinnerslope", {
 			{-0.5, 0.25, -0.5, -0.25, 0.5, 0.5},
 		},
 	},
-	shgroup = "slope",
+	category = "slope",
 	sunlight_propagates = true,
 })
 
@@ -696,7 +696,7 @@ shapes:register_shapedef("cutinnerslope2", {
 			{-0.5, -0.125, -0.5, -0.25, 0, 0.5},
 		},
 	},
-	shgroup = "slope",
+	category = "slope",
 	sunlight_propagates = true,
 })
 
@@ -715,7 +715,7 @@ shapes:register_shapedef("cutinnerslope3", {
 			{-0.5, 0.375, -0.5, -0.25, 0.5, 0.5},
 		},
 	},
-	shgroup = "slope",
+	category = "slope",
 	sunlight_propagates = true,
 })
 
@@ -731,7 +731,7 @@ shapes:register_shapedef("outerslope", {
 			{-0.5, 0.25, 0.25, -0.25, 0.5, 0.5},
 		},
 	},
-	shgroup = "slope",
+	category = "slope",
 	sunlight_propagates = true,
 })
 
@@ -747,7 +747,7 @@ shapes:register_shapedef("outerslope2", {
 			{-0.5, -0.125, 0.25, -0.25, 0, 0.5},
 		},
 	},
-	shgroup = "slope",
+	category = "slope",
 	sunlight_propagates = true,
 })
 
@@ -763,7 +763,7 @@ shapes:register_shapedef("outerslope3", {
 			{-0.5, 0.375, 0.25, -0.25, 0.5, 0.5},
 		},
 	},
-	shgroup = "slope",
+	category = "slope",
 	sunlight_propagates = true,
 })
 
@@ -779,7 +779,7 @@ shapes:register_shapedef("cutouterslope", {
 			{-0.5, 0.25, 0.25, -0.25, 0.5, 0.5},
 		},
 	},
-	shgroup = "slope",
+	category = "slope",
 	sunlight_propagates = true,
 })
 
@@ -795,7 +795,7 @@ shapes:register_shapedef("cutouterslope2", {
 			{-0.5, -0.125, 0.25, -0.25, 0, 0.5},
 		},
 	},
-	shgroup = "slope",
+	category = "slope",
 	sunlight_propagates = true,
 })
 
@@ -811,7 +811,7 @@ shapes:register_shapedef("cutouterslope3", {
 			{-0.5, 0.375, 0.25, -0.25, 0.5, 0.5},
 		},
 	},
-	shgroup = "slope",
+	category = "slope",
 	sunlight_propagates = true,
 })
 
@@ -827,7 +827,7 @@ shapes:register_shapedef("cutouterslope4", {
 			{-0.5, 0.25, 0.25, -0.25, 0.5, 0.5},
 		},
 	},
-	shgroup = "slope",
+	category = "slope",
 	sunlight_propagates = true,
 })
 
@@ -860,7 +860,7 @@ shapes:register_shapedef("fence", {
 		connect_right = { 1/8, -1/2, -1/8,  1/2, 1/2,  1/8}
 	},
 	connects_to = {"group:fence", "group:wood", "group:tree", "group:wall", "group:stone"},
-	shgroup = "fence",
+	category = "fence",
 	groups = {fence = 1, not_in_creative_inventory = 0},
 	sunlight_propagates = true,
 	crafting = {
@@ -901,7 +901,7 @@ shapes:register_shapedef("fencerail", {
 		connect_right = { 1/8, -1/2, -1/8,  1/2, 1/2,  1/8},
 	},
 	connects_to = {"group:fence", "group:wood", "group:tree", "group:wall", "group:stone"},
-	shgroup = "fence",
+	category = "fence",
 	groups = {fence = 1},
 	sunlight_propagates = true,
 	crafting = {
@@ -938,7 +938,7 @@ shapes:register_shapedef("wall", {
 		connect_right = {1/4,-1/2,-1/4,1/2,1/2,1/4},
 	},
 	connects_to = {"group:fence", "group:wood", "group:tree", "group:wall", "group:stone"},
-	shgroup = "pillar",
+	category = "pillar",
 	groups = {wall = 1, not_in_creative_inventory = 0},
 	sunlight_propagates = true,
 	crafting = {
@@ -958,7 +958,7 @@ shapes:register_shapedef("pane_flat", {
 		fixed = {{-1/2, -1/2, -1/32, 1/2, 1/2, 1/32}},
 	},
 	connect_sides = {"left", "right"},
-	shgroup = "pane",
+	category = "pane",
 	groups = {pane = 1},
 	sunlight_propagates = true,
 })
@@ -974,7 +974,7 @@ shapes:register_shapedef("pane", {
 		connect_right = {{1/32, -1/2, -1/32, 1/2, 1/2, 1/32}},
 	},
 	connects_to = {"group:pane", "group:stone", "group:glass", "group:wood", "group:tree"},
-	shgroup = "pane",
+	category = "pane",
 	groups = {pane = 1},
 	sunlight_propagates = true,
 	drop = "shapes:shape_pane_flat",

@@ -53,7 +53,7 @@ variations.variations = {
 		name = "spiral_tile";
 		description = "Spiral Tile";
 		texture = "2,2";
-		disabled_shapes = "pole, wallpole, cornerpole, fence, slab2, slab4, slab, slab12, cube1, cube2, cube4, cube, cube12, step1, step2, step4, step, step12, halfstair, righthalfstair, outerstair, stair, innerstair, splitstair1, splitstair4, splitstair, forkstair, wall, pillar, wallpillar, halfpillar, pillarcrown, wallpillarcrown, halfpillarcrown, crosslink, crossbeam, beam, linkdown, corner1, corner2, corner4, corner, corner12, innerslope, innerslope2, innerslope3, cutinnerslope, cutinnerslope2, cutinnerslope3, outerslope, outerslope2, outerslope3, cutouterslope, cutouterslope2, cutouterslope3, cutouterslope4";
+		disabled_shapes = "pole, wallpole, cornerpole, fence, slab2, slab4, slab, slab12, cube1, cube2, cube4, cube, cube12, step1, step2, step4, step, step12, halfstair, righthalfstair, outerstair, stair, innerstair, splitstair1, splitstair4, splitstair, forkstair, wall, pillar, wallpillar, halfpillar, pillarcrown, wallpillarcrown, halfpillarcrown, crosscrown, crossbeam, beam, linkdown, corner1, corner2, corner4, corner, corner12, innerslope, innerslope2, innerslope3, cutinnerslope, cutinnerslope2, cutinnerslope3, outerslope, outerslope2, outerslope3, cutouterslope, cutouterslope2, cutouterslope3, cutouterslope4";
 	},
 }
 
@@ -82,7 +82,7 @@ function variations.register_for_base(base_node, transparent, sunlight)
     for _, variation in ipairs(variations.variations) do
 		local sname = string.match(base_node, ':(.*)')
 		local variation_name = "variations:" .. sname .. "_" .. variation.name
-		shapes:register_shapes(variation_name, nil, variation.disabled_shapes)
+		shapes:register_shape(variation_name, variation.disabled_shapes)
 	end
 end
 

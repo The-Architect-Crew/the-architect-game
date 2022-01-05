@@ -218,6 +218,7 @@ minetest.register_node("blocks:stone_with_amber", {
 	tiles = {"blocks_stone.png^blocks_mineral_amber.png"},
 	is_ground_content = true,
 	groups = {cracky = 3},
+	drop = "blocks:amber_lump",
 	sounds = default.node_sound_stone_defaults(),
 })
 

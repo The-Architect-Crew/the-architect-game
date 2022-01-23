@@ -49,6 +49,11 @@ shapes:register_shape("blocks:tinblock")
 shapes:register_shape("blocks:bronzeblock")
 shapes:register_shape("blocks:goldblock")
 shapes:register_shape("blocks:diamondblock")
+shapes:register_shape("blocks:amethyst")
+shapes:register_shape("blocks:garnet")
+shapes:register_shape("blocks:lapis_lazuli")
+shapes:register_shape("blocks:turquoise")
+shapes:register_shape("blocks:malachite")
 -- plank.lua
 shapes:register_shape("blocks:wood")
 shapes:register_shape("blocks:junglewood")
@@ -86,6 +91,9 @@ shapes:register_shape("blocks:silver_sandstone_block")
 shapes:register_shape("blocks:obsidian")
 shapes:register_shape("blocks:obsidianbrick")
 shapes:register_shape("blocks:obsidian_block")
+for _, color in ipairs(blocks.stone_colors) do
+	shapes:register_shape("blocks:stone_" .. color[1])
+end
 -- wool.lua
 shapes:register_shape("blocks:wool_white")
 shapes:register_shape("blocks:wool_grey")

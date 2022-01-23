@@ -301,7 +301,7 @@ minetest.register_craftitem("blocks:amethyst_crystal", {
 
 minetest.register_node("blocks:amethyst", {
 	description = S("Amethyst"),
-	drawtype = "allfaces",
+	drawtype = "glasslike",
 	tiles = {"blocks_amethyst.png"},
 	paramtype = "light",
 	use_texture_alpha = "blend",
@@ -327,7 +327,7 @@ minetest.register_craftitem("blocks:garnet_crystal", {
 
 minetest.register_node("blocks:garnet", {
 	description = S("Garnet"),
-	drawtype = "allfaces",
+	drawtype = "glasslike",
 	tiles = {"blocks_garnet.png"},
 	paramtype = "light",
 	use_texture_alpha = "blend",

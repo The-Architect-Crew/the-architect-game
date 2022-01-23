@@ -189,73 +189,28 @@ minetest.register_node("blocks:obsidian_block", {
 --
 
 blocks.stone_colors = {
-	{
-		name = "black";
-		description = "Black";
-	};
-	{
-		name = "brown";
-		description = "Brown";
-	};
-	{
-		name = "cyan";
-		description = "Cyan";
-	};
-	{
-		name = "dark_blue";
-		description = "Dark Blue";
-	};
-	{
-		name = "dark_green";
-		description = "Dark Green";
-	};
-	{
-		name = "dark_grey";
-		description = "Dark Grey";
-	};
-	{
-		name = "dark_pink";
-		description = "Dark Pink";
-	};
-	{
-		name = "green";
-		description = "Green";
-	};
-	{
-		name = "grey";
-		description = "Grey";
-	};
-	{
-		name = "orange";
-		description = "Orange";
-	};
-	{
-		name = "pink";
-		description = "Pink";
-	};
-	{
-		name = "purple";
-		description = "Purple";
-	};
-	{
-		name = "red";
-		description = "Red";
-	};
-	{
-		name = "white";
-		description = "White";
-	};
-	{
-		name = "yellow";
-		description = "Yellow";
-	};
+	{"black", "Black"},
+	{"brown", "Brown"},
+	{"cyan", "Cyan"},
+	{"dark_blue", "Dark Blue"},
+	{"dark_green", "Dark Green"},
+	{"dark_grey", "Dark Grey"},
+	{"dark_pink", "Dark Pink"},
+	{"green", "Green"},
+	{"grey", "Grey"},
+	{"orange", "Orange"},
+	{"pink", "Pink"},
+	{"purple", "Purple"},
+	{"red", "Red"},
+	{"white", "White"},
+	{"yellow", "Yellow"},
 }
 
 for _, color in ipairs(blocks.stone_colors) do
 
-	minetest.register_node("blocks:stone_" .. color.name, {
-		description = S(color.description .. " Stone"),
-		tiles = {"blocks_stone_" .. color.name .. ".png"},
+	minetest.register_node("blocks:stone_" .. color[1], {
+		description = S(color[2] .. " Stone"),
+		tiles = {"blocks_stone_" .. color[1] .. ".png"},
 		groups = {cracky = 3, stone = 1},
 		sounds = default.node_sound_stone_defaults(),
 	})

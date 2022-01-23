@@ -96,8 +96,6 @@ variations.register_for_base("blocks:amber")
 variations.register_for_base("blocks:silverblock")
 variations.register_for_base("blocks:mithrilblock")
 
-variations.stone_colors = {"black", "brown", "cyan", "dark_blue", "dark_green", "dark_grey", "dark_pink", "green", "grey", "orange", "pink", "purple", "red", "white", "yellow"}
-
-for i=1, 15 do
-	variations.register_for_base("blocks:stone_" .. variations.stone_colors[i])
+for _, color in ipairs(blocks.stone_colors) do
+	variations.register_for_base("blocks:stone_" .. color[1])
 end

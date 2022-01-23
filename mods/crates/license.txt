@@ -1,0 +1,12 @@
+Authors of source code:
+-----------------------
+General License: neinwhal (LGPL 2.1)
+
+Sorting function in init.lua
+	https://github.com/minetest-mods/technic/blob/master/technic_chests/register.lua
+	RealBadAngel (LGPL 2.0 or later)
+	Various minetest-technic developers and contributors (LGPL 2.0 or later)
+
+Authors of media files
+-----------------------
+General License: neinwhal (CC-BY-SA 3.0)

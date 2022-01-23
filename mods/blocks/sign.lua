@@ -1,28 +1,17 @@
-local function lock_icon(locked, owner)
-	if locked == "lock" then
-		return "image_button[0.3,0.975;1.05,1.05;gui_lock.png;sign_protect;;;false;gui_lock.png]"..
-			"tooltip[sign_protect;Press to protect-lock sign \nCurrently locked \nOwned by "..owner.."]"
-	elseif locked == "protect" then
-		return "image_button[0.3,0.975;1.05,1.05;gui_protect.png;sign_unlock;;;false;gui_protect.png]"..
-			"tooltip[sign_unlock;Press to unlock sign \nCurrently protect-locked \nOwned by "..owner.."]"
-	elseif locked == "unlock" then
-		return "image_button[0.3,0.975;1.05,1.05;gui_unlock.png;sign_lock;;;false;gui_unlock.png]"..
-			"tooltip[sign_lock;Press to lock sign \nCurrently unlocked \nOwned by "..owner.."]"
-	else
-		return ""
-	end
-end
-
+local sign_lockorder = {"lock", "protect", "unlock"}
 local function sign_formspec(pos)
 	local meta = minetest.get_meta(pos)
-	local locked = meta:get_string("lock")
+	local lock = meta:get_string("lock")
 	local owner = meta:get_string("owner")
 	local text = meta:get_string("text")
 	return "formspec_version[4]"..
-		"size[10.5,3]"..
-		lock_icon(locked, owner)..
-		"textarea[1.55,0.4;7.4,2.2;sign_text;;"..text.."]"..
-		"image_button_exit[9.25,0.975;1.05,1.05;gui_enter.png;sign_save;;;false]"
+		"size[8.2,3]"..
+		"style_type[image;noclip=true]"..
+		"image[-1.4,0.825;1.4,1.4;gui_tab.png]"..
+		"image[8.2,0.825;1.4,1.4;gui_tab.png^[transformFX]"..
+		"image_button[-1.1,0.975;1.05,1.05;"..locks.icons("sign", lock, sign_lockorder, true, "(Owned by "..owner..")")..
+		"textarea[0.4,0.4;7.4,2.2;sign_text;;"..text.."]"..
+		"image_button_exit[8.35,0.975;1.05,1.05;gui_enter.png;sign_save;;true;false]"
 end
 
 local function sign_on_construct(pos)
@@ -94,17 +83,12 @@ local function sign_can_dig(pos, player)
 	local meta = minetest.get_meta(pos)
 	local playername = player:get_player_name()
 	local owner = meta:get_string("owner")
-	local locked = meta:get_string("lock")
-	if locked == "lock" and owner ~= playername and owner ~= "" then
-		minetest.chat_send_player(playername, "[sign] Sign is locked and owned by "..owner)
-		return false
+	if locks.can_access(pos, player) then
+		return true
 	else
-		if minetest.is_protected(pos, playername) then
-			minetest.record_protection_violation(pos, playername)
-			return false
-		end
+		minetest.chat_send_player(playername, "[sign] Sign is locked and owned by "..owner)
 	end
-	return true
+	return false
 end
 
 local arrowsign_rotation = {

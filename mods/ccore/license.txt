@@ -6,6 +6,12 @@ misc.lua
 	https://github.com/minetest/minetest_game/tree/master/mods/game_commands
 	rubenwardy (MIT)
 	Various Minetest developers and contributors (LGPL 2.1)
+	
+notify.lua
+	lumberJack (LGPL 2.1)
+
+lock.lua
+	neinwhal (LGPL 2.1)
 
 Authors of media files
 -----------------------

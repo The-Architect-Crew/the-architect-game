@@ -279,7 +279,7 @@ function wb_shapes.allow_metadata_inventory_put(pos, listname, index, stack, pla
 	local count = stack:get_count()
 	local material = stackname:match(":(.*)")
 	local modname = stackname:match("(.*):")
-	if listname == "shapes_input" and minetest.registered_nodes[modname..":shapes_"..material.."_cube"] then
+	if listname == "shapes_input" then
 		local input_stack = inv:get_stack("shapes_input", 1)
 		local input_name = input_stack:get_name()
 		if not input_stack:is_empty() then

@@ -185,6 +185,38 @@ minetest.register_node("blocks:obsidian_block", {
 })
 
 --
+-- COLORED STONE
+--
+
+blocks.stone_colors = {
+	{"black", "Black"},
+	{"brown", "Brown"},
+	{"cyan", "Cyan"},
+	{"dark_blue", "Dark Blue"},
+	{"dark_green", "Dark Green"},
+	{"dark_grey", "Dark Grey"},
+	{"dark_pink", "Dark Pink"},
+	{"green", "Green"},
+	{"grey", "Grey"},
+	{"orange", "Orange"},
+	{"pink", "Pink"},
+	{"purple", "Purple"},
+	{"red", "Red"},
+	{"white", "White"},
+	{"yellow", "Yellow"},
+}
+
+for _, color in ipairs(blocks.stone_colors) do
+
+	minetest.register_node("blocks:stone_" .. color[1], {
+		description = S(color[2] .. " Stone"),
+		tiles = {"blocks_stone_" .. color[1] .. ".png"},
+		groups = {cracky = 3, stone = 1},
+		sounds = default.node_sound_stone_defaults(),
+	})
+end
+
+--
 -- CRAFTS
 --
 minetest.register_craft({

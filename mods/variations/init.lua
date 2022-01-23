@@ -95,3 +95,7 @@ variations.register_for_base("blocks:turquoise")
 variations.register_for_base("blocks:amber")
 variations.register_for_base("blocks:silverblock")
 variations.register_for_base("blocks:mithrilblock")
+
+for _, color in ipairs(blocks.stone_colors) do
+	variations.register_for_base("blocks:stone_" .. color[1])
+end

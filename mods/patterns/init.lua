@@ -112,9 +112,8 @@ patterns.pattern_types = {
 
 function patterns.assemble_pattern(pattern_data, pattern_type, color)
 
-	local name = pattern_data.name
 	local texture = pattern_data.texture
-	
+
 	local result = "((patterns_" .. pattern_type .. "_shading.png^[sheet:4x3:" .. texture .. ")^[opacity:64)^((patterns_" .. pattern_type .. "_color.png^[sheet:4x3:" .. texture .. ")^[multiply:#" .. color .. ")"
 
 	return result
@@ -123,7 +122,7 @@ end
 function patterns.register_patterns(base_node)
 
 	patterns.register_patterns_single(base_node)
-	
+
 	for _, colors in ipairs(patterns.colors) do
 		for _, types in ipairs(patterns.pattern_types) do
 
@@ -139,7 +138,7 @@ function patterns.register_patterns(base_node)
 			local sname = string.match(base_node, ':(.*)')
 			local pattern_name = "patterns:" .. sname .. "_" .. pattern_type .. "_" .. pattern.name .. "_" .. color_string
 			local pattern_description = base_definition.description .. " with a " .. color_name .. " " .. pattern_type_description .. " Pattern " .. pattern.description
-			
+
 			local tiles = {base_definition.tiles[1] .. "^" .. patterns.assemble_pattern(patterns.patterns[pattern.tiles[1]], pattern_type, color),
 						base_definition.tiles[1] .. "^" .. patterns.assemble_pattern(patterns.patterns[pattern.tiles[2]], pattern_type, color),
 						base_definition.tiles[1] .. "^" .. patterns.assemble_pattern(patterns.patterns[pattern.tiles[3]], pattern_type, color),
@@ -153,7 +152,7 @@ function patterns.register_patterns(base_node)
 				tiles = tiles,
 				groups = base_definition.groups,
 				drawtype = base_definition.drawtype,
-				paramtype2 = facedir
+				paramtype2 = "facedir"
 				})
 			end
 		end
@@ -186,12 +185,34 @@ end
 -- Corners
 
 patterns.corner_materials = {
-	{"sandstone", "Sandstone"},
-	{"steelblock", "Steel"},
-	{"malachite", "Malachite"},
+
 	{"brick", "Brick"},
+	{"bronzeblock", "Bronze"},
+	{"copperblock", "Copper"},
+	{"desert_sandstone", "Desert Sandstone"},
+	{"desert_stone", "Desert Stone"},
+	{"goldblock", "Gold"},
+	{"ice", "Ice"},
+	{"lapis_lazuli", "Lapis Lazuli"},
+	{"malachite", "Malachite"},
+	{"mithrilblock", "Mithril"},
 	{"obsidian", "Obsidian"},
-	{"ice", "Ice"}
+	{"sandstone", "Sandstone"},
+	{"silver_sandstone", "Silver Sandstone"},
+	{"silverblock", "Silver"},
+	{"steelblock", "Steel"},
+	{"stone_black", "Black Stone"},
+	{"stone_brown", "Brown Stone"},
+	{"stone_cyan", "Cyan Stone"},
+	{"stone_dark_blue", "Dark Blue Stone"},
+	{"stone_dark_pink", "Dark Pink Stone"},
+	{"stone_green", "Green Stone"},
+	{"stone_purple", "Purple Stone"},
+	{"stone_red", "Red Stone"},
+	{"stone_yellow", "Yellow Stone"},
+	{"stone", "Stone"},
+	{"tinblock", "Tin"},
+
 }
 
 function patterns.register_corners(base_node)
@@ -247,5 +268,13 @@ end
 patterns.register_patterns("blocks:clay")
 patterns.register_patterns("blocks:stone")
 patterns.register_patterns("blocks:sandstone")
+patterns.register_patterns("blocks:desert_sandstone")
+patterns.register_patterns("blocks:silver_sandstone")
 
 patterns.register_corners("blocks:stone")
+patterns.register_corners("blocks:brick")
+patterns.register_corners("blocks:ice")
+patterns.register_corners("blocks:sandstone")
+patterns.register_corners("blocks:desert_sandstone")
+patterns.register_corners("blocks:silver_sandstone")
+patterns.register_corners("blocks:obsidian")

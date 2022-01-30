@@ -5,6 +5,7 @@ function shapes:register_shapedef(name, def)
 	table.insert(shapes.shape_list, {
 		name = name,
 		description = def.description,
+		cost = def.cost,
 		node_box = def.node_box,
 		mesh = def.mesh,
 		collision_box = def.collision_box,
@@ -38,6 +39,10 @@ dofile(path.."/functions.lua")
 
 -- return true if shape is disabled
 local function check_disabled(disabled, name, groupname, dbd)
+	-- prevent cube from being disabled
+	if name == "cube" then
+		return nil
+	end
 	-- enable all shapes if no disable detected
 	if not disabled then
 		if dbd then
@@ -113,6 +118,7 @@ function shapes:register_shape(name, def)
 		local tovly = shapes.shape_list[i].overlay
 		local tdbyd = shapes.shape_list[i].disable_by_default
 		local tcraf = shapes.shape_list[i].crafting
+		local tcost = shapes.shape_list[i].cost
 		-- Add groups
 		local u_group = table.copy(r_group)
 		if tgrou then
@@ -197,7 +203,7 @@ function shapes:register_shape(name, def)
 					on_place = shapes.rotate_node,
 				})
 			end
-			-- registering crafting
+			-- registering given crafting
 			if tcraf then
 				local recipes = {}
 				for j in ipairs(tcraf.recipe) do
@@ -214,6 +220,68 @@ function shapes:register_shape(name, def)
 					replacements = tcraf.replacements,
 				})
 			end
+			
+			-- converting shapes into cubes
+			if tcost and tname ~= "cube" then
+				minetest.register_craft({
+					type = "shapeless",
+					output = mname..":shapes_"..sname.."_cube "..tcost,
+					recipe = {mname..":shapes_"..sname.."_"..tname},
+				})
+			end
 		end
 	end
+	
+	-- cubes into full blocks
+	minetest.register_craft({
+		type = "shapeless",
+		output = name,
+		recipe = {
+			mname..":shapes_"..sname.."_cube", mname..":shapes_"..sname.."_cube", mname..":shapes_"..sname.."_cube",
+			mname..":shapes_"..sname.."_cube", mname..":shapes_"..sname.."_cube", mname..":shapes_"..sname.."_cube",
+			mname..":shapes_"..sname.."_cube", mname..":shapes_"..sname.."_cube",
+		},
+	})
+	
+	--[[
+	-- workbench crafting
+	if minetest.global_exists("workbench") then
+		local wblist = {}
+		for i in ipairs(shapes.shape_list) do
+			local tname = shapes.shape_list[i].name
+			local tnobo = shapes.shape_list[i].node_box
+			local tmesh = shapes.shape_list[i].mesh
+			local tcate = shapes.shape_list[i].category
+			local tdbyd = shapes.shape_list[i].disable_by_default
+			local tcost = shapes.shape_list[i].cost
+			if not check_disabled(disabled, tname, tcate, tdbyd) then
+				if tnobo and tcost then
+					wblist[#wblist+1] = mname..":shapes_"..sname.."_"..tname.." "..math.floor(8/tcost)
+				end
+			end
+		end
+	
+		workbench:register_craft({
+			type = "variation",
+			cat = "shapes",
+			input =	{
+				{name},
+			},
+			output = {
+				wblist
+			},
+		})
+		
+		-- cubes into full blocks
+		workbench:register_craft({
+			type = "normal",
+			input =	{
+				{mname..":shapes_"..sname.."_cube 8"},
+			},
+			output = {
+				{name},
+			},
+		})
+	end
+	]]
 end

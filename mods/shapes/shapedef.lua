@@ -1,6 +1,7 @@
 -- Slabs
 shapes:register_shapedef("slab1", {
 	description = "Slab (1/16)",
+	cost = 1,
 	node_box = {
 		type = "fixed",
 		fixed = {-0.5, -0.5, -0.5, 0.5, -0.4375, 0.5},
@@ -11,6 +12,7 @@ shapes:register_shapedef("slab1", {
 
 shapes:register_shapedef("slab2", {
 	description = "Slab (2/16)",
+	cost = 1,
 	node_box = {
 		type = "fixed",
 		fixed = {-0.5, -0.5, -0.5, 0.5, -0.375, 0.5},
@@ -21,6 +23,7 @@ shapes:register_shapedef("slab2", {
 
 shapes:register_shapedef("slab4", {
 	description = "Slab (4/16)",
+	cost = 2,
 	node_box = {
 		type = "fixed",
 		fixed = {-0.5, -0.5, -0.5, 0.5, -0.25, 0.5},
@@ -31,6 +34,7 @@ shapes:register_shapedef("slab4", {
 
 shapes:register_shapedef("slab", {
 	description = "Slab",
+	cost = 4,
 	node_box = {
 		type = "fixed",
 		fixed = {-0.5, -0.5, -0.5, 0.5, 0, 0.5},
@@ -49,6 +53,7 @@ shapes:register_shapedef("slab", {
 
 shapes:register_shapedef("slab12", {
 	description = "Slab (12/16)",
+	cost = 6,
 	node_box = {
 		type = "fixed",
 		fixed = {-0.5, -0.5, -0.5, 0.5, 0.25, 0.5},
@@ -60,6 +65,7 @@ shapes:register_shapedef("slab12", {
 -- Cubes
 shapes:register_shapedef("cube1", {
 	description = "Cube (1/16)",
+	cost = 1,
 	node_box = {
 		type = "fixed",
 		fixed = {-0.5, -0.5, 0, 0, -0.4375, 0.5},
@@ -70,6 +76,7 @@ shapes:register_shapedef("cube1", {
 
 shapes:register_shapedef("cube2", {
 	description = "Cube (2/16)",
+	cost = 1,
 	node_box = {
 		type = "fixed",
 		fixed = {-0.5, -0.5, 0, 0, -0.375, 0.5},
@@ -80,6 +87,7 @@ shapes:register_shapedef("cube2", {
 
 shapes:register_shapedef("cube4", {
 	description = "Cube (4/16)",
+	cost = 1,
 	node_box = {
 		type = "fixed",
 		fixed = {-0.5, -0.5, 0, 0, -0.25, 0.5},
@@ -90,6 +98,7 @@ shapes:register_shapedef("cube4", {
 
 shapes:register_shapedef("cube", {
 	description = "Cube",
+	cost = 1,
 	node_box = {
 		type = "fixed",
 		fixed = {-0.5, -0.5, 0, 0, 0, 0.5},
@@ -100,6 +109,7 @@ shapes:register_shapedef("cube", {
 
 shapes:register_shapedef("cube12", {
 	description = "Cube (12/16)",
+	cost = 2,
 	node_box = {
 		type = "fixed",
 		fixed = {-0.5, -0.5, 0, 0, 0.25, 0.5},
@@ -111,6 +121,7 @@ shapes:register_shapedef("cube12", {
 -- Steps
 shapes:register_shapedef("step1", {
 	description = "Step (1/16)",
+	cost = 1,
 	node_box = {
 		type = "fixed",
 		fixed = {-0.5, -0.5, 0, 0.5, -0.4375, 0.5},
@@ -121,6 +132,7 @@ shapes:register_shapedef("step1", {
 
 shapes:register_shapedef("step2", {
 	description = "Step (2/16)",
+	cost = 1,
 	node_box = {
 		type = "fixed",
 		fixed = {-0.5, -0.5, 0, 0.5, -0.375, 0.5},
@@ -131,6 +143,7 @@ shapes:register_shapedef("step2", {
 
 shapes:register_shapedef("step4", {
 	description = "Step (4/16)",
+	cost = 1,
 	node_box = {
 		type = "fixed",
 		fixed = {-0.5, -0.5, 0, 0.5, -0.25, 0.5},
@@ -141,6 +154,7 @@ shapes:register_shapedef("step4", {
 
 shapes:register_shapedef("step", {
 	description = "Step",
+	cost = 2,
 	node_box = {
 		type = "fixed",
 		fixed = {-0.5, -0.5, 0, 0.5, 0, 0.5},
@@ -151,6 +165,7 @@ shapes:register_shapedef("step", {
 
 shapes:register_shapedef("step12", {
 	description = "Step (12/16)",
+	cost = 3,
 	node_box = {
 		type = "fixed",
 		fixed = {-0.5, -0.5, 0, 0.5, 0.25, 0.5},
@@ -159,9 +174,81 @@ shapes:register_shapedef("step12", {
 	sunlight_propagates = true,
 })
 
+-- corners
+shapes:register_shapedef("corner1", {
+	description = "Corner (1/16)",
+	cost = 1,
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-0.5, -0.5, -0.5, 0, -0.4375, 0.5},
+			{0, -0.5, 0, 0.5, -0.4375, -0.5},
+		},
+	},
+	category = "corner",
+	sunlight_propagates = true,
+})
+
+shapes:register_shapedef("corner2", {
+	description = "Corner (2/16)",
+	cost = 1,
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-0.5, -0.5, -0.5, 0, -0.375, 0.5},
+			{0, -0.5, 0, 0.5, -0.375, -0.5},
+		},
+	},
+	category = "corner",
+	sunlight_propagates = true,
+})
+
+shapes:register_shapedef("corner4", {
+	description = "Corner (4/16)",
+	cost = 2,
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-0.5, -0.5, -0.5, 0, -0.25, 0.5},
+			{0, -0.5, 0, 0.5, -0.25, -0.5},
+		},
+	},
+	category = "corner",
+	sunlight_propagates = true,
+})
+
+shapes:register_shapedef("corner", {
+	description = "Corner",
+	cost = 3,
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-0.5, -0.5, -0.5, 0, 0, 0.5},
+			{0, -0.5, 0, 0.5, 0, -0.5},
+		},
+	},
+	category = "corner",
+	sunlight_propagates = true,
+})
+
+shapes:register_shapedef("corner12", {
+	description = "Corner (12/16)",
+	cost = 5,
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-0.5, -0.5, -0.5, 0, 0.25, 0.5},
+			{0, -0.5, 0, 0.5, 0.25, -0.5},
+		},
+	},
+	category = "corner",
+	sunlight_propagates = true,
+})
+
 -- Stairs
 shapes:register_shapedef("stair", {
 	description = "Stair",
+	cost = 6,
 	node_box = {
 		type = "fixed",
 		fixed = {
@@ -184,6 +271,7 @@ shapes:register_shapedef("stair", {
 
 shapes:register_shapedef("halfstair", {
 	description = "Left Halfstair",
+	cost = 3,
 	node_box = {
 		type = "fixed",
 		fixed = {
@@ -202,6 +290,7 @@ shapes:register_shapedef("halfstair", {
 
 shapes:register_shapedef("righthalfstair", {
 	description = "Right Halfstair",
+	cost = 3,
 	node_box = {
 		type = "fixed",
 		fixed = {
@@ -220,6 +309,7 @@ shapes:register_shapedef("righthalfstair", {
 
 shapes:register_shapedef("outerstair", {
 	description = "Outerstair",
+	cost = 5,
 	node_box = {
 		type = "fixed",
 		fixed = {
@@ -233,6 +323,7 @@ shapes:register_shapedef("outerstair", {
 
 shapes:register_shapedef("innerstair", {
 	description = "Innerstair",
+	cost = 7,
 	node_box = {
 		type = "fixed",
 		fixed = {
@@ -247,6 +338,7 @@ shapes:register_shapedef("innerstair", {
 
 shapes:register_shapedef("forkstair", {
 	description = "Forkstair",
+	cost = 4,
 	node_box = {
 		type = "fixed",
 		fixed = {
@@ -262,6 +354,7 @@ shapes:register_shapedef("forkstair", {
 -- split stairs
 shapes:register_shapedef("splitstair1", {
 	description = "Splitstair (1/16)",
+	cost = 1,
 	node_box = {
 		type = "fixed",
 		fixed = {
@@ -275,6 +368,7 @@ shapes:register_shapedef("splitstair1", {
 
 shapes:register_shapedef("splitstair4", {
 	description = "Splitstair (4/16)",
+	cost = 2,
 	node_box = {
 		type = "fixed",
 		fixed = {
@@ -288,6 +382,7 @@ shapes:register_shapedef("splitstair4", {
 
 shapes:register_shapedef("splitstair", {
 	description = "Splitstair",
+	cost = 4,
 	node_box = {
 		type = "fixed",
 		fixed = {
@@ -302,6 +397,7 @@ shapes:register_shapedef("splitstair", {
 -- pole
 shapes:register_shapedef("pole", {
 	description = "Pole",
+	cost = 2,
 	node_box = {
 		type = "fixed",
 		fixed = {-0.125, -0.5, -0.125, 0.125, 0.5, 0.125},
@@ -320,6 +416,7 @@ shapes:register_shapedef("pole", {
 
 shapes:register_shapedef("wallpole", {
 	description = "Wall-Pole",
+	cost = 2,
 	node_box = {
 		type = "fixed",
 		fixed = {-0.125, -0.5, 0.25, 0.125, 0.5, 0.5},
@@ -330,6 +427,7 @@ shapes:register_shapedef("wallpole", {
 
 shapes:register_shapedef("cornerpole", {
 	description = "Corner-Pole",
+	cost = 2,
 	node_box = {
 		type = "fixed",
 		fixed = {-0.5, -0.5, 0.25, -0.25, 0.5, 0.5},
@@ -341,6 +439,7 @@ shapes:register_shapedef("cornerpole", {
 -- pillar
 shapes:register_shapedef("pillar", {
 	description = "Pillar",
+	cost = 4,
 	node_box = {
 		type = "fixed",
 		fixed = {-1/4, -1/2, -1/4, 1/4, 1/2, 1/4},
@@ -359,6 +458,7 @@ shapes:register_shapedef("pillar", {
 
 shapes:register_shapedef("wallpillar", {
 	description = "Wall-Pillar",
+	cost = 4,
 	node_box = {
 		type = "fixed",
 		fixed = {-1/4, -1/2, 0, 1/4, 1/2, 1/2},
@@ -369,6 +469,7 @@ shapes:register_shapedef("wallpillar", {
 
 shapes:register_shapedef("halfpillar", {
 	description = "Half-Pillar",
+	cost = 2,
 	node_box = {
 		type = "fixed",
 		fixed = {-1/4, -1/2, 1/2, 1/4, 1/2, 1/4},
@@ -379,6 +480,7 @@ shapes:register_shapedef("halfpillar", {
 
 shapes:register_shapedef("pillarcrown", {
 	description = "Pillar Crown",
+	cost = 6,
 	node_box = {
 		type = "fixed",
 		fixed = {
@@ -393,6 +495,7 @@ shapes:register_shapedef("pillarcrown", {
 
 shapes:register_shapedef("wallpillarcrown", {
 	description = "Wall-Pillar Crown",
+	cost = 5,
 	node_box = {
 		type = "fixed",
 		fixed = {
@@ -408,6 +511,7 @@ shapes:register_shapedef("wallpillarcrown", {
 
 shapes:register_shapedef("halfpillarcrown", {
 	description = "Half-Pillar Crown",
+	cost = 3,
 	node_box = {
 		type = "fixed",
 		fixed = {
@@ -422,6 +526,7 @@ shapes:register_shapedef("halfpillarcrown", {
 
 shapes:register_shapedef("crosscrown", {
 	description = "Cross Crown",
+	cost = 7,
 	node_box = {
 		type = "fixed",
 		fixed = {
@@ -438,6 +543,7 @@ shapes:register_shapedef("crosscrown", {
 -- beam
 shapes:register_shapedef("beam", {
 	description = "Beam",
+	cost = 2,
 	node_box = {
 		type = "fixed",
 		fixed = {-0.25, -0.5, -0.5, 0.25, 0, 0.5},
@@ -448,6 +554,7 @@ shapes:register_shapedef("beam", {
 
 shapes:register_shapedef("crossbeam", {
 	description = "Crossbeam",
+	cost = 4,
 	node_box = {
 		type = "fixed",
 		fixed = {
@@ -461,6 +568,7 @@ shapes:register_shapedef("crossbeam", {
 
 shapes:register_shapedef("linkdown", {
 	description = "Linkdown",
+	cost = 4,
 	node_box = {
 		type = "fixed",
 		fixed = {
@@ -474,78 +582,13 @@ shapes:register_shapedef("linkdown", {
 	sunlight_propagates = true,
 })
 
--- corners
-shapes:register_shapedef("corner1", {
-	description = "Corner (1/16)",
-	node_box = {
-		type = "fixed",
-		fixed = {
-			{-0.5, -0.5, -0.5, 0, -0.4375, 0.5},
-			{0, -0.5, 0, 0.5, -0.4375, -0.5},
-		},
-	},
-	category = "corner",
-	sunlight_propagates = true,
-})
-
-shapes:register_shapedef("corner2", {
-	description = "Corner (2/16)",
-	node_box = {
-		type = "fixed",
-		fixed = {
-			{-0.5, -0.5, -0.5, 0, -0.375, 0.5},
-			{0, -0.5, 0, 0.5, -0.375, -0.5},
-		},
-	},
-	category = "corner",
-	sunlight_propagates = true,
-})
-
-shapes:register_shapedef("corner4", {
-	description = "Corner (4/16)",
-	node_box = {
-		type = "fixed",
-		fixed = {
-			{-0.5, -0.5, -0.5, 0, -0.25, 0.5},
-			{0, -0.5, 0, 0.5, -0.25, -0.5},
-		},
-	},
-	category = "corner",
-	sunlight_propagates = true,
-})
-
-shapes:register_shapedef("corner", {
-	description = "Corner",
-	node_box = {
-		type = "fixed",
-		fixed = {
-			{-0.5, -0.5, -0.5, 0, 0, 0.5},
-			{0, -0.5, 0, 0.5, 0, -0.5},
-		},
-	},
-	category = "corner",
-	sunlight_propagates = true,
-})
-
-shapes:register_shapedef("corner12", {
-	description = "Corner (12/16)",
-	node_box = {
-		type = "fixed",
-		fixed = {
-			{-0.5, -0.5, -0.5, 0, 0.25, 0.5},
-			{0, -0.5, 0, 0.5, 0.25, -0.5},
-		},
-	},
-	category = "corner",
-	sunlight_propagates = true,
-})
-
 -- ==================
 -- MODEL-BASED SHAPES
 -- ==================
 -- sphere
 shapes:register_shapedef("sphere", {
 	description = "Sphere",
+	cost = 7,
 	mesh = "shapes_sphere.obj",
 	collision_box = {
 		type = "fixed",
@@ -559,6 +602,7 @@ shapes:register_shapedef("sphere", {
 -- slopes
 shapes:register_shapedef("slope", {
 	description = "Slope",
+	cost = 4,
 	mesh = "shapes_slope.obj",
 	collision_box = {
 		type = "fixed",
@@ -575,6 +619,7 @@ shapes:register_shapedef("slope", {
 
 shapes:register_shapedef("slope2", {
 	description = "Slope (1/2)",
+	cost = 2,
 	mesh = "shapes_slope_half.obj",
 	collision_box = {
 		type = "fixed",
@@ -591,6 +636,7 @@ shapes:register_shapedef("slope2", {
 
 shapes:register_shapedef("slope3", {
 	description = "Slope (3/4)",
+	cost = 4,
 	mesh = "shapes_slope_half_raised.obj",
 	collision_box = {
 		type = "fixed",
@@ -607,6 +653,7 @@ shapes:register_shapedef("slope3", {
 
 shapes:register_shapedef("innerslope", {
 	description = "Innerslope",
+	cost = 4,
 	mesh = "shapes_slope_inner.obj",
 	collision_box = {
 		type = "fixed",
@@ -626,6 +673,7 @@ shapes:register_shapedef("innerslope", {
 
 shapes:register_shapedef("innerslope2", {
 	description = "Innerslope (1/2)",
+	cost = 2,
 	mesh = "shapes_slope_inner_half.obj",
 	collision_box = {
 		type = "fixed",
@@ -645,6 +693,7 @@ shapes:register_shapedef("innerslope2", {
 
 shapes:register_shapedef("innerslope3", {
 	description = "Innerslope (3/4)",
+	cost = 4,
 	mesh = "shapes_slope_inner_half_raised.obj",
 	collision_box = {
 		type = "fixed",
@@ -664,6 +713,7 @@ shapes:register_shapedef("innerslope3", {
 
 shapes:register_shapedef("cutinnerslope", {
 	description = "Cut Innerslope",
+	cost = 4,
 	mesh = "shapes_slope_inner_cut.obj",
 	collision_box = {
 		type = "fixed",
@@ -683,6 +733,7 @@ shapes:register_shapedef("cutinnerslope", {
 
 shapes:register_shapedef("cutinnerslope2", {
 	description = "Cut Innerslope (1/2)",
+	cost = 2,
 	mesh = "shapes_slope_inner_cut_half.obj",
 	collision_box = {
 		type = "fixed",
@@ -702,6 +753,7 @@ shapes:register_shapedef("cutinnerslope2", {
 
 shapes:register_shapedef("cutinnerslope3", {
 	description = "Cut Innerslope (3/4)",
+	cost = 4,
 	mesh = "shapes_slope_inner_cut_half_raised.obj",
 	collision_box = {
 		type = "fixed",
@@ -721,6 +773,7 @@ shapes:register_shapedef("cutinnerslope3", {
 
 shapes:register_shapedef("outerslope", {
 	description = "Outerslope",
+	cost = 4,
 	mesh = "shapes_slope_outer.obj",
 	collision_box = {
 		type = "fixed",
@@ -737,6 +790,7 @@ shapes:register_shapedef("outerslope", {
 
 shapes:register_shapedef("outerslope2", {
 	description = "Outerslope (1/2)",
+	cost = 2,
 	mesh = "shapes_slope_outer_half.obj",
 	collision_box = {
 		type = "fixed",
@@ -753,6 +807,7 @@ shapes:register_shapedef("outerslope2", {
 
 shapes:register_shapedef("outerslope3", {
 	description = "Outerslope (3/4)",
+	cost = 4,
 	mesh = "shapes_slope_outer_half_raised.obj",
 	collision_box = {
 		type = "fixed",
@@ -769,6 +824,7 @@ shapes:register_shapedef("outerslope3", {
 
 shapes:register_shapedef("cutouterslope", {
 	description = "Cut Outerslope",
+	cost = 4,
 	mesh = "shapes_slope_outer_cut.obj",
 	collision_box = {
 		type = "fixed",
@@ -785,6 +841,7 @@ shapes:register_shapedef("cutouterslope", {
 
 shapes:register_shapedef("cutouterslope2", {
 	description = "Cut Outerslope (1/2)",
+	cost = 2,
 	mesh = "shapes_slope_outer_cut_half.obj",
 	collision_box = {
 		type = "fixed",
@@ -801,6 +858,7 @@ shapes:register_shapedef("cutouterslope2", {
 
 shapes:register_shapedef("cutouterslope3", {
 	description = "Cut Outerslope (3/4)",
+	cost = 4,
 	mesh = "shapes_slope_outer_cut_half_raised.obj",
 	collision_box = {
 		type = "fixed",
@@ -817,6 +875,7 @@ shapes:register_shapedef("cutouterslope3", {
 
 shapes:register_shapedef("cutouterslope4", {
 	description = "Cut Outerslope (4/2)",
+	cost = 4,
 	mesh = "shapes_slope_cut.obj",
 	collision_box = {
 		type = "fixed",
@@ -834,6 +893,7 @@ shapes:register_shapedef("cutouterslope4", {
 -- fence
 shapes:register_shapedef("fence", {
 	description = "Fence",
+	cost = 2,
 	overlay = "shapes_df_fence_overlay.png",
 	node_box = {
 		type = "connected",
@@ -874,6 +934,7 @@ shapes:register_shapedef("fence", {
 
 shapes:register_shapedef("fencerail", {
 	description = "Fencerail",
+	cost = 2,
 	overlay = "shapes_df_fencerail_overlay.png",
 	node_box = {
 		type = "connected",
@@ -917,6 +978,7 @@ shapes:register_shapedef("fencerail", {
 -- walls
 shapes:register_shapedef("wall", {
 	description = "Wall",
+	cost = 4,
 	overlay = "shapes_df_wall_overlay.png",
 	node_box = {
 		type = "connected",
@@ -953,6 +1015,7 @@ shapes:register_shapedef("wall", {
 -- panes
 shapes:register_shapedef("pane_flat", {
 	description = "Pane",
+	cost = 1,
 	node_box = {
 		type = "fixed",
 		fixed = {{-1/2, -1/2, -1/32, 1/2, 1/2, 1/32}},

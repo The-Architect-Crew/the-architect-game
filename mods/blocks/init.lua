@@ -14,6 +14,7 @@ dofile(path.."/plank.lua")
 dofile(path.."/glass.lua")
 dofile(path.."/wool.lua")
 dofile(path.."/brick.lua")
+dofile(path.."/streets.lua")
 dofile(path.."/misc.lua")
 -- Deco items
 dofile(path.."/ladder.lua")

@@ -452,6 +452,19 @@ minetest.register_node("flora:aspen_sapling", {
 	end,
 })
 
+minetest.register_node("flora:dry_leaves", {
+	description = S("Dry Leaves"),
+	drawtype = "allfaces_optional",
+	tiles = {"flora_dry_leaves.png"},
+	waving = 1,
+	paramtype = "light",
+	is_ground_content = false,
+	groups = {snappy = 3, leafdecay = 3, flammable = 2, leaves = 1},
+	sounds = default.node_sound_leaves_defaults(),
+
+	after_place_node = after_place_leaves,
+})
+
 --
 -- register trees for leafdecay
 --

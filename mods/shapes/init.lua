@@ -220,7 +220,6 @@ function shapes:register_shape(name, def)
 					replacements = tcraf.replacements,
 				})
 			end
-			
 			-- converting shapes into cubes
 			if tcost and tname ~= "cube" then
 				minetest.register_craft({
@@ -231,7 +230,6 @@ function shapes:register_shape(name, def)
 			end
 		end
 	end
-	
 	-- cubes into full blocks
 	minetest.register_craft({
 		type = "shapeless",
@@ -242,7 +240,6 @@ function shapes:register_shape(name, def)
 			mname..":shapes_"..sname.."_cube", mname..":shapes_"..sname.."_cube",
 		},
 	})
-	
 	--[[
 	-- workbench crafting
 	if minetest.global_exists("workbench") then
@@ -260,7 +257,6 @@ function shapes:register_shape(name, def)
 				end
 			end
 		end
-	
 		workbench:register_craft({
 			type = "variation",
 			cat = "shapes",
@@ -271,7 +267,6 @@ function shapes:register_shape(name, def)
 				wblist
 			},
 		})
-		
 		-- cubes into full blocks
 		workbench:register_craft({
 			type = "normal",

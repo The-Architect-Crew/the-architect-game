@@ -527,6 +527,12 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
+	type = "cooking",
+	output = "flora:dry_leaves",
+	recipe = "group:leaves",
+})
+
+minetest.register_craft({
 	type = "fuel",
 	recipe = "group:tree",
 	burntime = 30,

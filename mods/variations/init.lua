@@ -187,7 +187,7 @@ function variations.register_frame(base_node)
 						{-0.5, -0.5, -0.1, 0.5, 0.5, 0.1},
 					},
 				},
-				use_texture_alpha = transparent or base_definition.use_texture_alpha,
+				use_texture_alpha = base_definition.use_texture_alpha,
 				paramtype = "light",
 				paramtype2 = "facedir",
 				sunlight_propagates = true,

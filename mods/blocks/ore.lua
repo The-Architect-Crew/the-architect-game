@@ -364,6 +364,103 @@ minetest.register_node("blocks:malachite", {
 	sounds = default.node_sound_stone_defaults(),
 })
 
+-- Basalt
+minetest.register_node("blocks:basalt", {
+	description = S("Basalt"),
+	tiles = {"blocks_basalt.png"},
+	is_ground_content = true,
+	groups = {cracky = 3},
+	drop = "blocks:basalt_cobble",
+	sounds = default.node_sound_stone_defaults(),
+})
+
+minetest.register_node("blocks:basalt_cobble", {
+	description = S("Basalt Cobble"),
+	tiles = {"blocks_basalt_cobble.png"},
+	is_ground_content = true,
+	groups = {cracky = 3},
+	sounds = default.node_sound_stone_defaults(),
+})
+
+-- Chalk
+minetest.register_node("blocks:chalk", {
+	description = S("Chalk"),
+	tiles = {"blocks_chalk.png"},
+	is_ground_content = true,
+	groups = {crumbly=2,cracky = 2},
+	drop = "blocks:chalk_powder 4",
+	sounds = default.node_sound_stone_defaults(),
+})
+
+minetest.register_craftitem("blocks:chalk_powder", {
+	description = S("Chalk Powder"),
+	inventory_image = "blocks_chalk_powder.png",
+})
+
+-- Granite
+minetest.register_node("blocks:granite", {
+	description = S("Granite"),
+	tiles = {"blocks_granite.png"},
+	is_ground_content = true,
+	groups = {cracky = 2},
+	sounds = default.node_sound_stone_defaults(),
+})
+
+-- Marble
+minetest.register_node("blocks:marble", {
+	description = S("Marble"),
+	tiles = {"blocks_marble.png"},
+	is_ground_content = true,
+	groups = {cracky = 3},
+	sounds = default.node_sound_stone_defaults(),
+})
+
+-- Mud
+minetest.register_node("blocks:mud", {
+	description = S("Mud"),
+	tiles = {"blocks_mud.png"},
+	is_ground_content = true,
+	groups = {crumbly = 3},
+	sounds = default.node_sound_dirt_defaults({
+		footstep = "",
+	}),
+})
+
+-- Porphyry
+minetest.register_node("blocks:porphyry", {
+	description = S("Porphyry"),
+	tiles = {"blocks_porphyry.png"},
+	is_ground_content = true,
+	groups = {cracky = 2},
+	sounds = default.node_sound_stone_defaults(),
+})
+
+-- Serpentine
+minetest.register_node("blocks:serpentine", {
+	description = S("Serpentine"),
+	tiles = {"blocks_serpentine.png"},
+	is_ground_content = true,
+	groups = {cracky = 3},
+	sounds = default.node_sound_stone_defaults(),
+})
+
+-- Slate
+minetest.register_node("blocks:slate", {
+	description = S("Slate"),
+	tiles = {"blocks_slate.png"},
+	is_ground_content = true,
+	groups = {cracky = 2},
+	drop = "blocks:slate_cobble",
+	sounds = default.node_sound_stone_defaults(),
+})
+
+minetest.register_node("blocks:slate_cobble", {
+	description = S("Slate Cobble"),
+	tiles = {"blocks_slate_cobble.png"},
+	groups = {cracky = 2},
+	sounds = default.node_sound_stone_defaults(),
+})
+
 --
 -- == CRAFTS
 --
@@ -567,6 +664,21 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
+	output = "blocks:chalk",
+	recipe = {
+		{"blocks:chalk_powder", "blocks:chalk_powder"},
+		{"blocks:chalk_powder", "blocks:chalk_powder"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:chalk_powder 4",
+	recipe = {
+		{"blocks:chalk"},
+	}
+})
+
+minetest.register_craft({
 	type = "cooking",
 	output = "blocks:copper_ingot",
 	recipe = "blocks:copper_lump",
@@ -594,6 +706,18 @@ minetest.register_craft({
 	type = "cooking",
 	output = "blocks:amber_shard",
 	recipe = "blocks:amber_lump",
+})
+
+minetest.register_craft({
+	type = "cooking",
+	output = "blocks:slate",
+	recipe = "blocks:slate_cobble",
+})
+
+minetest.register_craft({
+	type = "cooking",
+	output = "blocks:basalt",
+	recipe = "blocks:basalt_cobble",
 })
 
 minetest.register_craft({

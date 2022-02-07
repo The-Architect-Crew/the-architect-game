@@ -12,7 +12,61 @@ minetest.register_node("blocks:stone_with_coal", {
 	description = S("Coal Ore"),
 	tiles = {"blocks_stone.png^blocks_mineral_coal.png"},
 	groups = {cracky = 3},
-	drop = "blocks:coal_lump",
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:coal_lump"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:stone_chunk"},
+			},
+			{
+				rarity = 3,
+				items = {"blocks:stone_chunk 2"},
+			},
+		},
+	},
+	sounds = default.node_sound_stone_defaults(),
+})
+
+minetest.register_node("blocks:stone_with_coalblock", {
+	description = S("Coal Ore"),
+	tiles = {"blocks_mineral_coal_block.png"},
+	groups = {cracky = 2},
+	drop = {
+		items = {
+			{				
+				rarity = 1,
+				items = {"blocks:coal_lump 2"},
+			},
+			{
+
+				rarity = 2,
+				items = {"blocks:coal_lump 3"},
+
+			},
+			{
+
+				rarity = 3,
+				items = {"blocks:coal_lump 4"},
+
+			},
+			{
+
+				rarity = 5,
+				items = {"blocks:coalblock"},
+
+			},
+			{
+
+				rarity = 7,
+				items = {"blocks:amber_lump 2"},
+
+			},
+		},
+	},
 	sounds = default.node_sound_stone_defaults(),
 })
 
@@ -34,7 +88,134 @@ minetest.register_node("blocks:stone_with_iron", {
 	description = S("Iron Ore"),
 	tiles = {"blocks_stone.png^blocks_mineral_iron.png"},
 	groups = {cracky = 2},
-	drop = "blocks:iron_lump",
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:iron_lump"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:stone_chunk"},
+			},
+			{
+				rarity = 3,
+				items = {"blocks:stone_chunk 2"},
+			},
+			{
+				rarity = 5,
+				items = {"blocks:iron_lump"},
+			},
+		},
+	},
+	sounds = default.node_sound_stone_defaults(),
+})
+
+minetest.register_node("blocks:desert_stone_with_iron", {
+	description = S("Iron Ore"),
+	tiles = {"blocks_desert_stone.png^blocks_mineral_iron.png"},
+	groups = {cracky = 3},
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:iron_lump"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:desert_stone_chunk"},
+			},
+			{
+				rarity = 3,
+				items = {"blocks:desert_stone_chunk 2"},
+			},
+			{
+				rarity = 5,
+				items = {"blocks:iron_lump"},
+			},
+		},
+	},
+	sounds = default.node_sound_stone_defaults(),
+})
+
+minetest.register_node("blocks:sandstone_with_iron", {
+	description = S("Iron Ore"),
+	tiles = {"blocks_sandstone.png^blocks_mineral_iron.png"},
+	groups = {crumbly = 1, cracky = 3},
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:iron_lump"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:sand"},
+			},
+			{
+				rarity = 3,
+				items = {"blocks:sand 2"},
+			},
+			{
+				rarity = 5,
+				items = {"blocks:iron_lump"},
+			},
+		},
+	},
+	sounds = default.node_sound_stone_defaults(),
+})
+
+minetest.register_node("blocks:desert_sandstone_with_iron", {
+	description = S("Iron Ore"),
+	tiles = {"blocks_desert_sandstone.png^blocks_mineral_iron.png"},
+	groups = {crumbly = 1, cracky = 3},
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:iron_lump"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:desert_sand"},
+			},
+			{
+				rarity = 3,
+				items = {"blocks:desert_sand 2"},
+			},
+			{
+				rarity = 5,
+				items = {"blocks:iron_lump"},
+			},
+		},
+	},
+	sounds = default.node_sound_stone_defaults(),
+})
+
+minetest.register_node("blocks:silver_sandstone_with_iron", {
+	description = S("Iron Ore"),
+	tiles = {"blocks_silver_sandstone.png^blocks_mineral_iron.png"},
+	groups = {crumbly = 1, cracky = 3},
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:iron_lump"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:silver_sand"},
+			},
+			{
+				rarity = 3,
+				items = {"blocks:silver_sand 2"},
+			},
+			{
+				rarity = 5,
+				items = {"blocks:iron_lump"},
+			},
+		},
+	},
 	sounds = default.node_sound_stone_defaults(),
 })
 
@@ -66,7 +247,65 @@ minetest.register_node("blocks:stone_with_copper", {
 	description = S("Copper Ore"),
 	tiles = {"blocks_stone.png^blocks_mineral_copper.png"},
 	groups = {cracky = 2},
-	drop = "blocks:copper_lump",
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:copper_lump"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:stone_chunk"},
+			},
+			{
+				rarity = 3,
+				items = {"blocks:stone_chunk 2"},
+			},
+			{
+				rarity = 5,
+				items = {"blocks:copper_lump"},
+			},
+			{
+				rarity = 7,
+				items = {"blocks:malachite_chunk"},
+			},
+			{
+				rarity = 7,
+				items = {"blocks:silver_lump"},
+			},
+		},
+	},
+	sounds = default.node_sound_stone_defaults(),
+})
+
+minetest.register_node("blocks:malachite_with_copper", {
+	description = S("Copper Ore"),
+	tiles = {"blocks_malachite.png^blocks_mineral_copper.png"},
+	groups = {cracky = 2},
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:copper_lump 2"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:stone_chunk 4"},
+			},
+			{
+				rarity = 1,
+				items = {"blocks:malachite_chunk 2"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:malachite_chunk"},
+			},
+			{
+				rarity = 4,
+				items = {"blocks:silver_lump"},
+			},
+		},
+	},
 	sounds = default.node_sound_stone_defaults(),
 })
 
@@ -89,11 +328,30 @@ minetest.register_craftitem("blocks:tin_lump", {
 	inventory_image = "blocks_tin_lump.png"
 })
 
-minetest.register_node("blocks:stone_with_tin", {
+minetest.register_node("blocks:granite_with_tin", {
 	description = S("Tin Ore"),
-	tiles = {"blocks_stone.png^blocks_mineral_tin.png"},
+	tiles = {"blocks_granite.png^blocks_mineral_tin.png"},
 	groups = {cracky = 2},
-	drop = "blocks:tin_lump",
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:tin_lump"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:granite_chunk"},
+			},
+			{
+				rarity = 3,
+				items = {"blocks:granite_chunk 2"},
+			},
+			{
+				rarity = 5,
+				items = {"blocks:tin_lump"},
+			},
+		},
+	},
 	sounds = default.node_sound_stone_defaults(),
 })
 
@@ -134,7 +392,53 @@ minetest.register_node("blocks:stone_with_mese", {
 	description = S("Mese Ore"),
 	tiles = {"blocks_stone.png^blocks_mineral_mese.png"},
 	groups = {cracky = 1},
-	drop = "blocks:mese_crystal",
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:mese_crystal"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:marble_chunk"},
+			},
+			{
+				rarity = 3,
+				items = {"blocks:marble_chunk"},
+			},
+			{
+				rarity = 7,
+				items = {"blocks:mese_crystal"},
+			},
+		},
+	},
+	sounds = default.node_sound_stone_defaults(),
+})
+
+minetest.register_node("blocks:marble_with_mese", {
+	description = S("Mese Ore"),
+	tiles = {"blocks_marble.png^blocks_mineral_mese.png"},
+	groups = {cracky = 1},
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:mese_crystal"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:marble_chunk"},
+			},
+			{
+				rarity = 3,
+				items = {"blocks:marble_chunk"},
+			},
+			{
+				rarity = 5,
+				items = {"blocks:mese_crystal"},
+			},
+		},
+	},
 	sounds = default.node_sound_stone_defaults(),
 })
 
@@ -162,7 +466,138 @@ minetest.register_node("blocks:stone_with_gold", {
 	description = S("Gold Ore"),
 	tiles = {"blocks_stone.png^blocks_mineral_gold.png"},
 	groups = {cracky = 2},
-	drop = "blocks:gold_lump",
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:gold_lump"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:stone_chunk"},
+			},
+			{
+				rarity = 3,
+				items = {"blocks:stone_chunk 2"},
+			},
+			{
+				rarity = 5,
+				items = {"blocks:gold_lump"},
+			},
+			{
+				rarity = 7,
+				items = {"blocks:silver_lump"},
+			},
+		},
+	},
+	sounds = default.node_sound_stone_defaults(),
+})
+
+minetest.register_node("blocks:sandstone_with_gold", {
+	description = S("Gold Ore"),
+	tiles = {"blocks_sandstone.png^blocks_mineral_gold.png"},
+	groups = {crumbly = 1, cracky = 3},
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:gold_lump"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:sand"},
+			},
+			{
+				rarity = 3,
+				items = {"blocks:sand 2"},
+			},
+			{
+				rarity = 5,
+				items = {"blocks:gold_lump"},
+			},
+		},
+	},
+	sounds = default.node_sound_stone_defaults(),
+})
+
+minetest.register_node("blocks:desert_sandstone_with_gold", {
+	description = S("Gold Ore"),
+	tiles = {"blocks_desert_sandstone.png^blocks_mineral_gold.png"},
+	groups = {crumbly = 1, cracky = 3},
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:gold_lump"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:desert_sand"},
+			},
+			{
+				rarity = 3,
+				items = {"blocks:desert_sand 2"},
+			},
+			{
+				rarity = 5,
+				items = {"blocks:gold_lump"},
+			},
+		},
+	},
+	sounds = default.node_sound_stone_defaults(),
+})
+
+minetest.register_node("blocks:silver_sandstone_with_gold", {
+	description = S("Gold Ore"),
+	tiles = {"blocks_silver_sandstone.png^blocks_mineral_gold.png"},
+	groups = {crumbly = 1, cracky = 3},
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:gold_lump"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:silver_sand"},
+			},
+			{
+				rarity = 3,
+				items = {"blocks:silver_sand 2"},
+			},
+			{
+				rarity = 5,
+				items = {"blocks:gold_lump"},
+			},
+		},
+	},
+	sounds = default.node_sound_stone_defaults(),
+})
+
+minetest.register_node("blocks:granite_with_gold", {
+	description = S("Gold Ore"),
+	tiles = {"blocks_granite.png^blocks_mineral_gold.png"},
+	groups = {cracky = 2},
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:gold_lump"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:granite_chunk"},
+			},
+			{
+				rarity = 3,
+				items = {"blocks:granite_chunk"},
+			},
+			{
+				rarity = 5,
+				items = {"blocks:gold_lump"},
+			},
+		},
+	},
 	sounds = default.node_sound_stone_defaults(),
 })
 
@@ -172,6 +607,85 @@ minetest.register_node("blocks:goldblock", {
 	is_ground_content = false,
 	groups = {cracky = 1},
 	sounds = default.node_sound_metal_defaults(),
+})
+
+-- Electrum
+minetest.register_node("blocks:stone_with_electrum", {
+	description = S("Electrum Ore"),
+	tiles = {"blocks_stone.png^blocks_mineral_electrum.png"},
+	groups = {cracky = 2},
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:gold_lump"},
+			},
+			{
+				rarity = 1,
+				items = {"blocks:silver_lump"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:copper_lump 2"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:stone_chunk"},
+			},
+			{
+				rarity = 3,
+				items = {"blocks:stone_chunk"},
+			},
+			{
+				rarity = 3,
+				items = {"blocks:gold_lump"},
+			},
+			{
+				rarity = 3,
+				items = {"blocks:silver_lump"},
+			},
+		},
+	},
+	sounds = default.node_sound_stone_defaults(),
+})
+
+minetest.register_node("blocks:granite_with_electrum", {
+	description = S("Electrum Ore"),
+	tiles = {"blocks_granite.png^blocks_mineral_electrum.png"},
+	groups = {cracky = 2},
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:gold_lump"},
+			},
+			{
+				rarity = 1,
+				items = {"blocks:silver_lump"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:copper_lump 2"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:granite_chunk"},
+			},
+			{
+				rarity = 3,
+				items = {"blocks:granite_chunk"},
+			},
+			{
+				rarity = 3,
+				items = {"blocks:gold_lump"},
+			},
+			{
+				rarity = 3,
+				items = {"blocks:silver_lump"},
+			},
+		},
+	},
+	sounds = default.node_sound_stone_defaults(),
 })
 
 -- Diamond
@@ -184,7 +698,107 @@ minetest.register_node("blocks:stone_with_diamond", {
 	description = S("Diamond Ore"),
 	tiles = {"blocks_stone.png^blocks_mineral_diamond.png"},
 	groups = {cracky = 1},
-	drop = "blocks:diamond",
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:diamond"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:stone_chunk"},
+			},
+			{
+				rarity = 3,
+				items = {"blocks:stone_chunk"},
+			},
+			{
+				rarity = 5,
+				items = {"blocks:diamond"},
+			},
+		},
+	},
+	sounds = default.node_sound_stone_defaults(),
+})
+
+minetest.register_node("blocks:granite_with_diamond", {
+	description = S("Diamond Ore"),
+	tiles = {"blocks_granite.png^blocks_mineral_diamond.png"},
+	groups = {cracky = 1},
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:diamond"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:granite_chunk"},
+			},
+			{
+				rarity = 3,
+				items = {"blocks:granite_chunk"},
+			},
+			{
+				rarity = 5,
+				items = {"blocks:diamond"},
+			},
+		},
+	},
+	sounds = default.node_sound_stone_defaults(),
+})
+
+minetest.register_node("blocks:obsidian_with_diamond", {
+	description = S("Diamond Ore"),
+	tiles = {"blocks_obsidian.png^blocks_mineral_diamond.png"},
+	groups = {cracky = 1},
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:diamond"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:obsidian_shard 3"},
+			},
+			{
+				rarity = 3,
+				items = {"blocks:obsidian_shard 3"},
+			},
+			{
+				rarity = 5,
+				items = {"blocks:diamond"},
+			},
+		},
+	},
+	sounds = default.node_sound_stone_defaults(),
+})
+
+minetest.register_node("blocks:basalt_with_diamond", {
+	description = S("Diamond Ore"),
+	tiles = {"blocks_basalt.png^blocks_mineral_diamond.png"},
+	groups = {cracky = 1},
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:diamond"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:basalt_chunk"},
+			},
+			{
+				rarity = 3,
+				items = {"blocks:basalt_chunk"},
+			},
+			{
+				rarity = 5,
+				items = {"blocks:diamond"},
+			},
+		},
+	},
 	sounds = default.node_sound_stone_defaults(),
 })
 
@@ -218,8 +832,260 @@ minetest.register_node("blocks:stone_with_amber", {
 	tiles = {"blocks_stone.png^blocks_mineral_amber.png"},
 	is_ground_content = true,
 	groups = {cracky = 3},
-	drop = "blocks:amber_lump",
-	sounds = default.node_sound_stone_defaults(),
+	drop = {
+		items = {
+			{				
+				rarity = 1,
+				items = {"blocks:amber_lump"},
+			},
+			{
+
+				rarity = 2,
+				items = {"blocks:amber_lump"},
+
+			},
+			{
+
+				rarity = 2,
+				items = {"blocks:stone_chunk"},
+
+			},
+			{
+
+				rarity = 3,
+				items = {"blocks:stone_chunk 2"},
+
+			},
+		},
+	},
+	sounds = default.node_sound_glass_defaults(),
+})
+
+minetest.register_node("blocks:sandstone_with_amber", {
+	description = S("Amber Ore"),
+	tiles = {"blocks_sandstone.png^blocks_mineral_amber.png"},
+	is_ground_content = true,
+	groups = {crumbly = 1, cracky = 3},
+	drop = {
+		items = {
+			{				
+				rarity = 1,
+				items = {"blocks:amber_lump"},
+			},
+			{
+
+				rarity = 2,
+				items = {"blocks:amber_lump"},
+
+			},
+			{
+
+				rarity = 2,
+				items = {"blocks:sand"},
+
+			},
+			{
+
+				rarity = 3,
+				items = {"blocks:sand 2"},
+
+			},
+		},
+	},
+	sounds = default.node_sound_glass_defaults(),
+})
+
+minetest.register_node("blocks:desert_sandstone_with_amber", {
+	description = S("Amber Ore"),
+	tiles = {"blocks_desert_sandstone.png^blocks_mineral_amber.png"},
+	is_ground_content = true,
+	groups = {crumbly = 1, cracky = 3},
+	drop = {
+		items = {
+			{				
+				rarity = 1,
+				items = {"blocks:amber_lump"},
+			},
+			{
+
+				rarity = 2,
+				items = {"blocks:amber_lump"},
+
+			},
+			{
+
+				rarity = 2,
+				items = {"blocks:desert_sand"},
+
+			},
+			{
+
+				rarity = 3,
+				items = {"blocks:desert_sand 2"},
+
+			},
+		},
+	},
+	sounds = default.node_sound_glass_defaults(),
+})
+
+minetest.register_node("blocks:silver_sandstone_with_amber", {
+	description = S("Amber Ore"),
+	tiles = {"blocks_silver_sandstone.png^blocks_mineral_amber.png"},
+	is_ground_content = true,
+	groups = {crumbly = 1, cracky = 3},
+	drop = {
+		items = {
+			{				
+				rarity = 1,
+				items = {"blocks:amber_lump"},
+			},
+			{
+
+				rarity = 2,
+				items = {"blocks:amber_lump"},
+
+			},
+			{
+
+				rarity = 2,
+				items = {"blocks:silver_sand"},
+
+			},
+			{
+
+				rarity = 3,
+				items = {"blocks:silver_sand 2"},
+
+			},
+		},
+	},
+	sounds = default.node_sound_glass_defaults(),
+})
+
+minetest.register_node("blocks:coal_with_amber", {
+	description = S("Amber Ore"),
+	tiles = {"blocks_coal_block.png^blocks_mineral_amber.png"},
+	groups = {cracky = 3},
+	drop = {
+		items = {
+			{				
+				rarity = 1,
+				items = {"blocks:coal_lump 4"},
+			},
+			{
+
+				rarity = 1,
+				items = {"blocks:amber_lump 4"},
+
+			},
+			{
+
+				rarity = 2,
+				items = {"blocks:amber_lump 2"},
+
+			},
+			{
+
+				rarity = 4,
+				items = {"blocks:amber_lump 2"},
+
+			},
+		},
+	},
+	sounds = default.node_sound_glass_defaults(),
+})
+
+minetest.register_node("blocks:mud_with_amber", {
+	description = S("Amber Ore"),
+	tiles = {"blocks_mud.png^blocks_mineral_amber.png"},
+	is_ground_content = true,
+	groups = {crumbly = 3},
+	drop = {
+		items = {
+			{				
+				rarity = 1,
+				items = {"blocks:amber_lump"},
+			},
+			{
+
+				rarity = 2,
+				items = {"blocks:amber_lump"},
+
+			},
+			{
+
+				rarity = 2,
+				items = {"blocks:mud_lump"},
+
+			},
+			{
+
+				rarity = 3,
+				items = {"blocks:mud_lump 2"},
+
+			},
+		},
+	},
+	sounds = default.node_sound_glass_defaults({
+		footstep = "",
+	}),
+})
+
+minetest.register_node("blocks:dirt_with_amber", {
+	description = S("Amber Ore"),
+	tiles = {"blocks_dirt.png^blocks_mineral_amber.png"},
+	is_ground_content = true,
+	groups = {crumbly = 3, soil = 1},
+	drop = {
+		items = {
+			{				
+				rarity = 1,
+				items = {"blocks:amber_lump"},
+			},
+			{
+
+				rarity = 2,
+				items = {"blocks:amber_lump"},
+
+			},
+			{
+
+				rarity = 2,
+				items = {"blocks:dirt"},
+
+			},
+		},
+	},
+	sounds = default.node_sound_glass_defaults(),
+})
+
+minetest.register_node("blocks:sand_with_amber", {
+	description = S("Amber Ore"),
+	tiles = {"blocks_sand.png^blocks_mineral_amber.png"},
+	is_ground_content = true,
+	groups = {crumbly = 3, falling_node = 1, sand = 1},
+	drop = {
+		items = {
+			{				
+				rarity = 1,
+				items = {"blocks:amber_lump"},
+			},
+			{
+
+				rarity = 2,
+				items = {"blocks:amber_lump"},
+
+			},
+			{
+
+				rarity = 2,
+				items = {"blocks:sand"},
+
+			},
+		},
+	},
+	sounds = default.node_sound_glass_defaults(),
 })
 
 minetest.register_node("blocks:amber", {
@@ -246,7 +1112,65 @@ minetest.register_node("blocks:stone_with_silver", {
 	description = S("Silver Ore"),
 	tiles = {"blocks_stone.png^blocks_mineral_silver.png"},
 	groups = {cracky = 2},
-	drop = "blocks:silver_lump",
+	drop = {
+		items = {
+			{				
+				rarity = 1,
+				items = {"blocks:silver_lump"},
+			},
+			{
+
+				rarity = 2,
+				items = {"blocks:stone_chunk"},
+
+			},
+			{
+
+				rarity = 3,
+				items = {"blocks:stone_chunk"},
+
+			},
+			{
+
+				rarity = 5,
+				items = {"blocks:silver_lump"},
+
+			},
+		},
+	},
+	sounds = default.node_sound_stone_defaults(),
+})
+
+minetest.register_node("blocks:granite_with_silver", {
+	description = S("Silver Ore"),
+	tiles = {"blocks_granite.png^blocks_mineral_silver.png"},
+	groups = {cracky = 2},
+	drop = {
+		items = {
+			{				
+				rarity = 1,
+				items = {"blocks:silver_lump"},
+			},
+			{
+
+				rarity = 2,
+				items = {"blocks:granite_chunk"},
+
+			},
+			{
+
+				rarity = 3,
+				items = {"blocks:granite_chunk"},
+
+			},
+			{
+
+				rarity = 5,
+				items = {"blocks:silver_lump"},
+
+			},
+		},
+	},
 	sounds = default.node_sound_stone_defaults(),
 })
 
@@ -273,7 +1197,26 @@ minetest.register_node("blocks:stone_with_mithril", {
 	description = S("Mithril Ore"),
 	tiles = {"blocks_stone.png^blocks_mineral_mithril.png"},
 	groups = {cracky = 1},
-	drop = "blocks:gold_lump",
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:mithril_lump"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:stone_chunk"},
+			},
+			{
+				rarity = 3,
+				items = {"blocks:stone_chunk"},
+			},
+			{
+				rarity = 7,
+				items = {"blocks:mithril_lump"},
+			},
+		},
+	},
 	sounds = default.node_sound_stone_defaults(),
 })
 
@@ -286,11 +1229,165 @@ minetest.register_node("blocks:mithrilblock", {
 })
 
 -- Amethyst
-minetest.register_node("blocks:stone_with_amethyst", {
+minetest.register_node("blocks:granite_with_amethyst", {
 	description = S("Amethyst Ore"),
-	tiles = {"blocks_stone.png^blocks_mineral_amethyst.png"},
+	tiles = {"blocks_granite.png^blocks_mineral_amethyst.png"},
 	groups = {cracky = 2},
-	drop = "blocks:amethyst_crystal 2",
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:amethyst_crystal 2"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:granite_chunk"},
+			},
+			{
+				rarity = 3,
+				items = {"blocks:granite_chunk"},
+			},
+			{
+				rarity = 5,
+				items = {"blocks:amethyst_crystal 3"},
+			},
+		},
+	},
+	sounds = default.node_sound_stone_defaults(),
+})
+
+minetest.register_node("blocks:marble_with_amethyst", {
+	description = S("Amethyst Ore"),
+	tiles = {"blocks_marble.png^blocks_mineral_amethyst.png"},
+	groups = {cracky = 2},
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:amethyst_crystal 3"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:marble_chunk"},
+			},
+			{
+				rarity = 3,
+				items = {"blocks:marble_chunk"},
+			},
+			{
+				rarity = 5,
+				items = {"blocks:amethyst_crystal 4"},
+			},
+		},
+	},
+	sounds = default.node_sound_stone_defaults(),
+})
+
+minetest.register_node("blocks:slate_with_amethyst", {
+	description = S("Amethyst Ore"),
+	tiles = {"blocks_slate.png^blocks_mineral_amethyst.png"},
+	groups = {cracky = 2},
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:amethyst_crystal 2"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:slate_chunk"},
+			},
+			{
+				rarity = 3,
+				items = {"blocks:slate_chunk"},
+			},
+			{
+				rarity = 5,
+				items = {"blocks:amethyst_crystal 3"},
+			},
+		},
+	},
+	sounds = default.node_sound_stone_defaults(),
+})
+
+minetest.register_node("blocks:sandstone_with_amethyst", {
+	description = S("Amethyst Ore"),
+	tiles = {"blocks_sandstone.png^blocks_mineral_amethyst.png"},
+	groups = {crumbly = 1, cracky = 3},
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:amethyst_crystal 2"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:sand"},
+			},
+			{
+				rarity = 3,
+				items = {"blocks:sand 2"},
+			},
+			{
+				rarity = 5,
+				items = {"blocks:amethyst_crystal 2"},
+			},
+		},
+	},
+	sounds = default.node_sound_stone_defaults(),
+})
+
+minetest.register_node("blocks:desert_sandstone_with_amethyst", {
+	description = S("Amethyst Ore"),
+	tiles = {"blocks_desert_sandstone.png^blocks_mineral_amethyst.png"},
+	groups = {crumbly = 1, cracky = 3},
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:amethyst_crystal 2"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:desert_sand"},
+			},
+			{
+				rarity = 3,
+				items = {"blocks:desert_sand 2"},
+			},
+			{
+				rarity = 5,
+				items = {"blocks:amethyst_crystal 2"},
+			},
+		},
+	},
+	sounds = default.node_sound_stone_defaults(),
+})
+
+minetest.register_node("blocks:silver_sandstone_with_amethyst", {
+	description = S("Amethyst Ore"),
+	tiles = {"blocks_silver_sandstone.png^blocks_mineral_amethyst.png"},
+	groups = {crumbly = 1, cracky = 3},
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:amethyst_crystal 2"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:silver_sand"},
+			},
+			{
+				rarity = 3,
+				items = {"blocks:silver_sand 2"},
+			},
+			{
+				rarity = 5,
+				items = {"blocks:amethyst_crystal 2"},
+			},
+		},
+	},
 	sounds = default.node_sound_stone_defaults(),
 })
 
@@ -312,11 +1409,138 @@ minetest.register_node("blocks:amethyst", {
 })
 
 -- Garnet
-minetest.register_node("blocks:stone_with_garnet", {
+minetest.register_node("blocks:granite_with_garnet", {
 	description = S("Garnet Ore"),
-	tiles = {"blocks_stone.png^blocks_mineral_garnet.png"},
+	tiles = {"blocks_granite.png^blocks_mineral_garnet.png"},
 	groups = {cracky = 2},
-	drop = "blocks:garnet_crystal 2",
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:garnet_crystal 2"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:granite_chunk"},
+			},
+			{
+				rarity = 3,
+				items = {"blocks:granite_chunk"},
+			},
+			{
+				rarity = 5,
+				items = {"blocks:garnet_crystal 3"},
+			},
+		},
+	},
+	sounds = default.node_sound_stone_defaults(),
+})
+
+minetest.register_node("blocks:marble_with_garnet", {
+	description = S("Garnet Ore"),
+	tiles = {"blocks_marble.png^blocks_mineral_garnet.png"},
+	groups = {cracky = 2},
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:garnet_crystal 3"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:marble_chunk"},
+			},
+			{
+				rarity = 3,
+				items = {"blocks:marble_chunk"},
+			},
+			{
+				rarity = 5,
+				items = {"blocks:garnet_crystal 4"},
+			},
+		},
+	},
+	sounds = default.node_sound_stone_defaults(),
+})
+
+minetest.register_node("blocks:slate_with_garnet", {
+	description = S("Garnet Ore"),
+	tiles = {"blocks_slate.png^blocks_mineral_garnet.png"},
+	groups = {cracky = 2},
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:garnet_crystal 2"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:slate_chunk"},
+			},
+			{
+				rarity = 3,
+				items = {"blocks:slate_chunk"},
+			},
+			{
+				rarity = 5,
+				items = {"blocks:garnet_crystal 3"},
+			},
+		},
+	},
+	sounds = default.node_sound_stone_defaults(),
+})
+
+minetest.register_node("blocks:basalt_with_garnet", {
+	description = S("Garnet Ore"),
+	tiles = {"blocks_basalt.png^blocks_mineral_garnet.png"},
+	groups = {cracky = 2},
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:garnet_crystal 2"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:basalt_chunk"},
+			},
+			{
+				rarity = 3,
+				items = {"blocks:basalt_chunk"},
+			},
+			{
+				rarity = 5,
+				items = {"blocks:garnet_crystal 3"},
+			},
+		},
+	},
+	sounds = default.node_sound_stone_defaults(),
+})
+
+minetest.register_node("blocks:obsidian_with_garnet", {
+	description = S("Garnet Ore"),
+	tiles = {"blocks_obsidian.png^blocks_mineral_garnet.png"},
+	groups = {cracky = 1},
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:garnet_crystal 2"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:obsidian_shard 3"},
+			},
+			{
+				rarity = 3,
+				items = {"blocks:obsidian_shard 3"},
+			},
+			{
+				rarity = 5,
+				items = {"blocks:garnet_crystal 3"},
+			},
+		},
+	},
 	sounds = default.node_sound_stone_defaults(),
 })
 
@@ -355,6 +1579,42 @@ minetest.register_node("blocks:lapis_lazuli", {
 	sounds = default.node_sound_stone_defaults(),
 })
 
+minetest.register_craftitem("blocks:lapis_chunk", {
+	description = S("Lapis Lazuli Chunk"),
+	inventory_image = "blocks_lapis_chunk.png",
+})
+
+minetest.register_node("blocks:marble_with_lapis", {
+	description = S("Lapis Lazuli Ore"),
+	tiles = {"blocks_marble.png^blocks_mineral_lapis.png"},
+	groups = {cracky = 2},
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:lapis_chunk 2"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:marble_chunk"},
+			},
+			{
+				rarity = 3,
+				items = {"blocks:marble_chunk"},
+			},
+			{
+				rarity = 4,
+				items = {"blocks:garnet_crystal"},
+			},
+			{
+				rarity = 5,
+				items = {"blocks:lapis_chunk 2"},
+			},
+		},
+	},
+	sounds = default.node_sound_stone_defaults(),
+})
+
 -- Malachite
 minetest.register_node("blocks:malachite", {
 	description = S("Malachite"),
@@ -362,6 +1622,11 @@ minetest.register_node("blocks:malachite", {
 	is_ground_content = true,
 	groups = {cracky = 2},
 	sounds = default.node_sound_stone_defaults(),
+})
+
+minetest.register_craftitem("blocks:malachite_chunk", {
+	description = S("Malachite Chunk"),
+	inventory_image = "blocks_malachite_chunk.png",
 })
 
 -- Basalt
@@ -372,6 +1637,11 @@ minetest.register_node("blocks:basalt", {
 	groups = {cracky = 3},
 	drop = "blocks:basalt_cobble",
 	sounds = default.node_sound_stone_defaults(),
+})
+
+minetest.register_craftitem("blocks:basalt_chunk", {
+	description = S("Basalt Chunk"),
+	inventory_image = "blocks_basalt_chunk.png",
 })
 
 minetest.register_node("blocks:basalt_cobble", {
@@ -406,6 +1676,11 @@ minetest.register_node("blocks:granite", {
 	sounds = default.node_sound_stone_defaults(),
 })
 
+minetest.register_craftitem("blocks:granite_chunk", {
+	description = S("Granite Chunk"),
+	inventory_image = "blocks_granite_chunk.png",
+})
+
 -- Marble
 minetest.register_node("blocks:marble", {
 	description = S("Marble"),
@@ -415,15 +1690,26 @@ minetest.register_node("blocks:marble", {
 	sounds = default.node_sound_stone_defaults(),
 })
 
+minetest.register_craftitem("blocks:marble_chunk", {
+	description = S("Marble Chunk"),
+	inventory_image = "blocks_marble_chunk.png",
+})
+
 -- Mud
 minetest.register_node("blocks:mud", {
 	description = S("Mud"),
 	tiles = {"blocks_mud.png"},
 	is_ground_content = true,
 	groups = {crumbly = 3},
+	drop = "blocks_mud_lump 4",
 	sounds = default.node_sound_dirt_defaults({
 		footstep = "",
 	}),
+})
+
+minetest.register_craftitem("blocks:mud_lump", {
+	description = S("Mud Lump"),
+	inventory_image = "blocks_mud_lump.png",
 })
 
 -- Porphyry
@@ -452,6 +1738,11 @@ minetest.register_node("blocks:slate", {
 	groups = {cracky = 2},
 	drop = "blocks:slate_cobble",
 	sounds = default.node_sound_stone_defaults(),
+})
+
+minetest.register_craftitem("blocks:slate_chunk", {
+	description = S("Slate Chunk"),
+	inventory_image = "blocks_slate_chunk.png",
 })
 
 minetest.register_node("blocks:slate_cobble", {
@@ -660,6 +1951,62 @@ minetest.register_craft({
 	output = "blocks:garnet_crystal 9",
 	recipe = {
 		{"blocks:garnet"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:malachite",
+	recipe = {
+		{"blocks:malachite_chunk", "blocks:malachite_chunk"},
+		{"blocks:malachite_chunk", "blocks:malachite_chunk"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:granite",
+	recipe = {
+		{"blocks:granite_chunk", "blocks:granite_chunk"},
+		{"blocks:granite_chunk", "blocks:granite_chunk"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:basalt_cobble",
+	recipe = {
+		{"blocks:basalt_chunk", "blocks:basalt_chunk"},
+		{"blocks:basalt_chunk", "blocks:basalt_chunk"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:mud",
+	recipe = {
+		{"blocks:mud_lump", "blocks:mud_lump"},
+		{"blocks:mud_lump", "blocks:mud_lump"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:marble",
+	recipe = {
+		{"blocks:marble_chunk", "blocks:marble_chunk"},
+		{"blocks:marble_chunk", "blocks:marble_chunk"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:slate_cobble",
+	recipe = {
+		{"blocks:slate_chunk", "blocks:slate_chunk"},
+		{"blocks:slate_chunk", "blocks:slate_chunk"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:lapis_lazuli",
+	recipe = {
+		{"blocks:lapis_chunk", "blocks:lapis_chunk"},
+		{"blocks:lapis_chunk", "blocks:lapis_chunk"},
 	}
 })
 

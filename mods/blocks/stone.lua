@@ -9,6 +9,11 @@ minetest.register_node("blocks:stone", {
 	sounds = default.node_sound_stone_defaults(),
 })
 
+minetest.register_craftitem("blocks:stone_chunk", {
+	description = S("Stone Chunk"),
+	inventory_image = "blocks_stone_chunk.png",
+})
+
 minetest.register_node("blocks:cobble", {
 	description = S("Cobblestone"),
 	tiles = {"blocks_cobble.png"},
@@ -51,6 +56,11 @@ minetest.register_node("blocks:desert_stone", {
 	drop = "blocks:desert_cobble",
 	legacy_mineral = true,
 	sounds = default.node_sound_stone_defaults(),
+})
+
+minetest.register_craftitem("blocks:desert_stone_chunk", {
+	description = S("Desert Stone Chunk"),
+	inventory_image = "blocks_desert_stone_chunk.png",
 })
 
 minetest.register_node("blocks:desert_cobble", {
@@ -220,6 +230,22 @@ end
 -- CRAFTS
 --
 minetest.register_craft({
+	output = "blocks:cobble",
+	recipe = {
+		{"blocks:stone_chunk", "blocks:stone_chunk"},
+		{"blocks:stone_chunk", "blocks:stone_chunk"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:desert_cobble",
+	recipe = {
+		{"blocks:desert_stone_chunk", "blocks:desert_stone_chunk"},
+		{"blocks:desert_stone_chunk", "blocks:desert_stone_chunk"},
+	}
+})
+
+minetest.register_craft({
 	output = "blocks:obsidian_shard 9",
 	recipe = {
 		{"blocks:obsidian"}
@@ -232,74 +258,6 @@ minetest.register_craft({
 		{"blocks:obsidian_shard", "blocks:obsidian_shard", "blocks:obsidian_shard"},
 		{"blocks:obsidian_shard", "blocks:obsidian_shard", "blocks:obsidian_shard"},
 		{"blocks:obsidian_shard", "blocks:obsidian_shard", "blocks:obsidian_shard"},
-	}
-})
-
-minetest.register_craft({
-	output = "blocks:obsidianbrick 4",
-	recipe = {
-		{"blocks:obsidian", "blocks:obsidian"},
-		{"blocks:obsidian", "blocks:obsidian"}
-	}
-})
-
-minetest.register_craft({
-	output = "blocks:obsidian_block 9",
-	recipe = {
-		{"blocks:obsidian", "blocks:obsidian", "blocks:obsidian"},
-		{"blocks:obsidian", "blocks:obsidian", "blocks:obsidian"},
-		{"blocks:obsidian", "blocks:obsidian", "blocks:obsidian"},
-	}
-})
-
-minetest.register_craft({
-	output = "blocks:stonebrick 4",
-	recipe = {
-		{"blocks:stone", "blocks:stone"},
-		{"blocks:stone", "blocks:stone"},
-	}
-})
-
-minetest.register_craft({
-	output = "blocks:stone_block 9",
-	recipe = {
-		{"blocks:stone", "blocks:stone", "blocks:stone"},
-		{"blocks:stone", "blocks:stone", "blocks:stone"},
-		{"blocks:stone", "blocks:stone", "blocks:stone"},
-	}
-})
-
-minetest.register_craft({
-	output = "blocks:desert_stonebrick 4",
-	recipe = {
-		{"blocks:desert_stone", "blocks:desert_stone"},
-		{"blocks:desert_stone", "blocks:desert_stone"},
-	}
-})
-
-minetest.register_craft({
-	output = "blocks:desert_stone_block 9",
-	recipe = {
-		{"blocks:desert_stone", "blocks:desert_stone", "blocks:desert_stone"},
-		{"blocks:desert_stone", "blocks:desert_stone", "blocks:desert_stone"},
-		{"blocks:desert_stone", "blocks:desert_stone", "blocks:desert_stone"},
-	}
-})
-
-minetest.register_craft({
-	output = "blocks:silver_sandstone_brick 4",
-	recipe = {
-		{"blocks:silver_sandstone", "blocks:silver_sandstone"},
-		{"blocks:silver_sandstone", "blocks:silver_sandstone"},
-	}
-})
-
-minetest.register_craft({
-	output = "blocks:silver_sandstone_block 9",
-	recipe = {
-		{"blocks:silver_sandstone", "blocks:silver_sandstone", "blocks:silver_sandstone"},
-		{"blocks:silver_sandstone", "blocks:silver_sandstone", "blocks:silver_sandstone"},
-		{"blocks:silver_sandstone", "blocks:silver_sandstone", "blocks:silver_sandstone"},
 	}
 })
 
@@ -319,23 +277,6 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = "blocks:sandstonebrick 4",
-	recipe = {
-		{"blocks:sandstone", "blocks:sandstone"},
-		{"blocks:sandstone", "blocks:sandstone"},
-	}
-})
-
-minetest.register_craft({
-	output = "blocks:sandstone_block 9",
-	recipe = {
-		{"blocks:sandstone", "blocks:sandstone", "blocks:sandstone"},
-		{"blocks:sandstone", "blocks:sandstone", "blocks:sandstone"},
-		{"blocks:sandstone", "blocks:sandstone", "blocks:sandstone"},
-	}
-})
-
-minetest.register_craft({
 	output = "blocks:desert_sandstone",
 	recipe = {
 		{"blocks:desert_sand", "blocks:desert_sand"},
@@ -347,23 +288,6 @@ minetest.register_craft({
 	output = "blocks:desert_sand 4",
 	recipe = {
 		{"blocks:desert_sandstone"},
-	}
-})
-
-minetest.register_craft({
-	output = "blocks:desert_sandstone_brick 4",
-	recipe = {
-		{"blocks:desert_sandstone", "blocks:desert_sandstone"},
-		{"blocks:desert_sandstone", "blocks:desert_sandstone"},
-	}
-})
-
-minetest.register_craft({
-	output = "blocks:desert_sandstone_block 9",
-	recipe = {
-		{"blocks:desert_sandstone", "blocks:desert_sandstone", "blocks:desert_sandstone"},
-		{"blocks:desert_sandstone", "blocks:desert_sandstone", "blocks:desert_sandstone"},
-		{"blocks:desert_sandstone", "blocks:desert_sandstone", "blocks:desert_sandstone"},
 	}
 })
 

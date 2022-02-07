@@ -37,7 +37,7 @@ minetest.register_node("blocks:stone_with_coalblock", {
 	groups = {cracky = 2},
 	drop = {
 		items = {
-			{				
+			{
 				rarity = 1,
 				items = {"blocks:coal_lump 2"},
 			},
@@ -834,7 +834,7 @@ minetest.register_node("blocks:stone_with_amber", {
 	groups = {cracky = 3},
 	drop = {
 		items = {
-			{				
+			{
 				rarity = 1,
 				items = {"blocks:amber_lump"},
 			},
@@ -868,7 +868,7 @@ minetest.register_node("blocks:sandstone_with_amber", {
 	groups = {crumbly = 1, cracky = 3},
 	drop = {
 		items = {
-			{				
+			{
 				rarity = 1,
 				items = {"blocks:amber_lump"},
 			},
@@ -902,7 +902,7 @@ minetest.register_node("blocks:desert_sandstone_with_amber", {
 	groups = {crumbly = 1, cracky = 3},
 	drop = {
 		items = {
-			{				
+			{
 				rarity = 1,
 				items = {"blocks:amber_lump"},
 			},
@@ -936,7 +936,7 @@ minetest.register_node("blocks:silver_sandstone_with_amber", {
 	groups = {crumbly = 1, cracky = 3},
 	drop = {
 		items = {
-			{				
+			{
 				rarity = 1,
 				items = {"blocks:amber_lump"},
 			},
@@ -969,7 +969,7 @@ minetest.register_node("blocks:coal_with_amber", {
 	groups = {cracky = 3},
 	drop = {
 		items = {
-			{				
+			{
 				rarity = 1,
 				items = {"blocks:coal_lump 4"},
 			},
@@ -1003,7 +1003,7 @@ minetest.register_node("blocks:mud_with_amber", {
 	groups = {crumbly = 3},
 	drop = {
 		items = {
-			{				
+			{
 				rarity = 1,
 				items = {"blocks:amber_lump"},
 			},
@@ -1039,7 +1039,7 @@ minetest.register_node("blocks:dirt_with_amber", {
 	groups = {crumbly = 3, soil = 1},
 	drop = {
 		items = {
-			{				
+			{
 				rarity = 1,
 				items = {"blocks:amber_lump"},
 			},
@@ -1067,7 +1067,7 @@ minetest.register_node("blocks:sand_with_amber", {
 	groups = {crumbly = 3, falling_node = 1, sand = 1},
 	drop = {
 		items = {
-			{				
+			{
 				rarity = 1,
 				items = {"blocks:amber_lump"},
 			},
@@ -1114,7 +1114,7 @@ minetest.register_node("blocks:stone_with_silver", {
 	groups = {cracky = 2},
 	drop = {
 		items = {
-			{				
+			{
 				rarity = 1,
 				items = {"blocks:silver_lump"},
 			},
@@ -1147,7 +1147,7 @@ minetest.register_node("blocks:granite_with_silver", {
 	groups = {cracky = 2},
 	drop = {
 		items = {
-			{				
+			{
 				rarity = 1,
 				items = {"blocks:silver_lump"},
 			},

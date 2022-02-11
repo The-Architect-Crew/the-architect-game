@@ -42,6 +42,22 @@ shapes:register_shape("blocks:obsidian_glass", {
 	disabled = "fence, wall",
 	texture = "blocks_obsidian_glass.png",
 })
+
+shapes:register_shape("blocks:medieval_glass", {
+	slab_tiles = {"blocks_medieval_glass.png","blocks_medieval_glass.png", "shapes_medieval_glass.png", "shapes_medieval_glass.png", "shapes_medieval_glass.png", "shapes_medieval_glass.png"},
+	cube_tiles = {"shapes_medieval_glass_2.png","shapes_medieval_glass_2.png^[transformFXR90", "shapes_medieval_glass_2.png^[transformFY", "shapes_medieval_glass_2.png^[transformFY", "shapes_medieval_glass_2.png^[transformFY", "shapes_medieval_glass_2.png^[transformFY"},
+	step_tiles = {"shapes_medieval_glass.png","shapes_medieval_glass.png", "shapes_medieval_glass_2.png^[transformFY", "shapes_medieval_glass_2.png^[transformFY", "shapes_medieval_glass.png", "shapes_medieval_glass.png"},
+	halfstair_tiles = {"shapes_medieval_glass_2.png^[transformFXR90","shapes_medieval_glass_2.png^[transformFYR90", "shapes_medieval_glass_3.png^[transformFX", "shapes_medieval_glass_3.png", "shapes_medieval_glass_2.png^[transformFXR90", "shapes_medieval_glass_2.png^[transformFXR90"},
+	stair_tiles = {"shapes_medieval_glass.png","blocks_medieval_glass.png", "shapes_medieval_glass_3.png^[transformFX", "shapes_medieval_glass_3.png", "blocks_medieval_glass.png", "shapes_medieval_glass.png"},
+	outerstair_tiles = {"shapes_medieval_glass_3.png^[transformFX","blocks_medieval_glass.png", "shapes_medieval_glass_2.png", "shapes_medieval_glass_3.png", "shapes_medieval_glass_3.png^[transformFX", "shapes_medieval_glass_2.png"},
+	innerstair_tiles = {"shapes_medieval_glass_3.png^[transformFY","blocks_medieval_glass.png", "shapes_medieval_glass_3.png^[transformFX", "blocks_medieval_glass.png", "blocks_medieval_glass.png", "shapes_medieval_glass_3.png"},
+	pole_tiles = {"shapes_medieval_glass_fence_top.png", "shapes_medieval_glass_fence_top.png", "shapes_medieval_glass_fence.png"},
+	pillar_tiles = {"shapes_medieval_glass_wall_top.png", "shapes_medieval_glass_wall_top.png", "shapes_medieval_glass_wall.png"},
+	pane_flat_tiles = {"shapes_medieval_glass_top.png", "shapes_medieval_glass_top.png", "shapes_medieval_glass.png^[transformFXR90", "shapes_medieval_glass.png^[transformFXR90", "blocks_medieval_glass.png"},
+	pane_tiles = {"shapes_medieval_glass_top.png", "shapes_medieval_glass_top.png", "blocks_medieval_glass.png"},
+	disabled = "fence, wall",
+	texture = "blocks_medieval_glass.png",
+})
 -- ore.lua
 shapes:register_shape("blocks:steelblock")
 shapes:register_shape("blocks:copperblock")
@@ -54,6 +70,16 @@ shapes:register_shape("blocks:garnet")
 shapes:register_shape("blocks:lapis_lazuli")
 shapes:register_shape("blocks:turquoise")
 shapes:register_shape("blocks:malachite")
+shapes:register_shape("blocks:basalt")
+shapes:register_shape("blocks:basalt_cobble")
+shapes:register_shape("blocks:chalk")
+shapes:register_shape("blocks:granite")
+shapes:register_shape("blocks:marble")
+shapes:register_shape("blocks:mud")
+shapes:register_shape("blocks:porphyry")
+shapes:register_shape("blocks:serpentine")
+shapes:register_shape("blocks:slate")
+shapes:register_shape("blocks:slate_cobble")
 -- plank.lua
 shapes:register_shape("blocks:wood", {groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2},})
 shapes:register_shape("blocks:junglewood", {groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2},})

@@ -26,12 +26,27 @@ minetest.register_node("blocks:obsidian_glass", {
 	groups = {cracky = 3},
 })
 
+-- Medieval Glass
+
+minetest.register_node("blocks:medieval_glass", {
+	description = S("Medieval Glass"),
+	drawtype = "glasslike_framed_optional",
+	tiles = {"blocks_medieval_glass.png", "blocks_medieval_glass_detail.png"},
+	use_texture_alpha = "clip", -- only needed for stairs API
+	paramtype = "light",
+	paramtype2 = "glasslikeliquidlevel",
+	sunlight_propagates = true,
+	is_ground_content = false,
+	groups = {cracky = 3, oddly_breakable_by_hand = 3},
+	sounds = default.node_sound_glass_defaults(),
+})
+
 -- Amber Glass
 
 minetest.register_node("blocks:amber_glass", {
 	description = S("Amber Glass"),
-	drawtype = "allfaces",
-	tiles = {"blocks_amber_glass.png"},
+	drawtype = "glasslike_framed_optional",
+	tiles = {"blocks_amber_glass.png", "blocks_amber_glass_detail.png"},
 	use_texture_alpha = "blend",
 	paramtype = "light",
 	sunlight_propagates = true,
@@ -42,8 +57,8 @@ minetest.register_node("blocks:amber_glass", {
 
 minetest.register_node("blocks:amber_medieval_glass", {
 	description = S("Medieval Amber Glass"),
-	drawtype = "allfaces",
-	tiles = {"blocks_amber_glass_medieval.png"},
+	drawtype = "glasslike_framed_optional",
+	tiles = {"blocks_amber_glass_medieval.png", "blocks_amber_glass_medieval_detail.png"},
 	use_texture_alpha = "blend",
 	paramtype = "light",
 	sunlight_propagates = true,
@@ -55,6 +70,15 @@ minetest.register_node("blocks:amber_medieval_glass", {
 --
 -- == CRAFTS
 --
+
+minetest.register_craft({
+	output = "blocks:medieval_glass 5",
+	recipe = {
+		{"blocks:glass", "blocks:steel_ingot", "blocks:glass"},
+		{"blocks:steel_ingot", "blocks:glass", "blocks:steel_ingot"},
+		{"blocks:glass", "blocks:steel_ingot", "blocks:glass"},
+	}
+})
 
 minetest.register_craft({
 	output = "blocks:amber_glass 4",

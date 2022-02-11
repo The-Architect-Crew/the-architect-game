@@ -86,6 +86,119 @@ function variations.register_for_base(base_node, transparent, sunlight)
 	end
 end
 
+function variations.register_support(base_node, transparent, sunlight)
+	local base_definition = minetest.registered_nodes[base_node]
+	for _, variation in ipairs(variations.variations) do
+		local sname = string.match(base_node, ':(.*)')
+		local variation_name = "variations:" .. sname .. "_" .. variation.name .. "_support"
+		local variation_description = base_definition.description .. " with Support " .. variation.description
+		local tiles = {"(variations_" .. sname .. ".png^[sheet:3x3:" .. variation.texture .. ")^(variations_support.png^[sheet:3x3:" .. variation.texture .. ")"}
+		local paramtype_light = ""
+		if not sunlight and transparent then
+			sunlight = true
+			paramtype_light = "light"
+		end
+		minetest.register_node(variation_name, {
+			description = variation_description,
+			tiles = tiles,
+			groups = base_definition.groups,
+			drawtype = base_definition.drawtype,
+			use_texture_alpha = transparent or base_definition.use_texture_alpha,
+			paramtype = paramtype_light or base_definition.paramtype,
+			sunlight_propagates = sunlight or base_definition.sunlight_propagates,
+		})
+	end
+    for _, variation in ipairs(variations.variations) do
+		local sname = string.match(base_node, ':(.*)')
+		local variation_name = "variations:" .. sname .. "_" .. variation.name .. "_support"
+		shapes:register_shape(variation_name, variation.disabled_shapes)
+	end
+end
+
+variations.frames = {
+	{
+		name = "top";
+		description = "Top";
+		texture = "0";
+	},
+	{
+		name = "upper";
+		description = "Upper";
+		texture = "1";
+	},
+	{
+		name = "middle";
+		description = "Middle";
+		texture = "2";
+	},
+	{
+		name = "lower";
+		description = "Lower";
+		texture = "3";
+	},
+	{
+		name = "bottom";
+		description = "Bottom";
+		texture = "4";
+	},
+}
+
+variations.frame_variations = {
+	{
+		name = "square";
+		description = "Square";
+		texture = "0";
+	},
+	{
+		name = "diamond";
+		description = "Diamond";
+		texture = "1";
+	},
+	{
+		name = "bars";
+		description = "Bars";
+		texture = "2";
+	},
+}
+
+function variations.register_frame(base_node)
+	local base_definition = minetest.registered_nodes[base_node]
+	for _, frame in ipairs(variations.frames) do
+		for _, variation in ipairs(variations.frame_variations) do
+			local sname = string.match(base_node, ':(.*)')
+			local frame_name = "variations:" .. sname .. "_" .. variation.name .. "_" .. frame.name
+			local frame_description = base_definition.description .. " " .. variation.description .. " " .. frame.description .. " Frame"
+			local tiles = {"(variations_" .. sname .. ".png^[mask:(variations_glass_mask.png\\^[sheet\\:3x5\\:" .. variation.texture .. "," .. frame.texture .. "))", "variations_" .. sname .. ".png"}
+			minetest.register_node(frame_name, {
+				description = frame_description,
+				tiles = tiles,
+				groups = base_definition.groups,
+				drawtype = "mesh",
+				mesh = "frame.obj",
+				collision_box = {
+					type = "fixed",
+					fixed = {
+						{-0.5, -0.5, -0.1, 0.5, 0.5, 0.1},
+					},
+				},
+				selection_box = {
+					type = "fixed",
+					fixed = {
+						{-0.5, -0.5, -0.1, 0.5, 0.5, 0.1},
+					},
+				},
+				use_texture_alpha = base_definition.use_texture_alpha,
+				paramtype = "light",
+				paramtype2 = "facedir",
+				sunlight_propagates = true,
+			})
+		end
+	end
+end
+
+variations.register_frame("blocks:obsidian_glass")
+variations.register_frame("blocks:glass")
+
 variations.register_for_base("blocks:stone")
 variations.register_for_base("blocks:obsidian")
 variations.register_for_base("blocks:desert_stone")
@@ -109,6 +222,19 @@ variations.register_for_base("blocks:turquoise")
 variations.register_for_base("blocks:amber")
 variations.register_for_base("blocks:silverblock")
 variations.register_for_base("blocks:mithrilblock")
+variations.register_for_base("blocks:basalt")
+variations.register_for_base("blocks:chalk")
+variations.register_for_base("blocks:granite")
+variations.register_for_base("blocks:marble")
+variations.register_for_base("blocks:mud")
+variations.register_for_base("blocks:porphyry")
+variations.register_for_base("blocks:serpentine")
+variations.register_for_base("blocks:slate")
+variations.register_for_base("blocks:concrete")
+
+variations.register_support("blocks:stone")
+variations.register_support("blocks:sandstone")
+variations.register_support("blocks:chalk")
 
 for _, color in ipairs(blocks.stone_colors) do
 	variations.register_for_base("blocks:stone_" .. color[1])

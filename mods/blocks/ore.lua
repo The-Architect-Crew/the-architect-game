@@ -1701,7 +1701,7 @@ minetest.register_node("blocks:mud", {
 	tiles = {"blocks_mud.png"},
 	is_ground_content = true,
 	groups = {crumbly = 3},
-	drop = "blocks_mud_lump 4",
+	drop = "blocks:mud_lump 4",
 	sounds = default.node_sound_dirt_defaults({
 		footstep = "",
 	}),

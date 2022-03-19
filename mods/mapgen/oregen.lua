@@ -1717,7 +1717,7 @@ function mapgen.register_ores()
 	minetest.register_ore({
 		ore_type       = "scatter",
 		ore            = "blocks:granite_with_amethyst",
-		wherein        = "blocks:marble",
+		wherein        = "blocks:granite",
 		clust_scarcity = 12 * 12 * 12,
 		clust_num_ores = 4,
 		clust_size     = 5,

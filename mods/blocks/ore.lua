@@ -965,7 +965,7 @@ minetest.register_node("blocks:silver_sandstone_with_amber", {
 
 minetest.register_node("blocks:coal_with_amber", {
 	description = S("Amber Ore"),
-	tiles = {"blocks_coal_block.png^blocks_mineral_amber.png"},
+	tiles = {"blocks_stone.png^(blocks_mineral_coal_block.png^blocks_mineral_amber.png)"},
 	groups = {cracky = 3},
 	drop = {
 		items = {

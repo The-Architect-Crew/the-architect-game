@@ -1074,10 +1074,10 @@ local function craft_stack(player, pname, data, craft_rcp)
 	end
 end
 
-local function select_item(player, data, _f)
+local function select_item(player, data, form)
 	local item
 
-	for field in pairs(_f) do
+	for field in pairs(form) do
 		if find(field, ":") then
 			item = field
 			break
@@ -1208,7 +1208,7 @@ local function get_tooltip(item, info)
 	return sprintf("tooltip[%s;%s]", item, ESC(tooltip))
 end
 
-local function get_output_fs(fs, data, rcp, is_recipe, shapeless, right, btn_size, _btn_size)
+local function get_output_fs(fs, data, rcp, is_recipe, shapeless, right, btn_size, btn_size2)
 	local custom_recipe = craft_types[rcp.type]
 
 	if custom_recipe or shapeless or rcp.type == "cooking" then
@@ -1234,7 +1234,7 @@ local function get_output_fs(fs, data, rcp, is_recipe, shapeless, right, btn_siz
 		fs(fmt("tooltip", pos_x, pos_y, 0.5, 0.5, ESC(tooltip)))
 	end
 
-	local arrow_X = right + 0.2 + (_btn_size or ITEM_BTN_SIZE)
+	local arrow_X = right + 0.2 + (btn_size2 or ITEM_BTN_SIZE)
 	local X = arrow_X + 1.2
 	local Y = data.yoffset + 1.4
 
@@ -1281,7 +1281,7 @@ end
 
 local function get_grid_fs(fs, data, rcp, is_recipe)
 	local width = rcp.width or 1
-	local right, btn_size, _btn_size = 0, ITEM_BTN_SIZE
+	local right, btn_size, btn_size2 = 0, ITEM_BTN_SIZE
 	local cooktime, shapeless
 
 	if rcp.type == "cooking" then
@@ -1312,7 +1312,7 @@ local function get_grid_fs(fs, data, rcp, is_recipe)
 
 		if large_recipe then
 			btn_size = (3 / width) * (3 / rows) + 0.3
-			_btn_size = btn_size
+			btn_size2 = btn_size
 
 			local xi = (i - 1) % width
 			local yi = floor((i - 1) / width)
@@ -1391,7 +1391,7 @@ local function get_grid_fs(fs, data, rcp, is_recipe)
 		fs("style_type[item_image_button;border=false]")
 	end
 
-	get_output_fs(fs, data, rcp, is_recipe, shapeless, right, btn_size, _btn_size)
+	get_output_fs(fs, data, rcp, is_recipe, shapeless, right, btn_size, btn_size2)
 end
 
 local function get_rcp_lbl(fs, data, panel, rn, is_recipe)
@@ -1992,16 +1992,16 @@ on_joinplayer(function(player)
 	end
 end)
 
-on_receive_fields(function(player, formname, _f)
+on_receive_fields(function(player, formname, form)
 	if formname ~= "craftguide" then
 		return false
 	end
 
 	local name = player:get_player_name()
 	local data = pdata[name]
-	local sb_rcp, sb_usg = _f.scrbar_rcp, _f.scrbar_usg
+	local sb_rcp, sb_usg = form.scrbar_rcp, form.scrbar_usg
 
-	if _f.quit then
+	if form.quit then
 		-- Neither the vignette nor hud_flags are available when /craft is used
 		if data.vignette then
 			player:hud_change(data.vignette, "text", "")
@@ -2016,28 +2016,28 @@ on_receive_fields(function(player, formname, _f)
 
 		return false
 
-	elseif _f.cancel then
+	elseif form.cancel then
 		reset_data(data)
 
-	elseif _f.prev_recipe or _f.next_recipe then
-		local num = data.rnum + (_f.prev_recipe and -1 or 1)
-		data.rnum = data.recipes[num] and num or (_f.prev_recipe and #data.recipes or 1)
+	elseif form.prev_recipe or form.next_recipe then
+		local num = data.rnum + (form.prev_recipe and -1 or 1)
+		data.rnum = data.recipes[num] and num or (form.prev_recipe and #data.recipes or 1)
 		data.export_rcp = nil
 		data.scrbar_rcp = 1
 
-	elseif _f.prev_usage or _f.next_usage then
-		local num = data.unum + (_f.prev_usage and -1 or 1)
-		data.unum = data.usages[num] and num or (_f.prev_usage and #data.usages or 1)
+	elseif form.prev_usage or form.next_usage then
+		local num = data.unum + (form.prev_usage and -1 or 1)
+		data.unum = data.usages[num] and num or (form.prev_usage and #data.usages or 1)
 		data.export_usg = nil
 		data.scrbar_usg = 1
 
-	elseif _f.key_enter_field == "filter" or _f.search then
-		if _f.filter == "" then
+	elseif form.key_enter_field == "filter" or form.search then
+		if form.filter == "" then
 			reset_data(data)
 			return true, show_fs(player, name)
 		end
 
-		local str = lower(_f.filter)
+		local str = lower(form.filter)
 		if data.filter == str then return end
 
 		data.filter = str
@@ -2045,9 +2045,9 @@ on_receive_fields(function(player, formname, _f)
 
 		search(data)
 
-	elseif _f.prev_page or _f.next_page then
+	elseif form.prev_page or form.next_page then
 		if data.pagemax == 1 then return end
-		data.pagenum = data.pagenum - (_f.prev_page and 1 or -1)
+		data.pagenum = data.pagenum - (form.prev_page and 1 or -1)
 
 		if data.pagenum > data.pagemax then
 			data.pagenum = 1
@@ -2055,7 +2055,7 @@ on_receive_fields(function(player, formname, _f)
 			data.pagenum = data.pagemax
 		end
 
-	elseif _f.fav then
+	elseif form.fav then
 		local fav, i = is_fav(data.favs, data.query_item)
 		local total = #data.favs
 
@@ -2065,8 +2065,8 @@ on_receive_fields(function(player, formname, _f)
 			remove(data.favs, i)
 		end
 
-	elseif _f.export_rcp or _f.export_usg then
-		if _f.export_rcp then
+	elseif form.export_rcp or form.export_usg then
+		if form.export_rcp then
 			data.export_rcp = not data.export_rcp
 
 			if not data.export_rcp then
@@ -2080,30 +2080,30 @@ on_receive_fields(function(player, formname, _f)
 			end
 		end
 
-	elseif _f.trash then
+	elseif form.trash then
 		local inv = player:get_inventory()
 		if not inv:is_empty("main") then
 			inv:set_list("main", {})
 		end
 
-	elseif _f.compress then
+	elseif form.compress then
 		compress_items(player)
 
-	elseif _f.sort_az or _f.sort_za then
-		sort_itemlist(player, _f.sort_az)
+	elseif form.sort_az or form.sort_za then
+		sort_itemlist(player, form.sort_az)
 
-	elseif _f.scrbar_inv then
-		data.scrbar_inv = tonumber(match(_f.scrbar_inv, "%d+"))
+	elseif form.scrbar_inv then
+		data.scrbar_inv = tonumber(match(form.scrbar_inv, "%d+"))
 		return true
 
 	elseif (sb_rcp and sub(sb_rcp, 1, 3) == "CHG") or (sb_usg and sub(sb_usg, 1, 3) == "CHG") then
 		data.scrbar_rcp = sb_rcp and tonum(match(sb_rcp, "%d+"))
 		data.scrbar_usg = sb_usg and tonum(match(sb_usg, "%d+"))
 
-	elseif _f.craft_rcp or _f.craft_usg then
-		craft_stack(player, name, data, _f.craft_rcp)
+	elseif form.craft_rcp or form.craft_usg then
+		craft_stack(player, name, data, form.craft_rcp)
 	else
-		select_item(player, data, _f)
+		select_item(player, data, form)
 	end
 
 	return true, show_fs(player, name)

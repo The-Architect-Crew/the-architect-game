@@ -111,7 +111,7 @@ function shapes:register_shape(name, def)
 		local tgrou = shapes.shape_list[i].groups
 		local tsunl = shapes.shape_list[i].sunlight_propagates or true
 		local tdrop = shapes.shape_list[i].drop
-		local tconn = shapes.shape_list[i].connects_to
+		local tconn = def.connects_to or shapes.shape_list[i].connects_to
 		local tcosi = shapes.shape_list[i].connect_sides
 		local tbfcg = shapes.shape_list[i].backface_culling or true
 		local tagsy = shapes.shape_list[i].align_style or "world"

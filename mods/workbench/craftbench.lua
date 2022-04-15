@@ -7,7 +7,6 @@ local function formspec_crafting(pos, add)
 		"label[0.2,0.3;Crafting Grid]",
 		"box[0.2,0.5;6.4,6.4;#707070]",
 		"list[nodemeta:"..spos..";input;0.4,0.7;5,5;]",
-		-- fuel
 		-- arrow
 		"image[6.75,3.3;0.8,0.8;gui_arrow.png^[transformFYR90]",
 		-- output
@@ -38,7 +37,7 @@ local function apply_craft_result(pos, listname, index, stack, player)
 	end
 end
 
-local function workbench_update(pos, listname, index, stack, player)
+local function craftbench_update(pos, listname, index, stack, player)
 	local meta = minetest.get_meta(pos)
 	local inv = meta:get_inventory()
 	local craftlist = inv:get_list("input")
@@ -66,10 +65,10 @@ local function workbench_update(pos, listname, index, stack, player)
 	end
 end
 
-minetest.register_node("workbench:workbench", {
-	description = "Workbench",
+minetest.register_node("workbench:craftbench", {
+	description = "Craftbench",
 	drawtype = "mesh",
-	mesh = "workbench.obj",
+	mesh = "workbench_craftbench.obj",
 	selection_box = {
 		type = "fixed",
 		fixed = {
@@ -78,7 +77,7 @@ minetest.register_node("workbench:workbench", {
 		},
 	},
 	groups = {choppy = 2,oddly_breakable_by_hand = 2},
-	tiles = {"workbench_workbench.png"},
+	tiles = {"workbench_craftbench.png"},
 	paramtype = "light",
 	paramtype2 = "facedir",
 	sunlight_propagates = true,
@@ -103,24 +102,34 @@ minetest.register_node("workbench:workbench", {
 		meta:set_string("formspec", formspec_crafting(pos))
 		meta:set_string("crafted", "")
 		meta:set_string("owner", "")
-		meta:set_string("infotext", "Workbench")
+		meta:set_string("infotext", "Craftbench")
 	end,
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
 		local meta = minetest.get_meta(pos)
 		local playername = placer:get_player_name()
 		meta:set_string("owner", playername)
-		meta:set_string("infotext", "Workbench \n(Owned by "..playername..")")
+		meta:set_string("infotext", "Craftbench \n(Owned by "..playername..")")
+	end,
+	on_place = function(itemstack, placer, pointed_thing)
+		local pos = pointed_thing.above
+		local top_pos = {x=pos.x, y=pos.y+1, z=pos.z}
+		local topnode = minetest.get_node(top_pos).name
+		if minetest.registered_nodes[topnode].buildable_to then -- ensure top space is buildable
+			minetest.dig_node(top_pos) -- remove top space
+			minetest.item_place(itemstack, placer, pointed_thing)
+		end
+		return itemstack
 	end,
 	on_metadata_inventory_put = function(pos, listname, index, stack, player)
-		workbench_update(pos, listname, index, stack, player)
+		craftbench_update(pos, listname, index, stack, player)
 	end,
 	on_metadata_inventory_take = function(pos, listname, index, stack, player)
-		workbench_update(pos, listname, index, stack, player)
+		craftbench_update(pos, listname, index, stack, player)
 	end,
 	on_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
 		local meta = minetest.get_meta(pos)
 		local stack = meta:get_inventory():get_stack(from_list, from_index)
-		workbench_update(pos, from_list, from_index, stack, player)
+		craftbench_update(pos, from_list, from_index, stack, player)
 	end,
 	allow_metadata_inventory_put = function(pos, listname, index, stack, player)
 		local meta = minetest.get_meta(pos)
@@ -129,7 +138,7 @@ minetest.register_node("workbench:workbench", {
 				return stack:get_count()
 			else
 				local playername = player:get_player_name()
-				minetest.chat_send_player(playername, "[workbench] Please remove all output items first.")
+				minetest.chat_send_player(playername, "[Craftbench] Please remove all output items first.")
 				return 0
 			end
 		else
@@ -143,7 +152,7 @@ minetest.register_node("workbench:workbench", {
 				return stack:get_count()
 			else
 				local playername = player:get_player_name()
-				minetest.chat_send_player(playername, "[workbench] Please remove all output items first.")
+				minetest.chat_send_player(playername, "[Craftbench] Please remove all output items first.")
 				return 0
 			end
 		elseif listname == "output" then
@@ -165,7 +174,7 @@ minetest.register_node("workbench:workbench", {
 				return stack:get_count()
 			else
 				local playername = player:get_player_name()
-				minetest.chat_send_player(playername, "[workbench] Please remove all output items first.")
+				minetest.chat_send_player(playername, "[Craftbench] Please remove all output items first.")
 				return 0
 			end
 		else

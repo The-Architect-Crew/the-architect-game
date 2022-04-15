@@ -38,5 +38,5 @@ function workbench.debug(output, amount, d_input, otime, recipe, replacements, r
 	print("===== end of workbench debug ======")
 end
 
-dofile(path.."/workbench.lua")
+dofile(path.."/craftbench.lua")
 dofile(path.."/furnace.lua")

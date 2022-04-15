@@ -36,7 +36,6 @@ local function apply_craft_result(pos, listname, index, stack, player)
 	local meta = minetest.get_meta(pos)
 	local inv = meta:get_inventory()
 	local craftlist = inv:get_list("input")
-	local outlist = inv:get_list("output")
 	local output = workbench.craft_output(craftlist, "cooking", nil, 3)
 	if output then
 		-- ensure sufficient fuel

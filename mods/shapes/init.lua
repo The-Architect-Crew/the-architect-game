@@ -75,7 +75,6 @@ local function check_enabled(disabled, enabled, shapename, groupname, default_di
 	if enabled then
 		local enabled_list = ", "..enabled..", "
 		local namefind = string.find(enabled_list, ", "..shapename..", ")
-		if namefind == "sphere" then print("SPHEEEEEEEEEEEEEEEEEERE") end
 		local groupfind = string.find(enabled_list, ", cat:"..groupname..", ")
 		if namefind or groupfind then
 			return true

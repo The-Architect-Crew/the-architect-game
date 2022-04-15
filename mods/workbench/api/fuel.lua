@@ -41,7 +41,6 @@ function workbench:get_fuel(ilist, ftype, cat)
 				local fitem = ItemStack(flist[i].fuel) -- fuel item
 				local citem = ilist[j] -- input item
 				if fitem:get_name() == citem:get_name() then
-					print("validfuel")
 					local dfuel = citem:peek_item(citem:get_count() - fitem:get_count())
 					return flist[i].time, {dfuel}
 				end

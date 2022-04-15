@@ -186,5 +186,5 @@ cat:pane				-- Panes Category
 ==========				-- ==================
 pane_flat				-- 1 pixel thick panes (connective) (main, flat node - when enabling/disabling; add both pane_flat and pane)
 pane					-- 1 pixel thick panes (connective) (connector node - when enabling/disabling; add both pane_flat and pane)
-pane2_flat				-- mc-ironbars-like (connective) (main, flat node) (disabled by default - when enabling/disabling; add both pane2_flat and pane2)
-pane2					-- mc-ironbars-like (connective) (connector node) (disabled by default - when enabling/disabling; add both pane2_flat and pane2)
+panemc_flat				-- mc-ironbars-like (connective) (main, flat node) (disabled by default - when enabling/disabling; add both panemc_flat and panemc)
+panemc					-- mc-ironbars-like (connective) (connector node) (disabled by default - when enabling/disabling; add both panemc_flat and panemc)

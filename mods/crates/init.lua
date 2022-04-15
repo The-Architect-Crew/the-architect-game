@@ -545,6 +545,23 @@ function crates:register_storage(name, def)
 					end,
 				})
 				-- Add dyeing recipes
+				workbench:register_craft({
+					mod = "shapeless",
+					output = {{name.."_"..color.."_filled"}},
+					input = {{name.."_filled", "group:dye,color_"..color}},
+					transfer_meta = {{name.."_filled", name.."_"..color.."_filled"},},
+				})
+				
+				workbench:register_craft({
+					mod = "shapeless",
+					output = {{name.."_filled"}},
+					input = {{name.."_"..color.."_filled", "bucket:bucket_water"}},
+					replacements = {{'bucket:bucket_water', 'bucket:bucket_empty'}},
+					transfer_meta = {{name.."_"..color.."_filled", name.."_filled"}},
+				})
+				
+				--[[
+				-- default crafting recipe
 				minetest.register_craft({
 					type = "shapeless",
 					output = name.."_"..color.."_filled",
@@ -558,6 +575,7 @@ function crates:register_storage(name, def)
 					replacements = {{'bucket:bucket_water', 'bucket:bucket_empty'},},
 				})
 				ccore.register_craftcopy(name.."_"..color.."_filled", name.."_filled")
+				]]
 			end
 		end
 	end

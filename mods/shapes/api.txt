@@ -1,10 +1,44 @@
 Shapes API Reference
 ====================
 
+Basic shape registration
+========================
+shapes:register_shape("<modname>:<nodename>", "<shape1>, <shape2>, <group:shgroup1>")
+-- Second optional field is for `disabled`, see below
+
+Optional shape customization(s)
+===============================
+shapes:register_shape("<modname>:<nodename>",  {
+	disabled = "<shape1>, <shape2>, <cat:shape>"	-- All shapes will generate except list here (supports category with `cat:`)
+	enabled = "<shape1>, <shape2>, <cat:shape>"		-- If used WITHOUT disabled, all other shapes except list here is enabled (supports category with `cat:`), otherwise when used WITH disabled enables certain shapes that are disabled by default
+	description_prefix = "Description Prefix",
+	<shape>_description = "Description",
+	<shape>_tiles = {"texture1", "texture2"..},		-- Priority over global_tiles
+	global_tiles = {"texture1", "texture2"..},		-- Not applicable for pane/fence/wall
+	texture = "texture1",							-- global texture for only pane/fence/wall
+	<shape>_sunlight_propagates = <boolean>,
+	groups = {groups},								-- not_in_creative_inventory is applied by default, to disable, use "not_in_creative_inventory = 0"
+	<shape>_drop = <dropname>,						-- Priority over drop
+	drop = <dropname>,
+	connects_to = {<connects_to>},					-- (optional - for connective nodes)
+	<shape>_connects_to = {<connects_to>},			-- (optional - for connective nodes and <shape> only)
+	connect_sides = {<connect_sides>},				-- (optional - for connective nodes)
+	<shape>_connect_sides = {<connect_sides>},		-- (optional - for connective nodes and <shape> only)
+	<shape>_light_source = <integer>,				-- Priority over light_source
+	light_source = <integer>,
+	shape_use_texture_alpha = <alpha>,				-- Priority over use_texture_alpha
+	use_texture_alpha = <alpha>,
+	<shape>_backface_culling = <boolean>,			-- Priority over backface_culling (Not applicable for meshnodes)
+	backface_culling = <boolean>,					-- Not applicable for meshnodes
+	<shape>_align_style = "style",					-- Priority over align_style (Not applicable for meshnodes)
+	backface_culling = "style",						-- Not applicable for meshnodes
+})
+
 Shape definition registration
 =============================			-- registers a shape definition
 shapes:register_shapedef("<shapename>", {
 	description = "Shape Description",
+	cost = <integer>,					-- Cost of shape in cubes
 	node_box = {<node_box>},			-- If used, shape is assumed to be a nodebox and the mesh field is ignored
 	mesh = "<mesh>",					-- (optional)
 	collision_box = {<collision_box>},	-- (optional) If not provided, uses node_box
@@ -18,150 +52,139 @@ shapes:register_shapedef("<shapename>", {
 	backface_culling = <boolean>,		-- (optional) defaults to true
 	align_style = "style",				-- (optional) defaults to "world"
 	overlay = "<overlay>",				-- (optional) Adds an overlay texture to wield/inv image
-	disable_by_default = <boolean>,		-- (optional) true to disable shape by default (enabled by adding to disable list)
-	crafting = {						-- (optional) Adds a crafting recipe for this shape
-		amount = <no.>,					-- (optional) defaults to 1
-		replacements = <replacements>,	-- (optional)
-		recipe = {<recipe>},
-	},
+	disable_by_default = <boolean>,		-- (optional) set true to disable shape unless enabled
+	rotate_and_place = <boolean>,		-- (optional) defaults to true, set false to prevent rotation when placing (for connective shapes)
+	crafting = {							-- (optional) Adds a crafting recipe for this shape
+		{									-- Add more nested tables for more recipes
+			amount = <no.>,					-- (optional) defaults to 1
+			replacements = <replacements>,	-- (optional)
+			recipe = {<recipe>},
+		},
+	}
 })
 
 -- special values for `drop` and `crafting`
 -- "shapes:self" = nodename
 -- "shapes:shape_<shapename>" = shapename 
 
-Basic shape registration
-========================
-shapes:register_shape("<modname>:<nodename>", "<shape1>, <shape2>, <group:shgroup1>")
--- Second field is for `disabled`, see below
-
-Optional shape customization(s)
-===============================
-shapes:register_shape("<modname>:<nodename>",  {
-	disabled = "<shape1>, <shape2>, <cat:shape>"	-- Makes certain shape not generate, supports category with `cat:`
-	description_prefix = "Description Prefix",
-	<shape>_description = "Description",
-	<shape>_tiles = {"texture1", "texture2"..},		-- Priority over global_tiles
-	global_tiles = {"texture1", "texture2"..},		-- Not applicable for pane/fence/wall
-	texture = "texture1",							-- global texture for only pane/fence/wall
-	<shape>_sunlight_propagates = <boolean>,
-	groups = {groups},								-- not_in_creative_inventory is applied by default
-	<shape>_drop = <dropname>,						-- Priority over drop
-	drop = <dropname>,
-	<shape>_light_source = <integer>,				-- Priority over light_source
-	light_source = <integer>,
-	shape_use_texture_alpha = <alpha>,				-- Priority over use_texture_alpha
-	use_texture_alpha = <alpha>,
-	<shape>_backface_culling = <boolean>,			-- Priority over backface_culling (Not applicable for meshnodes)
-	backface_culling = <boolean>,					-- Not applicable for meshnodes
-	<shape>_align_style = "style",					-- Priority over align_style (Not applicable for meshnodes)
-	backface_culling = "style",						-- Not applicable for meshnodes
-})
+Storage and groups
+==================
+group:shapes
+	All nodeboxes shapes are part of this group
+	Cost is defined as value
+group:shapes_mesh
+	All mesh shapes are part of this group
+	Cost is defined as value
+shapes.registered_shape[nodename]
+	All nodes that have shape registrations are part of this list
+	Will return true if a node has shape registrations
 
 Shapes List
-===========
-cat:slab
-==========
-slab1
-slab2
-slab4
-slab
-slab12
-==========
-cat:cube
-==========
-cube1
-cube2
-cube4
-cube
-cube12
-==========
-cat:step
-==========
-step1
-step2
-step4
-step
-step12
-===========
-cat:stair
-===========
-stair
-halfstair
-righthalfstair
-outerstair
-innerstair
-forkstair
-================
-cat:splitstair
-================
-splitstair1
-splitstair4
-splitstair
-==========
-cat:pole
-==========
-pole
-wallpole
-cornerpole
-============
-cat:pillar
-============
-pillar
-wallpillar
-halfpillar
-wall
-=================
-cat:pillarcrown
-=================
-pillarcrown
-halfpillarcrown
-wallpillarcrown
-crosscrown
-==========
-cat:beam
-==========
-beam
-crossbeam
-linkdown
-============
-cat:corner
-============
-corner1
-corner2
-corner4
-corner
-corner12
-============
-cat:sphere
-============
-sphere (mesh)
-===========
-cat:slope
-===========
-slope (mesh)
-slope2 (mesh)
-slope3 (mesh)
-innerslope (mesh)
-innerslope2 (mesh)
-innerslope3 (mesh)
-cutinnerslope (mesh)
-cutinnerslope2 (mesh)
-cutinnerslope3 (mesh)
-outerslope (mesh)
-outerslope2 (mesh)
-outerslope3 (mesh)
-cutouterslope (mesh)
-cutouterslope2 (mesh)
-cutouterslope3 (mesh)
-cutouterslope4 (mesh)
-===========
-cat:fence
-===========
-fence
-fencerail
-==========
-cat:pane
-==========
-pane_flat
-pane
+===========				-- ==================
+cat:slab				-- Slab Category
+==========				-- ==================
+slab1					-- 1-pixel thick slab
+slab2					-- 2-pixel thick slab
+slab4					-- 4-pixel thick slab
+slab					-- normal slab
+slab12					-- 12-pixel thick slab
+==========				-- ==================
+cat:cube				-- Cube Category
+==========				-- ==================
+cube1					-- 1-pixel thick cube
+cube2					-- 2-pixel thick cube
+cube4					-- 4-pixel thick cube
+cube					-- normal cube -- NOTE: CANNOT be fully disabled, when disabled: will still generate due to crafting requirement; can't be placed; will not appear as an output; description change to "Residue (For crafting only)", not supported by custom shape description (i.e. cube_description = "description") - add your own change
+cube12					-- 12-pixel thick cube
+==========				-- ==================
+cat:step				-- Step Category (x2 cube)
+==========				-- ==================
+step1					-- 1-pixel thick step
+step2					-- 2-pixel thick step
+step4					-- 4-pixel thick step
+step					-- normal step
+step12					-- 12-pixel thick step
+===========				-- ==================
+cat:stair				-- Stair Category
+===========				-- ==================
+stair					-- normal stairs
+halfstair				-- stairs cut in half (leaning left)
+righthalfstair			-- stairs cut in half (leaning right)
+outerstair				-- outer-facing stairs (1 cube top)
+innerstair				-- inner-facing stairs (L top)
+forkstair				-- trident-like stairs
+================		-- ==================
+cat:splitstair			-- Splitstairs Category (Like stairs created with double steps)
+================		-- ==================
+splitstair1				-- 1-pixel thick splitstairs
+splitstair4				-- 4-pixel thick splitstairs
+splitstair				-- normal splitstairs
+==========				-- ==================
+cat:pole				-- Pole Category
+==========				-- ==================
+pole					-- fence-post (centered)
+wallpole				-- fence-post (leaning towards side)
+cornerpole				-- fence-post (leaning towards corner)
+============			-- ==================
+cat:pillar				-- Pillar Category
+============			-- ==================
+pillar					-- wall-post (centered)
+wallpillar				-- wall-post (leaning towards side)
+halfpillar				-- halfwall-post (leaning towards side)
+wall					-- normal wall (connective)
+=================		-- ==================
+cat:pillarcrown			-- Pillar Crowning Category
+=================		-- ==================
+pillarcrown				-- wall-post + crowning (centered)
+halfpillarcrown			-- halfwall-post + half-crowning (centered)
+wallpillarcrown			-- wall-post + crowning (leaning towards side)
+crosscrown				-- wall-post + +-shaped crowning (centered)
+==========				-- ==================
+cat:beam				-- Beam Category
+==========				-- ==================
+beam					-- Normal beam
+crossbeam				-- +-shaped beam
+linkdown				-- fancy beam
+============			-- ==================
+cat:corner				-- Corner Category
+============			-- ==================
+corner1					-- 1-pixel thick L-shaped 
+corner2					-- 2-pixel thick L-shaped
+corner4					-- 4-pixel thick L-shaped
+corner					-- 8-pixel thick L-shaped (normal)
+corner12				-- 12-pixel thick L-shaped
+============			-- ==================
+cat:sphere				-- Sphere Category (meshnodes)
+============			-- ==================
+sphere					-- sphere (disabled by default) 
+===========				-- ==================
+cat:slope				-- Slope Category (meshnodes)
+===========				-- ==================
+slope					-- Slope
+slope2					-- Slope squashed to slab height 
+slope3					-- slope2 top + slab bottom
+innerslope				-- Inner-facing slope
+innerslope2				-- Inner-facing slope squashed to slab height 
+innerslope3				-- innerslope2 top + slab bottom
+cutinnerslope			-- Diagonal inner-facing slope
+cutinnerslope2			-- Diagonal inner-facing slope squashed to slab height
+cutinnerslope3			-- cutinnerslope2 top + slab bottom
+outerslope				-- Outer-facing slope
+outerslope2				-- Outer-facing slope squashed to slab height 
+outerslope3				-- outerslope2 top + slab bottom
+cutouterslope			-- Diagonal outer-facing slope
+cutouterslope2			-- Diagonal outer-facing slope squashed to slab height
+cutouterslope3			-- cutouterslope2 top + slab bottom
+cutouterslope4			-- Diagonal outer-facing slope stretched to reach both sides
+===========				-- ==================
+cat:fence				-- Fence Category
+===========				-- ==================
+fence					-- fences (connective)
+fencerail				-- fencerails (connective) (connecting parts without fencepost)
+==========				-- ==================
+cat:pane				-- Panes Category
+==========				-- ==================
+pane_flat				-- 1 pixel thick panes (connective) (main, flat node - when enabling/disabling; add both pane_flat and pane)
+pane					-- 1 pixel thick panes (connective) (connector node - when enabling/disabling; add both pane_flat and pane)
+pane2_flat				-- mc-ironbars-like (connective) (main, flat node) (disabled by default - when enabling/disabling; add both pane2_flat and pane2)
+pane2					-- mc-ironbars-like (connective) (connector node) (disabled by default - when enabling/disabling; add both pane2_flat and pane2)

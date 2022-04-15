@@ -43,9 +43,11 @@ shapes:register_shapedef("slab", {
 	groups = {not_in_creative_inventory = 0},
 	sunlight_propagates = true,
 	crafting = {
-		amount = 6,
-		recipe = {
-			{"shapes:self", "shapes:self", "shapes:self"},
+		{
+			amount = 6,
+			recipe = {
+				{"shapes:self", "shapes:self", "shapes:self"},
+			},
 		},
 	},
 })
@@ -260,11 +262,20 @@ shapes:register_shapedef("stair", {
 	groups = {not_in_creative_inventory = 0},
 	sunlight_propagates = true,
 	crafting = {
-		amount = 8,
-		recipe = {
-			{"", "", "shapes:self"},
-			{"", "shapes:self", "shapes:self"},
-			{"shapes:self", "shapes:self", "shapes:self"},
+		{
+			amount = 8,
+			recipe = {
+				{"", "", "shapes:self"},
+				{"", "shapes:self", "shapes:self"},
+				{"shapes:self", "shapes:self", "shapes:self"},
+			},
+		}, {
+			amount = 8,
+			recipe = {
+				{"shapes:self", "", ""},
+				{"shapes:self", "shapes:self", ""},
+				{"shapes:self", "shapes:self", "shapes:self"},
+			},
 		},
 	},
 })
@@ -281,11 +292,6 @@ shapes:register_shapedef("halfstair", {
 	},
 	category = "stair",
 	sunlight_propagates = true,
-	crafting = {
-		recipe = {
-			{"shapes:shape_righthalfstair"},
-		},
-	},
 })
 
 shapes:register_shapedef("righthalfstair", {
@@ -300,11 +306,6 @@ shapes:register_shapedef("righthalfstair", {
 	},
 	category = "stair",
 	sunlight_propagates = true,
-	crafting = {
-		recipe = {
-			{"shapes:shape_halfstair"},
-		},
-	},
 })
 
 shapes:register_shapedef("outerstair", {
@@ -405,11 +406,13 @@ shapes:register_shapedef("pole", {
 	category = "pole",
 	sunlight_propagates = true,
 	crafting = {
-		amount = 8,
-		recipe = {
-			{"shapes:self"},
-			{"group:stick"},
-			{"shapes:self"},
+		{
+			amount = 8,
+			recipe = {
+				{"shapes:self"},
+				{"group:stick"},
+				{"shapes:self"},
+			},
 		},
 	},
 })
@@ -447,11 +450,13 @@ shapes:register_shapedef("pillar", {
 	category = "pillar",
 	sunlight_propagates = true,
 	crafting = {
-		amount = 12,
-		recipe = {
-			{"shapes:self", "shapes:self"},
-			{"shapes:self", "shapes:self"},
-			{"shapes:self", "shapes:self"},
+		{
+			amount = 12,
+			recipe = {
+				{"shapes:self", "shapes:self"},
+				{"shapes:self", "shapes:self"},
+				{"shapes:self", "shapes:self"},
+			},
 		},
 	},
 })
@@ -924,12 +929,15 @@ shapes:register_shapedef("fence", {
 	groups = {fence = 1, not_in_creative_inventory = 0},
 	sunlight_propagates = true,
 	crafting = {
-		amount = 16,
-		recipe = {
-			{"shapes:self", "group:stick", "shapes:self"},
-			{"shapes:self", "group:stick", "shapes:self"},
+		{
+			amount = 16,
+			recipe = {
+				{"shapes:self", "group:stick", "shapes:self"},
+				{"shapes:self", "group:stick", "shapes:self"},
+			},
 		},
 	},
+	rotate_and_place = false,
 })
 
 shapes:register_shapedef("fencerail", {
@@ -966,13 +974,16 @@ shapes:register_shapedef("fencerail", {
 	groups = {fence = 1},
 	sunlight_propagates = true,
 	crafting = {
-		amount = 16,
-		recipe = {
-			{"shapes:self", "shapes:self"},
-			{"", ""},
-			{"shapes:self", "shapes:self"},
+		{
+			amount = 16,
+			recipe = {
+				{"shapes:self", "shapes:self"},
+				{"", ""},
+				{"shapes:self", "shapes:self"},
+			},
 		},
 	},
+	rotate_and_place = false,
 })
 
 -- walls
@@ -1004,12 +1015,15 @@ shapes:register_shapedef("wall", {
 	groups = {wall = 1, not_in_creative_inventory = 0},
 	sunlight_propagates = true,
 	crafting = {
-		amount = 12,
-		recipe = {
-			{"shapes:self", "shapes:self", "shapes:self"},
-			{"shapes:self", "shapes:self", "shapes:self"},
+		{
+			amount = 12,
+			recipe = {
+				{"shapes:self", "shapes:self", "shapes:self"},
+				{"shapes:self", "shapes:self", "shapes:self"},
+			},
 		},
 	},
+	rotate_and_place = false,
 })
 
 -- panes
@@ -1024,6 +1038,7 @@ shapes:register_shapedef("pane_flat", {
 	category = "pane",
 	groups = {pane = 1},
 	sunlight_propagates = true,
+	rotate_and_place = false,
 })
 
 shapes:register_shapedef("pane", {
@@ -1036,9 +1051,72 @@ shapes:register_shapedef("pane", {
 		connect_back = {{-1/32, -1/2, 1/32, 1/32, 1/2, 1/2}},
 		connect_right = {{1/32, -1/2, -1/32, 1/2, 1/2, 1/32}},
 	},
-	connects_to = {"group:pane", "group:stone", "group:glass", "group:wood", "group:tree"},
+	connects_to = {"group:panemc", "group:pane", "group:stone", "group:glass", "group:wood", "group:tree"},
 	category = "pane",
 	groups = {pane = 1},
 	sunlight_propagates = true,
 	drop = "shapes:shape_pane_flat",
+	rotate_and_place = false,
+})
+
+shapes:register_shapedef("panemc_flat", {
+	description = "Pane (Alt)",
+	cost = 1,
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-1/2, -1/2, 0, 1/2, 1/2, 0},
+			{-1/2, 0.495, 0.0625, 1/2, 0.495, -0.0625},
+			{-1/2, -0.495, 0.0625, 1/2, -0.495, -0.0625},
+			{-0.495, 1/2, 0.0625, -0.495, -1/2, -0.0625},
+			{0.495, 1/2, 0.0625, 0.495, -1/2, -0.0625},
+			
+		},
+	},
+	connect_sides = {"left", "right"},
+	category = "pane",
+	groups = {panemc = 1},
+	sunlight_propagates = true,
+	disable_by_default = true,
+	rotate_and_place = false,
+})
+
+shapes:register_shapedef("panemc", {
+	description = "Pane (Alt)",
+	node_box = {
+		type = "connected",
+		fixed = {
+			{-0.0625, -1/2, 0, 0.0625, 1/2, 0},
+			{0, -1/2, -0.0625, 0, 1/2, 0.0625},
+			{-0.0625, 0.495, -0.0625, 0.0625, 0.495, 0.0625}, -- top
+			{-0.0625, -0.495, -0.0625, 0.0625, -0.495, 0.0625}, -- bottom
+		},
+		connect_front = {
+			{-0.0625, 0.495, -0.5, 0.0625, 0.495, -0.0625},
+			{-0.0625, -0.495, -0.5, 0.0625, -0.495, -0.0625},
+			{0, -0.5, -0.5, 0, 0.5, -0.0625},
+		},
+		connect_left = {
+			{-0.5, 0.495, -0.0625, -0.0625, 0.495, 0.0625},
+			{-0.5, -0.495, -0.0625, -0.0625, -0.495, 0.0625},
+			{-0.5, -0.5, 0, -0.0625, 0.5, 0},
+		},
+		connect_back = {
+			{-0.0625, 0.495, 0.0625, 0.0625, 0.495, 0.5},
+			{-0.0625, -0.495, 0.0625, 0.0625, -0.495, 0.5},
+			{0, -0.5, 0.0625, 0, 0.5, 0.5},
+		},
+		connect_right = {
+			{0.0625, 0.495, -0.0625, 0.5, 0.495, 0.0625},
+			{0.0625, -0.495, -0.0625, 0.5, -0.495, 0.0625},
+			{0.0625, -0.5, 0, 0.5, 0.5, 0},
+		},
+	},
+	connects_to = {"group:panemc", "group:pane", "group:stone", "group:glass", "group:wood", "group:tree"},
+	category = "pane",
+	groups = {panemc = 1},
+	sunlight_propagates = true,
+	drop = "shapes:shape_panemc_flat",
+	disable_by_default = true,
+	rotate_and_place = false,
 })

@@ -1,7 +1,9 @@
 shapes = {}
 
 shapes.shape_list = {}
+shapes.registered_shape = {}
 function shapes:register_shapedef(name, def)
+	-- basic data list for generating shapes
 	table.insert(shapes.shape_list, {
 		name = name,
 		description = def.description,
@@ -33,50 +35,72 @@ shapes.rotate_node = function(itemstack, placer, pointed_thing)
 	return itemstack
 end
 
+local function no_placecube(itemstack, placer, pointed_thing)
+	return itemstack
+end
+
+if minetest.global_exists("workbench") then
+	workbench:register_crafttype("shapes")
+end
+
 local path = minetest.get_modpath("shapes")
 dofile(path.."/shapedef.lua")
 dofile(path.."/functions.lua")
 
--- return true if shape is disabled
-local function check_disabled(disabled, name, groupname, dbd)
-	-- prevent cube from being disabled
-	if name == "cube" then
-		return nil
-	end
-	-- enable all shapes if no disable detected
-	if not disabled then
-		if dbd then
-			return true
-		elseif not dbd then
-			return nil
+-- return true if shape is enabled
+local function check_enabled(disabled, enabled, shapename, groupname, default_disable)
+	-- always enable cube
+	if shapename == "cube" then
+		if disabled then
+			local disable_list = ", "..disabled..", "
+			local namefind = string.find(disable_list, ", "..shapename..", ")
+			local groupfind = string.find(disable_list, ", cat:"..groupname..", ")
+			if namefind or groupfind then
+				return "nocube"
+			end
 		end
-	end
-	local disabled2 = ", "..disabled..", "
-	-- name check
-	local namefind = string.find(disabled2, ", "..name..", ")
-	if namefind then
-		if not dbd then
-			return true
-		elseif dbd then
-			return nil
-		end
-	end
-	-- category check
-	local groupfind = string.find(disabled2, ", cat:"..groupname..", ")
-	if groupfind then
-		if not dbd then
-			return true
-		elseif dbd then
-			return nil
-		end
-	end
-	-- disable_by_default
-	if dbd then
 		return true
 	end
+	-- enable all shapes if no options detected
+	if not disabled and not enabled then
+		if default_disable ~= true then -- ensure its not disabled by default
+			return true
+		end
+	end
+	-- if disabled by default and there's no enabler, leave it disabled
+	if not enabled and default_disable == true then
+		return nil
+	end
+	-- if part of enabled list, return true
+	if enabled then
+		local enabled_list = ", "..enabled..", "
+		local namefind = string.find(enabled_list, ", "..shapename..", ")
+		if namefind == "sphere" then print("SPHEEEEEEEEEEEEEEEEEERE") end
+		local groupfind = string.find(enabled_list, ", cat:"..groupname..", ")
+		if namefind or groupfind then
+			return true
+		end
+		-- without disabled list, assume all shpaes are disabled except in enabled
+		if not disabled then
+			return nil
+		end
+	end
+	-- if part of disabled list, return nil
+	if disabled then
+		local disable_list = ", "..disabled..", "
+		local namefind = string.find(disable_list, ", "..shapename..", ")
+		local groupfind = string.find(disable_list, ", cat:"..groupname..", ")
+		if namefind or groupfind then
+			return nil
+		end
+	end
+	-- enable rest of shapes
+	return true
 end
 
 function shapes:register_shape(name, def)
+	--add nodes with shape registrations into a list
+	shapes.registered_shape[name] = true
 	-- short form vs long form
 	shapes.disabled = {}
 	if type(def) == "table" then
@@ -86,6 +110,7 @@ function shapes:register_shape(name, def)
 		def = {}
 	end
 	local disabled = shapes.disabled
+	local enabled = def.enabled
 	-- get names and data
 	local sname = string.match(name, ':(.*)')
 	local mname = string.match(name, '(.*):')
@@ -97,7 +122,7 @@ function shapes:register_shape(name, def)
 	-- modifers
 	local n_group = def.groups or itemmeta.groups
 	local r_group = table.copy(n_group)
-	-- r_group.not_in_creative_inventory = 1
+	r_group.not_in_creative_inventory = 1
 	local stexture = def.texture or itemmeta.tiles[1]
 	-- mass definitions
 	for i in ipairs(shapes.shape_list) do
@@ -111,19 +136,27 @@ function shapes:register_shape(name, def)
 		local tgrou = shapes.shape_list[i].groups
 		local tsunl = shapes.shape_list[i].sunlight_propagates or true
 		local tdrop = shapes.shape_list[i].drop
-		local tconn = def.connects_to or shapes.shape_list[i].connects_to
+		local tconn = shapes.shape_list[i].connects_to
 		local tcosi = shapes.shape_list[i].connect_sides
 		local tbfcg = shapes.shape_list[i].backface_culling or true
 		local tagsy = shapes.shape_list[i].align_style or "world"
 		local tovly = shapes.shape_list[i].overlay
-		local tdbyd = shapes.shape_list[i].disable_by_default
 		local tcraf = shapes.shape_list[i].crafting
 		local tcost = shapes.shape_list[i].cost
+		local tdbyd = shapes.shape_list[i].disable_by_default
+		local troap = shapes.shape_list[i].rotate_and_place or true
 		-- Add groups
 		local u_group = table.copy(r_group)
 		if tgrou then
 			for gi in pairs(tgrou) do
 				u_group[gi] = tgrou[gi]
+			end
+		end
+		if tcost then
+			if tnobo then
+				u_group.shapes = tcost
+			elseif tmesh then
+				u_group.shapes_mesh = tcost
 			end
 		end
 		-- Add overlay
@@ -140,13 +173,32 @@ function shapes:register_shape(name, def)
 		end
 		-- Description
 		local udesc
-		if def.description_prefix then
-			udesc = def.description_prefix.." "..tdesc
+		if tname == "cube" and check_enabled(disabled, enabled, tname, tcate, tdbyd) == "nocube" then
+			if def.description_prefix then
+				udesc = def.description_prefix.." Residue \n(For crafting only)"
+			else
+				udesc = def[tname.."_description"] or itemmeta.description.." Residue \n(For crafting only)"
+			end
 		else
-			udesc = def[tname.."_description"] or itemmeta.description.." "..tdesc
+			if def.description_prefix then
+				udesc = def.description_prefix.." "..tdesc
+			else
+				udesc = def[tname.."_description"] or itemmeta.description.." "..tdesc
+			end
+		end
+		-- rotate when place
+		local rotate_function
+		if tname == "cube" and check_enabled(disabled, enabled, tname, tcate, tdbyd) == "nocube" then
+			rotate_function = no_placecube
+		else
+			if troap == true then
+				rotate_function = shapes.rotate_node
+			else
+				rotate_function = minetest.item_place
+			end
 		end
 		-- ensure enabled
-		if not check_disabled(disabled, tname, tcate, tdbyd) then
+		if check_enabled(disabled, enabled, tname, tcate, tdbyd) then
 			-- registering nodebox
 			if tnobo then
 				-- align style and backface_culling
@@ -179,9 +231,9 @@ function shapes:register_shape(name, def)
 					node_box = tnobo,
 					collision_box = tcobo,
 					selection_box = tsebo,
-					connects_to = tconn,
-					connect_sides = tcosi,
-					on_place = shapes.rotate_node,
+					connects_to = def[tname.."_connects_to"] or def.connects_to or tconn,
+					connect_sides = def[tname.."_connect_sides"] or def.connect_sides or tcosi,
+					on_place = rotate_function,
 				})
 			-- registering models
 			elseif tmesh then
@@ -200,25 +252,27 @@ function shapes:register_shape(name, def)
 					sounds = itemmeta.sounds,
 					collision_box = tcobo,
 					selection_box = tsebo,
-					on_place = shapes.rotate_node,
+					on_place = rotate_function,
 				})
 			end
 			-- registering given crafting
 			if tcraf then
-				local recipes = {}
-				for j in ipairs(tcraf.recipe) do
-					recipes[j] = recipes[j] or {}
-					for k, indg in pairs(tcraf.recipe[j]) do
-						recipes[j][k] = string.gsub(indg, "shapes:self", name)
-						recipes[j][k] = string.gsub(recipes[j][k], "shapes:shape", mname..":shapes_"..sname)
+				for j in ipairs(tcraf) do
+					local recipes = {}
+					for k in ipairs(tcraf[j].recipe) do
+						recipes[k] = recipes[k] or {}
+						for l, indg in ipairs(tcraf[j].recipe[k]) do
+							recipes[k][l] = string.gsub(indg, "shapes:self", name)
+							recipes[k][l] = string.gsub(recipes[k][l], "shapes:shape", mname..":shapes_"..sname)
+						end
 					end
+					local amount = tcraf[j].amount or 1
+					minetest.register_craft({
+						output = mname..":shapes_"..sname.."_"..tname.." "..amount,
+						recipe = recipes,
+						replacements = tcraf.replacements,
+					})
 				end
-				local amount = tcraf.amount or 1
-				minetest.register_craft({
-					output = mname..":shapes_"..sname.."_"..tname.." "..amount,
-					recipe = recipes,
-					replacements = tcraf.replacements,
-				})
 			end
 			-- converting shapes into cubes
 			if tcost and tname ~= "cube" then
@@ -240,10 +294,12 @@ function shapes:register_shape(name, def)
 			mname..":shapes_"..sname.."_cube", mname..":shapes_"..sname.."_cube",
 		},
 	})
-	--[[
 	-- workbench crafting
 	if minetest.global_exists("workbench") then
-		local wblist = {}
+		local sawlist = {}
+		local sawrlist = {}
+		local cnclist = {}
+		local cncrlist = {}
 		for i in ipairs(shapes.shape_list) do
 			local tname = shapes.shape_list[i].name
 			local tnobo = shapes.shape_list[i].node_box
@@ -251,22 +307,62 @@ function shapes:register_shape(name, def)
 			local tcate = shapes.shape_list[i].category
 			local tdbyd = shapes.shape_list[i].disable_by_default
 			local tcost = shapes.shape_list[i].cost
-			if not check_disabled(disabled, tname, tcate, tdbyd) then
-				if tnobo and tcost then
-					wblist[#wblist+1] = mname..":shapes_"..sname.."_"..tname.." "..math.floor(8/tcost)
+			if check_enabled(disabled, enabled, tname, tcate, tdbyd) then
+				if tcost then
+					-- create tablesaw output list
+					if tnobo then
+						if check_enabled(disabled, enabled, tname, tcate, tdbyd) ~= "nocube" then
+							sawlist[#sawlist+1] = mname..":shapes_"..sname.."_"..tname.." "..math.floor(8/tcost)
+							sawrlist[#sawrlist+1] = mname..":shapes_"..sname.."_cube "..(8 - (math.floor(8/tcost) * tcost))
+						end
+					end
+					-- create cnc output list
+					if tmesh then
+						cnclist[#cnclist+1] = mname..":shapes_"..sname.."_"..tname.." "..math.floor(8/tcost)
+						cncrlist[#cncrlist+1] = mname..":shapes_"..sname.."_cube "..(8 - (math.floor(8/tcost) * tcost))
+					end
+					-- create recycling
+					workbench:register_craft({
+						type = "shapes",
+						cat = "recycle",
+						input =	{
+							{mname..":shapes_"..sname.."_"..tname},
+						},
+						output = {
+							{mname..":shapes_"..sname.."_cube "..tcost},
+						},
+					})
 				end
 			end
 		end
-		workbench:register_craft({
-			type = "variation",
-			cat = "shapes",
-			input =	{
-				{name},
-			},
-			output = {
-				wblist
-			},
-		})
+		-- tablesaw craft
+		if sawlist[1] then
+			workbench:register_craft({
+				type = "shapes",
+				cat = "tablesaw",
+				input =	{
+					{name},
+				},
+				output = {
+					sawlist
+				},
+				residue = sawrlist,
+			})
+		end
+		-- cnc craft
+		if cnclist[1] then
+			workbench:register_craft({
+				type = "shapes",
+				cat = "cnc",
+				input =	{
+					{name},
+				},
+				output = {
+					cnclist
+				},
+				residue = cncrlist,
+			})
+		end
 		-- cubes into full blocks
 		workbench:register_craft({
 			type = "normal",
@@ -278,5 +374,9 @@ function shapes:register_shape(name, def)
 			},
 		})
 	end
-	]]
+end
+
+-- workbench crafter
+if minetest.global_exists("workbench") then
+	dofile(path.."/crafting.lua")
 end

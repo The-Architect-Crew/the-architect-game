@@ -20,6 +20,10 @@ local function formspec_crafting(pos, add)
 		"listring[current_player;main]",
 		"listring[nodemeta:"..spos..";input]",
 		"listring[current_player;main]",
+		-- lock
+		"style_type[image;noclip=true]",
+		"image[-1.4,5.5;1.4,1.4;gui_tab.png]",
+		"image_button[-1.1,5.65;1.05,1.05;"..locks.icons(pos, "workbench_craftbench", {"lock", "protect", "public"}).."]",
 		add
 	}
 	return table.concat(formspec, "")
@@ -87,7 +91,9 @@ minetest.register_node("workbench:craftbench", {
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
 		if inv:is_empty("input") and inv:is_empty("fuel") and inv:is_empty("output") then -- ensure table is empty
-			return true
+			if locks.can_access(pos, player) == true then
+				return true
+			end
 		end
 		return false
 	end,
@@ -99,16 +105,17 @@ minetest.register_node("workbench:craftbench", {
 		inv:set_size("input", 5*5)
 		inv:set_size("fuel", 1)
 		inv:set_size("output", 2*2)
+		meta:set_string("lock", "lock")
 		meta:set_string("formspec", formspec_crafting(pos))
 		meta:set_string("crafted", "")
 		meta:set_string("owner", "")
-		meta:set_string("infotext", "Craftbench")
+		locks.init_infotext(pos, "Craftbench")
 	end,
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
 		local meta = minetest.get_meta(pos)
 		local playername = placer:get_player_name()
 		meta:set_string("owner", playername)
-		meta:set_string("infotext", "Craftbench \n(Owned by "..playername..")")
+		locks.init_infotext(pos, "Craftbench")
 	end,
 	on_place = function(itemstack, placer, pointed_thing)
 		local pos = pointed_thing.above
@@ -133,6 +140,9 @@ minetest.register_node("workbench:craftbench", {
 	end,
 	allow_metadata_inventory_put = function(pos, listname, index, stack, player)
 		local meta = minetest.get_meta(pos)
+		if not locks.can_access(pos, player) then
+			return 0
+		end
 		if listname == "input" then
 			if meta:get_string("crafted") == "" then
 				return stack:get_count()
@@ -147,6 +157,9 @@ minetest.register_node("workbench:craftbench", {
 	end,
 	allow_metadata_inventory_take = function(pos, listname, index, stack, player)
 		local meta = minetest.get_meta(pos)
+		if not locks.can_access(pos, player) then
+			return 0
+		end
 		if listname == "input" then
 			if meta:get_string("crafted") == "" then
 				return stack:get_count()
@@ -162,6 +175,9 @@ minetest.register_node("workbench:craftbench", {
 		end
 	end,
 	allow_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
+		if not locks.can_access(pos, player) then
+			return 0
+		end
 		-- disallow moving things in from within inventory to output
 		if to_list == "output" then
 			return 0
@@ -179,6 +195,12 @@ minetest.register_node("workbench:craftbench", {
 			end
 		else
 			return 0
+		end
+	end,
+	on_receive_fields = function(pos, formname, fields, sender)
+		local meta = minetest.get_meta(pos)
+		if locks.fields(pos, sender, fields, "workbench_craftbench", "Craftbench") then
+			meta:set_string("formspec", formspec_crafting(pos))
 		end
 	end,
 })

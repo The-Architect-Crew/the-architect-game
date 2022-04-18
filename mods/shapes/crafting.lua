@@ -49,6 +49,10 @@ local function formspec_shapes(pos, scrollval, output_x, output_y, max_scroll, f
 		"listring[current_player;main]",
 		"listring[nodemeta:"..spos..";residue]",
 		"listring[current_player;main]",
+		-- lock
+		"style_type[image;noclip=true]",
+		"image[-1.4,3;1.4,1.4;gui_tab.png]",
+		"image_button[-1.1,3.15;1.05,1.05;"..locks.icons(pos, "shapes_station", {"lock", "protect", "public"}).."]",
 		add
 	}
 	return table.concat(formspec, "")
@@ -102,7 +106,7 @@ local function station_update(pos, listname, index, stack, player, craftcat, ina
 		if meta:get_int("fueltime") > 0 then -- if fueltimer running
 			local c_ftime = meta:get_int("fueltime")
 			meta:set_int("fueltime", c_ftime - 1)
-			meta:set_string("infotext", "Active "..desc.." \n"..fueldesc.." left: "..ccore.get_time(c_ftime - 1).. " \n(Owned by "..owner..")")
+			locks.init_infotext(pos, desc, "Active ("..fueldesc.." Left: "..ccore.get_time(c_ftime - 1).. ")")
 			minetest.get_node_timer(pos):start(1)
 			-- reduce timer by 1
 		elseif meta:get_int("fueltime") <= 0 then -- if fueltimer empty
@@ -113,7 +117,7 @@ local function station_update(pos, listname, index, stack, player, craftcat, ina
 					"image_button[1.025,7.0;1,1;invisible.png;fuelamt;;false;false;invisible.png]"..
 					"tooltip[1.025,7.0;1,1;"..fueldesc.." Left: "..ccore.get_time(ftime).." \nPress me to update!]"
 				))
-				meta:set_string("infotext", "Active "..desc.." \n"..fueldesc.." left: "..ccore.get_time(ftime).. " \n(Owned by "..owner..")")
+				locks.init_infotext(pos, desc, "Active ("..fueldesc.." Left: "..ccore.get_time(ftime).. ")")
 				ccore.swap_node(pos, active_node)
 				-- take fuel
 				inv:set_list("fuel", fdinput)
@@ -128,7 +132,7 @@ local function station_update(pos, listname, index, stack, player, craftcat, ina
 				meta:set_string("formspec", formspec_shapes(pos, scrollval, output_x, output_y, max_scroll, fueltype, fueldesc))
 				ccore.swap_node(pos, inactive_node)
 				meta:set_int("fueltime", 0)
-				meta:set_string("infotext", "Inactive "..desc.." \n(Owned by "..owner..")")
+				locks.init_infotext(pos, desc, "Inactive")
 			end
 		end
 	end
@@ -253,7 +257,9 @@ local function register_shapes_station(name, def)
 			local meta = minetest.get_meta(pos)
 			local inv = meta:get_inventory()
 			if inv:is_empty("input") and inv:is_empty("fuel") and inv:is_empty("residue") then -- ensure table is empty
-				return true
+				if locks.can_access(pos, player) == true then
+					return true
+				end
 			end
 			return false
 		end,
@@ -268,18 +274,19 @@ local function register_shapes_station(name, def)
 			inv:set_size("output", def.output_x * def.output_y)
 			inv:set_size("residue", 1)
 			inv:set_size("recycle", 1)
+			meta:set_string("lock", "lock")
 			meta:set_string("formspec", formspec_shapes(pos, 0, def.output_x, def.output_y, def.max_scroll, def.fueltype, def.fueldesc))
 			meta:set_string("crafted", "")
 			meta:set_string("owner", "")
 			meta:set_int("fueltime", 0)
 			meta:set_int("scroll", 0)
-			meta:set_string("infotext", "Inactive "..def.description)
+			locks.init_infotext(pos, def.description, "Inactive")
 		end,
 		after_place_node = function(pos, placer, itemstack, pointed_thing)
 			local meta = minetest.get_meta(pos)
 			local playername = placer:get_player_name()
 			meta:set_string("owner", playername)
-			meta:set_string("infotext", "Inactive "..def.description.." \n(Owned by "..playername..")")
+			locks.init_infotext(pos, def.description, "Inactive")
 		end,
 		on_place = function(itemstack, placer, pointed_thing)
 			local pos = pointed_thing.above
@@ -304,6 +311,9 @@ local function register_shapes_station(name, def)
 		end,
 		allow_metadata_inventory_put = function(pos, listname, index, stack, player)
 			local sname = stack:get_name()
+			if not locks.can_access(pos, player) then
+				return 0
+			end
 			if listname == "input" then
 				if shapes.registered_shape[sname] then -- ensure node can be converted into shapes
 					return stack:get_count()
@@ -326,6 +336,9 @@ local function register_shapes_station(name, def)
 			local meta = minetest.get_meta(pos)
 			local inv = meta:get_inventory()
 			local playername = player:get_player_name()
+			if not locks.can_access(pos, player) then
+				return 0
+			end
 			if listname == "input" then
 				return stack:get_count()
 			elseif listname == "output" then
@@ -354,6 +367,9 @@ local function register_shapes_station(name, def)
 		allow_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
 			local meta = minetest.get_meta(pos)
 			local inv = meta:get_inventory()
+			if not locks.can_access(pos, player) then
+				return 0
+			end
 			-- disallow moving things in from within inventory to output / fuel
 			if to_list == "output" or to_list == "fuel" or to_list == "residue" then
 				return 0
@@ -376,6 +392,9 @@ local function register_shapes_station(name, def)
 		end,
 		on_receive_fields = function(pos, formname, fields, sender)
 			local meta = minetest.get_meta(pos)
+			if locks.fields(pos, sender, fields, "shapes_station", def.description) then
+				station_update(pos, "fuel", nil, nil, nil, def.craft_category, def.inactive_node, def.active_node, def.description, def.output_x, def.output_y, def.max_scroll, def.fueltype, def.fueldesc)
+			end
 			if fields.shapes_scrollbar then
 				local scrolldis = minetest.explode_scrollbar_event(fields.shapes_scrollbar)
 				meta:set_int("scroll", scrolldis.value)

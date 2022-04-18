@@ -141,7 +141,7 @@ local function register_furnace(name, def)
 		paramtype2 = "facedir",
 		sunlight_propagates = true,
 		use_texture_alpha = "clip",
-		sounds = default.node_sound_wood_defaults(),
+		sounds = default.node_sound_stone_defaults(),
 		can_dig = function(pos, player)
 			local meta = minetest.get_meta(pos)
 			local inv = meta:get_inventory()
@@ -269,13 +269,13 @@ end
 
 register_furnace("workbench:furnace", {
 	description = "Furnace",
-	groups = {choppy = 2, oddly_breakable_by_hand = 2},
+	groups = {crumbly = 2},
 	tiles = {"workbench_furnace.png"},
 })
 
 register_furnace("workbench:furnace_active", {
 	description = "Furnace (Active)",
-	groups = {choppy = 2, oddly_breakable_by_hand = 2, not_in_creative_inventory = 1},
+	groups = {crumbly = 2, not_in_creative_inventory = 1},
 	tiles = {{
 		name = "workbench_furnace_animated.png",
 		animation = {

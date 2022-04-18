@@ -51,8 +51,8 @@ local function formspec_shapes(pos, scrollval, output_x, output_y, max_scroll, f
 		"listring[current_player;main]",
 		-- lock
 		"style_type[image;noclip=true]",
-		"image[-1.4,3;1.4,1.4;gui_tab.png]",
-		"image_button[-1.1,3.15;1.05,1.05;"..locks.icons(pos, "shapes_station", {"lock", "protect", "public"}).."]",
+		"image[-1.4,6.95;1.4,1.4;gui_tab.png]",
+		"image_button[-1.1,7.1;1.05,1.05;"..locks.icons(pos, "shapes_station", {"lock", "protect", "public"}).."]",
 		add
 	}
 	return table.concat(formspec, "")

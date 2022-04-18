@@ -101,7 +101,6 @@ local function station_update(pos, listname, index, stack, player, craftcat, ina
 	local outlist = inv:get_list("output")
 	local fuellist = inv:get_list("fuel")
 	local scrollval = meta:get_int("scroll")
-	local owner = meta:get_string("owner")
 	if listname == "fuel" then
 		if meta:get_int("fueltime") > 0 then -- if fueltimer running
 			local c_ftime = meta:get_int("fueltime")

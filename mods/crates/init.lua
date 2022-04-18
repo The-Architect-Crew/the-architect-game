@@ -62,7 +62,6 @@ function crates:register_storage(name, def)
 		local meta = minetest.get_meta(pos)
 		local label = meta:get_string("label")
 		local shared = meta:get_string("shared")
-		local lock = meta:get_string("lock")
 		-- sorting formspec
 		local sorting_formspec
 		if def.sorting and scolumns > 1 then

@@ -57,7 +57,6 @@ local function furnace_update(pos, listname, index, stack, player)
 	local craftlist = inv:get_list("input")
 	local outlist = inv:get_list("output")
 	local fuellist = inv:get_list("fuel")
-	local owner = meta:get_string("owner")
 	if listname == "fuel" then
 		if meta:get_int("fueltime") > 0 then -- if fueltimer running
 			local c_ftime = meta:get_int("fueltime")
@@ -261,7 +260,6 @@ local function register_furnace(name, def)
 			end
 		end,
 		on_receive_fields = function(pos, formname, fields, sender)
-			local meta = minetest.get_meta(pos)
 			if locks.fields(pos, sender, fields, "workbench_furnace", "Furance") then
 				furnace_update(pos, "fuel")
 			end

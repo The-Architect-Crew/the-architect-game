@@ -998,7 +998,7 @@ minetest.register_node("blocks:coal_with_amber", {
 
 minetest.register_node("blocks:mud_with_amber", {
 	description = S("Amber Ore"),
-	tiles = {"blocks_mud.png^blocks_mineral_amber.png"},
+	tiles = {"blocks_mud.png^blocks_mineral_amber.png", "blocks_mud_side.png^blocks_mineral_amber.png"},
 	is_ground_content = true,
 	groups = {crumbly = 3},
 	drop = {
@@ -1698,7 +1698,7 @@ minetest.register_craftitem("blocks:marble_chunk", {
 -- Mud
 minetest.register_node("blocks:mud", {
 	description = S("Mud"),
-	tiles = {"blocks_mud.png"},
+	tiles = {"blocks_mud.png", "blocks_mud_side.png"},
 	is_ground_content = true,
 	groups = {crumbly = 3},
 	drop = "blocks:mud_lump 4",

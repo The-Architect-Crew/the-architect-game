@@ -232,6 +232,7 @@ variations.register_for_base("blocks:serpentine")
 variations.register_for_base("blocks:slate")
 variations.register_for_base("blocks:concrete")
 variations.register_for_base("blocks:wood")
+variations.register_for_base("blocks:mese")
 
 variations.register_support("blocks:stone")
 variations.register_support("blocks:sandstone")

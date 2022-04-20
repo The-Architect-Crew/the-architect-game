@@ -37,6 +37,24 @@ furniture.types = {
         special_material = false,
         box = {-0.5, -0.5, -0.0625, 0.5, 0.5, 0.5}
     },
+    {
+        name = "shelf_medium",
+        description = "Empty Shelf",
+        special_material = false,
+        box = {-0.5, -0.5, -0.0625, 0.5, 1.5, 0.5}
+    },
+    {
+        name = "shelf_big",
+        description = "Empty Shelf",
+        special_material = false,
+        box = {-1.0, -0.5, -0.0625, 1.0, 1.5, 0.5}
+    },
+    {
+        name = "shelf_wide",
+        description = "Empty Shelf",
+        special_material = false,
+        box = {-1.0, -0.5, -0.0625, 1.0, 0.5, 0.5}
+    },
 }
 
 function furniture.register_for_base(base_node, support_node, limit)
@@ -104,6 +122,9 @@ furniture.basic_set = {
     "table_square",
     "table_round",
     "shelf_small",
+    "shelf_medium",
+    "shelf_big",
+    "shelf_wide",
 }
 furniture.basic_combinations = {
     {"blocks:stone", "blocks:wood"},

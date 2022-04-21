@@ -55,6 +55,12 @@ furniture.types = {
         special_material = false,
         box = {-1.0, -0.5, -0.0625, 1.0, 0.5, 0.5}
     },
+    {
+        name = "flowerpot_small",
+        description = "Flowerpot",
+        special_material = "blocks:dirt",
+        box = {-0.5625, -0.5, -0.5625, 0.5625, 0.5, 0.5625}
+    },
 }
 
 function furniture.register_for_base(base_node, support_node, limit)
@@ -125,12 +131,14 @@ furniture.basic_set = {
     "shelf_medium",
     "shelf_big",
     "shelf_wide",
+    "flowerpot_small",
 }
 furniture.basic_combinations = {
     {"blocks:stone", "blocks:wood"},
     {"blocks:steelblock", "blocks:steelblock"},
     {"blocks:stone", "blocks:basalt"},
     {"blocks:basalt", "blocks:goldblock"},
+    {"blocks:amethyst", "blocks:ice"},
 }
 
 furniture.generate_set(furniture.basic_combinations, furniture.basic_set)

@@ -1,5 +1,6 @@
 local function formspec_crafting(pos, add)
 	local spos = pos.x..","..pos.y..","..pos.z
+	local meta = minetest.get_meta(pos)
 	local formspec = {
 		"formspec_version[4]",
 		"size[10.5,12.25]",
@@ -9,6 +10,11 @@ local function formspec_crafting(pos, add)
 		"list[nodemeta:"..spos..";input;0.4,0.7;5,5;]",
 		-- arrow
 		"image[6.75,3.3;0.8,0.8;gui_arrow.png^[transformFYR90]",
+		-- multiplier
+		"style[workbench_multiplier;border=false]",
+		"box[6.75,2.575;0.8,0.7;#707070]",
+		"field[6.75,2.575;0.8,0.7;workbench_multiplier;;x"..meta:get_int("multiplier").."]",
+		"field_close_on_enter[workbench_multiplier;false]",
 		-- output
 		"label[7.7,2.175;Output]",
 		"box[7.7,2.375;2.65,2.65;#707070]",
@@ -29,11 +35,11 @@ local function formspec_crafting(pos, add)
 	return table.concat(formspec, "")
 end
 
-local function apply_craft_result(pos, listname, index, stack, player)
+local function apply_craft_result(pos, listname, index, stack, player, multiplier)
 	local meta = minetest.get_meta(pos)
 	local inv = meta:get_inventory()
 	local craftlist = inv:get_list("input")
-	local output = workbench.craft_output(craftlist, "normal", nil, 5)
+	local output = workbench.craft_output(craftlist, "normal", nil, 5, multiplier)
 	if output then
 		inv:set_list("output", output)
 	else
@@ -46,25 +52,28 @@ local function craftbench_update(pos, listname, index, stack, player)
 	local inv = meta:get_inventory()
 	local craftlist = inv:get_list("input")
 	local outlist = inv:get_list("output")
+	local multiplier = meta:get_int("multiplier")
 	-- update output list when item placed in input
 	if listname == "input" then
-		apply_craft_result(pos, listname, index, stack, player)
+		apply_craft_result(pos, listname, index, stack, player, multiplier)
 	end
 	-- remove items when taking from output
 	if listname == "output" then
-		local _, _, d_input = workbench.craft_output(craftlist, "normal", nil, 5)
-		local remainder = workbench.output_count(outlist)
+		local _, _, d_input = workbench.craft_output(craftlist, "normal", nil, 5, multiplier)
+		local remainder = workbench.output_stack(outlist)
 		-- ensure there's nothing remaining in the output list, otherwise prevent modifying the input list
-		if remainder == 0 then
-			meta:set_string("crafted", "")
-		elseif remainder > 0 then
-			meta:set_string("crafted", "remainder")
-		end
 		if d_input and meta:get_string("crafted") == "" then
 			inv:set_list("input", d_input)
+			if remainder > 0 then
+				meta:set_string("crafted", "remainder")
+			end
 		end
+		if remainder == 0 then
+			meta:set_string("crafted", "")
+		end
+		-- if theres spare input, apply crafting again
 		if inv:is_empty("input") ~= true and inv:is_empty("output") then
-			apply_craft_result(pos, listname, index, stack, player)
+			apply_craft_result(pos, listname, index, stack, player, multiplier)
 		end
 	end
 end
@@ -106,6 +115,7 @@ minetest.register_node("workbench:craftbench", {
 		inv:set_size("fuel", 1)
 		inv:set_size("output", 2*2)
 		meta:set_string("lock", "lock")
+		meta:set_int("multiplier", 1)
 		meta:set_string("formspec", formspec_crafting(pos))
 		meta:set_string("crafted", "")
 		meta:set_string("owner", "")
@@ -199,8 +209,25 @@ minetest.register_node("workbench:craftbench", {
 	end,
 	on_receive_fields = function(pos, formname, fields, sender)
 		local meta = minetest.get_meta(pos)
+		if not locks.can_access(pos, sender) then
+			return 0
+		end
 		if locks.fields(pos, sender, fields, "workbench_craftbench", "Craftbench") then
 			meta:set_string("formspec", formspec_crafting(pos))
+		end
+		if fields.workbench_multiplier then
+			local sub_multiplier = string.gsub(fields.workbench_multiplier, "x", "")
+			if tonumber(sub_multiplier) then
+				local multiplier = tonumber(sub_multiplier)
+				if multiplier > 99 then
+					multiplier = 99
+				elseif multiplier < 1 then
+					multiplier = 1
+				end
+				meta:set_int("multiplier", multiplier)
+				craftbench_update(pos, "input")
+				meta:set_string("formspec", formspec_crafting(pos))
+			end
 		end
 	end,
 })

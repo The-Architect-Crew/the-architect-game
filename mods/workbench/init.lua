@@ -14,7 +14,7 @@ function workbench.calc_pos(index, start_x, start_y, row)
 	return new_x..","..new_y
 end
 
-function workbench.output_count(outlist)
+function workbench.output_stack(outlist)
 	local ocount = 0
 	for i in ipairs(outlist) do
 		local stack = outlist[i]

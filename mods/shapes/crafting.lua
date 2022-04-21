@@ -1,4 +1,5 @@
 local function formspec_shapes(pos, scrollval, output_x, output_y, max_scroll, fueltype, fueldesc, add)
+	local meta = minetest.get_meta(pos)
 	local spos = pos.x..","..pos.y..","..pos.z
 	local scroll_form
 	if max_scroll > 0 then
@@ -31,6 +32,11 @@ local function formspec_shapes(pos, scrollval, output_x, output_y, max_scroll, f
 		"image[1.025,7.0;1,1;gui_fire_bgd.png]",
 		-- arrow
 		"image[3,1.425;0.8,0.8;gui_arrow.png^[transformFYR90]",
+		-- multiplier
+		"style[shapes_station_multiplier;border=false]",
+		"box[3,0.7;0.8,0.7;#707070]",
+		"field[3,0.7;0.8,0.7;shapes_station_multiplier;;x"..meta:get_int("multiplier").."]",
+		"field_close_on_enter[shapes_station_multiplier;false]",
 		-- output
 		"label[3.95,0.3;Output]",
 		scroll_form,
@@ -58,15 +64,21 @@ local function formspec_shapes(pos, scrollval, output_x, output_y, max_scroll, f
 	return table.concat(formspec, "")
 end
 
-local function apply_craft_result(pos, listname, index, stack, player, craftcat)
+local function apply_craft_result(pos, listname, index, stack, player, craftcat, multiplier)
 	local meta = minetest.get_meta(pos)
 	local inv = meta:get_inventory()
 	local craftlist = inv:get_list("input")
-	local output = workbench.craft_output(craftlist, "shapes", craftcat, 2)
-	if output then
+	local output = workbench.craft_output(craftlist, "shapes", craftcat, 2, multiplier, true)
+	if output and #output > 0 then
 		-- ensure sufficient fuel
 		if meta:get_int("fueltime") > 0 then
-			inv:set_list("output", output)
+			local output_list = {}
+			for i = 1, #output do
+				output_list[i] = output[i].item[1]
+			end
+			inv:set_list("output", output_list)
+		else
+			inv:set_list("output", {})
 		end
 	else
 		inv:set_list("output", {})
@@ -100,7 +112,9 @@ local function station_update(pos, listname, index, stack, player, craftcat, ina
 	local craftlist = inv:get_list("input")
 	local outlist = inv:get_list("output")
 	local fuellist = inv:get_list("fuel")
+	local residuelist = inv:get_list("residue")
 	local scrollval = meta:get_int("scroll")
+	local multiplier = meta:get_int("multiplier")
 	if listname == "fuel" then
 		if meta:get_int("fueltime") > 0 then -- if fueltimer running
 			local c_ftime = meta:get_int("fueltime")
@@ -124,7 +138,7 @@ local function station_update(pos, listname, index, stack, player, craftcat, ina
 				minetest.get_node_timer(pos):start(1)
 				-- start crafting
 				if inv:is_empty("input") ~= true and inv:is_empty("output") then
-					apply_craft_result(pos, listname, index, stack, player, craftcat)
+					apply_craft_result(pos, listname, index, stack, player, craftcat, multiplier)
 					scroll_reset(pos, output_x, output_y, max_scroll, fueltype, fueldesc)
 				end
 			else -- no more valid fuel
@@ -136,32 +150,40 @@ local function station_update(pos, listname, index, stack, player, craftcat, ina
 		end
 	end
 	if listname == "input" then -- putting new input will always override output
-		apply_craft_result(pos, listname, index, stack, player, craftcat)
+		apply_craft_result(pos, listname, index, stack, player, craftcat, multiplier)
 		scroll_reset(pos, output_x, output_y, max_scroll, fueltype, fueldesc)
 	end
 	if listname == "output" then -- obtaining output applies crafting process
-		local output, _, d_input, _, _, _, residue, _ = workbench.craft_output(craftlist, "shapes", craftcat, 2)
-		if output and inv:room_for_item("residue", ItemStack(residue[index])) then
-			for i = 1, #output do -- remove all other outputs except the current one
-				if i ~= index then
-					outlist[i] = ItemStack("")
+		-- used: output, _, d_input, _, _, _, residue, _ 
+		local output = workbench.craft_output(craftlist, "shapes", craftcat, 2, multiplier, true)
+		if output and #output > 0 then
+			local coutput = output[index]
+			local resitem = ItemStack(coutput.residue[1])
+			local resname = resitem:get_name()
+			local resitem_m = ItemStack(resname.." "..(resitem:get_count() * coutput.multiply))
+			if inv:is_empty("residue") or residuelist[1]:get_name() == resname then
+				for i = 1, #output do -- remove all other outputs except the current one
+					if i ~= index then
+						outlist[i] = ItemStack("")
+					end
 				end
-			end
-			inv:set_list("output", outlist)
-			if meta:get_string("crafted") == "" then
-				inv:set_list("input", d_input) -- update input
-				inv:add_item("residue", ItemStack(residue[index])) -- add residue
-			end
-			if inv:is_empty("output") ~= true then
-				meta:set_string("crafted", "remainder")
-			else
-				meta:set_string("crafted", "")
-			end
-			if inv:is_empty("input") ~= true and inv:is_empty("output") then
-				apply_craft_result(pos, listname, index, stack, player, craftcat)
-			end
-			if inv:is_empty("input") then -- reset if there's no more input
-				meta:set_string("crafted", "")
+				inv:set_list("output", outlist)
+				
+				if meta:get_string("crafted") == "" then
+					inv:set_list("input", coutput.dinput) -- update input
+					inv:add_item("residue", resitem_m) -- add residue
+				end
+				if inv:is_empty("output") ~= true then
+					meta:set_string("crafted", "remainder")
+				else
+					meta:set_string("crafted", "")
+				end
+				if inv:is_empty("input") ~= true and inv:is_empty("output") then
+					apply_craft_result(pos, listname, index, stack, player, craftcat, multiplier)
+				end
+				if inv:is_empty("input") then -- reset if there's no more input
+					meta:set_string("crafted", "")
+				end
 			end
 		end
 	end
@@ -192,7 +214,7 @@ local function station_update(pos, listname, index, stack, player, craftcat, ina
 		-- convert any excess input if there's space
 		if inv:is_empty("input") ~= true then
 			if inv:is_empty("output") or meta:get_string("crafted") == "" then
-				apply_craft_result(pos, listname, index, stack, player, craftcat)
+				apply_craft_result(pos, listname, index, stack, player, craftcat, multiplier)
 			end
 		end
 		-- update fuel time
@@ -274,6 +296,7 @@ local function register_shapes_station(name, def)
 			inv:set_size("residue", 1)
 			inv:set_size("recycle", 1)
 			meta:set_string("lock", "lock")
+			meta:set_int("multiplier", 1)
 			meta:set_string("formspec", formspec_shapes(pos, 0, def.output_x, def.output_y, def.max_scroll, def.fueltype, def.fueldesc))
 			meta:set_string("crafted", "")
 			meta:set_string("owner", "")
@@ -391,6 +414,9 @@ local function register_shapes_station(name, def)
 		end,
 		on_receive_fields = function(pos, formname, fields, sender)
 			local meta = minetest.get_meta(pos)
+			if not locks.can_access(pos, sender) then
+				return 0
+			end
 			if locks.fields(pos, sender, fields, "shapes_station", def.description) then
 				station_update(pos, "fuel", nil, nil, nil, def.craft_category, def.inactive_node, def.active_node, def.description, def.output_x, def.output_y, def.max_scroll, def.fueltype, def.fueldesc)
 			end
@@ -398,8 +424,21 @@ local function register_shapes_station(name, def)
 				local scrolldis = minetest.explode_scrollbar_event(fields.shapes_scrollbar)
 				meta:set_int("scroll", scrolldis.value)
 			end
-			-- update fuel time
-			fuel_fs_update(pos, def.output_x, def.output_y, def.max_scroll, def.fueltype, def.fueldesc)
+			if fields.shapes_station_multiplier then
+				local sub_multiplier = string.gsub(fields.shapes_station_multiplier, "x", "")
+				if tonumber(sub_multiplier) then
+					local multiplier = tonumber(sub_multiplier)
+					if multiplier > 99 then
+						multiplier = 99
+					elseif multiplier < 1 then
+						multiplier = 1
+					end
+					meta:set_int("multiplier", multiplier)
+					apply_craft_result(pos, nil, nil, nil, sender, def.craft_category, multiplier)
+					station_update(pos, "fuel", nil, nil, nil, def.craft_category, def.inactive_node, def.active_node, def.description, def.output_x, def.output_y, def.max_scroll, def.fueltype, def.fueldesc)
+				end
+			end
+			fuel_fs_update(pos, def.output_x, def.output_y, def.max_scroll, def.fueltype, def.fueldesc) -- update fuel time
 		end,
 	})
 end

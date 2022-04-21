@@ -311,16 +311,38 @@ function shapes:register_shape(name, def)
 					-- create tablesaw output list
 					if tnobo then
 						if check_enabled(disabled, enabled, tname, tcate, tdbyd) ~= "nocube" then
-							sawlist[#sawlist+1] = mname..":shapes_"..sname.."_"..tname.." "..math.floor(8/tcost)
-							sawrlist[#sawrlist+1] = mname..":shapes_"..sname.."_cube "..(8 - (math.floor(8/tcost) * tcost))
+							workbench:register_craft({
+								type = "shapes",
+								cat = "tablesaw",
+								input =	{
+									{name},
+								},
+								output = {
+									{mname..":shapes_"..sname.."_"..tname.." "..math.floor(8/tcost)},
+								},
+								residue = {mname..":shapes_"..sname.."_cube "..(8 - (math.floor(8/tcost) * tcost))},
+							})
+							--sawlist[#sawlist+1] = mname..":shapes_"..sname.."_"..tname.." "..math.floor(8/tcost)
+							--sawrlist[#sawrlist+1] = mname..":shapes_"..sname.."_cube "..(8 - (math.floor(8/tcost) * tcost))
 						end
 					end
 					-- create cnc output list
 					if tmesh then
-						cnclist[#cnclist+1] = mname..":shapes_"..sname.."_"..tname.." "..math.floor(8/tcost)
-						cncrlist[#cncrlist+1] = mname..":shapes_"..sname.."_cube "..(8 - (math.floor(8/tcost) * tcost))
+						workbench:register_craft({
+							type = "shapes",
+							cat = "cnc",
+							input =	{
+								{name},
+							},
+							output = {
+								{mname..":shapes_"..sname.."_"..tname.." "..math.floor(8/tcost)},
+							},
+							residue = {mname..":shapes_"..sname.."_cube "..(8 - (math.floor(8/tcost) * tcost))},
+						})
+						--cnclist[#cnclist+1] = mname..":shapes_"..sname.."_"..tname.." "..math.floor(8/tcost)
+						--cncrlist[#cncrlist+1] = mname..":shapes_"..sname.."_cube "..(8 - (math.floor(8/tcost) * tcost))
 					end
-					-- create recycling
+					-- create recycling (workbench)
 					workbench:register_craft({
 						type = "shapes",
 						cat = "recycle",
@@ -334,6 +356,7 @@ function shapes:register_shape(name, def)
 				end
 			end
 		end
+		--[[
 		-- tablesaw craft
 		if sawlist[1] then
 			workbench:register_craft({
@@ -361,7 +384,7 @@ function shapes:register_shape(name, def)
 				},
 				residue = cncrlist,
 			})
-		end
+		end]]
 		-- cubes into full blocks
 		workbench:register_craft({
 			type = "normal",
@@ -374,6 +397,30 @@ function shapes:register_shape(name, def)
 		})
 	end
 end
+
+workbench:register_craft({
+	type = "normal",
+	input =	{
+		{"group:stone 2", "blocks:stone 2"},
+	},
+	output = {
+		{"blocks:stone 4"},
+	},
+})
+
+workbench:register_craft({
+	type = "normal",
+	input =	{
+		{"group:stone", "blocks:stone", "blocks:stone", "blocks:stone", "blocks:stone"},
+		{"group:stone", "blocks:stone", "blocks:stone", "blocks:stone", "blocks:stone"},
+		{"group:stone", "blocks:stone", "blocks:stone", "blocks:stone", "blocks:stone"},
+		{"group:stone", "blocks:stone", "blocks:stone", "blocks:stone", "blocks:stone"},
+		{"group:stone", "blocks:stone", "blocks:stone", "blocks:stone", "blocks:stone"},
+	},
+	output = {
+		{"blocks:stone 25"},
+	},
+})
 
 -- workbench crafter
 if minetest.global_exists("workbench") then

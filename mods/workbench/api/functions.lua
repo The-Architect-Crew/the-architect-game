@@ -1,100 +1,3 @@
-workbench.crafts = {}
-function workbench:register_crafttype(name)
-	workbench.crafts[name] = {}
-end
-
-function workbench:register_craft(def)
-	def = def or {}
-	local ctype = def.type or "normal"
-	-- ERROR CHECKS
-	-- ensure essential values are present
-	local ercat = def.cat or "none"
-	if def.output == nil or def.input == nil or ctype == nil then
-		return minetest.log("error",
-			"[workbench] Error registering recipe - Incorrect recipe format: "..
-			"type: "..ctype..", category: "..ercat..", input: "..dump(def.input)..", output: "..dump(def.output)
-		)
-	end
-	-- ensure valid format
-	if type(def.output[1]) ~= "table" or type(def.input[1]) ~= "table" then
-		return minetest.log("error",
-			"[workbench] Error registering recipe - Invalid input/output format: "..
-			"type: "..ctype..", category: "..ercat
-		)
-	end
-	-- ensure craft type is already registered first
-	if workbench.crafts[ctype] == nil then
-		return minetest.log("error",
-			"[workbench] Error registering recipe - Invalid crafting type: "..
-			"type: "..ctype..", category: "..ercat..", input: "..dump(def.input)..", output: "..dump(def.output)
-		)
-	end
-	-- ensure width exists
-	local first_width = #def.input[1]
-	local second_width = #def.output[1]
-	if first_width < 1 or second_width < 1 then
-		return minetest.log("error",
-			"[workbench] Error registering recipe - Invalid width: "..
-			"type: "..ctype..", category: "..ercat..", input: "..dump(def.input)..", output: "..dump(def.output)
-		)
-	end
-	-- ensure all input widths are matching
-	for i = 1, #def.input do
-		if #def.input[i] ~= first_width then
-			return minetest.log("error",
-				"[workbench]  Error registering recipe - Unequal width: "..
-				"type: "..ctype..", category: "..ercat..", input: "..dump(def.input)..", output: "..dump(def.output)
-			)
-		end
-	end
-	-- ensure all output widths are matching
-	for i = 1, #def.output do
-		if #def.output[i] ~= second_width then
-			return minetest.log("error",
-				"[workbench]  Error registering recipe - Unequal width: "..
-				"type: "..ctype..", category: "..ercat..", input: "..dump(def.input)..", output: "..dump(def.output)
-			)
-		end
-	end
-	-- ensure valid replacements
-	if def.replacements ~= nil and type(def.output[1]) ~= "table" then
-		return minetest.log("error",
-			"[workbench] Error registering recipe - Invalid replacements format: "..
-			"type: "..ctype..", category: "..ercat..", input: "..dump(def.input)..", output: "..dump(def.output)
-		)
-	end
-	-- save data
-	table.insert(workbench.crafts[ctype], {
-		time = def.time or 0, -- timed craft
-		cat = def.cat, -- category
-		mod = def.mod, -- modification (supported: shapeless)
-		input = def.input,
-		-- outputs
-		output = def.output, -- primary output
-		residue = def.residue or {}, -- secondary output
-		extra = def.extra or {}, -- tertiary output
-		replacements = def.replacements or {},
-		transfer_meta = def.transfer_meta or {},
-		-- input w/h
-		i_width = #def.input[1],
-		i_height = #def.input,
-		-- output w/h
-		o_width = #def.output[1],
-		o_height = #def.output,
-	})
-end
-
--- reconstruct list into inventory list
-function workbench.to_invlist(list)
-	local new_list = {}
-	for i = 1, #list do
-		for j = 1, #list[i] do
-			new_list[(i - 1) * #list[i] + j] = ItemStack(list[i][j])
-		end
-	end
-	return new_list
-end
-
 -- get starting index
 local function get_startindex(ilist)
 	for i = 1, #ilist do
@@ -231,7 +134,8 @@ local function toolrepair(ilist)
 	end
 end
 
-local function wbcraft_compare(rcdata, ilist, cdata, rdata)
+local function wbcraft_compare(rcdata, ilist, cdata)
+	local rdata = rcdata.i_items
 	-- shapeless crafting
 	if rcdata.mod == "shapeless" then
 		local ilist2 = table.copy(ilist) -- list to match
@@ -254,11 +158,11 @@ local function wbcraft_compare(rcdata, ilist, cdata, rdata)
 		return "shapeless"
 	end
 	-- shaped crafting
-	if cdata.width == rdata.width and cdata.height == rdata.height then -- input size == recipe size
+	if cdata.width == rcdata.i_width and cdata.height == rcdata.i_height then -- input size == recipe size
 		for i = 1, cdata.length do
-			local ritem = rdata.items[i].stack -- recipe item
-			local rname = rdata.items[i].name
-			local rcount = rdata.items[i].count
+			local ritem = rdata[i].stack -- recipe item
+			local rname = rdata[i].name
+			local rcount = rdata[i].count
 			local citem = ilist[i] -- input item
 			local cname = cdata.items[i].name
 			local ccount = cdata.items[i].count
@@ -283,10 +187,10 @@ local function wbcraft_compare(rcdata, ilist, cdata, rdata)
 		-- run within starting row & total row
 		for i = istartrow, (istartrow + rcdata.i_height - 1) do
 			for j = 1, rcdata.i_width do
-				local rindex = ((i - istartrow) * rdata.width) + j
-				local ritem = rdata.items[rindex].stack -- recipe item
-				local rname = rdata.items[rindex].name
-				local rcount = rdata.items[rindex].count
+				local rindex = ((i - istartrow) * rcdata.i_width) + j
+				local ritem = rdata[rindex].stack -- recipe item
+				local rname = rdata[rindex].name
+				local rcount = rdata[rindex].count
 				local cindex = istart + ((i - istartrow) * cdata.width) + j - 1
 				local citem = ilist[cindex] -- craft item
 				local cname = cdata.items[cindex].name
@@ -302,8 +206,9 @@ local function wbcraft_compare(rcdata, ilist, cdata, rdata)
 	end
 end
 
-local function wbcraft_genoutput(rcdata, ilist, cdata, rdata, cresult)
+local function wbcraft_genoutput(rcdata, ilist, cdata, cresult)
 	local oamt = 0
+	local rdata = rcdata.i_items
 	local d_ilist = table.copy(ilist) -- decremented list
 	if cresult == "shapeless" then
 		local ilist2 = table.copy(ilist) -- list to match
@@ -330,7 +235,7 @@ local function wbcraft_genoutput(rcdata, ilist, cdata, rdata, cresult)
 		return oplist, oamt, d_ilist, rcdata.time, rcdata.input, rcdata.replacements, rcdata.residue, rcdata.extra
 	elseif cresult == "shaped_fit" then
 		for i = 1, cdata.length do
-			local rcount = rdata.items[i].count
+			local rcount = rdata[i].count
 			local citem = ilist[i] -- input item
 			local ccount = cdata.items[i].count
 			if ccount >= rcount then -- ensure enough count
@@ -360,8 +265,8 @@ local function wbcraft_genoutput(rcdata, ilist, cdata, rdata, cresult)
 		-- run within starting row & total row
 		for i = istartrow, (istartrow + rcdata.i_height - 1) do
 			for j = 1, rcdata.i_width do
-				local rindex = ((i - istartrow) * rdata.width) + j
-				local rcount = rdata.items[rindex].count
+				local rindex = ((i - istartrow) * rcdata.i_width) + j
+				local rcount = rdata[rindex].count
 				local cindex = istart + ((i - istartrow) * cdata.width) + j - 1
 				local citem = ilist[cindex] -- craft item
 				local ccount = cdata.items[cindex].count
@@ -370,7 +275,7 @@ local function wbcraft_genoutput(rcdata, ilist, cdata, rdata, cresult)
 					local d_citem = citem:peek_item(ccount - rcount)
 					d_ilist[cindex] = d_citem
 					-- get max multiplier
-					local maxamt = math.floor(rcount)
+					local maxamt = math.floor(ccount / rcount)
 					if maxamt ~= 0 then
 						if oamt == 0 or maxamt < oamt then
 							oamt = maxamt
@@ -419,7 +324,6 @@ end
 local function check_max_possible_multiplier(olist)
 	local h_multipler
 	local l_multipler
-	local multipler_table
 	for i in ipairs(olist) do
 		local c_count = olist[i]:get_count()
 		local m_count = olist[i]:get_stack_max()
@@ -433,7 +337,7 @@ local function check_max_possible_multiplier(olist)
 		elseif l_multipler > m_multi then -- get lowest possible multipler
 			l_multipler = m_multi
 		end
-	end	
+	end
 	return l_multipler, h_multipler
 end
 
@@ -443,7 +347,7 @@ local function cache_input(ilist, iw)
 	local scount = 0
 	for i = 1, #ilist do
 		if ilist[i]:is_empty() ~= true then
-			scount = scount + 1 
+			scount = scount + 1
 		end
 	end
 	cdata.stacks = scount
@@ -462,48 +366,16 @@ local function cache_input(ilist, iw)
 	return cdata
 end
 
-local function cache_recipe(rcdata)
-	local rdata = {}
-	rdata.length = #rcdata
-	rdata.height = rcdata.i_height
-	rdata.width = rcdata.i_width
-	-- cache all names and counts
-	rdata.items = {}
-	for i = 1, rdata.height do
-		for j = 1, rdata.width do
-			local ni = #rdata.items + 1
-			local ritem = ItemStack(rcdata.input[i][j])
-			rdata.items[ni] = {}
-			rdata.items[ni].stack = ritem
-			rdata.items[ni].name = ritem:get_name()
-			rdata.items[ni].count = ritem:get_count()
-		end
-	end
-	return rdata
-end
-
-local function get_recipe_stacks(rcdata)
-	-- recipe items amount
-	local scount = 0
-	for i = 1, rcdata.i_height do
-		for j = 1, rcdata.i_width do
-			if rcdata.input[i][j] ~= "" then
-				scount = scount + 1
-			end
-		end
-	end
-	return scount
-end
-
-local function craft_multiply(ilist, multiplier, rcdata, output, cdata, rdata, cresult)
+local function craft_multiply(ilist, multiplier, rcdata, cdata, cresult)
 	local multi = multiplier or 1
 	local final_input = ilist
-	local output, maxamt, dinput, otime, recipe, replacements, residue, extra = wbcraft_genoutput(rcdata, ilist, cdata, rdata, cresult) -- generate base output
+	local output, maxamt, dinput, otime, recipe, replacements, residue, extra = wbcraft_genoutput(rcdata, ilist, cdata, cresult) -- generate base output
 	local min_multi = check_max_possible_multiplier(output)
 	local match_output = output
 	if multi >= maxamt then -- maxamt is the limiting factor
 		for j = 1, maxamt do
-			local r_output, r_amount, r_dinput = wbcraft_genoutput(rcdata, final_input, cdata, rdata, cresult)
+			local newcdata = cache_input(final_input, cdata.width)
+			local r_output, r_amount, r_dinput = wbcraft_genoutput(rcdata, final_input, newcdata, cresult)
 			if not r_output or r_amount < 1 -- break the loop if there's no valid output
 			or not check_list_matches(match_output, r_output) -- break the loop if output name/count is different
 			or j > min_multi then -- break the loop if it exceeds max output stack
@@ -514,7 +386,8 @@ local function craft_multiply(ilist, multiplier, rcdata, output, cdata, rdata, c
 		return {multiply_output(output, maxamt), 1, final_input, otime, recipe, replacements, residue, extra, maxamt}
 	elseif multi < maxamt then -- multi is the limiting factor
 		for j = 1, multi do
-			local r_output, r_amount, r_dinput = wbcraft_genoutput(rcdata, final_input, cdata, rdata, cresult)
+			local newcdata = cache_input(final_input, cdata.width)
+			local r_output, r_amount, r_dinput = wbcraft_genoutput(rcdata, final_input, newcdata, cresult)
 			if not r_output or r_amount < 1 -- break the loop if there's no valid output
 			or not check_list_matches(match_output, r_output) -- break the loop if output name/count is different
 			or j > min_multi then -- break the loop if it exceeds max output stack
@@ -528,6 +401,7 @@ end
 
 -- combined output function
 function workbench.craft_output(ilist, ctype, cat, iw, multiplier, listall)
+	local starttime = os.clock()
 	-- ensure valid input list
 	if not ilist or #ilist < 1 then
 		return nil
@@ -538,12 +412,12 @@ function workbench.craft_output(ilist, ctype, cat, iw, multiplier, listall)
 	local listall_output = {}
 	local cdata = cache_input(ilist, iw)
 	for i in pairs(rclist) do -- run through recipe data
-		if rclist[i].cat == cat then -- ensure same category
-			if cdata.stacks == get_recipe_stacks(rclist[i]) then -- ensure craft item amount == recipe item amount
-				local rdata = cache_recipe(rclist[i])
-				local cresult = wbcraft_compare(rclist[i], ilist, cdata, rdata) -- compare individual stack to ensure it matches
+		local rcdata = rclist[i]
+		if rcdata.cat == cat then -- ensure same category
+			if cdata.stacks == rcdata.i_stacks then -- ensure craft item amount == recipe item amount
+				local cresult = wbcraft_compare(rcdata, ilist, cdata) -- compare individual stack to ensure it matches
 				if cresult then
-					local multioutput = craft_multiply(ilist, multiplier, rclist[i], output, cdata, rdata, cresult)
+					local multioutput = craft_multiply(ilist, multiplier, rcdata, cdata, cresult)
 					if not listall then -- return single output
 						return multioutput[1], multioutput[2], multioutput[3], multioutput[4], multioutput[5], multioutput[6], multioutput[7], multioutput[8], multioutput[9]
 					elseif listall then -- store multiple output
@@ -554,6 +428,7 @@ function workbench.craft_output(ilist, ctype, cat, iw, multiplier, listall)
 		end
 	end
 	if listall and #listall_output > 0 then -- return multiple output
+		print(os.clock() - starttime)
 		return listall_output
 	end
 	-- new toolrepair to overwrite -- default toolrepair wear isn't obtainable > provide backward compability

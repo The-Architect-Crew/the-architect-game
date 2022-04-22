@@ -422,15 +422,6 @@ workbench:register_craft({
 	},
 })
 
-workbench:register_craft({
-	type = "normal",
-	input =	{
-		{"group:stone", "blocks:stone"},
-	},
-	output = {
-		{"blocks:stone 2"},
-	},
-})
 
 -- workbench crafter
 if minetest.global_exists("workbench") then

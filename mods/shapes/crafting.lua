@@ -160,8 +160,8 @@ local function station_update(pos, listname, index, stack, player, craftcat, ina
 			local coutput = output[index]
 			local resitem = ItemStack(coutput.residue[1])
 			local resname = resitem:get_name()
-			local resitem_m = ItemStack(resname.." "..(resitem:get_count() * coutput.multiply))
-			if inv:is_empty("residue") or residuelist[1]:get_name() == resname then
+			local rescount = (resitem:get_count() * coutput.multiply) + residuelist[1]:get_count()
+			if inv:is_empty("residue") or residuelist[1]:get_name() == resname or resname == "" then
 				for i = 1, #output do -- remove all other outputs except the current one
 					if i ~= index then
 						outlist[i] = ItemStack("")
@@ -169,8 +169,12 @@ local function station_update(pos, listname, index, stack, player, craftcat, ina
 				end
 				inv:set_list("output", outlist)
 				if meta:get_string("crafted") == "" then
+					print("update")
 					inv:set_list("input", coutput.dinput) -- update input
-					inv:add_item("residue", resitem_m) -- add residue
+					if resname ~= "" then
+						resitem:set_count(rescount)
+						inv:set_list("residue", resitem) -- update residue
+					end
 				end
 				if inv:is_empty("output") ~= true then
 					meta:set_string("crafted", "remainder")

@@ -169,11 +169,10 @@ local function station_update(pos, listname, index, stack, player, craftcat, ina
 				end
 				inv:set_list("output", outlist)
 				if meta:get_string("crafted") == "" then
-					print("update")
 					inv:set_list("input", coutput.dinput) -- update input
 					if resname ~= "" then
 						resitem:set_count(rescount)
-						inv:set_list("residue", resitem) -- update residue
+						inv:set_list("residue", {resitem}) -- update residue
 					end
 				end
 				if inv:is_empty("output") ~= true then

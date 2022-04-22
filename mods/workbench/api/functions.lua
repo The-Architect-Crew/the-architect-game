@@ -142,7 +142,7 @@ local function wbcraft_compare(rcdata, ilist, cdata)
 		for i = 1, rcdata.i_height do
 			for j = 1, rcdata.i_width do
 				local ritem = ItemStack(rcdata.input[i][j]) -- recipe item
-				local ilist_match, citem, cindex, maxamt = shapeless_match(ilist2, ritem)
+				local ilist_match = shapeless_match(ilist2, ritem)
 				if ilist_match then
 					-- remove match to prevent doublecount
 					ilist2 = ilist_match
@@ -369,7 +369,7 @@ end
 local function craft_multiply(ilist, multiplier, rcdata, cdata, cresult)
 	local multi = multiplier or 1
 	local final_input = ilist
-	local output, maxamt, dinput, otime, recipe, replacements, residue, extra = wbcraft_genoutput(rcdata, ilist, cdata, cresult) -- generate base output
+	local output, maxamt, _, otime, recipe, replacements, residue, extra = wbcraft_genoutput(rcdata, ilist, cdata, cresult) -- generate base output
 	local min_multi = check_max_possible_multiplier(output)
 	local match_output = output
 	if multi >= maxamt then -- maxamt is the limiting factor
@@ -401,7 +401,6 @@ end
 
 -- combined output function
 function workbench.craft_output(ilist, ctype, cat, iw, multiplier, listall)
-	local starttime = os.clock()
 	-- ensure valid input list
 	if not ilist or #ilist < 1 then
 		return nil
@@ -428,7 +427,6 @@ function workbench.craft_output(ilist, ctype, cat, iw, multiplier, listall)
 		end
 	end
 	if listall and #listall_output > 0 then -- return multiple output
-		print(os.clock() - starttime)
 		return listall_output
 	end
 	-- new toolrepair to overwrite -- default toolrepair wear isn't obtainable > provide backward compability

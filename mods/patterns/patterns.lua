@@ -176,7 +176,6 @@ function patterns.register_patterns(base_node, limit)
                     })
                 end
             end
-        else
         end
 	end
 end
@@ -202,7 +201,6 @@ function patterns.register_patterns_single(base_node, limit)
                     drawtype = base_definition.drawtype
                 })
             end
-        else
         end
 	end
 end

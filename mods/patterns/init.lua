@@ -8,7 +8,6 @@ patterns.check_limit = function(term, table)
         for i=1, #table do
             if (term == table[i]) then
                 state = true
-            else
             end
         end
     end

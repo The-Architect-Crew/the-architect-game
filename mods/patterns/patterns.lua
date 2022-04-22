@@ -89,6 +89,21 @@ patterns.patterns_single = {
 		description = "Circle";
 		texture = "0,2";
 	},
+    {
+		name = "pillar";
+		description = "Pillar";
+		texture = "1,0";
+	},
+    {
+		name = "diagonal";
+		description = "Diagonal";
+		texture = "1,1";
+	},
+    {
+		name = "chain";
+		description = "Chain";
+		texture = "1,2";
+	},
 }
 
 patterns.colors = {
@@ -179,7 +194,7 @@ function patterns.register_patterns_single(base_node, limit)
                 local sname = string.match(base_node, ':(.*)')
                 local pattern_name = "patterns:" .. sname .. "_" .. patterns.name .. "_" .. color_string
                 local pattern_description = base_definition.description .. " with a " .. color_name .. " " .. patterns.description .. " Pattern"
-                local tiles = {"(" .. base_definition.tiles[1] .. "^((patterns_single_shading.png^[sheet:1x3:" .. patterns.texture .. ")^[opacity:64))^((patterns_single_color.png^[sheet:1x3:" .. patterns.texture .. ")^[multiply:#" .. color .. ")"}
+                local tiles = {"(" .. base_definition.tiles[1] .. "^((patterns_single_shading.png^[sheet:2x3:" .. patterns.texture .. ")^[opacity:64))^((patterns_single_color.png^[sheet:2x3:" .. patterns.texture .. ")^[multiply:#" .. color .. ")"}
                 minetest.register_node(pattern_name, {
                     description = pattern_description,
                     tiles = tiles,

@@ -1,5 +1,4 @@
 shapes = {}
-
 shapes.shape_list = {}
 shapes.registered_shape = {}
 function shapes:register_shapedef(name, def)
@@ -295,10 +294,10 @@ function shapes:register_shape(name, def)
 	})
 	-- workbench crafting
 	if minetest.global_exists("workbench") then
-		local sawlist = {}
+		--[[local sawlist = {}
 		local sawrlist = {}
 		local cnclist = {}
-		local cncrlist = {}
+		local cncrlist = {}]]
 		for i in ipairs(shapes.shape_list) do
 			local tname = shapes.shape_list[i].name
 			local tnobo = shapes.shape_list[i].node_box
@@ -400,6 +399,7 @@ end
 
 workbench:register_craft({
 	type = "normal",
+	mod = "shapeless",
 	input =	{
 		{"group:stone 2", "blocks:stone 2"},
 	},
@@ -419,6 +419,16 @@ workbench:register_craft({
 	},
 	output = {
 		{"blocks:stone 25"},
+	},
+})
+
+workbench:register_craft({
+	type = "normal",
+	input =	{
+		{"group:stone", "blocks:stone"},
+	},
+	output = {
+		{"blocks:stone 2"},
 	},
 })
 

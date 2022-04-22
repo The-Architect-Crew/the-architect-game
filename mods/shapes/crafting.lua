@@ -154,7 +154,7 @@ local function station_update(pos, listname, index, stack, player, craftcat, ina
 		scroll_reset(pos, output_x, output_y, max_scroll, fueltype, fueldesc)
 	end
 	if listname == "output" then -- obtaining output applies crafting process
-		-- used: output, _, d_input, _, _, _, residue, _ 
+		-- used: output, _, d_input, _, _, _, residue, _
 		local output = workbench.craft_output(craftlist, "shapes", craftcat, 2, multiplier, true)
 		if output and #output > 0 then
 			local coutput = output[index]
@@ -168,7 +168,6 @@ local function station_update(pos, listname, index, stack, player, craftcat, ina
 					end
 				end
 				inv:set_list("output", outlist)
-				
 				if meta:get_string("crafted") == "" then
 					inv:set_list("input", coutput.dinput) -- update input
 					inv:add_item("residue", resitem_m) -- add residue

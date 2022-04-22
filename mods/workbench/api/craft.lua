@@ -306,15 +306,22 @@ local function wbcraft_genoutput(rcdata, ilist, cdata, rdata, cresult)
 	local oamt = 0
 	local d_ilist = table.copy(ilist) -- decremented list
 	if cresult == "shapeless" then
+		local ilist2 = table.copy(ilist) -- list to match
 		for i = 1, rcdata.i_height do
 			for j = 1, rcdata.i_width do
-				-- construct decremented list
-				local d_citem = citem:peek_item(citem:get_count() - ritem:get_count())
-				d_ilist[cindex] = d_citem
-				local maxamt = math.floor(citem:get_count() / ritem:get_count())
-				if maxamt ~= 0 then
-					if oamt == 0 or maxamt < oamt then
-						oamt = maxamt
+				local ritem = ItemStack(rcdata.input[i][j]) -- recipe item
+				local ilist_match, citem, cindex = shapeless_match(ilist2, ritem)
+				if ilist_match then
+					-- remove match to prevent doublecount
+					ilist2 = ilist_match
+					-- construct decremented list
+					local d_citem = citem:peek_item(citem:get_count() - ritem:get_count())
+					d_ilist[cindex] = d_citem
+					local maxamt = math.floor(citem:get_count() / ritem:get_count())
+					if maxamt ~= 0 then
+						if oamt == 0 or maxamt < oamt then
+							oamt = maxamt
+						end
 					end
 				end
 			end
@@ -326,14 +333,16 @@ local function wbcraft_genoutput(rcdata, ilist, cdata, rdata, cresult)
 			local rcount = rdata.items[i].count
 			local citem = ilist[i] -- input item
 			local ccount = cdata.items[i].count
-			-- construct decremented list
-			local d_citem = citem:peek_item(ccount - rcount)
-			d_ilist[i] = d_citem
-			-- get max multiplier
-			local maxamt = math.floor(ccount / rcount)
-			if maxamt ~= 0 then
-				if oamt == 0 or maxamt < oamt then
-					oamt = maxamt
+			if ccount >= rcount then -- ensure enough count
+				-- construct decremented list
+				local d_citem = citem:peek_item(ccount - rcount)
+				d_ilist[i] = d_citem
+				-- get max multiplier
+				local maxamt = math.floor(ccount / rcount)
+				if maxamt ~= 0 then
+					if oamt == 0 or maxamt < oamt then
+						oamt = maxamt
+					end
 				end
 			end
 		end
@@ -356,14 +365,16 @@ local function wbcraft_genoutput(rcdata, ilist, cdata, rdata, cresult)
 				local cindex = istart + ((i - istartrow) * cdata.width) + j - 1
 				local citem = ilist[cindex] -- craft item
 				local ccount = cdata.items[cindex].count
-				-- construct decremented list
-				local d_citem = citem:peek_item(ccount - rcount)
-				d_ilist[cindex] = d_citem
-				-- get max multiplier
-				local maxamt = math.floor(rcount)
-				if maxamt ~= 0 then
-					if oamt == 0 or maxamt < oamt then
-						oamt = maxamt
+				if ccount >= rcount then -- ensure enough count
+					-- construct decremented list
+					local d_citem = citem:peek_item(ccount - rcount)
+					d_ilist[cindex] = d_citem
+					-- get max multiplier
+					local maxamt = math.floor(rcount)
+					if maxamt ~= 0 then
+						if oamt == 0 or maxamt < oamt then
+							oamt = maxamt
+						end
 					end
 				end
 			end
@@ -397,14 +408,10 @@ local function check_list_matches(old_list, new_list)
 	return true
 end
 
-local function multiply_output(olist, multiplier, multipler_table)
+local function multiply_output(olist, multiplier)
 	for i in ipairs(olist) do
 		local current_count = olist[i]:get_count()
-		if multipler_table then
-			olist[i]:set_count(current_count * multipler_table[i])
-		else
-			olist[i]:set_count(current_count * multiplier)
-		end
+		olist[i]:set_count(current_count * multiplier)
 	end
 	return olist
 end
@@ -488,22 +495,35 @@ local function get_recipe_stacks(rcdata)
 	return scount
 end
 
-local function craft_multiply(ilist, multiplier, rcdata, output, cdata, rdata, compare)
+local function craft_multiply(ilist, multiplier, rcdata, output, cdata, rdata, cresult)
 	local multi = multiplier or 1
 	local final_input = ilist
-	local match_output = output
+	local output, maxamt, dinput, otime, recipe, replacements, residue, extra = wbcraft_genoutput(rcdata, ilist, cdata, rdata, cresult) -- generate base output
 	local min_multi = check_max_possible_multiplier(output)
-	for j = 1, multi do
-		local cdata = cache_input(final_input, cdata.width)
-		local r_output, r_amount, r_dinput = wbcraft_genoutput(rcdata, final_input, cdata, rdata, compare) -- find craft
-		if not r_output or r_amount < 1 -- break the loop if there's no valid output
+	local match_output = output
+	if multi >= maxamt then -- maxamt is the limiting factor
+		for j = 1, maxamt do
+			local r_output, r_amount, r_dinput = wbcraft_genoutput(rcdata, final_input, cdata, rdata, cresult)
+			if not r_output or r_amount < 1 -- break the loop if there's no valid output
 			or not check_list_matches(match_output, r_output) -- break the loop if output name/count is different
 			or j > min_multi then -- break the loop if it exceeds max output stack
-			return {multiply_output(output, j - 1), r_amount, final_input, j - 1}
+				return {multiply_output(output, j - 1), r_amount, final_input, otime, recipe, replacements, residue, extra, j - 1}
+			end
+			final_input = r_dinput -- update decremented input
 		end
-		final_input = r_dinput -- update decremented input
+		return {multiply_output(output, maxamt), 1, final_input, otime, recipe, replacements, residue, extra, maxamt}
+	elseif multi < maxamt then -- multi is the limiting factor
+		for j = 1, multi do
+			local r_output, r_amount, r_dinput = wbcraft_genoutput(rcdata, final_input, cdata, rdata, cresult)
+			if not r_output or r_amount < 1 -- break the loop if there's no valid output
+			or not check_list_matches(match_output, r_output) -- break the loop if output name/count is different
+			or j > min_multi then -- break the loop if it exceeds max output stack
+				return {multiply_output(output, j - 1), r_amount, final_input, otime, recipe, replacements, residue, extra, j - 1}
+			end
+			final_input = r_dinput -- update decremented input
+		end
+		return {multiply_output(output, multi), 1, final_input, otime, recipe, replacements, residue, extra, multi}
 	end
-	return {multiply_output(output, multi), 1, final_input, multi}
 end
 
 -- combined output function
@@ -523,14 +543,11 @@ function workbench.craft_output(ilist, ctype, cat, iw, multiplier, listall)
 				local rdata = cache_recipe(rclist[i])
 				local cresult = wbcraft_compare(rclist[i], ilist, cdata, rdata) -- compare individual stack to ensure it matches
 				if cresult then
-					local output, amount, dinput, otime, recipe, replacements, residue, extra = wbcraft_genoutput(rclist[i], ilist, cdata, rdata, cresult) -- generate output
-					if output then -- ensure valid output
-						local multioutput = craft_multiply(ilist, multiplier, rclist[i], output, cdata, rdata, cresult)
-						if not listall then -- return single output
-							return multioutput[1], multioutput[2], multioutput[3], otime, recipe, replacements, residue, extra, multioutput[4]
-						elseif listall then -- store multiple output
-							listall_output[#listall_output + 1] = {item = multioutput[1], max = multioutput[2], dinput = multioutput[3], time = otime, recipe = recipe, replacements = replacements, residue = residue, extra = extra, multiply = multioutput[4]}
-						end
+					local multioutput = craft_multiply(ilist, multiplier, rclist[i], output, cdata, rdata, cresult)
+					if not listall then -- return single output
+						return multioutput[1], multioutput[2], multioutput[3], multioutput[4], multioutput[5], multioutput[6], multioutput[7], multioutput[8], multioutput[9]
+					elseif listall then -- store multiple output
+						listall_output[#listall_output + 1] = {item = multioutput[1], max = multioutput[2], dinput = multioutput[3], time = multioutput[4], recipe = multioutput[5], replacements = multioutput[6], residue = multioutput[7], extra = multioutput[8], multiply = multioutput[9]}
 					end
 				end
 			end

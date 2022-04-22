@@ -48,7 +48,6 @@ local function apply_craft_result(pos, listname, index, stack, player, multiplie
 	local craftlist = inv:get_list("input")
 	local output = workbench.craft_output(craftlist, "cooking", nil, 3, multiplier)
 	if output then
-		print("craftineny")
 		-- ensure sufficient fuel
 		if meta:get_int("fueltime") > 0 then
 			inv:set_list("output", output)
@@ -64,7 +63,6 @@ end
 local function fuel_fs_update(pos)
 	local meta = minetest.get_meta(pos)
 	local ftime = meta:get_int("fueltime")
-	local scrollval = meta:get_int("scroll")
 	if ftime > 0 then
 		meta:set_string("formspec", formspec_cooking(pos,
 			"animated_image[8.675,2.575;1,1;fuel_icon;gui_fire_animated.png;8;500;1]"..
@@ -223,7 +221,6 @@ local function register_furnace(name, def)
 		on_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
 			local meta = minetest.get_meta(pos)
 			local stack = meta:get_inventory():get_stack(from_list, from_index)
-			print("update3")
 			furnace_update(pos, from_list, from_index, stack, player)
 		end,
 		allow_metadata_inventory_put = function(pos, listname, index, stack, player)

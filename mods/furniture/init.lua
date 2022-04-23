@@ -97,24 +97,20 @@ function furniture.register_for_base(base_node, support_node, limit)
                 paramtype2 = "facedir",
                 sunlight_propagates = true, -- Its a mesh so I am assuming it has a few holes in it
             })
-        else
         end
     end
 end
 
 furniture.check_limit = function(term, table)
-    local state = false
     if (table == nil) then
-        state = true
+        return true
     else
         for i=1, #table do
             if (term == table[i]) then
-                state = true
-            else
+                return true
             end
         end
     end
-    return state
 end
 
 furniture.generate_set = function(materials, set)

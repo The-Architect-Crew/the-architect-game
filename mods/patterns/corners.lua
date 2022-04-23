@@ -43,7 +43,7 @@ for _, corner_materials in ipairs(patterns.corner_materials) do
 	local corner_name = "patterns:" .. sname .. "_corner_" .. corner_materials[1]
 	local base_texture = base_definition.tiles[1]
 	local corner_material = "variations_" .. corner_materials[1] .. ".png"
-	local corner_description = base_definition.description .. " with a " .. corner_materials[2] .. " Corner"
+	local corner_description = corner_materials[2] .. " Cornered " .. base_definition.description
 
 	-- Extract Required pieces
 

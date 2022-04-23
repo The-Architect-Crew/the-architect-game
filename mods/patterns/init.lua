@@ -1,17 +1,15 @@
 patterns = {}
 
 patterns.check_limit = function(term, table)
-    local state = false
     if (table == nil) then
-        state = true
+        return true
     else
         for i=1, #table do
             if (term == table[i]) then
-                state = true
+                return true
             end
         end
     end
-    return state
 end
 
 local patterns_path = minetest.get_modpath("patterns")

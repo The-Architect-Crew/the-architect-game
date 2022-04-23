@@ -157,7 +157,7 @@ function patterns.register_patterns(base_node, limit)
             for _, pattern in ipairs(patterns.patterns) do
                 local sname = string.match(base_node, ':(.*)')
                 local pattern_name = "patterns:" .. sname .. "_" .. pattern_type .. "_" .. pattern.name .. "_" .. color_string
-                local pattern_description = base_definition.description .. " with a " .. color_name .. " " .. pattern_type_description .. " Pattern " .. pattern.description
+                local pattern_description = color_name .. " " .. pattern_type_description .. " Patterned " .. base_definition.description .. " "  .. pattern.description
 
                 local tiles = {base_definition.tiles[1] .. "^" .. patterns.assemble_pattern(patterns.patterns[pattern.tiles[1]], pattern_type, color),
                             base_definition.tiles[1] .. "^" .. patterns.assemble_pattern(patterns.patterns[pattern.tiles[2]], pattern_type, color),
@@ -192,7 +192,7 @@ function patterns.register_patterns_single(base_node, limit)
 
                 local sname = string.match(base_node, ':(.*)')
                 local pattern_name = "patterns:" .. sname .. "_" .. patterns.name .. "_" .. color_string
-                local pattern_description = base_definition.description .. " with a " .. color_name .. " " .. patterns.description .. " Pattern"
+                local pattern_description = color_name .. " " .. patterns.description .. " Patterned " .. base_definition.description
                 local tiles = {"(" .. base_definition.tiles[1] .. "^((patterns_single_shading.png^[sheet:2x3:" .. patterns.texture .. ")^[opacity:64))^((patterns_single_color.png^[sheet:2x3:" .. patterns.texture .. ")^[multiply:#" .. color .. ")"}
                 minetest.register_node(pattern_name, {
                     description = pattern_description,

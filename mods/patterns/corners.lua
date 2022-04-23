@@ -1,14 +1,14 @@
 patterns.corner_materials = {
 
-    {"amber", "Amber"},
-    {"amethyst", "Amethyst"},
+	{"amber", "Amber"},
+	{"amethyst", "Amethyst"},
 	{"brick", "Brick"},
 	{"bronzeblock", "Bronze"},
-    {"coalblock", "Coal Block"},
+	{"coalblock", "Coal Block"},
 	{"copperblock", "Copper"},
 	{"desert_sandstone", "Desert Sandstone"},
 	{"desert_stone", "Desert Stone"},
-    {"garnet", "Garnet"},
+	{"garnet", "Garnet"},
 	{"goldblock", "Gold"},
 	{"ice", "Ice"},
 	{"lapis_lazuli", "Lapis Lazuli"},
@@ -30,7 +30,7 @@ patterns.corner_materials = {
 	{"stone_yellow", "Yellow Stone"},
 	{"stone", "Stone"},
 	{"tinblock", "Tin"},
-    {"turquoise", "Turquoise"},
+	{"turquoise", "Turquoise"},
 
 }
 

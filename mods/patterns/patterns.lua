@@ -89,17 +89,17 @@ patterns.patterns_single = {
 		description = "Circle";
 		texture = "0,2";
 	},
-    {
+	{
 		name = "pillar";
 		description = "Pillar";
 		texture = "1,0";
 	},
-    {
+	{
 		name = "diagonal";
 		description = "Diagonal";
 		texture = "1,1";
 	},
-    {
+	{
 		name = "chain";
 		description = "Chain";
 		texture = "1,2";
@@ -111,16 +111,16 @@ patterns.colors = {
 	{"brown", "Brown", "43282b"},
 	{"cyan", "Cyan", "41aab9"},
 	{"dark_blue", "Dark Blue", "3d73a3"},
-    {"dark_green", "Dark Green", "40924a"},
-    {"dark_grey", "Dark Grey", "626262"},
+	{"dark_green", "Dark Green", "40924a"},
+	{"dark_grey", "Dark Grey", "626262"},
 	{"dark_pink", "Dark Pink", "b73fb3"},
 	{"green", "Green", "4ab12e"},
-    {"grey", "Grey", "9d9d9d"},
-    {"orange", "Orange", "b76f3f"},
-    {"pink", "Pink", "b6767d"},
+	{"grey", "Grey", "9d9d9d"},
+	{"orange", "Orange", "b76f3f"},
+	{"pink", "Pink", "b6767d"},
 	{"purple", "Purple", "493da3"},
 	{"red", "Red", "b03f43"},
-    {"white", "White", "b8b8b8"},
+	{"white", "White", "b8b8b8"},
 	{"yellow", "Yellow", "bdb537"},
 }
 
@@ -143,64 +143,64 @@ function patterns.register_patterns(base_node, limit)
 	patterns.register_patterns_single(base_node, limit)
 
 	for _, colors in ipairs(patterns.colors) do
-        if (patterns.check_limit(colors[1], limit)) then
-            for _, types in ipairs(patterns.pattern_types) do
+		if (patterns.check_limit(colors[1], limit)) then
+			for _, types in ipairs(patterns.pattern_types) do
 
-            local pattern_type = types[1]
-            local pattern_type_description = types[2]
-            local base_definition = minetest.registered_nodes[base_node]
+			local pattern_type = types[1]
+			local pattern_type_description = types[2]
+			local base_definition = minetest.registered_nodes[base_node]
 
-            local color_string = colors[1]
-            local color_name = colors[2]
-            local color = colors[3]
+			local color_string = colors[1]
+			local color_name = colors[2]
+			local color = colors[3]
 
-            for _, pattern in ipairs(patterns.patterns) do
-                local sname = string.match(base_node, ':(.*)')
-                local pattern_name = "patterns:" .. sname .. "_" .. pattern_type .. "_" .. pattern.name .. "_" .. color_string
-                local pattern_description = color_name .. " " .. pattern_type_description .. " Patterned " .. base_definition.description .. " "  .. pattern.description
+			for _, pattern in ipairs(patterns.patterns) do
+				local sname = string.match(base_node, ':(.*)')
+				local pattern_name = "patterns:" .. sname .. "_" .. pattern_type .. "_" .. pattern.name .. "_" .. color_string
+				local pattern_description = color_name .. " " .. pattern_type_description .. " Patterned " .. base_definition.description .. " "  .. pattern.description
 
-                local tiles = {base_definition.tiles[1] .. "^" .. patterns.assemble_pattern(patterns.patterns[pattern.tiles[1]], pattern_type, color),
-                            base_definition.tiles[1] .. "^" .. patterns.assemble_pattern(patterns.patterns[pattern.tiles[2]], pattern_type, color),
-                            base_definition.tiles[1] .. "^" .. patterns.assemble_pattern(patterns.patterns[pattern.tiles[3]], pattern_type, color),
-                            base_definition.tiles[1] .. "^" .. patterns.assemble_pattern(patterns.patterns[pattern.tiles[4]], pattern_type, color),
-                            base_definition.tiles[1] .. "^" .. patterns.assemble_pattern(patterns.patterns[pattern.tiles[5]], pattern_type, color),
-                            base_definition.tiles[1] .. "^" .. patterns.assemble_pattern(patterns.patterns[pattern.tiles[6]], pattern_type, color),
-                }
+				local tiles = {base_definition.tiles[1] .. "^" .. patterns.assemble_pattern(patterns.patterns[pattern.tiles[1]], pattern_type, color),
+							base_definition.tiles[1] .. "^" .. patterns.assemble_pattern(patterns.patterns[pattern.tiles[2]], pattern_type, color),
+							base_definition.tiles[1] .. "^" .. patterns.assemble_pattern(patterns.patterns[pattern.tiles[3]], pattern_type, color),
+							base_definition.tiles[1] .. "^" .. patterns.assemble_pattern(patterns.patterns[pattern.tiles[4]], pattern_type, color),
+							base_definition.tiles[1] .. "^" .. patterns.assemble_pattern(patterns.patterns[pattern.tiles[5]], pattern_type, color),
+							base_definition.tiles[1] .. "^" .. patterns.assemble_pattern(patterns.patterns[pattern.tiles[6]], pattern_type, color),
+				}
 
-                minetest.register_node(pattern_name, {
-                    description = pattern_description,
-                    tiles = tiles,
-                    groups = base_definition.groups,
-                    drawtype = base_definition.drawtype,
-                    paramtype2 = "facedir"
-                    })
-                end
-            end
-        end
+				minetest.register_node(pattern_name, {
+					description = pattern_description,
+					tiles = tiles,
+					groups = base_definition.groups,
+					drawtype = base_definition.drawtype,
+					paramtype2 = "facedir"
+					})
+				end
+			end
+		end
 	end
 end
 
 function patterns.register_patterns_single(base_node, limit)
 	local base_definition = minetest.registered_nodes[base_node]
 	for _, colors in ipairs(patterns.colors) do
-        if (patterns.check_limit(colors[1], limit)) then
-            for _, patterns in ipairs(patterns.patterns_single) do
+		if (patterns.check_limit(colors[1], limit)) then
+			for _, patterns in ipairs(patterns.patterns_single) do
 
-                local color_string = colors[1]
-                local color_name = colors[2]
-                local color = colors[3]
+				local color_string = colors[1]
+				local color_name = colors[2]
+				local color = colors[3]
 
-                local sname = string.match(base_node, ':(.*)')
-                local pattern_name = "patterns:" .. sname .. "_" .. patterns.name .. "_" .. color_string
-                local pattern_description = color_name .. " " .. patterns.description .. " Patterned " .. base_definition.description
-                local tiles = {"(" .. base_definition.tiles[1] .. "^((patterns_single_shading.png^[sheet:2x3:" .. patterns.texture .. ")^[opacity:64))^((patterns_single_color.png^[sheet:2x3:" .. patterns.texture .. ")^[multiply:#" .. color .. ")"}
-                minetest.register_node(pattern_name, {
-                    description = pattern_description,
-                    tiles = tiles,
-                    groups = base_definition.groups,
-                    drawtype = base_definition.drawtype
-                })
-            end
-        end
+				local sname = string.match(base_node, ':(.*)')
+				local pattern_name = "patterns:" .. sname .. "_" .. patterns.name .. "_" .. color_string
+				local pattern_description = color_name .. " " .. patterns.description .. " Patterned " .. base_definition.description
+				local tiles = {"(" .. base_definition.tiles[1] .. "^((patterns_single_shading.png^[sheet:2x3:" .. patterns.texture .. ")^[opacity:64))^((patterns_single_color.png^[sheet:2x3:" .. patterns.texture .. ")^[multiply:#" .. color .. ")"}
+				minetest.register_node(pattern_name, {
+					description = pattern_description,
+					tiles = tiles,
+					groups = base_definition.groups,
+					drawtype = base_definition.drawtype
+				})
+			end
+		end
 	end
 end

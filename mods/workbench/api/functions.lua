@@ -410,8 +410,7 @@ function workbench.craft_output(ilist, ctype, cat, iw, multiplier, listall)
 	local multi = multiplier or 1
 	local listall_output = {}
 	local cdata = cache_input(ilist, iw)
-	for i in pairs(rclist) do -- run through recipe data
-		local rcdata = rclist[i]
+	for i, rcdata in pairs(rclist) do -- run through recipe data
 		if rcdata.cat == cat then -- ensure same category
 			if cdata.stacks == rcdata.i_stacks then -- ensure craft item amount == recipe item amount
 				local cresult = wbcraft_compare(rcdata, ilist, cdata) -- compare individual stack to ensure it matches

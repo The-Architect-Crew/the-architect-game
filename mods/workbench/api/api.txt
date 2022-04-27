@@ -7,7 +7,7 @@ workbench:register_craft
 	* Custom crafting type -- register a new type with `workbench:register_crafttype`
 	* Support builtin types (normal, cooking)
 	* Defaults to "normal" if no value supplied
-* cat (optional)
+* category (optional)
 	* Custom crafting category
 * time (optional)
 	* Custom crafting time
@@ -43,6 +43,10 @@ workbench:register_craft
 	* Transfer metadata from input to output
 	* Items registered in pairs similar to replacements
 	* count is ignored, the main criteria is name matches
+* multi_id
+	* Used for multiple-output
+	* Provided string can be same across craft types, but must be different across craft categories
+	* Multiple-output allows recipes with the same input to have a table of output rather than confined to output/residue/extra
 	
 ### Behaviour
 * Ported toolrepair
@@ -114,47 +118,57 @@ Input Variables (workbench.craft_output)
 	* Limits search to a specified crafting_category
 * input_list_width
 	* Width of input_list
+* multiplier (integer)
+	* How many times to multiply a craft
+	* Allows for output in stacks rather than singular recipe
+	* Subjected to item's max_stack, will return largest possible before reaching that value
+* listall (multiple output / bool)
+	* To be used in conjunction with multi_id
+	* When set to true, it returns a table of possible outputs rather than a singular one
 
 Output Variables (workbench.craft_output)
 ----------------
-Returns in specified order:
-1. output
+Returns in a table with these variables:
+* item
 	* Recipe output
 	* nil if no recipe detected
 	* Inventory list format
-	* transfer_meta output are applied automatically
-2. max_craftable
+	* transfer_meta variables are applied automatically
+* max (max craftable)
 	* Maximum amount of times the crafting can be applied based on given ingredients from input_list
 	* Number is a multiplier not a direct amount; for example:
 		* Recipe is 3 cobblestone gives 5 stone
 		* input_list has 14 cobblestone
 		* max_craftable will return 4
 		* this means you can craft a maximum of 4 x 3 cobblestone, the remaining 2 cobblestone cannot be crafted into stone
-3. decremented_input
+* dinput (decremented_input)
 	* Similar to decremented input from minetest.get_craft_result
 	* After crafting once, how many ingredients are left over
 	* replacements are applied automatically if there's space
 	* Inventory list format
-4. time
+* time
 	* Crafting time if provided
 	* Returns 0 if not provided
-5. recipe
+* recipe
 	* Returns original recipe that was detected
 	* Directly extracted from workbench:register_craft input, format as per (nested table)
 	* Does not support minetest.register_craft crafts, it will return a nil instead
 		* Reason: there's no reliable way to determine said recipe
-6. replacements
+* replacements
 	* Returns replacements or if empty, empty table
 	* Directly extracted from workbench:register_craft replacements, format as per (Nested table)
 	* Should be redundant, this is applied automatically in decremented_input, but should the user have a need for it
-7. residue
+* residue
 	* Returns residue or if empty, empty table
 	* Directly extracted from workbench:register_craft residue, format as per (table)
 	* Intention is for user to use it as a secondary output list, but to be interpreted by user 
-8. extra
+* extra
 	* Returns extra or if empty, empty table
 	* Directly extracted from workbench:register_craft extra, format as per (table)
 	* Intention is for user to use it as a tertiary output list, but to be interpreted by user
+* multiply
+	* How many times a craft is multiplied
+	* To be used in conjunction with multiplier, otherwise default value is 1
 	
 Workbench Fuel API Reference
 ============================

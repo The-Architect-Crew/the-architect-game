@@ -154,7 +154,6 @@ local function station_update(pos, listname, index, stack, player, craftcat, ina
 		scroll_reset(pos, output_x, output_y, max_scroll, fueltype, fueldesc)
 	end
 	if listname == "output" then -- obtaining output applies crafting process
-		-- used: output, _, d_input, _, _, _, residue, _
 		local output = workbench.craft_output(craftlist, "shapes", craftcat, 2, multiplier, true)
 		if output and #output > 0 then
 			local coutput = output[index]
@@ -370,7 +369,7 @@ local function register_shapes_station(name, def)
 				-- ensure enough space for residue
 				local output = workbench.craft_output(inv:get_list("input"), "shapes", def.craft_category, 2, multiplier, true)
 				if output and output[index] and output[index].residue then
-					if inv:room_for_item("residue", ItemStack(output[index].residue)) then
+					if inv:room_for_item("residue", ItemStack(output[index].residue[1])) then
 						return stack:get_count()
 					else
 						minetest.chat_send_player(playername, "["..def.description.."] Insufficient residue space, please clear it.")
@@ -423,13 +422,9 @@ local function register_shapes_station(name, def)
 			if locks.fields(pos, sender, fields, "shapes_station", def.description) then
 				station_update(pos, "fuel", nil, nil, nil, def.craft_category, def.inactive_node, def.active_node, def.description, def.output_x, def.output_y, def.max_scroll, def.fueltype, def.fueldesc)
 			end
-			if fields.shapes_scrollbar then
-				local scrolldis = minetest.explode_scrollbar_event(fields.shapes_scrollbar)
-				meta:set_int("scroll", scrolldis.value)
-			end
-			if fields.shapes_station_multiplier then
+			if fields.shapes_station_multiplier  then
 				local sub_multiplier = string.gsub(fields.shapes_station_multiplier, "x", "")
-				if tonumber(sub_multiplier) then
+				if tonumber(sub_multiplier) and tonumber(sub_multiplier) ~= meta:get_int("multiplier") then
 					local multiplier = tonumber(sub_multiplier)
 					if multiplier > 99 then
 						multiplier = 99
@@ -440,6 +435,10 @@ local function register_shapes_station(name, def)
 					apply_craft_result(pos, nil, nil, nil, sender, def.craft_category, multiplier)
 					station_update(pos, "fuel", nil, nil, nil, def.craft_category, def.inactive_node, def.active_node, def.description, def.output_x, def.output_y, def.max_scroll, def.fueltype, def.fueldesc)
 				end
+			end
+			if fields.shapes_scrollbar then
+				local scrolldis = minetest.explode_scrollbar_event(fields.shapes_scrollbar)
+				meta:set_int("scroll", scrolldis.value)
 			end
 			fuel_fs_update(pos, def.output_x, def.output_y, def.max_scroll, def.fueltype, def.fueldesc) -- update fuel time
 		end,

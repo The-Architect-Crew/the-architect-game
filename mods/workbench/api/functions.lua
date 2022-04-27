@@ -8,8 +8,8 @@ local function get_startindex(ilist)
 end
 
 -- group matches
-local function groupcheck(ritem, citem)
-	local prefix, groupname = string.match(ritem:get_name(), '(.*):'), string.match(ritem:get_name(), ':(.*)')
+local function groupcheck(rname, cname)
+	local prefix, groupname = string.match(rname, '(.*):'), string.match(rname, ':(.*)')
 	if prefix == "group" then
 		-- form a list of groups required separated by commas
 		local group_list = {}
@@ -18,7 +18,7 @@ local function groupcheck(ritem, citem)
 		end
 		-- check item fulfill all groups
 		for i = 1, #group_list do
-			if minetest.get_item_group(citem:get_name(), group_list[i]) == 0 then
+			if minetest.get_item_group(cname, group_list[i]) == 0 then
 				return nil
 			end
 		end
@@ -28,13 +28,17 @@ end
 
 -- shapeless matches
 local function shapeless_match(ilist2, ritem)
+	local rname = ritem:get_name()
+	local rcount = ritem:get_count()
 	for i in pairs(ilist2) do
 		if ilist2[i] then
 			local citem = ilist2[i]
+			local cname = citem:get_name()
+			local ccount = citem:get_count()
 			-- find matches
-			if (ritem:get_name() == citem:get_name() or groupcheck(ritem, citem)) then -- name match or group match
-				if citem:get_count() >= ritem:get_count() then -- TODO: match higher count recipe with higher count items rather than grabbing the first found
-					local maxamt = math.floor(citem:get_count() / ritem:get_count())
+			if (rname == cname or groupcheck(rname, cname)) then -- name match or group match
+				if ccount >= rcount then -- TODO: match higher count recipe with higher count items rather than grabbing the first found
+					local maxamt = math.floor(ccount / rcount)
 					ilist2[i] = nil -- remove match to prevent doublecount
 					return ilist2, citem, i, maxamt
 				end
@@ -49,10 +53,12 @@ local function craft_replacements(ilist, rcdata, d_ilist)
 	for i in ipairs(rplist) do
 		local rd_item = ItemStack(rplist[i][1]) -- to be replaced item
 		local rg_item = ItemStack(rplist[i][2]) -- replacing item
+		local rd_name = rd_item:get_name()
 		for j = 1, #ilist do
 			if d_ilist[j]:is_empty() then -- ensure slot is empty and hence replaceable
 				local citem = ilist[j]
-				if (rd_item:get_name() == citem:get_name() or groupcheck(rd_item, citem)) then -- name match or group match
+				local cname = citem:get_name()
+				if (rd_name == cname or groupcheck(rd_name, cname)) then -- name match or group match
 					d_ilist[j] = rg_item
 					break
 				end
@@ -69,12 +75,16 @@ local function transfer_metadata(ilist, rcdata, odata)
 		for i in ipairs(tmlist) do
 			local fr_item = ItemStack(tmlist[i][1]) -- item to extract metadata
 			local to_item = ItemStack(tmlist[i][2]) -- item to transfer metadata
+			local fr_name = fr_item:get_name()
+			local to_name = to_item:get_name()
 			for j = 1, #ilist do
 				local citem = ilist[j]
-				if (fr_item:get_name() == citem:get_name() or groupcheck(fr_item, citem)) then -- name match or group match
+				local cname = citem:get_name()
+				if (fr_name == cname or groupcheck(fr_name, cname)) then -- name match or group match
 					for k = 1, #oplist do
 						local oitem = oplist[k]
-						if (to_item:get_name() == oitem:get_name() or groupcheck(to_item, oitem)) then -- name match or group match
+						local oname = oitem:get_name()
+						if (to_name == oname or groupcheck(to_name, oname)) then -- name match or group match
 							local copymeta = citem:get_meta():to_table()
 							oitem:get_meta():from_table(copymeta)
 							break
@@ -167,7 +177,7 @@ local function wbcraft_compare(rcdata, ilist, cdata)
 			local cname = cdata.items[i].name
 			local ccount = cdata.items[i].count
 			-- ensure enough count and matches name, if not return nil (name matches)
-			if rname ~= cname and not groupcheck(ritem, citem) -- both name and group doesn't match
+			if rname ~= cname and not groupcheck(rname, cname) -- both name and group doesn't match
 				or ccount < rcount then -- not enough count
 				return nil
 			end
@@ -196,7 +206,7 @@ local function wbcraft_compare(rcdata, ilist, cdata)
 				local cname = cdata.items[cindex].name
 				local ccount = cdata.items[cindex].count
 				-- ensure enough count and matches name, if not return nil
-				if rname ~= cname and not groupcheck(ritem, citem) -- both name and group doesn't match
+				if rname ~= cname and not groupcheck(rname, cname) -- both name and group doesn't match
 					or ccount < rcount then -- not enough count
 					return nil
 				end
@@ -217,13 +227,15 @@ local function wbcraft_genoutput(ctype, rcdata, ilist, cdata, cresult, listall)
 			for j = 1, rcdata.width do
 				local ritem = ItemStack(rcdata.input[i][j]) -- recipe item
 				local ilist_match, citem, cindex = shapeless_match(ilist2, ritem)
+				local rcount = ritem:get_count()
+				local ccount = citem:get_count()
 				if ilist_match then
 					-- remove match to prevent doublecount
 					ilist2 = ilist_match
 					-- construct decremented list
-					local d_citem = citem:peek_item(citem:get_count() - ritem:get_count())
+					local d_citem = citem:peek_item(ccount - rcount)
 					d_ilist[cindex] = d_citem
-					local maxamt = math.floor(citem:get_count() / ritem:get_count())
+					local maxamt = math.floor(ccount / rcount)
 					if maxamt ~= 0 then
 						if camt == 0 or maxamt < camt then
 							camt = maxamt

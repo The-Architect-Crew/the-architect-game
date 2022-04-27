@@ -209,7 +209,6 @@ end
 local function wbcraft_genoutput(ctype, rcdata, ilist, cdata, cresult, listall)
 	local rdata = rcdata.items
 	local odata = workbench_crafts.output[ctype][rcdata.id] -- output data
-	local oamt = #odata
 	local camt = 0
 	local d_ilist = table.copy(ilist) -- decremented list
 	if cresult == "shapeless" then
@@ -233,7 +232,6 @@ local function wbcraft_genoutput(ctype, rcdata, ilist, cdata, cresult, listall)
 				end
 			end
 		end
-		
 		-- if replacements exists modify list accordingly
 		if rcdata.replacements[1] then
 			craft_replacements(ilist, rcdata, d_ilist)
@@ -291,7 +289,7 @@ local function wbcraft_genoutput(ctype, rcdata, ilist, cdata, cresult, listall)
 			end
 		end
 	end
-	
+
 	if camt > 0 then
 		-- if replacements exists modify list accordingly
 		if rcdata.replacements[1] then
@@ -389,7 +387,6 @@ local function craft_multiply(final_input, ctype, multi, rcdata, cdata, cresult,
 		if not noutput[oamt].items or r_maxamt < 1  -- break the loop if there's no valid output
 			or not check_list_matches(m_output, noutput[oamt].items) -- break the loop if output name/count is different
 			or j > min_multi then
-			local odata = multiply_output(m_output, j - 1)
 			return {
 				item = multiply_output(m_output, j - 1),
 				max = r_maxamt,
@@ -419,7 +416,7 @@ end
 
 local function craft_genmultiply(ilist, ctype, multiplier, rcdata, cdata, cresult, listall)
 	local multi = multiplier or 1
-	local maxamt, dinput, output = wbcraft_genoutput(ctype, rcdata, ilist, cdata, cresult, listall) -- generate base output
+	local maxamt, _, output = wbcraft_genoutput(ctype, rcdata, ilist, cdata, cresult, listall) -- generate base output
 	local oamt = #output
 	if not listall then
 		return craft_multiply(ilist, ctype, multi, rcdata, cdata, cresult, output, oamt, maxamt)
@@ -441,7 +438,6 @@ function workbench.craft_output(ilist, ctype, cat, iw, multiplier, listall)
 	-- workbench crafts
 	local rclist = workbench_crafts.input[ctype]
 	local multi = multiplier or 1
-	local listall_output = {}
 	local cdata = cache_input(ilist, iw)
 	for i, rcdata in pairs(rclist) do -- run through recipe data
 		if rcdata.cat == cat then -- ensure same category

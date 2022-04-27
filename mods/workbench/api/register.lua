@@ -24,7 +24,6 @@ end
 local function cache_recipe(input, width, height)
 	local rdata = {}
 	-- cache all names and counts
-	rdata = {}
 	for i = 1, height do
 		for j = 1, width do
 			local ni = #rdata + 1
@@ -52,29 +51,11 @@ local function match_items(rcitems, items)
 	return true
 end
 
-local function match_recipe(def, ctype, ctime, iwidth, iheight, stackcount, items)
-	local rclist = workbench_crafts.input[ctype]
-	for i, rcdata in pairs(rclist) do
-		if rcdata.cat == def.category
-			and rcdata.mod == def.mod
-			and rcdata.time == ctime
-			and rcdata.width == iwidth
-			and rcdata.height == iheight
-			and rcdata.stacks == stackcount then
-			local rcitems = rcdata.items
-			if match_items(rcitems, items) then
-				return rcdata.id
-			end
-		end
-	end
-end
-
 function workbench:register_craft(def)
 	def = def or {}
 	local ctype = def.type or "normal"
 	local ercat = def.category or ""
 	local ctime = def.time or 0
-	
 	-- ensure essential values are present
 	if not def.output or not def.input or not ctype then
 		return send_error(ctype, ercat, def.input, def.output, "Incorrect recipe format")
@@ -160,7 +141,7 @@ function workbench:register_craft(def)
 		})
 		workbench_crafts.output[ctype][newid] = {}
 	end
-	
+
 	-- save output data
 	local o_items = workbench.to_invlist(def.output)
 	local o_id = def.multi_id or newid

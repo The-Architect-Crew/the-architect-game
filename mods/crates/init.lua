@@ -478,7 +478,7 @@ function crates:register_storage(name, def)
 				mod_origin = def.mod_origin,
 				on_construct = storage_on_construct,
 				after_place_node = storage_after_place_node,
-				--on_rightclick = storage_on_rightclick,
+				on_rightclick = storage_on_rightclick,
 				allow_metadata_inventory_move = storage_allow_metadata_inventory_move,
 				allow_metadata_inventory_put = storage_allow_metadata_inventory_put,
 				allow_metadata_inventory_take = storage_allow_metadata_inventory_take,

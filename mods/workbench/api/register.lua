@@ -1,6 +1,10 @@
-workbench.crafts = {}
+workbench_crafts = {}
+workbench_crafts.input = {}
+workbench_crafts.output = {}
+
 function workbench:register_crafttype(name)
-	workbench.crafts[name] = {}
+	workbench_crafts.input[name] = {}
+	workbench_crafts.output[name] = {}
 end
 
 -- get input size
@@ -20,15 +24,15 @@ end
 local function cache_recipe(input, width, height)
 	local rdata = {}
 	-- cache all names and counts
-	rdata.items = {}
+	rdata = {}
 	for i = 1, height do
 		for j = 1, width do
-			local ni = #rdata.items + 1
+			local ni = #rdata + 1
 			local ritem = ItemStack(input[i][j])
-			rdata.items[ni] = {}
-			rdata.items[ni].stack = ritem
-			rdata.items[ni].name = ritem:get_name()
-			rdata.items[ni].count = ritem:get_count()
+			rdata[ni] = {}
+			rdata[ni].stack = ritem
+			rdata[ni].name = ritem:get_name()
+			rdata[ni].count = ritem:get_count()
 		end
 	end
 	return rdata
@@ -39,12 +43,39 @@ local function send_error(ctype, ercat, input, output, errordesc)
 		": type: "..ctype..", category: "..ercat..", input: "..dump(input)..", output: "..dump(output))
 end
 
+local function match_items(rcitems, items)
+	for i, ritems in ipairs(items) do
+		if ritems.name ~= rcitems[i].name or ritems.count ~= rcitems[i].count then
+			return nil
+		end
+	end
+	return true
+end
+
+local function match_recipe(def, ctype, ctime, iwidth, iheight, stackcount, items)
+	local rclist = workbench_crafts.input[ctype]
+	for i, rcdata in pairs(rclist) do
+		if rcdata.cat == def.category
+			and rcdata.mod == def.mod
+			and rcdata.time == ctime
+			and rcdata.width == iwidth
+			and rcdata.height == iheight
+			and rcdata.stacks == stackcount then
+			local rcitems = rcdata.items
+			if match_items(rcitems, items) then
+				return rcdata.id
+			end
+		end
+	end
+end
+
 function workbench:register_craft(def)
 	def = def or {}
 	local ctype = def.type or "normal"
-	-- ERROR CHECKS
+	local ercat = def.category or ""
+	local ctime = def.time or 0
+	
 	-- ensure essential values are present
-	local ercat = def.cat or "none"
 	if not def.output or not def.input or not ctype then
 		return send_error(ctype, ercat, def.input, def.output, "Incorrect recipe format")
 	end
@@ -53,8 +84,12 @@ function workbench:register_craft(def)
 		return send_error(ctype, ercat, def.input, def.output, "Invalid input/output format")
 	end
 	-- ensure craft type is already registered first
-	if not workbench.crafts[ctype] then
+	if not workbench_crafts.input[ctype] then
 		return send_error(ctype, ercat, def.input, def.output, "Invalid crafting type")
+	end
+	-- ensure time is a number
+	if not tonumber(ctime) then
+		return send_error(ctype, ercat, def.input, def.output, "Invalid time")
 	end
 	-- ensure width exists
 	local first_width = #def.input[1]
@@ -78,29 +113,66 @@ function workbench:register_craft(def)
 	if def.replacements and type(def.replacements[1]) ~= "table" then
 		return send_error(ctype, ercat, def.input, def.output, "Invalid replacements format")
 	end
-	-- save data
+	-- ensure valid transfer_meta
+	if def.transfer_meta and type(def.transfer_meta[1]) ~= "table" then
+		return send_error(ctype, ercat, def.input, def.output, "Invalid transfer_meta format")
+	end
+	-- ensure multi id isn't a number
+	if tonumber(def.multi_id) then
+		return send_error(ctype, ercat, def.input, def.output, "multi_id must be a string, not a number")
+	end
+
+	-- save input data
 	local iwidth = #def.input[1]
 	local iheight = #def.input
-	local rdata = cache_recipe(def.input, iwidth, iheight)
-	table.insert(workbench.crafts[ctype], {
-		time = def.time or 0, -- timed craft
-		cat = def.cat, -- category
-		mod = def.mod, -- modification (supported: shapeless)
-		input = def.input,
-		-- outputs
+	local newid = #workbench_crafts.input[ctype] + 1
+	local stackcount = get_recipe_stacks(def.input, iwidth, iheight)
+	local i_items = cache_recipe(def.input, iwidth, iheight)
+	if def.multi_id then
+		local multi_oid = workbench_crafts.output[ctype][def.multi_id]
+		if not multi_oid then -- id doesn't exists
+			table.insert(workbench_crafts.input[ctype], {
+				cat = def.category, -- category
+				mod = def.mod, -- modification (supported: shapeless)
+				time = ctime, -- timed craft
+				width = iwidth, -- width
+				height = iheight, -- height
+				stacks = stackcount, -- stack count
+				items = i_items, -- items table
+				input = def.input, -- raw input
+				replacements = def.replacements or {},
+				id = def.multi_id, -- output id
+			})
+			workbench_crafts.output[ctype][def.multi_id] = {}
+		end
+	else
+		table.insert(workbench_crafts.input[ctype], {
+			cat = def.category, -- category
+			mod = def.mod, -- modification (supported: shapeless)
+			time = ctime, -- timed craft
+			width = iwidth, -- width
+			height = iheight, -- height
+			stacks = stackcount, -- stack count
+			items = i_items, -- items table
+			input = def.input, -- raw input
+			replacements = def.replacements or {},
+			id = newid, -- output id
+		})
+		workbench_crafts.output[ctype][newid] = {}
+	end
+	
+	-- save output data
+	local o_items = workbench.to_invlist(def.output)
+	local o_id = def.multi_id or newid
+	table.insert(workbench_crafts.output[ctype][o_id], {
+		cat = def.category,
 		output = def.output, -- primary output
+		items = o_items,
 		residue = def.residue or {}, -- secondary output
 		extra = def.extra or {}, -- tertiary output
-		replacements = def.replacements or {},
 		transfer_meta = def.transfer_meta or {},
-		-- input data
-		i_width = iwidth,
-		i_height = iheight,
-		i_size = (#def.input[1] * #def.input),
-		i_stacks = get_recipe_stacks(def.input, iwidth, iheight),
-		i_items = rdata.items,
-		-- output data
-		o_width = #def.output[1],
-		o_height = #def.output,
+		width = #def.output[1],
+		height = #def.output,
+		id = o_id,
 	})
 end

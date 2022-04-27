@@ -40,8 +40,8 @@ local function apply_craft_result(pos, listname, index, stack, player, multiplie
 	local inv = meta:get_inventory()
 	local craftlist = inv:get_list("input")
 	local output = workbench.craft_output(craftlist, "normal", nil, 5, multiplier)
-	if output then
-		inv:set_list("output", output)
+	if output and output.item then
+		inv:set_list("output", output.item)
 	else
 		inv:set_list("output", {})
 	end
@@ -59,11 +59,11 @@ local function craftbench_update(pos, listname, index, stack, player)
 	end
 	-- remove items when taking from output
 	if listname == "output" then
-		local _, _, d_input = workbench.craft_output(craftlist, "normal", nil, 5, multiplier)
+		local output = workbench.craft_output(craftlist, "normal", nil, 5, multiplier)
 		local remainder = workbench.output_stack(outlist)
 		-- ensure there's nothing remaining in the output list, otherwise prevent modifying the input list
-		if d_input and meta:get_string("crafted") == "" then
-			inv:set_list("input", d_input)
+		if output and output.dinput and meta:get_string("crafted") == "" then
+			inv:set_list("input", output.dinput)
 			if remainder > 0 then
 				meta:set_string("crafted", "remainder")
 			end

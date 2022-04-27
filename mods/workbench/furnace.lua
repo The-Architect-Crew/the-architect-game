@@ -47,10 +47,10 @@ local function apply_craft_result(pos, listname, index, stack, player, multiplie
 	local inv = meta:get_inventory()
 	local craftlist = inv:get_list("input")
 	local output = workbench.craft_output(craftlist, "cooking", nil, 3, multiplier)
-	if output then
+	if output and output.item then
 		-- ensure sufficient fuel
 		if meta:get_int("fueltime") > 0 then
-			inv:set_list("output", output)
+			inv:set_list("output", output.item)
 		else
 			inv:set_list("output", {})
 		end
@@ -118,11 +118,11 @@ local function furnace_update(pos, listname, index, stack, player)
 	end
 	-- remove items when taking from output
 	if listname == "output" then
-		local _, _, d_input = workbench.craft_output(craftlist, "cooking", nil, 3, multiplier)
+		local output = workbench.craft_output(craftlist, "cooking", nil, 3, multiplier)
 		local remainder = workbench.output_stack(outlist)
 		-- ensure there's nothing remaining in the output list, otherwise prevent modifying the input list
-		if d_input and meta:get_string("crafted") == "" then
-			inv:set_list("input", d_input)
+		if output and output.dinput and meta:get_string("crafted") == "" then
+			inv:set_list("input", output.dinput)
 			if remainder > 0 then
 				meta:set_string("crafted", "remainder")
 			end

@@ -233,9 +233,9 @@ local function recycle_check(pos, stack, shapetype)
 	if minetest.get_item_group(sname, shapetype) > 0 then -- allowing adding shapes only
 		-- check if able to convert all
 		local output = workbench.craft_output({stack}, "shapes", "recycle", 1)
-		if output then
+		if output and output.item then
 			local scount = stack:get_count()
-			local cstack = output[1]
+			local cstack = output.item[1]
 			local cname = cstack:get_name()
 			local ccount = cstack:get_count() -- cube count
 			local tcount = scount * ccount -- total cube count
@@ -360,6 +360,7 @@ local function register_shapes_station(name, def)
 			local meta = minetest.get_meta(pos)
 			local inv = meta:get_inventory()
 			local playername = player:get_player_name()
+			local multiplier = meta:get_int("multiplier")
 			if not locks.can_access(pos, player) then
 				return 0
 			end
@@ -367,9 +368,9 @@ local function register_shapes_station(name, def)
 				return stack:get_count()
 			elseif listname == "output" then
 				-- ensure enough space for residue
-				local output, _, _, _, _, _, residue = workbench.craft_output(inv:get_list("input"), "shapes", def.craft_category, 2)
-				if output and residue then
-					if inv:room_for_item("residue", ItemStack(residue[index])) then
+				local output = workbench.craft_output(inv:get_list("input"), "shapes", def.craft_category, 2, multiplier, true)
+				if output and output[index] and output[index].residue then
+					if inv:room_for_item("residue", ItemStack(output[index].residue)) then
 						return stack:get_count()
 					else
 						minetest.chat_send_player(playername, "["..def.description.."] Insufficient residue space, please clear it.")

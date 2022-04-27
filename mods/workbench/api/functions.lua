@@ -170,10 +170,8 @@ local function wbcraft_compare(rcdata, ilist, cdata)
 	-- shaped crafting
 	if cdata.width == rcdata.width and cdata.height == rcdata.height then -- input size == recipe size
 		for i = 1, cdata.length do
-			local ritem = rdata[i].stack -- recipe item
 			local rname = rdata[i].name
 			local rcount = rdata[i].count
-			local citem = ilist[i] -- input item
 			local cname = cdata.items[i].name
 			local ccount = cdata.items[i].count
 			-- ensure enough count and matches name, if not return nil (name matches)
@@ -198,11 +196,9 @@ local function wbcraft_compare(rcdata, ilist, cdata)
 		for i = istartrow, (istartrow + rcdata.height - 1) do
 			for j = 1, rcdata.width do
 				local rindex = ((i - istartrow) * rcdata.width) + j
-				local ritem = rdata[rindex].stack -- recipe item
 				local rname = rdata[rindex].name
 				local rcount = rdata[rindex].count
 				local cindex = istart + ((i - istartrow) * cdata.width) + j - 1
-				local citem = ilist[cindex] -- craft item
 				local cname = cdata.items[cindex].name
 				local ccount = cdata.items[cindex].count
 				-- ensure enough count and matches name, if not return nil

@@ -362,33 +362,6 @@ function shapes:register_shape(name, def)
 	end
 end
 
-workbench:register_craft({
-	type = "normal",
-	input =	{
-		{"group:stone 2", "blocks:stone 2"},
-	},
-	replacements = {
-		{"blocks:stone 2", "flora:leaves 5"},
-	},
-	output = {
-		{"blocks:stone 4"},
-	},
-})
-
-workbench:register_craft({
-	type = "normal",
-	input =	{
-		{"group:stone", "blocks:stone", "blocks:stone", "blocks:stone", "blocks:stone"},
-		{"group:stone", "blocks:stone", "blocks:stone", "blocks:stone", "blocks:stone"},
-		{"group:stone", "blocks:stone", "blocks:stone", "blocks:stone", "blocks:stone"},
-		{"group:stone", "blocks:stone", "blocks:stone", "blocks:stone", "blocks:stone"},
-		{"group:stone", "blocks:stone", "blocks:stone", "blocks:stone", "blocks:stone"},
-	},
-	output = {
-		{"blocks:stone 25"},
-	},
-})
-
 -- workbench crafter
 if minetest.global_exists("workbench") then
 	dofile(path.."/crafting.lua")

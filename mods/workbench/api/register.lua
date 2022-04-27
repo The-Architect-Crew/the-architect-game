@@ -42,15 +42,6 @@ local function send_error(ctype, ercat, input, output, errordesc)
 		": type: "..ctype..", category: "..ercat..", input: "..dump(input)..", output: "..dump(output))
 end
 
-local function match_items(rcitems, items)
-	for i, ritems in ipairs(items) do
-		if ritems.name ~= rcitems[i].name or ritems.count ~= rcitems[i].count then
-			return nil
-		end
-	end
-	return true
-end
-
 function workbench:register_craft(def)
 	def = def or {}
 	local ctype = def.type or "normal"

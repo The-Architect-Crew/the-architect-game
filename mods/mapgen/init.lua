@@ -1,4 +1,17 @@
 mapgen = {}
+
+mapgen.underground_limit = -512 - 128 -- The lower limit of the underground "biome", first caverns appear at -512
+mapgen.hell_level = -2048 + 512 -- The upper limit of hell
+mapgen.world_bottom = -2048 -- Map bottom limit
+
+--[[
+minetest.register_on_generated(function(minp, maxp, seed)
+	if (minp.y > -32) then
+		local vm, emin, emax = minetest.get_mapgen_object("voxelmanip")
+		minetest.fix_light(emin, emax)
+	end
+end)]]--
+
 --
 -- Detect mapgen to select functions
 --
@@ -11,6 +24,7 @@ local path = minetest.get_modpath("mapgen")
 dofile(path.."/alias.lua")
 dofile(path.."/oregen.lua")
 dofile(path.."/mapgen.lua")
+dofile(path.."/undergroundgen.lua")
 dofile(path.."/flowergen.lua")
 dofile(path.."/grassspread.lua")
 dofile(path.."/mossspread.lua")

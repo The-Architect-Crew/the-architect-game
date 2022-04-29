@@ -75,7 +75,7 @@ minetest.register_node("blocks:dirt_with_coniferous_litter", {
 })
 
 minetest.register_node("blocks:dry_dirt", {
-	description = S("Savanna Dirt"),
+	description = S("Dry Dirt"),
 	tiles = {"blocks_dry_dirt.png"},
 	groups = {crumbly = 3, soil = 1},
 	sounds = default.node_sound_dirt_defaults(),
@@ -91,4 +91,13 @@ minetest.register_node("blocks:dry_dirt_with_dry_grass", {
 	sounds = default.node_sound_dirt_defaults({
 		footstep = {name = "blocks_grass_footstep", gain = 0.4},
 	}),
+})
+
+-- Underground decorations
+
+minetest.register_node("blocks:dry_dirt_amethyst", {
+	description = S("Dry Dirt"),
+	tiles = {"blocks_moss_amethyst_overlay.png", "blocks_dry_dirt.png", "blocks_dry_dirt.png^blocks_moss_amethyst_overlay_side.png"},
+	groups = {crumbly = 3, soil = 1},
+	sounds = default.node_sound_dirt_defaults(),
 })

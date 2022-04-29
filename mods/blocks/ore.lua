@@ -1060,6 +1060,34 @@ minetest.register_node("blocks:dirt_with_amber", {
 	sounds = default.node_sound_glass_defaults(),
 })
 
+minetest.register_node("blocks:dry_dirt_with_amber", {
+	description = S("Amber Ore"),
+	tiles = {"blocks_dry_dirt.png^blocks_mineral_amber.png"},
+	is_ground_content = true,
+	groups = {crumbly = 3, soil = 1},
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:amber_lump"},
+			},
+			{
+
+				rarity = 2,
+				items = {"blocks:amber_lump"},
+
+			},
+			{
+
+				rarity = 2,
+				items = {"blocks:dry_dirt"},
+
+			},
+		},
+	},
+	sounds = default.node_sound_glass_defaults(),
+})
+
 minetest.register_node("blocks:sand_with_amber", {
 	description = S("Amber Ore"),
 	tiles = {"blocks_sand.png^blocks_mineral_amber.png"},
@@ -1092,7 +1120,7 @@ minetest.register_node("blocks:amber", {
 	description = S("Amber"),
 	tiles = {"blocks_amber.png"},
 	is_ground_content = false,
-	groups = {cracky = 3, oddly_breakable_by_hand = 3},
+	groups = {cracky = 3, falling_node = 1, oddly_breakable_by_hand = 3},
 	sounds = default.node_sound_glass_defaults(),
 })
 

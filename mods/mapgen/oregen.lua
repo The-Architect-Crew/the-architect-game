@@ -237,7 +237,7 @@ function mapgen.register_mgv6_ores()
 		clust_scarcity = 13 * 13 * 13,
 		clust_num_ores = 5,
 		clust_size     = 3,
-		y_max          = -256,
+		y_max          = mapgen.underground_limit,
 		y_min          = -31000,
 	})
 	-- Mese crystal
@@ -268,7 +268,7 @@ function mapgen.register_mgv6_ores()
 		clust_scarcity = 14 * 14 * 14,
 		clust_num_ores = 5,
 		clust_size     = 3,
-		y_max          = -256,
+		y_max          = mapgen.underground_limit,
 		y_min          = -31000,
 	})
 	-- Diamond
@@ -299,7 +299,7 @@ function mapgen.register_mgv6_ores()
 		clust_scarcity = 15 * 15 * 15,
 		clust_num_ores = 4,
 		clust_size     = 3,
-		y_max          = -256,
+		y_max          = mapgen.underground_limit,
 		y_min          = -31000,
 	})
 	-- Mese block
@@ -350,9 +350,69 @@ end
 
 -- All mapgens except mgv6
 
+mapgen.surface_nodes = {"blocks:stone", "blocks:dry_dirt", "blocks:dry_dirt_with_dry_grass", "blocks:dirt", "blocks:dirt_with_grass", "blocks:dirt_with_snow", "blocks:dirt_with_rainforest_litter", "blocks:dirt_with_coniferous_litter",
+"blocks:desert_stone", "blocks:desert_sand", "blocks:desert_sandstone", "blocks:sandstone", "blocks:sand", "blocks:silver_sandstone", "blocks:silver_sand",
+"blocks:cave_ice, blocks:ice, blocks:snow"} -- Hope I didn't miss any
+
 function mapgen.register_ores()
 	-- Stratum ores.
 	-- These obviously first.
+	-- Carve the surface caves!
+	-- Note: on -32 there is one of those stone layers that can't be generated trough
+	-- Two noises: one for the caves themselves, one for carving the sky openings into the terrain
+	-- Keep the noise params the same on these noises (and the one above), only change the scale on the thickness noise and the offset on both
+	minetest.register_ore({
+		ore_type        = "stratum",
+		ore             = "air",
+		wherein         = mapgen.surface_nodes,
+		clust_scarcity  = 1,
+		y_max           = 128,
+		y_min           = -256,
+		noise_params    = {
+			offset = -8,-- This is the depth at which the noise is placed
+			scale = 8,
+			spread = {x = 20, y = 20, z = 20},
+			seed = 262,
+			octaves = 1,
+			flags = "eased",
+		},
+		np_stratum_thickness = {
+			offset = -0.25 * 40, -- Essentially, controlls the ocurrence of surface caves
+			scale = 40,
+			spread = {x = 15, y = 15, z = 15},
+			seed = 261,
+			octaves = 1,
+			--flags = "absvalue",
+
+		},
+	})
+	minetest.register_ore({
+		ore_type        = "stratum",
+		ore             = "air",
+		wherein         = mapgen.surface_nodes,
+		clust_scarcity  = 1,
+		y_max           = 512, -- And hope that the mountains will not go over that
+		y_min           = -8, -- The middle of the actual cave noise
+		noise_params    = {
+			offset = 64,-- This is the depth at which the noise is placed
+			scale = 8,
+			spread = {x = 20, y = 20, z = 20},
+			seed = 262,
+			octaves = 1,
+			flags = "eased",
+		},
+		np_stratum_thickness = {
+			offset = -0.75 * 1024 * 1024, -- Are you kidding me? Why is it not normalized
+			scale = 1024 * 1024,
+			spread = {x = 15, y = 15, z = 15},
+			seed = 261,
+			octaves = 2, -- These are for adding detail on the resulting ravines
+			persistence = 0.5,
+			lacunarity = 3,
+			--flags = "eased",
+
+		},
+	})
 	-- Basalt Surface Layers
 	minetest.register_ore({
 		ore_type        = "stratum",
@@ -630,10 +690,10 @@ function mapgen.register_ores()
 		ore             = "blocks:obsidian",
 		wherein         = {"blocks:stone", "air"},
 		clust_scarcity  = 1,
-		y_max           = -1700,
-		y_min           = -2048,
+		y_max           = mapgen.hell_level,
+		y_min           = mapgen.world_bottom,
 		noise_params    = {
-			offset = -1964,
+			offset = mapgen.hell_level - 64,
 			scale = 32,
 			spread = {x = 64, y = 64, z = 64},
 			seed = 55465,
@@ -652,10 +712,10 @@ function mapgen.register_ores()
 		ore             = "blocks:obsidian",
 		wherein         = {"blocks:stone"},
 		clust_scarcity  = 1,
-		y_max           = -1700,
-		y_min           = -2048,
+		y_max           = mapgen.hell_level,
+		y_min           = mapgen.world_bottom,
 		noise_params    = {
-			offset = -2048,
+			offset = mapgen.world_bottom,
 			scale = 32,
 			spread = {x = 64, y = 64, z = 64},
 			seed = 5625,
@@ -675,10 +735,10 @@ function mapgen.register_ores()
 		ore             = "air",
 		wherein         = {"blocks:stone", "blocks:water_source", "blocks:lava_source"},
 		clust_scarcity  = 1,
-		y_max           = -1500,
-		y_min           = -2048,
+		y_max           = mapgen.hell_level,
+		y_min           = mapgen.world_bottom,
 		noise_params    = {
-			offset = -2000,
+			offset = (mapgen.hell_level + mapgen.world_bottom) / 2,
 			scale = 32,
 			spread = {x = 64, y = 64, z = 64},
 			seed = 55465,
@@ -692,10 +752,10 @@ function mapgen.register_ores()
 		ore             = "blocks:lava_source",
 		wherein         = {"air"},
 		clust_scarcity  = 1,
-		y_max           = -1700,
-		y_min           = -2048,
+		y_max           = mapgen.hell_level,
+		y_min           = mapgen.world_bottom,
 		noise_params    = {
-			offset = -2048,
+			offset = mapgen.world_bottom,
 			scale = 0,
 			spread = {x = 64, y = 64, z = 64},
 			seed = 72234,
@@ -709,10 +769,10 @@ function mapgen.register_ores()
 		ore             = "blocks:obsidian",
 		wherein         = {"blocks:lava_source", "blocks:stone"},
 		clust_scarcity  = 1,
-		y_max           = -1700,
-		y_min           = -2048,
+		y_max           = mapgen.hell_level,
+		y_min           = mapgen.world_bottom,
 		noise_params    = {
-			offset = -2047,
+			offset = mapgen.world_bottom + 1,
 			scale = 1,
 			spread = {x = 64, y = 64, z = 64},
 			seed = 72234,
@@ -811,6 +871,314 @@ function mapgen.register_ores()
 	})
 	-- Blob ore.
 	-- These before scatter ores to avoid other ores in blobs.
+	-- Effectively these define the "underground" sub-biome, stone-based first
+	minetest.register_ore({
+		ore_type        = "blob",
+		ore             = "blocks:dirt",
+		wherein         = {"blocks:stone"},
+		clust_scarcity  = 6 * 6 * 6,
+		clust_size      = 4,
+		y_max           = 0,
+		y_min           = mapgen.underground_limit,
+		noise_threshold = 0.0,
+		noise_params    = {
+			offset = 0.75,
+			scale = 1.0,
+			spread = {x = 4, y = 4, z = 4},
+			seed = 462,
+			octaves = 1,
+			persist = 0.0,
+			flags = "absvalue",
+		},
+	})
+	minetest.register_ore({
+		ore_type        = "blob",
+		ore             = "blocks:dirt",
+		wherein         = {"blocks:stone"},
+		clust_scarcity  = 6 * 6 * 6,
+		clust_size      = 2,
+		y_max           = 0,
+		y_min           = mapgen.underground_limit,
+		noise_threshold = 0.0,
+		noise_params    = {
+			offset = 0.75,
+			scale = 1.0,
+			spread = {x = 6, y = 6, z = 6},
+			seed = 722345,
+			octaves = 1,
+			persist = 0.0,
+			flags = "absvalue",
+		},
+	})
+	minetest.register_ore({
+		ore_type        = "blob",
+		ore             = "blocks:cobble",
+		wherein         = {"blocks:stone"},
+		clust_scarcity  = 8 * 8 * 8,
+		clust_size      = 3,
+		y_max           = 0,
+		y_min           = mapgen.underground_limit,
+		noise_threshold = 0.0,
+		noise_params    = {
+			offset = 0.75,
+			scale = 1.0,
+			spread = {x = 4, y = 4, z = 4},
+			seed = 82,
+			octaves = 1,
+			persist = 0.0,
+			flags = "absvalue",
+		},
+	})
+	minetest.register_ore({
+		ore_type        = "blob",
+		ore             = "blocks:cobble",
+		wherein         = {"blocks:stone"},
+		clust_scarcity  = 12 * 12 * 12,
+		clust_size      = 8,
+		y_max           = mapgen.underground_limit,
+		y_min           = mapgen.world_bottom,
+		noise_threshold = 0.0,
+		noise_params    = {
+			offset = 0.5,
+			scale = 0.25,
+			spread = {x = 8, y = 8, z = 8},
+			seed = 8862,
+			octaves = 1,
+			persist = 0.0
+		},
+	})
+	-- Underground, sandstone-based
+	minetest.register_ore({
+		ore_type        = "blob",
+		ore             = "blocks:dry_dirt",
+		wherein         = {"blocks:sandstone"},
+		clust_scarcity  = 6 * 6 * 6,
+		clust_size      = 4,
+		y_max           = 0,
+		y_min           = mapgen.underground_limit,
+		noise_threshold = 0.0,
+		noise_params    = {
+			offset = 0.75,
+			scale = 1.0,
+			spread = {x = 4, y = 4, z = 4},
+			seed = 462,
+			octaves = 1,
+			persist = 0.0,
+			flags = "absvalue",
+		},
+	})
+	minetest.register_ore({
+		ore_type        = "blob",
+		ore             = "blocks:dry_dirt",
+		wherein         = {"blocks:sandstone"},
+		clust_scarcity  = 6 * 6 * 6,
+		clust_size      = 2,
+		y_max           = 0,
+		y_min           = mapgen.underground_limit,
+		noise_threshold = 0.0,
+		noise_params    = {
+			offset = 0.75,
+			scale = 1.0,
+			spread = {x = 6, y = 6, z = 6},
+			seed = 722345,
+			octaves = 1,
+			persist = 0.0,
+			flags = "absvalue",
+		},
+	})
+	minetest.register_ore({
+		ore_type        = "blob",
+		ore             = "blocks:sand",
+		wherein         = {"blocks:sandstone"},
+		clust_scarcity  = 8 * 8 * 8,
+		clust_size      = 3,
+		y_max           = 0,
+		y_min           = mapgen.underground_limit,
+		noise_threshold = 0.0,
+		noise_params    = {
+			offset = 0.75,
+			scale = 1.0,
+			spread = {x = 4, y = 4, z = 4},
+			seed = 82,
+			octaves = 1,
+			persist = 0.0,
+			flags = "absvalue",
+		},
+	})
+	-- Then desert sandstone
+	minetest.register_ore({
+		ore_type        = "blob",
+		ore             = "blocks:dry_dirt",
+		wherein         = {"blocks:desert_sandstone"},
+		clust_scarcity  = 6 * 6 * 6,
+		clust_size      = 4,
+		y_max           = 0,
+		y_min           = mapgen.underground_limit,
+		noise_threshold = 0.0,
+		noise_params    = {
+			offset = 0.75,
+			scale = 1.0,
+			spread = {x = 4, y = 4, z = 4},
+			seed = 462,
+			octaves = 1,
+			persist = 0.0,
+			flags = "absvalue",
+		},
+	})
+	minetest.register_ore({
+		ore_type        = "blob",
+		ore             = "blocks:dry_dirt",
+		wherein         = {"blocks:desert_sandstone"},
+		clust_scarcity  = 6 * 6 * 6,
+		clust_size      = 2,
+		y_max           = 0,
+		y_min           = mapgen.underground_limit,
+		noise_threshold = 0.0,
+		noise_params    = {
+			offset = 0.75,
+			scale = 1.0,
+			spread = {x = 6, y = 6, z = 6},
+			seed = 722345,
+			octaves = 1,
+			persist = 0.0,
+			flags = "absvalue",
+		},
+	})
+	minetest.register_ore({
+		ore_type        = "blob",
+		ore             = "blocks:desert_sand",
+		wherein         = {"blocks:desert_sandstone"},
+		clust_scarcity  = 8 * 8 * 8,
+		clust_size      = 3,
+		y_max           = 0,
+		y_min           = mapgen.underground_limit,
+		noise_threshold = 0.0,
+		noise_params    = {
+			offset = 0.75,
+			scale = 1.0,
+			spread = {x = 4, y = 4, z = 4},
+			seed = 82,
+			octaves = 1,
+			persist = 0.0,
+			flags = "absvalue",
+		},
+	})
+	-- And silver sandstone
+	minetest.register_ore({
+		ore_type        = "blob",
+		ore             = "blocks:gravel",
+		wherein         = {"blocks:silver_sandstone"},
+		clust_scarcity  = 6 * 6 * 6,
+		clust_size      = 4,
+		y_max           = 0,
+		y_min           = mapgen.underground_limit,
+		noise_threshold = 0.0,
+		noise_params    = {
+			offset = 0.75,
+			scale = 1.0,
+			spread = {x = 4, y = 4, z = 4},
+			seed = 462,
+			octaves = 1,
+			persist = 0.0,
+			flags = "absvalue",
+		},
+	})
+	minetest.register_ore({
+		ore_type        = "blob",
+		ore             = "blocks:gravel",
+		wherein         = {"blocks:silver_sandstone"},
+		clust_scarcity  = 6 * 6 * 6,
+		clust_size      = 2,
+		y_max           = 0,
+		y_min           = mapgen.underground_limit,
+		noise_threshold = 0.0,
+		noise_params    = {
+			offset = 0.75,
+			scale = 1.0,
+			spread = {x = 6, y = 6, z = 6},
+			seed = 722345,
+			octaves = 1,
+			persist = 0.0,
+			flags = "absvalue",
+		},
+	})
+	minetest.register_ore({
+		ore_type        = "blob",
+		ore             = "blocks:silver_sand",
+		wherein         = {"blocks:silver_sandstone"},
+		clust_scarcity  = 8 * 8 * 8,
+		clust_size      = 3,
+		y_max           = 0,
+		y_min           = mapgen.underground_limit,
+		noise_threshold = 0.0,
+		noise_params    = {
+			offset = 0.75,
+			scale = 1.0,
+			spread = {x = 4, y = 4, z = 4},
+			seed = 82,
+			octaves = 1,
+			persist = 0.0,
+			flags = "absvalue",
+		},
+	})
+	-- And finally, desert stone
+	minetest.register_ore({
+		ore_type        = "blob",
+		ore             = "blocks:dry_dirt",
+		wherein         = {"blocks:desert_stone"},
+		clust_scarcity  = 6 * 6 * 6,
+		clust_size      = 4,
+		y_max           = 0,
+		y_min           = mapgen.underground_limit,
+		noise_threshold = 0.0,
+		noise_params    = {
+			offset = 0.75,
+			scale = 1.0,
+			spread = {x = 4, y = 4, z = 4},
+			seed = 462,
+			octaves = 1,
+			persist = 0.0,
+			flags = "absvalue",
+		},
+	})
+	minetest.register_ore({
+		ore_type        = "blob",
+		ore             = "blocks:dry_dirt",
+		wherein         = {"blocks:desert_stone"},
+		clust_scarcity  = 6 * 6 * 6,
+		clust_size      = 2,
+		y_max           = 0,
+		y_min           = mapgen.underground_limit,
+		noise_threshold = 0.0,
+		noise_params    = {
+			offset = 0.75,
+			scale = 1.0,
+			spread = {x = 6, y = 6, z = 6},
+			seed = 722345,
+			octaves = 1,
+			persist = 0.0,
+			flags = "absvalue",
+		},
+	})
+	minetest.register_ore({
+		ore_type        = "blob",
+		ore             = "blocks:desert_cobble",
+		wherein         = {"blocks:desert_stone"},
+		clust_scarcity  = 8 * 8 * 8,
+		clust_size      = 3,
+		y_max           = 0,
+		y_min           = mapgen.underground_limit,
+		noise_threshold = 0.0,
+		noise_params    = {
+			offset = 0.75,
+			scale = 1.0,
+			spread = {x = 4, y = 4, z = 4},
+			seed = 82,
+			octaves = 1,
+			persist = 0.0,
+			flags = "absvalue",
+		},
+	})
 	-- Iron "Meteorites", at least thats the idea
 	minetest.register_ore({
 		ore_type        = "blob",
@@ -873,15 +1241,15 @@ function mapgen.register_ores()
 		ore_type        = "blob",
 		ore             = "blocks:chalk",
 		wherein         = {"blocks:sand", "blocks:dirt", "blocks:dry_dirt"},
-		clust_scarcity  = 8 * 8 * 8,
-		clust_size      = 12,
+		clust_scarcity  = 16 * 16 * 16,
+		clust_size      = 8,
 		y_max           = 2,
-		y_min           = -128,
+		y_min           = -64,
 		noise_threshold = 0.0,
 		noise_params    = {
 			offset = 0.5,
 			scale = 0.5,
-			spread = {x = 4, y = 4, z = 4},
+			spread = {x = 8, y = 8, z = 8},
 			seed = 72344,
 			octaves = 1,
 			persist = 0.0
@@ -1323,7 +1691,7 @@ function mapgen.register_ores()
 		clust_num_ores = 5,
 		clust_size     = 3,
 		y_max          = 512,
-		y_min          = -255,
+		y_min          = mapgen.underground_limit,
 	})
 	minetest.register_ore({
 		ore_type       = "scatter",
@@ -1333,7 +1701,7 @@ function mapgen.register_ores()
 		clust_num_ores = 5,
 		clust_size     = 3,
 		y_max          = 512,
-		y_min          = -255,
+		y_min          = mapgen.underground_limit,
 	})
 	minetest.register_ore({
 		ore_type       = "scatter",
@@ -1343,7 +1711,7 @@ function mapgen.register_ores()
 		clust_num_ores = 5,
 		clust_size     = 3,
 		y_max          = 512,
-		y_min          = -255,
+		y_min          = mapgen.underground_limit,
 	})
 	minetest.register_ore({
 		ore_type       = "scatter",
@@ -1353,7 +1721,7 @@ function mapgen.register_ores()
 		clust_num_ores = 5,
 		clust_size     = 3,
 		y_max          = 512,
-		y_min          = -255,
+		y_min          = mapgen.underground_limit,
 	})
 	minetest.register_ore({
 		ore_type       = "scatter",
@@ -1363,7 +1731,7 @@ function mapgen.register_ores()
 		clust_num_ores = 5,
 		clust_size     = 3,
 		y_max          = 512,
-		y_min          = -255,
+		y_min          = mapgen.underground_limit,
 	})
 	minetest.register_ore({
 		ore_type       = "scatter",
@@ -1384,7 +1752,7 @@ function mapgen.register_ores()
 		clust_num_ores = 3,
 		clust_size     = 3,
 		y_max          = 512,
-		y_min          = -256,
+		y_min          = mapgen.underground_limit,
 	})
 	minetest.register_ore({
 		ore_type       = "scatter",
@@ -1394,7 +1762,7 @@ function mapgen.register_ores()
 		clust_num_ores = 3,
 		clust_size     = 3,
 		y_max          = 512,
-		y_min          = -256,
+		y_min          = mapgen.underground_limit,
 	})
 	minetest.register_ore({
 		ore_type       = "scatter",
@@ -1404,7 +1772,7 @@ function mapgen.register_ores()
 		clust_num_ores = 3,
 		clust_size     = 3,
 		y_max          = 512,
-		y_min          = -256,
+		y_min          = mapgen.underground_limit,
 	})
 	minetest.register_ore({
 		ore_type       = "scatter",
@@ -1414,7 +1782,7 @@ function mapgen.register_ores()
 		clust_num_ores = 3,
 		clust_size     = 2,
 		y_max          = -256,
-		y_min          = -511,
+		y_min          = mapgen.underground_limit,
 	})
 	minetest.register_ore({
 		ore_type       = "scatter",
@@ -1423,8 +1791,8 @@ function mapgen.register_ores()
 		clust_scarcity = 13 * 13 * 13,
 		clust_num_ores = 5,
 		clust_size     = 3,
-		y_max          = -512,
-		y_min          = -31000,
+		y_max          = mapgen.underground_limit,
+		y_min          = mapgen.world_bottom,
 	})
 	minetest.register_ore({
 		ore_type       = "scatter",
@@ -1433,8 +1801,8 @@ function mapgen.register_ores()
 		clust_scarcity = 8 * 8 * 8,
 		clust_num_ores = 3,
 		clust_size     = 5,
-		y_max          = -256,
-		y_min          = -2048,
+		y_max          = mapgen.underground_limit,
+		y_min          = mapgen.world_bottom,
 	})
 	-- Electrum
 	minetest.register_ore({
@@ -1445,7 +1813,7 @@ function mapgen.register_ores()
 		clust_num_ores = 3,
 		clust_size     = 5,
 		y_max          = -1024,
-		y_min          = -2048,
+		y_min          = mapgen.world_bottom,
 	})
 	minetest.register_ore({
 		ore_type       = "scatter",
@@ -1455,7 +1823,7 @@ function mapgen.register_ores()
 		clust_num_ores = 4,
 		clust_size     = 8,
 		y_max          = -1536,
-		y_min          = -2048,
+		y_min          = mapgen.world_bottom,
 	})
 	-- Mese crystal
 	minetest.register_ore({
@@ -1475,7 +1843,7 @@ function mapgen.register_ores()
 		clust_scarcity = 18 * 18 * 18,
 		clust_num_ores = 3,
 		clust_size     = 2,
-		y_max          = -512,
+		y_max          = mapgen.underground_limit,
 		y_min          = -1023,
 	})
 	minetest.register_ore({
@@ -1486,7 +1854,7 @@ function mapgen.register_ores()
 		clust_num_ores = 5,
 		clust_size     = 3,
 		y_max          = -1024,
-		y_min          = -31000,
+		y_min          = mapgen.world_bottom,
 	})
 	minetest.register_ore({
 		ore_type       = "scatter",
@@ -1496,7 +1864,7 @@ function mapgen.register_ores()
 		clust_num_ores = 4,
 		clust_size     = 3,
 		y_max          = 0,
-		y_min          = -2048,
+		y_min          = mapgen.world_bottom,
 	})
 	minetest.register_ore({
 		ore_type       = "scatter",
@@ -1506,7 +1874,7 @@ function mapgen.register_ores()
 		clust_num_ores = 3,
 		clust_size     = 2,
 		y_max          = 0,
-		y_min          = -2048,
+		y_min          = mapgen.world_bottom,
 	})
 	-- Diamond
 	minetest.register_ore({
@@ -1516,7 +1884,7 @@ function mapgen.register_ores()
 		clust_scarcity = 17 * 17 * 17,
 		clust_num_ores = 4,
 		clust_size     = 3,
-		y_max          = -512,
+		y_max          = mapgen.underground_limit,
 		y_min          = -1024,
 	})
 	minetest.register_ore({
@@ -1527,7 +1895,7 @@ function mapgen.register_ores()
 		clust_num_ores = 4,
 		clust_size     = 3,
 		y_max          = -1024,
-		y_min          = -2048,
+		y_min          = mapgen.world_bottom,
 	})
 	minetest.register_ore({
 		ore_type       = "scatter",
@@ -1537,7 +1905,7 @@ function mapgen.register_ores()
 		clust_num_ores = 5,
 		clust_size     = 3,
 		y_max          = -1024,
-		y_min          = -2048,
+		y_min          = mapgen.world_bottom,
 	})
 	minetest.register_ore({
 		ore_type       = "scatter",
@@ -1547,7 +1915,7 @@ function mapgen.register_ores()
 		clust_num_ores = 3,
 		clust_size     = 2,
 		y_max          = -1024,
-		y_min          = -2048,
+		y_min          = mapgen.world_bottom,
 	})
 	minetest.register_ore({
 		ore_type       = "scatter",
@@ -1556,8 +1924,8 @@ function mapgen.register_ores()
 		clust_scarcity = 16 * 16 * 16,
 		clust_num_ores = 2,
 		clust_size     = 2,
-		y_max          = -512,
-		y_min          = -2048,
+		y_max          = mapgen.underground_limit,
+		y_min          = mapgen.world_bottom,
 	})
 	-- Mese block
 	minetest.register_ore({
@@ -1577,8 +1945,8 @@ function mapgen.register_ores()
 		clust_scarcity = 36 * 36 * 36,
 		clust_num_ores = 3,
 		clust_size     = 2,
-		y_max          = -2048,
-		y_min          = -4095,
+		y_max          = -1024,
+		y_min          = mapgen.world_bottom,
 	})
 	minetest.register_ore({
 		ore_type       = "scatter",
@@ -1588,7 +1956,7 @@ function mapgen.register_ores()
 		clust_num_ores = 5,
 		clust_size     = 3,
 		y_max          = -4096,
-		y_min          = -31000,
+		y_min          = mapgen.world_bottom,
 	})
 	-- Amber
 	minetest.register_ore({
@@ -1599,7 +1967,7 @@ function mapgen.register_ores()
 		clust_num_ores = 9,
 		clust_size     = 4,
 		y_max          = 768,
-		y_min          = -256,
+		y_min          = mapgen.underground_limit,
 	})
 	minetest.register_ore({
 		ore_type       = "scatter",
@@ -1609,7 +1977,7 @@ function mapgen.register_ores()
 		clust_num_ores = 6,
 		clust_size     = 4,
 		y_max          = 768,
-		y_min          = -256,
+		y_min          = mapgen.underground_limit,
 	})
 	minetest.register_ore({
 		ore_type       = "scatter",
@@ -1629,7 +1997,7 @@ function mapgen.register_ores()
 		clust_num_ores = 8,
 		clust_size     = 4,
 		y_max          = 768,
-		y_min          = -256,
+		y_min          = mapgen.underground_limit,
 	})
 	minetest.register_ore({
 		ore_type       = "scatter",
@@ -1639,7 +2007,7 @@ function mapgen.register_ores()
 		clust_num_ores = 8,
 		clust_size     = 4,
 		y_max          = 768,
-		y_min          = -256,
+		y_min          = mapgen.underground_limit,
 	})
 	minetest.register_ore({
 		ore_type       = "scatter",
@@ -1655,11 +2023,21 @@ function mapgen.register_ores()
 		ore_type       = "scatter",
 		ore            = "blocks:dirt_with_amber",
 		wherein        = "blocks:dirt",
-		clust_scarcity = 16 * 16 * 16,
-		clust_num_ores = 6,
-		clust_size     = 6,
+		clust_scarcity = 12 * 12 * 12,
+		clust_num_ores = 8,
+		clust_size     = 4,
 		y_max          = 768,
-		y_min          = -128,
+		y_min          = mapgen.underground_limit,
+	})
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:dry_dirt_with_amber",
+		wherein        = "blocks:dry_dirt",
+		clust_scarcity = 12 * 12 * 12,
+		clust_num_ores = 8,
+		clust_size     = 4,
+		y_max          = 768,
+		y_min          = mapgen.underground_limit,
 	})
 	minetest.register_ore({
 		ore_type       = "scatter",
@@ -1742,7 +2120,7 @@ function mapgen.register_ores()
 		clust_num_ores = 3,
 		clust_size     = 4,
 		y_max          = 512,
-		y_min          = -256,
+		y_min          = mapgen.underground_limit,
 	})
 	minetest.register_ore({
 		ore_type       = "scatter",
@@ -1752,7 +2130,7 @@ function mapgen.register_ores()
 		clust_num_ores = 3,
 		clust_size     = 4,
 		y_max          = 512,
-		y_min          = -256,
+		y_min          = mapgen.underground_limit,
 	})
 	minetest.register_ore({
 		ore_type       = "scatter",
@@ -1762,7 +2140,7 @@ function mapgen.register_ores()
 		clust_num_ores = 3,
 		clust_size     = 4,
 		y_max          = 512,
-		y_min          = -256,
+		y_min          = mapgen.underground_limit,
 	})
 	-- Garnet
 	minetest.register_ore({

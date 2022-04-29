@@ -39,3 +39,26 @@ minetest.register_node("blocks:gravel", {
 		}
 	}
 })
+
+-- Underground Decorations
+
+minetest.register_node("blocks:sand_amethyst", {
+	description = S("Sand"),
+	tiles = {"blocks_moss_amethyst_overlay.png", "blocks_sand.png", "blocks_sand.png^blocks_moss_amethyst_overlay_side.png"},
+	groups = {crumbly = 3, sand = 1},
+	sounds = default.node_sound_sand_defaults(),
+})
+
+minetest.register_node("blocks:desert_sand_amethyst", {
+	description = S("Desert Sand"),
+	tiles = {"blocks_moss_amethyst_overlay.png", "blocks_desert_sand.png", "blocks_desert_sand.png^blocks_moss_amethyst_overlay_side.png"},
+	groups = {crumbly = 3, sand = 1},
+	sounds = default.node_sound_sand_defaults(),
+})
+
+minetest.register_node("blocks:silver_sand_amethyst", {
+	description = S("Silver Sand"),
+	tiles = {"blocks_moss_amethyst_overlay.png", "blocks_silver_sand.png", "blocks_silver_sand.png^blocks_moss_amethyst_overlay_side.png"},
+	groups = {crumbly = 3, sand = 1},
+	sounds = default.node_sound_sand_defaults(),
+})

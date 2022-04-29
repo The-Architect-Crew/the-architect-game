@@ -17,7 +17,6 @@ minetest.register_craftitem("blocks:stone_chunk", {
 minetest.register_node("blocks:cobble", {
 	description = S("Cobblestone"),
 	tiles = {"blocks_cobble.png"},
-	is_ground_content = false,
 	groups = {cracky = 3, stone = 2},
 	sounds = default.node_sound_stone_defaults(),
 })
@@ -225,6 +224,26 @@ for _, color in ipairs(blocks.stone_colors) do
 		sounds = default.node_sound_stone_defaults(),
 	})
 end
+
+--
+-- Underground Decorations
+--
+
+minetest.register_node("blocks:cobble_garnet", {
+	description = S("Cobblestone"),
+	tiles = {"blocks_cobble.png^blocks_moss_garnet_overlay.png", "blocks_cobble.png", "blocks_cobble.png^blocks_moss_garnet_overlay_side.png"},
+	groups = {cracky = 3, stone = 2},
+	drop = "blocks:cobble",
+	sounds = default.node_sound_stone_defaults(),
+})
+
+minetest.register_node("blocks:desert_cobble_amethyst", {
+	description = S("Desert Cobblestone"),
+	tiles = {"blocks_desert_cobble.png^blocks_moss_amethyst_overlay.png", "blocks_desert_cobble.png", "blocks_desert_cobble.png^blocks_moss_amethyst_overlay_side.png"},
+	is_ground_content = false,
+	groups = {cracky = 3, stone = 2},
+	sounds = default.node_sound_stone_defaults(),
+})
 
 --
 -- CRAFTS

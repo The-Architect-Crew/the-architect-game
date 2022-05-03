@@ -184,10 +184,12 @@ function shapes:register_shape(name, def)
 				udesc = def[tname.."_description"] or itemmeta.description.." "..tdesc
 			end
 		end
-		-- rotate when place
+		-- rotate when place & place prediction
 		local rotate_function
+		local place_prediction
 		if tname == "cube" and check_enabled(disabled, enabled, tname, tcate, tdbyd) == "nocube" then
 			rotate_function = no_placecube
+			place_prediction = ""
 		else
 			if troap == true then
 				rotate_function = shapes.rotate_node
@@ -232,6 +234,7 @@ function shapes:register_shape(name, def)
 					connects_to = def[tname.."_connects_to"] or def.connects_to or tconn,
 					connect_sides = def[tname.."_connect_sides"] or def.connect_sides or tcosi,
 					on_place = rotate_function,
+					node_placement_prediction = place_prediction,
 				})
 			-- registering models
 			elseif tmesh then

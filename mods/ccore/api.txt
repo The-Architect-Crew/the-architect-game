@@ -1,0 +1,133 @@
+=====================
+------- LOCKS -------
+=====================
+
+Requirements
+ - "lock" node metadata (set to first lock status)
+ - "owner" node metadata (owner's name)
+
+locks.icons (pos, fieldprefix, order, enable_shared, add_desc)
+--------------------------------------------------------------
+Use for formspecs to add a lock button
+Insert right after coords; for example;
+	"image_button[1,1;1.05,1.05;"..locks.icons(fieldprefix, locktype, order, enable_shared, add_desc).."]"
+
+pos
+	position of the node
+fieldprefix
+	name of field (prefix), will be appended with lock status
+	fieldname will appear like this; fieldprefix_<lockstatus>
+order (table)
+	order of lock status
+	for example; {"lock", "protect", "unlock", "mail"}
+	(see: Lock Status)
+enable_shared (boolean)
+	If you have shared field, set this to 'true'
+	If you don't or don't know what that is, leave it to 'nil'
+add_desc
+	Add any additional description to the lock button tooltip
+	
+locks.desc(locktype, level, enable_shared)
+-------------------------------------------
+Return infotext/description associated with lock status
+
+locktype
+	(see: Lock Status)
+level (integer)
+	1 = locktype explanation (for formspecs)
+	2 = general description (for infotext/descriptions)
+	3 = locktype description (for formspecs)
+enable_shared (boolean)
+	Only valid for level `1`, leaving blank/true won't affect other levels
+	If you have shared field, set this to 'true'
+	If you don't or don't know what that is, leave it to 'nil'
+
+locks.fields(pos, player, fields, fieldprefix, desc, infoadd)
+-------------------------------------------------------------
+Updates the locks status when the respective lock buttons are pressed
+Returns new locktype applied upon success;
+Follow this up with a set formspec function to update to the new lock buttons.
+Input within `on_receive_fields` or `minetest.register_on_player_receive_fields`
+
+pos
+	position of the node
+player
+	player ObjRef
+fields
+	fields (relay from receive_fields)
+fieldprefix
+	name of field (prefix)
+	should be setup first with `locks.icons`
+desc
+	description of the node
+infoadd
+	Additional text to the infotext
+
+locks.can_access(pos, player)
+-----------------------------
+checks whether a player can access a node according to lock permissions
+
+pos
+	position of node
+player
+	player ObjRef
+	
+### Output
+lock-specific means this output only shows if the chest is set to a specific lock status
+
+
+true (boolean)
+	can access area (owns protection / unprotected)
+	owns node / unowned node
+noone
+	doesn't own protection
+	node unowned
+owner
+	doesn't own protection
+	owns node
+shared
+	doesn't own protection
+	owns node (shared ownership)
+public (lock-specific)
+	node opened to public
+	doesn't own protection
+protect (lock-specific)
+	node opened to protection
+	owns protection
+mail (lock-specific)
+	node opened to mail
+	
+locks.initial_infotext(pos, desc, infoadd)
+-------------------------------------------
+Create an infotext with owner and current lock status
+
+pos
+	position of node
+desc
+	description of the node
+infoadd
+	Additional text to the infotext
+
+===========
+Lock Status
+===========
+"lock"
+	1: Only the owner & shared can access & dig
+	2: Locked
+	3: Locked
+"unlock"
+	1: Everyone can access & dig
+	2: Unlocked
+	3: Unlocked
+"public"
+	1: Everyone can access \nOnly owner & shared can dig
+	2: Public Access
+	3: Public Access
+"mail"
+	1: Everyone can add items \nOnly owner & shared can access & dig
+	2: Mailbox
+	3: Mailbox
+"protect"
+	1: Protected Area: All protection owner(s) can access but only owner & shared can dig \nUnprotected Area: Everyone can access but only owner & shared can dig
+	2: Protected Access
+	3: Protected

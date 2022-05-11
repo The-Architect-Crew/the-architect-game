@@ -1,0 +1,237 @@
+Workbench Crafting API Reference
+================================
+
+workbench:register_craft
+------------------------
+* type (optional)
+	* Custom crafting type -- register a new type with `workbench:register_crafttype`
+	* Support builtin types (normal, cooking)
+	* Defaults to "normal" if no value supplied
+* category (optional)
+	* Custom crafting category
+* time (optional)
+	* Custom crafting time
+	* Not applied, to be interpreted by user
+* mod (optional)
+	* Modifications
+	* Supports: shapeless
+* input
+	* Recipe input
+	* Nested table format only
+	* All rows must have equal width
+	* Supports unlimited width and height
+	* Supports count / amount
+	* Supports group(s), use "group" prefix and comma with no spacing for multiple
+	* ^ e.g. group:dye,color_red (both dye AND color_red groups)
+* output
+	* Recipe output
+	* Nested table format only
+	* All rows must have equal width
+	* Supports unlimited width and height
+	* Supports count / amount
+* residue (optional)
+	* Secondary output
+	* For custom output(s), no format limitation
+* extra (optional)
+	* Tertiary output 
+	* For custom output(s), no format limitation
+* replacements (optional)
+	* Replace items from input to input
+	* Identical to minetest.register_craft replacements
+	* Items registered in pairs
+* transfer_meta (optional)
+	* Transfer metadata from input to output
+	* Items registered in pairs similar to replacements
+	* count is ignored, the main criteria is name matches
+* multi_id
+	* Used for multiple-output
+	* Provided string can be same across craft types, but must be different across craft categories
+	* Multiple-output allows recipes with the same input to have a table of output rather than confined to output/residue/extra
+	
+### Behaviour
+* Ported toolrepair
+	* Should function similar to builtin toolrepair
+	* Necessary to add toolrepair support to workbench:register_craft because its not possible to extract it
+* Backward compatible
+	* workbench:register_craft will recognize most old crafts registered by minetest.register_craft
+	* Exception is fuel & toolrepair, the latter is ported
+	* Do note that functions that interact with the old minetest.register_craft like minetest.register_on_craft, minetest.register_craft_predict are not compatible, but workbench exposures the crafting process completely such that you can craft your own methods easily with greater flexibility
+* Not forward compatible
+	* minetest.register_craft does not interact with workbench:register_craft and does not recognize its crafts
+
+workbench:register_crafttype(name)
+----------------------------------
+Adds a new custom crafting type called <name>
+Required before registrating new crafts in that type - for error logging
+
+Example
+-------
+workbench:register_craft({
+	type = "crafting_type",
+	cat = "crafting_category",
+	time = 10,
+	mod = "modification",
+	input = {
+		{"item1", "item2 4", "item3"}, -- "item2 4"; need x4 of item2 for a single working craft
+		{"item4", "item5", "item6"},
+	},
+	output = {
+		{"item1", "item2", "item3"},
+		{"item4 9", "item5", "item6"}, -- "item4 9"; outputs x9 of item 4 for a single craft
+	},
+	residue = {},
+	extra = {},
+	replacements = {
+		{"replacED_item1", "replacING_item1 6"}, -- "replacING_item1 6"; x1 replacED_item1 will be replaced by x6 replacING_item1
+		{"replacED_item2", "replacING_item2"},
+	}
+	transfer_meta = {
+		{"from_item1", "to_item1"},
+		{"from_item2", "to_item2"},
+	}
+})
+
+workbench:register_crafttype("crafting_type") -- Adds a new custom crafting type called <crafting_type>
+
+Functions
+---------
+### workbench.to_invlist(list)
+
+Returns a inventory list from a supplied table/list
+E.g. {"item1", "item2"} > {ItemStack1, ItemStack2}
+
+### workbench.craft_output(input_list, crafting_type, crafting_category, input_list_width)
+
+Returns output and various variables from an input list
+See below for further details
+"Input Variables" - data to input
+"Output Variables" - output data if there's a successful output found, else returns nil
+
+Input Variables (workbench.craft_output)
+---------------
+* input_list
+	* Inventory list
+	* Said list should function as a crafting grid
+* crafting_type
+	* Limits search to a specified crafting_type
+* crafting_category
+	* Limits search to a specified crafting_category
+* input_list_width
+	* Width of input_list
+* multiplier (integer)
+	* How many times to multiply a craft
+	* Allows for output in stacks rather than singular recipe
+	* Subjected to item's max_stack, will return largest possible before reaching that value
+* listall (multiple output / bool)
+	* To be used in conjunction with multi_id
+	* When set to true, it returns a table of possible outputs rather than a singular one
+
+Output Variables (workbench.craft_output)
+----------------
+Returns in a table with these variables:
+* item
+	* Recipe output
+	* nil if no recipe detected
+	* Inventory list format
+	* transfer_meta variables are applied automatically
+* max (max craftable)
+	* Maximum amount of times the crafting can be applied based on given ingredients from input_list
+	* Number is a multiplier not a direct amount; for example:
+		* Recipe is 3 cobblestone gives 5 stone
+		* input_list has 14 cobblestone
+		* max_craftable will return 4
+		* this means you can craft a maximum of 4 x 3 cobblestone, the remaining 2 cobblestone cannot be crafted into stone
+* dinput (decremented_input)
+	* Similar to decremented input from minetest.get_craft_result
+	* After crafting once, how many ingredients are left over
+	* replacements are applied automatically if there's space
+	* Inventory list format
+* time
+	* Crafting time if provided
+	* Returns 0 if not provided
+* recipe
+	* Returns original recipe that was detected
+	* Directly extracted from workbench:register_craft input, format as per (nested table)
+	* Does not support minetest.register_craft crafts, it will return a nil instead
+		* Reason: there's no reliable way to determine said recipe
+* replacements
+	* Returns replacements or if empty, empty table
+	* Directly extracted from workbench:register_craft replacements, format as per (Nested table)
+	* Should be redundant, this is applied automatically in decremented_input, but should the user have a need for it
+* residue
+	* Returns residue or if empty, empty table
+	* Directly extracted from workbench:register_craft residue, format as per (table)
+	* Intention is for user to use it as a secondary output list, but to be interpreted by user 
+* extra
+	* Returns extra or if empty, empty table
+	* Directly extracted from workbench:register_craft extra, format as per (table)
+	* Intention is for user to use it as a tertiary output list, but to be interpreted by user
+* multiply
+	* How many times a craft is multiplied
+	* To be used in conjunction with multiplier, otherwise default value is 1
+	
+Workbench Fuel API Reference
+============================
+
+workbench:register_fuel
+-----------------------
+* type (optional)
+	* Custom fuel type -- register a new type with `workbench:register_fueltype`
+	* Support builtin types (normal)
+	* Defaults to "normal" if no value supplied
+* cat (optional)
+	* Custom crafting category
+* time
+	* Custom fuel time
+	* To be interpreted by user, but intention is burntime
+* fuel
+	* Fuel item - item used for fuel
+	* Single item only (string)
+	* Supports count / amount
+
+workbench:register_fueltype(name)
+---------------------------------
+Adds a new custom fuel type called <name>
+Required before registrating new fuel in that type - for error logging
+
+Example
+-------
+workbench:register_fuel({
+	type = "fuel_type",
+	cat = "fuel_category",
+	time = 1300,
+	fuel = "fuelitem 4",
+})
+
+workbench:register_fueltype("fuel_type") -- Adds a new custom fuel type called <fuel_type>
+
+Functions
+---------
+### workbench:get_fuel(input_list, fuel_type, fuel_category)
+
+Returns output and various variables from an input list
+See below for further details
+"Input Variables" - data to input
+"Output Variables" - output data if there's a successful output found, else returns nil
+
+Input Variables (workbench:get_fuel)
+---------------
+* input_list
+	* Inventory list
+	* Said list should function as a fuel input
+	* Currently only support lists with a single slot ***
+* fuel_type
+	* Limits search to a specified fuel_type
+* fuel_category
+	* Limits search to a specified fuel_category
+
+Output Variables (workbench:get_fuel)
+----------------
+Returns in specified order:
+1. fuel_time
+	* == burntime for the old system
+2. decremented_input
+	* Similar to decremented input from minetest.get_craft_result
+	* After crafting once, how many ingredients are left over
+	* replacements are applied automatically if there's space
+	* Inventory list format

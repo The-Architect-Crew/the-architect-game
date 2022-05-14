@@ -42,6 +42,24 @@ function default.dig_up(pos, node, digger)
 end
 
 --
+-- Dig directionally
+--
+
+function default.dig_dir(pos, nodes, dir, digger)
+	local np = {x = pos.x, y = pos.y + dir, z = pos.z}
+	local nn = minetest.get_node(np)
+	for i=1,#nodes do
+		if nn.name == minetest.registered_nodes[nodes[i]].name then
+			if digger == nil then
+				minetest.remove_node(np)
+			else
+				minetest.node_dig(np, nn, digger)
+			end
+		end
+	end
+end
+
+--
 -- Leafdecay
 --
 

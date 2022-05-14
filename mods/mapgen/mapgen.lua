@@ -17,7 +17,7 @@ function mapgen.register_biomes()
 		depth_filler = 3,
 		node_stone = "blocks:cave_ice",
 		node_water_top = "blocks:ice",
-		depth_water_top = 10,
+		depth_water_top = 32,
 		node_river_water = "blocks:ice",
 		node_riverbed = "blocks:gravel",
 		depth_riverbed = 2,

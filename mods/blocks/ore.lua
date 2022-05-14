@@ -1120,7 +1120,7 @@ minetest.register_node("blocks:amber", {
 	description = S("Amber"),
 	tiles = {"blocks_amber.png"},
 	is_ground_content = false,
-	groups = {cracky = 3, falling_node = 1, oddly_breakable_by_hand = 3},
+	groups = {cracky = 3, oddly_breakable_by_hand = 3},
 	sounds = default.node_sound_glass_defaults(),
 })
 

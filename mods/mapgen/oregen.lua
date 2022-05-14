@@ -352,7 +352,7 @@ end
 
 mapgen.surface_nodes = {"blocks:stone", "blocks:dry_dirt", "blocks:dry_dirt_with_dry_grass", "blocks:dirt", "blocks:dirt_with_grass", "blocks:dirt_with_snow", "blocks:dirt_with_rainforest_litter", "blocks:dirt_with_coniferous_litter",
 "blocks:desert_stone", "blocks:desert_sand", "blocks:desert_sandstone", "blocks:sandstone", "blocks:sand", "blocks:silver_sandstone", "blocks:silver_sand",
-"blocks:cave_ice, blocks:ice, blocks:snow"} -- Hope I didn't miss any
+"blocks:cave_ice", "blocks:ice", "blocks:snowblock", "blocks:premafrost", "blocks:permafrost_with_stones"} -- Hope I didn't miss any
 
 function mapgen.register_ores()
 	-- Stratum ores.
@@ -360,7 +360,7 @@ function mapgen.register_ores()
 	-- Carve the surface caves!
 	-- Note: on -32 there is one of those stone layers that can't be generated trough
 	-- Two noises: one for the caves themselves, one for carving the sky openings into the terrain
-	-- Keep the noise params the same on these noises (and the one above), only change the scale on the thickness noise and the offset on both
+	-- Keep the noise params the same on these noises , only change the scale on the thickness noise and the offset on both
 	minetest.register_ore({
 		ore_type        = "stratum",
 		ore             = "air",
@@ -369,22 +369,14 @@ function mapgen.register_ores()
 		y_max           = 128,
 		y_min           = -256,
 		noise_params    = {
-			offset = -8,-- This is the depth at which the noise is placed
+			offset = mapgen.sfcaves_level,-- This is the depth at which the noise is placed
 			scale = 8,
 			spread = {x = 20, y = 20, z = 20},
 			seed = 262,
 			octaves = 1,
 			flags = "eased",
 		},
-		np_stratum_thickness = {
-			offset = -0.25 * 40, -- Essentially, controlls the ocurrence of surface caves
-			scale = 40,
-			spread = {x = 15, y = 15, z = 15},
-			seed = 261,
-			octaves = 1,
-			--flags = "absvalue",
-
-		},
+		np_stratum_thickness = mapgen.surface_cave_np,
 	})
 	minetest.register_ore({
 		ore_type        = "stratum",
@@ -392,17 +384,17 @@ function mapgen.register_ores()
 		wherein         = mapgen.surface_nodes,
 		clust_scarcity  = 1,
 		y_max           = 512, -- And hope that the mountains will not go over that
-		y_min           = -8, -- The middle of the actual cave noise
+		y_min           = mapgen.sfcaves_level, -- The middle of the actual cave noise
 		noise_params    = {
-			offset = 64,-- This is the depth at which the noise is placed
+			offset = mapgen.sfcaves_level + 64,-- This is the depth at which the noise is placed
 			scale = 8,
 			spread = {x = 20, y = 20, z = 20},
 			seed = 262,
 			octaves = 1,
 			flags = "eased",
 		},
-		np_stratum_thickness = {
-			offset = -0.75 * 1024 * 1024, -- Are you kidding me? Why is it not normalized
+		np_stratum_thickness = { -- Should be same as mapgen.surface_cave_np but with insane scale and a bit smaller offset
+			offset = -0.75 * 1024 * 1024, -- Its just 0.75, but we have to multiply by scale because its not normalized
 			scale = 1024 * 1024,
 			spread = {x = 15, y = 15, z = 15},
 			seed = 261,
@@ -693,7 +685,7 @@ function mapgen.register_ores()
 		y_max           = mapgen.hell_level,
 		y_min           = mapgen.world_bottom,
 		noise_params    = {
-			offset = mapgen.hell_level - 64,
+			offset = mapgen.hell_level - 32,
 			scale = 32,
 			spread = {x = 64, y = 64, z = 64},
 			seed = 55465,
@@ -710,7 +702,7 @@ function mapgen.register_ores()
 	minetest.register_ore({
 		ore_type        = "stratum",
 		ore             = "blocks:obsidian",
-		wherein         = {"blocks:stone"},
+		wherein         = {"blocks:stone", "air", "blocks:lava_source"},
 		clust_scarcity  = 1,
 		y_max           = mapgen.hell_level,
 		y_min           = mapgen.world_bottom,
@@ -723,7 +715,7 @@ function mapgen.register_ores()
 		},
 		np_stratum_thickness = {
 			offset = 0,
-			scale = 16,
+			scale = 32,
 			spread = {x = 16, y = 16, z = 16},
 			seed = 99204,
 			octaves = 1,
@@ -739,12 +731,12 @@ function mapgen.register_ores()
 		y_min           = mapgen.world_bottom,
 		noise_params    = {
 			offset = (mapgen.hell_level + mapgen.world_bottom) / 2,
-			scale = 32,
+			scale = 40,
 			spread = {x = 64, y = 64, z = 64},
 			seed = 55465,
 			octaves = 1,
 		},
-		stratum_thickness = 64,
+		stratum_thickness = 80,
 	})
 	-- World Boundary Lava
 	minetest.register_ore({
@@ -752,8 +744,8 @@ function mapgen.register_ores()
 		ore             = "blocks:lava_source",
 		wherein         = {"air"},
 		clust_scarcity  = 1,
-		y_max           = mapgen.hell_level,
-		y_min           = mapgen.world_bottom,
+		y_max           = mapgen.world_bottom + 18,
+		y_min           = mapgen.world_bottom + 1,
 		noise_params    = {
 			offset = mapgen.world_bottom,
 			scale = 0,
@@ -761,7 +753,7 @@ function mapgen.register_ores()
 			seed = 72234,
 			octaves = 1,
 		},
-		stratum_thickness = 40,
+		stratum_thickness = 400,
 	})
 	-- World Boundary Placeholder
 	minetest.register_ore({
@@ -2203,5 +2195,80 @@ function mapgen.register_ores()
 		clust_size     = 8,
 		y_max          = 0,
 		y_min          = -2048,
+	})
+
+	-- Decorative stuff that we don't want to actually influence the gameplay so it goes last
+	-- Surface caves
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:mossy_stone",
+		wherein        = "blocks:stone",
+		clust_scarcity = 5 * 5 * 5,
+		clust_num_ores = 24,
+		clust_size     = 4,
+		y_max          = 8,
+		y_min          = mapgen.underground_start - 8,
+		biomes = mapgen.lush_biomes,
+	})
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:mossycobble",
+		wherein        = "blocks:cobble",
+		clust_scarcity = 5 * 5 * 5,
+		clust_num_ores = 24,
+		clust_size     = 4,
+		y_max          = 8,
+		y_min          = mapgen.underground_start - 8,
+		biomes = mapgen.lush_biomes,
+	})
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:mossy_desert_stone",
+		wherein        = "blocks:desert_stone",
+		clust_scarcity = 5 * 5 * 5,
+		clust_num_ores = 24,
+		clust_size     = 4,
+		y_max          = 8,
+		y_min          = mapgen.underground_start - 8,
+	})
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:mossy_desert_cobble",
+		wherein        = "blocks:desert_cobble",
+		clust_scarcity = 5 * 5 * 5,
+		clust_num_ores = 24,
+		clust_size     = 4,
+		y_max          = 8,
+		y_min          = mapgen.underground_start - 8,
+	})
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:mossy_sandstone",
+		wherein        = "blocks:sandstone",
+		clust_scarcity = 5 * 5 * 5,
+		clust_num_ores = 24,
+		clust_size     = 4,
+		y_max          = 8,
+		y_min          = mapgen.underground_start - 8,
+	})
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:mossy_desert_sandstone",
+		wherein        = "blocks:desert_sandstone",
+		clust_scarcity = 5 * 5 * 5,
+		clust_num_ores = 24,
+		clust_size     = 4,
+		y_max          = 8,
+		y_min          = mapgen.underground_start - 8,
+	})
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:mossy_silver_sandstone",
+		wherein        = "blocks:silver_sandstone",
+		clust_scarcity = 5 * 5 * 5,
+		clust_num_ores = 24,
+		clust_size     = 4,
+		y_max          = 8,
+		y_min          = mapgen.underground_start - 8,
 	})
 end

@@ -9,7 +9,7 @@ decorations.register_stalagmites = function(base_node, drop)
 	groups.crumbly = base_definition.groups.crumbly
 	groups.stone = base_definition.groups.stone
 	groups.level = base_definition.groups.level
-	groups.attached_node = 1
+	--groups.attached_node = 1
 	local sounds = base_definition.sounds
 	local box_floor = {
 		type = "fixed",
@@ -36,6 +36,7 @@ decorations.register_stalagmites = function(base_node, drop)
 			place_param2 = 0,
 			sunlight_propagates = true,
 			paramtype = "light",
+			floodable = true,
 			drop = {
 				items = {
 					{
@@ -60,12 +61,13 @@ decorations.register_stalagmites = function(base_node, drop)
 		minetest.register_node("decorations:stalactite_" .. sname .. "_" .. i, {
 			description = (base_description .. " Stalactite"),
 			drawtype = "plantlike",
-			tiles = {"(decorations_stalagmites_" .. sname .. ".png^[sheet:5x1:" .. i-1 .. ",0)^[transformFY"},
+			tiles = {"decorations_stalactites_" .. sname .. ".png^[sheet:5x1:" .. i-1 .. ",0"},
 			visual_scale = 2.0,
 			paramtype2 = "degrotate",
 			place_param2 = 0,
 			sunlight_propagates = true,
 			paramtype = "light",
+			floodable = true,
 			drop = {
 				items = {
 					{
@@ -88,6 +90,191 @@ decorations.register_stalagmites = function(base_node, drop)
 			sounds = sounds,
 		})
 	end
+	minetest.register_node("decorations:stalagmite_base_" .. sname, {
+		description = (base_description .. " Stalagmite"),
+		drawtype = "plantlike",
+		tiles = {"decorations_stalagmite_base_" .. sname .. ".png"},
+		sunlight_propagates = true,
+		paramtype = "light",
+		visual_scale = 2,
+		floodable = true,
+		drop = {
+			items = {
+				{
+					rarity = 1,
+					items = {drop},
+				},
+				{
+					rarity = 2,
+					items = {drop},
+				},
+				{
+					rarity = 3,
+					items = {drop},
+				},
+			},
+		},
+		groups = groups,
+		sounds = sounds,
+		on_flood = function(pos)
+			default.dig_dir(pos, {"decorations:stalagmite_base_" .. sname,
+								"decorations:stalagmite_middle_" .. sname,
+								"decorations:stalagmite_top_" .. sname}, 1)
+		end,
+		after_dig_node = function(pos, node, metadata, digger)
+			default.dig_dir(pos, {"decorations:stalagmite_base_" .. sname,
+								"decorations:stalagmite_middle_" .. sname,
+								"decorations:stalagmite_top_" .. sname}, 1, digger)
+		end,
+		after_destruct = function(pos)
+			default.dig_dir(pos, {"decorations:stalagmite_base_" .. sname,
+								"decorations:stalagmite_middle_" .. sname,
+								"decorations:stalagmite_top_" .. sname}, 1)
+		end,
+	})
+	minetest.register_node("decorations:stalactite_base_" .. sname, {
+		description = (base_description .. " Stalactite"),
+		drawtype = "plantlike",
+		tiles = {"decorations_stalactite_base_" .. sname .. ".png"},
+		sunlight_propagates = true,
+		paramtype = "light",
+		floodable = true,
+		drop = {
+			items = {
+				{
+					rarity = 1,
+					items = {drop},
+				},
+				{
+					rarity = 2,
+					items = {drop},
+				},
+				{
+					rarity = 3,
+					items = {drop},
+				},
+			},
+		},
+		groups = groups,
+		sounds = sounds,
+		on_flood = function(pos)
+			default.dig_dir(pos, {"decorations:stalactite_base_" .. sname,
+								"decorations:stalagmite_middle_" .. sname,
+								"decorations:stalactite_top_" .. sname}, -1)
+		end,
+		after_dig_node = function(pos, node, metadata, digger)
+			default.dig_dir(pos, {"decorations:stalactite_base_" .. sname,
+								"decorations:stalagmite_middle_" .. sname,
+								"decorations:stalactite_top_" .. sname}, -1, digger)
+		end,
+		after_destruct = function(pos)
+			default.dig_dir(pos, {"decorations:stalactite_base_" .. sname,
+								"decorations:stalagmite_middle_" .. sname,
+								"decorations:stalactite_top_" .. sname}, -1)
+		end,
+	})
+	minetest.register_node("decorations:stalagmite_middle_" .. sname, {
+		description = (base_description .. " Stalagmite"),
+		drawtype = "plantlike",
+		tiles = {"decorations_stalagmite_middle_" .. sname .. ".png"},
+		sunlight_propagates = true,
+		paramtype = "light",
+		floodable = true,
+		drop = {
+			items = {
+				{
+					rarity = 1,
+					items = {drop},
+				},
+				{
+					rarity = 2,
+					items = {drop},
+				},
+				{
+					rarity = 3,
+					items = {drop},
+				},
+			},
+		},
+		groups = groups,
+		sounds = sounds,
+		on_flood = function(pos)
+			default.dig_dir(pos, {"decorations:stalagmite_middle_" .. sname,
+								"decorations:stalagmite_top_" .. sname,
+								"decorations:stalactite_top_" .. sname}, -1)
+			default.dig_dir(pos, {"decorations:stalagmite_middle_" .. sname,
+								"decorations:stalagmite_top_" .. sname,
+								"decorations:stalactite_top_" .. sname}, 1)
+		end,
+		after_dig_node = function(pos, node, metadata, digger)
+			default.dig_dir(pos, {"decorations:stalagmite_middle_" .. sname,
+								"decorations:stalagmite_top_" .. sname,
+								"decorations:stalactite_top_" .. sname}, -1, digger)
+			default.dig_dir(pos, {"decorations:stalagmite_middle_" .. sname,
+								"decorations:stalagmite_top_" .. sname,
+								"decorations:stalactite_top_" .. sname}, 1, digger)
+		end,
+		after_destruct = function(pos)
+			default.dig_dir(pos, {"decorations:stalagmite_middle_" .. sname,
+								"decorations:stalagmite_top_" .. sname,
+								"decorations:stalactite_top_" .. sname}, -1)
+			default.dig_dir(pos, {"decorations:stalagmite_middle_" .. sname,
+								"decorations:stalagmite_top_" .. sname,
+								"decorations:stalactite_top_" .. sname}, 1)
+		end,
+	})
+	minetest.register_node("decorations:stalagmite_top_" .. sname, {
+		description = (base_description .. " Stalagmite"),
+		drawtype = "plantlike",
+		tiles = {"decorations_stalagmite_top_" .. sname .. ".png"},
+		sunlight_propagates = true,
+		paramtype = "light",
+		floodable = true,
+		drop = {
+			items = {
+				{
+					rarity = 1,
+					items = {drop},
+				},
+				{
+					rarity = 2,
+					items = {drop},
+				},
+				{
+					rarity = 3,
+					items = {drop},
+				},
+			},
+		},
+		groups = groups,
+		sounds = sounds,
+	})
+	minetest.register_node("decorations:stalactite_top_" .. sname, {
+		description = (base_description .. " Stalactite"),
+		drawtype = "plantlike",
+		tiles = {"decorations_stalactite_top_" .. sname .. ".png"},
+		sunlight_propagates = true,
+		paramtype = "light",
+		floodable = true,
+		drop = {
+			items = {
+				{
+					rarity = 1,
+					items = {drop},
+				},
+				{
+					rarity = 2,
+					items = {drop},
+				},
+				{
+					rarity = 3,
+					items = {drop},
+				},
+			},
+		},
+		groups = groups,
+		sounds = sounds,
+	})
 end
 
 decorations.register_stalagmites("blocks:stone")
@@ -99,3 +286,4 @@ decorations.register_stalagmites("blocks:desert_stone")
 decorations.register_stalagmites("blocks:granite")
 decorations.register_stalagmites("blocks:marble")
 decorations.register_stalagmites("blocks:basalt")
+decorations.register_stalagmites("blocks:ice", "blocks:snow")

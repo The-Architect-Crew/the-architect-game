@@ -29,7 +29,13 @@ mapgen.lush_biomes = {"grassland", "grassland_dunes", "grassland_ocean",
 					"deciduous_forest", "deciduous_forest_shore", "deciduous_forest_ocean",
 					"rainforest", "rainforest_swamp", "rainforest_ocean",
 					"savanna", "savanna_shore", "savanna_ocean"}
-
+mapgen.icy_biomes = {"cold_desert", "cold_desert_under", "cold_desert_ocean",
+					"taiga", "taiga_ocean", "taiga_under",
+					"snowy_grassland", "snowy_grassland_ocean", "snowy_grassland_under",
+					"icesheet", "icesheet_ocean", "icesheet_under",
+					"tundra", "tundra_highland", "tundra_under", "tundra_ocean", "tundra_beach"}
+mapgen.hot_biomes = {"desert", "desert_ocean", "desert_under",
+					"sandstone_desert", "sandstone_desert_ocean", "sandstone_desert_under"}
 --[[
 minetest.register_on_generated(function(minp, maxp, seed)
 	if (minp.y > -32) then

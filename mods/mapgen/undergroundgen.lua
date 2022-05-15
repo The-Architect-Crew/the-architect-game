@@ -315,9 +315,10 @@ end
 
 -- Rocks
 
-mapgen.register_stalagmites = function(base_node, seed)
+mapgen.register_stalagmites = function(base_node, seed, secondary_base)
 	local base_definition = minetest.registered_nodes[base_node]
 	local sname = string.match(base_node, ':(.*)')
+	if secondary_base == nil then secondary_base = base_node end
 
 	-- Big Stalagmites/Stalactites
 
@@ -327,7 +328,7 @@ mapgen.register_stalagmites = function(base_node, seed)
 		name = "decorations:stalagmite_base_" .. sname,
 		deco_type = "simple",
 		param2 = 0,
-		place_on = {base_node},
+		place_on = {base_node, secondary_base},
 		sidelen = 8,
 		noise_params = mapgen.np_stalagmites,
 		y_max = 0,
@@ -339,7 +340,7 @@ mapgen.register_stalagmites = function(base_node, seed)
 		name = "decorations:stalactite_base_" .. sname,
 		deco_type = "simple",
 		param2 = 0,
-		place_on = {base_node},
+		place_on = {base_node, secondary_base},
 		sidelen = 8,
 		noise_params = mapgen.np_stalagmites,
 		y_max = 256,
@@ -393,7 +394,7 @@ mapgen.register_stalagmites = function(base_node, seed)
 			deco_type = "simple",
 			param2 = 0,
 			param2_max = 239,
-			place_on = {base_node},
+			place_on = {base_node, secondary_base},
 			sidelen = 8,
 			fill_ratio = 0.02,
 			y_max = 0,
@@ -406,7 +407,7 @@ mapgen.register_stalagmites = function(base_node, seed)
 			deco_type = "simple",
 			param2 = 0,
 			param2_max = 239,
-			place_on = {base_node},
+			place_on = {base_node, secondary_base},
 			sidelen = 8,
 			fill_ratio = 0.02,
 			y_max = 256,
@@ -427,4 +428,4 @@ mapgen.register_stalagmites("blocks:desert_stone", 5244)
 mapgen.register_stalagmites("blocks:granite", 7333)
 mapgen.register_stalagmites("blocks:marble", 8578)
 mapgen.register_stalagmites("blocks:basalt", 9233)
-mapgen.register_stalagmites("blocks:ice", 4253)
+mapgen.register_stalagmites("blocks:ice", 4253, "blocks:cave_ice")

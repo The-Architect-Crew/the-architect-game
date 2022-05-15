@@ -864,6 +864,8 @@ function mapgen.register_ores()
 	-- Blob ore.
 	-- These before scatter ores to avoid other ores in blobs.
 	-- Effectively these define the "underground" sub-biome, stone-based first
+	-- Stone-based biomes are divided into lush and icy.
+	-- Lush biomes' underground has dirt
 	minetest.register_ore({
 		ore_type        = "blob",
 		ore             = "blocks:dirt",
@@ -882,6 +884,7 @@ function mapgen.register_ores()
 			persist = 0.0,
 			flags = "absvalue",
 		},
+		biomes = mapgen.lush_biomes,
 	})
 	minetest.register_ore({
 		ore_type        = "blob",
@@ -901,7 +904,50 @@ function mapgen.register_ores()
 			persist = 0.0,
 			flags = "absvalue",
 		},
+		biomes = mapgen.lush_biomes,
 	})
+	-- Icy biomes' underground has permafrost
+	minetest.register_ore({
+		ore_type        = "blob",
+		ore             = "blocks:permafrost",
+		wherein         = {"blocks:stone"},
+		clust_scarcity  = 6 * 6 * 6,
+		clust_size      = 4,
+		y_max           = 0,
+		y_min           = mapgen.underground_limit,
+		noise_threshold = 0.0,
+		noise_params    = {
+			offset = 0.75,
+			scale = 1.0,
+			spread = {x = 4, y = 4, z = 4},
+			seed = 462,
+			octaves = 1,
+			persist = 0.0,
+			flags = "absvalue",
+		},
+		biomes = mapgen.icy_biomes,
+	})
+	minetest.register_ore({
+		ore_type        = "blob",
+		ore             = "blocks:permafrost",
+		wherein         = {"blocks:stone"},
+		clust_scarcity  = 6 * 6 * 6,
+		clust_size      = 2,
+		y_max           = 0,
+		y_min           = mapgen.underground_limit,
+		noise_threshold = 0.0,
+		noise_params    = {
+			offset = 0.75,
+			scale = 1.0,
+			spread = {x = 6, y = 6, z = 6},
+			seed = 722345,
+			octaves = 1,
+			persist = 0.0,
+			flags = "absvalue",
+		},
+		biomes = mapgen.icy_biomes,
+	})
+	-- Cobble is present in both lush and icy stone biomes
 	minetest.register_ore({
 		ore_type        = "blob",
 		ore             = "blocks:cobble",
@@ -1340,10 +1386,8 @@ function mapgen.register_ores()
 			octaves = 1,
 			persist = 0.0
 		},
-		-- Only where default:dirt is present as surface material
-		biomes = {"taiga", "snowy_grassland", "grassland", "coniferous_forest",
-				"deciduous_forest", "deciduous_forest_shore", "rainforest",
-				"rainforest_swamp"}
+		-- Only in lush biomes
+		biomes = mapgen.lush_biomes,
 	})
 	-- Gravel
 	minetest.register_ore({
@@ -2209,6 +2253,17 @@ function mapgen.register_ores()
 		y_max          = 8,
 		y_min          = mapgen.underground_start - 8,
 		biomes = mapgen.lush_biomes,
+	})
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:stone_icy",
+		wherein        = "blocks:stone",
+		clust_scarcity = 5 * 5 * 5,
+		clust_num_ores = 32,
+		clust_size     = 5,
+		y_max          = 8,
+		y_min          = mapgen.underground_start - 8,
+		biomes = mapgen.icy_biomes,
 	})
 	minetest.register_ore({
 		ore_type       = "scatter",

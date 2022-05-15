@@ -28,6 +28,17 @@ minetest.register_decoration({
 	num_spawn_by = 3,
 })
 minetest.register_decoration({
+	name = "blocks:permafrost_with_stones_sfcave",
+	deco_type = "simple",
+	place_on = {"blocks:permafrost"},
+	fill_ratio = 10.0,
+	y_max = 0,
+	y_min = mapgen.underground_start,
+	flags = "all_floors, force_placement",
+	place_offset_y = -1, -- Requires force_placement
+	decoration = "blocks:permafrost_with_stones",
+})
+minetest.register_decoration({
 	name = "blocks:mossy_stone_sfcave",
 	deco_type = "simple",
 	place_on = {"blocks:stone"},

@@ -2,39 +2,20 @@ mapgen.register_microbiome_decorations = function(base_name, data)
 	local height_min = data.height_min
 	local height_max = data.height_max
 	local seed = data.seed
-	local in_base_node = data.base_node
-	local in_surface_node = data.surface_node
+	local base_node = data.base_node
+	local surface_node = data.surface_node
 
 	local grass = data.grass_node
 	local small_plant = data.main_small_plant
-	local small_plant_secondary = data.secondary_small_plant 	-- Optional
+	local secondary_small_plant = data.secondary_small_plant 	-- Optional
 	local large_plant = data.main_large_plant					-- Optional
 	local secondary_large_plant = data.secondary_large_plant	-- Optional
 	local vines = data.main_vines
 	local secondary_vines = data.secondary_vines				-- Optional
 	local moss = data.moss
 
-	local base_node = {}
-	local surface_node = {}
-
-	if in_base_node[2] ~= nil then
-		for i=1,#in_base_node do
-			base_node[i] = in_base_node[i]
-		end
-	else
-		base_node = in_base_node
-	end
-
-	if in_surface_node[2] ~= nil then
-		for i=1,#in_surface_node do
-			surface_node[i] = in_surface_node[i]
-		end
-	else
-		surface_node = in_surface_node
-	end
-
-	local np_surface = nil
 	local surface_fill = 0
+	local np_surface = nil
 
 	if data.surface_coverage == "full" then
 		surface_fill = 10.0
@@ -50,69 +31,18 @@ mapgen.register_microbiome_decorations = function(base_name, data)
 	end
 
 	-- Surface node, like dirt with grass for example
-	if base_node[2] ~= nil then
-		for i=1,#base_node do
-			minetest.register_decoration({
-				name = base_name .. "_" .. surface_node[i] .. "_surface",
-				deco_type = "simple",
-				place_on = {base_node[i]},
-				fill_ratio = surface_fill,
-				noise_params = np_surface,
-				y_max = height_max,
-				y_min = height_min,
-				flags = "all_floors, force_placement",
-				place_offset_y = -1, -- Requires force_placement
-				decoration = surface_node[i],
-			})
-		end
-	else
+	for i=1,#base_node do
 		minetest.register_decoration({
-			name = base_name .. "_" .. surface_node[1] .. "_surface",
+			name = base_name .. "_" .. surface_node[i] .. "_surface",
 			deco_type = "simple",
-			place_on = base_node,
+			place_on = {base_node[i]},
 			fill_ratio = surface_fill,
 			noise_params = np_surface,
 			y_max = height_max,
 			y_min = height_min,
 			flags = "all_floors, force_placement",
 			place_offset_y = -1, -- Requires force_placement
-			decoration = surface_node[1],
-		})
-	end
-
-	-- Large plants
-	if large_plant ~= nil then
-		minetest.register_decoration({
-			name = base_name .. "_" .. large_plant .. "_large_plant",
-			deco_type = "simple",
-			place_on = surface_node,
-			sidelen = 12,
-			fill_ratio = 0.1,
-			y_max = height_max,
-			y_min = height_min,
-			flags = "all_floors",
-			height = 3,
-			height_max = 8,
-			param2 = 0,
-			param2_max = 3,
-			decoration = large_plant,
-		})
-	end
-	if secondary_large_plant ~= nil then
-		minetest.register_decoration({
-			name = base_name .. "_" .. secondary_large_plant .. "_secondary_large_plant",
-			deco_type = "simple",
-			place_on = surface_node,
-			sidelen = 12,
-			fill_ratio = 0.1,
-			y_max = height_max,
-			y_min = height_min,
-			flags = "all_floors",
-			height = 3,
-			height_max = 8,
-			param2 = 0,
-			param2_max = 3,
-			decoration = secondary_large_plant,
+			decoration = surface_node[i],
 		})
 	end
 
@@ -285,7 +215,6 @@ mapgen.register_microbiome_decorations("moonstone", {
 -- Rocks
 
 mapgen.register_stalagmites = function(base_node, seed, surface, secondary_base)
-	local base_definition = minetest.registered_nodes[base_node]
 	local sname = string.match(base_node, ':(.*)')
 	local stalagmite_max_height = 0
 	if surface then stalagmite_max_height = 512 end

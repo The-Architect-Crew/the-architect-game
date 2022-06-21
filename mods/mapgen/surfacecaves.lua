@@ -1,5 +1,5 @@
 
-
+--[[
 minetest.register_decoration({
 	name = "blocks:dirt_with_grass_sfcave",
 	deco_type = "simple",
@@ -109,4 +109,4 @@ for i=1,5 do
 		flags = "all_floors",
 		decoration = "flora:grass_" .. i,
 	})
-end
+end]]--

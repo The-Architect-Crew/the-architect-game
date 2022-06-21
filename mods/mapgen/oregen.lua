@@ -1466,6 +1466,62 @@ function mapgen.register_ores()
 			persist = 0.70
 		},
 	})
+	-- Sandstone sheets in sand to allow for spawning of surface "stalagmites"
+	minetest.register_ore({
+		ore_type        = "sheet",
+		ore             = "blocks:sandstone",
+		wherein         = {"blocks:sand"},
+		y_max           = 512,
+		y_min           = -64,
+		noise_threshold = 1.0,
+		column_height_max = 1,
+		column_height_min = 1,
+		noise_params    = {
+			offset = -1,
+			scale = 8,
+			spread = {x = 50, y = 50, z = 1},
+			seed = 662,
+			octaves = 1,
+			persist = 0.70
+		},
+	})
+	minetest.register_ore({
+		ore_type        = "sheet",
+		ore             = "blocks:desert_sandstone",
+		wherein         = {"blocks:desert_sand"},
+		y_max           = 512,
+		y_min           = -64,
+		noise_threshold = 1.0,
+		column_height_max = 1,
+		column_height_min = 1,
+		noise_params    = {
+			offset = -1,
+			scale = 8,
+			spread = {x = 50, y = 50, z = 1},
+			seed = 662,
+			octaves = 1,
+			persist = 0.70
+		},
+	})
+	minetest.register_ore({
+		ore_type        = "sheet",
+		ore             = "blocks:silver_sandstone",
+		wherein         = {"blocks:silver_sand"},
+		y_max           = 512,
+		y_min           = -64,
+		noise_threshold = 1.0,
+		column_height_max = 1,
+		column_height_min = 1,
+		noise_params    = {
+			offset = -1,
+			scale = 8,
+			spread = {x = 50, y = 50, z = 1},
+			seed = 662,
+			octaves = 1,
+			persist = 0.70
+		},
+	})
+
 	-- Iron
 	minetest.register_ore({
 		ore_type        = "sheet",

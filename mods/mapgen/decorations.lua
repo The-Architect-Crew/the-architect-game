@@ -40,6 +40,8 @@ mapgen.register_microbiome_decorations = function(base_name, data)
 			noise_params = np_surface,
 			y_max = height_max,
 			y_min = height_min,
+			spawn_by = "air",
+			num_spawn_by = 3,
 			flags = "all_floors, force_placement",
 			place_offset_y = -1, -- Requires force_placement
 			decoration = surface_node[i],
@@ -245,6 +247,33 @@ mapgen.register_microbiome_decorations("moonstone", {
 	main_vines = "flora:vines",
 	secondary_vines = "flora:vines_moonstone",
 	moss = "flora:vines_horizontal",
+})
+
+minetest.register_decoration({
+	name = "tree_vines",
+	deco_type = "simple",
+	place_on = {"flora:leaves", "flora:jungleleaves"},
+	fill_ratio = 0.2,
+	y_max = 31000,
+	y_min = mapgen.underground_start,
+	flags = "all_ceilings",
+	height = 3,
+	height_max = 8,
+	decoration = "flora:vines",
+})
+
+minetest.register_decoration({
+	name = "quests:spaceship",
+	deco_type = "schematic",
+	place_on = {"blocks:sand"},
+	sidelen = 16,
+	fill_ratio = 0.0000001,
+	y_max = 31000,
+	y_min = -31000,
+	schematic = minetest.get_modpath("quests") .. "/schematics/spaceship.mts",
+	flags = "place_center_x, place_center_z",
+	rotation = "random",
+	place_offset_y = -1,
 })
 
 -- Rocks

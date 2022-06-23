@@ -32,7 +32,7 @@ for i=1,5 do
 			fixed = {-8 / 16, -0.5, -8 / 16, 8 / 16, -4 / 16, 8 / 16},
 		}
 	})
-	
+
 	minetest.register_node("flora:mushroom_garnet_" .. i, {
 		description = "Red Glowing Mushroom",
 		tiles = {"flora_mushroom_garnet.png^[sheet:5x1:" .. i - 1 .. ",0"},
@@ -92,22 +92,6 @@ minetest.register_node("flora:vines_garnet", {
 })
 
 -- Amethyst (sand[stone] (and ice) sub-biome flora)
-minetest.register_node("flora:mushroom_amethyst", {
-	description = "Violet Glowing Mushroom",
-	tiles = {"flora_mushroom_amethyst.png"},
-	drawtype = "plantlike",
-	paramtype = "light",
-	sunlight_propagates = true,
-	walkable = false,
-	buildable_to = true,
-    light_source = 8,
-	groups = {mushroom = 1, snappy = 3, attached_node = 1},
-	sounds = default.node_sound_leaves_defaults(),
-	selection_box = {
-		type = "fixed",
-		fixed = {-8 / 16, -0.5, -8 / 16, 8 / 16, -4 / 16, 8 / 16},
-	}
-})
 minetest.register_node("flora:moss_amethyst", {
 	description = "Violet Glowing Moss",
 	tiles = {"flora_moss_amethyst.png"},
@@ -134,6 +118,22 @@ for i=1,5 do
 		walkable = false,
 		buildable_to = true,
 		groups = {grass = 1, snappy = 3, attached_node = 1},
+		sounds = default.node_sound_leaves_defaults(),
+		selection_box = {
+			type = "fixed",
+			fixed = {-8 / 16, -0.5, -8 / 16, 8 / 16, -4 / 16, 8 / 16},
+		}
+	})
+	minetest.register_node("flora:mushroom_amethyst_" .. i, {
+		description = "Violet Glowing Mushroom",
+		tiles = {"flora_mushroom_amethyst.png^[sheet:5x1:" .. i - 1 .. ",0"},
+		drawtype = "plantlike",
+		paramtype = "light",
+		sunlight_propagates = true,
+		walkable = false,
+		buildable_to = true,
+		light_source = 8,
+		groups = {mushroom = 1, snappy = 3, attached_node = 1},
 		sounds = default.node_sound_leaves_defaults(),
 		selection_box = {
 			type = "fixed",

@@ -217,26 +217,25 @@ minetest.register_node("flora:dry_shrub", {
 		fixed = {-6 / 16, -0.5, -6 / 16, 6 / 16, 4 / 16, 6 / 16},
 	},
 })
-
-minetest.register_node("flora:junglegrass", {
-	description = S("Jungle Grass"),
-	drawtype = "plantlike",
-	waving = 1,
-	visual_scale = 1.69,
-	tiles = {"flora_junglegrass.png"},
-	inventory_image = "flora_junglegrass.png",
-	wield_image = "flora_junglegrass.png",
-	paramtype = "light",
-	sunlight_propagates = true,
-	walkable = false,
-	buildable_to = true,
-	groups = {snappy = 3, flora = 1, attached_node = 1, grass = 1, junglegrass = 1, flammable = 1},
-	sounds = default.node_sound_leaves_defaults(),
-	selection_box = {
-		type = "fixed",
-		fixed = {-6 / 16, -0.5, -6 / 16, 6 / 16, 0.5, 6 / 16},
-	},
-})
+for i=1,5 do
+	minetest.register_node("flora:junglegrass_" .. i, {
+		description = S("Jungle Grass"),
+		drawtype = "plantlike",
+		waving = 1,
+		visual_scale = 1.69,
+		tiles = {"flora_junglegrass.png^[sheet:5x1:" .. i-1 .. ",0"},
+		paramtype = "light",
+		sunlight_propagates = true,
+		walkable = false,
+		buildable_to = true,
+		groups = {snappy = 3, flora = 1, attached_node = 1, grass = 1, junglegrass = 1, flammable = 1},
+		sounds = default.node_sound_leaves_defaults(),
+		selection_box = {
+			type = "fixed",
+			fixed = {-6 / 16, -0.5, -6 / 16, 6 / 16, 0.5, 6 / 16},
+		},
+	})
+end
 
 
 minetest.register_node("flora:grass_1", {
@@ -299,9 +298,8 @@ minetest.register_node("flora:dry_grass_1", {
 	description = S("Savanna Grass"),
 	drawtype = "plantlike",
 	waving = 1,
-	tiles = {"flora_dry_grass_1.png"},
-	inventory_image = "flora_dry_grass_3.png",
-	wield_image = "flora_dry_grass_3.png",
+	tiles = {"flora_dry_grass.png^[sheet:5x1:0,0"},
+	visual_scale = 2,
 	paramtype = "light",
 	sunlight_propagates = true,
 	walkable = false,
@@ -328,9 +326,8 @@ for i = 2, 5 do
 		description = S("Savanna Grass"),
 		drawtype = "plantlike",
 		waving = 1,
-		tiles = {"flora_dry_grass_" .. i .. ".png"},
-		inventory_image = "flora_dry_grass_" .. i .. ".png",
-		wield_image = "flora_dry_grass_" .. i .. ".png",
+		tiles = {"flora_dry_grass.png^[sheet:5x1:" .. i-1 .. ",0"},
+		visual_scale = 2,
 		paramtype = "light",
 		sunlight_propagates = true,
 		walkable = false,

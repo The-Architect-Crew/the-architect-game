@@ -24,7 +24,7 @@ function mapgen.register_biomes()
 		node_dungeon = "blocks:ice",
 		node_dungeon_stair = "blocks:shapes_ice_stair",
 		y_max = 31000,
-		y_min = -8,
+		y_min = -64,
 		heat_point = 0,
 		humidity_point = 73,
 	})
@@ -42,7 +42,7 @@ function mapgen.register_biomes()
 		node_dungeon = "blocks:cobble",
 		node_dungeon_alt = "blocks:mossycobble",
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
-		y_max = -9,
+		y_max = -65,
 		y_min = mapgen.underground_limit + 1,
 		heat_point = 0,
 		humidity_point = 73,
@@ -1226,7 +1226,7 @@ function mapgen.register_decorations()
 		rotation = "random",
 		place_offset_y = 1,
 	})
-	
+
 	minetest.register_decoration({
 		name = "mapgen:acacia_log",
 		deco_type = "schematic",

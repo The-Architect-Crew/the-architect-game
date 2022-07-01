@@ -195,7 +195,7 @@ mapgen.register_microbiome_decorations("garnet", {
 	seed = 262,
 	base_node = {"blocks:cobble"}, -- surface_node matches the base_node, they also have to be the same length
 	surface_node = {"blocks:cobble_garnet"},
-	surface_coverage = 1,
+	surface_coverage = 2.5,
 
 	grass_node = "flora:grass_garnet",
 	main_small_plant = "flora:mushroom_garnet",
@@ -250,9 +250,23 @@ mapgen.register_microbiome_decorations("moonstone", {
 })
 
 minetest.register_decoration({
+	name = "sfcave_mossycobble",
+	deco_type = "simple",
+	place_on = {"blocks:stone"},
+	fill_ratio = 10.0,
+	y_max = 0,
+	y_min = mapgen.underground_start,
+	spawn_by = "blocks:dirt_with_grass",
+	num_spawn_by = 1,
+	flags = "all_floors, all_ceilings, force_placement",
+	place_offset_y = -1, -- Requires force_placement
+	decoration = "blocks:mossycobble",
+})
+
+minetest.register_decoration({
 	name = "tree_vines",
 	deco_type = "simple",
-	place_on = {"flora:leaves", "flora:jungleleaves"},
+	place_on = {"flora:leaves"},
 	fill_ratio = 0.2,
 	y_max = 31000,
 	y_min = mapgen.underground_start,

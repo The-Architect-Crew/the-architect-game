@@ -1780,6 +1780,56 @@ minetest.register_node("blocks:slate_cobble", {
 	sounds = default.node_sound_stone_defaults(),
 })
 
+-- Moonstone
+
+minetest.register_node("blocks:stone_with_moonstone", {
+	description = S("Stone with Moonstone"),
+	tiles = {"blocks_stone.png^blocks_mineral_moonstone.png"},
+	paramtype = "light",
+	light_source = default.LIGHT_MAX,
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:moonstone_crystal"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:moonstone_crystal"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:stone_chunk"},
+			},
+			{
+				rarity = 3,
+				items = {"blocks:stone_chunk 2"},
+			},
+		},
+	},
+	groups = {cracky = 2},
+	sounds = default.node_sound_stone_defaults(),
+})
+
+minetest.register_craftitem("blocks:moonstone_crystal", {
+	description = S("Moonstone Crystal"),
+	inventory_image = "blocks_moonstone_crystal.png",
+})
+
+minetest.register_craftitem("blocks:moonstone_powder", {
+	description = S("Moonstone Powder"),
+	inventory_image = "blocks_moonstone_powder.png",
+})
+
+minetest.register_node("blocks:moonstone", {
+	description = S("Moonstone"),
+	tiles = {"blocks_moonstone.png"},
+	paramtype = "light",
+	light_source = default.LIGHT_MAX,
+	groups = {cracky = 3},
+	sounds = default.node_sound_glass_defaults(),
+})
+
 --
 -- == CRAFTS
 --
@@ -2050,6 +2100,23 @@ minetest.register_craft({
 	output = "blocks:chalk_powder 4",
 	recipe = {
 		{"blocks:chalk"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:moonstone",
+	recipe = {
+		{"blocks:moonstone_crystal", "blocks:moonstone_crystal", "blocks:moonstone_crystal"},
+		{"blocks:moonstone_crystal", "blocks:moonstone_crystal", "blocks:moonstone_crystal"},
+		{"blocks:moonstone_crystal", "blocks:moonstone_crystal", "blocks:moonstone_crystal"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:moonstone_crystal",
+	recipe = {
+		{"blocks:moonstone_powder", "blocks:moonstone_powder"},
+		{"blocks:moonstone_powder", "blocks:moonstone_powder"},
 	}
 })
 

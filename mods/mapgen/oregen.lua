@@ -333,7 +333,7 @@ end
 
 mapgen.surface_nodes = {"blocks:stone", "blocks:dry_dirt", "blocks:dry_dirt_with_dry_grass", "blocks:dirt", "blocks:dirt_with_grass", "blocks:dirt_with_snow", "blocks:dirt_with_rainforest_litter", "blocks:dirt_with_coniferous_litter",
 "blocks:desert_stone", "blocks:desert_sand", "blocks:desert_sandstone", "blocks:sandstone", "blocks:sand", "blocks:silver_sandstone", "blocks:silver_sand",
-"blocks:cave_ice", "blocks:ice", "blocks:snowblock", "blocks:permafrost", "blocks:permafrost_with_stones"} -- Hope I didn't miss any
+"blocks:cave_ice", "blocks:ice", "blocks:gravel", "blocks:snowblock", "blocks:permafrost", "blocks:permafrost_with_stones"} -- Hope I didn't miss any
 
 function mapgen.register_ores()
 	-- Stratum ores.
@@ -386,6 +386,33 @@ function mapgen.register_ores()
 
 		},
 	})
+	for i=1, #blocks.stone_colors do
+		for j=1,8 do
+			minetest.register_ore({
+				ore_type        = "stratum",
+				ore             = "blocks:stone_" .. blocks.stone_colors[i][1],
+				wherein         = {"blocks:sandstone", "blocks:sand"},
+				y_max           = 128,
+				y_min           = -32,
+				noise_threshold = 0.75,				
+				noise_params    = {
+					offset = 132 - ((#blocks.stone_colors*j) - i),
+					scale = 1.0,
+					spread = {x = 64, y = 64, z = 64},
+					seed = 47756 + j,
+					octaves = 1,
+					persist = 0.0,
+				},
+				np_stratum_thickness = {
+					offset = -4,
+					scale = 5,
+					spread = {x = 128, y = 128, z = 128},
+					seed = 77822344,
+					octaves = 1,
+				},
+			})
+		end
+	end
 	-- Basalt Surface Layers
 	minetest.register_ore({
 		ore_type        = "stratum",
@@ -1389,51 +1416,8 @@ function mapgen.register_ores()
 			persist = 0.0
 		},
 	})
+
 	-- Sheet ores
-	-- Colored stone first
-
-	mapgen.colored_stone_ores = {
-		--{wherein, y_max, biomes}
-		{{"blocks:obsidian"}, 512, nil}, -- Black
-		{{"blocks:stone"}, 512, nil}, -- Brown
-		{{"blocks:sand", "blocks:desert_sand", "blocks:silver_sand"}, -1, nil}, -- Cyan
-		{{"blocks:sand", "blocks:desert_sand", "blocks:silver_sand"}, -1, nil}, -- Dark blue
-		{{"blocks:stone"}, 512, {"rainforest", "rainforest_swamp", "rainforest_ocean"}}, -- Dark green
-		{{"blocks:stone"}, 512, nil}, -- Dark grey
-		{{"blocks:desert_stone"}, 512, nil}, -- Dark pink
-		{{"blocks:stone"}, 512, {"rainforest", "rainforest_swamp", "rainforest_ocean"}}, -- Green
-		{{"blocks:stone"}, 512, nil}, -- Grey
-		{{"blocks:desert_stone", "blocks:desert_sandstone", "blocks:sandstone"}, 512, nil}, -- Orange
-		{{"blocks:sandstone", "blocks:silver_sandstone"}, 512, nil}, -- Pink
-		{{"blocks:sand", "blocks:desert_sand", "blocks:silver_sand"}, -1, nil}, -- Purple
-		{{"blocks:obsidian"}, 0, nil}, -- Red
-		{{"blocks:stone", "blocks:sandstone", "blocks:silver_sandstone", "blocks:sand", "blocks:silver_sand"}, 512, {"sandstone_desert", "sandstone_desert_ocean", "snowy_grassland", "snowy_grassland_ocean", "taiga", "taiga_ocean", "tundra", "tundra_ocean", "cold_desert", "cold_desert_ocean"}}, -- White
-		{{"blocks:desert_stone", "blocks:sandstone", "blocks:desert_sandstone", "blocks:sand"}, 512, mapgen.hot_biomes}, -- Yellow
-	}
-
-	for i=1, #blocks.stone_colors do
-		for j=1,4 do
-			minetest.register_ore({
-				ore_type        = "sheet",
-				ore             = "blocks:stone_" .. blocks.stone_colors[i][1],
-				wherein         = mapgen.colored_stone_ores[i][1],
-				y_max           = mapgen.colored_stone_ores[i][2],
-				y_min           = mapgen.world_bottom,
-				column_height_max = 1,
-				column_height_min = 1,
-				noise_threshold = 0.0,
-				noise_params    = {
-					offset = -0.25,
-					scale = 1.0,
-					spread = {x = 4, y = 4, z = 4},
-					seed = (47756 + j) * i,
-					octaves = 1,
-					persist = 0.0,
-				},
-				biomes = mapgen.colored_stone_ores[i][3],
-			})
-		end
-	end
 
 	-- Basalt
 	minetest.register_ore({
@@ -2407,6 +2391,16 @@ function mapgen.register_ores()
 		clust_num_ores = 24,
 		clust_size     = 4,
 		y_max          = 8,
+		y_min          = mapgen.underground_start - 8,
+	})
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:stone_with_moonstone",
+		wherein        = "blocks:stone",
+		clust_scarcity = 8 * 8 * 8,
+		clust_num_ores = 8,
+		clust_size     = 6,
+		y_max          = 512,
 		y_min          = mapgen.underground_start - 8,
 	})
 end

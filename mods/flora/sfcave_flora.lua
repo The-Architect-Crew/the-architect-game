@@ -8,6 +8,30 @@ minetest.register_node("flora:vines_horizontal", {
 	floodable = true,
 	visual_scale = 2.0,
 	buildable_to = true,
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:stick"},
+			},
+			{
+				rarity = 1,
+				items = {"flora:leaves"},
+			},
+			{
+				rarity = 2,
+				items = {"flora:leaves 2"},
+			},
+			{
+				rarity = 3,
+				items = {"blocks:stick 2"},
+			},
+			{
+				rarity = 7,
+				items = {"blocks:moonstone_powder"},
+			},
+		},
+	},
 	groups = {snappy = 1, attached_node = 1},
 	sounds = default.node_sound_leaves_defaults(),
 	selection_box = {
@@ -24,6 +48,30 @@ minetest.register_node("flora:vines", {
 	walkable = false,
 	floodable = true,
 	buildable_to = true,
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:stick"},
+			},
+			{
+				rarity = 1,
+				items = {"flora:leaves"},
+			},
+			{
+				rarity = 2,
+				items = {"flora:leaves 2"},
+			},
+			{
+				rarity = 3,
+				items = {"blocks:stick 2"},
+			},
+			{
+				rarity = 7,
+				items = {"blocks:moonstone_powder"},
+			},
+		},
+	},
 	groups = {snappy = 1},
 	sounds = default.node_sound_leaves_defaults(),
 	selection_box = {
@@ -42,6 +90,19 @@ for i=1,5 do
 		walkable = false,
 		floodable = true,
 		buildable_to = true,
+		waving = 1,
+		drop = {
+			items = {
+				{
+					rarity = 1,
+					items = {"blocks:moonstone_powder"},
+				},
+				{
+					rarity = 1,
+					items = {"blocks:moonstone_powder 2"},
+				},
+			},
+		},
 		groups = {snappy = 1},
 		sounds = default.node_sound_leaves_defaults(),
 	})
@@ -56,6 +117,38 @@ minetest.register_node("flora:vines_with_moonstone", {
 	walkable = false,
 	floodable = true,
 	buildable_to = true,
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:stick"},
+			},
+			{
+				rarity = 1,
+				items = {"blocks:moonstone_powder"},
+			},
+			{
+				rarity = 2,
+				items = {"flora:leaves"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:moonstone_powder"},
+			},
+			{
+				rarity = 3,
+				items = {"blocks:moonstone_powder 2"},
+			},
+			{
+				rarity = 3,
+				items = {"blocks:stick 2"},
+			},
+			{
+				rarity = 7,
+				items = {"blocks:moonstone_powder 4"},
+			},
+		},
+	},
 	groups = {snappy = 1},
 	sounds = default.node_sound_leaves_defaults(),
 	selection_box = {

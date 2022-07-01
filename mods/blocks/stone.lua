@@ -291,7 +291,7 @@ minetest.register_node("blocks:desert_cobble_amethyst", {
 
 minetest.register_node("blocks:stone_icy", {
 	description = S("Stone"),
-	tiles = {"blocks_stone_icy_top.png", "blocks_stone_icy_top.png", "blocks_stone_icy.png"},
+	tiles = {"blocks_stone_icy.png"},
 	groups = {cracky = 3, stone = 1},
 	drop = "blocks:cobble",
 	sounds = default.node_sound_glass_defaults(),

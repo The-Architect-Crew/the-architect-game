@@ -1144,6 +1144,27 @@ function mapgen.register_decorations()
 	})
 
 	minetest.register_decoration({
+		name = "mapgen:pine_tree_large",
+		deco_type = "schematic",
+		place_on = {"blocks:dirt_with_snow", "blocks:dirt_with_coniferous_litter", "blocks:dirt_with_grass"},
+		sidelen = 16,
+		noise_params = {
+			offset = 0,
+			scale = 0.01,
+			spread = {x = 250, y = 250, z = 250},
+			seed = 282238,
+			octaves = 3,
+			persist = 0.66
+		},
+		biomes = {"taiga", "coniferous_forest"},
+		y_max = 31000,
+		y_min = mapgen.underground_start,
+		schematic = minetest.get_modpath("flora") .. "/schematics/pine_tree_large.mts",
+		flags = "place_center_x, place_center_z, all_floors",
+		place_offset_y = -2,
+	})
+
+	minetest.register_decoration({
 		name = "mapgen:pine_log",
 		deco_type = "schematic",
 		place_on = {"blocks:dirt_with_snow", "blocks:dirt_with_coniferous_litter", "blocks:dirt_with_grass"},

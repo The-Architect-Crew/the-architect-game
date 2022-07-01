@@ -2,32 +2,6 @@
 
 local S = default.get_translator
 
---[[
-    Moonlight is assembled out of two parts: the binding and the head.
-    The head is made out of unbreakable moonstone crystals, bound by melted moonstone.
-    melted moonstone is made by cooking moonstone
-    The binding is made out of two parts: the handle and the bound focus crystal.
-    --Both of the binding parts have a base of hardened gold, and are bound together by it.
-    Hardened gold is made from cooking hardened gold lump
-    Hardened gold lump is made from mithril lump, silver lump and gold lump
-    --The handle is made from 2x polished moonstone crystal, hardened gold and moonstone powder.
-    Polished moonstone crystal fragments are made from moonstone powder and crystals, and the fragments are then combined into a crystal
-    --The bound Focus crystal is made from the focus crystal, moonstone powder and hardened gold.
-    The focus crystal is made from 4 polished moonstone, 2 inverted moonstone, 2 moonstone dust and a broken obsidian heart in the center
-    The obsidian heart is made from 8 obsidian and a lava bucket in the center
-    It is broken by cooking
-    Inverted moonstone is made from refining moonstone using a furnace, to get moonstone essence
-    The moonstone essence is corrupted using mese crystals
-    The 3 corrupted moonstone essences and 6 mese crystals are combined into an inverted moonstone essence
-    The inverted essence is cooked into inverted moonstone
-    -- The hardened moonstone crystal is made from moonstone crystal block, moonstone binding and 2 inverted moonstones
-    Moonstone binding is made from 3 silver and 3 tin ingots
-    The unbreakable moonstone is made by cooking the hardened moonstone
-    
-
-    In the end the player ignites the unfinished assembled moonlight to activate it by cooking.
-]]--
-
 minetest.register_craftitem("quests:moonlight_inactive", {
 	description = S("Moonlight Husk\n\"Requires activation\""),
 	inventory_image = "quests_moonlight_inactive.png",

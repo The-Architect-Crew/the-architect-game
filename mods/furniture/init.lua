@@ -72,7 +72,12 @@ function furniture.register_for_base(base_node, support_node, limit)
             local sname = string.match(base_node, ':(.*)')
             local supsname = string.match(support_node, ':(.*)')
             local furniture_name = "furniture:" .. furniture.types[i].name .. "_" .. sname .. "_" .. supsname
-            local furniture_description = base_definition.description .. " " .. furniture.types[i].description
+            local furniture_description = ""
+            if base_node == support_node then
+              furniture_description = base_definition.description .. " " .. furniture.types[i].description
+            else
+              furniture_description = base_definition.description .. " with " .. support_definition.description .. " " .. furniture.types[i].description
+            end
             local furniture_mesh = furniture.types[i].name .. ".obj"
             local tiles = {base_definition.tiles[1], support_definition.tiles[1]}
             if (furniture.types[i].special_material ~= false) then -- For types that have a mandatory predefined third component

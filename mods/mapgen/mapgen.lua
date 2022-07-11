@@ -26,7 +26,7 @@ function mapgen.register_biomes()
 		y_max = 31000,
 		y_min = -8,
 		heat_point = 0,
-		humidity_point = 73,
+		humidity_point = 68,
 	})
 
 	minetest.register_biome({
@@ -45,7 +45,7 @@ function mapgen.register_biomes()
 		y_max = -9,
 		y_min = -255,
 		heat_point = 0,
-		humidity_point = 73,
+		humidity_point = 78,
 	})
 
 	minetest.register_biome({
@@ -57,7 +57,7 @@ function mapgen.register_biomes()
 		y_max = -256,
 		y_min = -31000,
 		heat_point = 0,
-		humidity_point = 73,
+		humidity_point = 78,
 	})
 
 	-- Tundra
@@ -73,7 +73,7 @@ function mapgen.register_biomes()
 		y_max = 31000,
 		y_min = 47,
 		heat_point = 0,
-		humidity_point = 40,
+		humidity_point = 45,
 	})
 
 	minetest.register_biome({
@@ -91,7 +91,7 @@ function mapgen.register_biomes()
 		y_max = 46,
 		y_min = 2,
 		heat_point = 0,
-		humidity_point = 40,
+		humidity_point = 45,
 	})
 
 	minetest.register_biome({
@@ -109,7 +109,7 @@ function mapgen.register_biomes()
 		y_max = 1,
 		y_min = -3,
 		heat_point = 0,
-		humidity_point = 40,
+		humidity_point = 45,
 	})
 
 	minetest.register_biome({
@@ -128,7 +128,7 @@ function mapgen.register_biomes()
 		y_max = -4,
 		y_min = -255,
 		heat_point = 0,
-		humidity_point = 40,
+		humidity_point = 45,
 	})
 
 	minetest.register_biome({
@@ -140,7 +140,7 @@ function mapgen.register_biomes()
 		y_max = -256,
 		y_min = -31000,
 		heat_point = 0,
-		humidity_point = 40,
+		humidity_point = 45,
 	})
 
 	-- Taiga
@@ -158,9 +158,9 @@ function mapgen.register_biomes()
 		node_dungeon_alt = "blocks:mossycobble",
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
 		y_max = 31000,
-		y_min = 4,
+		y_min = 3,
 		heat_point = 25,
-		humidity_point = 70,
+		humidity_point = 60,
 	})
 
 	minetest.register_biome({
@@ -180,7 +180,7 @@ function mapgen.register_biomes()
 		y_max = 3,
 		y_min = -255,
 		heat_point = 25,
-		humidity_point = 70,
+		humidity_point = 60,
 	})
 
 	minetest.register_biome({
@@ -192,7 +192,7 @@ function mapgen.register_biomes()
 		y_max = -256,
 		y_min = -31000,
 		heat_point = 25,
-		humidity_point = 70,
+		humidity_point = 60,
 	})
 
 	-- Snowy grassland
@@ -210,8 +210,8 @@ function mapgen.register_biomes()
 		node_dungeon_alt = "blocks:mossycobble",
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
 		y_max = 31000,
-		y_min = 4,
-		heat_point = 20,
+		y_min = 3,
+		heat_point = 15,
 		humidity_point = 35,
 	})
 
@@ -231,7 +231,7 @@ function mapgen.register_biomes()
 		vertical_blend = 1,
 		y_max = 3,
 		y_min = -255,
-		heat_point = 20,
+		heat_point = 15,
 		humidity_point = 35,
 	})
 
@@ -243,7 +243,7 @@ function mapgen.register_biomes()
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
 		y_max = -256,
 		y_min = -31000,
-		heat_point = 20,
+		heat_point = 15,
 		humidity_point = 35,
 	})
 
@@ -261,28 +261,28 @@ function mapgen.register_biomes()
 		node_dungeon_alt = "blocks:mossycobble",
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
 		y_max = 31000,
-		y_min = 6,
-		heat_point = 50,
+		y_min = 3,
+		heat_point = 48,
 		humidity_point = 35,
 	})
 
-	minetest.register_biome({
-		name = "grassland_dunes",
-		node_top = "blocks:sand",
-		depth_top = 1,
-		node_filler = "blocks:sand",
-		depth_filler = 2,
-		node_riverbed = "blocks:sand",
-		depth_riverbed = 2,
-		node_dungeon = "blocks:cobble",
-		node_dungeon_alt = "blocks:mossycobble",
-		node_dungeon_stair = "blocks:shapes_cobble_stair",
-		vertical_blend = 1,
-		y_max = 5,
-		y_min = 4,
-		heat_point = 50,
-		humidity_point = 35,
-	})
+	-- minetest.register_biome({
+	-- 	name = "grassland_dunes",
+	-- 	node_top = "blocks:sand",
+	-- 	depth_top = 1,
+	-- 	node_filler = "blocks:sand",
+	-- 	depth_filler = 2,
+	-- 	node_riverbed = "blocks:sand",
+	-- 	depth_riverbed = 2,
+	-- 	node_dungeon = "blocks:cobble",
+	-- 	node_dungeon_alt = "blocks:mossycobble",
+	-- 	node_dungeon_stair = "blocks:shapes_cobble_stair",
+	-- 	vertical_blend = 1,
+	-- 	y_max = 5,
+	-- 	y_min = 4,
+	-- 	heat_point = 50,
+	-- 	humidity_point = 35,
+	-- })
 
 	minetest.register_biome({
 		name = "grassland_ocean",
@@ -298,7 +298,7 @@ function mapgen.register_biomes()
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
 		y_max = 3,
 		y_min = -255,
-		heat_point = 50,
+		heat_point = 48,
 		humidity_point = 35,
 	})
 
@@ -310,7 +310,7 @@ function mapgen.register_biomes()
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
 		y_max = -256,
 		y_min = -31000,
-		heat_point = 50,
+		heat_point = 48,
 		humidity_point = 35,
 	})
 
@@ -328,27 +328,9 @@ function mapgen.register_biomes()
 		node_dungeon_alt = "blocks:mossycobble",
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
 		y_max = 31000,
-		y_min = 6,
-		heat_point = 45,
-		humidity_point = 70,
-	})
-
-	minetest.register_biome({
-		name = "coniferous_forest_dunes",
-		node_top = "blocks:sand",
-		depth_top = 1,
-		node_filler = "blocks:sand",
-		depth_filler = 3,
-		node_riverbed = "blocks:sand",
-		depth_riverbed = 2,
-		node_dungeon = "blocks:cobble",
-		node_dungeon_alt = "blocks:mossycobble",
-		node_dungeon_stair = "blocks:shapes_cobble_stair",
-		vertical_blend = 1,
-		y_max = 5,
-		y_min = 4,
-		heat_point = 45,
-		humidity_point = 70,
+		y_min = 3,
+		heat_point = 40,
+		humidity_point = 60,
 	})
 
 	minetest.register_biome({
@@ -365,8 +347,8 @@ function mapgen.register_biomes()
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
 		y_max = 3,
 		y_min = -255,
-		heat_point = 45,
-		humidity_point = 70,
+		heat_point = 40,
+		humidity_point = 60,
 	})
 
 	minetest.register_biome({
@@ -377,8 +359,8 @@ function mapgen.register_biomes()
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
 		y_max = -256,
 		y_min = -31000,
-		heat_point = 45,
-		humidity_point = 70,
+		heat_point = 40,
+		humidity_point = 60,
 	})
 
 	-- Deciduous forest
@@ -396,8 +378,8 @@ function mapgen.register_biomes()
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
 		y_max = 31000,
 		y_min = 1,
-		heat_point = 60,
-		humidity_point = 68,
+		heat_point = 55,
+		humidity_point = 65,
 	})
 
 	minetest.register_biome({
@@ -413,8 +395,8 @@ function mapgen.register_biomes()
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
 		y_max = 0,
 		y_min = -1,
-		heat_point = 60,
-		humidity_point = 68,
+		heat_point = 55,
+		humidity_point = 65,
 	})
 
 	minetest.register_biome({
@@ -432,8 +414,8 @@ function mapgen.register_biomes()
 		vertical_blend = 1,
 		y_max = -2,
 		y_min = -255,
-		heat_point = 60,
-		humidity_point = 68,
+		heat_point = 55,
+		humidity_point = 65,
 	})
 
 	minetest.register_biome({
@@ -444,8 +426,8 @@ function mapgen.register_biomes()
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
 		y_max = -256,
 		y_min = -31000,
-		heat_point = 60,
-		humidity_point = 68,
+		heat_point = 55,
+		humidity_point = 65,
 	})
 
 	-- Desert
@@ -463,7 +445,7 @@ function mapgen.register_biomes()
 		node_dungeon_stair = "blocks:shapes_desert_stone_stair",
 		y_max = 31000,
 		y_min = 4,
-		heat_point = 92,
+		heat_point = 90,
 		humidity_point = 16,
 	})
 
@@ -482,7 +464,7 @@ function mapgen.register_biomes()
 		vertical_blend = 1,
 		y_max = 3,
 		y_min = -255,
-		heat_point = 92,
+		heat_point = 90,
 		humidity_point = 16,
 	})
 
@@ -494,7 +476,7 @@ function mapgen.register_biomes()
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
 		y_max = -256,
 		y_min = -31000,
-		heat_point = 92,
+		heat_point = 90,
 		humidity_point = 16,
 	})
 
@@ -513,7 +495,7 @@ function mapgen.register_biomes()
 		node_dungeon_stair = "blocks:shapes_sandstone_block_stair",
 		y_max = 31000,
 		y_min = 4,
-		heat_point = 60,
+		heat_point = 55,
 		humidity_point = 0,
 	})
 
@@ -531,7 +513,7 @@ function mapgen.register_biomes()
 		node_dungeon_stair = "blocks:shapes_sandstone_block_stair",
 		y_max = 3,
 		y_min = -255,
-		heat_point = 60,
+		heat_point = 55,
 		humidity_point = 0,
 	})
 
@@ -543,7 +525,7 @@ function mapgen.register_biomes()
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
 		y_max = -256,
 		y_min = -31000,
-		heat_point = 60,
+		heat_point = 55,
 		humidity_point = 0,
 	})
 
@@ -562,7 +544,7 @@ function mapgen.register_biomes()
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
 		y_max = 31000,
 		y_min = 4,
-		heat_point = 40,
+		heat_point = 20,
 		humidity_point = 0,
 	})
 
@@ -581,7 +563,7 @@ function mapgen.register_biomes()
 		vertical_blend = 1,
 		y_max = 3,
 		y_min = -255,
-		heat_point = 40,
+		heat_point = 20,
 		humidity_point = 0,
 	})
 
@@ -593,7 +575,7 @@ function mapgen.register_biomes()
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
 		y_max = -256,
 		y_min = -31000,
-		heat_point = 40,
+		heat_point = 20,
 		humidity_point = 0,
 	})
 
@@ -680,7 +662,7 @@ function mapgen.register_biomes()
 		y_max = 31000,
 		y_min = 1,
 		heat_point = 86,
-		humidity_point = 65,
+		humidity_point = 70,
 	})
 
 	minetest.register_biome({
@@ -697,7 +679,7 @@ function mapgen.register_biomes()
 		y_max = 0,
 		y_min = -1,
 		heat_point = 86,
-		humidity_point = 65,
+		humidity_point = 75,
 	})
 
 	minetest.register_biome({
@@ -716,7 +698,7 @@ function mapgen.register_biomes()
 		y_max = -2,
 		y_min = -255,
 		heat_point = 86,
-		humidity_point = 65,
+		humidity_point = 70,
 	})
 
 	minetest.register_biome({
@@ -728,7 +710,7 @@ function mapgen.register_biomes()
 		y_max = -256,
 		y_min = -31000,
 		heat_point = 86,
-		humidity_point = 65,
+		humidity_point = 70,
 	})
 end
 
@@ -746,7 +728,7 @@ function mapgen.register_mgv6_decorations()
 	minetest.register_decoration({
 		name = "flora:papyrus",
 		deco_type = "simple",
-		place_on = {"blocks:dirt_with_grass"},
+		place_on = {"blocks:dirt_with_grass", "blocks:mud"},
 		sidelen = 16,
 		noise_params = {
 			offset = -0.3,
@@ -1448,33 +1430,6 @@ function mapgen.register_decorations()
 		param2 = 4,
 	})
 
-	-- Marram grass
-
-	minetest.register_decoration({
-		name = "mapgen:marram_grass",
-		deco_type = "simple",
-		place_on = {"blocks:sand"},
-		sidelen = 4,
-		noise_params = {
-			offset = -0.7,
-			scale = 4.0,
-			spread = {x = 16, y = 16, z = 16},
-			seed = 513337,
-			octaves = 1,
-			persist = 0.0,
-			flags = "absvalue, eased"
-		},
-		biomes = {"coniferous_forest_dunes", "grassland_dunes"},
-		y_max = 6,
-		y_min = 4,
-		decoration = {
-			"flora:marram_grass_1",
-			"flora:marram_grass_2",
-			"flora:marram_grass_3",
-		},
-	})
-
-	-- Tundra moss
 
 	minetest.register_decoration({
 		deco_type = "simple",

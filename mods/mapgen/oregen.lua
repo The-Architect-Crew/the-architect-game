@@ -869,24 +869,24 @@ function mapgen.register_ores()
 		},
 	})
 	-- Chalk
-	minetest.register_ore({
-		ore_type        = "blob",
-		ore             = "blocks:chalk",
-		wherein         = {"blocks:sand", "blocks:dirt", "blocks:dry_dirt"},
-		clust_scarcity  = 8 * 8 * 8,
-		clust_size      = 12,
-		y_max           = 2,
-		y_min           = -128,
-		noise_threshold = 0.0,
-		noise_params    = {
-			offset = 0.5,
-			scale = 0.5,
-			spread = {x = 4, y = 4, z = 4},
-			seed = 72344,
-			octaves = 1,
-			persist = 0.0
-		},
-	})
+	-- minetest.register_ore({
+	-- 	ore_type        = "blob",
+	-- 	ore             = "blocks:chalk",
+	-- 	wherein         = {"blocks:sand", "blocks:dirt", "blocks:dry_dirt"},
+	-- 	clust_scarcity  = 8 * 8 * 8,
+	-- 	clust_size      = 12,
+	-- 	y_max           = 2,
+	-- 	y_min           = -128,
+	-- 	noise_threshold = 0.0,
+	-- 	noise_params    = {
+	-- 		offset = 0.5,
+	-- 		scale = 0.5,
+	-- 		spread = {x = 4, y = 4, z = 4},
+	-- 		seed = 72344,
+	-- 		octaves = 1,
+	-- 		persist = 0.0
+	-- 	},
+	-- })
 	minetest.register_ore({
 		ore_type        = "blob",
 		ore             = "blocks:chalk",
@@ -894,12 +894,12 @@ function mapgen.register_ores()
 		clust_scarcity  = 24 * 24 * 24,
 		clust_size      = 8,
 		y_max           = 512,
-		y_min           = -256,
+		y_min           = -128,
 		noise_threshold = 0.0,
 		noise_params    = {
 			offset = 0.25,
 			scale = 0.25,
-			spread = {x = 8, y = 8, z = 8},
+			spread = {x = 12, y = 12, z = 5},
 			seed = 78224,
 			octaves = 1,
 			persist = 0.0
@@ -907,19 +907,19 @@ function mapgen.register_ores()
 	})
 	-- Mud
 	minetest.register_ore({
-		ore_type        = "blob",
+		ore_type        = "sheet",
 		ore             = "blocks:mud",
-		wherein         = {"blocks:sand"},
-		clust_scarcity  = 6 * 6 * 6,
-		clust_size      = 8,
-		y_max           = 8,
-		y_min           = -1,
-		noise_threshold = 0.0,
+		wherein         = {"blocks:dirt", "blocks:dirt_with_rainforest_litter", "blocks:dirt_with_grass", "blocks:dirt_with_dry_grass", "blocks:dry_dirt", "blocks:dry_dirt_with_dry_grass"},
+		column_height_max = 3,
+		column_midpoint_factor = 0,
+		y_max           = 5,
+		y_min           = -5,
+		noise_threshold = 0.6,
 		noise_params    = {
 			offset = 0.5,
 			scale = 0.25,
-			spread = {x = 4, y = 4, z = 4},
-			seed = 7226654,
+			spread = {x = 3, y = 3, z = 3},
+			seed = 66549,
 			octaves = 1,
 			persist = 0.0
 		},

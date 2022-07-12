@@ -81,6 +81,8 @@ shapes:register_shape("blocks:porphyry")
 shapes:register_shape("blocks:serpentine")
 shapes:register_shape("blocks:slate")
 shapes:register_shape("blocks:slate_cobble")
+shapes:register_shape("blocks:mineral_salt")
+shapes:register_shape("blocks:mineral_salt_cobble")
 -- plank.lua
 shapes:register_shape("blocks:wood", {groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2},})
 shapes:register_shape("blocks:junglewood", {groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2},})

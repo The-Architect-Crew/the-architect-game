@@ -6,6 +6,11 @@ minetest.register_craftitem("blocks:stick", {
 	groups = {stick = 1, flammable = 2},
 })
 
+minetest.register_craftitem("blocks:bone", {
+	description = S("Bone"),
+	inventory_image = "blocks_bone.png",
+})
+
 minetest.register_node("blocks:wood", {
 	description = S("Apple Wood Planks"),
 	paramtype2 = "facedir",
@@ -56,6 +61,16 @@ minetest.register_node("blocks:aspen_wood", {
 	sounds = default.node_sound_wood_defaults(),
 })
 
+minetest.register_node("blocks:bonewood", {
+	description = S("Bone Wood Planks"),
+	paramtype2 = "facedir",
+	place_param2 = 0,
+	tiles = {"blocks_bonewood.png"},
+	is_ground_content = false,
+	groups = {choppy = 3, oddly_breakable_by_hand = 2, wood = 1},
+	sounds = default.node_sound_wood_defaults(),
+})
+
 --
 -- == CRAFTS
 --
@@ -64,6 +79,13 @@ minetest.register_craft({
 	output = "blocks:stick 4",
 	recipe = {
 		{"group:wood"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:bone 4",
+	recipe = {
+		{"blocks:bonewood"},
 	}
 })
 
@@ -103,6 +125,13 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
+	output = "blocks:bonewood 4",
+	recipe = {
+		{"flora:bone_tree"},
+	}
+})
+
+minetest.register_craft({
 	output = "blocks:wood",
 	recipe = {
 		{"flora:bush_stem"},
@@ -120,6 +149,13 @@ minetest.register_craft({
 	output = "blocks:pine_wood",
 	recipe = {
 		{"flora:pine_bush_stem"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:bonewood",
+	recipe = {
+		{"flora:bone_bush_stem"},
 	}
 })
 

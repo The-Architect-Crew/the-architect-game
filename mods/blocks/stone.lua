@@ -138,7 +138,7 @@ minetest.register_node("blocks:sandstone_block", {
 
 minetest.register_node("blocks:mossy_sandstone", {
 	description = S("Sandstone"),
-	tiles = {"blocks_sandstone.png^(blocks_moss_dry_overlay.png^[opacity:128)"},
+	tiles = {"blocks_sandstone.png^(blocks_moss_sand_overlay.png^[opacity:128)"},
 	groups = {crumbly = 1, cracky = 3},
 	sounds = default.node_sound_stone_defaults(),
 })
@@ -170,7 +170,7 @@ minetest.register_node("blocks:desert_sandstone_block", {
 
 minetest.register_node("blocks:mossy_desert_sandstone", {
 	description = S("Desert Sandstone"),
-	tiles = {"blocks_desert_sandstone.png^(blocks_moss_dry_overlay.png^[opacity:192)"},
+	tiles = {"blocks_desert_sandstone.png^(blocks_moss_sand_overlay.png^[opacity:192)"},
 	groups = {crumbly = 1, cracky = 3},
 	sounds = default.node_sound_stone_defaults(),
 })
@@ -202,7 +202,7 @@ minetest.register_node("blocks:silver_sandstone_block", {
 
 minetest.register_node("blocks:mossy_silver_sandstone", {
 	description = S("Silver Sandstone"),
-	tiles = {"blocks_silver_sandstone.png^(blocks_moss_dry_overlay.png^[opacity:128)"},
+	tiles = {"blocks_silver_sandstone.png^(blocks_moss_sand_overlay.png^[opacity:128)"},
 	groups = {crumbly = 1, cracky = 3},
 	sounds = default.node_sound_stone_defaults(),
 })
@@ -281,9 +281,9 @@ minetest.register_node("blocks:cobble_garnet", {
 	sounds = default.node_sound_stone_defaults(),
 })
 
-minetest.register_node("blocks:desert_cobble_amethyst", {
+minetest.register_node("blocks:desert_cobble_lapis", {
 	description = S("Desert Cobblestone"),
-	tiles = {"blocks_desert_cobble.png^blocks_moss_amethyst_overlay.png", "blocks_desert_cobble.png", "blocks_desert_cobble.png^blocks_moss_amethyst_overlay_side.png"},
+	tiles = {"blocks_desert_cobble.png^blocks_moss_lapis_overlay.png", "blocks_desert_cobble.png", "blocks_desert_cobble.png^blocks_moss_lapis_overlay_side.png"},
 	is_ground_content = false,
 	groups = {cracky = 3, stone = 2},
 	sounds = default.node_sound_stone_defaults(),
@@ -295,6 +295,59 @@ minetest.register_node("blocks:stone_icy", {
 	groups = {cracky = 3, stone = 1},
 	drop = "blocks:cobble",
 	sounds = default.node_sound_glass_defaults(),
+})
+
+minetest.register_node("blocks:stone_mese_circuits", {
+	description = S("Stone"),
+	tiles = {"blocks_stone.png^blocks_mese_circuitry_overlay.png", "blocks_stone.png^blocks_mese_circuitry_under.png", "blocks_stone.png^blocks_mese_circuitry_side.png"},
+	groups = {cracky = 3, stone = 1},
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:mese_fiber"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:mese_fiber 2"},
+			},
+			{
+				rarity = 1,
+				items = {"blocks:stone_chunk 2"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:stone_chunk"},
+			},
+		},
+	},
+	sounds = default.node_sound_stone_defaults(),
+})
+minetest.register_node("blocks:stone_mese_circuits_under", {
+	description = S("Stone"),
+	tiles = {"blocks_stone.png", "blocks_stone.png^blocks_mese_circuitry_under.png", "blocks_stone.png"},
+	groups = {cracky = 3, stone = 1},
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:mese_fiber"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:mese_fiber"},
+			},
+			{
+				rarity = 1,
+				items = {"blocks:stone_chunk 2"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:stone_chunk 2"},
+			},
+		},
+	},
+	sounds = default.node_sound_stone_defaults(),
 })
 
 --

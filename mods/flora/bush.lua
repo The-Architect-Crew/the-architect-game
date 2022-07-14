@@ -304,6 +304,23 @@ minetest.register_node("flora:pine_bush_sapling", {
 	end,
 })
 
+minetest.register_node("flora:bone_bush_stem", {
+	description = S("Bone Bush Stem"),
+	drawtype = "plantlike",
+	visual_scale = 1.41,
+	tiles = {"flora_bone_bush_stem.png"},
+	inventory_image = "flora_bone_bush_stem.png",
+	wield_image = "flora_bone_bush_stem.png",
+	paramtype = "light",
+	sunlight_propagates = true,
+	groups = {choppy = 2, oddly_breakable_by_hand = 1},
+	sounds = default.node_sound_wood_defaults(),
+	selection_box = {
+		type = "fixed",
+		fixed = {-7 / 16, -0.5, -7 / 16, 7 / 16, 0.5, 7 / 16},
+	},
+})
+
 default.register_leafdecay({
 	trunks = {"flora:bush_stem"},
 	leaves = {"flora:bush_leaves"},

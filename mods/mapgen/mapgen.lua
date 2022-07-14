@@ -1360,6 +1360,44 @@ function mapgen.register_decorations()
 		num_spawn_by = 8,
 	})
 
+	-- Bone tree
+
+	minetest.register_decoration({
+		name = "mapgen:bone_tree_large",
+		deco_type = "schematic",
+		place_on = {"blocks:permafrost_with_moss"},
+		sidelen = 80,
+		noise_params = {
+			offset = 0.0,
+			scale = 0.025,
+			spread = {x = 250, y = 250, z = 250},
+			seed = 27225,
+			octaves = 3,
+			persist = 0.7
+		},
+		y_max = 512,
+		y_min = mapgen.underground_start,
+		schematic = minetest.get_modpath("flora") ..
+				"/schematics/bone_tree_large.mts",
+		flags = "place_center_x, place_center_z, all_floors",
+		rotation = "random",
+		place_offset_y = -4,
+	})
+
+	minetest.register_decoration({
+		name = "mapgen:bone_tree",
+		deco_type = "schematic",
+		place_on = {"blocks:permafrost_with_moss"},
+		sidelen = 80,
+		fill_ratio = 0.1,
+		y_max = 31000,
+		y_min = mapgen.underground_start,
+		schematic = minetest.get_modpath("flora") .. "/schematics/bone_tree.mts",
+		flags = "place_center_x, place_center_z, all_floors",
+		rotation = "random",
+		place_offset_y = -2,
+	})
+
 	-- Large cactus
 
 	minetest.register_decoration({
@@ -1379,7 +1417,7 @@ function mapgen.register_decorations()
 		y_max = 31000,
 		y_min = 4,
 		schematic = minetest.get_modpath("flora") .. "/schematics/large_cactus.mts",
-		flags = "place_center_x, place_center_z",
+		flags = "place_center_x, place_center_z, all_floors",
 		rotation = "random",
 	})
 
@@ -1404,6 +1442,7 @@ function mapgen.register_decorations()
 		decoration = "flora:cactus",
 		height = 2,
 		height_max = 5,
+		flags = "all_floors",
 	})
 
 	-- Papyrus
@@ -1470,7 +1509,7 @@ function mapgen.register_decorations()
 		y_max = 31000,
 		y_min = mapgen.underground_start,
 		schematic = minetest.get_modpath("flora") .. "/schematics/bush.mts",
-		flags = "place_center_x, place_center_z",
+		flags = "place_center_x, place_center_z, all_floors",
 	})
 
 	-- Blueberry bush
@@ -1493,7 +1532,7 @@ function mapgen.register_decorations()
 		y_min = mapgen.underground_start,
 		place_offset_y = 1,
 		schematic = minetest.get_modpath("flora") .. "/schematics/blueberry_bush.mts",
-		flags = "place_center_x, place_center_z",
+		flags = "place_center_x, place_center_z, all_floors",
 	})
 
 	-- Acacia bush
@@ -1515,7 +1554,7 @@ function mapgen.register_decorations()
 		y_max = 31000,
 		y_min = 1,
 		schematic = minetest.get_modpath("flora") .. "/schematics/acacia_bush.mts",
-		flags = "place_center_x, place_center_z",
+		flags = "place_center_x, place_center_z, all_floors",
 	})
 
 	-- Pine bush
@@ -1537,7 +1576,31 @@ function mapgen.register_decorations()
 		y_max = 31000,
 		y_min = 4,
 		schematic = minetest.get_modpath("flora") .. "/schematics/pine_bush.mts",
-		flags = "place_center_x, place_center_z",
+		flags = "place_center_x, place_center_z, all_floors",
+	})
+
+	-- Bone bush
+
+	minetest.register_decoration({
+		name = "mapgen:bone_bush",
+		deco_type = "schematic",
+		place_on = {"blocks:permafrost_with_stones", "blocks:permafrost_with_moss", "blocks:stone"},
+		sidelen = 16,
+		noise_params = {
+			offset = -0.01,
+			scale = 0.1,
+			spread = {x = 50, y = 50, z = 50},
+			seed = 511182,
+			octaves = 3,
+			persist = 0.7,
+		},
+		y_max = 31000,
+		y_min = mapgen.underground_start,
+		biomes = {"tundra", "tundra_highland", "tundra_beach", "tundra_ocean"},
+		schematic = minetest.get_modpath("flora") .. "/schematics/bone_bush.mts",
+		flags = "place_center_x, place_center_z, all_floors",
+		rotation = "random",
+		place_offset_y = -2,
 	})
 
 	-- Grasses

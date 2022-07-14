@@ -15,7 +15,7 @@ minetest.register_craftitem("quests:moonlight_binding", {
 	inventory_image = "quests_moonlight_binding_filled.png",
 })
 minetest.register_craftitem("quests:moonlight_binding_base", {
-	description = S("Moonlight Bindings\n\"A perfect fit for some peculiar mechanisms\""),
+	description = S("Moonlight Binding Base\n\"A perfect fit for some peculiar mechanisms\""),
 	inventory_image = "quests_moonlight_binding_base.png",
 })
 minetest.register_craftitem("quests:moonlight_handle", {

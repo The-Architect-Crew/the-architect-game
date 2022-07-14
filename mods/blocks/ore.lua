@@ -388,6 +388,11 @@ minetest.register_craftitem("blocks:mese_crystal_fragment", {
 	inventory_image = "blocks_mese_crystal_fragment.png",
 })
 
+minetest.register_craftitem("blocks:mese_fiber", {
+	description = S("Mese Fibers"),
+	inventory_image = "blocks_mese_fiber.png",
+})
+
 minetest.register_node("blocks:stone_with_mese", {
 	description = S("Mese Ore"),
 	tiles = {"blocks_stone.png^blocks_mineral_mese.png"},
@@ -449,6 +454,16 @@ minetest.register_node("blocks:mese", {
 	groups = {cracky = 1, level = 2},
 	sounds = default.node_sound_stone_defaults(),
 	light_source = 3,
+})
+minetest.register_node("blocks:mese_tech_crystal", {
+	description = S("Mese Tech Crystal"),
+	tiles = {"blocks_mese_tech_crystal.png"},
+	drawtype = "glasslike",
+	use_texture_alpha = "blend",
+	paramtype = "light",
+	groups = {cracky = 3, level = 2},
+	sounds = default.node_sound_glass_defaults(),
+	light_source = 6,
 })
 
 -- Gold
@@ -1723,6 +1738,61 @@ minetest.register_craftitem("blocks:marble_chunk", {
 	inventory_image = "blocks_marble_chunk.png",
 })
 
+-- Mese biome
+minetest.register_node("blocks:marble_mese_circuits", {
+	description = S("Marble"),
+	tiles = {"blocks_marble.png^blocks_mese_circuitry_overlay.png", "blocks_marble.png^blocks_mese_circuitry_under.png", "blocks_marble.png^blocks_mese_circuitry_side.png"},
+	is_ground_content = true,
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:mese_fiber 2"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:mese_fiber"},
+			},
+			{
+				rarity = 1,
+				items = {"blocks:marble_chunk 2"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:marble_chunk"},
+			},
+		},
+	},
+	groups = {cracky = 3},
+	sounds = default.node_sound_stone_defaults(),
+})
+minetest.register_node("blocks:marble_mese_circuits_under", {
+	description = S("Marble"),
+	tiles = {"blocks_marble.png", "blocks_marble.png^blocks_mese_circuitry_under.png", "blocks_marble.png"},
+	is_ground_content = true,
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:mese_fiber"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:mese_fiber"},
+			},
+			{
+				rarity = 1,
+				items = {"blocks:marble_chunk 2"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:marble_chunk 2"},
+			},
+		},
+	},
+	groups = {cracky = 3},
+	sounds = default.node_sound_stone_defaults(),
+})
 -- Mud
 minetest.register_node("blocks:mud", {
 	description = S("Mud"),
@@ -1825,6 +1895,8 @@ minetest.register_node("blocks:moonstone", {
 	description = S("Moonstone"),
 	tiles = {"blocks_moonstone.png"},
 	paramtype = "light",
+	drawtype = "glasslike",
+	use_texture_alpha = "blend",
 	light_source = default.LIGHT_MAX,
 	groups = {cracky = 3},
 	sounds = default.node_sound_glass_defaults(),
@@ -1942,18 +2014,16 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = "blocks:mese_crystal",
+	output = "blocks:mese_crystal 9",
 	recipe = {
-		{"blocks:mese_crystal_fragment", "blocks:mese_crystal_fragment", "blocks:mese_crystal_fragment"},
-		{"blocks:mese_crystal_fragment", "blocks:mese_crystal_fragment", "blocks:mese_crystal_fragment"},
-		{"blocks:mese_crystal_fragment", "blocks:mese_crystal_fragment", "blocks:mese_crystal_fragment"},
+		{"blocks:mese"},
 	}
 })
 
 minetest.register_craft({
-	output = "blocks:mese_crystal 9",
+	output = "blocks:mese_crystal_shard 2",
 	recipe = {
-		{"blocks:mese"},
+		{"blocks:mese_tech_crystal"},
 	}
 })
 
@@ -1967,7 +2037,16 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = "blocks:mese_crystal_fragment 9",
+	output = "blocks:mese_tech_crystal",
+	recipe = {
+		{"blocks:mese_fiber", "blocks:mese_fiber", "blocks:mese_fiber"},
+		{"blocks:mese_fiber", "blocks:mese_fiber", "blocks:mese_fiber"},
+		{"blocks:mese_fiber", "blocks:mese_fiber", "blocks:mese_fiber"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:mese_crystal_fragment 4",
 	recipe = {
 		{"blocks:mese_crystal"},
 	}
@@ -2142,6 +2221,18 @@ minetest.register_craft({
 	type = "cooking",
 	output = "blocks:tin_ingot",
 	recipe = "blocks:tin_lump",
+})
+
+minetest.register_craft({
+	type = "cooking",
+	output = "blocks:mese_crystal",
+	recipe = "blocks:mese_crystal_fragment 4",
+})
+
+minetest.register_craft({
+	type = "cooking",
+	output = "blocks:mese_crystal_fragment",
+	recipe = "blocks:mese_fiber 6",
 })
 
 minetest.register_craft({

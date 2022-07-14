@@ -55,7 +55,7 @@ mapgen.register_microbiome_decorations = function(base_name, data)
 			deco_type = "simple",
 			place_on = surface_node,
 			sidelen = 12,
-			fill_ratio = 0.1,
+			fill_ratio = data.plant_rarity/2,
 			y_max = height_max,
 			y_min = height_min,
 			flags = "all_floors",
@@ -72,7 +72,7 @@ mapgen.register_microbiome_decorations = function(base_name, data)
 			deco_type = "simple",
 			place_on = surface_node,
 			sidelen = 12,
-			fill_ratio = 0.1,
+			fill_ratio = data.plant_rarity/2,
 			y_max = height_max,
 			y_min = height_min,
 			flags = "all_floors",
@@ -90,7 +90,7 @@ mapgen.register_microbiome_decorations = function(base_name, data)
 		deco_type = "simple",
 		place_on = base_node,
 		noise_params = {
-			offset = -0.25,
+			offset = -0.45,
 			scale = 1,
 			spread = {x = 4, y = 4, z = 4},
 			seed = 633456 + seed,
@@ -110,7 +110,7 @@ mapgen.register_microbiome_decorations = function(base_name, data)
 			deco_type = "simple",
 			place_on = base_node,
 			noise_params = {
-				offset = -0.25,
+				offset = -0.45,
 				scale = 1,
 				spread = {x = 4, y = 4, z = 4},
 				seed = 633422345 + seed,
@@ -153,7 +153,6 @@ mapgen.register_microbiome_decorations = function(base_name, data)
 			deco_type = "simple",
 			place_on = surface_node,
 			fill_ratio = data.plant_rarity/5,
-			y_max = mapgen.underground_start,
 			y_max = height_max,
 			y_min = height_min,
 			flags = "all_floors",
@@ -165,7 +164,6 @@ mapgen.register_microbiome_decorations = function(base_name, data)
 				deco_type = "simple",
 				place_on = surface_node,
 				fill_ratio = data.plant_rarity/5,
-				y_max = mapgen.underground_start,
 				y_max = height_max,
 				y_min = height_min,
 				flags = "all_floors",
@@ -196,11 +194,10 @@ mapgen.register_microbiome_decorations("garnet", {
 	base_node = {"blocks:cobble"}, -- surface_node matches the base_node, they also have to be the same length
 	surface_node = {"blocks:cobble_garnet"},
 	surface_coverage = 2.5,
-
 	grass_node = "flora:grass_garnet",
 	main_small_plant = "flora:mushroom_garnet",
 	--secondary_small_plant
-	plant_rarity = 1,
+	plant_rarity = 0.1,
 	grass_rarity = 1,
 	main_large_plant = "flora:plant_garnet",
 	secondary_large_plant = "blocks:garnet",
@@ -209,24 +206,23 @@ mapgen.register_microbiome_decorations("garnet", {
 	moss = "flora:moss_garnet",
 })
 
-mapgen.register_microbiome_decorations("amethyst", {
+mapgen.register_microbiome_decorations("lapis", {
 	height_min = -2048,
 	height_max = mapgen.underground_start,
 	seed = 263,
 	base_node = {"blocks:desert_cobble", "blocks:sand", "blocks:desert_sand", "blocks:silver_sand", "blocks:dry_dirt"},
-	surface_node = {"blocks:desert_cobble_amethyst", "blocks:sand_amethyst", "blocks:desert_sand_amethyst", "blocks:silver_sand_amethyst", "blocks:dry_dirt_amethyst"},
+	surface_node = {"blocks:desert_cobble_lapis", "blocks:sand_lapis", "blocks:desert_sand_lapis", "blocks:silver_sand_lapis", "blocks:dry_dirt_lapis"},
 	surface_coverage = 1,
-
-	grass_node = "flora:grass_amethyst",
-	main_small_plant = "flora:mushroom_amethyst",
+	grass_node = "flora:grass_lapis",
+	main_small_plant = "flora:mushroom_lapis",
 	--secondary_small_plant
-	plant_rarity = 1,
+	plant_rarity = 0.1,
 	grass_rarity = 1,
-	--main_large_plant = "flora:plant_garnet",
-	secondary_large_plant = "blocks:amethyst",
-	main_vines = "flora:vines_amethyst",
+	main_large_plant = "flora:plant_lapis",
+	secondary_large_plant = "blocks:lapis_lazuli",
+	main_vines = "flora:vines_lapis",
 	--secondary_vines
-	moss = "flora:moss_amethyst",
+	moss = "flora:moss_lapis",
 })
 
 mapgen.register_microbiome_decorations("moonstone", {
@@ -236,11 +232,10 @@ mapgen.register_microbiome_decorations("moonstone", {
 	base_node = {"blocks:dirt"},
 	surface_node = {"blocks:dirt_with_grass"},
 	surface_coverage = "full",
-
 	grass_node = "flora:grass",
 	main_small_plant = "flora:moonflower",
 	--secondary_small_plant
-	plant_rarity = 0.1,
+	plant_rarity = 0.5,
 	grass_rarity = 1,
 	--main_large_plant
 	--secondary_large_plant
@@ -248,6 +243,213 @@ mapgen.register_microbiome_decorations("moonstone", {
 	secondary_vines = "flora:vines_moonstone",
 	moss = "flora:vines_horizontal",
 })
+
+mapgen.register_microbiome_decorations("hot", {
+	height_min = mapgen.underground_start,
+	height_max = 0,
+	seed = 3444623,
+	base_node = {"blocks:dry_dirt"},
+	surface_node = {"blocks:dry_dirt_with_dry_grass"},
+	surface_coverage = "full",
+	grass_node = "flora:dry_grass",
+	main_small_plant = "flora:moonflower",
+	--secondary_small_plant
+	plant_rarity = 0.5,
+	grass_rarity = 1,
+	--main_large_plant
+	--secondary_large_plant
+	main_vines = "flora:vines",
+	secondary_vines = "flora:vines_moonstone",
+	moss = "flora:vines_horizontal",
+})
+--[[
+-- Should be the mese biome, but there are too many exceptions
+mapgen.register_microbiome_decorations("mese", {
+	height_min = -2048,
+	height_max = mapgen.underground_limit,
+	seed = 26262,
+	base_node = {"blocks:stone"}, -- surface_node matches the base_node, they also have to be the same length
+	surface_node = {"blocks:stone_mese_circuits"},
+	surface_coverage = 2.5,
+	grass_node = "flora:grass_mese",
+	main_small_plant = "flora:flower_mese",
+	--secondary_small_plant
+	plant_rarity = 0.002,
+	grass_rarity = 1,
+	--main_large_plant = "flora:plant_garnet",
+	--secondary_large_plant = "blocks:garnet",
+	main_vines = "flora:vines_mese",
+	--secondary_vines
+	moss = "flora:moss_mese",
+})]]--
+
+-- Mese micro-biome
+
+mapgen.mese_biome_base_noise = {
+	offset = -2.35,
+	scale = 4,
+	spread = {x = 50, y = 50, z = 50},
+	seed = 26262,
+	octaves = 1,
+	flags = "eased",
+}
+
+-- Two base nodes, one for the ground decorations and one for ceiling ones
+
+minetest.register_decoration({
+	name = "mese_surface",
+	deco_type = "simple",
+	place_on = {"blocks:stone"},
+	noise_params = mapgen.mese_biome_base_noise,
+	y_max = mapgen.underground_limit,
+	y_min = mapgen.world_bottom,
+	spawn_by = "air",
+	num_spawn_by = 3,
+	flags = "all_floors, force_placement",
+	place_offset_y = -1, -- Requires force_placement
+	decoration = "blocks:stone_mese_circuits",
+})
+minetest.register_decoration({
+	name = "mese_ceiling",
+	deco_type = "simple",
+	place_on = {"blocks:stone"},
+	noise_params = mapgen.mese_biome_base_noise,
+	y_max = mapgen.underground_limit,
+	y_min = mapgen.world_bottom,
+	spawn_by = "air",
+	num_spawn_by = 3,
+	flags = "all_ceilings, force_placement",
+	place_offset_y = -1, -- Requires force_placement
+	decoration = "blocks:stone_mese_circuits_under",
+})
+minetest.register_decoration({
+	name = "mese_surface_marble",
+	deco_type = "simple",
+	place_on = {"blocks:marble"},
+	noise_params = mapgen.mese_biome_base_noise,
+	y_max = mapgen.underground_limit,
+	y_min = mapgen.world_bottom,
+	spawn_by = "air",
+	num_spawn_by = 3,
+	flags = "all_floors, force_placement",
+	place_offset_y = -1, -- Requires force_placement
+	decoration = "blocks:marble_mese_circuits",
+})
+
+minetest.register_decoration({
+	name = "mese_ceiling_marble",
+	deco_type = "simple",
+	place_on = {"blocks:marble"},
+	noise_params = mapgen.mese_biome_base_noise,
+	y_max = mapgen.underground_limit,
+	y_min = mapgen.world_bottom,
+	spawn_by = "air",
+	num_spawn_by = 3,
+	flags = "all_ceilings, force_placement",
+	place_offset_y = -1, -- Requires force_placement
+	decoration = "blocks:marble_mese_circuits_under",
+})
+--[[
+-- Large plants
+minetest.register_decoration({
+	name = base_name .. "_" .. large_plant .. "_large_plant",
+	deco_type = "simple",
+	place_on = surface_node,
+	sidelen = 12,
+	fill_ratio = 0.1,
+	y_max = height_max,
+	y_min = height_min,
+	flags = "all_floors",
+	height = 3,
+	height_max = 8,
+	param2 = 0,
+	param2_max = 3,
+	decoration = large_plant,
+})
+]]--
+minetest.register_decoration({
+	name = "mese_tech_crystal",
+	deco_type = "simple",
+	place_on = {"blocks:stone_mese_circuits", "blocks:marble_mese_circuits"},
+	sidelen = 12,
+	fill_ratio = 0.05,
+	y_max = mapgen.underground_limit,
+	y_min = mapgen.world_bottom,
+	flags = "all_floors",
+	height = 3,
+	height_max = 6,
+	decoration = "blocks:mese_tech_crystal",
+})
+-- Vines
+minetest.register_decoration({
+	name = "mese_vines",
+	deco_type = "simple",
+	place_on = {"blocks:stone_mese_circuits_under", "blocks:marble_mese_circuits_under"},
+	noise_params = {
+		offset = -0.25,
+		scale = 1,
+		spread = {x = 4, y = 4, z = 4},
+		seed = 62262226,
+		octaves = 1,
+		flags = "eased",
+	},
+	y_max = mapgen.underground_limit,
+	y_min = mapgen.world_bottom,
+	flags = "all_ceilings",
+	height = 3,
+	height_max = 8,
+	decoration = "flora:vines_mese",
+})
+
+minetest.register_decoration({
+	name = "mese_moss",
+	deco_type = "simple",
+	place_on = {"blocks:stone_mese_circuits_under", "blocks:marble_mese_circuits_under"},
+	noise_params = {
+		offset = -0.25,
+		scale = 2,
+		spread = {x = 4, y = 4, z = 4},
+		seed = 262226222,
+		octaves = 1,
+		flags = "absvalue, eased",
+	},
+	y_max = mapgen.underground_limit,
+	y_min = mapgen.world_bottom,
+	flags = "all_ceilings",
+	decoration = "flora:moss_mese",
+})
+
+for i=1,5 do
+	-- Small plants
+	minetest.register_decoration({
+		name = "mese_flower_" .. i,
+		deco_type = "simple",
+		place_on = {"blocks:stone_mese_circuits", "blocks:marble_mese_circuits"},
+		fill_ratio = 0.1/5,
+		y_max = mapgen.underground_limit,
+		y_min = mapgen.world_bottom,
+		param2 = 1,
+		flags = "all_floors",
+		decoration = "flora:flower_mese_" .. i,
+	})
+end
+
+for i=1,5 do
+	-- Grass
+	minetest.register_decoration({
+		name = "mese_grass_" .. i,
+		deco_type = "simple",
+		place_on = {"blocks:stone_mese_circuits", "blocks:marble_mese_circuits"},
+		fill_ratio = 1/5,
+		y_max = mapgen.underground_limit,
+		y_min = mapgen.world_bottom,
+		param2 = 1,
+		flags = "all_floors",
+		decoration = "flora:grass_mese_" .. i,
+	})
+end
+
+-- Other stuff
 
 minetest.register_decoration({
 	name = "sfcave_mossycobble",

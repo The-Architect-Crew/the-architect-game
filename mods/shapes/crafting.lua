@@ -123,7 +123,6 @@ local function fuel_update(pos, def, passive)
 	local scrollval = meta:get_int("scroll")
 	local multiplier = meta:get_int("multiplier")
 	local craftcat = def.craft_category
-	local inactive_node = def.inactive_node
 	local active_node = def.active_node
 	local desc = def.description
 	local fueltype = def.fueltype

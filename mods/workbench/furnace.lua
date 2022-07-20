@@ -42,20 +42,13 @@ local function formspec_cooking(pos, add)
 	return table.concat(formspec, "")
 end
 
-local function apply_craft_result(pos, listname, index, stack, player, multiplier)
+local function apply_craft_result(pos, multiplier)
 	local meta = minetest.get_meta(pos)
 	local inv = meta:get_inventory()
 	local craftlist = inv:get_list("input")
 	local output = workbench.craft_output(craftlist, "cooking", nil, 3, multiplier)
-	if output and output.item then
-		-- ensure sufficient fuel
-		if meta:get_int("fueltime") > 0 then
-			inv:set_list("output", output.item)
-		else
-			inv:set_list("output", {})
-		end
-	else
-		inv:set_list("output", {})
+	if output and output.item and meta:get_int("fueltime") > 0 then -- sufficient fuel and valid output
+		inv:set_list("output", output.item)
 	end
 end
 
@@ -72,24 +65,33 @@ local function fuel_fs_update(pos)
 	end
 end
 
-local function furnace_update(pos, listname, index, stack, player)
+local function inactive_furnace(pos)
+	local meta = minetest.get_meta(pos)
+	meta:set_string("formspec", formspec_cooking(pos))
+	ccore.swap_node(pos, "workbench:furnace")
+	meta:set_int("fueltime", 0)
+	locks.init_infotext(pos, "Furnace", "Inactive")
+end
+
+local function fuel_update(pos, passive)
 	local meta = minetest.get_meta(pos)
 	local inv = meta:get_inventory()
 	local craftlist = inv:get_list("input")
-	local outlist = inv:get_list("output")
 	local fuellist = inv:get_list("fuel")
 	local multiplier = meta:get_int("multiplier")
-	if listname == "fuel" then
-		if meta:get_int("fueltime") > 0 then -- if fueltimer running
-			local c_ftime = meta:get_int("fueltime")
-			meta:set_int("fueltime", c_ftime - 1)
-			locks.init_infotext(pos, "Furnace", "Active (Fuel Left: "..ccore.get_time(c_ftime - 1).. ")")
-			minetest.get_node_timer(pos):start(1)
-			-- reduce timer by 1
-		elseif meta:get_int("fueltime") <= 0 then -- if fueltimer empty
-			local ftime, fdinput = workbench:get_fuel(fuellist)
-			if ftime and ftime > 0 then -- ensure valid fuel
-				-- take fuel
+	if meta:get_int("fueltime") > 0 then -- if fueltimer running
+		local c_ftime = meta:get_int("fueltime")
+		meta:set_int("fueltime", c_ftime - 1)
+		locks.init_infotext(pos, "Furnace", "Active (Fuel Left: "..ccore.get_time(c_ftime - 1).. ")")
+		minetest.get_node_timer(pos):start(1)
+		-- reduce timer by 1
+	elseif meta:get_int("fueltime") <= 0 then -- if fueltimer empty
+		local ftime, fdinput = workbench:get_fuel(fuellist)
+		if passive then -- on passive timer (without player interaction)
+			inactive_furnace(pos)
+		else -- on active timer (timer started by player interaction)
+			local output = workbench.craft_output(craftlist, "cooking", nil, 3, multiplier)
+			if ftime and ftime > 0 and output and output.item then -- valid fuel and output > restart cooking
 				meta:set_string("formspec", formspec_cooking(pos,
 					"animated_image[8.675,2.575;1,1;fuel_icon;gui_fire_animated.png;8;500;1]"..
 					"image_button[8.675,2.575;1,1;invisible.png;fuelamt;;false;false;invisible.png]"..
@@ -97,24 +99,34 @@ local function furnace_update(pos, listname, index, stack, player)
 				))
 				locks.init_infotext(pos, "Furnace", "Active (Fuel Left: "..ccore.get_time(ftime).. ")")
 				ccore.swap_node(pos, "workbench:furnace_active")
-				inv:set_list("fuel", fdinput)
+				inv:set_list("fuel", fdinput) -- take fuel
 				meta:set_int("fueltime", ftime)
 				minetest.get_node_timer(pos):start(1)
 				-- start crafting
 				if inv:is_empty("input") ~= true and inv:is_empty("output") then
-					apply_craft_result(pos, listname, index, stack, player, multiplier)
+					apply_craft_result(pos, multiplier)
 				end
-			else -- no more valid fuel
-				meta:set_string("formspec", formspec_cooking(pos))
-				ccore.swap_node(pos, "workbench:furnace")
-				meta:set_int("fueltime", 0)
-				locks.init_infotext(pos, "Furnace", "Inactive")
+			else -- no more valid fuel / output > end cooking
+				inactive_furnace(pos)
 			end
 		end
 	end
+end
+
+local function furnace_update(pos, listname, index, stack, player)
+	local meta = minetest.get_meta(pos)
+	local inv = meta:get_inventory()
+	local craftlist = inv:get_list("input")
+	local outlist = inv:get_list("output")
+	local multiplier = meta:get_int("multiplier")
+	if listname == "fuel" then
+		fuel_update(pos)
+	end
 	-- apply craft when output is empty
 	if listname == "input" then
-		apply_craft_result(pos, listname, index, stack, player, multiplier)
+		inv:set_list("output", {})
+		apply_craft_result(pos, multiplier)
+		fuel_update(pos)
 	end
 	-- remove items when taking from output
 	if listname == "output" then
@@ -132,7 +144,8 @@ local function furnace_update(pos, listname, index, stack, player)
 		end
 		-- if theres spare input, apply crafting again
 		if inv:is_empty("input") ~= true and inv:is_empty("output") then
-			apply_craft_result(pos, listname, index, stack, player, multiplier)
+			apply_craft_result(pos, multiplier)
+			fuel_update(pos)
 		end
 	end
 	-- update fuel time
@@ -180,7 +193,7 @@ local function register_furnace(name, def)
 			return false
 		end,
 		on_timer = function(pos, elapsed)
-			furnace_update(pos, "fuel")
+			fuel_update(pos, true)
 		end,
 		on_construct = function(pos)
 			local meta = minetest.get_meta(pos)
@@ -293,20 +306,21 @@ local function register_furnace(name, def)
 				return 0
 			end
 			if locks.fields(pos, sender, fields, "workbench_furnace", "Furance") then
-				furnace_update(pos, "fuel")
+				fuel_update(pos, true)
 			end
 			if fields.workbench_multiplier then
 				local sub_multiplier = string.gsub(fields.workbench_multiplier, "x", "")
 				if tonumber(sub_multiplier) then
 					local multiplier = tonumber(sub_multiplier)
-					if multiplier > 99 then
-						multiplier = 99
-					elseif multiplier < 1 then
-						multiplier = 1
+					if meta:get_int("multiplier") ~= multiplier then -- ensure there's changes in multiplier for update
+						if multiplier > 99 then
+							multiplier = 99
+						elseif multiplier < 1 then
+							multiplier = 1
+						end
+						meta:set_int("multiplier", multiplier)
+						furnace_update(pos, "input")
 					end
-					meta:set_int("multiplier", multiplier)
-					furnace_update(pos, "input")
-					furnace_update(pos, "fuel")
 				end
 			end
 			-- update fuel time

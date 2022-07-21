@@ -9,8 +9,8 @@ shapes:register_shape("<modname>:<nodename>", "<shape1>, <shape2>, <group:shgrou
 Optional shape customization(s)
 ===============================
 shapes:register_shape("<modname>:<nodename>",  {
-	disabled = "<shape1>, <shape2>, <cat:shape>"	-- All shapes will generate except list here (supports category with `cat:`)
-	enabled = "<shape1>, <shape2>, <cat:shape>"		-- If used WITHOUT disabled, all other shapes except list here is enabled (supports category with `cat:`), otherwise when used WITH disabled enables certain shapes that are disabled by default
+	disabled = "<shape1>, <shape2>, <cat:shape>"	-- All shapes will generate except listed here (supports category with `cat:`)
+	enabled = "<shape1>, <shape2>, <cat:shape>"		-- If used WITHOUT disabled, all other shapes except listed here are disabled (supports category with `cat:`), otherwise when used WITH disabled enables certain shapes that are otherwise disabled by default
 	description_prefix = "Description Prefix",
 	<shape>_description = "Description",
 	<shape>_tiles = {"texture1", "texture2"..},		-- Priority over global_tiles

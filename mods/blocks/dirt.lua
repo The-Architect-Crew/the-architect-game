@@ -92,3 +92,11 @@ minetest.register_node("blocks:dry_dirt_with_dry_grass", {
 		footstep = {name = "blocks_grass_footstep", gain = 0.4},
 	}),
 })
+
+-- Darkage 
+minetest.register_node("blocks:darkdirt", {
+	description = "Dark Dirt",
+	tiles = {"blocks_darkdirt.png"},
+	groups = {crumbly=2},
+	sounds = default.node_sound_dirt_defaults(),
+})

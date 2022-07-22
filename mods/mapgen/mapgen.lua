@@ -1365,10 +1365,10 @@ function mapgen.register_decorations()
 	minetest.register_decoration({
 		name = "mapgen:bone_tree_large",
 		deco_type = "schematic",
-		place_on = {"blocks:permafrost_with_moss"},
+		place_on = {"blocks:permafrost_with_bone_roots"},
 		sidelen = 80,
 		noise_params = {
-			offset = 0.0,
+			offset = 0.015,
 			scale = 0.025,
 			spread = {x = 250, y = 250, z = 250},
 			seed = 27225,
@@ -1584,10 +1584,10 @@ function mapgen.register_decorations()
 	minetest.register_decoration({
 		name = "mapgen:bone_bush",
 		deco_type = "schematic",
-		place_on = {"blocks:permafrost_with_stones", "blocks:permafrost_with_moss", "blocks:stone"},
+		place_on = {"blocks:permafrost_with_bone_roots"},
 		sidelen = 16,
 		noise_params = {
-			offset = -0.01,
+			offset = 0.0,
 			scale = 0.1,
 			spread = {x = 50, y = 50, z = 50},
 			seed = 511182,
@@ -1600,7 +1600,7 @@ function mapgen.register_decorations()
 		schematic = minetest.get_modpath("flora") .. "/schematics/bone_bush.mts",
 		flags = "place_center_x, place_center_z, all_floors",
 		rotation = "random",
-		place_offset_y = -2,
+		place_offset_y = -1,
 	})
 
 	-- Grasses
@@ -1696,7 +1696,7 @@ function mapgen.register_decorations()
 		place_on = {"blocks:permafrost_with_stones"},
 		sidelen = 4,
 		noise_params = {
-			offset = -0.8,
+			offset = 0.0,
 			scale = 2.0,
 			spread = {x = 100, y = 100, z = 100},
 			seed = 53995,
@@ -1709,6 +1709,46 @@ function mapgen.register_decorations()
 		decoration = "blocks:permafrost_with_moss",
 		place_offset_y = -1,
 		flags = "force_placement",
+	})
+
+	-- Tundra grass
+
+	minetest.register_decoration({
+		name = "flora:tundra_grass_red",
+		deco_type = "simple",
+		place_on = {"blocks:permafrost_with_moss"},
+		sidelen = 16,
+		noise_params = {
+			offset = 0,
+			scale = 1.0,
+			spread = {x = 12, y = 12, z = 12},
+			seed = 62744,
+			octaves = 1,
+			persist = 1.0
+		},
+		y_max = 512,
+		y_min = mapgen.underground_start,
+		decoration = "flora:tundra_grass_red",
+		param2 = 4,
+	})
+
+	minetest.register_decoration({
+		name = "flora:tundra_grass_yellow",
+		deco_type = "simple",
+		place_on = {"blocks:permafrost_with_moss"},
+		sidelen = 16,
+		noise_params = {
+			offset = 0,
+			scale = 1.0,
+			spread = {x = 12, y = 12, z = 12},
+			seed = 6372,
+			octaves = 1,
+			persist = 1.0
+		},
+		y_max = 512,
+		y_min = mapgen.underground_start,
+		decoration = "flora:tundra_grass_yellow",
+		param2 = 4,
 	})
 
 	-- Tundra patchy snow

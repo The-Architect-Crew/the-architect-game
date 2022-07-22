@@ -955,45 +955,7 @@ function mapgen.register_ores()
 		},
 		biomes = mapgen.icy_biomes,
 	})
-	-- To decorate the tundra a bit
-	minetest.register_ore({
-		ore_type        = "blob",
-		ore             = "blocks:permafrost_with_moss",
-		wherein         = {"blocks:permafrost_with_stones"},
-		clust_scarcity  = 7 * 7 * 7,
-		clust_size      = 6,
-		y_max           = 512,
-		y_min           = mapgen.underground_start,
-		noise_threshold = 0.0,
-		noise_params    = {
-			offset = 0.5,
-			scale = 2.0,
-			spread = {x = 4, y = 4, z = 4},
-			seed = 77234,
-			octaves = 1,
-			persist = 0.0,
-			flags = "absvalue",
-		},
-	})
-	minetest.register_ore({
-		ore_type        = "blob",
-		ore             = "blocks:permafrost",
-		wherein         = {"blocks:permafrost_with_stones"},
-		clust_scarcity  = 6 * 6 * 6,
-		clust_size      = 5,
-		y_max           = 512,
-		y_min           = mapgen.underground_start,
-		noise_threshold = 0.0,
-		noise_params    = {
-			offset = 0.0,
-			scale = 1.0,
-			spread = {x = 2, y = 2, z = 2},
-			seed = 77234,
-			octaves = 1,
-			persist = 0.0,
-			flags = "absvalue",
-		},
-	})
+
 	-- Cracked ice as a base for sub biomes in Icesheet
 	minetest.register_ore({
 		ore_type        = "blob",
@@ -1535,6 +1497,28 @@ function mapgen.register_ores()
 			octaves = 1,
 			persist = 0.0
 		},
+	})
+
+	-- Tundra bone tree biome
+	minetest.register_ore({
+		ore_type        = "blob",
+		ore             = "blocks:permafrost_with_bone_roots",
+		wherein         = {"blocks:permafrost_with_stones"},
+		clust_scarcity  = 16 * 16 * 16,
+		clust_size      = 10,
+		y_max           = 50,
+		y_min           = mapgen.underground_start,
+		noise_threshold = 0.0,
+		noise_params    = {
+			offset = -3.0,
+			scale = 4.0,
+			spread = {x = 100, y = 100, z = 100},
+			seed = 662444,
+			octaves = 1,
+			persist = 0.0,
+			flags = "eased",
+		},
+		biomes = {"tundra"},
 	})
 
 	-- Sheet ores

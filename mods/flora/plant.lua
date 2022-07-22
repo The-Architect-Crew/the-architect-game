@@ -448,6 +448,47 @@ for i = 2, 3 do
 	})
 end
 
+minetest.register_node("flora:tundra_grass_red", {
+	description = S("Red Tundra Grass"),
+	drawtype = "plantlike",
+	waving = 1,
+	paramtype2 = "meshoptions",
+	place_param2 = 4,
+	tiles = {"flora_tundra_grass_red.png"},
+	inventory_image = "flora_tundra_grass_red.png",
+	wield_image = "flora_tundra_grass_red.png",
+	paramtype = "light",
+	sunlight_propagates = true,
+	walkable = false,
+	buildable_to = true,
+	groups = {snappy = 3, flammable = 3, attached_node = 1},
+	sounds = default.node_sound_leaves_defaults(),
+	selection_box = {
+		type = "fixed",
+		fixed = {-8 / 16, -0.5, -8 / 16, 8 / 16, -6 / 16, 8 / 16},
+	},
+})
+minetest.register_node("flora:tundra_grass_yellow", {
+	description = S("Yellow Tundra Grass"),
+	drawtype = "plantlike",
+	waving = 1,
+	paramtype2 = "meshoptions",
+	place_param2 = 4,
+	tiles = {"flora_tundra_grass_yellow.png"},
+	inventory_image = "flora_tundra_grass_yellow.png",
+	wield_image = "flora_tundra_grass_yellow.png",
+	paramtype = "light",
+	sunlight_propagates = true,
+	walkable = false,
+	buildable_to = true,
+	groups = {snappy = 3, flammable = 3, attached_node = 1},
+	sounds = default.node_sound_leaves_defaults(),
+	selection_box = {
+		type = "fixed",
+		fixed = {-8 / 16, -0.5, -8 / 16, 8 / 16, -6 / 16, 8 / 16},
+	},
+})
+
 --
 -- == CRAFTS
 --

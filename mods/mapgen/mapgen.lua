@@ -1368,7 +1368,7 @@ function mapgen.register_decorations()
 		place_on = {"blocks:permafrost_with_bone_roots"},
 		sidelen = 80,
 		noise_params = {
-			offset = 0.015,
+			offset = 0.01,
 			scale = 0.025,
 			spread = {x = 250, y = 250, z = 250},
 			seed = 27225,
@@ -1387,9 +1387,9 @@ function mapgen.register_decorations()
 	minetest.register_decoration({
 		name = "mapgen:bone_tree",
 		deco_type = "schematic",
-		place_on = {"blocks:permafrost_with_moss"},
+		place_on = {"blocks:permafrost_with_bone_roots"},
 		sidelen = 80,
-		fill_ratio = 0.1,
+		fill_ratio = 0.25,
 		y_max = 31000,
 		y_min = mapgen.underground_start,
 		schematic = minetest.get_modpath("flora") .. "/schematics/bone_tree.mts",
@@ -1579,30 +1579,6 @@ function mapgen.register_decorations()
 		flags = "place_center_x, place_center_z, all_floors",
 	})
 
-	-- Bone bush
-
-	minetest.register_decoration({
-		name = "mapgen:bone_bush",
-		deco_type = "schematic",
-		place_on = {"blocks:permafrost_with_bone_roots"},
-		sidelen = 16,
-		noise_params = {
-			offset = 0.0,
-			scale = 0.1,
-			spread = {x = 50, y = 50, z = 50},
-			seed = 511182,
-			octaves = 3,
-			persist = 0.7,
-		},
-		y_max = 31000,
-		y_min = mapgen.underground_start,
-		biomes = {"tundra", "tundra_highland", "tundra_beach", "tundra_ocean"},
-		schematic = minetest.get_modpath("flora") .. "/schematics/bone_bush.mts",
-		flags = "place_center_x, place_center_z, all_floors",
-		rotation = "random",
-		place_offset_y = -1,
-	})
-
 	-- Grasses
 
 	register_grass_decoration(-0.03,  0.09,  5)
@@ -1696,7 +1672,7 @@ function mapgen.register_decorations()
 		place_on = {"blocks:permafrost_with_stones"},
 		sidelen = 4,
 		noise_params = {
-			offset = 0.0,
+			offset = 1.25,
 			scale = 2.0,
 			spread = {x = 100, y = 100, z = 100},
 			seed = 53995,
@@ -1749,6 +1725,30 @@ function mapgen.register_decorations()
 		y_min = mapgen.underground_start,
 		decoration = "flora:tundra_grass_yellow",
 		param2 = 4,
+	})
+
+	-- Bone bush
+
+	minetest.register_decoration({
+		name = "mapgen:bone_bush",
+		deco_type = "schematic",
+		place_on = {"blocks:permafrost_with_moss"},
+		sidelen = 16,
+		noise_params = {
+			offset = -1.5,
+			scale = 1,
+			spread = {x = 10, y = 10, z = 10},
+			seed = 511182,
+			octaves = 3,
+			persist = 0.7,
+		},
+		y_max = 31000,
+		y_min = mapgen.underground_start,
+		biomes = {"tundra", "tundra_highland", "tundra_beach", "tundra_ocean"},
+		schematic = minetest.get_modpath("flora") .. "/schematics/bone_bush.mts",
+		flags = "place_center_x, place_center_z, all_floors",
+		rotation = "random",
+		place_offset_y = -1,
 	})
 
 	-- Tundra patchy snow

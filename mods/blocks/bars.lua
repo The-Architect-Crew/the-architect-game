@@ -1,6 +1,6 @@
 -- Wood
 minetest.register_node("blocks:wood_bars", {
-	description = "Wood Bars",
+	description = "Wooden Bars",
 	drawtype = "glasslike",
 	tiles = {"blocks_wood_bars.png"},
 	wield_image = "blocks_wood_bars.png",
@@ -11,7 +11,7 @@ minetest.register_node("blocks:wood_bars", {
 })
 
 minetest.register_node("blocks:wood_grille", {
-	description = "Wood Grille",
+	description = "Wooden Grille",
 	drawtype = "glasslike",
 	tiles = {"blocks_wood_grille.png"},
 	wield_image = "blocks_wood_grille.png",
@@ -49,9 +49,9 @@ minetest.register_node("blocks:steel_grille", {
 minetest.register_craft({
 	output = "blocks:wood_bars 3",
 	recipe = {
-		{"blocks:stick","","blocks:stick"},
-		{"blocks:stick","","blocks:stick"},
-		{"blocks:stick","","blocks:stick"}
+		{"group:stick","","group:stick"},
+		{"group:stick","","group:stick"},
+		{"group:stick","","group:stick"}
 	}
 })
 
@@ -96,15 +96,13 @@ minetest.register_craft({
 })
 -- Steel
 minetest.register_craft({
+	type = "cooking",
 	output = "blocks:steel_ingot 2",
-	recipe = {
-		{"blocks:steel_bars"}
-	}
+	recipe = "blocks:steel_bars"
 })
 
 minetest.register_craft({
+	type = "cooking",
 	output = "blocks:steel_ingot 4",
-	recipe = {
-		{"blocks:steel_grille"}
-	}
+	recipe = "blocks:steel_grille"
 })

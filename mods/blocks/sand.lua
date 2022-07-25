@@ -46,3 +46,10 @@ minetest.register_node("blocks:fine_gravel", {
 	groups = {crumbly = 2, falling_node = 1},
 	sounds = default.node_sound_gravel_defaults(),
 })
+-- Crafts
+minetest.register_craft({
+	output = "blocks:fine_gravel",
+	recipe = {
+		{"blocks:gravel"}
+	}
+})

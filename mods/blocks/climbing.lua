@@ -87,10 +87,18 @@ minetest.register_craft({
 		{"blocks:steel_ingot", "", "blocks:steel_ingot"},
 	}
 })
+
+minetest.register_craft({
+	output = "blocks:chain 3",
+	recipe = {
+		{"blocks:steel_ingot"},
+		{"blocks:steel_ingot"},
+		{"blocks:steel_ingot"}
+	}
+})
 -- Recycle
 minetest.register_craft({
+	type = "cooking",
 	output = "blocks:steel_ingot",
-	recipe = {
-		{"blocks:chain"}
-	}
+	recipe = "blocks:chain"
 })

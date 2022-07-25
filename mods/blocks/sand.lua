@@ -39,3 +39,17 @@ minetest.register_node("blocks:gravel", {
 		}
 	}
 })
+
+minetest.register_node("blocks:fine_gravel", {
+	description = S("Fine Gravel"),
+	tiles = {"blocks_fine_gravel.png"},
+	groups = {crumbly = 2, falling_node = 1},
+	sounds = default.node_sound_gravel_defaults(),
+})
+-- Crafts
+minetest.register_craft({
+	output = "blocks:fine_gravel",
+	recipe = {
+		{"blocks:gravel"}
+	}
+})

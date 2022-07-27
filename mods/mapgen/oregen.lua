@@ -896,7 +896,6 @@ function mapgen.register_ores()
 		y_max           = 512,
 		y_min           = -128,
 		noise_threshold = 0.0,
-		y_max           = 5,
 		noise_params    = {
 			offset = 0.25,
 			scale = 0.25,

@@ -892,14 +892,15 @@ function mapgen.register_ores()
 		ore             = "blocks:chalk",
 		wherein         = {"blocks:stone", "blocks:sandstone", "blocks:desert_sandstone", "blocks:silver_sandstone", "blocks:desert_stone"},
 		clust_scarcity  = 24 * 24 * 24,
-		clust_size      = 8,
+		clust_size      = 24,
 		y_max           = 512,
 		y_min           = -128,
 		noise_threshold = 0.0,
+		y_max           = 5,
 		noise_params    = {
 			offset = 0.25,
 			scale = 0.25,
-			spread = {x = 12, y = 12, z = 5},
+			spread = {x = 12, y = 12, z = 12},
 			seed = 78224,
 			octaves = 1,
 			persist = 0.0
@@ -1047,8 +1048,8 @@ function mapgen.register_ores()
 	minetest.register_ore({
 		ore_type        = "sheet",
 		ore             = "blocks:slate",
-		wherein         = {"blocks:stone"},
-		y_max           = -128,
+		wherein         = {"blocks:stone", "blocks:sandstone"},
+		y_max           = 128,
 		y_min           = -1024,
 		noise_threshold = 1.0,
 		column_height_max = 1,

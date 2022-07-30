@@ -10,6 +10,18 @@ minetest.register_node("flora:moss_garnet", {
 	floodable = true,
 	buildable_to = true,
     light_source = 4,
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:branches_garnet"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:branches_garnet"},
+			},
+		},
+	},
 	groups = {snappy = 3, attached_node = 1},
 	sounds = default.node_sound_leaves_defaults(),
 	selection_box = {
@@ -17,6 +29,7 @@ minetest.register_node("flora:moss_garnet", {
 		fixed = {-8 / 16, 4/16, -8 / 16, 8 / 16, 8 / 16, 8 / 16},
 	}
 })
+
 for i=1,5 do
 	minetest.register_node("flora:grass_garnet_" .. i, {
 		description = "Red Glowing Grass",
@@ -29,6 +42,14 @@ for i=1,5 do
 		buildable_to = true,
 		groups = {grass = 1, snappy = 3, attached_node = 1},
 		sounds = default.node_sound_leaves_defaults(),
+		drop = {
+			items = {
+				{
+					rarity = 2,
+					items = {"blocks:branches_garnet"},
+				},
+			},
+		},
 		selection_box = {
 			type = "fixed",
 			fixed = {-8 / 16, -0.5, -8 / 16, 8 / 16, -4 / 16, 8 / 16},
@@ -47,12 +68,21 @@ for i=1,5 do
 		light_source = 8,
 		groups = {mushroom = 1, snappy = 3, attached_node = 1},
 		sounds = default.node_sound_leaves_defaults(),
+		drop = {
+			items = {
+				{
+					rarity = 2,
+					items = {"blocks:branches_garnet 2"},
+				},
+			},
+		},
 		selection_box = {
 			type = "fixed",
 			fixed = {-8 / 16, -0.5, -8 / 16, 8 / 16, -4 / 16, 8 / 16},
 		}
 	})
 end
+
 minetest.register_node("flora:plant_garnet", {
 	description = "Red Glowing Plant",
 	drawtype = "mesh",
@@ -71,6 +101,22 @@ minetest.register_node("flora:plant_garnet", {
 		type = "fixed",
 		fixed = {-6 / 16, -0.5, -6 / 16, 6 / 16, 0.5, 6 / 16},
 	},
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:branches_garnet 2"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:branches_garnet 2"},
+			},
+			{
+				rarity = 3,
+				items = {"blocks:branches_garnet 2"},
+			},
+		},
+	},
 	groups = {snappy = 3, flammable = 2},
 	sounds = default.node_sound_leaves_defaults(),
 
@@ -78,6 +124,7 @@ minetest.register_node("flora:plant_garnet", {
 		default.dig_up(pos, node, digger)
 	end,
 })
+
 minetest.register_node("flora:vines_garnet", {
 	description = "Vines",
 	drawtype = "plantlike",
@@ -92,6 +139,18 @@ minetest.register_node("flora:vines_garnet", {
 	selection_box = {
 		type = "fixed",
 		fixed = {-6 / 16, -0.5, -6 / 16, 6 / 16, 0.5, 6 / 16},
+	},
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:branches_garnet"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:branches_garnet"},
+			},
+		},
 	},
 	groups = {snappy = 3, flammable = 2, attached_node = 1},
 	sounds = default.node_sound_leaves_defaults(),
@@ -108,6 +167,18 @@ minetest.register_node("flora:moss_lapis", {
 	floodable = true,
 	buildable_to = true,
     light_source = 4,
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:mycelium_lapis"},
+			},
+			{
+				rarity = 3,
+				items = {"blocks:mycelium_lapis"},
+			},
+		},
+	},
 	groups = {snappy = 3, attached_node = 1},
 	sounds = default.node_sound_leaves_defaults(),
 	selection_box = {
@@ -125,6 +196,18 @@ for i=1,5 do
 		walkable = false,
 		floodable = true,
 		buildable_to = true,
+		drop = {
+			items = {
+				{
+					rarity = 1,
+					items = {"blocks:mycelium_lapis"},
+				},
+				{
+					rarity = 2,
+					items = {"blocks:mycelium_lapis"},
+				},
+			},
+		},
 		groups = {grass = 1, snappy = 3, attached_node = 1},
 		sounds = default.node_sound_leaves_defaults(),
 		selection_box = {
@@ -142,6 +225,18 @@ for i=1,5 do
 		buildable_to = true,
 		floodable = true,
 		light_source = 8,
+		drop = {
+			items = {
+				{
+					rarity = 1,
+					items = {"blocks:mycelium_lapis 2"},
+				},
+				{
+					rarity = 3,
+					items = {"blocks:mycelium_lapis 4"},
+				},
+			},
+		},
 		groups = {mushroom = 1, snappy = 3, attached_node = 1},
 		sounds = default.node_sound_leaves_defaults(),
 		selection_box = {
@@ -167,6 +262,18 @@ minetest.register_node("flora:plant_lapis", {
 	selection_box = {
 		type = "fixed",
 		fixed = {-6 / 16, -0.5, -6 / 16, 6 / 16, 0.5, 6 / 16},
+	},
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:mycelium_lapis 2"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:mycelium_lapis 4"},
+			},
+		},
 	},
 	groups = {snappy = 3, flammable = 2},
 	sounds = default.node_sound_leaves_defaults(),
@@ -200,6 +307,18 @@ minetest.register_node("flora:vines_lapis", {
 	selection_box = {
 		type = "fixed",
 		fixed = {-6 / 16, -0.5, -6 / 16, 6 / 16, 0.5, 6 / 16},
+	},
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:mycelium_lapis"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:mycelium_lapis 2"},
+			},
+		},
 	},
 	groups = {snappy = 3, flammable = 2, attached_node = 1},
 	sounds = default.node_sound_leaves_defaults(),

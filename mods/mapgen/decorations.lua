@@ -235,7 +235,7 @@ mapgen.register_microbiome_decorations("moonstone", {
 	grass_node = "flora:grass",
 	main_small_plant = "flora:moonflower",
 	--secondary_small_plant
-	plant_rarity = 0.5,
+	plant_rarity = 0.25,
 	grass_rarity = 1,
 	--main_large_plant
 	--secondary_large_plant
@@ -306,9 +306,10 @@ minetest.register_decoration({
 	spawn_by = "air",
 	num_spawn_by = 3,
 	flags = "all_floors, force_placement",
-	place_offset_y = -1, -- Requires force_placement
+	place_offset_y = -1,
 	decoration = "blocks:stone_mese_circuits",
 })
+
 minetest.register_decoration({
 	name = "mese_ceiling",
 	deco_type = "simple",
@@ -319,9 +320,10 @@ minetest.register_decoration({
 	spawn_by = "air",
 	num_spawn_by = 3,
 	flags = "all_ceilings, force_placement",
-	place_offset_y = -1, -- Requires force_placement
+	place_offset_y = -1,
 	decoration = "blocks:stone_mese_circuits_under",
 })
+
 minetest.register_decoration({
 	name = "mese_surface_marble",
 	deco_type = "simple",
@@ -332,7 +334,7 @@ minetest.register_decoration({
 	spawn_by = "air",
 	num_spawn_by = 3,
 	flags = "all_floors, force_placement",
-	place_offset_y = -1, -- Requires force_placement
+	place_offset_y = -1,
 	decoration = "blocks:marble_mese_circuits",
 })
 
@@ -346,27 +348,10 @@ minetest.register_decoration({
 	spawn_by = "air",
 	num_spawn_by = 3,
 	flags = "all_ceilings, force_placement",
-	place_offset_y = -1, -- Requires force_placement
+	place_offset_y = -1,
 	decoration = "blocks:marble_mese_circuits_under",
 })
---[[
--- Large plants
-minetest.register_decoration({
-	name = base_name .. "_" .. large_plant .. "_large_plant",
-	deco_type = "simple",
-	place_on = surface_node,
-	sidelen = 12,
-	fill_ratio = 0.1,
-	y_max = height_max,
-	y_min = height_min,
-	flags = "all_floors",
-	height = 3,
-	height_max = 8,
-	param2 = 0,
-	param2_max = 3,
-	decoration = large_plant,
-})
-]]--
+
 minetest.register_decoration({
 	name = "mese_tech_crystal",
 	deco_type = "simple",
@@ -380,7 +365,7 @@ minetest.register_decoration({
 	height_max = 6,
 	decoration = "blocks:mese_tech_crystal",
 })
--- Vines
+
 minetest.register_decoration({
 	name = "mese_vines",
 	deco_type = "simple",
@@ -449,7 +434,7 @@ for i=1,5 do
 	})
 end
 
--- Other stuff
+-- Other Decorations
 
 minetest.register_decoration({
 	name = "sfcave_mossycobble",
@@ -483,7 +468,7 @@ minetest.register_decoration({
 	deco_type = "schematic",
 	place_on = {"blocks:sand"},
 	sidelen = 16,
-	fill_ratio = 0.0000001,
+	fill_ratio = 0.00000001,
 	y_max = 31000,
 	y_min = -31000,
 	schematic = minetest.get_modpath("quests") .. "/schematics/spaceship.mts",
@@ -622,3 +607,133 @@ mapgen.register_stalagmites("blocks:granite", 7333)
 mapgen.register_stalagmites("blocks:marble", 8578)
 mapgen.register_stalagmites("blocks:basalt", 9233)
 mapgen.register_stalagmites("blocks:ice", 4253, true, "blocks:cave_ice")
+
+-- Schematic decorations
+
+-- Noises
+-- If clustering is intended the noises for each category (e.g. small, medium, large) should reflect its intended presence.
+mapgen.rock_noise_small = {
+	offset = -1.05,
+	scale = 0.5,
+	spread = {x = 100, y = 100, z = 100},
+	seed = 1,
+	octaves = 4.0,
+	persist = 1.0,
+	lacunarity = 3.0,
+}
+mapgen.rock_noise_medium = {
+	offset = -1.2,
+	scale = 0.5,
+	spread = {x = 100, y = 100, z = 100},
+	seed = 1,
+	octaves = 4.0,
+	persist = 1.0,
+	lacunarity = 3.0,
+}
+mapgen.rock_noise_large = {
+	offset = -1.35,
+	scale = 0.5,
+	spread = {x = 100, y = 100, z = 100},
+	seed = 1,
+	octaves = 4.0,
+	persist = 1.0,
+	lacunarity = 3.0,
+}
+
+-- Schematic Collections
+-- If clustering objects is intended, they should be separated into categories (e.g. small, medium, large) and added to the collection in order of
+-- least common to most common (because the higher values of the larger noise are also going to be high in the next smaller one)
+mapgen.rock_round_collection = {}
+mapgen.rock_square_collection = {}
+mapgen.dungeon_collection = {}
+
+mapgen.add_to_collection = function(collection, item)
+	collection[#collection+1] = item
+end
+
+for i=1,2 do
+	mapgen["rock_round_large_" .. i] = {
+		name = "rock_round_large_" .. i,
+		noise = mapgen.rock_noise_large,
+		y_offset = -4,
+		placement = "all_floors",
+	}
+	mapgen.add_to_collection(mapgen.rock_round_collection, mapgen["rock_round_large_" .. i])
+end
+
+for i=1,3 do
+	mapgen["rock_round_medium_" .. i] = {
+		name = "rock_round_medium_" .. i,
+		noise = mapgen.rock_noise_medium,
+		y_offset = -2,
+		placement = "all_floors",
+	}
+	mapgen.add_to_collection(mapgen.rock_round_collection, mapgen["rock_round_medium_" .. i])
+end
+
+for i=1,3 do
+	mapgen["rock_round_small_" .. i] = {
+		name = "rock_round_small_" .. i,
+		noise = mapgen.rock_noise_small,
+		y_offset = 0,
+		placement = "all_floors",
+	}
+	mapgen.add_to_collection(mapgen.rock_round_collection, mapgen["rock_round_small_" .. i])
+end
+
+mapgen.register_schematic_decorations = function(biomes, collections, special_node)
+
+	local biome, collection, name
+
+	for i=1,#biomes do
+		biome = biomes[i]
+		for j=1,#collections do
+			collection = collections[j]
+			for k=1, #mapgen[collection] do
+				name = mapgen[collection][k].name
+				if (special_node == nil) then
+					mapgen.register_single_schematic_decoration(biome, name)
+				else
+					mapgen.register_single_schematic_decoration(biome, name, special_node)
+				end
+			end
+		end
+	end
+
+end
+
+mapgen.register_single_schematic_decoration = function(biome, name, special_node)
+
+	local decoration_data = mapgen[name]
+	local biome_data = minetest.registered_biomes[biome]
+
+	local material_node, material_node_name
+
+	if (special_node == nil) then
+		if (biome_data.node_stone == nil) then
+			material_node = "blocks:stone"
+		else
+			material_node = biome_data.node_stone
+		end
+	else
+		material_node = special_node
+	end
+
+	material_node_name = string.match(material_node, '(.*):') .. "_" .. string.match(material_node, ':(.*)')
+
+	minetest.register_decoration({
+		name = "decorations:" .. name .. "_" .. biome,
+		deco_type = "schematic",
+		schematic = minetest.get_modpath("mapgen") .. "/schematics/" .. "/" .. material_node_name .. "/" .. name .. "_" .. material_node_name .. ".mts",
+		place_on = {biome_data.node_top},
+		replacements = {["blocks:stone"] = material_node},
+		sidelen = 8,
+		noise_params = decoration_data.noise,
+		y_max = biome_data.y_max,
+		y_min = biome_data.y_min,
+		flags = "place_center_x, place_center_z, force_placement, " .. decoration_data.placement,
+		rotation = "random",
+		biomes = {biome},
+		place_offset_y = decoration_data.y_offset,
+	})
+end

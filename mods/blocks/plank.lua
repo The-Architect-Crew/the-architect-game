@@ -71,6 +71,45 @@ minetest.register_node("blocks:bonewood", {
 	sounds = default.node_sound_wood_defaults(),
 })
 
+minetest.register_node("blocks:firewood", {
+	description = S("\"Firewood\""),
+	paramtype = "light",
+	paramtype2 = "facedir",
+	place_param2 = 0,
+	light_source = 4,
+	tiles = {"blocks_firewood.png"},
+	is_ground_content = false,
+	groups = {choppy = 3, oddly_breakable_by_hand = 2, wood = 1},
+	sounds = default.node_sound_wood_defaults(),
+})
+
+minetest.register_node("blocks:mushroom_wood", {
+	description = S("Mushroom Planks"),
+	paramtype2 = "facedir",
+	place_param2 = 0,
+	tiles = {"blocks_mushroom_wood.png"},
+	is_ground_content = false,
+	groups = {choppy = 3, oddly_breakable_by_hand = 2, wood = 1},
+	sounds = default.node_sound_wood_defaults(),
+})
+
+minetest.register_craftitem("blocks:branches_garnet", {
+	description = S("Pile of Glowing Sticks\n\"An excellent fuel source\""),
+	inventory_image = "blocks_branches_garnet.png",
+	groups = {stick = 1},
+})
+
+minetest.register_craftitem("blocks:mycelium_lapis", {
+	description = S("Pile of Mushroom Mycelia"),
+	inventory_image = "blocks_mycelium_lapis.png",
+})
+
+minetest.register_craftitem("blocks:mushroom_stick", {
+	description = S("Mushroom Stick\n\"A what?\""),
+	inventory_image = "blocks_mushroom_stick.png",
+	groups = {stick = 1},
+})
+
 --
 -- == CRAFTS
 --
@@ -160,6 +199,37 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
+	output = "blocks:firewood",
+	recipe = {
+		{"blocks:branches_garnet", "blocks:branches_garnet"},
+		{"blocks:branches_garnet", "blocks:branches_garnet"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:mushroom_wood",
+	recipe = {
+		{"blocks:mycelium_lapis", "blocks:mycelium_lapis", "blocks:mycelium_lapis"},
+		{"blocks:mycelium_lapis", "blocks:mycelium_lapis", "blocks:mycelium_lapis"},
+		{"blocks:mycelium_lapis", "blocks:mycelium_lapis", "blocks:mycelium_lapis"},
+	}
+})
+minetest.register_craft({
+	output = "blocks:mushroom_stick 2",
+	recipe = {
+		{"", "", "blocks:mycelium_lapis"},
+		{"", "blocks:mycelium_lapis", ""},
+		{"blocks:mycelium_lapis", "", ""},
+	}
+})
+
+minetest.register_craft({
+	type = "cooking",
+	output = "blocks:coal_lump 3",
+	recipe = "blocks:mushroom_wood",
+})
+
+minetest.register_craft({
 	type = "fuel",
 	recipe = "group:stick",
 	burntime = 1,
@@ -193,4 +263,22 @@ minetest.register_craft({
 	type = "fuel",
 	recipe = "blocks:junglewood",
 	burntime = 9,
+})
+
+minetest.register_craft({
+	type = "fuel",
+	recipe = "blocks:branches_garnet",
+	burntime = 30,
+})
+
+minetest.register_craft({
+	type = "fuel",
+	recipe = "blocks:firewood",
+	burntime = 150,
+})
+
+minetest.register_craft({
+	type = "fuel",
+	recipe = "blocks:mushroom_wood",
+	burntime = 90,
 })

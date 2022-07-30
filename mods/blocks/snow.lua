@@ -117,9 +117,9 @@ minetest.register_node("blocks:permafrost_with_moss", {
 
 minetest.register_node("blocks:permafrost_with_bone_roots", {
 	description = S("Permafrost with Bone Roots"),
-	tiles = {"blocks_permafrost.png^(blocks_stones.png^flora_bone_roots.png)",
+	tiles = {"blocks_permafrost.png^flora_bone_roots.png",
 		"blocks_permafrost.png",
-		"blocks_permafrost.png^blocks_stones_side.png"},
+		"blocks_permafrost.png^flora_bone_roots_side.png"},
 	groups = {cracky = 3},
 	sounds = default.node_sound_gravel_defaults(),
 })

@@ -615,30 +615,6 @@ function mapgen.register_ores()
 			octaves = 1,
 		},
 	})
-	-- Granite Surface Rocks
-	minetest.register_ore({
-		ore_type        = "stratum",
-		ore             = "blocks:granite",
-		wherein         = {"air", "blocks:ice", "blocks:cave_ice", "blocks:dirt", "blocks:dirt_with_grass", "blocks:stone", "blocks:sand", "blocks:desertsand", "blocks:silver_sand", "blocks:water_source", "blocks:desert_stone", "blocks:sandstone", "blocks:desert_sandstone", "blocks:silver_sandstone", "blocks:dry_dirt", "blocks:dirt_with_dry_grass", "blocks:dirt_with_snow", "blocks:snow", "blocks:dirt_with_rainforest_litter", "blocks:dirt_with_coniferous_litter"},
-		clust_scarcity  = 1,
-		y_max           = 768,
-		y_min           = -256,
-		noise_params    = {
-			offset = -64,
-			scale = 64,
-			spread = {x = 64, y = 64, z = 64},
-			seed = 5342,
-			octaves = 1,
-		},
-		np_stratum_thickness = {
-			offset = -116,
-			scale = 160,
-			spread = {x = 32, y = 32, z = 32},
-			seed = 7733,
-			octaves = 1,
-			persist = 1.5,
-		},
-	})
 	-- Granite Underground Strata
 	minetest.register_ore({
 		ore_type        = "stratum",
@@ -2411,6 +2387,57 @@ function mapgen.register_ores()
 		y_max          = 0,
 		y_min          = -2048,
 	})
+	-- Fossils
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:desert_stone_with_fossils",
+		wherein        = "blocks:desert_stone",
+		clust_scarcity = 12 * 12 * 12,
+		clust_num_ores = 3,
+		clust_size     = 3,
+		y_max          = 512,
+		y_min          = mapgen.world_bottom,
+	})
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:dry_dirt_with_fossils",
+		wherein        = "blocks:dry_dirt",
+		clust_scarcity = 8 * 8 * 8,
+		clust_num_ores = 2,
+		clust_size     = 3,
+		y_max          = 0,
+		y_min          = mapgen.world_bottom,
+	})
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:permafrost_with_fossils",
+		wherein        = "blocks:permafrost",
+		clust_scarcity = 8 * 8 * 8,
+		clust_num_ores = 2,
+		clust_size     = 3,
+		y_max          = 0,
+		y_min          = mapgen.world_bottom,
+	})
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:ice_with_geode",
+		wherein        = {"blocks:ice", "blocks:cave_ice"},
+		clust_scarcity = 12 * 12 * 12,
+		clust_num_ores = 2,
+		clust_size     = 3,
+		y_max          = 512,
+		y_min          = mapgen.world_bottom,
+	})
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:obsidian_with_geode",
+		wherein        = "blocks:obsidian",
+		clust_scarcity = 8 * 8 * 8,
+		clust_num_ores = 2,
+		clust_size     = 3,
+		y_max          = 0,
+		y_min          = mapgen.world_bottom,
+	})
 
 	-- Decorative stuff that we don't want to actually influence the gameplay so it goes last
 	-- Surface caves
@@ -2504,7 +2531,7 @@ function mapgen.register_ores()
 		clust_scarcity = 8 * 8 * 8,
 		clust_num_ores = 8,
 		clust_size     = 6,
-		y_max          = 512,
+		y_max          = 0,
 		y_min          = mapgen.underground_start - 8,
 	})
 	-- Ice
@@ -2512,10 +2539,10 @@ function mapgen.register_ores()
 		ore_type       = "scatter",
 		ore            = "blocks:moonstone",
 		wherein        = {"blocks:ice","blocks:cave_ice"},
-		clust_scarcity = 6 * 6 * 6,
+		clust_scarcity = 12 * 12 * 12,
 		clust_num_ores = 3,
 		clust_size     = 4,
-		y_max          = 512,
+		y_max          = 0,
 		y_min          = mapgen.world_bottom,
 	})
 end

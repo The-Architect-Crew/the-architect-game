@@ -393,6 +393,11 @@ minetest.register_craftitem("blocks:mese_fiber", {
 	inventory_image = "blocks_mese_fiber.png",
 })
 
+minetest.register_craftitem("blocks:mese_fragment_skeleton", {
+	description = S("Mese Fragment Skeleton"),
+	inventory_image = "blocks_mese_fragment_skeleton.png",
+})
+
 minetest.register_node("blocks:stone_with_mese", {
 	description = S("Mese Ore"),
 	tiles = {"blocks_stone.png^blocks_mineral_mese.png"},
@@ -825,7 +830,6 @@ minetest.register_node("blocks:diamondblock", {
 	sounds = default.node_sound_stone_defaults(),
 })
 
-
 -- Amber
 minetest.register_craftitem("blocks:amber_shard", {
 	description = S("Amber Shard"),
@@ -991,19 +995,19 @@ minetest.register_node("blocks:coal_with_amber", {
 			{
 
 				rarity = 1,
-				items = {"blocks:amber_lump 4"},
+				items = {"blocks:amber_lump 2"},
 
 			},
 			{
 
 				rarity = 2,
-				items = {"blocks:amber_lump 2"},
+				items = {"blocks:amber_lump"},
 
 			},
 			{
 
 				rarity = 4,
-				items = {"blocks:amber_lump 2"},
+				items = {"blocks:amber_lump"},
 
 			},
 		},
@@ -1902,6 +1906,159 @@ minetest.register_node("blocks:moonstone", {
 	sounds = default.node_sound_glass_defaults(),
 })
 
+-- Fossils
+
+blocks.fossil_drop_table = {
+	{
+		rarity = 1,
+		items = {"blocks:bone"},
+	},
+	{
+		rarity = 2,
+		items = {"blocks:bone"},
+	},
+	{
+		rarity = 3,
+		items = {"blocks:coal_lump"},
+	},
+	{
+		rarity = 3,
+		items = {"blocks:iron_lump"},
+	},
+	{
+		rarity = 3,
+		items = {"blocks:copper_lump"},
+	},
+	{
+		rarity = 3,
+		items = {"blocks:amber_lump"},
+	},
+	{
+		rarity = 3,
+		items = {"blocks:tin_lump"},
+	},
+	{
+		rarity = 4,
+		items = {"blocks:gold_lump"},
+	},
+	{
+		rarity = 4,
+		items = {"blocks:silver_lump"},
+	},
+	{
+		rarity = 5,
+		items = {"blocks:coal_lump"},
+	},
+	{
+		rarity = 5,
+		items = {"blocks:iron_lump"},
+	},
+	{
+		rarity = 5,
+		items = {"blocks:copper_lump"},
+	},
+	{
+		rarity = 5,
+		items = {"blocks:amber_lump"},
+	},
+	{
+		rarity = 5,
+		items = {"blocks:tin_lump"},
+	},
+}
+
+minetest.register_node("blocks:dry_dirt_with_fossils", {
+	description = S("Dry Dirt"),
+	tiles = {"blocks_dry_dirt.png^blocks_fossil_overlay.png"},
+	drop = {
+		items = blocks.fossil_drop_table
+	},
+	groups = {crumbly = 3, soil = 1},
+	sounds = default.node_sound_dirt_defaults(),
+})
+
+minetest.register_node("blocks:permafrost_with_fossils", {
+	description = S("Permafrost"),
+	tiles = {"blocks_permafrost.png^blocks_fossil_overlay.png"},
+	drop = {
+		items = blocks.fossil_drop_table
+	},
+	groups = {cracky = 3},
+	sounds = default.node_sound_dirt_defaults(),
+})
+
+minetest.register_node("blocks:desert_stone_with_fossils", {
+	description = S("Desert Stone"),
+	tiles = {"blocks_desert_stone.png^blocks_fossil_overlay.png"},
+	groups = {cracky = 3, stone = 1},
+	drop = {
+		items = blocks.fossil_drop_table
+	},
+	sounds = default.node_sound_stone_defaults(),
+})
+
+-- Geodes
+
+blocks.geode_drop_table = {
+	{
+		rarity = 2,
+		items = {"blocks:glass"},
+	},
+	{
+		rarity = 3,
+		items = {"blocks:amethyst_crystal"},
+	},
+	{
+		rarity = 3,
+		items = {"blocks:garnet_crystal"},
+	},
+	{
+		rarity = 4,
+		items = {"blocks:mese_crystal"},
+	},
+	{
+		rarity = 4,
+		items = {"blocks:diamond"},
+	},
+	{
+		rarity = 5,
+		items = {"blocks:amethyst_crystal"},
+	},
+	{
+		rarity = 5,
+		items = {"blocks:garnet_crystal"},
+	},
+	{
+		rarity = 6,
+		items = {"blocks:mese_crystal"},
+	},
+	{
+		rarity = 6,
+		items = {"blocks:diamond"},
+	},
+}
+
+minetest.register_node("blocks:ice_with_geode", {
+	description = S("Ice"),
+	tiles = {"blocks_ice.png^blocks_geode_overlay.png"},
+	paramtype = "light",
+	drop = {
+		items = blocks.geode_drop_table
+	},
+	groups = {cracky = 3, cools_lava = 1, slippery = 3},
+	sounds = default.node_sound_ice_defaults(),
+})
+
+minetest.register_node("blocks:obsidian_with_geode", {
+	description = S("Obsidian"),
+	tiles = {"blocks_obsidian.png^blocks_geode_overlay.png"},
+	drop = {
+		items = blocks.geode_drop_table
+	},
+	sounds = default.node_sound_stone_defaults(),
+	groups = {cracky = 1, level = 2},
+})
+
 --
 -- == CRAFTS
 --
@@ -2021,9 +2178,11 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = "blocks:mese_crystal_shard 2",
+	output = "blocks:mese_crystal",
 	recipe = {
-		{"blocks:mese_tech_crystal"},
+		{"blocks:mese_crystal_fragment", "blocks:mese_fiber", "blocks:mese_crystal_fragment"},
+		{"blocks:mese_fiber", "", "blocks:mese_fiber"},
+		{"blocks:mese_crystal_fragment", "blocks:mese_fiber", "blocks:mese_crystal_fragment"},
 	}
 })
 
@@ -2042,6 +2201,14 @@ minetest.register_craft({
 		{"blocks:mese_fiber", "blocks:mese_fiber", "blocks:mese_fiber"},
 		{"blocks:mese_fiber", "blocks:mese_fiber", "blocks:mese_fiber"},
 		{"blocks:mese_fiber", "blocks:mese_fiber", "blocks:mese_fiber"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:mese_fragment_skeleton",
+	recipe = {
+		{"", "blocks:mese_fiber"},
+		{"blocks:mese_fiber", ""},
 	}
 })
 
@@ -2225,14 +2392,8 @@ minetest.register_craft({
 
 minetest.register_craft({
 	type = "cooking",
-	output = "blocks:mese_crystal",
-	recipe = "blocks:mese_crystal_fragment 4",
-})
-
-minetest.register_craft({
-	type = "cooking",
 	output = "blocks:mese_crystal_fragment",
-	recipe = "blocks:mese_fiber 6",
+	recipe = "blocks:mese_fragment_skeleton",
 })
 
 minetest.register_craft({

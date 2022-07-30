@@ -82,7 +82,7 @@ minetest.register_node("blocks:dry_dirt", {
 })
 
 minetest.register_node("blocks:dry_dirt_with_dry_grass", {
-	description = S("Savanna Dirt with Savanna Grass"),
+	description = S("Dry Dirt with Savanna Grass"),
 	tiles = {"blocks_dry_grass.png", "blocks_dry_dirt.png",
 		{name = "blocks_dry_dirt.png^blocks_dry_grass_side.png",
 			tileable_vertical = false}},
@@ -98,6 +98,7 @@ minetest.register_node("blocks:dry_dirt_with_dry_grass", {
 minetest.register_node("blocks:dry_dirt_lapis", {
 	description = S("Dry Dirt"),
 	tiles = {"blocks_moss_lapis_overlay.png", "blocks_dry_dirt.png", "blocks_dry_dirt.png^blocks_moss_lapis_overlay_side.png"},
+	drop = "blocks:dry_dirt",
 	groups = {crumbly = 3, soil = 1},
 	sounds = default.node_sound_dirt_defaults(),
 })

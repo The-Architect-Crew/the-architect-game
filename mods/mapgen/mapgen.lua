@@ -899,6 +899,10 @@ end
 
 
 function mapgen.register_decorations()
+	-- First, the schematic decorations
+	mapgen.register_schematic_decorations({"tundra", "tundra_highland", "tundra_under", "grassland", "cold_desert", "cold_desert_under",
+	"snowy_grassland", "snowy_grassland_under", "savanna"}, {"rock_round_collection"})
+
 	-- Savanna bare dirt patches.
 	-- Must come before all savanna decorations that are placed on dry grass.
 	-- Noise is similar to long dry grass noise, but scale inverted, to appear

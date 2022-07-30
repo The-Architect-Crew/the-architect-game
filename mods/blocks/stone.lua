@@ -277,7 +277,26 @@ minetest.register_node("blocks:cobble_garnet", {
 	description = S("Cobblestone"),
 	tiles = {"blocks_cobble.png^blocks_moss_garnet_overlay.png", "blocks_cobble.png", "blocks_cobble.png^blocks_moss_garnet_overlay_side.png"},
 	groups = {cracky = 3, stone = 2},
-	drop = "blocks:cobble",
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:stone_chunk 2"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:branches_garnet"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:stone_chunk"},
+			},
+			{
+				rarity = 3,
+				items = {"blocks:branches_garnet"},
+			},
+		},
+	},
 	sounds = default.node_sound_stone_defaults(),
 })
 

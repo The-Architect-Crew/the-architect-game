@@ -36,6 +36,7 @@ decorations.register_stalagmites = function(base_node, drop)
 			place_param2 = 0,
 			sunlight_propagates = true,
 			paramtype = "light",
+			light_source = 1,
 			floodable = true,
 			drop = {
 				items = {
@@ -67,6 +68,7 @@ decorations.register_stalagmites = function(base_node, drop)
 			place_param2 = 0,
 			sunlight_propagates = true,
 			paramtype = "light",
+			light_source = 1,
 			floodable = true,
 			drop = {
 				items = {
@@ -96,6 +98,7 @@ decorations.register_stalagmites = function(base_node, drop)
 		tiles = {"decorations_stalagmites_" .. sname .. ".png^[sheet:13x1:11,0"},
 		sunlight_propagates = true,
 		paramtype = "light",
+		light_source = 1,
 		visual_scale = 2,
 		floodable = true,
 		drop = {
@@ -120,7 +123,7 @@ decorations.register_stalagmites = function(base_node, drop)
 			default.dig_dir(pos, {"decorations:stalagmite_middle_" .. sname, "decorations:stalagmite_top_" .. sname}, 1)
 		end,
 		after_dig_node = function(pos, node, metadata, digger)
-			default.dig_dir(pos, {"decorations:stalagmite_middle_" .. sname, "decorations:stalagmite_top_" .. sname}, 1)
+			default.dig_dir(pos, {"decorations:stalagmite_middle_" .. sname, "decorations:stalagmite_top_" .. sname}, 1, digger)
 		end,
 		after_destruct = function(pos)
 			default.dig_dir(pos, {"decorations:stalagmite_middle_" .. sname, "decorations:stalagmite_top_" .. sname}, 1)
@@ -132,6 +135,7 @@ decorations.register_stalagmites = function(base_node, drop)
 		tiles = {"decorations_stalagmites_" .. sname .. ".png^[sheet:26x2:20,0"},
 		sunlight_propagates = true,
 		paramtype = "light",
+		light_source = 1,
 		floodable = true,
 		drop = {
 			items = {
@@ -155,7 +159,7 @@ decorations.register_stalagmites = function(base_node, drop)
 			default.dig_dir(pos, {"decorations:stalactite_middle_" .. sname, "decorations:stalactite_top_" .. sname}, -1)
 		end,
 		after_dig_node = function(pos, node, metadata, digger)
-			default.dig_dir(pos, {"decorations:stalactite_middle_" .. sname, "decorations:stalactite_top_" .. sname}, -1)
+			default.dig_dir(pos, {"decorations:stalactite_middle_" .. sname, "decorations:stalactite_top_" .. sname}, -1, digger)
 		end,
 		after_destruct = function(pos)
 			default.dig_dir(pos, {"decorations:stalactite_middle_" .. sname, "decorations:stalactite_top_" .. sname}, -1)
@@ -167,6 +171,7 @@ decorations.register_stalagmites = function(base_node, drop)
 		tiles = {"decorations_stalagmites_" .. sname .. ".png^[sheet:26x2:24,1"},
 		sunlight_propagates = true,
 		paramtype = "light",
+		light_source = 1,
 		floodable = true,
 		drop = {
 			items = {
@@ -190,7 +195,7 @@ decorations.register_stalagmites = function(base_node, drop)
 			default.dig_dir(pos, {"decorations:stalagmite_middle_" .. sname, "decorations:stalagmite_top_" .. sname}, 1)
 		end,
 		after_dig_node = function(pos, node, metadata, digger)
-			default.dig_dir(pos, {"decorations:stalagmite_middle_" .. sname, "decorations:stalagmite_top_" .. sname}, 1)
+			default.dig_dir(pos, {"decorations:stalagmite_middle_" .. sname, "decorations:stalagmite_top_" .. sname}, 1, digger)
 		end,
 		after_destruct = function(pos)
 			default.dig_dir(pos, {"decorations:stalagmite_middle_" .. sname, "decorations:stalagmite_top_" .. sname}, 1)
@@ -202,6 +207,7 @@ decorations.register_stalagmites = function(base_node, drop)
 		tiles = {"decorations_stalagmites_" .. sname .. ".png^[sheet:26x2:25,0"},
 		sunlight_propagates = true,
 		paramtype = "light",
+		light_source = 1,
 		floodable = true,
 		drop = {
 			items = {
@@ -225,7 +231,7 @@ decorations.register_stalagmites = function(base_node, drop)
 			default.dig_dir(pos, {"decorations:stalactite_middle_" .. sname, "decorations:stalactite_top_" .. sname}, -1)
 		end,
 		after_dig_node = function(pos, node, metadata, digger)
-			default.dig_dir(pos, {"decorations:stalactite_middle_" .. sname, "decorations:stalactite_top_" .. sname}, -1)
+			default.dig_dir(pos, {"decorations:stalactite_middle_" .. sname, "decorations:stalactite_top_" .. sname}, -1, digger)
 		end,
 		after_destruct = function(pos)
 			default.dig_dir(pos, {"decorations:stalactite_middle_" .. sname, "decorations:stalactite_top_" .. sname}, -1)
@@ -237,6 +243,7 @@ decorations.register_stalagmites = function(base_node, drop)
 		tiles = {"decorations_stalagmites_" .. sname .. ".png^[sheet:26x2:24,0"},
 		sunlight_propagates = true,
 		paramtype = "light",
+		light_source = 1,
 		floodable = true,
 		drop = {
 			items = {
@@ -263,6 +270,7 @@ decorations.register_stalagmites = function(base_node, drop)
 		tiles = {"decorations_stalagmites_" .. sname .. ".png^[sheet:26x2:25,1"},
 		sunlight_propagates = true,
 		paramtype = "light",
+		light_source = 1,
 		floodable = true,
 		drop = {
 			items = {

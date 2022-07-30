@@ -119,10 +119,10 @@ minetest.register_node("flora:plant_garnet", {
 	},
 	groups = {snappy = 3, flammable = 2},
 	sounds = default.node_sound_leaves_defaults(),
-
 	after_dig_node = function(pos, node, metadata, digger)
-		default.dig_up(pos, node, digger)
-	end,
+		local nn = node.name
+		default.dig_dir(pos, {nn}, -1, digger)
+	end
 })
 
 minetest.register_node("flora:vines_garnet", {
@@ -154,6 +154,10 @@ minetest.register_node("flora:vines_garnet", {
 	},
 	groups = {snappy = 3, flammable = 2, attached_node = 1},
 	sounds = default.node_sound_leaves_defaults(),
+	after_dig_node = function(pos, node, metadata, digger)
+		local nn = node.name
+		default.dig_dir(pos, {nn}, -1, digger)
+	end
 })
 
 -- Lapis (Hot sub-biome flora)
@@ -277,10 +281,10 @@ minetest.register_node("flora:plant_lapis", {
 	},
 	groups = {snappy = 3, flammable = 2},
 	sounds = default.node_sound_leaves_defaults(),
-
 	after_dig_node = function(pos, node, metadata, digger)
-		default.dig_up(pos, node, digger)
-	end,
+		local nn = node.name
+		default.dig_dir(pos, {nn}, -1, digger)
+	end
 })
 minetest.register_node("flora:vines_lapis", {
 	description = "Vines",
@@ -322,6 +326,10 @@ minetest.register_node("flora:vines_lapis", {
 	},
 	groups = {snappy = 3, flammable = 2, attached_node = 1},
 	sounds = default.node_sound_leaves_defaults(),
+	after_dig_node = function(pos, node, metadata, digger)
+		local nn = node.name
+		default.dig_dir(pos, {nn}, -1, digger)
+	end
 })
 -- Mese (deep sub-biome flora)
 
@@ -428,32 +436,7 @@ for i=1,5 do
 		}
 	})
 end
---[[
-minetest.register_node("flora:plant_garnet", {
-	description = "Red Glowing Plant",
-	drawtype = "mesh",
-	mesh = "flora_plant_garnet.obj",
-	tiles = {"flora_plant_garnet.png", "flora_plant_garnet_leaf.png"},
-	inventory_image = "flora_plant_garnet_leaf.png",
-	wield_image = "flora_plant_garnet_leaf.png",
-	paramtype = "light",
-	paramtype2 = "facedir",
-	light_source = 8,
-	floodable = true,
-	sunlight_propagates = true,
-	walkable = false,
-	use_texture_alpha = "clip",
-	selection_box = {
-		type = "fixed",
-		fixed = {-6 / 16, -0.5, -6 / 16, 6 / 16, 0.5, 6 / 16},
-	},
-	groups = {snappy = 3, flammable = 2},
-	sounds = default.node_sound_leaves_defaults(),
 
-	after_dig_node = function(pos, node, metadata, digger)
-		default.dig_up(pos, node, digger)
-	end,
-})]]--
 minetest.register_node("flora:vines_mese", {
 	description = "Mese Circuit Vines",
 	drawtype = "plantlike",
@@ -481,4 +464,8 @@ minetest.register_node("flora:vines_mese", {
 	},
 	groups = {snappy = 3, flammable = 2, attached_node = 1},
 	sounds = default.node_sound_leaves_defaults(),
+	after_dig_node = function(pos, node, metadata, digger)
+		local nn = node.name
+		default.dig_dir(pos, {nn}, -1, digger)
+	end
 })

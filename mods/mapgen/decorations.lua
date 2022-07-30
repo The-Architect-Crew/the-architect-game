@@ -235,7 +235,7 @@ mapgen.register_microbiome_decorations("moonstone", {
 	grass_node = "flora:grass",
 	main_small_plant = "flora:moonflower",
 	--secondary_small_plant
-	plant_rarity = 0.25,
+	plant_rarity = 0.15,
 	grass_rarity = 1,
 	--main_large_plant
 	--secondary_large_plant
@@ -252,15 +252,15 @@ mapgen.register_microbiome_decorations("hot", {
 	surface_node = {"blocks:dry_dirt_with_dry_grass"},
 	surface_coverage = "full",
 	grass_node = "flora:dry_grass",
-	main_small_plant = "flora:moonflower",
+	main_small_plant = "flora:moonflower_dry",
 	--secondary_small_plant
-	plant_rarity = 0.5,
+	plant_rarity = 0.15,
 	grass_rarity = 1,
 	--main_large_plant
 	--secondary_large_plant
-	main_vines = "flora:vines",
-	secondary_vines = "flora:vines_moonstone",
-	moss = "flora:vines_horizontal",
+	main_vines = "flora:vines_dry",
+	secondary_vines = "flora:vines_dry_moonstone",
+	moss = "flora:vines_dry_horizontal",
 })
 --[[
 -- Should be the mese biome, but there are too many exceptions

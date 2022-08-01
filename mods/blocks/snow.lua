@@ -109,6 +109,7 @@ minetest.register_node("blocks:permafrost_with_moss", {
 	tiles = {"blocks_moss.png", "blocks_permafrost.png",
 		{name = "blocks_permafrost.png^blocks_moss_side.png",
 			tileable_vertical = false}},
+	drop = "blocks:permafrost",
 	groups = {cracky = 3},
 	sounds = default.node_sound_dirt_defaults({
 		footstep = {name = "blocks_grass_footstep", gain = 0.25},
@@ -120,8 +121,20 @@ minetest.register_node("blocks:permafrost_with_bone_roots", {
 	tiles = {"blocks_permafrost.png^flora_bone_roots.png",
 		"blocks_permafrost.png",
 		"blocks_permafrost.png^flora_bone_roots_side.png"},
+	drop = "blocks:permafrost",
 	groups = {cracky = 3},
 	sounds = default.node_sound_gravel_defaults(),
+})
+
+minetest.register_node("blocks:permafrost_with_snow", {
+	description = S("Permafrost with Snow"),
+	tiles = {"blocks_coniferous_litter.png^blocks_patchy_snow.png", "blocks_permafrost.png",
+		"(blocks_permafrost.png^blocks_coniferous_litter_side.png)^blocks_patchy_snow_side.png"},
+	drop = "blocks:permafrost",
+	groups = {cracky = 3},
+	sounds = default.node_sound_snow_defaults({
+		footstep = {name = "blocks_grass_footstep", gain = 0.5},
+	}),
 })
 
 --

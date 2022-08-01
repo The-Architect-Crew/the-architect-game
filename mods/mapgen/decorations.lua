@@ -262,6 +262,25 @@ mapgen.register_microbiome_decorations("hot", {
 	secondary_vines = "flora:vines_dry_moonstone",
 	moss = "flora:vines_dry_horizontal",
 })
+
+mapgen.register_microbiome_decorations("frosty", {
+	height_min = mapgen.underground_start,
+	height_max = 0,
+	seed = 82253663,
+	base_node = {"blocks:permafrost"},
+	surface_node = {"blocks:permafrost_with_snow"},
+	surface_coverage = "full",
+	grass_node = "flora:grass_frosty",
+	main_small_plant = "flora:moonflower_frosty",
+	secondary_small_plant = "blocks:snow",
+	plant_rarity = 0.15,
+	grass_rarity = 1,
+	--main_large_plant
+	--secondary_large_plant
+	main_vines = "flora:vines_frosty",
+	secondary_vines = "flora:vines_frosty_moonstone",
+	moss = "flora:vines_frosty_horizontal",
+})
 --[[
 -- Should be the mese biome, but there are too many exceptions
 mapgen.register_microbiome_decorations("mese", {

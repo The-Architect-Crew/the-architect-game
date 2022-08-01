@@ -127,7 +127,7 @@ mapgen.register_microbiome_decorations = function(base_name, data)
 	end
 
 	-- Moss
-	
+
 	minetest.register_decoration({
 		name = base_name .. "_" .. moss .. "_moss",
 		deco_type = "simple",

@@ -57,7 +57,7 @@ variations.variations = {
 	},
 }
 
-function variations.register_for_base(base_node, transparent, sunlight, light_source)
+function variations.register_for_base(base_node, transparent, sunlight, in_light_source)
 	local base_definition = minetest.registered_nodes[base_node]
 	for _, variation in ipairs(variations.variations) do
 		local sname = string.match(base_node, ':(.*)')
@@ -69,9 +69,9 @@ function variations.register_for_base(base_node, transparent, sunlight, light_so
 			sunlight = true
 			paramtype_light = "light"
 		end
-		local light source = 0
+		local light_source = 0
 		if light_source ~= nil then
-			light_source = light_source
+			light_source = in_light_source
 		end
 		minetest.register_node(variation_name, {
 			description = variation_description,

@@ -394,7 +394,7 @@ function mapgen.register_ores()
 				wherein         = {"blocks:sandstone", "blocks:sand"},
 				y_max           = 128,
 				y_min           = -32,
-				noise_threshold = 0.75,				
+				noise_threshold = 0.75,
 				noise_params    = {
 					offset = 132 - ((#blocks.stone_colors*j) - i),
 					scale = 1.0,

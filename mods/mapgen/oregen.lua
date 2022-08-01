@@ -1498,7 +1498,25 @@ function mapgen.register_ores()
 	})
 
 	-- Sheet ores
-
+	-- Mineral Salt
+	minetest.register_ore({
+		ore_type = "sheet",
+		ore = "blocks:mineral_salt",
+		wherein = { "blocks:desert_stone", "blocks:desert_sandstone", "blocks:sandstone"},
+		y_min = -128,
+		y_max = 512,
+		column_height_min = 3,
+		column_height_max = 7,
+		noise_threshold = 0.2,
+		noise_params = {
+			offset = 0,
+			scale = 2,
+			spread = {x = 60, y = 60, z = 3},
+			seed = 3953,
+			octaves = 1,
+			persist = 0.5
+		}
+	})
 	-- Basalt
 	minetest.register_ore({
 		ore_type        = "sheet",

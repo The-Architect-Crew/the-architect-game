@@ -101,4 +101,20 @@ minetest.register_node("blocks:dry_dirt_lapis", {
 	drop = "blocks:dry_dirt",
 	groups = {crumbly = 3, soil = 1},
 	sounds = default.node_sound_dirt_defaults(),
+ })
+
+minetest.register_node("blocks:dark_dirt", {
+	description = "Dark Dirt",
+	tiles = {"blocks_dark_dirt.png"},
+	groups = {crumbly=2},
+	sounds = default.node_sound_dirt_defaults(),
+})
+
+-- Crafts
+minetest.register_craft({
+	output = "blocks:dark_dirt 2",
+	recipe = {
+		{"blocks:dirt"},
+		{"blocks:fine_gravel"}
+	}
 })

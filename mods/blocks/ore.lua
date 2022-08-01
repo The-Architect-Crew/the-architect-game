@@ -2059,6 +2059,28 @@ minetest.register_node("blocks:obsidian_with_geode", {
 	groups = {cracky = 1, level = 2},
 })
 
+-- Mineral salt formerly known as ORS (old red sandstone)
+minetest.register_node("blocks:mineral_salt", {
+	description = S("Mineral Salt"),
+	tiles = {"blocks_mineral_salt.png"},
+	is_ground_content = true,
+	drop = "blocks:mineral_salt_cobble",
+	groups = {crumbly=2,cracky=2},
+	sounds = default.node_sound_stone_defaults(),
+})
+
+minetest.register_craftitem("blocks:mineral_salt_chunk", {
+	description = S("Mineral Salt Chunk"),
+	inventory_image = "blocks_mineral_salt_chunk.png",
+})
+
+minetest.register_node("blocks:mineral_salt_cobble", {
+	description = S("Mineral Salt Cobble"),
+	tiles = {"blocks_mineral_salt_cobble.png"},
+	groups = {crumbly=2,cracky=2},
+	sounds = default.node_sound_stone_defaults(),
+})
+
 --
 -- == CRAFTS
 --

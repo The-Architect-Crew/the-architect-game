@@ -1,5 +1,5 @@
 minetest.register_node("flora:vines_horizontal", {
-	description = "Vines",
+	description = "Horizontal Vines",
 	tiles = {"flora_vines_horizontal.png"},
 	drawtype = "firelike",
 	paramtype = "light",
@@ -112,7 +112,7 @@ for i=1,5 do
 	})
 end
 minetest.register_node("flora:vines_with_moonstone", {
-	description = "Vines",
+	description = "Vines with Moonstone",
 	tiles = {"flora_vines_with_moonstone.png"},
 	drawtype = "plantlike",
 	paramtype = "light",
@@ -168,7 +168,7 @@ minetest.register_node("flora:vines_with_moonstone", {
 -- Desert variant
 
 minetest.register_node("flora:vines_dry_horizontal", {
-	description = "Vines",
+	description = "Horizontal Dry Vines",
 	tiles = {"flora_vines_dry_horizontal.png"},
 	drawtype = "firelike",
 	paramtype = "light",
@@ -209,7 +209,7 @@ minetest.register_node("flora:vines_dry_horizontal", {
 	}
 })
 minetest.register_node("flora:vines_dry", {
-	description = "Vines",
+	description = "Dry Vines",
 	tiles = {"flora_vines_dry.png"},
 	drawtype = "plantlike",
 	paramtype = "light",
@@ -254,7 +254,7 @@ minetest.register_node("flora:vines_dry", {
 })
 for i=1,5 do
 	minetest.register_node("flora:moonflower_dry_" .. i, {
-		description = "Moonflower",
+		description = "Moonflower with Dry Grass",
 		tiles = {"flora_moonflower_dry.png^[sheet:5x1:" .. i-1 .. ",0"},
 		drawtype = "plantlike",
 		paramtype = "light",
@@ -281,7 +281,7 @@ for i=1,5 do
 	})
 end
 minetest.register_node("flora:vines_dry_with_moonstone", {
-	description = "Vines",
+	description = "Dry Vines with Moonstone",
 	tiles = {"flora_vines_dry_with_moonstone.png"},
 	drawtype = "plantlike",
 	paramtype = "light",
@@ -338,7 +338,7 @@ minetest.register_node("flora:vines_dry_with_moonstone", {
 
 for i=1,5 do
 	minetest.register_node("flora:grass_frosty_" .. i, {
-		description = "Grass",
+		description = "Frosty Grass",
 		tiles = {"flora_grass_frosty.png^[sheet:5x1:" .. i-1 .. ",0"},
 		drawtype = "plantlike",
 		paramtype = "light",
@@ -369,7 +369,7 @@ for i=1,5 do
 end
 
 minetest.register_node("flora:vines_frosty_horizontal", {
-	description = "Vines",
+	description = "Frosty Horizontal Vines",
 	tiles = {"flora_vines_frosty_horizontal.png"},
 	drawtype = "firelike",
 	paramtype = "light",
@@ -410,7 +410,7 @@ minetest.register_node("flora:vines_frosty_horizontal", {
 	}
 })
 minetest.register_node("flora:vines_frosty", {
-	description = "Vines",
+	description = "Frosty Vines",
 	tiles = {"flora_vines_frosty.png"},
 	drawtype = "plantlike",
 	paramtype = "light",
@@ -455,7 +455,7 @@ minetest.register_node("flora:vines_frosty", {
 })
 for i=1,5 do
 	minetest.register_node("flora:moonflower_frosty_" .. i, {
-		description = "Moonflower",
+		description = "Moonflower with Frosty Grass",
 		tiles = {"flora_moonflower_frosty.png^[sheet:5x1:" .. i-1 .. ",0"},
 		drawtype = "plantlike",
 		paramtype = "light",
@@ -482,7 +482,7 @@ for i=1,5 do
 	})
 end
 minetest.register_node("flora:vines_frosty_with_moonstone", {
-	description = "Vines",
+	description = "Frosty Vines with Moonstone",
 	tiles = {"flora_vines_dry_with_moonstone.png"},
 	drawtype = "plantlike",
 	paramtype = "light",

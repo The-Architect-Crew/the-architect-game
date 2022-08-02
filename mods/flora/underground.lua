@@ -1,8 +1,8 @@
 -- Garnet (stone sub-biome flora)
 
-minetest.register_node("flora:moss_garnet", {
-	description = "Red Glowing Moss",
-	tiles = {"flora_moss_garnet.png"},
+minetest.register_node("flora:firemoss", {
+	description = "Firemoss\n\"Glows in the dark\"",
+	tiles = {"flora_firemoss.png"},
 	drawtype = "firelike",
 	paramtype = "light",
 	sunlight_propagates = true,
@@ -14,11 +14,11 @@ minetest.register_node("flora:moss_garnet", {
 		items = {
 			{
 				rarity = 1,
-				items = {"blocks:branches_garnet"},
+				items = {"blocks:firebranches"},
 			},
 			{
 				rarity = 2,
-				items = {"blocks:branches_garnet"},
+				items = {"blocks:firebranches"},
 			},
 		},
 	},
@@ -31,9 +31,9 @@ minetest.register_node("flora:moss_garnet", {
 })
 
 for i=1,5 do
-	minetest.register_node("flora:grass_garnet_" .. i, {
-		description = "Red Glowing Grass",
-		tiles = {"flora_grass_garnet.png^[sheet:5x1:" .. i - 1 .. ",0"},
+	minetest.register_node("flora:firegrass_" .. i, {
+		description = "Firegrass\n\"Burning to the touch\"",
+		tiles = {"flora_firegrass.png^[sheet:5x1:" .. i - 1 .. ",0"},
 		drawtype = "plantlike",
 		paramtype = "light",
 		sunlight_propagates = true,
@@ -46,7 +46,7 @@ for i=1,5 do
 			items = {
 				{
 					rarity = 2,
-					items = {"blocks:branches_garnet"},
+					items = {"blocks:firebranches"},
 				},
 			},
 		},
@@ -56,9 +56,9 @@ for i=1,5 do
 		}
 	})
 
-	minetest.register_node("flora:mushroom_garnet_" .. i, {
-		description = "Red Glowing Mushroom",
-		tiles = {"flora_mushroom_garnet.png^[sheet:5x1:" .. i - 1 .. ",0"},
+	minetest.register_node("flora:fireshroom_" .. i, {
+		description = "Fireshroom\n\"Actually not poisonous\"",
+		tiles = {"flora_fireshroom.png^[sheet:5x1:" .. i - 1 .. ",0"},
 		drawtype = "plantlike",
 		paramtype = "light",
 		sunlight_propagates = true,
@@ -72,7 +72,7 @@ for i=1,5 do
 			items = {
 				{
 					rarity = 2,
-					items = {"blocks:branches_garnet 2"},
+					items = {"blocks:firebranches 2"},
 				},
 			},
 		},
@@ -83,13 +83,13 @@ for i=1,5 do
 	})
 end
 
-minetest.register_node("flora:plant_garnet", {
-	description = "Red Glowing Plant",
+minetest.register_node("flora:fireplant", {
+	description = "Fireplant\n\"Of unknown origins...\"",
 	drawtype = "mesh",
-	mesh = "flora_plant_garnet.obj",
-	tiles = {"flora_plant_garnet.png", "flora_plant_garnet_leaf.png"},
-	inventory_image = "flora_plant_garnet_leaf.png",
-	wield_image = "flora_plant_garnet_leaf.png",
+	mesh = "flora_fireplant.obj",
+	tiles = {"flora_fireplant.png", "flora_fireplant_leaf.png"},
+	inventory_image = "flora_fireplant_leaf.png",
+	wield_image = "flora_fireplant_leaf.png",
 	paramtype = "light",
 	paramtype2 = "facedir",
 	light_source = 8,
@@ -105,15 +105,15 @@ minetest.register_node("flora:plant_garnet", {
 		items = {
 			{
 				rarity = 1,
-				items = {"blocks:branches_garnet 2"},
+				items = {"blocks:firebranches 2"},
 			},
 			{
 				rarity = 2,
-				items = {"blocks:branches_garnet 2"},
+				items = {"blocks:firebranches 2"},
 			},
 			{
 				rarity = 3,
-				items = {"blocks:branches_garnet 2"},
+				items = {"blocks:firebranches 2"},
 			},
 		},
 	},
@@ -125,12 +125,12 @@ minetest.register_node("flora:plant_garnet", {
 	end
 })
 
-minetest.register_node("flora:vines_garnet", {
-	description = "Vines",
+minetest.register_node("flora:firevines", {
+	description = "Firevines",
 	drawtype = "plantlike",
-	tiles = {"flora_vines_garnet.png"},
-	inventory_image = "flora_vines_garnet.png",
-	wield_image = "flora_vines_garnet.png",
+	tiles = {"flora_firevine.png"},
+	inventory_image = "flora_firevine.png",
+	wield_image = "flora_firevine.png",
 	paramtype = "light",
 	light_source = 8,
 	floodable = true,
@@ -144,11 +144,11 @@ minetest.register_node("flora:vines_garnet", {
 		items = {
 			{
 				rarity = 1,
-				items = {"blocks:branches_garnet"},
+				items = {"blocks:firebranches"},
 			},
 			{
 				rarity = 2,
-				items = {"blocks:branches_garnet"},
+				items = {"blocks:firebranches"},
 			},
 		},
 	},
@@ -161,9 +161,9 @@ minetest.register_node("flora:vines_garnet", {
 })
 
 -- Lapis (Hot sub-biome flora)
-minetest.register_node("flora:moss_lapis", {
-	description = "Blue Glowing Moss",
-	tiles = {"flora_moss_lapis.png"},
+minetest.register_node("flora:azure_moss", {
+	description = "Azure Moss",
+	tiles = {"flora_azure_moss.png"},
 	drawtype = "firelike",
 	paramtype = "light",
 	sunlight_propagates = true,
@@ -175,11 +175,11 @@ minetest.register_node("flora:moss_lapis", {
 		items = {
 			{
 				rarity = 1,
-				items = {"blocks:mycelium_lapis"},
+				items = {"blocks:azure_mycelium"},
 			},
 			{
 				rarity = 3,
-				items = {"blocks:mycelium_lapis"},
+				items = {"blocks:azure_mycelium"},
 			},
 		},
 	},
@@ -191,9 +191,9 @@ minetest.register_node("flora:moss_lapis", {
 	}
 })
 for i=1,5 do
-	minetest.register_node("flora:grass_lapis_" .. i, {
-		description = "Blue Glowing Grass",
-		tiles = {"flora_grass_lapis.png^[sheet:5x1:" .. i - 1 .. ",0"},
+	minetest.register_node("flora:azure_grass_" .. i, {
+		description = "Azure Grass",
+		tiles = {"flora_azure_grass.png^[sheet:5x1:" .. i - 1 .. ",0"},
 		drawtype = "plantlike",
 		paramtype = "light",
 		sunlight_propagates = true,
@@ -204,11 +204,11 @@ for i=1,5 do
 			items = {
 				{
 					rarity = 1,
-					items = {"blocks:mycelium_lapis"},
+					items = {"blocks:azure_mycelium"},
 				},
 				{
 					rarity = 2,
-					items = {"blocks:mycelium_lapis"},
+					items = {"blocks:azure_mycelium"},
 				},
 			},
 		},
@@ -219,9 +219,9 @@ for i=1,5 do
 			fixed = {-8 / 16, -0.5, -8 / 16, 8 / 16, -4 / 16, 8 / 16},
 		}
 	})
-	minetest.register_node("flora:mushroom_lapis_" .. i, {
-		description = "Blue Glowing Mushroom",
-		tiles = {"flora_mushroom_lapis.png^[sheet:5x1:" .. i - 1 .. ",0"},
+	minetest.register_node("flora:azureshroom_" .. i, {
+		description = "Azureshroom\n\"Kinda hard to pronounce\"",
+		tiles = {"flora_azureshroom.png^[sheet:5x1:" .. i - 1 .. ",0"},
 		drawtype = "plantlike",
 		paramtype = "light",
 		sunlight_propagates = true,
@@ -233,11 +233,11 @@ for i=1,5 do
 			items = {
 				{
 					rarity = 1,
-					items = {"blocks:mycelium_lapis 2"},
+					items = {"blocks:azure_mycelium 2"},
 				},
 				{
 					rarity = 3,
-					items = {"blocks:mycelium_lapis 4"},
+					items = {"blocks:azure_mycelium 4"},
 				},
 			},
 		},
@@ -249,13 +249,13 @@ for i=1,5 do
 		}
 	})
 end
-minetest.register_node("flora:plant_lapis", {
-	description = "Blue Glowing Plant",
+minetest.register_node("flora:azure_plant", {
+	description = "Azure Plant",
 	drawtype = "mesh",
-	mesh = "flora_plant_lapis.obj",
-	tiles = {"flora_plant_lapis_mushroom.png", "flora_plant_lapis_1.png", "flora_plant_lapis_2.png"},
-	inventory_image = "flora_plant_lapis_mushroom.png",
-	wield_image = "flora_plant_lapis_mushroom.png",
+	mesh = "flora_azure_plant.obj",
+	tiles = {"flora_azure_plant_mushroom.png", "flora_azure_plant_1.png", "flora_azure_plant_2.png"},
+	inventory_image = "flora_azure_plant_mushroom.png",
+	wield_image = "flora_azure_plant_mushroom.png",
 	paramtype = "light",
 	paramtype2 = "facedir",
 	light_source = 8,
@@ -271,11 +271,11 @@ minetest.register_node("flora:plant_lapis", {
 		items = {
 			{
 				rarity = 1,
-				items = {"blocks:mycelium_lapis 2"},
+				items = {"blocks:azure_mycelium 2"},
 			},
 			{
 				rarity = 2,
-				items = {"blocks:mycelium_lapis 4"},
+				items = {"blocks:azure_mycelium 4"},
 			},
 		},
 	},
@@ -286,12 +286,12 @@ minetest.register_node("flora:plant_lapis", {
 		default.dig_dir(pos, {nn}, -1, digger)
 	end
 })
-minetest.register_node("flora:vines_lapis", {
-	description = "Vines",
+minetest.register_node("flora:azure_vines", {
+	description = "Azure Vines\n\"Shiny!\"",
 	drawtype = "plantlike",
 	tiles = {
 		{
-			name = "flora_vines_lapis_animated.png",
+			name = "flora_azure_vines_animated.png",
 			backface_culling = false,
 			animation = {
 				type = "vertical_frames",
@@ -301,8 +301,8 @@ minetest.register_node("flora:vines_lapis", {
 			},
 		}
 	},
-	inventory_image = "flora_vines_lapis.png",
-	wield_image = "flora_vines_lapis.png",
+	inventory_image = "flora_azure_vines.png",
+	wield_image = "flora_azure_vines.png",
 	paramtype = "light",
 	light_source = 8,
 	sunlight_propagates = true,
@@ -316,11 +316,11 @@ minetest.register_node("flora:vines_lapis", {
 		items = {
 			{
 				rarity = 1,
-				items = {"blocks:mycelium_lapis"},
+				items = {"blocks:azure_mycelium"},
 			},
 			{
 				rarity = 2,
-				items = {"blocks:mycelium_lapis 2"},
+				items = {"blocks:azure_mycelium 2"},
 			},
 		},
 	},
@@ -334,7 +334,7 @@ minetest.register_node("flora:vines_lapis", {
 -- Mese (deep sub-biome flora)
 
 minetest.register_node("flora:moss_mese", {
-	description = "Mese Circuit Moss",
+	description = "Mese Circuit Moss\n\"Science can't say if it is a plant, actually\"",
 	tiles = {"flora_moss_mese.png"},
 	drawtype = "firelike",
 	paramtype = "light",

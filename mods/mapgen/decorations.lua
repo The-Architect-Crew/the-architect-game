@@ -187,42 +187,42 @@ mapgen.register_microbiome_decorations = function(base_name, data)
 	end
 end
 
-mapgen.register_microbiome_decorations("garnet", {
+mapgen.register_microbiome_decorations("fire", {
 	height_min = -2048,
 	height_max = mapgen.underground_start,
 	seed = 262,
 	base_node = {"blocks:cobble"}, -- surface_node matches the base_node, they also have to be the same length
-	surface_node = {"blocks:cobble_garnet"},
+	surface_node = {"blocks:cobble_firemoss"},
 	surface_coverage = 2.5,
-	grass_node = "flora:grass_garnet",
-	main_small_plant = "flora:mushroom_garnet",
+	grass_node = "flora:firegrass",
+	main_small_plant = "flora:fireshroom",
 	--secondary_small_plant
 	plant_rarity = 0.1,
 	grass_rarity = 1,
-	main_large_plant = "flora:plant_garnet",
+	main_large_plant = "flora:fireplant",
 	secondary_large_plant = "blocks:garnet",
-	main_vines = "flora:vines_garnet",
+	main_vines = "flora:firevines",
 	--secondary_vines
-	moss = "flora:moss_garnet",
+	moss = "flora:firemoss",
 })
 
-mapgen.register_microbiome_decorations("lapis", {
+mapgen.register_microbiome_decorations("azure", {
 	height_min = -2048,
 	height_max = mapgen.underground_start,
 	seed = 263,
 	base_node = {"blocks:desert_cobble", "blocks:sand", "blocks:desert_sand", "blocks:silver_sand", "blocks:dry_dirt"},
-	surface_node = {"blocks:desert_cobble_lapis", "blocks:sand_lapis", "blocks:desert_sand_lapis", "blocks:silver_sand_lapis", "blocks:dry_dirt_lapis"},
+	surface_node = {"blocks:desert_cobble_azure", "blocks:sand_azure", "blocks:desert_sand_azure", "blocks:silver_sand_azure", "blocks:dry_dirt_azure"},
 	surface_coverage = 1,
-	grass_node = "flora:grass_lapis",
-	main_small_plant = "flora:mushroom_lapis",
+	grass_node = "flora:azure_grass",
+	main_small_plant = "flora:azureshroom",
 	--secondary_small_plant
 	plant_rarity = 0.1,
 	grass_rarity = 1,
-	main_large_plant = "flora:plant_lapis",
+	main_large_plant = "flora:azure_plant",
 	secondary_large_plant = "blocks:lapis_lazuli",
-	main_vines = "flora:vines_lapis",
+	main_vines = "flora:azure_vines",
 	--secondary_vines
-	moss = "flora:moss_lapis",
+	moss = "flora:azure_moss",
 })
 
 mapgen.register_microbiome_decorations("moonstone", {

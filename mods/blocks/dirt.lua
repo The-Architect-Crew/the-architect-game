@@ -95,9 +95,9 @@ minetest.register_node("blocks:dry_dirt_with_dry_grass", {
 
 -- Underground decorations
 
-minetest.register_node("blocks:dry_dirt_lapis", {
-	description = S("Dry Dirt"),
-	tiles = {"blocks_moss_lapis_overlay.png", "blocks_dry_dirt.png", "blocks_dry_dirt.png^blocks_moss_lapis_overlay_side.png"},
+minetest.register_node("blocks:dry_dirt_azure", {
+	description = S("Dry Dirt with Azure Moss"),
+	tiles = {"blocks_azure_moss_overlay.png", "blocks_dry_dirt.png", "blocks_dry_dirt.png^blocks_azure_moss_overlay_side.png"},
 	drop = "blocks:dry_dirt",
 	groups = {crumbly = 3, soil = 1},
 	sounds = default.node_sound_dirt_defaults(),

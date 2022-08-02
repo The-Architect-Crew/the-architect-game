@@ -93,15 +93,15 @@ minetest.register_node("blocks:mushroom_wood", {
 	sounds = default.node_sound_wood_defaults(),
 })
 
-minetest.register_craftitem("blocks:branches_garnet", {
+minetest.register_craftitem("blocks:firebranches", {
 	description = S("Pile of Glowing Sticks\n\"An excellent fuel source\""),
-	inventory_image = "blocks_branches_garnet.png",
+	inventory_image = "blocks_firebranches.png",
 	groups = {stick = 1},
 })
 
-minetest.register_craftitem("blocks:mycelium_lapis", {
+minetest.register_craftitem("blocks:azure_mycelium", {
 	description = S("Pile of Mushroom Mycelia"),
-	inventory_image = "blocks_mycelium_lapis.png",
+	inventory_image = "blocks_azure_mycelium.png",
 })
 
 minetest.register_craftitem("blocks:mushroom_stick", {
@@ -201,25 +201,25 @@ minetest.register_craft({
 minetest.register_craft({
 	output = "blocks:firewood",
 	recipe = {
-		{"blocks:branches_garnet", "blocks:branches_garnet"},
-		{"blocks:branches_garnet", "blocks:branches_garnet"},
+		{"blocks:firebranches", "blocks:firebranches"},
+		{"blocks:firebranches", "blocks:firebranches"},
 	}
 })
 
 minetest.register_craft({
 	output = "blocks:mushroom_wood",
 	recipe = {
-		{"blocks:mycelium_lapis", "blocks:mycelium_lapis", "blocks:mycelium_lapis"},
-		{"blocks:mycelium_lapis", "blocks:mycelium_lapis", "blocks:mycelium_lapis"},
-		{"blocks:mycelium_lapis", "blocks:mycelium_lapis", "blocks:mycelium_lapis"},
+		{"blocks:azure_mycelium", "azure_mycelium", "blocks:azure_mycelium"},
+		{"blocks:azure_mycelium", "azure_mycelium", "blocks:azure_mycelium"},
+		{"blocks:azure_mycelium", "azure_mycelium", "blocks:azure_mycelium"},
 	}
 })
 minetest.register_craft({
 	output = "blocks:mushroom_stick 2",
 	recipe = {
-		{"", "", "blocks:mycelium_lapis"},
-		{"", "blocks:mycelium_lapis", ""},
-		{"blocks:mycelium_lapis", "", ""},
+		{"", "", "blocks:azure_mycelium"},
+		{"", "blocks:azure_mycelium", ""},
+		{"blocks:azure_mycelium", "", ""},
 	}
 })
 

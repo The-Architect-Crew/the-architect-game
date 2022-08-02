@@ -1744,7 +1744,7 @@ minetest.register_craftitem("blocks:marble_chunk", {
 
 -- Mese biome
 minetest.register_node("blocks:marble_mese_circuits", {
-	description = S("Marble"),
+	description = S("Marble with Mese Circuits"),
 	tiles = {"blocks_marble.png^blocks_mese_circuitry_overlay.png", "blocks_marble.png^blocks_mese_circuitry_under.png", "blocks_marble.png^blocks_mese_circuitry_side.png"},
 	is_ground_content = true,
 	drop = {
@@ -1771,7 +1771,7 @@ minetest.register_node("blocks:marble_mese_circuits", {
 	sounds = default.node_sound_stone_defaults(),
 })
 minetest.register_node("blocks:marble_mese_circuits_under", {
-	description = S("Marble"),
+	description = S("Marble with Mese Circuits"),
 	tiles = {"blocks_marble.png", "blocks_marble.png^blocks_mese_circuitry_under.png", "blocks_marble.png"},
 	is_ground_content = true,
 	drop = {
@@ -1968,7 +1968,7 @@ blocks.fossil_drop_table = {
 }
 
 minetest.register_node("blocks:dry_dirt_with_fossils", {
-	description = S("Dry Dirt"),
+	description = S("Dry Dirt with Fossils"),
 	tiles = {"blocks_dry_dirt.png^blocks_fossil_overlay.png"},
 	drop = {
 		items = blocks.fossil_drop_table
@@ -1978,7 +1978,7 @@ minetest.register_node("blocks:dry_dirt_with_fossils", {
 })
 
 minetest.register_node("blocks:permafrost_with_fossils", {
-	description = S("Permafrost"),
+	description = S("Permafrost with Fossils"),
 	tiles = {"blocks_permafrost.png^blocks_fossil_overlay.png"},
 	drop = {
 		items = blocks.fossil_drop_table
@@ -1988,7 +1988,7 @@ minetest.register_node("blocks:permafrost_with_fossils", {
 })
 
 minetest.register_node("blocks:desert_stone_with_fossils", {
-	description = S("Desert Stone"),
+	description = S("Desert Stone with Fossils"),
 	tiles = {"blocks_desert_stone.png^blocks_fossil_overlay.png"},
 	groups = {cracky = 3, stone = 1},
 	drop = {
@@ -2039,7 +2039,7 @@ blocks.geode_drop_table = {
 }
 
 minetest.register_node("blocks:ice_with_geode", {
-	description = S("Ice"),
+	description = S("Ice with a Geode"),
 	tiles = {"blocks_ice.png^blocks_geode_overlay.png"},
 	paramtype = "light",
 	drop = {
@@ -2050,7 +2050,7 @@ minetest.register_node("blocks:ice_with_geode", {
 })
 
 minetest.register_node("blocks:obsidian_with_geode", {
-	description = S("Obsidian"),
+	description = S("Obsidian with a Geode"),
 	tiles = {"blocks_obsidian.png^blocks_geode_overlay.png"},
 	drop = {
 		items = blocks.geode_drop_table

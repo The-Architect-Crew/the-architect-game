@@ -1,3 +1,6 @@
+
+
+--[[
 function ccore.register_craftcopy(copy_from, copy_to)
 	minetest.register_on_craft(function(itemstack, player, old_craft_grid, craft_inv)
 		if itemstack:get_name() ~= copy_to then
@@ -15,4 +18,4 @@ function ccore.register_craftcopy(copy_from, copy_to)
 		local copymeta = original:get_meta():to_table()
 		itemstack:get_meta():from_table(copymeta)
 	end)
-end
+end]]

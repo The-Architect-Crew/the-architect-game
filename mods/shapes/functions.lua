@@ -3,13 +3,13 @@
 -- https://github.com/minetest/minetest_game/tree/master/mods/xpanes
 -- xyz & BlockMen & Auke Kok (MIT)
 -- Various Minetest developers and contributors (MIT)
-local function is_pane(pos)
-	return minetest.get_item_group(minetest.get_node(pos).name, "pane") > 0
+local function is_pane(pos, group)
+	return minetest.get_item_group(minetest.get_node(pos).name, group) > 0
 end
 
-local function connects_dir(pos, name, dir)
+local function connects_dir(pos, name, dir, group)
 	local aside = vector.add(pos, minetest.facedir_to_dir(dir))
-	if is_pane(aside) then return true end
+	if is_pane(aside, group) then return true end
 
 	local connects_to = minetest.registered_nodes[name].connects_to
 	if not connects_to then return false end
@@ -24,8 +24,8 @@ local function swap(pos, node, name, param2)
 	minetest.set_node(pos, {name = name, param2 = param2})
 end
 
-local function update_pane(pos)
-	if not is_pane(pos) then return end
+local function update_pane(pos, group)
+	if not is_pane(pos, group) then return end
 	local node = minetest.get_node(pos)
 	local name = node.name
 	if name:sub(-5) == "_flat" then
@@ -36,7 +36,7 @@ local function update_pane(pos)
 	local c = {}
 	local count = 0
 	for dir = 0, 3 do
-		c[dir] = connects_dir(pos, name, dir)
+		c[dir] = connects_dir(pos, name, dir, group)
 		if c[dir] then
 			any = dir
 			count = count + 1
@@ -58,19 +58,22 @@ local function update_pane(pos)
 	end
 end
 
-minetest.register_on_placenode(function(pos, node)
-	if minetest.get_item_group(node, "pane") then
-		update_pane(pos)
-	end
-	for i = 0, 3 do
-		local dir = minetest.facedir_to_dir(i)
-		update_pane(vector.add(pos, dir))
-	end
-end)
+local pane_groups = {"pane", "panemc"}
+for _,pane_group in pairs(pane_groups) do
+	minetest.register_on_placenode(function(pos, node)
+		if minetest.get_item_group(node, pane_group) then
+			update_pane(pos, pane_group)
+		end
+		for i = 0, 3 do
+			local dir = minetest.facedir_to_dir(i)
+			update_pane(vector.add(pos, dir), pane_group)
+		end
+	end)
 
-minetest.register_on_dignode(function(pos)
-	for i = 0, 3 do
-		local dir = minetest.facedir_to_dir(i)
-		update_pane(vector.add(pos, dir))
-	end
-end)
+	minetest.register_on_dignode(function(pos)
+		for i = 0, 3 do
+			local dir = minetest.facedir_to_dir(i)
+			update_pane(vector.add(pos, dir), pane_group)
+		end
+	end)
+end

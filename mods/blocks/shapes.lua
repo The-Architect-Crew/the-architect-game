@@ -58,13 +58,42 @@ shapes:register_shape("blocks:medieval_glass", {
 	disabled = "fence, wall",
 	texture = "blocks_medieval_glass.png",
 })
--- ore.lua
+-- bars.lua
+shapes:register_shape("blocks:wood_bars", {
+	enabled = 'panemc, panemc_flat',
+	panemc_tiles = {"shapes_wood_bars_top.png", "blocks_wood_bars.png", "blocks_wood_bars.png"},
+	panemc_flat_tiles = {"shapes_wood_bars_top.png", "blocks_wood_bars.png", "blocks_wood_bars.png"},
+	texture = "blocks_wood_bars.png",
+})
+
+shapes:register_shape("blocks:wood_grille", {
+	enabled = "pane, pane_flat",
+	pane_flat_tiles = {"shapes_wood_bars_top.png", "shapes_wood_bars_top.png", "blocks_wood_grille.png"},
+	pane_tiles = {"shapes_wood_bars_top.png", "shapes_wood_bars_top.png", "blocks_wood_grille.png",},
+	texture = "blocks_wood_grille.png",
+})
+
+shapes:register_shape("blocks:steel_bars", {
+	enabled = 'panemc, panemc_flat',
+	panemc_tiles = {"shapes_steel_bars_top.png", "blocks_steel_bars.png", "blocks_steel_bars.png"},
+	panemc_flat_tiles = {"shapes_steel_bars_top.png", "blocks_steel_bars.png", "blocks_steel_bars.png"},
+	texture = "blocks_steel_bars.png",
+})
+
+shapes:register_shape("blocks:steel_grille", {
+	enabled = "pane, pane_flat",
+	pane_flat_tiles = {"shapes_steel_bars_top.png", "shapes_steel_bars_top.png", "blocks_steel_grille.png"},
+	pane_tiles = {"shapes_steel_bars_top.png", "shapes_steel_bars_top.png", "blocks_steel_grille.png",},
+	texture = "blocks_steel_grille.png",
+})
+-- ore.luablocks_gravel
 shapes:register_shape("blocks:steelblock")
 shapes:register_shape("blocks:copperblock")
 shapes:register_shape("blocks:tinblock")
 shapes:register_shape("blocks:bronzeblock")
 shapes:register_shape("blocks:goldblock")
 shapes:register_shape("blocks:diamondblock")
+shapes:register_shape("blocks:mithrilblock")
 shapes:register_shape("blocks:amethyst")
 shapes:register_shape("blocks:garnet")
 shapes:register_shape("blocks:lapis_lazuli")
@@ -80,6 +109,8 @@ shapes:register_shape("blocks:porphyry")
 shapes:register_shape("blocks:serpentine")
 shapes:register_shape("blocks:slate")
 shapes:register_shape("blocks:slate_cobble")
+shapes:register_shape("blocks:mineral_salt")
+shapes:register_shape("blocks:mineral_salt_cobble")
 -- plank.lua
 shapes:register_shape("blocks:wood", {groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2},})
 shapes:register_shape("blocks:junglewood", {groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2},})

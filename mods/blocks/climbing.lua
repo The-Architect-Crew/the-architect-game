@@ -44,11 +44,26 @@ minetest.register_node("blocks:ladder_steel", {
 	groups = {cracky = 2},
 	sounds = default.node_sound_metal_defaults(),
 })
-
+-- Chain
+minetest.register_node("blocks:chain", {
+	description = "Chain",
+	drawtype = "signlike",
+	tiles = {"blocks_chain.png"},
+	inventory_image = "blocks_chain.png",
+	wield_image = "blocks_chain.png",
+	paramtype = "light",
+	paramtype2 = "wallmounted",
+	walkable = false,
+	climbable = true,
+	selection_box = {
+		type = "wallmounted",
+	},
+	groups = {snappy=1,cracky=2,oddly_breakable_by_hand=2},
+	legacy_wallmounted = true
+})
 --
 -- == CRAFTS
 --
-
 minetest.register_craft({
 	type = "fuel",
 	recipe = "blocks:ladder_wood",
@@ -71,4 +86,19 @@ minetest.register_craft({
 		{"blocks:steel_ingot", "blocks:steel_ingot", "blocks:steel_ingot"},
 		{"blocks:steel_ingot", "", "blocks:steel_ingot"},
 	}
+})
+
+minetest.register_craft({
+	output = "blocks:chain 3",
+	recipe = {
+		{"blocks:steel_ingot"},
+		{"blocks:steel_ingot"},
+		{"blocks:steel_ingot"}
+	}
+})
+-- Recycle
+minetest.register_craft({
+	type = "cooking",
+	output = "blocks:steel_ingot",
+	recipe = "blocks:chain"
 })

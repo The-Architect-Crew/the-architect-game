@@ -347,7 +347,7 @@ minetest.register_node("blocks:stone_mese_circuits", {
 	sounds = default.node_sound_stone_defaults(),
 })
 minetest.register_node("blocks:stone_mese_circuits_under", {
-	description = S("Stone with Mese Circuits"),
+	description = S("Stone with Mese Circuits (Ceiling)"),
 	tiles = {"blocks_stone.png", "blocks_stone.png^blocks_mese_circuitry_under.png", "blocks_stone.png"},
 	groups = {cracky = 3, stone = 1},
 	drop = {

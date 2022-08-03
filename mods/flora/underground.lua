@@ -3,12 +3,12 @@
 minetest.register_node("flora:firemoss", {
 	description = "Firemoss\n\"Glows in the dark\"",
 	tiles = {"flora_firemoss.png"},
+	inventory_image = "flora_firemoss.png",
 	drawtype = "firelike",
 	paramtype = "light",
 	sunlight_propagates = true,
 	walkable = false,
 	floodable = true,
-	buildable_to = true,
     light_source = 4,
 	drop = {
 		items = {
@@ -22,7 +22,7 @@ minetest.register_node("flora:firemoss", {
 			},
 		},
 	},
-	groups = {snappy = 3, attached_node = 1},
+	groups = {snappy = 3},
 	sounds = default.node_sound_leaves_defaults(),
 	selection_box = {
 		type = "fixed",
@@ -34,13 +34,13 @@ for i=1,5 do
 	minetest.register_node("flora:firegrass_" .. i, {
 		description = "Firegrass\n\"Burning to the touch\"",
 		tiles = {"flora_firegrass.png^[sheet:5x1:" .. i - 1 .. ",0"},
+		inventory_image = "flora_firegrass.png^[sheet:5x1:" .. i - 1 .. ",0",
 		drawtype = "plantlike",
 		paramtype = "light",
 		sunlight_propagates = true,
 		walkable = false,
 		floodable = true,
-		buildable_to = true,
-		groups = {grass = 1, snappy = 3, attached_node = 1},
+		groups = {grass = 1, snappy = 3},
 		sounds = default.node_sound_leaves_defaults(),
 		drop = {
 			items = {
@@ -59,14 +59,14 @@ for i=1,5 do
 	minetest.register_node("flora:fireshroom_" .. i, {
 		description = "Fireshroom\n\"Actually not poisonous\"",
 		tiles = {"flora_fireshroom.png^[sheet:5x1:" .. i - 1 .. ",0"},
+		inventory_image = "flora_fireshroom.png^[sheet:5x1:" .. i - 1 .. ",0",
 		drawtype = "plantlike",
 		paramtype = "light",
 		sunlight_propagates = true,
 		walkable = false,
 		floodable = true,
-		buildable_to = true,
 		light_source = 8,
-		groups = {mushroom = 1, snappy = 3, attached_node = 1},
+		groups = {mushroom = 1, snappy = 3},
 		sounds = default.node_sound_leaves_defaults(),
 		drop = {
 			items = {
@@ -121,7 +121,7 @@ minetest.register_node("flora:fireplant", {
 	sounds = default.node_sound_leaves_defaults(),
 	after_dig_node = function(pos, node, metadata, digger)
 		local nn = node.name
-		default.dig_dir(pos, {nn}, -1, digger)
+		ccore.dig_dir(pos, {nn}, -1, digger)
 	end
 })
 
@@ -152,11 +152,11 @@ minetest.register_node("flora:firevines", {
 			},
 		},
 	},
-	groups = {snappy = 3, flammable = 2, attached_node = 1},
+	groups = {snappy = 3, flammable = 2},
 	sounds = default.node_sound_leaves_defaults(),
 	after_dig_node = function(pos, node, metadata, digger)
 		local nn = node.name
-		default.dig_dir(pos, {nn}, -1, digger)
+		ccore.dig_dir(pos, {nn}, -1, digger)
 	end
 })
 
@@ -164,12 +164,12 @@ minetest.register_node("flora:firevines", {
 minetest.register_node("flora:azure_moss", {
 	description = "Azure Moss",
 	tiles = {"flora_azure_moss.png"},
+	inventory_image = "flora_azure_moss.png",
 	drawtype = "firelike",
 	paramtype = "light",
 	sunlight_propagates = true,
 	walkable = false,
 	floodable = true,
-	buildable_to = true,
     light_source = 4,
 	drop = {
 		items = {
@@ -183,7 +183,7 @@ minetest.register_node("flora:azure_moss", {
 			},
 		},
 	},
-	groups = {snappy = 3, attached_node = 1},
+	groups = {snappy = 3},
 	sounds = default.node_sound_leaves_defaults(),
 	selection_box = {
 		type = "fixed",
@@ -194,12 +194,12 @@ for i=1,5 do
 	minetest.register_node("flora:azure_grass_" .. i, {
 		description = "Azure Grass",
 		tiles = {"flora_azure_grass.png^[sheet:5x1:" .. i - 1 .. ",0"},
+		inventory_image = "flora_azure_grass.png^[sheet:5x1:" .. i - 1 .. ",0",
 		drawtype = "plantlike",
 		paramtype = "light",
 		sunlight_propagates = true,
 		walkable = false,
 		floodable = true,
-		buildable_to = true,
 		drop = {
 			items = {
 				{
@@ -212,7 +212,7 @@ for i=1,5 do
 				},
 			},
 		},
-		groups = {grass = 1, snappy = 3, attached_node = 1},
+		groups = {grass = 1, snappy = 3},
 		sounds = default.node_sound_leaves_defaults(),
 		selection_box = {
 			type = "fixed",
@@ -222,11 +222,11 @@ for i=1,5 do
 	minetest.register_node("flora:azureshroom_" .. i, {
 		description = "Azureshroom\n\"Kinda hard to pronounce\"",
 		tiles = {"flora_azureshroom.png^[sheet:5x1:" .. i - 1 .. ",0"},
+		inventory_image = "flora_azureshroom.png^[sheet:5x1:" .. i - 1 .. ",0",
 		drawtype = "plantlike",
 		paramtype = "light",
 		sunlight_propagates = true,
 		walkable = false,
-		buildable_to = true,
 		floodable = true,
 		light_source = 8,
 		drop = {
@@ -241,7 +241,7 @@ for i=1,5 do
 				},
 			},
 		},
-		groups = {mushroom = 1, snappy = 3, attached_node = 1},
+		groups = {mushroom = 1, snappy = 3},
 		sounds = default.node_sound_leaves_defaults(),
 		selection_box = {
 			type = "fixed",
@@ -283,7 +283,7 @@ minetest.register_node("flora:azure_plant", {
 	sounds = default.node_sound_leaves_defaults(),
 	after_dig_node = function(pos, node, metadata, digger)
 		local nn = node.name
-		default.dig_dir(pos, {nn}, -1, digger)
+		ccore.dig_dir(pos, {nn}, -1, digger)
 	end
 })
 minetest.register_node("flora:azure_vines", {
@@ -324,11 +324,11 @@ minetest.register_node("flora:azure_vines", {
 			},
 		},
 	},
-	groups = {snappy = 3, flammable = 2, attached_node = 1},
+	groups = {snappy = 3, flammable = 2},
 	sounds = default.node_sound_leaves_defaults(),
 	after_dig_node = function(pos, node, metadata, digger)
 		local nn = node.name
-		default.dig_dir(pos, {nn}, -1, digger)
+		ccore.dig_dir(pos, {nn}, -1, digger)
 	end
 })
 -- Mese (deep sub-biome flora)
@@ -336,12 +336,12 @@ minetest.register_node("flora:azure_vines", {
 minetest.register_node("flora:moss_mese", {
 	description = "Mese Circuit Moss\n\"Science can't say if it is a plant, actually\"",
 	tiles = {"flora_moss_mese.png"},
+	inventory_image = "flora_moss_mese.png",
 	drawtype = "firelike",
 	paramtype = "light",
 	sunlight_propagates = true,
 	walkable = false,
 	floodable = true,
-	buildable_to = true,
     light_source = 4,
 	visual_scale = 2.0,
 	drop = {
@@ -356,7 +356,7 @@ minetest.register_node("flora:moss_mese", {
 			},
 		},
 	},
-	groups = {snappy = 3, attached_node = 1},
+	groups = {snappy = 3},
 	sounds = default.node_sound_leaves_defaults(),
 	selection_box = {
 		type = "fixed",
@@ -367,6 +367,7 @@ for i=1,5 do
 	minetest.register_node("flora:grass_mese_" .. i, {
 		description = "Mese Circuit Grass",
 		tiles = {"flora_grass_mese.png^[sheet:5x1:" .. i - 1 .. ",0"},
+		inventory_image = "flora_grass_mese.png^[sheet:5x1:" .. i - 1 .. ",0",
 		drawtype = "plantlike",
 		paramtype = "light",
 		paramtype2 = "meshoptions",
@@ -374,7 +375,6 @@ for i=1,5 do
 		sunlight_propagates = true,
 		walkable = false,
 		floodable = true,
-		buildable_to = true,
 		drop = {
 			items = {
 				{
@@ -387,7 +387,7 @@ for i=1,5 do
 				},
 			},
 		},
-		groups = {grass = 1, snappy = 3, attached_node = 1},
+		groups = {grass = 1, snappy = 3},
 		sounds = default.node_sound_leaves_defaults(),
 		selection_box = {
 			type = "fixed",
@@ -398,6 +398,7 @@ for i=1,5 do
 	minetest.register_node("flora:flower_mese_" .. i, {
 		description = "Mese Circuit Flower",
 		tiles = {"flora_flower_mese.png^[sheet:5x1:" .. i - 1 .. ",0"},
+		inventory_image = "flora_flower_mese.png^[sheet:5x1:" .. i - 1 .. ",0",
 		drawtype = "plantlike",
 		paramtype = "light",
 		paramtype2 = "meshoptions",
@@ -405,7 +406,6 @@ for i=1,5 do
 		sunlight_propagates = true,
 		walkable = false,
 		floodable = true,
-		buildable_to = true,
 		visual_scale = 2.0,
 		light_source = 8,
 		drop = {
@@ -428,7 +428,7 @@ for i=1,5 do
 				},
 			},
 		},
-		groups = {snappy = 3, attached_node = 1},
+		groups = {snappy = 3},
 		sounds = default.node_sound_leaves_defaults(),
 		selection_box = {
 			type = "fixed",
@@ -441,6 +441,7 @@ minetest.register_node("flora:vines_mese", {
 	description = "Mese Circuit Vines",
 	drawtype = "plantlike",
 	tiles = {"flora_vines_mese.png"},
+	inventory_image = "flora_vines_mese.png",
 	paramtype = "light",
 	light_source = 2,
 	floodable = true,
@@ -462,10 +463,10 @@ minetest.register_node("flora:vines_mese", {
 			},
 		},
 	},
-	groups = {snappy = 3, flammable = 2, attached_node = 1},
+	groups = {snappy = 3, flammable = 2},
 	sounds = default.node_sound_leaves_defaults(),
 	after_dig_node = function(pos, node, metadata, digger)
 		local nn = node.name
-		default.dig_dir(pos, {nn}, -1, digger)
+		ccore.dig_dir(pos, {nn}, -1, digger)
 	end
 })

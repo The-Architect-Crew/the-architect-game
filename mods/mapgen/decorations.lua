@@ -49,7 +49,7 @@ mapgen.register_microbiome_decorations = function(base_name, data)
 	end
 
 	-- Large plants
-	if large_plant ~= nil then
+	if (large_plant) then
 		minetest.register_decoration({
 			name = base_name .. "_" .. large_plant .. "_large_plant",
 			deco_type = "simple",
@@ -66,7 +66,7 @@ mapgen.register_microbiome_decorations = function(base_name, data)
 			decoration = large_plant,
 		})
 	end
-	if secondary_large_plant ~= nil then
+	if (secondary_large_plant) then
 		minetest.register_decoration({
 			name = base_name .. "_" .. secondary_large_plant .. "_secondary_large_plant",
 			deco_type = "simple",
@@ -104,7 +104,7 @@ mapgen.register_microbiome_decorations = function(base_name, data)
 		height_max = 8,
 		decoration = vines,
 	})
-	if secondary_vines ~= nil then
+	if (secondary_vines) then
 		minetest.register_decoration({
 			name = base_name .. "_" .. secondary_vines .. "_secondary_vines",
 			deco_type = "simple",
@@ -158,7 +158,7 @@ mapgen.register_microbiome_decorations = function(base_name, data)
 			flags = "all_floors",
 			decoration = small_plant .. "_" .. i,
 		})
-		if secondary_small_plant ~= nil then
+		if (secondary_small_plant) then
 			minetest.register_decoration({
 				name = base_name .. "_" .. secondary_small_plant .. "_" .. i .. "_secondary_small_plant_" .. i,
 				deco_type = "simple",

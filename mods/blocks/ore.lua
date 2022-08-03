@@ -847,7 +847,7 @@ minetest.register_craftitem("blocks:amber_glass_tile", {
 })
 
 minetest.register_node("blocks:stone_with_amber", {
-	description = S("Amber Ore"),
+	description = S("Stone with Amber Lump"),
 	tiles = {"blocks_stone.png^blocks_mineral_amber.png"},
 	is_ground_content = true,
 	groups = {cracky = 3},
@@ -881,7 +881,7 @@ minetest.register_node("blocks:stone_with_amber", {
 })
 
 minetest.register_node("blocks:sandstone_with_amber", {
-	description = S("Amber Ore"),
+	description = S("Sandstone with Amber Lump"),
 	tiles = {"blocks_sandstone.png^blocks_mineral_amber.png"},
 	is_ground_content = true,
 	groups = {crumbly = 1, cracky = 3},
@@ -915,7 +915,7 @@ minetest.register_node("blocks:sandstone_with_amber", {
 })
 
 minetest.register_node("blocks:desert_sandstone_with_amber", {
-	description = S("Amber Ore"),
+	description = S("Desert Sandstone with Amber Lump"),
 	tiles = {"blocks_desert_sandstone.png^blocks_mineral_amber.png"},
 	is_ground_content = true,
 	groups = {crumbly = 1, cracky = 3},
@@ -949,7 +949,7 @@ minetest.register_node("blocks:desert_sandstone_with_amber", {
 })
 
 minetest.register_node("blocks:silver_sandstone_with_amber", {
-	description = S("Amber Ore"),
+	description = S("Silver Sandstone with Amber Lump"),
 	tiles = {"blocks_silver_sandstone.png^blocks_mineral_amber.png"},
 	is_ground_content = true,
 	groups = {crumbly = 1, cracky = 3},
@@ -983,7 +983,7 @@ minetest.register_node("blocks:silver_sandstone_with_amber", {
 })
 
 minetest.register_node("blocks:coal_with_amber", {
-	description = S("Amber Ore"),
+	description = S("Coal with Amber Lump"),
 	tiles = {"blocks_stone.png^(blocks_mineral_coal_block.png^blocks_mineral_amber.png)"},
 	groups = {cracky = 3},
 	drop = {
@@ -1016,7 +1016,7 @@ minetest.register_node("blocks:coal_with_amber", {
 })
 
 minetest.register_node("blocks:mud_with_amber", {
-	description = S("Amber Ore"),
+	description = S("Mud with Amber Lump"),
 	tiles = {"blocks_mud.png^blocks_mineral_amber.png", "blocks_mud_side.png^blocks_mineral_amber.png"},
 	is_ground_content = true,
 	groups = {crumbly = 3},
@@ -1052,7 +1052,7 @@ minetest.register_node("blocks:mud_with_amber", {
 })
 
 minetest.register_node("blocks:dirt_with_amber", {
-	description = S("Amber Ore"),
+	description = S("Dirt with Amber Lump"),
 	tiles = {"blocks_dirt.png^blocks_mineral_amber.png"},
 	is_ground_content = true,
 	groups = {crumbly = 3, soil = 1},
@@ -1080,7 +1080,7 @@ minetest.register_node("blocks:dirt_with_amber", {
 })
 
 minetest.register_node("blocks:dry_dirt_with_amber", {
-	description = S("Amber Ore"),
+	description = S("Dry Dirt with Amber Lump"),
 	tiles = {"blocks_dry_dirt.png^blocks_mineral_amber.png"},
 	is_ground_content = true,
 	groups = {crumbly = 3, soil = 1},
@@ -1108,7 +1108,7 @@ minetest.register_node("blocks:dry_dirt_with_amber", {
 })
 
 minetest.register_node("blocks:sand_with_amber", {
-	description = S("Amber Ore"),
+	description = S("Sand with Amber Lump"),
 	tiles = {"blocks_sand.png^blocks_mineral_amber.png"},
 	is_ground_content = true,
 	groups = {crumbly = 3, falling_node = 1, sand = 1},
@@ -1771,7 +1771,7 @@ minetest.register_node("blocks:marble_mese_circuits", {
 	sounds = default.node_sound_stone_defaults(),
 })
 minetest.register_node("blocks:marble_mese_circuits_under", {
-	description = S("Marble with Mese Circuits"),
+	description = S("Marble with Mese Circuits (Ceiling)"),
 	tiles = {"blocks_marble.png", "blocks_marble.png^blocks_mese_circuitry_under.png", "blocks_marble.png"},
 	is_ground_content = true,
 	drop = {
@@ -2039,7 +2039,7 @@ blocks.geode_drop_table = {
 }
 
 minetest.register_node("blocks:ice_with_geode", {
-	description = S("Ice with a Geode"),
+	description = S("Geode in Ice"),
 	tiles = {"blocks_ice.png^blocks_geode_overlay.png"},
 	paramtype = "light",
 	drop = {
@@ -2050,7 +2050,7 @@ minetest.register_node("blocks:ice_with_geode", {
 })
 
 minetest.register_node("blocks:obsidian_with_geode", {
-	description = S("Obsidian with a Geode"),
+	description = S("Geode in Obsidian"),
 	tiles = {"blocks_obsidian.png^blocks_geode_overlay.png"},
 	drop = {
 		items = blocks.geode_drop_table

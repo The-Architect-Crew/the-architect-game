@@ -120,13 +120,13 @@ decorations.register_stalagmites = function(base_node, drop)
 		groups = groups,
 		sounds = sounds,
 		on_flood = function(pos)
-			default.dig_dir(pos, {"decorations:stalagmite_middle_" .. sname, "decorations:stalagmite_top_" .. sname}, 1)
+			ccore.dig_dir(pos, {"decorations:stalagmite_middle_" .. sname, "decorations:stalagmite_top_" .. sname}, 1)
 		end,
 		after_dig_node = function(pos, node, metadata, digger)
-			default.dig_dir(pos, {"decorations:stalagmite_middle_" .. sname, "decorations:stalagmite_top_" .. sname}, 1, digger)
+			ccore.dig_dir(pos, {"decorations:stalagmite_middle_" .. sname, "decorations:stalagmite_top_" .. sname}, 1, digger)
 		end,
 		after_destruct = function(pos)
-			default.dig_dir(pos, {"decorations:stalagmite_middle_" .. sname, "decorations:stalagmite_top_" .. sname}, 1)
+			ccore.dig_dir(pos, {"decorations:stalagmite_middle_" .. sname, "decorations:stalagmite_top_" .. sname}, 1)
 		end,
 	})
 	minetest.register_node("decorations:stalactite_base_" .. sname, {
@@ -156,13 +156,13 @@ decorations.register_stalagmites = function(base_node, drop)
 		groups = groups,
 		sounds = sounds,
 		on_flood = function(pos)
-			default.dig_dir(pos, {"decorations:stalactite_middle_" .. sname, "decorations:stalactite_top_" .. sname}, -1)
+			ccore.dig_dir(pos, {"decorations:stalactite_middle_" .. sname, "decorations:stalactite_top_" .. sname}, -1)
 		end,
 		after_dig_node = function(pos, node, metadata, digger)
-			default.dig_dir(pos, {"decorations:stalactite_middle_" .. sname, "decorations:stalactite_top_" .. sname}, -1, digger)
+			ccore.dig_dir(pos, {"decorations:stalactite_middle_" .. sname, "decorations:stalactite_top_" .. sname}, -1, digger)
 		end,
 		after_destruct = function(pos)
-			default.dig_dir(pos, {"decorations:stalactite_middle_" .. sname, "decorations:stalactite_top_" .. sname}, -1)
+			ccore.dig_dir(pos, {"decorations:stalactite_middle_" .. sname, "decorations:stalactite_top_" .. sname}, -1)
 		end,
 	})
 	minetest.register_node("decorations:stalagmite_middle_" .. sname, {
@@ -192,13 +192,13 @@ decorations.register_stalagmites = function(base_node, drop)
 		groups = groups,
 		sounds = sounds,
 		on_flood = function(pos)
-			default.dig_dir(pos, {"decorations:stalagmite_middle_" .. sname, "decorations:stalagmite_top_" .. sname}, 1)
+			ccore.dig_dir(pos, {"decorations:stalagmite_middle_" .. sname, "decorations:stalagmite_top_" .. sname}, 1)
 		end,
 		after_dig_node = function(pos, node, metadata, digger)
-			default.dig_dir(pos, {"decorations:stalagmite_middle_" .. sname, "decorations:stalagmite_top_" .. sname}, 1, digger)
+			ccore.dig_dir(pos, {"decorations:stalagmite_middle_" .. sname, "decorations:stalagmite_top_" .. sname}, 1, digger)
 		end,
 		after_destruct = function(pos)
-			default.dig_dir(pos, {"decorations:stalagmite_middle_" .. sname, "decorations:stalagmite_top_" .. sname}, 1)
+			ccore.dig_dir(pos, {"decorations:stalagmite_middle_" .. sname, "decorations:stalagmite_top_" .. sname}, 1)
 		end,
 	})
 	minetest.register_node("decorations:stalactite_middle_" .. sname, {
@@ -228,13 +228,13 @@ decorations.register_stalagmites = function(base_node, drop)
 		groups = groups,
 		sounds = sounds,
 		on_flood = function(pos)
-			default.dig_dir(pos, {"decorations:stalactite_middle_" .. sname, "decorations:stalactite_top_" .. sname}, -1)
+			ccore.dig_dir(pos, {"decorations:stalactite_middle_" .. sname, "decorations:stalactite_top_" .. sname}, -1)
 		end,
 		after_dig_node = function(pos, node, metadata, digger)
-			default.dig_dir(pos, {"decorations:stalactite_middle_" .. sname, "decorations:stalactite_top_" .. sname}, -1, digger)
+			ccore.dig_dir(pos, {"decorations:stalactite_middle_" .. sname, "decorations:stalactite_top_" .. sname}, -1, digger)
 		end,
 		after_destruct = function(pos)
-			default.dig_dir(pos, {"decorations:stalactite_middle_" .. sname, "decorations:stalactite_top_" .. sname}, -1)
+			ccore.dig_dir(pos, {"decorations:stalactite_middle_" .. sname, "decorations:stalactite_top_" .. sname}, -1)
 		end,
 	})
 	minetest.register_node("decorations:stalagmite_top_" .. sname, {

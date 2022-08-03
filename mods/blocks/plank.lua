@@ -72,7 +72,7 @@ minetest.register_node("blocks:bonewood", {
 })
 
 minetest.register_node("blocks:firewood", {
-	description = S("\"Firewood\""),
+	description = S("Firewood\n\"A block of ever-burning planks\""),
 	paramtype = "light",
 	paramtype2 = "facedir",
 	place_param2 = 0,

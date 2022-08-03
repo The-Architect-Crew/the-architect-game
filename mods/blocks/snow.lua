@@ -80,10 +80,11 @@ minetest.register_node("blocks:cave_ice", {
 })
 
 minetest.register_node("blocks:cracked_ice", {
-	description = S("Ice"),
+	description = S("Cracked Ice"),
 	tiles = {"blocks_cracked_ice.png"},
 	is_ground_content = true,
 	paramtype = "light",
+	drop = "blocks:ice",
 	groups = {cracky = 3, cools_lava = 1, slippery = 3},
 	sounds = default.node_sound_ice_defaults(),
 })

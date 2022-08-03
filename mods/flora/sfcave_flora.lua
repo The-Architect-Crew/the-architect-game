@@ -1,13 +1,13 @@
 minetest.register_node("flora:vines_horizontal", {
 	description = "Horizontal Vines",
 	tiles = {"flora_vines_horizontal.png"},
+	inventory_image = "flora_vines_horizontal.png",
 	drawtype = "firelike",
 	paramtype = "light",
 	sunlight_propagates = true,
 	walkable = false,
 	floodable = true,
 	visual_scale = 2.0,
-	buildable_to = true,
 	drop = {
 		items = {
 			{
@@ -32,7 +32,7 @@ minetest.register_node("flora:vines_horizontal", {
 			},
 		},
 	},
-	groups = {snappy = 1, attached_node = 1},
+	groups = {snappy = 1},
 	sounds = default.node_sound_leaves_defaults(),
 	selection_box = {
 		type = "fixed",
@@ -42,12 +42,12 @@ minetest.register_node("flora:vines_horizontal", {
 minetest.register_node("flora:vines", {
 	description = "Vines",
 	tiles = {"flora_vines.png"},
+	inventory_image = "flora_vines.png",
 	drawtype = "plantlike",
 	paramtype = "light",
 	sunlight_propagates = true,
 	walkable = false,
 	floodable = true,
-	buildable_to = true,
 	drop = {
 		items = {
 			{
@@ -80,21 +80,20 @@ minetest.register_node("flora:vines", {
 	},
 	after_dig_node = function(pos, node, metadata, digger)
 		local nn = node.name
-		default.dig_dir(pos, {nn}, -1, digger)
+		ccore.dig_dir(pos, {nn}, -1, digger)
 	end
 })
 for i=1,5 do
 	minetest.register_node("flora:moonflower_" .. i, {
 		description = "Moonflower",
 		tiles = {"flora_moonflower.png^[sheet:5x1:" .. i-1 .. ",0"},
+		inventory_image = "flora_moonflower.png^[sheet:5x1:" .. i-1 .. ",0",
 		drawtype = "plantlike",
 		paramtype = "light",
 		light_source = default.LIGHT_MAX,
 		sunlight_propagates = true,
 		walkable = false,
 		floodable = true,
-		buildable_to = true,
-		waving = 1,
 		drop = {
 			items = {
 				{
@@ -114,13 +113,13 @@ end
 minetest.register_node("flora:vines_with_moonstone", {
 	description = "Vines with Moonstone",
 	tiles = {"flora_vines_with_moonstone.png"},
+	inventory_image = "flora_vines_with_moonstone.png",
 	drawtype = "plantlike",
 	paramtype = "light",
 	light_source = default.LIGHT_MAX,
 	sunlight_propagates = true,
 	walkable = false,
 	floodable = true,
-	buildable_to = true,
 	drop = {
 		items = {
 			{
@@ -161,7 +160,7 @@ minetest.register_node("flora:vines_with_moonstone", {
 	},
 	after_dig_node = function(pos, node, metadata, digger)
 		local nn = node.name
-		default.dig_dir(pos, {nn}, -1, digger)
+		ccore.dig_dir(pos, {nn}, -1, digger)
 	end
 })
 
@@ -170,13 +169,13 @@ minetest.register_node("flora:vines_with_moonstone", {
 minetest.register_node("flora:vines_dry_horizontal", {
 	description = "Horizontal Dry Vines",
 	tiles = {"flora_vines_dry_horizontal.png"},
+	inventory_image = "flora_vines_dry_horizontal.png",
 	drawtype = "firelike",
 	paramtype = "light",
 	sunlight_propagates = true,
 	walkable = false,
 	floodable = true,
 	visual_scale = 2.0,
-	buildable_to = true,
 	drop = {
 		items = {
 			{
@@ -201,7 +200,7 @@ minetest.register_node("flora:vines_dry_horizontal", {
 			},
 		},
 	},
-	groups = {snappy = 1, attached_node = 1},
+	groups = {snappy = 1},
 	sounds = default.node_sound_leaves_defaults(),
 	selection_box = {
 		type = "fixed",
@@ -211,12 +210,12 @@ minetest.register_node("flora:vines_dry_horizontal", {
 minetest.register_node("flora:vines_dry", {
 	description = "Dry Vines",
 	tiles = {"flora_vines_dry.png"},
+	inventory_image = "flora_vines_dry.png",
 	drawtype = "plantlike",
 	paramtype = "light",
 	sunlight_propagates = true,
 	walkable = false,
 	floodable = true,
-	buildable_to = true,
 	drop = {
 		items = {
 			{
@@ -249,21 +248,20 @@ minetest.register_node("flora:vines_dry", {
 	},
 	after_dig_node = function(pos, node, metadata, digger)
 		local nn = node.name
-		default.dig_dir(pos, {nn}, -1, digger)
+		ccore.dig_dir(pos, {nn}, -1, digger)
 	end
 })
 for i=1,5 do
 	minetest.register_node("flora:moonflower_dry_" .. i, {
 		description = "Moonflower with Dry Grass",
 		tiles = {"flora_moonflower_dry.png^[sheet:5x1:" .. i-1 .. ",0"},
+		inventory_image = "flora_moonflower_dry.png^[sheet:5x1:" .. i-1 .. ",0",
 		drawtype = "plantlike",
 		paramtype = "light",
 		light_source = default.LIGHT_MAX,
 		sunlight_propagates = true,
 		walkable = false,
 		floodable = true,
-		buildable_to = true,
-		waving = 1,
 		drop = {
 			items = {
 				{
@@ -283,13 +281,13 @@ end
 minetest.register_node("flora:vines_dry_with_moonstone", {
 	description = "Dry Vines with Moonstone",
 	tiles = {"flora_vines_dry_with_moonstone.png"},
+	inventory_image = "flora_vines_dry_with_moonstone.png",
 	drawtype = "plantlike",
 	paramtype = "light",
 	light_source = default.LIGHT_MAX,
 	sunlight_propagates = true,
 	walkable = false,
 	floodable = true,
-	buildable_to = true,
 	drop = {
 		items = {
 			{
@@ -330,7 +328,7 @@ minetest.register_node("flora:vines_dry_with_moonstone", {
 	},
 	after_dig_node = function(pos, node, metadata, digger)
 		local nn = node.name
-		default.dig_dir(pos, {nn}, -1, digger)
+		ccore.dig_dir(pos, {nn}, -1, digger)
 	end
 })
 
@@ -340,13 +338,13 @@ for i=1,5 do
 	minetest.register_node("flora:grass_frosty_" .. i, {
 		description = "Frosty Grass",
 		tiles = {"flora_grass_frosty.png^[sheet:5x1:" .. i-1 .. ",0"},
+		inventory_image = "flora_grass_frosty.png^[sheet:5x1:" .. i-1 .. ",0",
 		drawtype = "plantlike",
 		paramtype = "light",
 		waving = 1,
 		sunlight_propagates = true,
 		walkable = false,
 		floodable = true,
-		buildable_to = true,
 		drop = {
 			items = {
 				{
@@ -371,13 +369,13 @@ end
 minetest.register_node("flora:vines_frosty_horizontal", {
 	description = "Frosty Horizontal Vines",
 	tiles = {"flora_vines_frosty_horizontal.png"},
+	inventory_image = "flora_vines_frosty_horizontal.png",
 	drawtype = "firelike",
 	paramtype = "light",
 	sunlight_propagates = true,
 	walkable = false,
 	floodable = true,
 	visual_scale = 2.0,
-	buildable_to = true,
 	drop = {
 		items = {
 			{
@@ -402,7 +400,7 @@ minetest.register_node("flora:vines_frosty_horizontal", {
 			},
 		},
 	},
-	groups = {snappy = 1, attached_node = 1},
+	groups = {snappy = 1},
 	sounds = default.node_sound_leaves_defaults(),
 	selection_box = {
 		type = "fixed",
@@ -412,12 +410,12 @@ minetest.register_node("flora:vines_frosty_horizontal", {
 minetest.register_node("flora:vines_frosty", {
 	description = "Frosty Vines",
 	tiles = {"flora_vines_frosty.png"},
+	inventory_image = "flora_vines_frosty.png",
 	drawtype = "plantlike",
 	paramtype = "light",
 	sunlight_propagates = true,
 	walkable = false,
 	floodable = true,
-	buildable_to = true,
 	drop = {
 		items = {
 			{
@@ -450,21 +448,20 @@ minetest.register_node("flora:vines_frosty", {
 	},
 	after_dig_node = function(pos, node, metadata, digger)
 		local nn = node.name
-		default.dig_dir(pos, {nn}, -1, digger)
+		ccore.dig_dir(pos, {nn}, -1, digger)
 	end
 })
 for i=1,5 do
 	minetest.register_node("flora:moonflower_frosty_" .. i, {
 		description = "Moonflower with Frosty Grass",
 		tiles = {"flora_moonflower_frosty.png^[sheet:5x1:" .. i-1 .. ",0"},
+		inventory_image = "flora_moonflower_frosty.png^[sheet:5x1:" .. i-1 .. ",0",
 		drawtype = "plantlike",
 		paramtype = "light",
 		light_source = default.LIGHT_MAX,
 		sunlight_propagates = true,
 		walkable = false,
 		floodable = true,
-		buildable_to = true,
-		waving = 1,
 		drop = {
 			items = {
 				{
@@ -484,13 +481,13 @@ end
 minetest.register_node("flora:vines_frosty_with_moonstone", {
 	description = "Frosty Vines with Moonstone",
 	tiles = {"flora_vines_dry_with_moonstone.png"},
+	inventory_image = "flora_vines_dry_with_moonstone.png",
 	drawtype = "plantlike",
 	paramtype = "light",
 	light_source = default.LIGHT_MAX,
 	sunlight_propagates = true,
 	walkable = false,
 	floodable = true,
-	buildable_to = true,
 	drop = {
 		items = {
 			{
@@ -531,6 +528,6 @@ minetest.register_node("flora:vines_frosty_with_moonstone", {
 	},
 	after_dig_node = function(pos, node, metadata, digger)
 		local nn = node.name
-		default.dig_dir(pos, {nn}, -1, digger)
+		ccore.dig_dir(pos, {nn}, -1, digger)
 	end
 })

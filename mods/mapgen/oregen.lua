@@ -465,6 +465,7 @@ function mapgen.register_ores()
 			octaves = 1,
 		},
 	})
+
 	--	Marble Underground Layers
 	minetest.register_ore({
 		ore_type        = "stratum",
@@ -869,61 +870,63 @@ function mapgen.register_ores()
 		},
 	})
 	-- Chalk
-	-- minetest.register_ore({
-	-- 	ore_type        = "blob",
-	-- 	ore             = "blocks:chalk",
-	-- 	wherein         = {"blocks:sand", "blocks:dirt", "blocks:dry_dirt"},
-	-- 	clust_scarcity  = 8 * 8 * 8,
-	-- 	clust_size      = 12,
-	-- 	y_max           = 2,
-	-- 	y_min           = -128,
-	-- 	noise_threshold = 0.0,
-	-- 	noise_params    = {
-	-- 		offset = 0.5,
-	-- 		scale = 0.5,
-	-- 		spread = {x = 4, y = 4, z = 4},
-	-- 		seed = 72344,
-	-- 		octaves = 1,
-	-- 		persist = 0.0
-	-- 	},
-	-- })
 	minetest.register_ore({
 		ore_type        = "blob",
 		ore             = "blocks:chalk",
-		wherein         = {"blocks:stone", "blocks:sandstone", "blocks:desert_sandstone", "blocks:silver_sandstone", "blocks:desert_stone"},
-		clust_scarcity  = 24 * 24 * 24,
-		clust_size      = 24,
-		y_max           = 512,
+		wherein         = {"blocks:stone", "blocks:sandstone", "blocks:desert_sandstone", "blocks:silver_sandstone"},
+		clust_scarcity  = 8 * 8 * 8,
+		clust_size      = 12,
+		y_max           = 2,
 		y_min           = -128,
 		noise_threshold = 0.0,
 		noise_params    = {
 			offset = 0.25,
 			scale = 0.25,
-			spread = {x = 12, y = 12, z = 12},
+			spread = {x = 4, y = 4, z = 4},
 			seed = 78224,
 			octaves = 1,
 			persist = 0.0
 		},
 	})
-	-- Mud
+	-- Decoration for chalk_grassland biome
 	minetest.register_ore({
-		ore_type        = "sheet",
-		ore             = "blocks:mud",
-		wherein         = {"blocks:dirt", "blocks:dirt_with_rainforest_litter", "blocks:dirt_with_grass", "blocks:dirt_with_dry_grass", "blocks:dry_dirt", "blocks:dry_dirt_with_dry_grass"},
-		column_height_max = 3,
-		column_midpoint_factor = 0,
-		y_max           = 5,
-		y_min           = -5,
-		noise_threshold = 0.6,
+		ore_type        = "blob",
+		ore             = "blocks:chalk",
+		wherein         = {"blocks:chalk_with_grass"},
+		y_max           = 119,
+		y_min           = 20,
+		clust_size		= 7,
+		clust_scarcity 	= 5 * 5 * 5,
+		noise_threshold = -0.5,
 		noise_params    = {
-			offset = 0.5,
-			scale = 0.25,
-			spread = {x = 3, y = 3, z = 3},
-			seed = 66549,
+			offset = -0.3,
+			scale = -1,
+			spread = {x = 1024, y = 1024, z = 1024},
+			seed = 1714,
 			octaves = 1,
-			persist = 0.0
+			persist = 0.0,
 		},
 	})
+	
+	minetest.register_ore({
+		ore_type        = "blob",
+		ore             = "blocks:chalk",
+		wherein         = {"blocks:chalk_with_grass"},
+		y_max           = 19,
+		y_min           = 9,
+		clust_size		= 7,
+		clust_scarcity 	= 11 * 11 * 11,
+		noise_threshold = -0.5,
+		noise_params    = {
+			offset = -0.3,
+			scale = -1,
+			spread = {x = 1024, y = 1024, z = 1024},
+			seed = 1714,
+			octaves = 1,
+			persist = 0.0,
+		},
+	})
+	
 	-- Clay
 	minetest.register_ore({
 		ore_type        = "blob",
@@ -947,7 +950,7 @@ function mapgen.register_ores()
 	minetest.register_ore({
 		ore_type        = "blob",
 		ore             = "blocks:silver_sand",
-		wherein         = {"blocks:stone"},
+		wherein         = {"blocks:stone", "blocks:chalk"},
 		clust_scarcity  = 16 * 16 * 16,
 		clust_size      = 5,
 		y_max           = 31000,
@@ -1005,6 +1008,25 @@ function mapgen.register_ores()
 		},
 	})
 	-- Sheet ores
+	-- Mud
+	minetest.register_ore({
+		ore_type        = "sheet",
+		ore             = "blocks:mud",
+		wherein         = {"blocks:dirt", "blocks:dirt_with_rainforest_litter", "blocks:dirt_with_grass", "blocks:dirt_with_dry_grass", "blocks:dry_dirt", "blocks:dry_dirt_with_dry_grass"},
+		column_height_max = 3,
+		column_midpoint_factor = 0,
+		y_max           = 5,
+		y_min           = -5,
+		noise_threshold = 0.6,
+		noise_params    = {
+			offset = 0.5,
+			scale = 0.25,
+			spread = {x = 3, y = 3, z = 3},
+			seed = 66549,
+			octaves = 1,
+			persist = 0.0
+		},
+	})
 	-- Mineral Salt
 	minetest.register_ore({
 		ore_type = "sheet",

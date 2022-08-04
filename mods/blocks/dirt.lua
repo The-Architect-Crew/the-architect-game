@@ -92,3 +92,15 @@ minetest.register_node("blocks:dry_dirt_with_dry_grass", {
 		footstep = {name = "blocks_grass_footstep", gain = 0.4},
 	}),
 })
+
+minetest.register_node("blocks:chalk_with_grass", {
+	description = S("Chalk with Grass"),
+	tiles = {"blocks_grass.png^[colorize:#dfdcd7:40", "blocks_chalk.png",
+		{name = "blocks_chalk.png^blocks_grass_side.png^[colorize:#dfdcd7:40",
+			tileable_vertical = false}},
+	groups = {crumbly = 3, soil = 1, spreading_dirt_type = 1},
+	drop = "blocks:chalk_powder 4",
+	sounds = default.node_sound_dirt_defaults({
+		footstep = {name = "blocks_grass_footstep", gain = 0.25},
+	}),
+})

@@ -1,3 +1,86 @@
+minetest.set_mapgen_setting("mg_name", "carpathian", true)
+minetest.set_mapgen_setting("mg_flags", "caves, dungeons, light, decorations, biomes, ores", true)
+minetest.set_mapgen_setting("mgcarpathian_spflags", "caverns, rivers", true)
+
+-- 2D noise that controls the shape/size of ridged mountains.
+-- type: noise_params_2d
+minetest.set_mapgen_setting_noiseparams("mgcarpathian_np_ridge_mnt", {
+	offset = 0,
+	scale = 8,
+	spread = {x=525,y=525,z=525},
+	seed = 5520,
+	octaves = 6,
+	persistence = 0.55,
+	lacunarity = 2.0,
+	flags = "eased",
+}, true)
+
+-- 2D noise that controls the shape/size of step mountains.
+-- type: noise_params_2d
+minetest.set_mapgen_setting_noiseparams("mgcarpathian_np_step_mnt", {
+	offset = 0,
+	scale = 8,
+	spread = {x=502,y=502,z=502},
+	seed = 2590,
+	octaves = 5,
+	persistence = 0.55,
+	lacunarity = 2.0,
+	flags = "eased",
+}, true)
+
+-- # Biome API noise parameters
+-- Temperature variation for biomes.
+-- type: noise_params_2d
+minetest.set_mapgen_setting_noiseparams("mg_biome_np_heat", {
+	offset = 48,
+	scale = 48,
+	spread = {x=1600,y=1600,z=1600},
+	seed = 5349,
+	octaves = 3,
+	persistence = 0.5,
+	lacunarity = 2.0,
+	flags = "eased",
+}, true)
+
+-- Small-scale temperature variation for blending biomes on borders.
+-- type: noise_params_2d
+minetest.set_mapgen_setting_noiseparams("mg_biome_np_heat_blend", {
+	offset = 0,
+	scale = 1.5,
+	spread = {x=12,y=12,z=12},
+	seed = 13,
+	octaves = 2,
+	persistence = 1.0,
+	lacunarity = 2.0,
+	flags = "eased",
+}, true)
+
+-- Humidity variation for biomes.
+-- type: noise_params_2d
+minetest.set_mapgen_setting_noiseparams("mg_biome_np_humidity", {
+	offset = 50,
+	scale = 50,
+	spread = {x=1000,y=1000,z=1000},
+	seed = 842,
+	octaves = 3,
+	persistence = 0.5,
+	lacunarity = 2.0,
+	flags = "eased",
+}, true)
+
+-- Small-scale humidity variation for blending biomes on borders.
+-- type: noise_params_2d
+minetest.set_mapgen_setting_noiseparams("mg_biome_np_humidity_blend", {
+	offset = 0,
+	scale = 1.5,
+	spread = {x=12,y=12,z=12},
+	seed = 90003,
+	octaves = 2,
+	persistence = 1.0,
+	lacunarity = 2.0,
+	flags = "eased",
+}, true)
+
 --
 -- Register biomes
 --
@@ -73,7 +156,7 @@ function mapgen.register_biomes()
 		y_max = 31000,
 		y_min = 47,
 		heat_point = 0,
-		humidity_point = 45,
+		humidity_point = 40,
 	})
 
 	minetest.register_biome({
@@ -296,6 +379,55 @@ function mapgen.register_biomes()
 		humidity_point = 35,
 	})
 
+	-- Chalk grassland
+
+	minetest.register_biome({
+		name = "chalk_grassland",
+		node_stone = "blocks:chalk",
+		node_top = "blocks:chalk_with_grass",
+		depth_top = 1,
+		node_filler = "blocks:chalk",
+		depth_filler = 2,
+		node_riverbed = "blocks:sand",
+		depth_riverbed = 2,
+		node_dungeon = "variations:chalk_brick",
+		node_dungeon_stair = "blocks:shapes_chalk_stair",
+		y_max = 31000,
+		y_min = 4,
+		heat_point = 50,
+		humidity_point = 33,
+	})
+
+	minetest.register_biome({
+		name = "chalk_grassland_ocean",
+		node_top = "blocks:sand",
+		depth_top = 1,
+		node_filler = "blocks:sand",
+		depth_filler = 3,
+		node_riverbed = "blocks:sand",
+		depth_riverbed = 2,
+		node_cave_liquid = "blocks:water_source",
+		node_dungeon = "blocks:cobble",
+		node_dungeon_alt = "blocks:mossycobble",
+		node_dungeon_stair = "blocks:shapes_cobble_stair",
+		y_max = 3,
+		y_min = -255,
+		heat_point = 50,
+		humidity_point = 33,
+	})
+
+	minetest.register_biome({
+		name = "chalk_grassland_under",
+		node_cave_liquid = {"blocks:water_source", "blocks:lava_source"},
+		node_dungeon = "blocks:cobble",
+		node_dungeon_alt = "blocks:mossycobble",
+		node_dungeon_stair = "blocks:shapes_cobble_stair",
+		y_max = -256,
+		y_min = -31000,
+		heat_point = 50,
+		humidity_point = 33,
+	})
+
 	-- Coniferous forest
 
 	minetest.register_biome({
@@ -399,7 +531,7 @@ function mapgen.register_biomes()
 		vertical_blend = 1,
 		y_max = -2,
 		y_min = -255,
-		heat_point = 55,
+		heat_point = 60,
 		humidity_point = 65,
 	})
 
@@ -431,7 +563,7 @@ function mapgen.register_biomes()
 		y_max = 31000,
 		y_min = 4,
 		heat_point = 85,
-		humidity_point = 16,
+		humidity_point = 0,
 	})
 
 	minetest.register_biome({
@@ -450,7 +582,7 @@ function mapgen.register_biomes()
 		y_max = 3,
 		y_min = -255,
 		heat_point = 85,
-		humidity_point = 16,
+		humidity_point = 0,
 	})
 
 	minetest.register_biome({
@@ -462,7 +594,7 @@ function mapgen.register_biomes()
 		y_max = -256,
 		y_min = -31000,
 		heat_point = 85,
-		humidity_point = 16,
+		humidity_point = 0,
 	})
 
 	-- Sandstone desert
@@ -484,23 +616,6 @@ function mapgen.register_biomes()
 		humidity_point = 0,
 	})
 
-	-- minetest.register_biome({
-	-- 	name = "grassland_dunes",
-	-- 	node_top = "blocks:sand",
-	-- 	depth_top = 1,
-	-- 	node_filler = "blocks:sand",
-	-- 	depth_filler = 2,
-	-- 	node_riverbed = "blocks:sand",
-	-- 	depth_riverbed = 2,
-	-- 	node_dungeon = "blocks:cobble",
-	-- 	node_dungeon_alt = "blocks:mossycobble",
-	-- 	node_dungeon_stair = "blocks:shapes_cobble_stair",
-	-- 	vertical_blend = 1,
-	-- 	y_max = 5,
-	-- 	y_min = 4,
-	-- 	heat_point = 50,
-	-- 	humidity_point = 35,
-	-- })
 	minetest.register_biome({
 		name = "sandstone_desert_ocean",
 		node_top = "blocks:sand",
@@ -597,7 +712,7 @@ function mapgen.register_biomes()
 		y_max = 31000,
 		y_min = 1,
 		heat_point = 89,
-		humidity_point = 42,
+		humidity_point = 48,
 	})
 
 	minetest.register_biome({
@@ -825,7 +940,7 @@ local function register_grass_decoration(offset, scale, length)
 	minetest.register_decoration({
 		name = "flora:grass_" .. length,
 		deco_type = "simple",
-		place_on = {"blocks:dirt_with_grass"},
+		place_on = {"blocks:dirt_with_grass", "blocks:chalk_with_grass"},
 		sidelen = 16,
 		noise_params = {
 			offset = offset,
@@ -835,7 +950,7 @@ local function register_grass_decoration(offset, scale, length)
 			octaves = 3,
 			persist = 0.6
 		},
-		biomes = {"grassland", "deciduous_forest"},
+		biomes = {"grassland", "deciduous_forest", "chalk_grassland"},
 		y_max = 31000,
 		y_min = 1,
 		decoration = "flora:grass_" .. length,
@@ -907,6 +1022,30 @@ function mapgen.register_decorations()
 		y_max = 31000,
 		y_min = 1,
 		decoration = "blocks:dry_dirt",
+		place_offset_y = -1,
+		flags = "force_placement",
+	})
+
+	-- grassy patches for chalk grassland 
+	-- Register before other decoration on Chalk with Grass
+
+	minetest.register_decoration({
+		deco_type = "simple",
+		place_on = {"blocks:chalk_with_grass"},
+		sidelen = 4,
+		noise_threshold = -3.0,
+		noise_params = {
+			offset = -1.5,
+			scale = -1,
+			spread = {x = 64, y = 64, z = 64},
+			seed = 1714,
+			octaves = 4,
+			persist = 1.0
+		},
+		biomes = {"chalk_grassland"},
+		y_max = 31000,
+		y_min = 4,
+		decoration = "blocks:chalk",
 		place_offset_y = -1,
 		flags = "force_placement",
 	})
@@ -1292,7 +1431,7 @@ function mapgen.register_decorations()
 	minetest.register_decoration({
 		name = "mapgen:bush",
 		deco_type = "schematic",
-		place_on = {"blocks:dirt_with_grass"},
+		place_on = {"blocks:dirt_with_grass", "blocks:chalk_with_grass"},
 		sidelen = 16,
 		noise_params = {
 			offset = -0.004,
@@ -1302,7 +1441,7 @@ function mapgen.register_decorations()
 			octaves = 3,
 			persist = 0.7,
 		},
-		biomes = {"grassland", "deciduous_forest"},
+		biomes = {"grassland", "deciduous_forest", "chalk_grassland"},
 		y_max = 31000,
 		y_min = 1,
 		schematic = minetest.get_modpath("flora") .. "/schematics/bush.mts",
@@ -1314,7 +1453,7 @@ function mapgen.register_decorations()
 	minetest.register_decoration({
 		name = "mapgen:blueberry_bush",
 		deco_type = "schematic",
-		place_on = {"blocks:dirt_with_grass", "blocks:dirt_with_snow"},
+		place_on = {"blocks:dirt_with_grass", "blocks:dirt_with_snow", "blocks:chalk_with_grass"},
 		sidelen = 16,
 		noise_params = {
 			offset = -0.004,
@@ -1324,7 +1463,7 @@ function mapgen.register_decorations()
 			octaves = 3,
 			persist = 0.7,
 		},
-		biomes = {"grassland", "snowy_grassland"},
+		biomes = {"grassland", "snowy_grassland", "chalk_grassland"},
 		y_max = 31000,
 		y_min = 1,
 		place_offset_y = 1,

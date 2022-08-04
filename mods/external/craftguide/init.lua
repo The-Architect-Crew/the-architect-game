@@ -1223,7 +1223,7 @@ local function get_output_fs(fs, data, rcp, is_recipe, shapeless, right, btn_siz
 		local pos_y = data.yoffset + 0.9
 
 		if sub(icon, 1, 18) == "craftguide_furnace" then
-			fs(fmt("animated_image", pos_x, pos_y, 0.5, 0.5, PNG.furnace_anim, 8, 180))
+			fs(fmt("animated_image", pos_x, pos_y, 0.5, 0.5, PNG.furnace_anim, 60, 60))
 		else
 			fs(fmt("image", pos_x, pos_y, 0.5, 0.5, icon))
 		end
@@ -1241,7 +1241,7 @@ local function get_output_fs(fs, data, rcp, is_recipe, shapeless, right, btn_siz
 	fs(fmt("image", arrow_X, Y + 0.06, 1, 1, PNG.arrow))
 
 	if rcp.type == "fuel" then
-		fs(fmt("animated_image", X + 0.05, Y, ITEM_BTN_SIZE, ITEM_BTN_SIZE, PNG.fire_anim, 8, 180))
+		fs(fmt("animated_image", X + 0.05, Y, ITEM_BTN_SIZE, ITEM_BTN_SIZE, PNG.fire_anim, 60, 60))
 	else
 		local item = rcp.output
 		item = ItemStack(clean_name(item))

@@ -289,7 +289,7 @@ minetest.register_node("blocks:cobble_firemoss", {
 			},
 			{
 				rarity = 2,
-				items = {"blocks:branches_garnet"},
+				items = {"blocks:firebranches"},
 			},
 			{
 				rarity = 2,
@@ -308,6 +308,26 @@ minetest.register_node("blocks:desert_cobble_azure", {
 	description = S("Desert Cobblestone with Azure Moss"),
 	tiles = {"blocks_desert_cobble.png^blocks_azure_moss_overlay.png", "blocks_desert_cobble.png", "blocks_desert_cobble.png^blocks_azure_moss_overlay_side.png"},
 	is_ground_content = false,
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:stone_chunk 2"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:azure_mycelia"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:stone_chunk"},
+			},
+			{
+				rarity = 3,
+				items = {"blocks:azure_mycelia"},
+			},
+		},
+	},
 	groups = {cracky = 3, stone = 2},
 	sounds = default.node_sound_stone_defaults(),
 })

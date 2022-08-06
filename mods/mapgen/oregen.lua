@@ -907,7 +907,7 @@ function mapgen.register_ores()
 			persist = 0.0,
 		},
 	})
-	
+
 	minetest.register_ore({
 		ore_type        = "blob",
 		ore             = "blocks:chalk",
@@ -926,7 +926,7 @@ function mapgen.register_ores()
 			persist = 0.0,
 		},
 	})
-	
+
 	-- Clay
 	minetest.register_ore({
 		ore_type        = "blob",

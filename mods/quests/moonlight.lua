@@ -1,7 +1,5 @@
 -- Quest items and recipes that make up the moonlight quest
 
-local S = default.get_translator
-
 minetest.register_craftitem("quests:moonlight_inactive", {
 	description = ccore.comment("Moonlight Husk", "Requires activation"),
 	inventory_image = "quests_moonlight_inactive.png",

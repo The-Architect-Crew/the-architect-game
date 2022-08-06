@@ -72,7 +72,7 @@ minetest.register_node("blocks:bonewood", {
 })
 
 minetest.register_node("blocks:firewood", {
-	description = S("Firewood\n\"A block of ever-burning planks\""),
+	description = ccore.comment("Firewood", "A block of ever-burning planks"),
 	paramtype = "light",
 	paramtype2 = "facedir",
 	place_param2 = 0,
@@ -94,7 +94,7 @@ minetest.register_node("blocks:mushroom_wood", {
 })
 
 minetest.register_craftitem("blocks:firebranches", {
-	description = S("Pile of Glowing Sticks\n\"An excellent fuel source\""),
+	description = ccore.comment("Pile of Glowing Sticks", "An excellent fuel source"),
 	inventory_image = "blocks_firebranches.png",
 	groups = {stick = 1},
 })

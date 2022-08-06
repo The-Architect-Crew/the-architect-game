@@ -55,3 +55,8 @@ function ccore.dig_dir(pos, nodes, dir, digger)
 		end
 	end
 end
+
+-- description commenting
+function ccore.comment(desc, comment)
+	return desc.."\n"..minetest.colorize("grey", comment)
+end

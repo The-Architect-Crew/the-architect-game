@@ -2,7 +2,7 @@
 -- [Player Warning] Spoilers ahead, don't read if you value surprises in your game
 
 minetest.register_node("quests:null", {
-	description = "description = \"/dev/null\",\ntiles = {\"quests_null.png\"}\nType: Self-propagating Glitch",
+	description = ccore.comment("description = \"/dev/null\",\ntiles = {\"quests_null.png\"}", "Type: Self-propagating Glitch"),
 	inventory_image = "quests_rare.png",
 	tiles = {"quests_null.png"},
 	use_texture_alpha = "clip",
@@ -11,7 +11,7 @@ minetest.register_node("quests:null", {
 })
 
 minetest.register_node("quests:random", {
-	description = "/dev/random\nType: Unresolvable Glitch",
+	description = ccore.comment("/dev/random", "Type: Unresolvable Glitch"),
 	inventory_image = "quests_rare.png",
 	tiles = {
 		{
@@ -28,7 +28,7 @@ minetest.register_node("quests:random", {
 	sounds = default.node_sound_sand_defaults(),
 })
 minetest.register_node("quests:eye_spawner", {
-	description = ("Eye See You\nType: Thoughtful Lovecraftian Horror"),
+	description = ccore.comment("Eye See You", "Type: Thoughtful Lovecraftian Horror"),
 	inventory_image = "quests_rare.png",
 	wield_image = "quests_rare.png",
 	tiles = {"quests_rare.png"},

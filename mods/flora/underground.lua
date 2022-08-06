@@ -1,7 +1,7 @@
 -- Garnet (stone sub-biome flora)
 
 minetest.register_node("flora:firemoss", {
-	description = "Firemoss\n\"Glows in the dark\"",
+	description = ccore.comment("Firemoss", "Glows in the dark"),
 	tiles = {"flora_firemoss.png"},
 	inventory_image = "flora_firemoss.png",
 	drawtype = "firelike",
@@ -32,7 +32,7 @@ minetest.register_node("flora:firemoss", {
 
 for i=1,5 do
 	minetest.register_node("flora:firegrass_" .. i, {
-		description = "Firegrass\n\"Burning to the touch\"",
+		description = ccore.comment("Firegrass", "Burning to the touch"),
 		tiles = {"flora_firegrass.png^[sheet:5x1:" .. i - 1 .. ",0"},
 		inventory_image = "flora_firegrass.png^[sheet:5x1:" .. i - 1 .. ",0",
 		drawtype = "plantlike",
@@ -57,7 +57,7 @@ for i=1,5 do
 	})
 
 	minetest.register_node("flora:fireshroom_" .. i, {
-		description = "Fireshroom\n\"Actually not poisonous\"",
+		description = ccore.comment("Fireshroom", "Actually not poisonous"),
 		tiles = {"flora_fireshroom.png^[sheet:5x1:" .. i - 1 .. ",0"},
 		inventory_image = "flora_fireshroom.png^[sheet:5x1:" .. i - 1 .. ",0",
 		drawtype = "plantlike",
@@ -84,7 +84,7 @@ for i=1,5 do
 end
 
 minetest.register_node("flora:fireplant", {
-	description = "Fireplant\n\"Of unknown origins...\"",
+	description = ccore.comment("Fireplant", "Of unknown origins..."),
 	drawtype = "mesh",
 	mesh = "flora_fireplant.obj",
 	tiles = {"flora_fireplant.png", "flora_fireplant_leaf.png"},
@@ -220,7 +220,7 @@ for i=1,5 do
 		}
 	})
 	minetest.register_node("flora:azureshroom_" .. i, {
-		description = "Azureshroom\n\"Kinda hard to pronounce\"",
+		description = ccore.comment("Azureshroom", "Kinda hard to pronounce"),
 		tiles = {"flora_azureshroom.png^[sheet:5x1:" .. i - 1 .. ",0"},
 		inventory_image = "flora_azureshroom.png^[sheet:5x1:" .. i - 1 .. ",0",
 		drawtype = "plantlike",
@@ -287,7 +287,7 @@ minetest.register_node("flora:azure_plant", {
 	end
 })
 minetest.register_node("flora:azure_vines", {
-	description = "Azure Vines\n\"Shiny!\"",
+	description = ccore.comment("Azure Vines", "Shiny!"),
 	drawtype = "plantlike",
 	tiles = {
 		{
@@ -334,7 +334,7 @@ minetest.register_node("flora:azure_vines", {
 -- Mese (deep sub-biome flora)
 
 minetest.register_node("flora:moss_mese", {
-	description = "Mese Circuit Low Density Scaffolding\n\"Science can't say if it is a plant, actually\"",
+	description = ccore.comment("Mese Circuit Low Density Scaffolding", "Science can't say if it is a plant, actually"),
 	tiles = {"flora_moss_mese.png"},
 	inventory_image = "flora_moss_mese.png",
 	drawtype = "firelike",

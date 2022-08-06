@@ -3,83 +3,83 @@
 local S = default.get_translator
 
 minetest.register_craftitem("quests:moonlight_inactive", {
-	description = S("Moonlight Husk\n\"Requires activation\""),
+	description = ccore.comment("Moonlight Husk", "Requires activation"),
 	inventory_image = "quests_moonlight_inactive.png",
 })
 minetest.register_craftitem("quests:moonlight_head", {
-	description = S("Moonlight Head\n\"Weirdly, it doesn't seem to glow anymore...\""),
+	description = ccore.comment("Moonlight Head", "Weirdly, it doesn't seem to glow anymore..."),
 	inventory_image = "quests_moonlight_head.png",
 })
 minetest.register_craftitem("quests:moonlight_binding", {
-	description = S("Moonlight Binding\n\"Forged from hardened gold and equipped with a few alien trinkets\""),
+	description = ccore.comment("Moonlight Binding", "Forged from hardened gold and equipped with a few alien trinkets"),
 	inventory_image = "quests_moonlight_binding_filled.png",
 })
 minetest.register_craftitem("quests:moonlight_binding_base", {
-	description = S("Moonlight Binding Base\n\"A perfect fit for some peculiar mechanisms\""),
+	description = ccore.comment("Moonlight Binding Base", "A perfect fit for some peculiar mechanisms"),
 	inventory_image = "quests_moonlight_binding_base.png",
 })
 minetest.register_craftitem("quests:moonlight_handle", {
-	description = S("Moonlight Handle Module\n\"Contains the balancing mechanisms\""),
+	description = ccore.comment("Moonlight Handle Module", "Contains the balancing mechanisms"),
 	inventory_image = "quests_moonlight_handle.png",
 })
 minetest.register_craftitem("quests:moonstone_focus_bound", {
-	description = S("Bound Moonstone Focus\n\"The most advanced moonlight focusing device\""),
+	description = ccore.comment("Bound Moonstone Focus", "The most advanced moonlight focusing device"),
 	inventory_image = "quests_moonstone_focus_bound.png",
 })
 minetest.register_craftitem("quests:moonstone_focus", {
-	description = S("Moonstone Focus\n\"The lens have self-formed\""),
+	description = ccore.comment("Moonstone Focus", "The lens have self-formed"),
 	inventory_image = "quests_moonstone_focus.png",
 })
 minetest.register_craftitem("quests:obsidian_heart_broken", {
-	description = S("Broken Obsidian Heart\n\"Somehow still pretty much in one piece\""),
+	description = ccore.comment("Broken Obsidian Heart", "Somehow still pretty much in one piece"),
 	inventory_image = "quests_obsidian_heart_broken.png",
 })
 minetest.register_craftitem("quests:obsidian_heart", {
-	description = S("Obsidian Heart\n\"A faint beating is heard from the inside\""),
+	description = ccore.comment("Obsidian Heart", "A faint beating is heard from the inside"),
 	inventory_image = "quests_obsidian_heart.png",
 })
 minetest.register_craftitem("quests:melted_moonstone", {
-	description = S("Melted Moonstone\n\"Whats up with the screaming?\""),
+	description = ccore.comment("Melted Moonstone", "Whats up with the screaming?"),
 	inventory_image = "quests_melted_moonstone.png",
 })
 minetest.register_craftitem("quests:moonstone_essence", {
-	description = S("Moonstone Essence\n\"It is crying, loudly\""),
+	description = ccore.comment("Moonstone Essence", "It is crying, loudly"),
 	inventory_image = "quests_moonstone_essence.png",
 })
 minetest.register_craftitem("quests:inverted_moonstone_essence", {
-	description = S("Inverted Moonstone Essence\n\"It is producing a constant ear-shattering scream\""),
+	description = ccore.comment("Inverted Moonstone Essence", "It is producing a constant ear-shattering scream"),
 	inventory_image = "quests_inverted_moonstone_essence.png",
 })
 minetest.register_craftitem("quests:inverted_moonstone_crystal", {
-	description = S("Inverted Moonstone Crystal\n\"Its very presence is unbearable.\nIt also feels very, very wrong\""),
+	description = ccore.comment("Inverted Moonstone Crystal", "Its very presence is unbearable.\nIt also feels very, very wrong"),
 	inventory_image = "quests_inverted_moonstone_crystal.png",
 })
 minetest.register_craftitem("quests:moonstone_binding", {
-	description = S("Moonstone Binding\n\"Weightless\""),
+	description = ccore.comment("Moonstone Binding", "Weightless"),
 	inventory_image = "quests_moonstone_binding.png",
 })
 minetest.register_craftitem("quests:polished_moonstone_fragments", {
-	description = S("Polished Moonstone Fragments\n\"Shiny\""),
+	description = ccore.comment("Polished Moonstone Fragments", "Shiny"),
 	inventory_image = "quests_polished_moonstone_fragments.png",
 })
 minetest.register_craftitem("quests:polished_moonstone_crystal", {
-	description = S("Polished Moonstone Crystal\n\"Reflects everything but moonlight\""),
+	description = ccore.comment("Polished Moonstone Crystal", "Reflects everything but moonlight"),
 	inventory_image = "quests_polished_moonstone_crystal.png",
 })
 minetest.register_craftitem("quests:hardened_moonstone", {
-	description = S("Hardened Moonstone\n\"The lattice is forming\""),
+	description = ccore.comment("Hardened Moonstone", "The lattice is forming"),
 	inventory_image = "quests_hardened_moonstone.png",
 })
 minetest.register_craftitem("quests:unbreakable_moonstone", {
-	description = S("Unbreakable Moonstone\n\"Unbreakable, but mese can probably erode it\""),
+	description = ccore.comment("Unbreakable Moonstone", "Unbreakable, but mese can probably erode it"),
 	inventory_image = "quests_unbreakable_moonstone.png",
 })
 minetest.register_craftitem("quests:hardened_gold_lump", {
-	description = S("Hardened Gold Lump\n\"An alloy made according to the ancient recipe\""),
+	description = ccore.comment("Hardened Gold Lump", "An alloy made according to the ancient recipe"),
 	inventory_image = "quests_hardened_gold_lump.png",
 })
 minetest.register_craftitem("quests:hardened_gold_ingot", {
-	description = S("Hardened Gold Ingot\n\"Very hard, seems to vibrate\""),
+	description = ccore.comment("Hardened Gold Ingot", "Very hard, seems to vibrate"),
 	inventory_image = "quests_hardened_gold_ingot.png",
 })
 

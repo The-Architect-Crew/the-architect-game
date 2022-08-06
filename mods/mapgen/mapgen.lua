@@ -84,9 +84,6 @@ minetest.set_mapgen_setting_noiseparams("mg_biome_np_humidity_blend", {
 --
 -- Register biomes
 --
-
--- All mapgens except mgv6
-
 function mapgen.register_biomes()
 
 	-- Icesheet
@@ -773,7 +770,7 @@ function mapgen.register_biomes()
 		depth_filler = 3,
 		node_riverbed = "blocks:sand",
 		depth_riverbed = 2,
-		node_water = "blocks:river_water_source",
+		node_water = "blocks:water_source",
 		node_dungeon = "blocks:cobble",
 		node_dungeon_alt = "blocks:mossycobble",
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
@@ -791,7 +788,7 @@ function mapgen.register_biomes()
 		depth_filler = 3,
 		node_riverbed = "blocks:sand",
 		depth_riverbed = 2,
-		node_water = "blocks:river_water_source",
+		node_water = "blocks:water_source",
 		node_dungeon = "blocks:cobble",
 		node_dungeon_alt = "blocks:mossycobble",
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
@@ -809,7 +806,7 @@ function mapgen.register_biomes()
 		depth_filler = 3,
 		node_riverbed = "blocks:sand",
 		depth_riverbed = 2,
-		node_water = "blocks:river_water_source",
+		node_water = "blocks:water_source",
 		node_cave_liquid = "blocks:water_source",
 		node_dungeon = "blocks:cobble",
 		node_dungeon_alt = "blocks:mossycobble",
@@ -838,103 +835,6 @@ end
 --
 -- Register decorations
 --
-
--- Mgv6
-
-function mapgen.register_mgv6_decorations()
-
-	-- Papyrus
-
-	minetest.register_decoration({
-		name = "flora:papyrus",
-		deco_type = "simple",
-		place_on = {"blocks:dirt_with_grass", "blocks:mud"},
-		sidelen = 16,
-		noise_params = {
-			offset = -0.3,
-			scale = 0.7,
-			spread = {x = 100, y = 100, z = 100},
-			seed = 354,
-			octaves = 3,
-			persist = 0.7
-		},
-		y_max = 1,
-		y_min = 1,
-		decoration = "flora:papyrus",
-		height = 2,
-		height_max = 4,
-		spawn_by = "blocks:water_source",
-		num_spawn_by = 1,
-	})
-
-	-- Cacti
-
-	minetest.register_decoration({
-		name = "flora:cactus",
-		deco_type = "simple",
-		place_on = {"blocks:desert_sand"},
-		sidelen = 16,
-		noise_params = {
-			offset = -0.012,
-			scale = 0.024,
-			spread = {x = 100, y = 100, z = 100},
-			seed = 230,
-			octaves = 3,
-			persist = 0.6
-		},
-		y_max = 30,
-		y_min = 1,
-		decoration = "flora:cactus",
-		height = 3,
-	        height_max = 4,
-	})
-
-	-- Long grasses
-
-	for length = 1, 5 do
-		minetest.register_decoration({
-			name = "flora:grass_"..length,
-			deco_type = "simple",
-			place_on = {"blocks:dirt_with_grass"},
-			sidelen = 16,
-			noise_params = {
-				offset = 0,
-				scale = 0.007,
-				spread = {x = 100, y = 100, z = 100},
-				seed = 329,
-				octaves = 3,
-				persist = 0.6
-			},
-			y_max = 30,
-			y_min = 1,
-			decoration = "flora:grass_"..length,
-		})
-	end
-
-	-- Dry shrubs
-
-	minetest.register_decoration({
-		name = "flora:dry_shrub",
-		deco_type = "simple",
-		place_on = {"blocks:desert_sand", "blocks:dirt_with_snow"},
-		sidelen = 16,
-		noise_params = {
-			offset = 0,
-			scale = 0.035,
-			spread = {x = 100, y = 100, z = 100},
-			seed = 329,
-			octaves = 3,
-			persist = 0.6
-		},
-		y_max = 30,
-		y_min = 1,
-		decoration = "flora:dry_shrub",
-		param2 = 4,
-	})
-end
-
-
--- All mapgens except mgv6
 
 local function register_grass_decoration(offset, scale, length)
 	minetest.register_decoration({
@@ -1026,9 +926,8 @@ function mapgen.register_decorations()
 		flags = "force_placement",
 	})
 
-	-- grassy patches for chalk grassland 
+	-- Grassy patches for chalk grassland
 	-- Register before other decoration on Chalk with Grass
-
 	minetest.register_decoration({
 		deco_type = "simple",
 		place_on = {"blocks:chalk_with_grass"},

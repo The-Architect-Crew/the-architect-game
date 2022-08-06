@@ -250,7 +250,7 @@ for i=1,5 do
 	})
 end
 minetest.register_node("flora:azure_plant", {
-	description = "Azure Plant",
+	description = "Azure Mushroom Colony",
 	drawtype = "mesh",
 	mesh = "flora_azure_plant.obj",
 	tiles = {"flora_azure_plant_mushroom.png", "flora_azure_plant_1.png", "flora_azure_plant_2.png"},

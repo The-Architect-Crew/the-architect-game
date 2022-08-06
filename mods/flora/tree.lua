@@ -466,7 +466,7 @@ minetest.register_node("flora:dry_leaves", {
 })
 
 minetest.register_node("flora:bone_tree", {
-	description = S("Bone Log"),
+	description = S("Ossified Log"),
 	tiles = {"flora_bone_tree_top.png", "flora_bone_tree_top.png", "flora_bone_tree.png"},
 	paramtype2 = "facedir",
 	is_ground_content = false,

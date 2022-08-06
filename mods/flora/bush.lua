@@ -305,7 +305,7 @@ minetest.register_node("flora:pine_bush_sapling", {
 })
 
 minetest.register_node("flora:bone_bush_stem", {
-	description = S("Bone Bush Stem"),
+	description = S("Ossified Bush Stem"),
 	drawtype = "plantlike",
 	visual_scale = 1.41,
 	tiles = {"flora_bone_bush_stem.png"},

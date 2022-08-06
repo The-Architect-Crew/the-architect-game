@@ -4,12 +4,7 @@ decorations.register_stalagmites = function(base_node, drop)
 	local base_definition = minetest.registered_nodes[base_node]
 	local sname = string.match(base_node, ':(.*)')
 	local base_description = base_definition.description
-	local groups = {} -- Simply assigning the value of base node's group to here will then make any edits also mirror on the original node (bug?)
-	groups.cracky = base_definition.groups.cracky
-	groups.crumbly = base_definition.groups.crumbly
-	groups.stone = base_definition.groups.stone
-	groups.level = base_definition.groups.level
-	--groups.attached_node = 1
+	local groups = base_definition.groups
 	local sounds = base_definition.sounds
 	local box_floor = {
 		type = "fixed",
@@ -23,14 +18,19 @@ decorations.register_stalagmites = function(base_node, drop)
 			{-4/16, -2/16 + 16/16, -4/16, 4/16, 8/16 + 16/16, 4/16},
 		},
 	}
-	if (drop == nil) then
-		drop = "blocks:" .. sname .. "_chunk"
-	end
+	local box_big = {
+		type = "fixed",
+		fixed = {
+			{-6/16, -8/16, -6/16, 6/16, 8/16, 6/16},
+		},
+	}
+	drop = drop or "blocks:" .. sname .. "_chunk"
 	for i=1,5 do
 		minetest.register_node("decorations:stalagmite_" .. sname .. "_" .. i, {
 			description = (base_description .. " Stalagmite"),
 			drawtype = "plantlike",
 			tiles = {"decorations_stalagmites_" .. sname .. ".png^[sheet:13x1:" .. i+4 .. ",0"},
+			inventory_image = "decorations_stalagmites_" .. sname .. ".png^[sheet:13x1:" .. i+4 .. ",0",
 			visual_scale = 2.0,
 			paramtype2 = "degrotate",
 			place_param2 = 0,
@@ -63,6 +63,7 @@ decorations.register_stalagmites = function(base_node, drop)
 			description = (base_description .. " Stalactite"),
 			drawtype = "plantlike",
 			tiles = {"decorations_stalagmites_" .. sname .. ".png^[sheet:13x1:" .. i-1 .. ",0"},
+			inventory_image = "decorations_stalagmites_" .. sname .. ".png^[sheet:13x1:" .. i-1 .. ",0",
 			visual_scale = 2.0,
 			paramtype2 = "degrotate",
 			place_param2 = 0,
@@ -96,6 +97,7 @@ decorations.register_stalagmites = function(base_node, drop)
 		description = (base_description .. " Stalagmite"),
 		drawtype = "plantlike",
 		tiles = {"decorations_stalagmites_" .. sname .. ".png^[sheet:13x1:11,0"},
+		inventory_image = "decorations_stalagmites_" .. sname .. ".png^[sheet:13x1:11,0",
 		sunlight_propagates = true,
 		paramtype = "light",
 		light_source = 1,
@@ -117,6 +119,8 @@ decorations.register_stalagmites = function(base_node, drop)
 				},
 			},
 		},
+		collision_box = box_big,
+		selection_box = box_big,
 		groups = groups,
 		sounds = sounds,
 		on_flood = function(pos)
@@ -133,6 +137,7 @@ decorations.register_stalagmites = function(base_node, drop)
 		description = (base_description .. " Stalactite"),
 		drawtype = "plantlike",
 		tiles = {"decorations_stalagmites_" .. sname .. ".png^[sheet:26x2:20,0"},
+		inventory_image = "decorations_stalagmites_" .. sname .. ".png^[sheet:26x2:20,0",
 		sunlight_propagates = true,
 		paramtype = "light",
 		light_source = 1,
@@ -153,6 +158,8 @@ decorations.register_stalagmites = function(base_node, drop)
 				},
 			},
 		},
+		collision_box = box_big,
+		selection_box = box_big,
 		groups = groups,
 		sounds = sounds,
 		on_flood = function(pos)
@@ -169,6 +176,7 @@ decorations.register_stalagmites = function(base_node, drop)
 		description = (base_description .. " Stalagmite"),
 		drawtype = "plantlike",
 		tiles = {"decorations_stalagmites_" .. sname .. ".png^[sheet:26x2:24,1"},
+		inventory_image = "decorations_stalagmites_" .. sname .. ".png^[sheet:26x2:24,1",
 		sunlight_propagates = true,
 		paramtype = "light",
 		light_source = 1,
@@ -189,6 +197,8 @@ decorations.register_stalagmites = function(base_node, drop)
 				},
 			},
 		},
+		collision_box = box_big,
+		selection_box = box_big,
 		groups = groups,
 		sounds = sounds,
 		on_flood = function(pos)
@@ -205,6 +215,7 @@ decorations.register_stalagmites = function(base_node, drop)
 		description = (base_description .. " Stalactite"),
 		drawtype = "plantlike",
 		tiles = {"decorations_stalagmites_" .. sname .. ".png^[sheet:26x2:25,0"},
+		inventory_image = "decorations_stalagmites_" .. sname .. ".png^[sheet:26x2:25,0",
 		sunlight_propagates = true,
 		paramtype = "light",
 		light_source = 1,
@@ -225,6 +236,8 @@ decorations.register_stalagmites = function(base_node, drop)
 				},
 			},
 		},
+		collision_box = box_big,
+		selection_box = box_big,
 		groups = groups,
 		sounds = sounds,
 		on_flood = function(pos)
@@ -241,6 +254,7 @@ decorations.register_stalagmites = function(base_node, drop)
 		description = (base_description .. " Stalagmite"),
 		drawtype = "plantlike",
 		tiles = {"decorations_stalagmites_" .. sname .. ".png^[sheet:26x2:24,0"},
+		inventory_image = "decorations_stalagmites_" .. sname .. ".png^[sheet:26x2:24,0",
 		sunlight_propagates = true,
 		paramtype = "light",
 		light_source = 1,
@@ -261,6 +275,8 @@ decorations.register_stalagmites = function(base_node, drop)
 				},
 			},
 		},
+		collision_box = box_big,
+		selection_box = box_big,
 		groups = groups,
 		sounds = sounds,
 	})
@@ -268,6 +284,7 @@ decorations.register_stalagmites = function(base_node, drop)
 		description = (base_description .. " Stalactite"),
 		drawtype = "plantlike",
 		tiles = {"decorations_stalagmites_" .. sname .. ".png^[sheet:26x2:25,1"},
+		inventory_image = "decorations_stalagmites_" .. sname .. ".png^[sheet:26x2:25,1",
 		sunlight_propagates = true,
 		paramtype = "light",
 		light_source = 1,
@@ -288,6 +305,8 @@ decorations.register_stalagmites = function(base_node, drop)
 				},
 			},
 		},
+		collision_box = box_big,
+		selection_box = box_big,
 		groups = groups,
 		sounds = sounds,
 	})

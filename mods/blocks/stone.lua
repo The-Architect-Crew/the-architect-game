@@ -312,7 +312,7 @@ minetest.register_node("blocks:desert_cobble_azure", {
 		items = {
 			{
 				rarity = 1,
-				items = {"blocks:stone_chunk 2"},
+				items = {"blocks:desert_stone_chunk 2"},
 			},
 			{
 				rarity = 2,
@@ -320,7 +320,7 @@ minetest.register_node("blocks:desert_cobble_azure", {
 			},
 			{
 				rarity = 2,
-				items = {"blocks:stone_chunk"},
+				items = {"blocks:desert_stone_chunk"},
 			},
 			{
 				rarity = 3,
@@ -337,13 +337,13 @@ minetest.register_node("blocks:stone_icy", {
 	tiles = {"blocks_stone_icy.png"},
 	groups = {cracky = 3, stone = 1},
 	drop = "blocks:cobble",
-	sounds = default.node_sound_glass_defaults(),
+	sounds = default.node_sound_ice_defaults(),
 })
 
 minetest.register_node("blocks:stone_mese_circuits", {
 	description = S("Stone with Mese Circuits"),
 	tiles = {"blocks_stone.png^blocks_mese_circuitry_overlay.png", "blocks_stone.png^blocks_mese_circuitry_under.png", "blocks_stone.png^blocks_mese_circuitry_side.png"},
-	groups = {cracky = 3, stone = 1},
+	groups = {cracky = 3, stone = 1, not_in_creative_inventory = 1},
 	drop = {
 		items = {
 			{
@@ -369,7 +369,7 @@ minetest.register_node("blocks:stone_mese_circuits", {
 minetest.register_node("blocks:stone_mese_circuits_under", {
 	description = S("Stone with Mese Circuits (Ceiling)"),
 	tiles = {"blocks_stone.png", "blocks_stone.png^blocks_mese_circuitry_under.png", "blocks_stone.png"},
-	groups = {cracky = 3, stone = 1},
+	groups = {cracky = 3, stone = 1, not_in_creative_inventory = 1},
 	drop = {
 		items = {
 			{

@@ -847,7 +847,7 @@ minetest.register_craftitem("blocks:amber_glass_tile", {
 })
 
 minetest.register_node("blocks:stone_with_amber", {
-	description = S("Stone with Amber Lump"),
+	description = S("Stone with Amber Ore"),
 	tiles = {"blocks_stone.png^blocks_mineral_amber.png"},
 	is_ground_content = true,
 	groups = {cracky = 3},
@@ -877,11 +877,11 @@ minetest.register_node("blocks:stone_with_amber", {
 			},
 		},
 	},
-	sounds = default.node_sound_glass_defaults(),
+	sounds = default.node_sound_stone_defaults(),
 })
 
 minetest.register_node("blocks:sandstone_with_amber", {
-	description = S("Sandstone with Amber Lump"),
+	description = S("Sandstone with Amber Ore"),
 	tiles = {"blocks_sandstone.png^blocks_mineral_amber.png"},
 	is_ground_content = true,
 	groups = {crumbly = 1, cracky = 3},
@@ -911,11 +911,11 @@ minetest.register_node("blocks:sandstone_with_amber", {
 			},
 		},
 	},
-	sounds = default.node_sound_glass_defaults(),
+	sounds = default.node_sound_stone_defaults(),
 })
 
 minetest.register_node("blocks:desert_sandstone_with_amber", {
-	description = S("Desert Sandstone with Amber Lump"),
+	description = S("Desert Sandstone with Amber Ore"),
 	tiles = {"blocks_desert_sandstone.png^blocks_mineral_amber.png"},
 	is_ground_content = true,
 	groups = {crumbly = 1, cracky = 3},
@@ -945,11 +945,11 @@ minetest.register_node("blocks:desert_sandstone_with_amber", {
 			},
 		},
 	},
-	sounds = default.node_sound_glass_defaults(),
+	sounds = default.node_sound_stone_defaults(),
 })
 
 minetest.register_node("blocks:silver_sandstone_with_amber", {
-	description = S("Silver Sandstone with Amber Lump"),
+	description = S("Silver Sandstone with Amber Ore"),
 	tiles = {"blocks_silver_sandstone.png^blocks_mineral_amber.png"},
 	is_ground_content = true,
 	groups = {crumbly = 1, cracky = 3},
@@ -979,11 +979,11 @@ minetest.register_node("blocks:silver_sandstone_with_amber", {
 			},
 		},
 	},
-	sounds = default.node_sound_glass_defaults(),
+	sounds = default.node_sound_stone_defaults(),
 })
 
 minetest.register_node("blocks:coal_with_amber", {
-	description = S("Coal with Amber Lump"),
+	description = S("Coal with Amber Ore"),
 	tiles = {"blocks_stone.png^(blocks_mineral_coal_block.png^blocks_mineral_amber.png)"},
 	groups = {cracky = 3},
 	drop = {
@@ -1012,11 +1012,11 @@ minetest.register_node("blocks:coal_with_amber", {
 			},
 		},
 	},
-	sounds = default.node_sound_glass_defaults(),
+	sounds = default.node_sound_stone_defaults(),
 })
 
 minetest.register_node("blocks:mud_with_amber", {
-	description = S("Mud with Amber Lump"),
+	description = S("Mud with Amber Ore"),
 	tiles = {"blocks_mud.png^blocks_mineral_amber.png", "blocks_mud_side.png^blocks_mineral_amber.png"},
 	is_ground_content = true,
 	groups = {crumbly = 3},
@@ -1046,13 +1046,13 @@ minetest.register_node("blocks:mud_with_amber", {
 			},
 		},
 	},
-	sounds = default.node_sound_glass_defaults({
+	sounds = default.node_sound_dirt_defaults({
 		footstep = "",
 	}),
 })
 
 minetest.register_node("blocks:dirt_with_amber", {
-	description = S("Dirt with Amber Lump"),
+	description = S("Dirt with Amber Ore"),
 	tiles = {"blocks_dirt.png^blocks_mineral_amber.png"},
 	is_ground_content = true,
 	groups = {crumbly = 3, soil = 1},
@@ -1076,11 +1076,11 @@ minetest.register_node("blocks:dirt_with_amber", {
 			},
 		},
 	},
-	sounds = default.node_sound_glass_defaults(),
+	sounds = default.node_sound_dirt_defaults(),
 })
 
 minetest.register_node("blocks:dry_dirt_with_amber", {
-	description = S("Dry Dirt with Amber Lump"),
+	description = S("Dry Dirt with Amber Ore"),
 	tiles = {"blocks_dry_dirt.png^blocks_mineral_amber.png"},
 	is_ground_content = true,
 	groups = {crumbly = 3, soil = 1},
@@ -1104,11 +1104,11 @@ minetest.register_node("blocks:dry_dirt_with_amber", {
 			},
 		},
 	},
-	sounds = default.node_sound_glass_defaults(),
+	sounds = default.node_sound_dirt_defaults(),
 })
 
 minetest.register_node("blocks:sand_with_amber", {
-	description = S("Sand with Amber Lump"),
+	description = S("Sand with Amber Ore"),
 	tiles = {"blocks_sand.png^blocks_mineral_amber.png"},
 	is_ground_content = true,
 	groups = {crumbly = 3, falling_node = 1, sand = 1},
@@ -1132,7 +1132,7 @@ minetest.register_node("blocks:sand_with_amber", {
 			},
 		},
 	},
-	sounds = default.node_sound_glass_defaults(),
+	sounds = default.node_sound_sand_defaults(),
 })
 
 minetest.register_node("blocks:amber", {
@@ -2002,7 +2002,7 @@ minetest.register_node("blocks:desert_stone_with_fossils", {
 blocks.geode_drop_table = {
 	{
 		rarity = 2,
-		items = {"blocks:glass"},
+		items = {"blocks:glass_fragments 2"},
 	},
 	{
 		rarity = 3,
@@ -2019,6 +2019,10 @@ blocks.geode_drop_table = {
 	{
 		rarity = 4,
 		items = {"blocks:diamond"},
+	},
+	{
+		rarity = 4,
+		items = {"blocks:glass_fragments 2"},
 	},
 	{
 		rarity = 5,
@@ -2223,6 +2227,13 @@ minetest.register_craft({
 		{"blocks:mese_fiber", "blocks:mese_fiber", "blocks:mese_fiber"},
 		{"blocks:mese_fiber", "blocks:mese_fiber", "blocks:mese_fiber"},
 		{"blocks:mese_fiber", "blocks:mese_fiber", "blocks:mese_fiber"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:mese_fiber 9",
+	recipe = {
+		{"blocks:mese_tech_crystal"},
 	}
 })
 

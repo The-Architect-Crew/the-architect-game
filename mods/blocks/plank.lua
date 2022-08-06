@@ -62,7 +62,7 @@ minetest.register_node("blocks:aspen_wood", {
 })
 
 minetest.register_node("blocks:bonewood", {
-	description = S("Bone Wood Planks"),
+	description = S("Ossified Planks"),
 	paramtype2 = "facedir",
 	place_param2 = 0,
 	tiles = {"blocks_bonewood.png"},
@@ -209,9 +209,9 @@ minetest.register_craft({
 minetest.register_craft({
 	output = "blocks:mushroom_wood",
 	recipe = {
-		{"blocks:azure_mycelium", "azure_mycelium", "blocks:azure_mycelium"},
-		{"blocks:azure_mycelium", "azure_mycelium", "blocks:azure_mycelium"},
-		{"blocks:azure_mycelium", "azure_mycelium", "blocks:azure_mycelium"},
+		{"blocks:azure_mycelium", "blocks:azure_mycelium", "blocks:azure_mycelium"},
+		{"blocks:azure_mycelium", "blocks:azure_mycelium", "blocks:azure_mycelium"},
+		{"blocks:azure_mycelium", "blocks:azure_mycelium", "blocks:azure_mycelium"},
 	}
 })
 minetest.register_craft({
@@ -221,12 +221,6 @@ minetest.register_craft({
 		{"", "blocks:azure_mycelium", ""},
 		{"blocks:azure_mycelium", "", ""},
 	}
-})
-
-minetest.register_craft({
-	type = "cooking",
-	output = "blocks:coal_lump 3",
-	recipe = "blocks:mushroom_wood",
 })
 
 minetest.register_craft({

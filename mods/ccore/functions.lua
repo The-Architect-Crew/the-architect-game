@@ -46,7 +46,7 @@ function ccore.dig_dir(pos, nodes, dir, digger)
 	local np = {x = pos.x, y = pos.y + dir, z = pos.z}
 	local nn = minetest.get_node(np)
 	for i=1,#nodes do
-		if nn.name == minetest.registered_nodes[nodes[i]].name then
+		if nn.name == nodes[i] then
 			if digger == nil then
 				minetest.remove_node(np)
 			else

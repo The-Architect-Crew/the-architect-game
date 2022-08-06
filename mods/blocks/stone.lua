@@ -343,7 +343,7 @@ minetest.register_node("blocks:stone_icy", {
 minetest.register_node("blocks:stone_mese_circuits", {
 	description = S("Stone with Mese Circuits"),
 	tiles = {"blocks_stone.png^blocks_mese_circuitry_overlay.png", "blocks_stone.png^blocks_mese_circuitry_under.png", "blocks_stone.png^blocks_mese_circuitry_side.png"},
-	groups = {cracky = 3, stone = 1, not_in_creative_inventory = 1},
+	groups = {cracky = 3, stone = 1},
 	drop = {
 		items = {
 			{

@@ -72,7 +72,7 @@ minetest.register_node("flora:vines", {
 			},
 		},
 	},
-	groups = {snappy = 1, oddly_breakable_by_hand = 1, oddly_breakable_by_hand = 1},
+	groups = {snappy = 1, oddly_breakable_by_hand = 1},
 	sounds = default.node_sound_leaves_defaults(),
 	selection_box = {
 		type = "fixed",
@@ -106,7 +106,7 @@ for i=1,5 do
 				},
 			},
 		},
-		groups = {snappy = 1, oddly_breakable_by_hand = 1, oddly_breakable_by_hand = 1},
+		groups = {snappy = 1, oddly_breakable_by_hand = 1},
 		sounds = default.node_sound_leaves_defaults(),
 	})
 end
@@ -152,7 +152,7 @@ minetest.register_node("flora:vines_with_moonstone", {
 			},
 		},
 	},
-	groups = {snappy = 1, oddly_breakable_by_hand = 1, oddly_breakable_by_hand = 1},
+	groups = {snappy = 1, oddly_breakable_by_hand = 1},
 	sounds = default.node_sound_leaves_defaults(),
 	selection_box = {
 		type = "fixed",

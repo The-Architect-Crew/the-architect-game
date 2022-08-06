@@ -1794,7 +1794,7 @@ minetest.register_node("blocks:marble_mese_circuits_under", {
 			},
 		},
 	},
-	groups = {cracky = 3},
+	groups = {cracky = 3, not_in_creative_inventory = 1},
 	sounds = default.node_sound_stone_defaults(),
 })
 -- Mud

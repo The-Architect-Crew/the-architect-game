@@ -104,12 +104,6 @@ minetest.register_craftitem("blocks:azure_mycelium", {
 	inventory_image = "blocks_azure_mycelium.png",
 })
 
-minetest.register_craftitem("blocks:mushroom_stick", {
-	description = S("Mushroom Stick\n\"A what?\""),
-	inventory_image = "blocks_mushroom_stick.png",
-	groups = {stick = 1},
-})
-
 --
 -- == CRAFTS
 --
@@ -212,14 +206,6 @@ minetest.register_craft({
 		{"blocks:azure_mycelium", "blocks:azure_mycelium", "blocks:azure_mycelium"},
 		{"blocks:azure_mycelium", "blocks:azure_mycelium", "blocks:azure_mycelium"},
 		{"blocks:azure_mycelium", "blocks:azure_mycelium", "blocks:azure_mycelium"},
-	}
-})
-minetest.register_craft({
-	output = "blocks:mushroom_stick 2",
-	recipe = {
-		{"", "", "blocks:azure_mycelium"},
-		{"", "blocks:azure_mycelium", ""},
-		{"blocks:azure_mycelium", "", ""},
 	}
 })
 

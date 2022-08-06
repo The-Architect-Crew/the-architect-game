@@ -334,7 +334,7 @@ minetest.register_node("flora:azure_vines", {
 -- Mese (deep sub-biome flora)
 
 minetest.register_node("flora:moss_mese", {
-	description = "Mese Circuit Moss\n\"Science can't say if it is a plant, actually\"",
+	description = "Mese Circuit Low Density Scaffolding\n\"Science can't say if it is a plant, actually\"",
 	tiles = {"flora_moss_mese.png"},
 	inventory_image = "flora_moss_mese.png",
 	drawtype = "firelike",
@@ -365,7 +365,7 @@ minetest.register_node("flora:moss_mese", {
 })
 for i=1,5 do
 	minetest.register_node("flora:grass_mese_" .. i, {
-		description = "Mese Circuit Grass",
+		description = "Mese Circuit Phased Array",
 		tiles = {"flora_grass_mese.png^[sheet:5x1:" .. i - 1 .. ",0"},
 		inventory_image = "flora_grass_mese.png^[sheet:5x1:" .. i - 1 .. ",0",
 		drawtype = "plantlike",
@@ -396,7 +396,7 @@ for i=1,5 do
 	})
 
 	minetest.register_node("flora:flower_mese_" .. i, {
-		description = "Mese Circuit Flower",
+		description = "Mese Circuit LED Assembly",
 		tiles = {"flora_flower_mese.png^[sheet:5x1:" .. i - 1 .. ",0"},
 		inventory_image = "flora_flower_mese.png^[sheet:5x1:" .. i - 1 .. ",0",
 		drawtype = "plantlike",
@@ -438,7 +438,7 @@ for i=1,5 do
 end
 
 minetest.register_node("flora:vines_mese", {
-	description = "Mese Circuit Vines",
+	description = "Mese Circuit Cable Wiring",
 	drawtype = "plantlike",
 	tiles = {"flora_vines_mese.png"},
 	inventory_image = "flora_vines_mese.png",

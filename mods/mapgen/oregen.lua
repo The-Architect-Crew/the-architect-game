@@ -333,7 +333,7 @@ end
 
 mapgen.surface_nodes = {"blocks:stone", "blocks:dry_dirt", "blocks:dry_dirt_with_dry_grass", "blocks:dirt", "blocks:dirt_with_grass", "blocks:dirt_with_snow", "blocks:dirt_with_rainforest_litter", "blocks:dirt_with_coniferous_litter",
 "blocks:desert_stone", "blocks:desert_sand", "blocks:desert_sandstone", "blocks:sandstone", "blocks:sand", "blocks:silver_sandstone", "blocks:silver_sand",
-"blocks:cave_ice", "blocks:ice", "blocks:gravel", "blocks:snowblock", "blocks:permafrost", "blocks:permafrost_with_stones"} -- Hope I didn't miss any
+"blocks:cave_ice", "blocks:ice", "blocks:gravel", "blocks:snowblock", "blocks:permafrost", "blocks:permafrost_with_stones", "blocks:desert_cobble", "blocks:mossycobble"} -- Hope I didn't miss any
 
 function mapgen.register_ores()
 	-- Stratum ores.
@@ -376,7 +376,7 @@ function mapgen.register_ores()
 		np_stratum_thickness = { -- Should be same as mapgen.surface_cave_np but with insane scale and a bit smaller offset
 			offset = -1.25 * 1024 * 1024, -- Its just 1.25, but we have to multiply by scale because its not normalized
 			scale = 1024 * 1024,
-			spread = {x = 125, y = 125, z = 125},
+			spread = {x = 96, y = 96, z = 96},
 			seed = 261,
 			octaves = 2, -- These are for adding detail on the resulting ravines
 			persistence = 0.5,

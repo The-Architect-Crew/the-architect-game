@@ -6,9 +6,9 @@ mapgen.world_bottom = -2048 -- Map bottom limit
 mapgen.sfcaves_level = -16
 
 mapgen.surface_cave_np = {
-	offset = -1.1 * 240,
-	scale = 240,
-	spread = {x = 125, y = 125, z = 125},
+	offset = -1.1 * 224,
+	scale = 224,
+	spread = {x = 96, y = 96, z = 96},
 	seed = 261,
 	octaves = 2,
 	persistence = 0.5,

@@ -121,7 +121,7 @@ minetest.register_node("flora:fireplant", {
 	sounds = default.node_sound_leaves_defaults(),
 	after_dig_node = function(pos, node, metadata, digger)
 		local nn = node.name
-		ccore.dig_dir(pos, {nn}, -1, digger)
+		ccore.dig_dir(pos, {nn}, 1, digger)
 	end
 })
 
@@ -283,7 +283,7 @@ minetest.register_node("flora:azure_plant", {
 	sounds = default.node_sound_leaves_defaults(),
 	after_dig_node = function(pos, node, metadata, digger)
 		local nn = node.name
-		ccore.dig_dir(pos, {nn}, -1, digger)
+		ccore.dig_dir(pos, {nn}, 1, digger)
 	end
 })
 minetest.register_node("flora:azure_vines", {

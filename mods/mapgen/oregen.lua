@@ -339,7 +339,6 @@ function mapgen.register_ores()
 	-- Stratum ores.
 	-- These obviously first.
 	-- Carve the surface caves!
-	-- Note: on -32 there is one of those stone layers that can't be generated trough
 	-- Two noises: one for the caves themselves, one for carving the sky openings into the terrain
 	-- Keep the noise params the same on these noises , only change the scale on the thickness noise and the offset on both
 	minetest.register_ore({
@@ -375,9 +374,9 @@ function mapgen.register_ores()
 			flags = "eased",
 		},
 		np_stratum_thickness = { -- Should be same as mapgen.surface_cave_np but with insane scale and a bit smaller offset
-			offset = -0.9 * 1024 * 1024, -- Its just 0.9, but we have to multiply by scale because its not normalized
+			offset = -1.25 * 1024 * 1024, -- Its just 1.25, but we have to multiply by scale because its not normalized
 			scale = 1024 * 1024,
-			spread = {x = 35, y = 35, z = 35},
+			spread = {x = 125, y = 125, z = 125},
 			seed = 261,
 			octaves = 2, -- These are for adding detail on the resulting ravines
 			persistence = 0.5,

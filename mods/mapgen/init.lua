@@ -1,16 +1,18 @@
 mapgen = {}
-mapgen.underground_start = -32 -- The level where surface caves end and underground begins
+mapgen.underground_start = -48 -- The level where surface caves end and underground begins
 mapgen.underground_limit = -512 - 128 -- The lower limit of the underground "biome", first caverns appear at -512
 mapgen.hell_level = -2048 + 128 -- The upper limit of hell
 mapgen.world_bottom = -2048 -- Map bottom limit
-mapgen.sfcaves_level = -8
+mapgen.sfcaves_level = -16
 
 mapgen.surface_cave_np = {
-	offset = -0.55 * 60,
-	scale = 60,
-	spread = {x = 35, y = 35, z = 35},
+	offset = -1.1 * 240,
+	scale = 240,
+	spread = {x = 125, y = 125, z = 125},
 	seed = 261,
-	octaves = 1
+	octaves = 2,
+	persistence = 0.5,
+	lacunarity = 3,
 }
 
 mapgen.np_stalagmites = {

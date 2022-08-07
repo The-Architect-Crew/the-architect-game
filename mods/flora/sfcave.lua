@@ -7,7 +7,7 @@ minetest.register_node("flora:vines_horizontal", {
 	sunlight_propagates = true,
 	walkable = false,
 	floodable = true,
-	visual_scale = 2.0,
+	visual_scale = 1.64,
 	drop = {
 		items = {
 			{
@@ -175,7 +175,7 @@ minetest.register_node("flora:vines_dry_horizontal", {
 	sunlight_propagates = true,
 	walkable = false,
 	floodable = true,
-	visual_scale = 2.0,
+	visual_scale = 1.64,
 	drop = {
 		items = {
 			{
@@ -375,7 +375,7 @@ minetest.register_node("flora:vines_frosty_horizontal", {
 	sunlight_propagates = true,
 	walkable = false,
 	floodable = true,
-	visual_scale = 2.0,
+	visual_scale = 1.64,
 	drop = {
 		items = {
 			{

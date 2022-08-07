@@ -343,7 +343,7 @@ minetest.register_node("flora:moss_mese", {
 	walkable = false,
 	floodable = true,
     light_source = 4,
-	visual_scale = 2.0,
+	visual_scale = 1.64,
 	drop = {
 		items = {
 			{

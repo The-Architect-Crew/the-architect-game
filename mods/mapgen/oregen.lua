@@ -338,20 +338,20 @@ mapgen.surface_nodes = {"blocks:stone", "blocks:dry_dirt", "blocks:dry_dirt_with
 function mapgen.register_ores()
 	-- Stratum ores.
 	-- These obviously first.
-	--[[
 	-- Carve the surface caves!
 	-- Two noises: one for the caves themselves, one for carving the sky openings into the terrain
 	-- Keep the noise params the same on these noises , only change the scale on the thickness noise and the offset on both
+
 	minetest.register_ore({
 		ore_type        = "stratum",
-		ore             = "air",
-		wherein         = mapgen.surface_nodes,
+		ore             = "blocks:clay",
+		wherein         = {"blocks:gravel", "blocks:sand"},
 		clust_scarcity  = 1,
 		y_max           = 128,
 		y_min           = -256,
 		noise_params    = {
 			offset = mapgen.sfcaves_level,-- This is the depth at which the noise is placed
-			scale = 24,
+			scale = 8,
 			spread = {x = 20, y = 20, z = 20},
 			seed = 262,
 			octaves = 1,
@@ -359,7 +359,35 @@ function mapgen.register_ores()
 		},
 		np_stratum_thickness = mapgen.surface_cave_np,
 	})
-	
+
+	minetest.register_ore({
+		ore_type        = "stratum",
+		ore             = "blocks:clay",
+		wherein         = {"blocks:gravel", "blocks:sand"},
+		clust_scarcity  = 1,
+		y_max           = 0, -- Important, we don't want the clay-ifier to do its thing above 0
+		y_min           = mapgen.sfcaves_level, -- The middle of the actual cave noise
+		noise_params    = {
+			offset = mapgen.sfcaves_level + 64,-- This is the depth at which the noise is placed
+			scale = 8,
+			spread = {x = 20, y = 20, z = 20},
+			seed = 262,
+			octaves = 1,
+			flags = "eased",
+		},
+		np_stratum_thickness = { -- Should be same as mapgen.surface_cave_np but with insane scale and a bit smaller offset
+			offset = -1.0 * 1024 * 1024, -- Its just 1.25, but we have to multiply by scale because its not normalized
+			scale = 1024 * 1024,
+			spread = {x = 96, y = 96, z = 96},
+			seed = 261,
+			octaves = 2, -- These are for adding detail on the resulting ravines
+			persistence = 0.5,
+			lacunarity = 3,
+			--flags = "eased",
+
+		},
+	})
+
 	minetest.register_ore({
 		ore_type        = "stratum",
 		ore             = "air",
@@ -376,7 +404,7 @@ function mapgen.register_ores()
 			flags = "eased",
 		},
 		np_stratum_thickness = { -- Should be same as mapgen.surface_cave_np but with insane scale and a bit smaller offset
-			offset = -1.25 * 1024 * 1024, -- Its just 1.25, but we have to multiply by scale because its not normalized
+			offset = -1.0 * 1024 * 1024, -- Its just 1.25, but we have to multiply by scale because its not normalized
 			scale = 1024 * 1024,
 			spread = {x = 96, y = 96, z = 96},
 			seed = 261,
@@ -386,7 +414,26 @@ function mapgen.register_ores()
 			--flags = "eased",
 
 		},
-	})]]--
+	})
+
+	minetest.register_ore({
+		ore_type        = "stratum",
+		ore             = "air",
+		wherein         = mapgen.surface_nodes,
+		clust_scarcity  = 1,
+		y_max           = 128,
+		y_min           = -256,
+		noise_params    = {
+			offset = mapgen.sfcaves_level,-- This is the depth at which the noise is placed
+			scale = 8,
+			spread = {x = 20, y = 20, z = 20},
+			seed = 262,
+			octaves = 1,
+			flags = "eased",
+		},
+		np_stratum_thickness = mapgen.surface_cave_np,
+	})
+
 	for i=1, #blocks.stone_colors do
 		for j=1,8 do
 			minetest.register_ore({

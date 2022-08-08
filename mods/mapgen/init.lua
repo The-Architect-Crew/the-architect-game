@@ -26,7 +26,7 @@ mapgen.cave_opening_noise = { -- Should be same as mapgen.surface_cave_np but wi
 	persistence = 0.5,
 	lacunarity = 3,
 	--flags = "eased",
-}
+}]]--
 
 mapgen.np_stalagmites = {
 	offset = -0.5,
@@ -37,7 +37,7 @@ mapgen.np_stalagmites = {
 	persistence = 1,
 	lacunarity = 1,
 	flags = "",
-}]]--
+}
 
 mapgen.lush_biomes = {"grassland", "grassland_dunes", "grassland_ocean",
 					"coniferous_forest", "coniferous_forest_ocean", "coniferous_forest_dunes",

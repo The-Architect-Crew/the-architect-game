@@ -333,7 +333,7 @@ end
 
 mapgen.surface_nodes = {"blocks:stone", "blocks:dry_dirt", "blocks:dry_dirt_with_dry_grass", "blocks:dirt", "blocks:dirt_with_grass", "blocks:dirt_with_snow", "blocks:dirt_with_rainforest_litter", "blocks:dirt_with_coniferous_litter",
 "blocks:desert_stone", "blocks:desert_sand", "blocks:desert_sandstone", "blocks:sandstone", "blocks:sand", "blocks:silver_sandstone", "blocks:silver_sand",
-"blocks:cave_ice", "blocks:ice", "blocks:gravel", "blocks:snowblock", "blocks:permafrost", "blocks:permafrost_with_stones", "blocks:desert_cobble", "blocks:mossycobble"} -- Hope I didn't miss any
+"blocks:cave_ice", "blocks:ice", "blocks:gravel", "blocks:snowblock", "blocks:permafrost", "blocks:permafrost_with_stones", "blocks:desert_cobble", "blocks:mossycobble", "blocks:dune_sand"} -- Hope I didn't miss any
 
 function mapgen.register_ores()
 	-- Stratum ores.
@@ -348,7 +348,7 @@ function mapgen.register_ores()
 		wherein         = {"blocks:gravel", "blocks:sand"},
 		clust_scarcity  = 1,
 		y_max           = 128,
-		y_min           = -256,
+		y_min           = mapgen.clay_transformer_limit,
 		noise_params    = {
 			offset = mapgen.sfcaves_level,-- This is the depth at which the noise is placed
 			scale = 8,
@@ -358,6 +358,7 @@ function mapgen.register_ores()
 			flags = "eased",
 		},
 		np_stratum_thickness = mapgen.surface_cave_np,
+		biomes = mapgen.lush_biomes,
 	})
 
 	minetest.register_ore({
@@ -375,17 +376,84 @@ function mapgen.register_ores()
 			octaves = 1,
 			flags = "eased",
 		},
-		np_stratum_thickness = { -- Should be same as mapgen.surface_cave_np but with insane scale and a bit smaller offset
-			offset = -1.0 * 1024 * 1024, -- Its just 1.25, but we have to multiply by scale because its not normalized
-			scale = 1024 * 1024,
-			spread = {x = 96, y = 96, z = 96},
-			seed = 261,
-			octaves = 2, -- These are for adding detail on the resulting ravines
-			persistence = 0.5,
-			lacunarity = 3,
-			--flags = "eased",
+		np_stratum_thickness = mapgen.cave_opening_noise,
+		biomes = mapgen.lush_biomes,
+	})
 
+	minetest.register_ore({
+		ore_type        = "stratum",
+		ore             = "blocks:clay",
+		wherein         = {"blocks:gravel", "blocks:sand"},
+		clust_scarcity  = 1,
+		y_max           = 128,
+		y_min           = mapgen.clay_transformer_limit,
+		noise_params    = {
+			offset = mapgen.sfcaves_level,-- This is the depth at which the noise is placed
+			scale = 8,
+			spread = {x = 20, y = 20, z = 20},
+			seed = 262,
+			octaves = 1,
+			flags = "eased",
 		},
+		np_stratum_thickness = mapgen.surface_cave_np,
+		biomes = mapgen.hot_biomes,
+	})
+
+	minetest.register_ore({
+		ore_type        = "stratum",
+		ore             = "blocks:clay",
+		wherein         = {"blocks:gravel", "blocks:sand"},
+		clust_scarcity  = 1,
+		y_max           = 0, -- Important, we don't want the clay-ifier to do its thing above 0
+		y_min           = mapgen.sfcaves_level, -- The middle of the actual cave noise
+		noise_params    = {
+			offset = mapgen.sfcaves_level + 64,-- This is the depth at which the noise is placed
+			scale = 8,
+			spread = {x = 20, y = 20, z = 20},
+			seed = 262,
+			octaves = 1,
+			flags = "eased",
+		},
+		np_stratum_thickness = mapgen.cave_opening_noise,
+		biomes = mapgen.hot_biomes,
+	})
+
+	minetest.register_ore({
+		ore_type        = "stratum",
+		ore             = "blocks:ice",
+		wherein         = {"blocks:gravel", "blocks:sand"},
+		clust_scarcity  = 1,
+		y_max           = 128,
+		y_min           = mapgen.clay_transformer_limit,
+		noise_params    = {
+			offset = mapgen.sfcaves_level,-- This is the depth at which the noise is placed
+			scale = 8,
+			spread = {x = 20, y = 20, z = 20},
+			seed = 262,
+			octaves = 1,
+			flags = "eased",
+		},
+		np_stratum_thickness = mapgen.surface_cave_np,
+		biomes = mapgen.icy_biomes,
+	})
+
+	minetest.register_ore({
+		ore_type        = "stratum",
+		ore             = "blocks:ice",
+		wherein         = {"blocks:gravel", "blocks:sand"},
+		clust_scarcity  = 1,
+		y_max           = 0, -- Important, we don't want the clay-ifier to do its thing above 0
+		y_min           = mapgen.sfcaves_level, -- The middle of the actual cave noise
+		noise_params    = {
+			offset = mapgen.sfcaves_level + 64,-- This is the depth at which the noise is placed
+			scale = 8,
+			spread = {x = 20, y = 20, z = 20},
+			seed = 262,
+			octaves = 1,
+			flags = "eased",
+		},
+		np_stratum_thickness = mapgen.cave_opening_noise,
+		biomes = mapgen.icy_biomes,
 	})
 
 	minetest.register_ore({
@@ -403,17 +471,7 @@ function mapgen.register_ores()
 			octaves = 1,
 			flags = "eased",
 		},
-		np_stratum_thickness = { -- Should be same as mapgen.surface_cave_np but with insane scale and a bit smaller offset
-			offset = -1.0 * 1024 * 1024, -- Its just 1.25, but we have to multiply by scale because its not normalized
-			scale = 1024 * 1024,
-			spread = {x = 96, y = 96, z = 96},
-			seed = 261,
-			octaves = 2, -- These are for adding detail on the resulting ravines
-			persistence = 0.5,
-			lacunarity = 3,
-			--flags = "eased",
-
-		},
+		np_stratum_thickness = mapgen.cave_opening_noise,
 	})
 
 	minetest.register_ore({

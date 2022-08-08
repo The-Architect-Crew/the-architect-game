@@ -5,6 +5,7 @@ mapgen.hell_level = -2048 + 128 -- The upper limit of hell
 mapgen.world_bottom = -2048 -- Map bottom limit
 mapgen.sfcaves_level = -16
 mapgen.sfcave_limit = 512
+mapgen.clay_transformer_limit = -30 -- Probably -32 actually
 
 mapgen.surface_cave_np = {
 	offset = -0.9 * 160,
@@ -14,6 +15,17 @@ mapgen.surface_cave_np = {
 	octaves = 2,
 	persistence = 0.5,
 	lacunarity = 3,
+}
+
+mapgen.cave_opening_noise = { -- Should be same as mapgen.surface_cave_np but with insane scale and a bit smaller offset
+	offset = -1.0 * 1024 * 1024, -- Its just 1.25, but we have to multiply by scale because its not normalized
+	scale = 1024 * 1024,
+	spread = {x = 96, y = 96, z = 96},
+	seed = 261,
+	octaves = 2, -- These are for adding detail on the resulting ravines
+	persistence = 0.5,
+	lacunarity = 3,
+	--flags = "eased",
 }
 
 mapgen.np_stalagmites = {

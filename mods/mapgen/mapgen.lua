@@ -268,9 +268,9 @@ function mapgen.register_biomes()
 
 	minetest.register_biome({
 		name = "grassland_dunes",
-		node_top = "blocks:sand",
+		node_top = "blocks:dune_sand",
 		depth_top = 1,
-		node_filler = "blocks:sand",
+		node_filler = "blocks:dune_sand",
 		depth_filler = 2,
 		node_riverbed = "blocks:sand",
 		depth_riverbed = 2,
@@ -335,9 +335,9 @@ function mapgen.register_biomes()
 
 	minetest.register_biome({
 		name = "coniferous_forest_dunes",
-		node_top = "blocks:sand",
+		node_top = "blocks:dune_sand",
 		depth_top = 1,
-		node_filler = "blocks:sand",
+		node_filler = "blocks:dune_sand",
 		depth_filler = 3,
 		node_riverbed = "blocks:sand",
 		depth_riverbed = 2,
@@ -502,9 +502,9 @@ function mapgen.register_biomes()
 
 	minetest.register_biome({
 		name = "sandstone_desert",
-		node_top = "blocks:sand",
+		node_top = "blocks:dune_sand",
 		depth_top = 1,
-		node_filler = "blocks:sand",
+		node_filler = "blocks:dune_sand",
 		depth_filler = 1,
 		node_stone = "blocks:sandstone",
 		node_riverbed = "blocks:sand",

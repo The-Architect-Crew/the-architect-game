@@ -103,6 +103,7 @@ minetest.register_node("blocks:chalk_with_grass", {
 	sounds = default.node_sound_dirt_defaults({
 		footstep = {name = "blocks_grass_footstep", gain = 0.25},
 	}),
+})
 
 minetest.register_node("blocks:dark_dirt", {
 	description = "Dark Dirt",

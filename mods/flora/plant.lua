@@ -220,26 +220,26 @@ minetest.register_node("flora:dry_shrub", {
 		fixed = {-6 / 16, -0.5, -6 / 16, 6 / 16, 4 / 16, 6 / 16},
 	},
 })
-
-minetest.register_node("flora:junglegrass", {
-	description = S("Jungle Grass"),
-	drawtype = "plantlike",
-	waving = 1,
-	visual_scale = 1.69,
-	tiles = {"flora_junglegrass.png"},
-	inventory_image = "flora_junglegrass.png",
-	wield_image = "flora_junglegrass.png",
-	paramtype = "light",
-	sunlight_propagates = true,
-	walkable = false,
-	buildable_to = true,
-	groups = {snappy = 3, flora = 1, attached_node = 1, grass = 1, junglegrass = 1, flammable = 1},
-	sounds = default.node_sound_leaves_defaults(),
-	selection_box = {
-		type = "fixed",
-		fixed = {-6 / 16, -0.5, -6 / 16, 6 / 16, 0.5, 6 / 16},
-	},
-})
+for i=1,5 do
+	minetest.register_node("flora:junglegrass_" .. i, {
+		description = S("Jungle Grass"),
+		drawtype = "plantlike",
+		waving = 1,
+		visual_scale = 1.69,
+		tiles = {"flora_junglegrass.png^[sheet:5x1:" .. i-1 .. ",0"},
+		inventory_image = "flora_junglegrass.png^[sheet:5x1:" .. i-1 .. ",0",
+		paramtype = "light",
+		sunlight_propagates = true,
+		walkable = false,
+		buildable_to = true,
+		groups = {snappy = 3, flora = 1, attached_node = 1, grass = 1, junglegrass = 1, flammable = 1},
+		sounds = default.node_sound_leaves_defaults(),
+		selection_box = {
+			type = "fixed",
+			fixed = {-6 / 16, -0.5, -6 / 16, 6 / 16, 0.5, 6 / 16},
+		},
+	})
+end
 
 
 minetest.register_node("flora:grass_1", {
@@ -253,6 +253,7 @@ minetest.register_node("flora:grass_1", {
 	paramtype = "light",
 	sunlight_propagates = true,
 	walkable = false,
+	floodable = true,
 	buildable_to = true,
 	groups = {snappy = 3, flora = 1, attached_node = 1, grass = 1,
 		normal_grass = 1, flammable = 1},
@@ -282,6 +283,7 @@ for i = 2, 5 do
 		paramtype = "light",
 		sunlight_propagates = true,
 		walkable = false,
+		floodable = true,
 		buildable_to = true,
 		drop = "flora:grass_1",
 		groups = {snappy = 3, flora = 1, attached_node = 1,
@@ -300,9 +302,9 @@ minetest.register_node("flora:dry_grass_1", {
 	description = S("Savanna Grass"),
 	drawtype = "plantlike",
 	waving = 1,
-	tiles = {"flora_dry_grass_1.png"},
-	inventory_image = "flora_dry_grass_3.png",
-	wield_image = "flora_dry_grass_3.png",
+	tiles = {"flora_dry_grass.png^[sheet:5x1:0,0"},
+	inventory_image = "flora_dry_grass.png^[sheet:5x1:0,0",
+	visual_scale = 2,
 	paramtype = "light",
 	sunlight_propagates = true,
 	walkable = false,
@@ -329,9 +331,9 @@ for i = 2, 5 do
 		description = S("Savanna Grass"),
 		drawtype = "plantlike",
 		waving = 1,
-		tiles = {"flora_dry_grass_" .. i .. ".png"},
-		inventory_image = "flora_dry_grass_" .. i .. ".png",
-		wield_image = "flora_dry_grass_" .. i .. ".png",
+		tiles = {"flora_dry_grass.png^[sheet:5x1:" .. i-1 .. ",0"},
+		inventory_image = "flora_dry_grass.png^[sheet:5x1:" .. i-1 .. ",0",
+		visual_scale = 2,
 		paramtype = "light",
 		sunlight_propagates = true,
 		walkable = false,
@@ -451,6 +453,47 @@ for i = 2, 3 do
 		},
 	})
 end
+
+minetest.register_node("flora:tundra_grass_red", {
+	description = S("Red Tundra Grass"),
+	drawtype = "plantlike",
+	waving = 1,
+	paramtype2 = "meshoptions",
+	place_param2 = 4,
+	tiles = {"flora_tundra_grass_red.png"},
+	inventory_image = "flora_tundra_grass_red.png",
+	wield_image = "flora_tundra_grass_red.png",
+	paramtype = "light",
+	sunlight_propagates = true,
+	walkable = false,
+	buildable_to = true,
+	groups = {snappy = 3, flammable = 3, attached_node = 1},
+	sounds = default.node_sound_leaves_defaults(),
+	selection_box = {
+		type = "fixed",
+		fixed = {-8 / 16, -0.5, -8 / 16, 8 / 16, -6 / 16, 8 / 16},
+	},
+})
+minetest.register_node("flora:tundra_grass_yellow", {
+	description = S("Yellow Tundra Grass"),
+	drawtype = "plantlike",
+	waving = 1,
+	paramtype2 = "meshoptions",
+	place_param2 = 4,
+	tiles = {"flora_tundra_grass_yellow.png"},
+	inventory_image = "flora_tundra_grass_yellow.png",
+	wield_image = "flora_tundra_grass_yellow.png",
+	paramtype = "light",
+	sunlight_propagates = true,
+	walkable = false,
+	buildable_to = true,
+	groups = {snappy = 3, flammable = 3, attached_node = 1},
+	sounds = default.node_sound_leaves_defaults(),
+	selection_box = {
+		type = "fixed",
+		fixed = {-8 / 16, -0.5, -8 / 16, 8 / 16, -6 / 16, 8 / 16},
+	},
+})
 
 --
 -- == CRAFTS

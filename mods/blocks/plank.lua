@@ -6,6 +6,11 @@ minetest.register_craftitem("blocks:stick", {
 	groups = {stick = 1, flammable = 2},
 })
 
+minetest.register_craftitem("blocks:bone", {
+	description = S("Bone"),
+	inventory_image = "blocks_bone.png",
+})
+
 minetest.register_node("blocks:wood", {
 	description = S("Apple Wood Planks"),
 	paramtype2 = "facedir",
@@ -56,6 +61,49 @@ minetest.register_node("blocks:aspen_wood", {
 	sounds = default.node_sound_wood_defaults(),
 })
 
+minetest.register_node("blocks:bonewood", {
+	description = S("Ossified Planks"),
+	paramtype2 = "facedir",
+	place_param2 = 0,
+	tiles = {"blocks_bonewood.png"},
+	is_ground_content = false,
+	groups = {choppy = 3, oddly_breakable_by_hand = 2, wood = 1},
+	sounds = default.node_sound_wood_defaults(),
+})
+
+minetest.register_node("blocks:firewood", {
+	description = ccore.comment("Firewood", "A block of ever-burning planks"),
+	paramtype = "light",
+	paramtype2 = "facedir",
+	place_param2 = 0,
+	light_source = 4,
+	tiles = {"blocks_firewood.png"},
+	is_ground_content = false,
+	groups = {choppy = 3, oddly_breakable_by_hand = 2, wood = 1},
+	sounds = default.node_sound_wood_defaults(),
+})
+
+minetest.register_node("blocks:mushroom_wood", {
+	description = S("Mushroom Planks"),
+	paramtype2 = "facedir",
+	place_param2 = 0,
+	tiles = {"blocks_mushroom_wood.png"},
+	is_ground_content = false,
+	groups = {choppy = 3, oddly_breakable_by_hand = 2, wood = 1},
+	sounds = default.node_sound_wood_defaults(),
+})
+
+minetest.register_craftitem("blocks:firebranches", {
+	description = ccore.comment("Pile of Glowing Sticks", "An excellent fuel source"),
+	inventory_image = "blocks_firebranches.png",
+	groups = {stick = 1},
+})
+
+minetest.register_craftitem("blocks:azure_mycelium", {
+	description = S("Pile of Mushroom Mycelia"),
+	inventory_image = "blocks_azure_mycelium.png",
+})
+
 --
 -- == CRAFTS
 --
@@ -64,6 +112,13 @@ minetest.register_craft({
 	output = "blocks:stick 4",
 	recipe = {
 		{"group:wood"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:bone 4",
+	recipe = {
+		{"blocks:bonewood"},
 	}
 })
 
@@ -103,6 +158,13 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
+	output = "blocks:bonewood 4",
+	recipe = {
+		{"flora:bone_tree"},
+	}
+})
+
+minetest.register_craft({
 	output = "blocks:wood",
 	recipe = {
 		{"flora:bush_stem"},
@@ -120,6 +182,30 @@ minetest.register_craft({
 	output = "blocks:pine_wood",
 	recipe = {
 		{"flora:pine_bush_stem"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:bonewood",
+	recipe = {
+		{"flora:bone_bush_stem"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:firewood",
+	recipe = {
+		{"blocks:firebranches", "blocks:firebranches"},
+		{"blocks:firebranches", "blocks:firebranches"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:mushroom_wood",
+	recipe = {
+		{"blocks:azure_mycelium", "blocks:azure_mycelium", "blocks:azure_mycelium"},
+		{"blocks:azure_mycelium", "blocks:azure_mycelium", "blocks:azure_mycelium"},
+		{"blocks:azure_mycelium", "blocks:azure_mycelium", "blocks:azure_mycelium"},
 	}
 })
 
@@ -157,4 +243,22 @@ minetest.register_craft({
 	type = "fuel",
 	recipe = "blocks:junglewood",
 	burntime = 9,
+})
+
+minetest.register_craft({
+	type = "fuel",
+	recipe = "blocks:branches_garnet",
+	burntime = 30,
+})
+
+minetest.register_craft({
+	type = "fuel",
+	recipe = "blocks:firewood",
+	burntime = 150,
+})
+
+minetest.register_craft({
+	type = "fuel",
+	recipe = "blocks:mushroom_wood",
+	burntime = 90,
 })

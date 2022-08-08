@@ -40,3 +40,23 @@ function ccore.get_time(int)
 		return int.." sec"
 	end
 end
+
+-- dig directionally
+function ccore.dig_dir(pos, nodes, dir, digger)
+	local np = {x = pos.x, y = pos.y + dir, z = pos.z}
+	local nn = minetest.get_node(np)
+	for i=1,#nodes do
+		if nn.name == nodes[i] then
+			if digger == nil then
+				minetest.remove_node(np)
+			else
+				minetest.node_dig(np, nn, digger)
+			end
+		end
+	end
+end
+
+-- description commenting
+function ccore.comment(desc, comment)
+	return desc.."\n"..minetest.colorize("grey", comment)
+end

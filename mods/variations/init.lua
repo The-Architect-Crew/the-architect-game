@@ -57,7 +57,7 @@ variations.variations = {
 	},
 }
 
-function variations.register_for_base(base_node, transparent, sunlight)
+function variations.register_for_base(base_node, transparent, sunlight, in_light_source)
 	local base_definition = minetest.registered_nodes[base_node]
 	for _, variation in ipairs(variations.variations) do
 		local sname = string.match(base_node, ':(.*)')
@@ -69,6 +69,10 @@ function variations.register_for_base(base_node, transparent, sunlight)
 			sunlight = true
 			paramtype_light = "light"
 		end
+		local light_source = 0
+		if light_source ~= nil then
+			light_source = in_light_source
+		end
 		minetest.register_node(variation_name, {
 			description = variation_description,
 			tiles = tiles,
@@ -76,6 +80,7 @@ function variations.register_for_base(base_node, transparent, sunlight)
 			drawtype = base_definition.drawtype,
 			use_texture_alpha = transparent or base_definition.use_texture_alpha,
 			paramtype = paramtype_light or base_definition.paramtype,
+			light_source = light_source or base_definition.light_source,
 			sunlight_propagates = sunlight or base_definition.sunlight_propagates,
 		})
 	end

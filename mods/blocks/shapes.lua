@@ -58,7 +58,35 @@ shapes:register_shape("blocks:medieval_glass", {
 	disabled = "fence, wall",
 	texture = "blocks_medieval_glass.png",
 })
--- ore.lua
+-- bars.lua
+shapes:register_shape("blocks:wood_bars", {
+	enabled = 'panemc, panemc_flat',
+	panemc_tiles = {"shapes_wood_bars_top.png", "blocks_wood_bars.png", "blocks_wood_bars.png"},
+	panemc_flat_tiles = {"shapes_wood_bars_top.png", "blocks_wood_bars.png", "blocks_wood_bars.png"},
+	texture = "blocks_wood_bars.png",
+})
+
+shapes:register_shape("blocks:wood_grille", {
+	enabled = "pane, pane_flat",
+	pane_flat_tiles = {"shapes_wood_bars_top.png", "shapes_wood_bars_top.png", "blocks_wood_grille.png"},
+	pane_tiles = {"shapes_wood_bars_top.png", "shapes_wood_bars_top.png", "blocks_wood_grille.png",},
+	texture = "blocks_wood_grille.png",
+})
+
+shapes:register_shape("blocks:steel_bars", {
+	enabled = 'panemc, panemc_flat',
+	panemc_tiles = {"shapes_steel_bars_top.png", "blocks_steel_bars.png", "blocks_steel_bars.png"},
+	panemc_flat_tiles = {"shapes_steel_bars_top.png", "blocks_steel_bars.png", "blocks_steel_bars.png"},
+	texture = "blocks_steel_bars.png",
+})
+
+shapes:register_shape("blocks:steel_grille", {
+	enabled = "pane, pane_flat",
+	pane_flat_tiles = {"shapes_steel_bars_top.png", "shapes_steel_bars_top.png", "blocks_steel_grille.png"},
+	pane_tiles = {"shapes_steel_bars_top.png", "shapes_steel_bars_top.png", "blocks_steel_grille.png",},
+	texture = "blocks_steel_grille.png",
+})
+-- ore.luablocks_gravel
 shapes:register_shape("blocks:steelblock")
 shapes:register_shape("blocks:copperblock")
 shapes:register_shape("blocks:tinblock")

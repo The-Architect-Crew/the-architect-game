@@ -103,4 +103,18 @@ minetest.register_node("blocks:chalk_with_grass", {
 	sounds = default.node_sound_dirt_defaults({
 		footstep = {name = "blocks_grass_footstep", gain = 0.25},
 	}),
+
+minetest.register_node("blocks:dark_dirt", {
+	description = "Dark Dirt",
+	tiles = {"blocks_dark_dirt.png"},
+	groups = {crumbly=2},
+	sounds = default.node_sound_dirt_defaults(),
+})
+-- Crafts
+minetest.register_craft({
+	output = "blocks:dark_dirt 2",
+	recipe = {
+		{"blocks:dirt"},
+		{"blocks:fine_gravel"}
+	}
 })

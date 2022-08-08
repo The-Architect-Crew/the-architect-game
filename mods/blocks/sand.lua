@@ -40,29 +40,6 @@ minetest.register_node("blocks:gravel", {
 	}
 })
 
--- Underground Decorations
-
-minetest.register_node("blocks:sand_azure", {
-	description = S("Sand with Azure Moss"),
-	tiles = {"blocks_azure_moss_overlay.png", "blocks_sand.png", "blocks_sand.png^blocks_azure_moss_overlay_side.png"},
-	groups = {crumbly = 3, sand = 1},
-	sounds = default.node_sound_sand_defaults(),
-})
-
-minetest.register_node("blocks:desert_sand_azure", {
-	description = S("Desert Sand with Azure Moss"),
-	tiles = {"blocks_azure_moss_overlay.png", "blocks_desert_sand.png", "blocks_desert_sand.png^blocks_azure_moss_overlay_side.png"},
-	groups = {crumbly = 3, sand = 1},
-	sounds = default.node_sound_sand_defaults(),
-})
-
-minetest.register_node("blocks:silver_sand_azure", {
-	description = S("Silver Sand with Azure Moss"),
-	tiles = {"blocks_azure_moss_overlay.png", "blocks_silver_sand.png", "blocks_silver_sand.png^blocks_azure_moss_overlay_side.png"},
-	groups = {crumbly = 3, sand = 1},
-	sounds = default.node_sound_sand_defaults(),
-})
-
 minetest.register_node("blocks:fine_gravel", {
 	description = S("Fine Gravel"),
 	tiles = {"blocks_fine_gravel.png"},

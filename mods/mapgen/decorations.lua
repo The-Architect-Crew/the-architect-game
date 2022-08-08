@@ -16,18 +16,27 @@ mapgen.register_microbiome_decorations = function(base_name, data)
 
 	local surface_fill = 0
 	local np_surface = nil
-
+	local np_ceiling = {
+		offset = -4,
+		scale = 4,
+		spread = {x = 96, y = 96, z = 96},
+		seed = 2522323233 + seed,
+		octaves = 1,
+		flags = "eased",
+	}
 	if data.surface_coverage == "full" then
 		surface_fill = 10.0
-	else
-		np_surface = {
-			offset = data.surface_coverage - 1,
+		np_ceiling = {
+			offset = -1.15,
 			scale = 2,
-			spread = {x = 1, y = 1, z = 1},
+			spread = {x = 4, y = 4, z = 4},
 			seed = 2522323233 + seed,
 			octaves = 1,
-			flags = "absolute",
+			--flags = "eased",
 		}
+	else
+		np_surface = np_ceiling
+		np_surface.offset = np_surface.offset + data.surface_coverage
 	end
 
 	-- Surface node, like dirt with grass for example
@@ -89,14 +98,7 @@ mapgen.register_microbiome_decorations = function(base_name, data)
 		name = base_name .. "_" .. vines .. "_vines",
 		deco_type = "simple",
 		place_on = base_node,
-		noise_params = {
-			offset = -0.45,
-			scale = 1,
-			spread = {x = 4, y = 4, z = 4},
-			seed = 633456 + seed,
-			octaves = 1,
-			flags = "eased",
-		},
+		noise_params = np_ceiling,
 		y_max = height_max,
 		y_min = height_min,
 		flags = "all_ceilings",
@@ -109,14 +111,7 @@ mapgen.register_microbiome_decorations = function(base_name, data)
 			name = base_name .. "_" .. secondary_vines .. "_secondary_vines",
 			deco_type = "simple",
 			place_on = base_node,
-			noise_params = {
-				offset = -0.45,
-				scale = 1,
-				spread = {x = 4, y = 4, z = 4},
-				seed = 633422345 + seed,
-				octaves = 1,
-				flags = "eased",
-			},
+			noise_params = np_ceiling,
 			y_max = height_max,
 			y_min = height_min,
 			flags = "all_ceilings",
@@ -132,14 +127,7 @@ mapgen.register_microbiome_decorations = function(base_name, data)
 		name = base_name .. "_" .. moss .. "_moss",
 		deco_type = "simple",
 		place_on = base_node,
-		noise_params = {
-			offset = -0.25,
-			scale = 2,
-			spread = {x = 4, y = 4, z = 4},
-			seed = 253 + seed,
-			octaves = 1,
-			flags = "absvalue, eased",
-		},
+		noise_params = np_ceiling,
 		y_max = height_max,
 		y_min = height_min,
 		flags = "all_ceilings",
@@ -193,7 +181,7 @@ mapgen.register_microbiome_decorations("fire", {
 	seed = 262,
 	base_node = {"blocks:cobble"}, -- surface_node matches the base_node, they also have to be the same length
 	surface_node = {"blocks:cobble_firemoss"},
-	surface_coverage = 2.5,
+	surface_coverage = 1.95,
 	grass_node = "flora:firegrass",
 	main_small_plant = "flora:fireshroom",
 	--secondary_small_plant
@@ -212,7 +200,7 @@ mapgen.register_microbiome_decorations("azure", {
 	seed = 263,
 	base_node = {"blocks:desert_cobble", "blocks:sand", "blocks:desert_sand", "blocks:silver_sand", "blocks:dry_dirt"},
 	surface_node = {"blocks:desert_cobble_azure", "blocks:sand_azure", "blocks:desert_sand_azure", "blocks:silver_sand_azure", "blocks:dry_dirt_azure"},
-	surface_coverage = 1,
+	surface_coverage = 1.5,
 	grass_node = "flora:azure_grass",
 	main_small_plant = "flora:azureshroom",
 	--secondary_small_plant

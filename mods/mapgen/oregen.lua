@@ -347,7 +347,7 @@ function mapgen.register_ores()
 		ore             = "blocks:clay",
 		wherein         = {"blocks:gravel", "blocks:sand"},
 		clust_scarcity  = 1,
-		y_max           = 128,
+		y_max           = 0,
 		y_min           = mapgen.clay_transformer_limit,
 		noise_params    = {
 			offset = mapgen.sfcaves_level,-- This is the depth at which the noise is placed
@@ -385,7 +385,7 @@ function mapgen.register_ores()
 		ore             = "blocks:clay",
 		wherein         = {"blocks:gravel", "blocks:sand"},
 		clust_scarcity  = 1,
-		y_max           = 128,
+		y_max           = 0,
 		y_min           = mapgen.clay_transformer_limit,
 		noise_params    = {
 			offset = mapgen.sfcaves_level,-- This is the depth at which the noise is placed
@@ -423,7 +423,7 @@ function mapgen.register_ores()
 		ore             = "blocks:ice",
 		wherein         = {"blocks:gravel", "blocks:sand"},
 		clust_scarcity  = 1,
-		y_max           = 128,
+		y_max           = 0,
 		y_min           = mapgen.clay_transformer_limit,
 		noise_params    = {
 			offset = mapgen.sfcaves_level,-- This is the depth at which the noise is placed

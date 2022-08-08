@@ -338,6 +338,7 @@ mapgen.surface_nodes = {"blocks:stone", "blocks:dry_dirt", "blocks:dry_dirt_with
 function mapgen.register_ores()
 	-- Stratum ores.
 	-- These obviously first.
+	--[[
 	-- Carve the surface caves!
 	-- Two noises: one for the caves themselves, one for carving the sky openings into the terrain
 	-- Keep the noise params the same on these noises , only change the scale on the thickness noise and the offset on both
@@ -491,7 +492,7 @@ function mapgen.register_ores()
 		},
 		np_stratum_thickness = mapgen.surface_cave_np,
 	})
-
+]]--
 	for i=1, #blocks.stone_colors do
 		for j=1,8 do
 			minetest.register_ore({

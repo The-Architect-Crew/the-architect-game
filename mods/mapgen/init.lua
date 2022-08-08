@@ -3,7 +3,7 @@ mapgen.underground_start = -48 -- The level where surface caves end and undergro
 mapgen.underground_limit = -512 - 128 -- The lower limit of the underground "biome", first caverns appear at -512
 mapgen.hell_level = -2048 + 128 -- The upper limit of hell
 mapgen.world_bottom = -2048 -- Map bottom limit
-mapgen.sfcaves_level = -16
+--[[mapgen.sfcaves_level = -16
 mapgen.sfcave_limit = 512
 mapgen.clay_transformer_limit = -30 -- Probably -32 actually
 
@@ -37,7 +37,7 @@ mapgen.np_stalagmites = {
 	persistence = 1,
 	lacunarity = 1,
 	flags = "",
-}
+}]]--
 
 mapgen.lush_biomes = {"grassland", "grassland_dunes", "grassland_ocean",
 					"coniferous_forest", "coniferous_forest_ocean", "coniferous_forest_dunes",

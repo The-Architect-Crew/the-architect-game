@@ -7,14 +7,6 @@ minetest.register_node("blocks:sand", {
 	sounds = default.node_sound_sand_defaults(),
 })
 
-minetest.register_node("blocks:dune_sand", {
-	description = S("Sand"),
-	tiles = {"blocks_sand.png"},
-	drop = "blocks:sand",
-	groups = {crumbly = 3, falling_node = 1, sand = 1, not_in_creative_inventory = 1},
-	sounds = default.node_sound_sand_defaults(),
-})
-
 minetest.register_node("blocks:desert_sand", {
 	description = S("Desert Sand"),
 	tiles = {"blocks_desert_sand.png"},

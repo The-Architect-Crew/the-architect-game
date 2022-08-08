@@ -338,6 +338,7 @@ mapgen.surface_nodes = {"blocks:stone", "blocks:dry_dirt", "blocks:dry_dirt_with
 function mapgen.register_ores()
 	-- Stratum ores.
 	-- These obviously first.
+	--[[
 	-- Carve the surface caves!
 	-- Two noises: one for the caves themselves, one for carving the sky openings into the terrain
 	-- Keep the noise params the same on these noises , only change the scale on the thickness noise and the offset on both
@@ -350,7 +351,7 @@ function mapgen.register_ores()
 		y_min           = -256,
 		noise_params    = {
 			offset = mapgen.sfcaves_level,-- This is the depth at which the noise is placed
-			scale = 8,
+			scale = 24,
 			spread = {x = 20, y = 20, z = 20},
 			seed = 262,
 			octaves = 1,
@@ -358,6 +359,7 @@ function mapgen.register_ores()
 		},
 		np_stratum_thickness = mapgen.surface_cave_np,
 	})
+	
 	minetest.register_ore({
 		ore_type        = "stratum",
 		ore             = "air",
@@ -384,7 +386,7 @@ function mapgen.register_ores()
 			--flags = "eased",
 
 		},
-	})
+	})]]--
 	for i=1, #blocks.stone_colors do
 		for j=1,8 do
 			minetest.register_ore({
@@ -855,7 +857,7 @@ function mapgen.register_ores()
 		wherein         = {"blocks:stone"},
 		clust_scarcity  = 6 * 6 * 6,
 		clust_size      = 4,
-		y_max           = 0,
+		y_max           = mapgen.sfcave_limit,
 		y_min           = mapgen.underground_limit,
 		noise_threshold = 0.0,
 		noise_params    = {
@@ -875,7 +877,7 @@ function mapgen.register_ores()
 		wherein         = {"blocks:stone"},
 		clust_scarcity  = 6 * 6 * 6,
 		clust_size      = 2,
-		y_max           = 0,
+		y_max           = mapgen.sfcave_limit,
 		y_min           = mapgen.underground_limit,
 		noise_threshold = 0.0,
 		noise_params    = {
@@ -896,7 +898,7 @@ function mapgen.register_ores()
 		wherein         = {"blocks:stone"},
 		clust_scarcity  = 6 * 6 * 6,
 		clust_size      = 4,
-		y_max           = 0,
+		y_max           = mapgen.sfcave_limit,
 		y_min           = mapgen.underground_limit,
 		noise_threshold = 0.0,
 		noise_params    = {
@@ -916,7 +918,7 @@ function mapgen.register_ores()
 		wherein         = {"blocks:stone"},
 		clust_scarcity  = 6 * 6 * 6,
 		clust_size      = 2,
-		y_max           = 0,
+		y_max           = mapgen.sfcave_limit,
 		y_min           = mapgen.underground_limit,
 		noise_threshold = 0.0,
 		noise_params    = {
@@ -1016,7 +1018,7 @@ function mapgen.register_ores()
 		wherein         = {"blocks:sandstone"},
 		clust_scarcity  = 6 * 6 * 6,
 		clust_size      = 4,
-		y_max           = 0,
+		y_max           = mapgen.sfcave_limit,
 		y_min           = mapgen.underground_limit,
 		noise_threshold = 0.0,
 		noise_params    = {
@@ -1035,7 +1037,7 @@ function mapgen.register_ores()
 		wherein         = {"blocks:sandstone"},
 		clust_scarcity  = 6 * 6 * 6,
 		clust_size      = 2,
-		y_max           = 0,
+		y_max           = mapgen.sfcave_limit,
 		y_min           = mapgen.underground_limit,
 		noise_threshold = 0.0,
 		noise_params    = {
@@ -1054,7 +1056,7 @@ function mapgen.register_ores()
 		wherein         = {"blocks:sandstone"},
 		clust_scarcity  = 8 * 8 * 8,
 		clust_size      = 3,
-		y_max           = 0,
+		y_max           = mapgen.sfcave_limit,
 		y_min           = mapgen.underground_limit,
 		noise_threshold = 0.0,
 		noise_params    = {
@@ -1074,7 +1076,7 @@ function mapgen.register_ores()
 		wherein         = {"blocks:desert_sandstone"},
 		clust_scarcity  = 6 * 6 * 6,
 		clust_size      = 4,
-		y_max           = 0,
+		y_max           = mapgen.sfcave_limit,
 		y_min           = mapgen.underground_limit,
 		noise_threshold = 0.0,
 		noise_params    = {
@@ -1093,7 +1095,7 @@ function mapgen.register_ores()
 		wherein         = {"blocks:desert_sandstone"},
 		clust_scarcity  = 6 * 6 * 6,
 		clust_size      = 2,
-		y_max           = 0,
+		y_max           = mapgen.sfcave_limit,
 		y_min           = mapgen.underground_limit,
 		noise_threshold = 0.0,
 		noise_params    = {
@@ -1190,7 +1192,7 @@ function mapgen.register_ores()
 		wherein         = {"blocks:desert_stone"},
 		clust_scarcity  = 6 * 6 * 6,
 		clust_size      = 4,
-		y_max           = 0,
+		y_max           = mapgen.sfcave_limit,
 		y_min           = mapgen.underground_limit,
 		noise_threshold = 0.0,
 		noise_params    = {
@@ -1209,7 +1211,7 @@ function mapgen.register_ores()
 		wherein         = {"blocks:desert_stone"},
 		clust_scarcity  = 6 * 6 * 6,
 		clust_size      = 2,
-		y_max           = 0,
+		y_max           = mapgen.sfcave_limit,
 		y_min           = mapgen.underground_limit,
 		noise_threshold = 0.0,
 		noise_params    = {
@@ -1248,7 +1250,7 @@ function mapgen.register_ores()
 		wherein         = {"blocks:stone"},
 		clust_scarcity  = 6 * 6 * 6,
 		clust_size      = 4,
-		y_max           = 0,
+		y_max           = mapgen.sfcave_limit,
 		y_min           = mapgen.underground_limit,
 		noise_threshold = 0.0,
 		noise_params    = {
@@ -1268,7 +1270,7 @@ function mapgen.register_ores()
 		wherein         = {"blocks:stone"},
 		clust_scarcity  = 6 * 6 * 6,
 		clust_size      = 2,
-		y_max           = 0,
+		y_max           = mapgen.sfcave_limit,
 		y_min           = mapgen.underground_limit,
 		noise_threshold = 0.0,
 		noise_params    = {

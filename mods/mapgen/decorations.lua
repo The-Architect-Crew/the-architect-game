@@ -227,10 +227,10 @@ mapgen.register_microbiome_decorations("azure", {
 
 mapgen.register_microbiome_decorations("moonstone", {
 	height_min = mapgen.underground_start,
-	height_max = 0,
+	height_max = mapgen.sfcave_limit,
 	seed = 162,
 	base_node = {"blocks:dirt"},
-	surface_node = {"blocks:dirt_with_grass"},
+	surface_node = {"blocks:dirt_with_grass_sfcave"},
 	surface_coverage = "full",
 	grass_node = "flora:grass",
 	main_small_plant = "flora:moonflower",
@@ -246,10 +246,10 @@ mapgen.register_microbiome_decorations("moonstone", {
 
 mapgen.register_microbiome_decorations("hot", {
 	height_min = mapgen.underground_start,
-	height_max = 0,
+	height_max = mapgen.sfcave_limit,
 	seed = 3444623,
 	base_node = {"blocks:dry_dirt"},
-	surface_node = {"blocks:dry_dirt_with_dry_grass"},
+	surface_node = {"blocks:dry_dirt_with_dry_grass_sfcave"},
 	surface_coverage = "full",
 	grass_node = "flora:dry_grass",
 	main_small_plant = "flora:moonflower_dry",
@@ -265,7 +265,7 @@ mapgen.register_microbiome_decorations("hot", {
 
 mapgen.register_microbiome_decorations("frosty", {
 	height_min = mapgen.underground_start,
-	height_max = 0,
+	height_max = mapgen.sfcave_limit,
 	seed = 82253663,
 	base_node = {"blocks:permafrost"},
 	surface_node = {"blocks:permafrost_with_snow"},

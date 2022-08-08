@@ -27,12 +27,12 @@ mapgen.register_microbiome_decorations = function(base_name, data)
 	if data.surface_coverage == "full" then
 		surface_fill = 10.0
 		np_ceiling = {
-			offset = -1.15,
-			scale = 2,
-			spread = {x = 4, y = 4, z = 4},
+			offset = -0.55,
+			scale = 1,
+			spread = {x = 2, y = 2, z = 2},
 			seed = 2522323233 + seed,
 			octaves = 1,
-			--flags = "eased",
+			flags = "absolute",
 		}
 	else
 		np_surface = np_ceiling

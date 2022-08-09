@@ -424,7 +424,7 @@ local function register_shapes_station(name, def)
 				return 0
 			end
 			-- disallow moving things in from within inventory to output / fuel
-			if to_list == "output" or to_list == "fuel" or to_list == "residue" then
+			if to_list == "output" or to_list == "fuel" or to_list == "residue" or to_list == "input" then
 				return 0
 			end
 			-- only allowing output to recycle for quick recycling

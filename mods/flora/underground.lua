@@ -22,7 +22,7 @@ minetest.register_node("flora:firemoss", {
 			},
 		},
 	},
-	groups = {snappy = 3},
+	groups = {snappy = 3, fire_biome = 1},
 	sounds = default.node_sound_leaves_defaults(),
 	selection_box = {
 		type = "fixed",
@@ -40,7 +40,7 @@ for i=1,5 do
 		sunlight_propagates = true,
 		walkable = false,
 		floodable = true,
-		groups = {grass = 1, snappy = 3},
+		groups = {grass = 1, snappy = 3, fire_biome = 1},
 		sounds = default.node_sound_leaves_defaults(),
 		drop = {
 			items = {
@@ -66,7 +66,7 @@ for i=1,5 do
 		walkable = false,
 		floodable = true,
 		light_source = 8,
-		groups = {mushroom = 1, snappy = 3},
+		groups = {mushroom = 1, snappy = 3, fire_biome = 1},
 		sounds = default.node_sound_leaves_defaults(),
 		drop = {
 			items = {
@@ -117,7 +117,7 @@ minetest.register_node("flora:fireplant", {
 			},
 		},
 	},
-	groups = {snappy = 3, flammable = 2},
+	groups = {snappy = 3, flammable = 2, fire_biome = 1},
 	sounds = default.node_sound_leaves_defaults(),
 	after_dig_node = function(pos, node, metadata, digger)
 		local nn = node.name
@@ -152,7 +152,7 @@ minetest.register_node("flora:firevines", {
 			},
 		},
 	},
-	groups = {snappy = 3, flammable = 2},
+	groups = {snappy = 3, flammable = 2, fire_biome = 1},
 	sounds = default.node_sound_leaves_defaults(),
 	after_dig_node = function(pos, node, metadata, digger)
 		local nn = node.name
@@ -183,7 +183,7 @@ minetest.register_node("flora:azure_moss", {
 			},
 		},
 	},
-	groups = {snappy = 3},
+	groups = {snappy = 3, azure = 1},
 	sounds = default.node_sound_leaves_defaults(),
 	selection_box = {
 		type = "fixed",
@@ -212,7 +212,7 @@ for i=1,5 do
 				},
 			},
 		},
-		groups = {grass = 1, snappy = 3},
+		groups = {grass = 1, snappy = 3, azure = 1},
 		sounds = default.node_sound_leaves_defaults(),
 		selection_box = {
 			type = "fixed",
@@ -241,7 +241,7 @@ for i=1,5 do
 				},
 			},
 		},
-		groups = {mushroom = 1, snappy = 3},
+		groups = {mushroom = 1, snappy = 3, azure = 1},
 		sounds = default.node_sound_leaves_defaults(),
 		selection_box = {
 			type = "fixed",
@@ -279,7 +279,7 @@ minetest.register_node("flora:azure_plant", {
 			},
 		},
 	},
-	groups = {snappy = 3, flammable = 2},
+	groups = {snappy = 3, flammable = 2, azure = 1},
 	sounds = default.node_sound_leaves_defaults(),
 	after_dig_node = function(pos, node, metadata, digger)
 		local nn = node.name
@@ -324,7 +324,7 @@ minetest.register_node("flora:azure_vines", {
 			},
 		},
 	},
-	groups = {snappy = 3, flammable = 2},
+	groups = {snappy = 3, flammable = 2, azure = 1},
 	sounds = default.node_sound_leaves_defaults(),
 	after_dig_node = function(pos, node, metadata, digger)
 		local nn = node.name

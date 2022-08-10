@@ -11,13 +11,13 @@ variations.variations = {
 		name = "big_tile";
 		description = "Big Tile";
 		texture = "1,0";
-		enabled_shapes = "slab, cube, step, cat:stair, splitstair, cat:pillar, cat:pillarcown, corner, cat:pane, slope, slope2, slope3, innerslope, innerslope2, innerslope3, outerslope, outerslope2, outerslope3";
+		enabled_shapes = "slab, cube, step, cat:stair, splitstair, cat:pillar, cat:pillarcown, corner, pane, pane_flat, slope, slope2, slope3, innerslope, innerslope2, innerslope3, outerslope, outerslope2, outerslope3";
 	},
 	{
 		name = "tile";
 		description = "Tile";
 		texture = "2,0";
-		enabled_shapes = "slab, cube, step, cat:stair, splitstair, cat:pillar, cat:pillarcown, corner, cat:pane, slope, slope2, slope3, innerslope, innerslope2, innerslope3, outerslope, outerslope2, outerslope3";
+		enabled_shapes = "slab, cube, step, cat:stair, splitstair, cat:pillar, cat:pillarcown, corner, pane, pane_flat, slope, slope2, slope3, innerslope, innerslope2, innerslope3, outerslope, outerslope2, outerslope3";
 	},
 	{
 		name = "tall_tile";
@@ -47,7 +47,7 @@ variations.variations = {
 		name = "cross_tile";
 		description = "Cross Tile";
 		texture = "1,2";
-		enabled_shapes = "slab, cube, step, cat:stair, splitstair, cat:pillar, cat:pillarcown, corner, cat:pane, slope, slope2, slope3";
+		enabled_shapes = "slab, cube, step, cat:stair, splitstair, cat:pillar, cat:pillarcown, corner, pane, pane_flat, slope, slope2, slope3";
 	},
 	{
 		name = "spiral_tile";

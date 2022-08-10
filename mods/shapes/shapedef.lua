@@ -40,7 +40,6 @@ shapes:register_shapedef("slab", {
 		fixed = {-0.5, -0.5, -0.5, 0.5, 0, 0.5},
 	},
 	category = "slab",
-	groups = {not_in_creative_inventory = 0},
 	sunlight_propagates = true,
 	crafting = {
 		{
@@ -306,7 +305,6 @@ shapes:register_shapedef("stair", {
 		},
 	},
 	category = "stair",
-	groups = {not_in_creative_inventory = 0},
 	sunlight_propagates = true,
 	crafting = {
 		{
@@ -973,7 +971,7 @@ shapes:register_shapedef("fence", {
 	},
 	connects_to = {"group:fence", "group:wood", "group:tree", "group:wall", "group:stone"},
 	category = "fence",
-	groups = {fence = 1, not_in_creative_inventory = 0},
+	groups = {fence = 1},
 	sunlight_propagates = true,
 	crafting = {
 		{
@@ -1059,7 +1057,7 @@ shapes:register_shapedef("wall", {
 	},
 	connects_to = {"group:fence", "group:wood", "group:tree", "group:wall", "group:stone"},
 	category = "pillar",
-	groups = {wall = 1, not_in_creative_inventory = 0},
+	groups = {wall = 1},
 	sunlight_propagates = true,
 	crafting = {
 		{

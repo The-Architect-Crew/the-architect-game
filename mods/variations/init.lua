@@ -5,7 +5,7 @@ variations.variations = {
 		name = "brick";
 		description = "Brick";
 		texture = "0,0";
-		disabled_shapes = "pole, wallpole, cornerpole, fence, slab1, slab2, slab4, cube1, cube2, cube4, step1, step2, step4, step12, splitstair1, splitstair4, pane, corner1, corner2, corner4, corner12, innerslope, innerslope2, innerslope3, cutinnerslope, cutinnerslope2, cutinnerslope3, outerslope, outerslope2, outerslope3, cutouterslope, cutouterslope2, cutouterslope3, cutouterslope4";
+		disabled_shapes = "pole, wallpole, cornerpole, fence, step1, step2, step4, step12, splitstair1, splitstair4, pane, corner1, corner2, corner4, corner12, innerslope, innerslope2, innerslope3, cutinnerslope, cutinnerslope2, cutinnerslope3, outerslope, outerslope2, outerslope3, cutouterslope, cutouterslope2, cutouterslope3, cutouterslope4";
 	},
 	{
 		name = "big_tile";

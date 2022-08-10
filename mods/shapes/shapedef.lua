@@ -64,6 +64,17 @@ shapes:register_shapedef("slab12", {
 	sunlight_propagates = true,
 })
 
+shapes:register_shapedef("slab14", {
+	description = "Slab (14/16)",
+	cost = 7,
+	node_box = {
+		type = "fixed",
+		fixed = {-0.5, -0.5, -0.5, 0.5, 0.375, 0.5},
+	},
+	category = "slab",
+	sunlight_propagates = true,
+})
+
 -- Cubes
 shapes:register_shapedef("cube1", {
 	description = "Cube (1/16)",
@@ -120,6 +131,17 @@ shapes:register_shapedef("cube12", {
 	sunlight_propagates = true,
 })
 
+shapes:register_shapedef("cube14", {
+	description = "Cube (14/16)",
+	cost = 2,
+	node_box = {
+		type = "fixed",
+		fixed = {-0.5, -0.5, 0, 0, 0.375, 0.5},
+	},
+	category = "cube",
+	sunlight_propagates = true,
+})
+
 -- Steps
 shapes:register_shapedef("step1", {
 	description = "Step (1/16)",
@@ -171,6 +193,17 @@ shapes:register_shapedef("step12", {
 	node_box = {
 		type = "fixed",
 		fixed = {-0.5, -0.5, 0, 0.5, 0.25, 0.5},
+	},
+	category = "step",
+	sunlight_propagates = true,
+})
+
+shapes:register_shapedef("step14", {
+	description = "Step (14/16)",
+	cost = 4,
+	node_box = {
+		type = "fixed",
+		fixed = {-0.5, -0.5, 0, 0.5, 0.375, 0.5},
 	},
 	category = "step",
 	sunlight_propagates = true,
@@ -241,6 +274,20 @@ shapes:register_shapedef("corner12", {
 		fixed = {
 			{-0.5, -0.5, -0.5, 0, 0.25, 0.5},
 			{0, -0.5, 0, 0.5, 0.25, -0.5},
+		},
+	},
+	category = "corner",
+	sunlight_propagates = true,
+})
+
+shapes:register_shapedef("corner14", {
+	description = "Corner (14/16)",
+	cost = 5,
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-0.5, -0.5, -0.5, 0, 0.375, 0.5},
+			{0, -0.5, 0, 0.5, 0.375, -0.5},
 		},
 	},
 	category = "corner",

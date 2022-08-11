@@ -31,6 +31,18 @@ minetest.register_node("blocks:fire_default", {
     --sounds = default.node_sound_leaves_defaults()
 })
 
+minetest.register_node("blocks:embers", {
+    description = S("Glowing Embers"),
+    tiles = {{
+        name = "blocks_embers_animated.png",
+        animation = {type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = 2.0}
+    }},
+    paramtype = "light",
+    light_source = 6,
+    groups = {oddly_breakable_by_hand = 1},
+    sounds = default.node_sound_gravel_defaults()
+})
+
 for i=1,#blocks.fire_types do
     local name = blocks.fire_types[i][1]
     minetest.register_node("blocks:fire_" .. name, {
@@ -48,6 +60,18 @@ for i=1,#blocks.fire_types do
         light_source = default.LIGHT_MAX,
         groups = {oddly_breakable_by_hand = 1},
         --sounds = default.node_sound_leaves_defaults()
+    })
+
+    minetest.register_node("blocks:embers_" .. name, {
+        description = S("Glowing " .. blocks.fire_types[i][2] .. " Embers"),
+        tiles = {{
+            name = "blocks_embers_" .. name .. "_animated.png",
+            animation = {type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = 2.0}
+        }},
+        paramtype = "light",
+        light_source = 6,
+        groups = {oddly_breakable_by_hand = 1},
+        sounds = default.node_sound_gravel_defaults()
     })
 end
 
@@ -68,6 +92,14 @@ for i=1,#blocks.fire_types do
         recipe = {
             {blocks.fire_types[i][3], blocks.fire_types[i][3], blocks.fire_types[i][3]},
             {"group:stick", "group:stick", "group:stick"},
+        }
+    })
+
+    minetest.register_craft({
+        output = "blocks:embers_" .. name,
+        recipe = {
+            {"blocks:fire_" .. name},
+            {"group:wood"},
         }
     })
 end

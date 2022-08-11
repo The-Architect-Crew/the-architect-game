@@ -1,24 +1,8 @@
 -- support for MT game translation.
 local S = default.get_translator
 
-local function on_flood(pos, oldnode, newnode)
-	minetest.add_item(pos, ItemStack("blocks:torch 1"))
-	-- Play flame-extinguish sound if liquid is not an 'igniter'
-	local nodedef = minetest.registered_items[newnode.name]
-	if not (nodedef and nodedef.groups and
-			nodedef.groups.igniter and nodedef.groups.igniter > 0) then
-		minetest.sound_play(
-			"default_cool_lava",
-			{pos = pos, max_hear_distance = 16, gain = 0.1},
-			true
-		)
-	end
-	-- Remove the torch node
-	return false
-end
-
-local function on_flood_typed(pos, oldnode, newnode, torch_type)
-	minetest.add_item(pos, ItemStack("blocks:torch_" .. torch_type .. " 1"))
+local function on_flood(pos, oldnode, newnode, torch)
+	minetest.add_item(pos, ItemStack(torch .. " 1"))
 	-- Play flame-extinguish sound if liquid is not an 'igniter'
 	local nodedef = minetest.registered_items[newnode.name]
 	if not (nodedef and nodedef.groups and
@@ -85,7 +69,9 @@ minetest.register_node("blocks:torch", {
 		return itemstack
 	end,
 	floodable = true,
-	on_flood = on_flood,
+	on_flood = function(pos, oldnode, newnode)
+		on_flood(pos, oldnode, newnode, "blocks:torch")
+	end,
 	on_rotate = false
 })
 
@@ -110,7 +96,9 @@ minetest.register_node("blocks:torch_wall", {
 	},
 	sounds = default.node_sound_wood_defaults(),
 	floodable = true,
-	on_flood = on_flood,
+	on_flood = function(pos, oldnode, newnode)
+		on_flood(pos, oldnode, newnode, "blocks:torch_wall")
+	end,
 	on_rotate = false
 })
 
@@ -135,7 +123,9 @@ minetest.register_node("blocks:torch_ceiling", {
 	},
 	sounds = default.node_sound_wood_defaults(),
 	floodable = true,
-	on_flood = on_flood,
+	on_flood = function(pos, oldnode, newnode)
+		on_flood(pos, oldnode, newnode, "blocks:torch_ceiling")
+	end,
 	on_rotate = false
 })
 
@@ -227,7 +217,7 @@ for i=1,#blocks.fire_types do
 		end,
 		floodable = true,
 		on_flood = function(pos, oldnode, newnode)
-			on_flood_typed(pos, oldnode, newnode, name)
+			on_flood(pos, oldnode, newnode, "blocks:torch_" .. name)
 		end,
 		on_rotate = false
 	})
@@ -254,7 +244,7 @@ for i=1,#blocks.fire_types do
 		sounds = default.node_sound_wood_defaults(),
 		floodable = true,
 		on_flood = function(pos, oldnode, newnode)
-			on_flood_typed(pos, oldnode, newnode, name)
+			on_flood(pos, oldnode, newnode, "blocks:torch_" .. name .. "_wall")
 		end,
 		on_rotate = false
 	})
@@ -281,7 +271,7 @@ for i=1,#blocks.fire_types do
 		sounds = default.node_sound_wood_defaults(),
 		floodable = true,
 		on_flood = function(pos, oldnode, newnode)
-			on_flood_typed(pos, oldnode, newnode, name)
+			on_flood(pos, oldnode, newnode, "blocks:torch_" .. name .. "_ceiling")
 		end,
 		on_rotate = false
 	})

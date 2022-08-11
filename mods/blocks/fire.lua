@@ -129,6 +129,7 @@ minetest.register_craft({
 for i=1,#blocks.fire_types do
     local name = blocks.fire_types[i][1]
     local fire_description = blocks.fire_types[i][2]
+    local craft_material = blocks.fire_types[i][3]
     minetest.register_node("blocks:fire_" .. name, {
         description = S("Fake " .. fire_description .. " Fire"),
         tiles = {{
@@ -208,7 +209,7 @@ for i=1,#blocks.fire_types do
     minetest.register_craft({
         output = "blocks:fire_" .. name .. " 3",
         recipe = {
-            {blocks.fire_types[i][3], blocks.fire_types[i][3], blocks.fire_types[i][3]},
+            {craft_material, craft_material, craft_material},
             {"group:stick", "group:stick", "group:stick"},
         }
     })
@@ -233,7 +234,7 @@ for i=1,#blocks.fire_types do
         output = "blocks:pyre_" .. name,
         recipe = {
             {"", "blocks:fire_" .. name, ""},
-            {"blocks:fire_" .. name, blocks.fire_types[i][3], "blocks:fire_" .. name},
+            {"blocks:fire_" .. name, craft_material, "blocks:fire_" .. name},
             {"blocks:embers_" .. name, "blocks:embers_" .. name, "blocks:embers_" .. name},
         }
     })

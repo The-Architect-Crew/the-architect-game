@@ -79,7 +79,7 @@ minetest.register_node("blocks:firewood", {
 	light_source = 4,
 	tiles = {"blocks_firewood.png"},
 	is_ground_content = false,
-	groups = {choppy = 3, oddly_breakable_by_hand = 2, wood = 1},
+	groups = {choppy = 3, oddly_breakable_by_hand = 2, wood = 1, fire_biome = 1},
 	sounds = default.node_sound_wood_defaults(),
 })
 
@@ -89,19 +89,20 @@ minetest.register_node("blocks:mushroom_wood", {
 	place_param2 = 0,
 	tiles = {"blocks_mushroom_wood.png"},
 	is_ground_content = false,
-	groups = {choppy = 3, oddly_breakable_by_hand = 2, wood = 1},
+	groups = {choppy = 3, oddly_breakable_by_hand = 2, wood = 1, azure = 1},
 	sounds = default.node_sound_wood_defaults(),
 })
 
 minetest.register_craftitem("blocks:firebranches", {
 	description = ccore.comment("Pile of Glowing Sticks", "An excellent fuel source"),
 	inventory_image = "blocks_firebranches.png",
-	groups = {stick = 1},
+	groups = {stick = 1, fire_biome = 1},
 })
 
 minetest.register_craftitem("blocks:azure_mycelium", {
 	description = S("Pile of Mushroom Mycelia"),
 	inventory_image = "blocks_azure_mycelium.png",
+	groups = {azure = 1},
 })
 
 --

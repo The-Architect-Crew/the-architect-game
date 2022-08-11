@@ -228,6 +228,12 @@ minetest.register_craft({
 })
 minetest.register_craft({
 	type = "cooking",
+	output = "quests:hardened_gold_ingot",
+	recipe = "quests:hardened_gold_lump",
+    cooktime = 12,
+})
+minetest.register_craft({
+	type = "cooking",
 	output = "tools:moonlight",
 	recipe = "quests:moonlight_inactive",
     cooktime = 1,

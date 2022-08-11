@@ -29,7 +29,6 @@ minetest.register_node("blocks:fire", {
     floodable = true,
     light_source = default.LIGHT_MAX,
     groups = {oddly_breakable_by_hand = 1},
-    --sounds = default.node_sound_leaves_defaults()
 })
 
 minetest.register_node("blocks:campfire", {
@@ -55,7 +54,6 @@ minetest.register_node("blocks:campfire", {
         type = "fixed",
         fixed = {-14 / 16, -0.5, -14 / 16, 14 / 16, 16 / 16, 14 / 16},
     },
-    --sounds = default.node_sound_leaves_defaults()
 })
 
 minetest.register_node("blocks:pyre", {
@@ -77,7 +75,6 @@ minetest.register_node("blocks:pyre", {
         type = "fixed",
         fixed = {-20 / 16, -12 / 16, -20 / 16, 20 / 16, 48 / 16, 20 / 16},
     },
-    --sounds = default.node_sound_leaves_defaults()
 })
 
 minetest.register_node("blocks:embers", {
@@ -146,7 +143,6 @@ for i=1,#blocks.fire_types do
         floodable = true,
         light_source = default.LIGHT_MAX,
         groups = {oddly_breakable_by_hand = 1},
-        --sounds = default.node_sound_leaves_defaults()
     })
 
     minetest.register_node("blocks:embers_" .. name, {
@@ -184,7 +180,6 @@ for i=1,#blocks.fire_types do
             type = "fixed",
             fixed = {-14 / 16, -0.5, -14 / 16, 14 / 16, 16 / 16, 14 / 16},
         },
-        --sounds = default.node_sound_leaves_defaults()
     })
 
     minetest.register_node("blocks:pyre_" .. name, {
@@ -206,7 +201,6 @@ for i=1,#blocks.fire_types do
             type = "fixed",
             fixed = {-20 / 16, -12 / 16, -20 / 16, 20 / 16, 48 / 16, 20 / 16},
         },
-        --sounds = default.node_sound_leaves_defaults()
     })
 
     -- Crafts

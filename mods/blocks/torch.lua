@@ -208,7 +208,7 @@ for i=1,#blocks.fire_types do
 				return def.on_rightclick(under, node, placer, itemstack,
 					pointed_thing) or itemstack
 			end
-	
+
 			local above = pointed_thing.above
 			local wdir = minetest.dir_to_wallmounted(vector.subtract(under, above))
 			local fakestack = itemstack
@@ -219,10 +219,10 @@ for i=1,#blocks.fire_types do
 			else
 				fakestack:set_name("blocks:torch_" .. name .. "_wall")
 			end
-	
+
 			itemstack = minetest.item_place(fakestack, placer, pointed_thing, wdir)
 			itemstack:set_name("blocks:torch_" .. name)
-	
+
 			return itemstack
 		end,
 		floodable = true,
@@ -231,7 +231,7 @@ for i=1,#blocks.fire_types do
 		end,
 		on_rotate = false
 	})
-	
+
 	minetest.register_node("blocks:torch_" .. name .. "_wall", {
 		drawtype = "mesh",
 		mesh = "torch_wall.obj",
@@ -258,7 +258,7 @@ for i=1,#blocks.fire_types do
 		end,
 		on_rotate = false
 	})
-	
+
 	minetest.register_node("blocks:torch_" .. name .. "_ceiling", {
 		drawtype = "mesh",
 		mesh = "torch_ceiling.obj",
@@ -285,7 +285,7 @@ for i=1,#blocks.fire_types do
 		end,
 		on_rotate = false
 	})
-	
+
 	minetest.register_lbm({
 		name = "blocks:3dtorch_" .. name,
 		nodenames = {"blocks:torch_" .. name},
@@ -302,7 +302,7 @@ for i=1,#blocks.fire_types do
 			end
 		end
 	})
-	
+
 	minetest.register_craft({
 		output = "blocks:torch_" .. name .. " 4",
 		recipe = {
@@ -310,7 +310,7 @@ for i=1,#blocks.fire_types do
 			{"group:stick"},
 		}
 	})
-	
+
 	minetest.register_craft({
 		type = "fuel",
 		recipe = "blocks:torch_" .. name,

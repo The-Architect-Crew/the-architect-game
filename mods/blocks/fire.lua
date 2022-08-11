@@ -10,6 +10,7 @@ blocks.fire_types = {
     {"malachite", "Malachite", "blocks:malachite"},
     {"mese", "Mese", "blocks:mese_crystal"},
     {"moonstone", "Moonstone", "blocks:moonstone_crystal"},
+    {"lapis", "Lapis Lazuli", "blocks:lapis_lazuli"}
 }
 
 -- Fires

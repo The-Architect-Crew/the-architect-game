@@ -141,40 +141,6 @@ shapes:register_shapedef("cube14", {
 	sunlight_propagates = true,
 })
 
--- Steps
-shapes:register_shapedef("step1", {
-	description = "Step (1/16)",
-	cost = 1,
-	node_box = {
-		type = "fixed",
-		fixed = {-0.5, -0.5, 0, 0.5, -0.4375, 0.5},
-	},
-	category = "step",
-	sunlight_propagates = true,
-})
-
-shapes:register_shapedef("step2", {
-	description = "Step (2/16)",
-	cost = 1,
-	node_box = {
-		type = "fixed",
-		fixed = {-0.5, -0.5, 0, 0.5, -0.375, 0.5},
-	},
-	category = "step",
-	sunlight_propagates = true,
-})
-
-shapes:register_shapedef("step4", {
-	description = "Step (4/16)",
-	cost = 1,
-	node_box = {
-		type = "fixed",
-		fixed = {-0.5, -0.5, 0, 0.5, -0.25, 0.5},
-	},
-	category = "step",
-	sunlight_propagates = true,
-})
-
 shapes:register_shapedef("step", {
 	description = "Step",
 	cost = 2,
@@ -186,71 +152,7 @@ shapes:register_shapedef("step", {
 	sunlight_propagates = true,
 })
 
-shapes:register_shapedef("step12", {
-	description = "Step (12/16)",
-	cost = 3,
-	node_box = {
-		type = "fixed",
-		fixed = {-0.5, -0.5, 0, 0.5, 0.25, 0.5},
-	},
-	category = "step",
-	sunlight_propagates = true,
-})
-
-shapes:register_shapedef("step14", {
-	description = "Step (14/16)",
-	cost = 4,
-	node_box = {
-		type = "fixed",
-		fixed = {-0.5, -0.5, 0, 0.5, 0.375, 0.5},
-	},
-	category = "step",
-	sunlight_propagates = true,
-})
-
 -- corners
-shapes:register_shapedef("corner1", {
-	description = "Corner (1/16)",
-	cost = 1,
-	node_box = {
-		type = "fixed",
-		fixed = {
-			{-0.5, -0.5, -0.5, 0, -0.4375, 0.5},
-			{0, -0.5, 0, 0.5, -0.4375, -0.5},
-		},
-	},
-	category = "corner",
-	sunlight_propagates = true,
-})
-
-shapes:register_shapedef("corner2", {
-	description = "Corner (2/16)",
-	cost = 1,
-	node_box = {
-		type = "fixed",
-		fixed = {
-			{-0.5, -0.5, -0.5, 0, -0.375, 0.5},
-			{0, -0.5, 0, 0.5, -0.375, -0.5},
-		},
-	},
-	category = "corner",
-	sunlight_propagates = true,
-})
-
-shapes:register_shapedef("corner4", {
-	description = "Corner (4/16)",
-	cost = 2,
-	node_box = {
-		type = "fixed",
-		fixed = {
-			{-0.5, -0.5, -0.5, 0, -0.25, 0.5},
-			{0, -0.5, 0, 0.5, -0.25, -0.5},
-		},
-	},
-	category = "corner",
-	sunlight_propagates = true,
-})
-
 shapes:register_shapedef("corner", {
 	description = "Corner",
 	cost = 3,
@@ -259,34 +161,6 @@ shapes:register_shapedef("corner", {
 		fixed = {
 			{-0.5, -0.5, -0.5, 0, 0, 0.5},
 			{0, -0.5, 0, 0.5, 0, -0.5},
-		},
-	},
-	category = "corner",
-	sunlight_propagates = true,
-})
-
-shapes:register_shapedef("corner12", {
-	description = "Corner (12/16)",
-	cost = 5,
-	node_box = {
-		type = "fixed",
-		fixed = {
-			{-0.5, -0.5, -0.5, 0, 0.25, 0.5},
-			{0, -0.5, 0, 0.5, 0.25, -0.5},
-		},
-	},
-	category = "corner",
-	sunlight_propagates = true,
-})
-
-shapes:register_shapedef("corner14", {
-	description = "Corner (14/16)",
-	cost = 5,
-	node_box = {
-		type = "fixed",
-		fixed = {
-			{-0.5, -0.5, -0.5, 0, 0.375, 0.5},
-			{0, -0.5, 0, 0.5, 0.375, -0.5},
 		},
 	},
 	category = "corner",
@@ -406,20 +280,6 @@ shapes:register_shapedef("splitstair1", {
 		fixed = {
 			{-0.5, -0.0625, -0.5, 0.5, 0, 0},
 			{-0.5, 0.4375, 0, 0.5, 0.5, 0.5},
-		},
-	},
-	category = "splitstair",
-	sunlight_propagates = true,
-})
-
-shapes:register_shapedef("splitstair4", {
-	description = "Splitstair (4/16)",
-	cost = 2,
-	node_box = {
-		type = "fixed",
-		fixed = {
-			{-0.5, -0.25, -0.5, 0.5, 0, 0},
-			{-0.5, 0.25, 0, 0.5, 0.5, 0.5},
 		},
 	},
 	category = "splitstair",

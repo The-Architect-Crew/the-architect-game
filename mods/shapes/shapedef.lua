@@ -40,7 +40,6 @@ shapes:register_shapedef("slab", {
 		fixed = {-0.5, -0.5, -0.5, 0.5, 0, 0.5},
 	},
 	category = "slab",
-	groups = {not_in_creative_inventory = 0},
 	sunlight_propagates = true,
 	crafting = {
 		{
@@ -59,6 +58,17 @@ shapes:register_shapedef("slab12", {
 	node_box = {
 		type = "fixed",
 		fixed = {-0.5, -0.5, -0.5, 0.5, 0.25, 0.5},
+	},
+	category = "slab",
+	sunlight_propagates = true,
+})
+
+shapes:register_shapedef("slab14", {
+	description = "Slab (14/16)",
+	cost = 7,
+	node_box = {
+		type = "fixed",
+		fixed = {-0.5, -0.5, -0.5, 0.5, 0.375, 0.5},
 	},
 	category = "slab",
 	sunlight_propagates = true,
@@ -120,37 +130,14 @@ shapes:register_shapedef("cube12", {
 	sunlight_propagates = true,
 })
 
--- Steps
-shapes:register_shapedef("step1", {
-	description = "Step (1/16)",
-	cost = 1,
+shapes:register_shapedef("cube14", {
+	description = "Cube (14/16)",
+	cost = 2,
 	node_box = {
 		type = "fixed",
-		fixed = {-0.5, -0.5, 0, 0.5, -0.4375, 0.5},
+		fixed = {-0.5, -0.5, 0, 0, 0.375, 0.5},
 	},
-	category = "step",
-	sunlight_propagates = true,
-})
-
-shapes:register_shapedef("step2", {
-	description = "Step (2/16)",
-	cost = 1,
-	node_box = {
-		type = "fixed",
-		fixed = {-0.5, -0.5, 0, 0.5, -0.375, 0.5},
-	},
-	category = "step",
-	sunlight_propagates = true,
-})
-
-shapes:register_shapedef("step4", {
-	description = "Step (4/16)",
-	cost = 1,
-	node_box = {
-		type = "fixed",
-		fixed = {-0.5, -0.5, 0, 0.5, -0.25, 0.5},
-	},
-	category = "step",
+	category = "cube",
 	sunlight_propagates = true,
 })
 
@@ -165,60 +152,7 @@ shapes:register_shapedef("step", {
 	sunlight_propagates = true,
 })
 
-shapes:register_shapedef("step12", {
-	description = "Step (12/16)",
-	cost = 3,
-	node_box = {
-		type = "fixed",
-		fixed = {-0.5, -0.5, 0, 0.5, 0.25, 0.5},
-	},
-	category = "step",
-	sunlight_propagates = true,
-})
-
 -- corners
-shapes:register_shapedef("corner1", {
-	description = "Corner (1/16)",
-	cost = 1,
-	node_box = {
-		type = "fixed",
-		fixed = {
-			{-0.5, -0.5, -0.5, 0, -0.4375, 0.5},
-			{0, -0.5, 0, 0.5, -0.4375, -0.5},
-		},
-	},
-	category = "corner",
-	sunlight_propagates = true,
-})
-
-shapes:register_shapedef("corner2", {
-	description = "Corner (2/16)",
-	cost = 1,
-	node_box = {
-		type = "fixed",
-		fixed = {
-			{-0.5, -0.5, -0.5, 0, -0.375, 0.5},
-			{0, -0.5, 0, 0.5, -0.375, -0.5},
-		},
-	},
-	category = "corner",
-	sunlight_propagates = true,
-})
-
-shapes:register_shapedef("corner4", {
-	description = "Corner (4/16)",
-	cost = 2,
-	node_box = {
-		type = "fixed",
-		fixed = {
-			{-0.5, -0.5, -0.5, 0, -0.25, 0.5},
-			{0, -0.5, 0, 0.5, -0.25, -0.5},
-		},
-	},
-	category = "corner",
-	sunlight_propagates = true,
-})
-
 shapes:register_shapedef("corner", {
 	description = "Corner",
 	cost = 3,
@@ -227,20 +161,6 @@ shapes:register_shapedef("corner", {
 		fixed = {
 			{-0.5, -0.5, -0.5, 0, 0, 0.5},
 			{0, -0.5, 0, 0.5, 0, -0.5},
-		},
-	},
-	category = "corner",
-	sunlight_propagates = true,
-})
-
-shapes:register_shapedef("corner12", {
-	description = "Corner (12/16)",
-	cost = 5,
-	node_box = {
-		type = "fixed",
-		fixed = {
-			{-0.5, -0.5, -0.5, 0, 0.25, 0.5},
-			{0, -0.5, 0, 0.5, 0.25, -0.5},
 		},
 	},
 	category = "corner",
@@ -259,7 +179,6 @@ shapes:register_shapedef("stair", {
 		},
 	},
 	category = "stair",
-	groups = {not_in_creative_inventory = 0},
 	sunlight_propagates = true,
 	crafting = {
 		{
@@ -361,20 +280,6 @@ shapes:register_shapedef("splitstair1", {
 		fixed = {
 			{-0.5, -0.0625, -0.5, 0.5, 0, 0},
 			{-0.5, 0.4375, 0, 0.5, 0.5, 0.5},
-		},
-	},
-	category = "splitstair",
-	sunlight_propagates = true,
-})
-
-shapes:register_shapedef("splitstair4", {
-	description = "Splitstair (4/16)",
-	cost = 2,
-	node_box = {
-		type = "fixed",
-		fixed = {
-			{-0.5, -0.25, -0.5, 0.5, 0, 0},
-			{-0.5, 0.25, 0, 0.5, 0.5, 0.5},
 		},
 	},
 	category = "splitstair",
@@ -926,7 +831,7 @@ shapes:register_shapedef("fence", {
 	},
 	connects_to = {"group:fence", "group:wood", "group:tree", "group:wall", "group:stone"},
 	category = "fence",
-	groups = {fence = 1, not_in_creative_inventory = 0},
+	groups = {fence = 1},
 	sunlight_propagates = true,
 	crafting = {
 		{
@@ -1012,7 +917,7 @@ shapes:register_shapedef("wall", {
 	},
 	connects_to = {"group:fence", "group:wood", "group:tree", "group:wall", "group:stone"},
 	category = "pillar",
-	groups = {wall = 1, not_in_creative_inventory = 0},
+	groups = {wall = 1},
 	sunlight_propagates = true,
 	crafting = {
 		{

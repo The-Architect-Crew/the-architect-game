@@ -79,6 +79,16 @@ minetest.register_node("blocks:cave_ice", {
 	sounds = default.node_sound_ice_defaults(),
 })
 
+minetest.register_node("blocks:cracked_ice", {
+	description = S("Cracked Ice"),
+	tiles = {"blocks_cracked_ice.png"},
+	is_ground_content = true,
+	paramtype = "light",
+	drop = "blocks:ice",
+	groups = {cracky = 3, cools_lava = 1, slippery = 3},
+	sounds = default.node_sound_ice_defaults(),
+})
+
 minetest.register_node("blocks:permafrost", {
 	description = S("Permafrost"),
 	tiles = {"blocks_permafrost.png"},
@@ -100,9 +110,31 @@ minetest.register_node("blocks:permafrost_with_moss", {
 	tiles = {"blocks_moss.png", "blocks_permafrost.png",
 		{name = "blocks_permafrost.png^blocks_moss_side.png",
 			tileable_vertical = false}},
+	drop = "blocks:permafrost",
 	groups = {cracky = 3},
 	sounds = default.node_sound_dirt_defaults({
 		footstep = {name = "blocks_grass_footstep", gain = 0.25},
+	}),
+})
+
+minetest.register_node("blocks:permafrost_with_bone_roots", {
+	description = S("Permafrost with Bone Roots"),
+	tiles = {"blocks_permafrost.png^flora_bone_roots.png",
+		"blocks_permafrost.png",
+		"blocks_permafrost.png^flora_bone_roots_side.png"},
+	drop = "blocks:permafrost",
+	groups = {cracky = 3},
+	sounds = default.node_sound_gravel_defaults(),
+})
+
+minetest.register_node("blocks:permafrost_with_snow", {
+	description = S("Permafrost with Snow"),
+	tiles = {"blocks_coniferous_litter.png^blocks_patchy_snow.png", "blocks_permafrost.png",
+		"(blocks_permafrost.png^blocks_coniferous_litter_side.png)^blocks_patchy_snow_side.png"},
+	drop = "blocks:permafrost",
+	groups = {cracky = 3},
+	sounds = default.node_sound_snow_defaults({
+		footstep = {name = "blocks_grass_footstep", gain = 0.5},
 	}),
 })
 

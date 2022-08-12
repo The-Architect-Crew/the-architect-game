@@ -92,7 +92,7 @@ local function fuel_fs_update(pos, def)
 	local scrollval = meta:get_int("scroll")
 	if ftime > 0 then
 		meta:set_string("formspec", formspec_shapes(pos, scrollval, def,
-			"animated_image[1.025,7.0;1,1;fuel_icon;gui_fire_animated.png;8;500;1]"..
+			"animated_image[1.025,7.0;1,1;fuel_icon;gui_fire_animated.png;60;60;1]"..
 			"image_button[1.025,7.0;1,1;invisible.png;fuelamt;;false;false;invisible.png]"..
 			"tooltip[1.025,7.0;1,1;"..def.fueldesc.." left: "..ccore.get_time(ftime).." \nPress me to update!]"
 		))
@@ -141,7 +141,7 @@ local function fuel_update(pos, def, passive)
 			local output = workbench.craft_output(craftlist, "shapes", craftcat, 2, multiplier, true)
 			if output and #output > 0 and ftime and ftime > 0 then -- valid fuel and output > restart crafting
 				meta:set_string("formspec", formspec_shapes(pos, scrollval, def,
-					"animated_image[1.025,7.0;1,1;fuel_icon;gui_fire_animated.png;8;500;1]"..
+					"animated_image[1.025,7.0;1,1;fuel_icon;gui_fire_animated.png;60;60;1]"..
 					"image_button[1.025,7.0;1,1;invisible.png;fuelamt;;false;false;invisible.png]"..
 					"tooltip[1.025,7.0;1,1;"..fueldesc.." Left: "..ccore.get_time(ftime).." \nPress me to update!]"
 				))
@@ -424,7 +424,7 @@ local function register_shapes_station(name, def)
 				return 0
 			end
 			-- disallow moving things in from within inventory to output / fuel
-			if to_list == "output" or to_list == "fuel" or to_list == "residue" then
+			if to_list == "output" or to_list == "fuel" or to_list == "residue" or to_list == "input" then
 				return 0
 			end
 			-- only allowing output to recycle for quick recycling

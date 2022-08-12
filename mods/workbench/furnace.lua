@@ -58,7 +58,7 @@ local function fuel_fs_update(pos)
 	local ftime = meta:get_int("fueltime")
 	if ftime > 0 then
 		meta:set_string("formspec", formspec_cooking(pos,
-			"animated_image[8.675,2.575;1,1;fuel_icon;gui_fire_animated.png;8;500;1]"..
+			"animated_image[8.675,2.575;1,1;fuel_icon;gui_fire_animated.png;60;60;1]"..
 			"image_button[8.675,2.575;1,1;invisible.png;fuelamt;;false;false;invisible.png]"..
 			"tooltip[8.675,2.575;1,1;Fuel Left: "..ccore.get_time(ftime).." \nPress me to update!]"
 		))
@@ -93,7 +93,7 @@ local function fuel_update(pos, passive)
 			local output = workbench.craft_output(craftlist, "cooking", nil, 3, multiplier)
 			if ftime and ftime > 0 and output and output.item then -- valid fuel and output > restart cooking
 				meta:set_string("formspec", formspec_cooking(pos,
-					"animated_image[8.675,2.575;1,1;fuel_icon;gui_fire_animated.png;8;500;1]"..
+					"animated_image[8.675,2.575;1,1;fuel_icon;gui_fire_animated.png;60;60;1]"..
 					"image_button[8.675,2.575;1,1;invisible.png;fuelamt;;false;false;invisible.png]"..
 					"tooltip[8.675,2.575;1,1;Fuel Left: "..ccore.get_time(ftime).." \nPress me to update!]"
 				))

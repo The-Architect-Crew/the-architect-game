@@ -99,11 +99,11 @@ cube12					-- 12-pixel thick cube
 ==========				-- ==================
 cat:step				-- Step Category (x2 cube)
 ==========				-- ==================
-step1					-- 1-pixel thick step
-step2					-- 2-pixel thick step
-step4					-- 4-pixel thick step
 step					-- normal step
-step12					-- 12-pixel thick step
+============			-- ==================
+cat:corner				-- Corner Category (x3 cube)
+============			-- ==================
+corner					-- 8-pixel thick L-shaped (normal)
 ===========				-- ==================
 cat:stair				-- Stair Category
 ===========				-- ==================
@@ -145,14 +145,6 @@ cat:beam				-- Beam Category
 beam					-- Normal beam
 crossbeam				-- +-shaped beam
 linkdown				-- fancy beam
-============			-- ==================
-cat:corner				-- Corner Category
-============			-- ==================
-corner1					-- 1-pixel thick L-shaped 
-corner2					-- 2-pixel thick L-shaped
-corner4					-- 4-pixel thick L-shaped
-corner					-- 8-pixel thick L-shaped (normal)
-corner12				-- 12-pixel thick L-shaped
 ============			-- ==================
 cat:sphere				-- Sphere Category (meshnodes)
 ============			-- ==================

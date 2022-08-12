@@ -5,57 +5,66 @@ variations.variations = {
 		name = "brick";
 		description = "Brick";
 		texture = "0,0";
-		disabled_shapes = "pole, wallpole, cornerpole, fence, slab1, slab2, slab4, slab12, cube1, cube2, cube4, cube12, step1, step2, step4, step12, splitstair1, splitstair4, pane, corner1, corner2, corner4, corner12, innerslope, innerslope2, innerslope3, cutinnerslope, cutinnerslope2, cutinnerslope3, outerslope, outerslope2, outerslope3, cutouterslope, cutouterslope2, cutouterslope3, cutouterslope4";
+		enabled_shapes = "cat:slab, cat:cube, cat:step, cat:stair, splitstair, cat:pillar, cat:pillarcrown, cat:beam, cat:corner, cat:slope";
 	},
 	{
 		name = "big_tile";
 		description = "Big Tile";
 		texture = "1,0";
-		disabled_shapes = "pole, wallpole, cornerpole, fence, slab1, slab2, slab4, slab12, cube1, cube2, cube4, cube12, step1, step2, step4, step12, splitstair1, splitstair4, corner1, corner2, corner4, corner, corner12, crossbeam, beam, linkdown, cutinnerslope, cutinnerslope2, cutinnerslope3, cutouterslope, cutouterslope2, cutouterslope3, cutouterslope4";
+		enabled_shapes = "slab, cube, step, cat:stair, splitstair, cat:pillar, cat:pillarcown, corner, pane, pane_flat, slope, slope2, slope3, innerslope, innerslope2, innerslope3, outerslope, outerslope2, outerslope3";
 	},
 	{
 		name = "tile";
 		description = "Tile";
 		texture = "2,0";
-		disabled_shapes = "pole, wallpole, cornerpole, fence, slab1, slab2, slab4, slab12, cube1, cube2, cube4, cube12, step1, step2, step4, step12, splitstair1, splitstair4, cutinnerslope, cutinnerslope2, cutinnerslope3, cutouterslope, cutouterslope2, cutouterslope3, cutouterslope4";
+		enabled_shapes = "slab, cube, step, cat:stair, splitstair, cat:pillar, cat:pillarcown, corner, pane, pane_flat, slope, slope2, slope3, innerslope, innerslope2, innerslope3, outerslope, outerslope2, outerslope3";
 	},
 	{
 		name = "tall_tile";
 		description = "Tall Tile";
 		texture = "0,1";
-		disabled_shapes = "slab1, slab2, slab4, slab12, cube1, cube2, cube4, cube12, step1, step2, step4, step12, splitstair1, splitstair4, pane, corner1, corner2, corner4, corner12, innerslope, innerslope2, innerslope3, cutinnerslope, cutinnerslope2, cutinnerslope3, outerslope, outerslope2, outerslope3, cutouterslope, cutouterslope2, cutouterslope3, cutouterslope4";
+		enabled_shapes = "slab, cube, step, cat:stair, splitstair, cat:pillar, cat:pillarcown, corner, slope, slope2, slope3, innerslope, innerslope2, innerslope3, outerslope, outerslope2, outerslope3";
 	},
 	{
 		name = "small_brick";
 		description = "Small Brick";
 		texture = "1,1";
-		disabled_shapes = "pole, wallpole, cornerpole, fence, slab1, slab2, slab12, cube1, cube2, cube12, step1, step2, splitstair1, corner1, corner2, corner12, cutinnerslope, cutinnerslope2, cutinnerslope3, cutouterslope, cutouterslope2, cutouterslope3, cutouterslope4";
+		enabled_shapes = "slab, cube, step, cat:stair, splitstair, cat:pillar, cat:pillarcown, corner, slope, slope2, slope3, innerslope, innerslope2, innerslope3, outerslope, outerslope2, outerslope3";
 	},
 	{
 		name = "small_tile";
 		description = "Small Tile";
 		texture = "2,1";
-		disabled_shapes = "slab1, slab2, slab12, cube1, cube2, cube12, step1, step2, tep12, splitstair1, pane, corner1, corner2, corner12, cutinnerslope, cutinnerslope2, cutinnerslope3, cutouterslope, cutouterslope2, cutouterslope3, cutouterslope4";
+		enabled_shapes = "slab, cube, step, cat:stair, splitstair, cat:pillar, cat:pillarcown, corner, slope, slope2, slope3, innerslope, innerslope2, innerslope3, outerslope, outerslope2, outerslope3";
 	},
 	{
 		name = "horizontal_brick";
 		description = "Horizontal Brick";
 		texture = "0,2";
-		disabled_shapes = "pole, wallpole, cornerpole, fence, slab1, slab2, slab4, slab12, cube1, cube2, cube4, cube, cube12, step1, step2, step4, step12, splitstair1, splitstair4, pane, corner1, corner2, corner4, corner, corner12, beam, crossbeam, linkdown, innerslope, innerslope2, innerslope3, cutinnerslope, cutinnerslope2, cutinnerslope3, cutouterslope, outerslope, outerslope2, outerslope3, cutouterslope2, cutouterslope3, cutouterslope4";
+		enabled_shapes = "slab, cube, step, cat:stair, splitstair, cat:pillar, cat:pillarcown, corner, slope, slope2, slope3, innerslope, innerslope2, innerslope3, outerslope, outerslope2, outerslope3";
 	},
 	{
 		name = "cross_tile";
 		description = "Cross Tile";
 		texture = "1,2";
-		disabled_shapes = "pole, wallpole, cornerpole, fence, slab2, slab12, cube1, cube2, cube4, cube12, step1, step2, step12, splitstair1, splitstair4, corner1, corner2, corner4, corner, corner12, beam, crossbeam, linkdown, innerslope, innerslope2, innerslope3, cutinnerslope, cutinnerslope2, cutinnerslope3, outerslope, outerslope2, outerslope3, cutouterslope, cutouterslope2, cutouterslope3, cutouterslope4";
+		enabled_shapes = "slab, cube, step, cat:stair, splitstair, cat:pillar, cat:pillarcown, corner, pane, pane_flat, slope, slope2, slope3";
 	},
 	{
 		name = "spiral_tile";
 		description = "Spiral Tile";
 		texture = "2,2";
-		disabled_shapes = "pole, wallpole, cornerpole, fence, slab2, slab4, slab, slab12, cube1, cube2, cube4, cube, cube12, step1, step2, step4, step, step12, halfstair, righthalfstair, outerstair, stair, innerstair, splitstair1, splitstair4, splitstair, forkstair, wall, pillar, wallpillar, halfpillar, pillarcrown, wallpillarcrown, halfpillarcrown, crosscrown, crossbeam, beam, linkdown, corner1, corner2, corner4, corner, corner12, innerslope, innerslope2, innerslope3, cutinnerslope, cutinnerslope2, cutinnerslope3, outerslope, outerslope2, outerslope3, cutouterslope, cutouterslope2, cutouterslope3, cutouterslope4";
+		enabled_shapes = "slab1, cat:pane";
 	},
 }
+
+local function convert_craft(base_node, variant_node)
+	minetest.register_craft({
+		output = base_node,
+		recipe = {
+			{variant_node},
+		}
+	})
+end
 
 function variations.register_for_base(base_node, transparent, sunlight)
 	local base_definition = minetest.registered_nodes[base_node]
@@ -78,11 +87,10 @@ function variations.register_for_base(base_node, transparent, sunlight)
 			paramtype = paramtype_light or base_definition.paramtype,
 			sunlight_propagates = sunlight or base_definition.sunlight_propagates,
 		})
-	end
-    for _, variation in ipairs(variations.variations) do
-		local sname = string.match(base_node, ':(.*)')
-		local variation_name = "variations:" .. sname .. "_" .. variation.name
-		shapes:register_shape(variation_name, variation.disabled_shapes)
+		shapes:register_shape(variation_name, {
+			enabled = variation.enabled_shapes,
+		})
+		convert_craft(base_node, variation_name)
 	end
 end
 
@@ -107,11 +115,10 @@ function variations.register_support(base_node, transparent, sunlight)
 			paramtype = paramtype_light or base_definition.paramtype,
 			sunlight_propagates = sunlight or base_definition.sunlight_propagates,
 		})
-	end
-    for _, variation in ipairs(variations.variations) do
-		local sname = string.match(base_node, ':(.*)')
-		local variation_name = "variations:" .. sname .. "_" .. variation.name .. "_support"
-		shapes:register_shape(variation_name, variation.disabled_shapes)
+		shapes:register_shape(variation_name, {
+			enabled = variation.enabled_shapes,
+		})
+		convert_craft(base_node, variation_name)
 	end
 end
 
@@ -192,6 +199,7 @@ function variations.register_frame(base_node)
 				paramtype2 = "facedir",
 				sunlight_propagates = true,
 			})
+			convert_craft(base_node, frame_name)
 		end
 	end
 end

@@ -465,6 +465,29 @@ minetest.register_node("flora:dry_leaves", {
 	after_place_node = after_place_leaves,
 })
 
+minetest.register_node("flora:bone_tree", {
+	description = S("Ossified Log"),
+	tiles = {"flora_bone_tree_top.png", "flora_bone_tree_top.png", "flora_bone_tree.png"},
+	paramtype2 = "facedir",
+	is_ground_content = false,
+	groups = {tree = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2},
+	sounds = default.node_sound_wood_defaults(),
+
+	on_place = minetest.rotate_node
+})
+
+minetest.register_node("flora:crimson_leaves", {
+	description = S("Crimson Leaves"),
+	drawtype = "allfaces_optional",
+	tiles = {"flora_crimson_leaves.png"},
+	waving = 1,
+	paramtype = "light",
+	is_ground_content = false,
+	groups = {snappy = 3, leafdecay = 3, leaves = 1},
+	sounds = default.node_sound_leaves_defaults(),
+	after_place_node = after_place_leaves,
+})
+
 --
 -- register trees for leafdecay
 --
@@ -511,6 +534,12 @@ default.register_leafdecay({
 	trunks = {"flora:aspen_tree"},
 	leaves = {"flora:aspen_leaves"},
 	radius = 3,
+})
+
+default.register_leafdecay({
+	trunks = {"flora:bone_tree"},
+	leaves = {"flora:crimson_leaves"},
+	radius = 2,
 })
 
 --

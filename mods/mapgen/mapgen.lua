@@ -308,7 +308,7 @@ function mapgen.register_biomes()
 		node_dungeon_stair = "blocks:shapes_chalk_stair",
 		y_max = 31000,
 		y_min = 4,
-		heat_point = 50,
+		heat_point = 45,
 		humidity_point = 33,
 	})
 
@@ -326,7 +326,7 @@ function mapgen.register_biomes()
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
 		y_max = 3,
 		y_min = -255,
-		heat_point = 50,
+		heat_point = 45,
 		humidity_point = 33,
 	})
 
@@ -338,7 +338,7 @@ function mapgen.register_biomes()
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
 		y_max = -256,
 		y_min = -31000,
-		heat_point = 50,
+		heat_point = 45,
 		humidity_point = 33,
 	})
 
@@ -852,15 +852,36 @@ function mapgen.register_decorations()
 		noise_threshold = -3.0,
 		noise_params = {
 			offset = -1.5,
-			scale = -1,
+			scale = -0.75,
 			spread = {x = 64, y = 64, z = 64},
-			seed = 1714,
-			octaves = 4,
+			seed = 5520,
+			octaves = 3,
 			persist = 1.0
 		},
 		biomes = {"chalk_grassland"},
 		y_max = 31000,
 		y_min = 4,
+		decoration = "blocks:chalk",
+		place_offset_y = -1,
+		flags = "force_placement",
+	})
+
+	minetest.register_decoration({
+		deco_type = "simple",
+		place_on = {"blocks:chalk_with_grass"},
+		sidelen = 4,
+		noise_threshold = -0.2,
+		noise_params = {
+			offset = -0.08,
+			scale = -0.75,
+			spread = {x = 64, y = 64, z = 64},
+			seed = 5535,
+			octaves = 3,
+			persist = 0.6,
+		},
+		biomes = {"chalk_grassland"},
+		y_max = 31000,
+		y_min = 9,
 		decoration = "blocks:chalk",
 		place_offset_y = -1,
 		flags = "force_placement",

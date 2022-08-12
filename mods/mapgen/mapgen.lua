@@ -547,7 +547,7 @@ function mapgen.register_biomes()
 		heat_point = 45,
 		humidity_point = 0,
 	})
-  
+
 	minetest.register_biome({
 		name = "sandstone_desert_under",
 		node_cave_liquid = {"blocks:water_source", "blocks:lava_source"},

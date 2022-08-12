@@ -1,9 +1,6 @@
 --
 -- Register biomes
 --
-
--- All mapgens except mgv6
-
 function mapgen.register_biomes()
 
 	-- Icesheet
@@ -26,7 +23,7 @@ function mapgen.register_biomes()
 		y_max = 31000,
 		y_min = -64,
 		heat_point = 0,
-		humidity_point = 73,
+		humidity_point = 65,
 	})
 
 	minetest.register_biome({
@@ -45,7 +42,7 @@ function mapgen.register_biomes()
 		y_max = -65,
 		y_min = mapgen.underground_limit + 1,
 		heat_point = 0,
-		humidity_point = 73,
+		humidity_point = 65,
 	})
 
 	minetest.register_biome({
@@ -57,7 +54,7 @@ function mapgen.register_biomes()
 		y_max = mapgen.underground_limit,
 		y_min = -31000,
 		heat_point = 0,
-		humidity_point = 73,
+		humidity_point = 65,
 	})
 
 	-- Tundra
@@ -160,7 +157,7 @@ function mapgen.register_biomes()
 		y_max = 31000,
 		y_min = 4,
 		heat_point = 25,
-		humidity_point = 70,
+		humidity_point = 65,
 	})
 
 	minetest.register_biome({
@@ -180,7 +177,7 @@ function mapgen.register_biomes()
 		y_max = 3,
 		y_min = mapgen.underground_limit + 1,
 		heat_point = 25,
-		humidity_point = 70,
+		humidity_point = 65,
 	})
 
 	minetest.register_biome({
@@ -192,7 +189,7 @@ function mapgen.register_biomes()
 		y_max = mapgen.underground_limit,
 		y_min = -31000,
 		heat_point = 25,
-		humidity_point = 70,
+		humidity_point = 65,
 	})
 
 	-- Snowy grassland
@@ -211,7 +208,7 @@ function mapgen.register_biomes()
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
 		y_max = 31000,
 		y_min = 4,
-		heat_point = 20,
+		heat_point = 15,
 		humidity_point = 35,
 	})
 
@@ -231,7 +228,7 @@ function mapgen.register_biomes()
 		vertical_blend = 1,
 		y_max = 3,
 		y_min = mapgen.underground_limit + 1,
-		heat_point = 20,
+    heat_point = 15,
 		humidity_point = 35,
 	})
 
@@ -243,7 +240,7 @@ function mapgen.register_biomes()
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
 		y_max = mapgen.underground_limit,
 		y_min = -31000,
-		heat_point = 20,
+		heat_point = 15,
 		humidity_point = 35,
 	})
 
@@ -261,26 +258,8 @@ function mapgen.register_biomes()
 		node_dungeon_alt = "blocks:mossycobble",
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
 		y_max = 31000,
-		y_min = 6,
-		heat_point = 50,
-		humidity_point = 35,
-	})
-
-	minetest.register_biome({
-		name = "grassland_dunes",
-		node_top = "blocks:sand",
-		depth_top = 1,
-		node_filler = "blocks:sand",
-		depth_filler = 2,
-		node_riverbed = "blocks:sand",
-		depth_riverbed = 2,
-		node_dungeon = "blocks:cobble",
-		node_dungeon_alt = "blocks:mossycobble",
-		node_dungeon_stair = "blocks:shapes_cobble_stair",
-		vertical_blend = 1,
-		y_max = 5,
 		y_min = 4,
-		heat_point = 50,
+		heat_point = 45,
 		humidity_point = 35,
 	})
 
@@ -297,8 +276,8 @@ function mapgen.register_biomes()
 		node_dungeon_alt = "blocks:mossycobble",
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
 		y_max = 3,
-		y_min = mapgen.underground_limit + 1,
-		heat_point = 50,
+		y_min = -255,
+		heat_point = 45,
 		humidity_point = 35,
 	})
 
@@ -308,10 +287,59 @@ function mapgen.register_biomes()
 		node_dungeon = "blocks:cobble",
 		node_dungeon_alt = "blocks:mossycobble",
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
+		y_max = -256,
+		y_min = -31000,
+		heat_point = 45,
+		humidity_point = 35,
+	})
+
+	-- Chalk grassland
+
+	minetest.register_biome({
+		name = "chalk_grassland",
+		node_stone = "blocks:chalk",
+		node_top = "blocks:chalk_with_grass",
+		depth_top = 1,
+		node_filler = "blocks:chalk",
+		depth_filler = 2,
+		node_riverbed = "blocks:sand",
+		depth_riverbed = 2,
+		node_dungeon = "variations:chalk_brick",
+		node_dungeon_stair = "blocks:shapes_chalk_stair",
+		y_max = 31000,
+		y_min = 4,
+		heat_point = 45,
+		humidity_point = 33,
+	})
+
+	minetest.register_biome({
+		name = "chalk_grassland_ocean",
+		node_top = "blocks:sand",
+		depth_top = 1,
+		node_filler = "blocks:sand",
+		depth_filler = 3,
+		node_riverbed = "blocks:sand",
+		depth_riverbed = 2,
+		node_cave_liquid = "blocks:water_source",
+		node_dungeon = "blocks:cobble",
+		node_dungeon_alt = "blocks:mossycobble",
+		node_dungeon_stair = "blocks:shapes_cobble_stair",
+		y_max = 3,
+		y_min = mapgen.underground_limit + 1,
+		heat_point = 45,
+		humidity_point = 33,
+	})
+
+	minetest.register_biome({
+		name = "chalk_grassland_under",
+		node_cave_liquid = {"blocks:water_source", "blocks:lava_source"},
+		node_dungeon = "blocks:cobble",
+		node_dungeon_alt = "blocks:mossycobble",
+		node_dungeon_stair = "blocks:shapes_cobble_stair",
 		y_max = mapgen.underground_limit,
 		y_min = -31000,
-		heat_point = 50,
-		humidity_point = 35,
+		heat_point = 45,
+		humidity_point = 33,
 	})
 
 	-- Coniferous forest
@@ -328,27 +356,9 @@ function mapgen.register_biomes()
 		node_dungeon_alt = "blocks:mossycobble",
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
 		y_max = 31000,
-		y_min = 6,
-		heat_point = 45,
-		humidity_point = 70,
-	})
-
-	minetest.register_biome({
-		name = "coniferous_forest_dunes",
-		node_top = "blocks:sand",
-		depth_top = 1,
-		node_filler = "blocks:sand",
-		depth_filler = 3,
-		node_riverbed = "blocks:sand",
-		depth_riverbed = 2,
-		node_dungeon = "blocks:cobble",
-		node_dungeon_alt = "blocks:mossycobble",
-		node_dungeon_stair = "blocks:shapes_cobble_stair",
-		vertical_blend = 1,
-		y_max = 5,
 		y_min = 4,
-		heat_point = 45,
-		humidity_point = 70,
+		heat_point = 32,
+		humidity_point = 65,
 	})
 
 	minetest.register_biome({
@@ -365,8 +375,8 @@ function mapgen.register_biomes()
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
 		y_max = 3,
 		y_min = mapgen.underground_limit + 1,
-		heat_point = 45,
-		humidity_point = 70,
+		heat_point = 32,
+		humidity_point = 65,
 	})
 
 	minetest.register_biome({
@@ -377,8 +387,8 @@ function mapgen.register_biomes()
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
 		y_max = mapgen.underground_limit,
 		y_min = -31000,
-		heat_point = 45,
-		humidity_point = 70,
+		heat_point = 32,
+		humidity_point = 65,
 	})
 
 	-- Deciduous forest
@@ -397,7 +407,7 @@ function mapgen.register_biomes()
 		y_max = 31000,
 		y_min = 1,
 		heat_point = 60,
-		humidity_point = 68,
+		humidity_point = 65,
 	})
 
 	minetest.register_biome({
@@ -408,13 +418,15 @@ function mapgen.register_biomes()
 		depth_filler = 3,
 		node_riverbed = "blocks:sand",
 		depth_riverbed = 2,
+		node_water = "blocks:river_water_source",
+		node_water_top_height = 2,
 		node_dungeon = "blocks:cobble",
 		node_dungeon_alt = "blocks:mossycobble",
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
 		y_max = 0,
 		y_min = -1,
 		heat_point = 60,
-		humidity_point = 68,
+		humidity_point = 65,
 	})
 
 	minetest.register_biome({
@@ -425,6 +437,7 @@ function mapgen.register_biomes()
 		depth_filler = 3,
 		node_riverbed = "blocks:sand",
 		depth_riverbed = 2,
+		node_water = "blocks:water_source",
 		node_cave_liquid = "blocks:water_source",
 		node_dungeon = "blocks:cobble",
 		node_dungeon_alt = "blocks:mossycobble",
@@ -433,7 +446,7 @@ function mapgen.register_biomes()
 		y_max = -2,
 		y_min = mapgen.underground_limit + 1,
 		heat_point = 60,
-		humidity_point = 68,
+		humidity_point = 65,
 	})
 
 	minetest.register_biome({
@@ -445,7 +458,7 @@ function mapgen.register_biomes()
 		y_max = mapgen.underground_limit,
 		y_min = -31000,
 		heat_point = 60,
-		humidity_point = 68,
+		humidity_point = 65,
 	})
 
 	-- Desert
@@ -463,8 +476,8 @@ function mapgen.register_biomes()
 		node_dungeon_stair = "blocks:shapes_desert_stone_stair",
 		y_max = 31000,
 		y_min = 4,
-		heat_point = 92,
-		humidity_point = 16,
+		heat_point = 85,
+		humidity_point = 0,
 	})
 
 	minetest.register_biome({
@@ -481,9 +494,9 @@ function mapgen.register_biomes()
 		node_dungeon_stair = "blocks:shapes_desert_stone_stair",
 		vertical_blend = 1,
 		y_max = 3,
-		y_min = mapgen.underground_limit + 1,
-		heat_point = 92,
-		humidity_point = 16,
+    y_min = mapgen.underground_limit + 1,
+		heat_point = 85,
+		humidity_point = 0,
 	})
 
 	minetest.register_biome({
@@ -494,8 +507,8 @@ function mapgen.register_biomes()
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
 		y_max = mapgen.underground_limit,
 		y_min = -31000,
-		heat_point = 92,
-		humidity_point = 16,
+		heat_point = 85,
+		humidity_point = 0,
 	})
 
 	-- Sandstone desert
@@ -513,7 +526,7 @@ function mapgen.register_biomes()
 		node_dungeon_stair = "blocks:shapes_sandstone_block_stair",
 		y_max = 31000,
 		y_min = 4,
-		heat_point = 60,
+		heat_point = 45,
 		humidity_point = 0,
 	})
 
@@ -530,8 +543,8 @@ function mapgen.register_biomes()
 		node_dungeon = "blocks:sandstonebrick",
 		node_dungeon_stair = "blocks:shapes_sandstone_block_stair",
 		y_max = 3,
-		y_min = mapgen.underground_limit + 1,
-		heat_point = 60,
+    y_min = mapgen.underground_limit + 1,
+		heat_point = 45,
 		humidity_point = 0,
 	})
 
@@ -543,7 +556,7 @@ function mapgen.register_biomes()
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
 		y_max = mapgen.underground_limit,
 		y_min = -31000,
-		heat_point = 60,
+		heat_point = 45,
 		humidity_point = 0,
 	})
 
@@ -562,7 +575,7 @@ function mapgen.register_biomes()
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
 		y_max = 31000,
 		y_min = 4,
-		heat_point = 40,
+		heat_point = 20,
 		humidity_point = 0,
 	})
 
@@ -581,7 +594,7 @@ function mapgen.register_biomes()
 		vertical_blend = 1,
 		y_max = 3,
 		y_min = mapgen.underground_limit + 1,
-		heat_point = 40,
+		heat_point = 20,
 		humidity_point = 0,
 	})
 
@@ -593,7 +606,7 @@ function mapgen.register_biomes()
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
 		y_max = mapgen.underground_limit,
 		y_min = -31000,
-		heat_point = 40,
+		heat_point = 20,
 		humidity_point = 0,
 	})
 
@@ -613,7 +626,7 @@ function mapgen.register_biomes()
 		y_max = 31000,
 		y_min = 1,
 		heat_point = 89,
-		humidity_point = 42,
+		humidity_point = 48,
 	})
 
 	minetest.register_biome({
@@ -630,7 +643,7 @@ function mapgen.register_biomes()
 		y_max = 0,
 		y_min = -1,
 		heat_point = 89,
-		humidity_point = 42,
+		humidity_point = 48,
 	})
 
 	minetest.register_biome({
@@ -649,7 +662,7 @@ function mapgen.register_biomes()
 		y_max = -2,
 		y_min = mapgen.underground_limit + 1,
 		heat_point = 89,
-		humidity_point = 42,
+		humidity_point = 48,
 	})
 
 	minetest.register_biome({
@@ -661,7 +674,7 @@ function mapgen.register_biomes()
 		y_max = mapgen.underground_limit,
 		y_min = -31000,
 		heat_point = 89,
-		humidity_point = 42,
+		humidity_point = 48,
 	})
 
 	-- Rainforest
@@ -674,13 +687,14 @@ function mapgen.register_biomes()
 		depth_filler = 3,
 		node_riverbed = "blocks:sand",
 		depth_riverbed = 2,
+		node_water = "blocks:water_source",
 		node_dungeon = "blocks:cobble",
 		node_dungeon_alt = "blocks:mossycobble",
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
 		y_max = 31000,
 		y_min = 1,
 		heat_point = 86,
-		humidity_point = 65,
+		humidity_point = 70,
 	})
 
 	minetest.register_biome({
@@ -691,13 +705,14 @@ function mapgen.register_biomes()
 		depth_filler = 3,
 		node_riverbed = "blocks:sand",
 		depth_riverbed = 2,
+		node_water = "blocks:water_source",
 		node_dungeon = "blocks:cobble",
 		node_dungeon_alt = "blocks:mossycobble",
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
 		y_max = 0,
 		y_min = -1,
 		heat_point = 86,
-		humidity_point = 65,
+		humidity_point = 70,
 	})
 
 	minetest.register_biome({
@@ -708,6 +723,7 @@ function mapgen.register_biomes()
 		depth_filler = 3,
 		node_riverbed = "blocks:sand",
 		depth_riverbed = 2,
+		node_water = "blocks:water_source",
 		node_cave_liquid = "blocks:water_source",
 		node_dungeon = "blocks:cobble",
 		node_dungeon_alt = "blocks:mossycobble",
@@ -716,7 +732,7 @@ function mapgen.register_biomes()
 		y_max = -2,
 		y_min = mapgen.underground_limit + 1,
 		heat_point = 86,
-		humidity_point = 65,
+		humidity_point = 70,
 	})
 
 	minetest.register_biome({
@@ -728,7 +744,7 @@ function mapgen.register_biomes()
 		y_max = mapgen.underground_limit,
 		y_min = -31000,
 		heat_point = 86,
-		humidity_point = 65,
+		humidity_point = 70,
 	})
 end
 
@@ -737,108 +753,11 @@ end
 -- Register decorations
 --
 
--- Mgv6
-
-function mapgen.register_mgv6_decorations()
-
-	-- Papyrus
-
-	minetest.register_decoration({
-		name = "flora:papyrus",
-		deco_type = "simple",
-		place_on = {"blocks:dirt_with_grass"},
-		sidelen = 16,
-		noise_params = {
-			offset = -0.3,
-			scale = 0.7,
-			spread = {x = 100, y = 100, z = 100},
-			seed = 354,
-			octaves = 3,
-			persist = 0.7
-		},
-		y_max = 1,
-		y_min = 1,
-		decoration = "flora:papyrus",
-		height = 2,
-		height_max = 4,
-		spawn_by = "blocks:water_source",
-		num_spawn_by = 1,
-	})
-
-	-- Cacti
-
-	minetest.register_decoration({
-		name = "flora:cactus",
-		deco_type = "simple",
-		place_on = {"blocks:desert_sand"},
-		sidelen = 16,
-		noise_params = {
-			offset = -0.012,
-			scale = 0.024,
-			spread = {x = 100, y = 100, z = 100},
-			seed = 230,
-			octaves = 3,
-			persist = 0.6
-		},
-		y_max = 30,
-		y_min = 1,
-		decoration = "flora:cactus",
-		height = 3,
-	        height_max = 4,
-	})
-
-	-- Long grasses
-
-	for length = 1, 5 do
-		minetest.register_decoration({
-			name = "flora:grass_"..length,
-			deco_type = "simple",
-			place_on = {"blocks:dirt_with_grass"},
-			sidelen = 16,
-			noise_params = {
-				offset = 0,
-				scale = 0.007,
-				spread = {x = 100, y = 100, z = 100},
-				seed = 329,
-				octaves = 3,
-				persist = 0.6
-			},
-			y_max = 30,
-			y_min = 1,
-			decoration = "flora:grass_"..length,
-		})
-	end
-
-	-- Dry shrubs
-
-	minetest.register_decoration({
-		name = "flora:dry_shrub",
-		deco_type = "simple",
-		place_on = {"blocks:desert_sand", "blocks:dirt_with_snow"},
-		sidelen = 16,
-		noise_params = {
-			offset = 0,
-			scale = 0.035,
-			spread = {x = 100, y = 100, z = 100},
-			seed = 329,
-			octaves = 3,
-			persist = 0.6
-		},
-		y_max = 30,
-		y_min = 1,
-		decoration = "flora:dry_shrub",
-		param2 = 4,
-	})
-end
-
-
--- All mapgens except mgv6
-
 local function register_grass_decoration(offset, scale, length)
 	minetest.register_decoration({
 		name = "flora:grass_" .. length,
 		deco_type = "simple",
-		place_on = {"blocks:dirt_with_grass"},
+		place_on = {"blocks:dirt_with_grass", "blocks:chalk_with_grass"},
 		sidelen = 16,
 		noise_params = {
 			offset = offset,
@@ -848,7 +767,7 @@ local function register_grass_decoration(offset, scale, length)
 			octaves = 3,
 			persist = 0.6
 		},
-		biomes = {"grassland", "deciduous_forest"},
+		biomes = {"grassland", "deciduous_forest", "chalk_grassland"},
 		y_max = 31000,
 		y_min = 1,
 		decoration = "flora:grass_" .. length,
@@ -924,6 +843,50 @@ function mapgen.register_decorations()
 		y_max = 31000,
 		y_min = 1,
 		decoration = "blocks:dry_dirt",
+		place_offset_y = -1,
+		flags = "force_placement",
+	})
+
+	-- Grassy patches for chalk grassland
+	-- Register before other decoration on Chalk with Grass
+	minetest.register_decoration({
+		deco_type = "simple",
+		place_on = {"blocks:chalk_with_grass"},
+		sidelen = 4,
+		noise_threshold = -3.0,
+		noise_params = {
+			offset = -1.5,
+			scale = -0.75,
+			spread = {x = 64, y = 64, z = 64},
+			seed = 5520,
+			octaves = 3,
+			persist = 1.0
+		},
+		biomes = {"chalk_grassland"},
+		y_max = 31000,
+		y_min = 4,
+		decoration = "blocks:chalk",
+		place_offset_y = -1,
+		flags = "force_placement",
+	})
+
+	minetest.register_decoration({
+		deco_type = "simple",
+		place_on = {"blocks:chalk_with_grass"},
+		sidelen = 4,
+		noise_threshold = -0.2,
+		noise_params = {
+			offset = -0.08,
+			scale = -0.75,
+			spread = {x = 64, y = 64, z = 64},
+			seed = 5535,
+			octaves = 3,
+			persist = 0.6,
+		},
+		biomes = {"chalk_grassland"},
+		y_max = 31000,
+		y_min = 9,
+		decoration = "blocks:chalk",
 		place_offset_y = -1,
 		flags = "force_placement",
 	})
@@ -1499,7 +1462,7 @@ function mapgen.register_decorations()
 	minetest.register_decoration({
 		name = "mapgen:bush",
 		deco_type = "schematic",
-		place_on = {"blocks:dirt_with_grass", "blocks:dirt_with_grass_sfcave"},
+		place_on = {"blocks:dirt_with_grass",  "blocks:chalk_with_grass", "blocks:dirt_with_grass_sfcave"},
 		sidelen = 16,
 		noise_params = {
 			offset = -0.004,
@@ -1509,7 +1472,7 @@ function mapgen.register_decorations()
 			octaves = 3,
 			persist = 0.7,
 		},
-		biomes = {"grassland", "deciduous_forest", "grassland_ocean", "deciduous_forest_ocean"},
+		biomes = {"grassland", "snowy_grassland",  "deciduous_forest", "grassland_ocean", "chalk_grassland_ocean", "deciduous_forest_ocean"},
 		y_max = 31000,
 		y_min = mapgen.underground_start,
 		schematic = minetest.get_modpath("flora") .. "/schematics/bush.mts",
@@ -1521,7 +1484,7 @@ function mapgen.register_decorations()
 	minetest.register_decoration({
 		name = "mapgen:blueberry_bush",
 		deco_type = "schematic",
-		place_on = {"blocks:dirt_with_grass", "blocks:dirt_with_snow", "blocks:dirt_with_grass_sfcave", "blocks:permafrost_with_snow"},
+		place_on = {"blocks:dirt_with_grass", "blocks:dirt_with_snow", "blocks:chalk_with_grass", "blocks:dirt_with_grass_sfcave", "blocks:permafrost_with_snow"},
 		sidelen = 16,
 		noise_params = {
 			offset = -0.004,
@@ -1531,7 +1494,7 @@ function mapgen.register_decorations()
 			octaves = 3,
 			persist = 0.7,
 		},
-		biomes = {"grassland", "snowy_grassland", "grassland_ocean", "snowy_grassland_ocean"},
+		biomes = {"grassland", "snowy_grassland", "chalk_grassland", "grassland_ocean", "snowy_grassland_ocean", "chalk_grassland_ocean"},
 		y_max = 31000,
 		y_min = mapgen.underground_start,
 		place_offset_y = 1,
@@ -1643,33 +1606,6 @@ function mapgen.register_decorations()
 		param2 = 4,
 	})
 
-	-- Marram grass
-
-	minetest.register_decoration({
-		name = "mapgen:marram_grass",
-		deco_type = "simple",
-		place_on = {"blocks:sand"},
-		sidelen = 4,
-		noise_params = {
-			offset = -0.7,
-			scale = 4.0,
-			spread = {x = 16, y = 16, z = 16},
-			seed = 513337,
-			octaves = 1,
-			persist = 0.0,
-			flags = "absvalue, eased"
-		},
-		biomes = {"coniferous_forest_dunes", "grassland_dunes"},
-		y_max = 6,
-		y_min = 4,
-		decoration = {
-			"flora:marram_grass_1",
-			"flora:marram_grass_2",
-			"flora:marram_grass_3",
-		},
-	})
-
-	-- Tundra moss
 
 	minetest.register_decoration({
 		deco_type = "simple",
@@ -1775,7 +1711,7 @@ function mapgen.register_decorations()
 			persist = 1.0
 		},
 		biomes = {"tundra", "tundra_beach"},
-		y_max = 50,
+		y_max = 500,
 		y_min = 1,
 		decoration = "blocks:snow",
 	})

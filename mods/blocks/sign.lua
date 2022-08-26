@@ -9,7 +9,7 @@ local function sign_formspec(pos)
 		"style_type[image;noclip=true]"..
 		"image[-1.4,0.825;1.4,1.4;gui_tab.png]"..
 		"image[8.2,0.825;1.4,1.4;gui_tab.png^[transformFX]"..
-		"image_button[-1.1,0.975;1.05,1.05;"..locks.icons("sign", lock, sign_lockorder, true, "(Owned by "..owner..")")..
+		"image_button[-1.1,0.975;1.05,1.05;"..locks.icons(pos, "sign", sign_lockorder, false, "(Owned by "..owner..")")..
 		"textarea[0.4,0.4;7.4,2.2;sign_text;;"..text.."]"..
 		"image_button_exit[8.35,0.975;1.05,1.05;gui_enter.png;sign_save;;true;false]"
 end

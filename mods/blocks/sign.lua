@@ -1,7 +1,6 @@
 local sign_lockorder = {"lock", "protect", "unlock"}
 local function sign_formspec(pos)
 	local meta = minetest.get_meta(pos)
-	local lock = meta:get_string("lock")
 	local owner = meta:get_string("owner")
 	local text = meta:get_string("text")
 	return "formspec_version[4]"..

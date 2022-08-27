@@ -550,7 +550,7 @@ local function register_shapes_station(name, def)
 		end,
 	})
 	
-	if not active then
+	if not def.active then
 		minetest.register_on_player_receive_fields(function(player, formname, fields)
 			if formname ~= link or not player then
 				return

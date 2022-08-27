@@ -550,50 +550,51 @@ local function register_shapes_station(name, def)
 		end,
 	})
 	
-	minetest.register_on_player_receive_fields(function(player, formname, fields)
-		if formname ~= link or not player then
-			return
-		end
-		local playername = player:get_player_name()
-		local pos = shapes_crafting[link][playername]
-		if not pos then
-			return
-		end
-		local meta = minetest.get_meta(pos)
-		if not locks.can_access(pos, player) then
-			return 0
-		end
-		if locks.fields(pos, player, fields, "shapes_station", def.description) then
-			station_update(pos, "fuel", nil, nil, player, def)
-		end
-		if fields.shapes_station_multiplier  then
-			local sub_multiplier = string.gsub(fields.shapes_station_multiplier, "x", "")
-			if tonumber(sub_multiplier) and tonumber(sub_multiplier) ~= meta:get_int("multiplier") then
-				local multiplier = tonumber(sub_multiplier)
-				if multiplier > 99 then
-					multiplier = 99
-				elseif multiplier < 1 then
-					multiplier = 1
-				end
-				meta:set_int("multiplier", multiplier)
-				apply_craft_result(pos, def.craft_category, multiplier)
-				station_update(pos, "input", nil, nil, player, def)
+	if def.description then
+		minetest.register_on_player_receive_fields(function(player, formname, fields)
+			if formname ~= link or not player then
+				return
 			end
-		end
-		if fields.shapes_scrollbar then
-			local scrolldis = minetest.explode_scrollbar_event(fields.shapes_scrollbar)
-			meta:set_int("scroll", scrolldis.value)
-		end
-		-- --fuel_fs_update(pos, def) -- update fuel time
-		if fields.quit then
-			shapes_crafting[link][playername] = nil
-			shapes_crafting[link][minetest.pos_to_string(pos)] = nil
-		end
-		if winv_exists and not fields.quit then
-			winv.node_receive_fields(player, formname, fields)
-			show_formspec(pos, player, def)
-		end
-	end)
+			local playername = player:get_player_name()
+			local pos = shapes_crafting[link][playername]
+			if not pos then
+				return
+			end
+			local meta = minetest.get_meta(pos)
+			if not locks.can_access(pos, player) then
+				return 0
+			end
+			if locks.fields(pos, player, fields, "shapes_station", def.description) then
+				station_update(pos, "fuel", nil, nil, player, def)
+			end
+			if fields.shapes_station_multiplier  then
+				local sub_multiplier = string.gsub(fields.shapes_station_multiplier, "x", "")
+				if tonumber(sub_multiplier) and tonumber(sub_multiplier) ~= meta:get_int("multiplier") then
+					local multiplier = tonumber(sub_multiplier)
+					if multiplier > 99 then
+						multiplier = 99
+					elseif multiplier < 1 then
+						multiplier = 1
+					end
+					meta:set_int("multiplier", multiplier)
+					apply_craft_result(pos, def.craft_category, multiplier)
+					station_update(pos, "input", nil, nil, player, def)
+				end
+			end
+			if fields.shapes_scrollbar then
+				local scrolldis = minetest.explode_scrollbar_event(fields.shapes_scrollbar)
+				meta:set_int("scroll", scrolldis.value)
+			end
+			if fields.quit then
+				shapes_crafting[link][playername] = nil
+				shapes_crafting[link][minetest.pos_to_string(pos)] = nil
+			end
+			if winv_exists and not fields.quit then
+				winv.node_receive_fields(player, formname, fields)
+				show_formspec(pos, player, def)
+			end
+		end)
+	end
 end
 
 -- register mesefuel
@@ -644,7 +645,6 @@ register_shapes_station("shapes:tablesaw", {
 })
 
 register_shapes_station("shapes:tablesaw_active", {
-	description = "Table Saw",
 	mesh = "workbench_tablesaw.obj",
 	craft_category = "tablesaw",
 	shape_category = "shapes",
@@ -705,7 +705,6 @@ register_shapes_station("shapes:cnc", {
 })
 
 register_shapes_station("shapes:cnc_active", {
-	description = "CNC Machine",
 	mesh = "workbench_cnc.obj",
 	craft_category = "cnc",
 	shape_category = "shapes_mesh",

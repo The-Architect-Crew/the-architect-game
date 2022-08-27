@@ -7,7 +7,7 @@ winv:register_inventory("remote", {
 		tooltip = "Remote Access",
 	},
 	formspec_func = function(player)
-		local playername = player:get_player_name()
+		--local playername = player:get_player_name()
 		local formspec = {
 			"image[0,0;7.75,7.75;winv_bg.png]",
 			"button[0.25,0.25;6.35,0.7;<name>;Link by nearby nodes]",
@@ -34,9 +34,8 @@ winv:register_inventory("remote", {
 		}
 		return table.concat(formspec)
 	end,
-	on_player_receive_fields = function(player, formname, fields)
+	--[[on_player_receive_fields = function(player, formname, fields)
 		if fields["winv_remote_left"] or fields["winv_remote_right"] then
-			-- --
 		end
-	end,
+	end,]]
 })

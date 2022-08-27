@@ -509,7 +509,7 @@ function workbench.craft_output(ilist, ctype, cat, iw, multiplier, listall)
 		elseif multi > 1 then
 			local final_input = ilist
 			local match_output
-			local output, dinput = minetest.get_craft_result({method = ctype, width = iw, items = ilist})
+			local output = minetest.get_craft_result({method = ctype, width = iw, items = ilist})
 			if output and not output.item:is_empty() then
 				for i = 1, multi do
 					local r_output, r_dinput = minetest.get_craft_result({method = ctype, width = iw, items = final_input})

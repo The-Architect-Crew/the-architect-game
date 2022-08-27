@@ -22,7 +22,6 @@ local function formspec_crafting(pos, player, add)
 				"listring[nodemeta:"..spos..";output]"..
 				"listring[detached:winv_craft_"..playername..";input]"..
 				"listring[detached:winv_craft_"..playername..";output]"
-				
 		elseif right_inv == "creative" then
 			winv_listring =
 				"listring[detached:winv_creative_"..playername..";main]"..
@@ -283,7 +282,6 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 	local playername = player:get_player_name()
 	local pos = workbench.craftbench[playername]
 	local meta = minetest.get_meta(pos)
-	
 	if not locks.can_access(pos, player) then
 		return 0
 	end

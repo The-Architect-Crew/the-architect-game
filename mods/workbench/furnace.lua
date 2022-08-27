@@ -39,12 +39,12 @@ local function formspec_cooking(pos, player, add)
 	local ftime = meta:get_int("fueltime")
 	if ftime > 0 then
 		if winv_exists then
-			fireanim_form = 
+			fireanim_form =
 				"animated_image[6.5,5.6;1,1;fuel_icon;gui_fire_animated.png;60;60;1]"..
 				"image_button[6.5,5.6;1,1;invisible.png;fuelamt;;false;false;invisible.png]"..
 				"tooltip[6.5,5.6;1,1;Fuel Left: "..ccore.get_time(ftime).." \nPress me to update!]"
 		else
-			fireanim_form = 
+			fireanim_form =
 				"animated_image[8.675,2.575;1,1;fuel_icon;gui_fire_animated.png;60;60;1]"..
 				"image_button[8.675,2.575;1,1;invisible.png;fuelamt;;false;false;invisible.png]"..
 				"tooltip[8.675,2.575;1,1;Fuel Left: "..ccore.get_time(ftime).." \nPress me to update!]"
@@ -264,8 +264,8 @@ local function register_furnace(name, def)
 			return false
 		end,
 		on_timer = function(pos, elapsed)
-			local name = workbench.furnace[minetest.pos_to_string(pos)] or ""
-			local player = minetest.get_player_by_name(name)
+			local playername = workbench.furnace[minetest.pos_to_string(pos)] or ""
+			local player = minetest.get_player_by_name(playername)
 			fuel_update(pos, true, player)
 		end,
 		on_construct = function(pos)

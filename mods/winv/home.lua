@@ -31,7 +31,7 @@ end
 
 minetest.register_on_newplayer(function(player)
 	local meta = player:get_meta()
-	local default_limit = tonumber(minetest.settings:get("winv_max_homes")) or 3	
+	local default_limit = tonumber(minetest.settings:get("winv_max_homes")) or 3
 	meta:set_int("whomes_limit", default_limit)
 end)
 
@@ -51,7 +51,7 @@ local function get_homes_limit(player, type)
 	if homes_limit and tonumber(homes_limit) then
 		return homes_limit
 	else
-		local default_limit = tonumber(minetest.settings:get("winv_max_homes")) or 3	
+		local default_limit = tonumber(minetest.settings:get("winv_max_homes")) or 3
 		meta:set_int("whomes_limit", default_limit)
 		return default_limit
 	end
@@ -66,7 +66,6 @@ local function get_homes_amt(player, type)
 	local homesdata = minetest.deserialize(homespd)
 	local homes_amt = 0
 	local total_amt = 0
-	local waypoint_amt = 0
 	for i, homelist in pairs(homesdata) do
 		if type and homelist.type == type then
 			homes_amt = homes_amt + 1
@@ -90,18 +89,18 @@ end
 
 local function add_home(player, hname, htype)
 	local name = player:get_player_name()
-	local htype = htype or "home"
+	local htype2 = htype or "home"
 	local hinv = whomes_inventory[name] or init_homes(player)
 	if not hname or hname == "" then
-		homes_chat(name, "Please add a name for the "..htype.."!")
+		homes_chat(name, "Please add a name for the "..htype2.."!")
 		return false
 	end
 	local meta = player:get_meta()
 	local homes_amt, total_amt = get_homes_amt(player, "home")
 	local homes_limit = get_homes_limit(player)
 	local homesdata = minetest.deserialize(meta:get_string("whomes")) or {}
-	if htype == "home" and homesdata and (homes_amt + 1) > homes_limit then -- check home limit
-		homes_chat(name, "You have reached your limit of "..homes_limit.." "..htype.."s! Delete existing ones.")
+	if htype2 == "home" and homesdata and (homes_amt + 1) > homes_limit then -- check home limit
+		homes_chat(name, "You have reached your limit of "..homes_limit.." "..htype2.."s! Delete existing ones.")
 		return false
 	end
 	if homesdata[hname] then -- ensure name isnt already registered
@@ -110,14 +109,14 @@ local function add_home(player, hname, htype)
 	end
 	local ppos = player:get_pos()
 	local order = total_amt + 1
-	if htype == "waypoint" then
+	if htype2 == "waypoint" then
 		local color = math.random(0xFFFFFF)
 		homesdata[hname] = {x = ppos.x, y = ppos.y, z = ppos.z, type = "waypoint", icon = math.random(1, #whomes_icons), hud = true, color = color, order = order}
 	else
 		homesdata[hname] = {x = ppos.x, y = ppos.y, z = ppos.z, type = "home", icon = math.random(1, #whomes_icons), hud = nil, color = nil, order = order}
 	end
 	meta:set_string("whomes", minetest.serialize(homesdata))
-	homes_chat(name, "Saved '"..hname.."' ("..ppos.x..", "..ppos.y..", "..ppos.z..") to your list of "..htype.."s!")
+	homes_chat(name, "Saved '"..hname.."' ("..ppos.x..", "..ppos.y..", "..ppos.z..") to your list of "..htype2.."s!")
 	-- set scrollbar to latest created home
 	if order >= 3 then
 		local scroll = 4 + ((order - 3) * 20)
@@ -139,10 +138,10 @@ local function delete_home(player, hname)
 	if homesdata[hname] then
 		local rm_order = homesdata[hname].order
 		if rm_order ~= #homesdata then -- update the order of the rest of the homes
-			for hname, homelist in pairs(homesdata) do
+			for hname2, homelist in pairs(homesdata) do
 				local ch_order = homelist.order
 				if ch_order > rm_order then
-					homesdata[hname].order = ch_order - 1
+					homesdata[hname2].order = ch_order - 1
 				end
 			end
 		end
@@ -294,7 +293,7 @@ winv:register_inventory("home", {
 				if homelist.hud then
 					activate_wp = "^[brighten"
 				end
-				local waypoint_buttons = ""
+				local waypoint_buttons
 				local coords = "("..ccore.round(homelist.x, 1)..", "..ccore.round(homelist.y, 1)..", "..ccore.round(homelist.z, 1)..")"
 				if homelist.type == "waypoint" then
 					waypoint_buttons =

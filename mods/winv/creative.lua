@@ -136,8 +136,8 @@ local function init_creative_inv(player)
 	}
 	minetest.create_detached_inventory("winv_creative_"..name, {
 		allow_move = function(inv, from_list, from_index, to_list, to_index, count, player2)
-			local name = player2 and player2:get_player_name() or ""
-			if not minetest.is_creative_enabled(name) or to_list == "main" then
+			local name2 = player2 and player2:get_player_name() or ""
+			if not minetest.is_creative_enabled(name2) or to_list == "main" then
 				return 0
 			end
 			return count
@@ -146,8 +146,8 @@ local function init_creative_inv(player)
 			return 0
 		end,
 		allow_take = function(inv, listname, index, stack, player2)
-			local name = player2 and player2:get_player_name() or ""
-			if not minetest.is_creative_enabled(name) then
+			local name2 = player2 and player2:get_player_name() or ""
+			if not minetest.is_creative_enabled(name2) then
 				return 0
 			end
 			return -1
@@ -211,7 +211,7 @@ local function update_creative_inv(player_name)
 	local inv = player_inventory[player_name] or
 				init_creative_inv(minetest.get_player_by_name(player_name))
 	local player_inv = minetest.get_inventory({type = "detached", name = "winv_creative_" .. player_name})
-	
+	-- ensure there's new changes
 	if inv.filter == inv.old_filter and inv.content == inv.old_content and inv.modfilter == inv.old_mod_filter then
 		return
 	end
@@ -226,7 +226,6 @@ local function update_creative_inv(player_name)
 	if player_info and player_info.lang_code ~= "" then
 		lang = player_info.lang_code
 	end
-	
 	local creative_list = {}
 	local order = {}
 	for name, def in pairs(items) do
@@ -365,7 +364,6 @@ winv:register_inventory("creative", {
 		if not inv then
 			return
 		end
-		
 		if fields.winv_creative_all then
 			inv.content = minetest.registered_items
 			inv.start_i = 0
@@ -393,7 +391,6 @@ winv:register_inventory("creative", {
 			inv.show_mod_filter = nil
 			winv.refresh(player)
 		end
-		
 		local modnames = minetest.get_modnames()
 		if inv.show_mod_filter then
 			for i, modname in ipairs(modnames) do
@@ -402,9 +399,9 @@ winv:register_inventory("creative", {
 					if mfield == "false" then
 						inv.mod_filter[#inv.mod_filter+1] = modname
 					elseif mfield == "true" then
-						for i, modfname in pairs(inv.mod_filter) do
+						for j, modfname in pairs(inv.mod_filter) do
 							if modfname == modname then
-								inv.mod_filter[i] = nil
+								inv.mod_filter[j] = nil
 							end
 						end
 					end
@@ -466,7 +463,6 @@ winv:register_inventory("creative", {
 			inv.start_i = start_i
 			winv.refresh(player)
 		end
-		
 		if fields.winv_creative_modfilter_scroll then
 			local scrolldis = minetest.explode_scrollbar_event(fields.winv_creative_modfilter_scroll)
 			inv.mod_filter_scroll = scrolldis.value

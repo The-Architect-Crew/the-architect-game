@@ -97,7 +97,6 @@ function crates.label_formspec()
 			"style[storage_label_repos;bgimg=gui_refresh.png;border=false;bgimg_hovered=gui_refresh.png^[brighten;bgimg_pressed=gui_refresh.png^[brighten]"..
 			"button[6.215,0.12;0.3,0.3;storage_label_repos;]"..
 			"tooltip[storage_label_repos;Rotate position of colored label]"
-				
 		for i in ipairs(colors) do
 			lcstr = lcstr..
 				"style[storage_label_"..colors[i][1]..";bgimg=gui_white.png;border=true;bgcolor="..colors[i][2].."]"..
@@ -112,7 +111,6 @@ function crates.label_formspec()
 			"style[storage_label_repos;bgimg=gui_refresh.png;border=false;bgimg_hovered=gui_refresh.png^[brighten;bgimg_pressed=gui_refresh.png^[brighten]"..
 			"button[8.965,0.25;0.3,0.3;storage_label_repos;]"..
 			"tooltip[storage_label_repos;Rotate position of colored label]"
-			
 		for i in ipairs(colors) do
 			lcstr = lcstr..
 				"style[storage_label_"..colors[i][1]..";bgimg=gui_white.png;border=true;bgcolor="..colors[i][2].."]"..
@@ -120,7 +118,6 @@ function crates.label_formspec()
 				"tooltip[storage_label_"..colors[i][1]..";Adds a "..colors[i][1].."-colored label.]"
 		end
 	end
-	
 	return lcstr
 end
 

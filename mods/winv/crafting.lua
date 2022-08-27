@@ -85,7 +85,6 @@ local function init_detached_craft(player)
 			end
 		end,
 	}, name)
-	
 	local craft_inv = minetest.get_inventory({type = "detached", name = "winv_craft_" .. name})
 	craft_inv:set_size("input", 9)
 	craft_inv:set_size("output", 4)
@@ -119,7 +118,7 @@ winv:register_inventory("crafting", {
 		local name = player:get_player_name()
 		local meta = player:get_meta()
 		multipler_reset(player)
-		local multiplier = meta:get_int("winv_craft_multiplier") 
+		local multiplier = meta:get_int("winv_craft_multiplier")
 		local formspec = {
 			"image[0,0;7.75,7.75;winv_bg.png]",
 			"list[detached:winv_craft_"..name..";input;0.25,2;3,3;]",

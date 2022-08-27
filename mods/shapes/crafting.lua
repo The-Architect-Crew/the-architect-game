@@ -15,7 +15,7 @@ local function formspec_shapes(pos, player, def, add)
 				"image_button[0.25,6.5;1,1;invisible.png;fuelamt;;false;false;invisible.png]"..
 				"tooltip[0.25,6.5;1,1;"..fueldesc.." left: "..ccore.get_time(ftime).." \nPress me to update!]"
 		else
-			fireanim_form = 
+			fireanim_form =
 				"animated_image[1.025,7.0;1,1;fuel_icon;gui_fire_animated.png;60;60;1]"..
 				"image_button[1.025,7.0;1,1;invisible.png;fuelamt;;false;false;invisible.png]"..
 				"tooltip[1.025,7.0;1,1;"..fueldesc.." left: "..ccore.get_time(ftime).." \nPress me to update!]"
@@ -166,7 +166,7 @@ local function formspec_shapes(pos, player, def, add)
 	}
 	if winv_exists then
 		return winv.init_inventory(player, table.concat(winv_formspec, ""))
-	else 
+	else
 		return table.concat(formspec, "")
 	end
 end
@@ -211,7 +211,6 @@ local function fuel_update(pos, def, passive, player)
 	local inv = meta:get_inventory()
 	local craftlist = inv:get_list("input")
 	local fuellist = inv:get_list("fuel")
-	local scrollval = meta:get_int("scroll")
 	local multiplier = meta:get_int("multiplier")
 	local craftcat = def.craft_category
 	local active_node = def.active_node
@@ -549,7 +548,7 @@ local function register_shapes_station(name, def)
 			end
 		end,
 	})
-	
+	-- receive fields (run once with registration of inactive node)
 	if not def.active then
 		minetest.register_on_player_receive_fields(function(player, formname, fields)
 			if formname ~= link or not player then

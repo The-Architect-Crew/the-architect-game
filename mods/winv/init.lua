@@ -61,7 +61,6 @@ local function nav_buttons(player, incre, side)
 	local meta = player:get_meta()
 	local left_inv = meta:get_string("winv:left")
 	local right_inv = meta:get_string("winv:right")
-	local invamt = #winv.inventories
 	local buttonform = ""
 	local invno = 0
 	for invname, invdata in pairs(winv.inventories) do
@@ -80,13 +79,11 @@ local function nav_buttons(player, incre, side)
 			end
 		end
 	end
-	
 	return buttonform
 end
 
 local function create_listring(player)
 	local meta = player:get_meta()
-	local idata = winv.inventories
 	local left_inv = meta:get_string("winv:left")
 	local right_inv = meta:get_string("winv:right")
 	local lrdata = winv.listrings[left_inv..","..right_inv] or winv.listrings[right_inv..","..left_inv]
@@ -117,15 +114,12 @@ function winv.init_inventory(player, nodeform)
 	end
 	local left_form = idata[left_inv].formspec
 	local right_form = idata[right_inv].formspec
-	
 	if idata[meta:get_string("winv:left")].formspec_function then
 		left_form = idata[left_inv].formspec_function(player)
 	end
-	
 	if idata[meta:get_string("winv:right")].formspec_function then
 		right_form = idata[right_inv].formspec_function(player)
 	end
-	
 	if nodeform then
 		return
 			"formspec_version[4]"..
@@ -194,12 +188,11 @@ function winv.receive_fields(player, formname, fields)
 			if check_req(player, invname) then
 				meta:set_string("winv:right", invname)
 				if left_inv == invname then  -- switch inventory if its the same
-					meta:set_string("winv:left", right_inv) 
+					meta:set_string("winv:left", right_inv)
 				end
 			end
 			winv.refresh(player)
 		end
-		
 		if invdata.on_player_receive_fields then
 			invdata.on_player_receive_fields(player, formname, fields)
 		end
@@ -217,12 +210,11 @@ function winv.node_receive_fields(player, formname, fields)
 			if check_req(player, invname) then
 				meta:set_string("winv:right", invname)
 				if left_inv == invname then  -- switch inventory if its the same
-					meta:set_string("winv:left", right_inv) 
+					meta:set_string("winv:left", right_inv)
 				end
 			end
 			winv.refresh(player)
 		end
-		
 		if invdata.on_player_receive_fields then
 			invdata.on_player_receive_fields(player, formname, fields)
 		end
@@ -246,7 +238,6 @@ minetest.register_on_joinplayer(function(player)
 	-- Set hotbar size
 	player:hud_set_hotbar_itemcount(12)
 	-- initialize inventory sizes
-	local meta = player:get_meta()
 	local inv = player:get_inventory()
 	for invname, invdata in pairs(winv.inventories) do
 		if invdata.lists then

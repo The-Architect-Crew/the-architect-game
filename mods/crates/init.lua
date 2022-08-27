@@ -161,7 +161,6 @@ function crates:register_storage(name, def)
 					"listring[detached:winv_creative_"..playername..";main]"..
 					"listring[nodemeta:"..spos..";main]"..
 					"listring[detached:trash;main]"
-					
 			end
 		end
 		local winv_formspec = {
@@ -218,7 +217,6 @@ function crates:register_storage(name, def)
 			"listring[nodemeta:"..spos..";main]",
 			"listring[current_player;main]"
 		}
-		
 		if winv_exists then
 			return winv.init_inventory(player, table.concat(winv_formspec, ""))
 		else
@@ -456,7 +454,6 @@ function crates:register_storage(name, def)
 		if fields.quit then
 			crates.pos[playername] = nil
 		end
-		
 		-- update winv
 		if winv_exists and not fields.quit then
 			--winv.refresh(player)
@@ -638,16 +635,12 @@ function crates:register_storage(name, def)
 					"style_type[*;noclip=true;font_size=13]"..
 					"bgcolor[#00000000;neither]"..
 					"image[0,0;7.75,"..(colw + 2.75)..";winv_bg.png]"..
-					
-					
 					"label[0.2,-0.2;"..minetest.colorize("lightgrey", "Viewing storage (Place down to access and modify storage)").."]"..
 					"label[0.2,0.3;"..locks.desc(imeta:get_string("lock"), 2).." "..desc.." Label]"..
 					"field[0.2,0.5;7.3,0.78;storage_label;;"..imeta:get_string("label").."]"..
 					"list[detached:crates:temp_"..playername..";main;0.25,1.5;6,"..scolumns..";]"..
 					"label[0.2,"..(colw + 1.55)..";Shared with (separate names with spaces):]"..
 					"field[0.2,"..(colw + 1.75)..";7.3,0.8;storage_shared;;"..imeta:get_string("shared").."]"
-					
-					--"label[0.375,0.435;Viewing storage (Place down to access and modify storage)]"..
 			else
 				temp_formspec = "formspec_version[4]"..
 					"size[10.55,"..(3.75 + colw).."]"..

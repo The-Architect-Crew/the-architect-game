@@ -550,7 +550,7 @@ local function register_shapes_station(name, def)
 		end,
 	})
 	
-	if def.description then
+	if not active then
 		minetest.register_on_player_receive_fields(function(player, formname, fields)
 			if formname ~= link or not player then
 				return
@@ -645,6 +645,8 @@ register_shapes_station("shapes:tablesaw", {
 })
 
 register_shapes_station("shapes:tablesaw_active", {
+	active = true,
+	description = "Table Saw",
 	mesh = "workbench_tablesaw.obj",
 	craft_category = "tablesaw",
 	shape_category = "shapes",
@@ -705,6 +707,8 @@ register_shapes_station("shapes:cnc", {
 })
 
 register_shapes_station("shapes:cnc_active", {
+	active = true,
+	description = "CNC Machine",
 	mesh = "workbench_cnc.obj",
 	craft_category = "cnc",
 	shape_category = "shapes_mesh",

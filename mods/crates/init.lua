@@ -356,6 +356,9 @@ function crates:register_storage(name, def)
 	minetest.register_on_player_receive_fields(function(player, formname, fields)
 		local playername = player:get_player_name()
 		local pos = crates.pos[playername]
+		if not pos then
+			return
+		end
 		-- filled storage
 		if def.portable and formname == name.."_filled" then
 			if fields.quit then -- clear data upon exiting

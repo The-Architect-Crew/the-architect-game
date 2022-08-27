@@ -100,7 +100,7 @@ local function formspec_shapes(pos, player, def, add)
 		-- output
 		"label[2.75,0.3;Output]",
 		scroll_form,
-		"scroll_container[2.74,0.5;6.2,7;shapes_scrollbar;vertical]",
+		"scroll_container[2.65,0.45;6.2,7.05;shapes_scrollbar;vertical]",
 			"style_type[list;noclip=false]",
 			"list[nodemeta:"..spos..";output;0.1,0.1;"..output_x..","..output_y..";]",
 		"scroll_container_end[]",

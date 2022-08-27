@@ -53,7 +53,6 @@ local function formspec_cooking(pos, player, add)
 	local winv_formspec = {
 		"image[0,0;7.75,7.75;winv_bg.png]",
 		-- input
-		"label[0.2,1.875;Input]",
 		"list[nodemeta:"..spos..";input;0.25,2.125;3,3;]",
 		-- arrow
 		"image[4,3.375;1,1;gui_arrow.png^[transformFYR90]",
@@ -63,7 +62,6 @@ local function formspec_cooking(pos, player, add)
 		"field[4,2.125;1,1;workbench_multiplier;;x"..meta:get_int("multiplier").."]",
 		"field_close_on_enter[workbench_multiplier;false]",
 		-- output
-		"label[5.25,2.5;Output]",
 		"list[nodemeta:"..spos..";output;5.25,2.75;2,2;]",
 		-- fuel
 		"label[5.25,5.35;Fuel]",

@@ -328,7 +328,7 @@ winv:register_inventory("creative", {
 			--"image[0,0;7.75,7.75;winv_bg.png]",
 			"style_type[image,label;noclip=true]",
 			"image[0,0;7.75,9;winv_bg.png]",
-			"label[0.25,9.3;Page " .. minetest.colorize("#FFFF00", tostring(pagenum)) .. " / " .. tostring(pagemax) .. "]",
+			"label[0.25,9.25;Page " .. minetest.colorize("#FFFF00", tostring(pagenum)) .. " / " .. tostring(pagemax) .. "]",
 			"list[detached:winv_creative_"..name..";main;0.25,0.25;6,6;"..tostring(inv.start_i).."]",
 			-- search icons
 			"field[0.25,7.75;4,1;winv_creative_filter;;"..inv.filter.."]",

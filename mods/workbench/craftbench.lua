@@ -36,8 +36,6 @@ local function formspec_crafting(pos, player, add)
 		"image[0,0;7.75,10.25;winv_bg.png]",
 		-- input
 		"list[nodemeta:"..spos..";input;0.875,0.25;5,5;]",
-		"label[0.875,6.6;Crafting Grid]",
-		--"vertlabel[7.125,0.25;CRAFTING GRID]",
 		-- arrow
 		"image[3.375,6.5;1,1;gui_arrow.png^[transformFY]",
 		-- multiplier
@@ -47,7 +45,6 @@ local function formspec_crafting(pos, player, add)
 		"field_close_on_enter[workbench_multiplier;false]",
 		-- output
 		"list[nodemeta:"..spos..";output;2.75,7.75;2,2;]",
-		--"vertlabel[2.5,7.75;OUTPUT]",
 		winv_listring,
 		-- lock
 		"style_type[image;noclip=true]",

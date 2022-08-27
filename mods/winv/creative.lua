@@ -132,6 +132,7 @@ local function init_creative_inv(player)
 		old_mod_filter = {},
 		mod_filter = {},
 		mod_filter_scroll = 0,
+		stack_size = 1,
 	}
 	minetest.create_detached_inventory("winv_creative_"..name, {
 		allow_move = function(inv, from_list, from_index, to_list, to_index, count, player2)
@@ -240,9 +241,10 @@ local function update_creative_inv(player_name)
 			end
 
 			if m < NO_MATCH then
-				creative_list[#creative_list+1] = name
+				local stack = name.." "..inv.stack_size
+				creative_list[#creative_list+1] = stack
 				-- Sort by match value first so closer matches appear earlier
-				order[name] = string.format("%02d", m) .. name
+				order[stack] = string.format("%02d", m) .. stack
 			end
 		end
 	end
@@ -325,14 +327,15 @@ winv:register_inventory("creative", {
 				"scroll_container_end[]"
 		end
 		local formspec = {
-			--"image[0,0;7.75,7.75;winv_bg.png]",
 			"style_type[image,label;noclip=true]",
 			"image[0,0;7.75,9;winv_bg.png]",
 			"label[0.25,9.25;Page " .. minetest.colorize("#FFFF00", tostring(pagenum)) .. " / " .. tostring(pagemax) .. "]",
 			"list[detached:winv_creative_"..name..";main;0.25,0.25;6,6;"..tostring(inv.start_i).."]",
 			-- search icons
-			"field[0.25,7.75;4,1;winv_creative_filter;;"..inv.filter.."]",
-			"field_close_on_enter[winv_creative_filter;false]" ..
+			"field[0.25,7.75;1,1;winv_creative_stack;;x"..inv.stack_size.."]",
+			"field_close_on_enter[winv_creative_stack;false]",
+			"field[1.5,7.75;2.75,1;winv_creative_filter;;"..inv.filter.."]",
+			"field_close_on_enter[winv_creative_filter;false]",
 			"image_button[4.5,7.75;0.5,0.5;gui_pointer.png;winv_creative_search;]",
 			"image_button[4.5,8.25;0.5,0.5;gui_cross.png;winv_creative_clear;]",
 			-- trash
@@ -365,15 +368,19 @@ winv:register_inventory("creative", {
 		
 		if fields.winv_creative_all then
 			inv.content = minetest.registered_items
+			inv.start_i = 0
 			winv.refresh(player)
 		elseif fields.winv_creative_block then
 			inv.content = registered_nodes
+			inv.start_i = 0
 			winv.refresh(player)
 		elseif fields.winv_creative_tool then
 			inv.content = registered_tools
+			inv.start_i = 0
 			winv.refresh(player)
 		elseif fields.winv_creative_craftitem then
 			inv.content = registered_craftitems
+			inv.start_i = 0
 			winv.refresh(player)
 		elseif fields.winv_creative_modfilter then
 			if inv.show_mod_filter then
@@ -423,6 +430,18 @@ winv:register_inventory("creative", {
 			inv.start_i = 0
 			inv.filter = ""
 			winv.refresh(player)
+		elseif fields.key_enter_field == "winv_creative_stack" then
+			local sub_multiplier = string.gsub(fields.winv_creative_stack, "x", "")
+			if tonumber(sub_multiplier) then
+				local multiplier = tonumber(sub_multiplier)
+				if multiplier > 99 then
+					multiplier = 99
+				elseif multiplier < 1 then
+					multiplier = 1
+				end
+				inv.stack_size = multiplier
+				winv.refresh(player)
+			end
 		elseif fields.winv_creative_search or
 				fields.key_enter_field == "winv_creative_filter" then
 			inv.start_i = 0

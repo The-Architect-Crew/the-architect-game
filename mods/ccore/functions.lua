@@ -60,3 +60,8 @@ end
 function ccore.comment(desc, comment)
 	return desc.."\n"..minetest.colorize("grey", comment)
 end
+
+-- round number to a select decimal point
+function ccore.round(num, decpoint)
+	return tonumber(string.format("%."..decpoint.."f", num))
+end

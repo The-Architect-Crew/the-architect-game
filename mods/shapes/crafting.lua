@@ -1,20 +1,117 @@
-local function formspec_shapes(pos, scrollval, def, add)
+shapes_crafting = {}
+local winv_exists = minetest.global_exists("winv")
+local function formspec_shapes(pos, player, def, add)
 	local meta = minetest.get_meta(pos)
+	local scrollval = meta:get_int("scroll")
 	local spos = pos.x..","..pos.y..","..pos.z
-	local scroll_form
-	local output_x = def.output_x
-	local output_y = def.output_y
-	local max_scroll = def.max_scroll
-	local fueltype = def.fueltype
-	local fueldesc = def.fueldesc
-	if max_scroll > 0 then
-		scroll_form =
-			"style[shapes_scrollbar;noclip=true]"..
-			"scrollbaroptions[max="..max_scroll..";arrows=hide;thumbsize=30]"..
-			"scrollbar[10.6,0.5;0.2,7.7;vertical;shapes_scrollbar;"..scrollval.."]"
-	else
-		scroll_form = ""
+	local output_x, output_y = def.output_x, def.output_y
+	local max_scroll, fueltype, fueldesc = def.max_scroll, def.fueltype, def.fueldesc
+	local ftime = meta:get_int("fueltime")
+	local fireanim_form = ""
+	if ftime > 0 then
+		if winv_exists then
+			fireanim_form =
+				"animated_image[0.25,6.5;1,1;fuel_icon;gui_fire_animated.png;60;60;1]"..
+				"image_button[0.25,6.5;1,1;invisible.png;fuelamt;;false;false;invisible.png]"..
+				"tooltip[0.25,6.5;1,1;"..fueldesc.." left: "..ccore.get_time(ftime).." \nPress me to update!]"
+		else
+			fireanim_form = 
+				"animated_image[1.025,7.0;1,1;fuel_icon;gui_fire_animated.png;60;60;1]"..
+				"image_button[1.025,7.0;1,1;invisible.png;fuelamt;;false;false;invisible.png]"..
+				"tooltip[1.025,7.0;1,1;"..fueldesc.." left: "..ccore.get_time(ftime).." \nPress me to update!]"
+		end
 	end
+	local scroll_form = ""
+	if max_scroll > 0 then
+		if winv_exists then
+			scroll_form =
+				"style[shapes_scrollbar;noclip=true]"..
+				"scrollbaroptions[max="..max_scroll..";arrows=hide;thumbsize=30]"..
+				"scrollbar[7.85,0.55;0.2,6.95;vertical;shapes_scrollbar;"..scrollval.."]"
+		else
+			scroll_form =
+				"style[shapes_scrollbar;noclip=true]"..
+				"scrollbaroptions[max="..max_scroll..";arrows=hide;thumbsize=30]"..
+				"scrollbar[10.6,0.5;0.2,7.7;vertical;shapes_scrollbar;"..scrollval.."]"
+		end
+	end
+	local winv_listring = ""
+	if winv_exists then
+		local pmeta = player:get_meta()
+		local playername = player:get_player_name()
+		local right_inv = pmeta:get_string("winv:right")
+		if right_inv == "player" then
+			winv_listring =
+				"listring[current_player;main]"..
+				"listring[nodemeta:"..spos..";input]"..
+				"listring[current_player;main]"..
+				"listring[nodemeta:"..spos..";output]"..
+				"listring[current_player;main]"..
+				"listring[nodemeta:"..spos..";fuel]"..
+				"listring[current_player;main]"..
+				"listring[nodemeta:"..spos..";residue]"..
+				"listring[current_player;main]"
+		elseif right_inv == "crafting" then
+			winv_listring =
+				"listring[nodemeta:"..spos..";output]"..
+				"listring[detached:winv_craft_"..playername..";input]"..
+				"listring[nodemeta:"..spos..";input]"..
+				"listring[detached:winv_craft_"..playername..";input]"..
+				"listring[detached:winv_craft_"..playername..";output]"..
+				"listring[nodemeta:"..spos..";input]"
+		elseif right_inv == "creative" then
+			winv_listring =
+				"listring[detached:winv_creative_"..playername..";main]"..
+				"listring[nodemeta:"..spos..";input]"..
+				"listring[detached:trash;main]"..
+				"listring[nodemeta:"..spos..";output]"..
+				"listring[detached:trash;main]"..
+				"listring[nodemeta:"..spos..";fuel]"..
+				"listring[detached:trash;main]"..
+				"listring[nodemeta:"..spos..";residue]"..
+				"listring[detached:trash;main]"
+		end
+	end
+	local winv_formspec = {
+		"image[0,0;7.75,7.75;winv_bg.png]",
+		-- input
+		"label[0.25,0.3;Input]",
+		"list[nodemeta:"..spos..";input;0.25,0.55;1,1;]",
+		-- residue
+		"label[0.25,1.8;Residue]",
+		"image[0.27,2.11;0.9,0.9;gui_cube.png]",
+		"list[nodemeta:"..spos..";residue;0.25,2.05;1,1;]",
+		"label[0.25,3.3;Recycle]",
+		"image[0.25,3.55;1,1;gui_recycle.png]",
+		"list[nodemeta:"..spos..";recycle;0.25,3.55;1,1;]",
+		-- fuel
+		"label[0.25,5;"..fueldesc.."]",
+		"image[0.25,5.25;1,1;gui_fuel_"..fueltype..".png]",
+		"list[nodemeta:"..spos..";fuel;0.25,5.25;1,1;]",
+		"image[0.25,6.5;1,1;gui_fire_bgd.png]",
+		fireanim_form,
+		-- arrow
+		"image[1.5,0.55;1,1;gui_arrow.png^[transformFYR90]",
+		-- multiplier
+		"style[shapes_station_multiplier;border=false]",
+		"box[1.5,1.65;1.0,0.7;#00000040]",
+		"field[1.5,1.65;1.0,0.7;shapes_station_multiplier;;x"..meta:get_int("multiplier").."]",
+		"field_close_on_enter[shapes_station_multiplier;false]",
+		-- output
+		"label[2.75,0.3;Output]",
+		scroll_form,
+		"scroll_container[2.74,0.5;6.2,7;shapes_scrollbar;vertical]",
+			"style_type[list;noclip=false]",
+			"list[nodemeta:"..spos..";output;0.1,0.1;"..output_x..","..output_y..";]",
+		"scroll_container_end[]",
+		-- listring
+		winv_listring,
+		-- lock
+		"style_type[image;noclip=true]",
+		"image[-1.4,6.35;1.4,1.4;gui_tab.png]",
+		"image_button[-1.1,6.5;1.05,1.05;"..locks.icons(pos, "shapes_station", {"lock", "protect", "public"}).."]",
+		add
+	}
 	local formspec = {
 		"formspec_version[4]",
 		"size[10.5,13.55]",
@@ -35,6 +132,7 @@ local function formspec_shapes(pos, scrollval, def, add)
 		"image[1.025,5.75;1,1;gui_fuel_"..fueltype..".png]",
 		"list[nodemeta:"..spos..";fuel;1.025,5.75;1,1;]",
 		"image[1.025,7.0;1,1;gui_fire_bgd.png]",
+		fireanim_form,
 		-- arrow
 		"image[3,1.425;0.8,0.8;gui_arrow.png^[transformFYR90]",
 		-- multiplier
@@ -66,7 +164,16 @@ local function formspec_shapes(pos, scrollval, def, add)
 		"image_button[-1.1,7.1;1.05,1.05;"..locks.icons(pos, "shapes_station", {"lock", "protect", "public"}).."]",
 		add
 	}
-	return table.concat(formspec, "")
+	if winv_exists then
+		return winv.init_inventory(player, table.concat(winv_formspec, ""))
+	else 
+		return table.concat(formspec, "")
+	end
+end
+
+local function show_formspec(pos, player, def, add) -- to do, use this, convert to rightclick
+	local playername = player:get_player_name()
+	minetest.show_formspec(playername, def.inactive_node, formspec_shapes(pos, player, def, add))
 end
 
 local function apply_craft_result(pos, craftcat, multiplier)
@@ -80,42 +187,26 @@ local function apply_craft_result(pos, craftcat, multiplier)
 			output_list[i] = output[i].item[1]
 		end
 		inv:set_list("output", output_list)
-	--else
-	--	inv:set_list("output", {})
-	end
-end
-
--- update fuel time formspec
-local function fuel_fs_update(pos, def)
-	local meta = minetest.get_meta(pos)
-	local ftime = meta:get_int("fueltime")
-	local scrollval = meta:get_int("scroll")
-	if ftime > 0 then
-		meta:set_string("formspec", formspec_shapes(pos, scrollval, def,
-			"animated_image[1.025,7.0;1,1;fuel_icon;gui_fire_animated.png;60;60;1]"..
-			"image_button[1.025,7.0;1,1;invisible.png;fuelamt;;false;false;invisible.png]"..
-			"tooltip[1.025,7.0;1,1;"..def.fueldesc.." left: "..ccore.get_time(ftime).." \nPress me to update!]"
-		))
 	end
 end
 
 -- reset scroll value
-local function scroll_reset(pos, def)
+local function scroll_reset(pos)
 	local meta = minetest.get_meta(pos)
-	fuel_fs_update(pos, def)
 	meta:set_int("scroll", 0)
 end
 
-local function inactive_station(pos, def)
+local function inactive_station(pos, def, player)
 	local meta = minetest.get_meta(pos)
-	local scrollval = meta:get_int("scroll")
-	meta:set_string("formspec", formspec_shapes(pos, scrollval, def))
 	ccore.swap_node(pos, def.inactive_node)
 	meta:set_int("fueltime", 0)
 	locks.init_infotext(pos, def.description, "Inactive")
+	if player then
+		show_formspec(pos, player, def)
+	end
 end
 
-local function fuel_update(pos, def, passive)
+local function fuel_update(pos, def, passive, player)
 	local meta = minetest.get_meta(pos)
 	local inv = meta:get_inventory()
 	local craftlist = inv:get_list("input")
@@ -132,19 +223,17 @@ local function fuel_update(pos, def, passive)
 		meta:set_int("fueltime", c_ftime - 1)
 		locks.init_infotext(pos, desc, "Active ("..fueldesc.." Left: "..ccore.get_time(c_ftime - 1).. ")")
 		minetest.get_node_timer(pos):start(1)
+		if not passive and player then
+			show_formspec(pos, player, def)
+		end
 		-- reduce timer by 1
 	elseif meta:get_int("fueltime") <= 0 then -- if fueltimer empty
 		local ftime, fdinput = workbench:get_fuel(fuellist, fueltype)
 		if passive then -- on passive timer (without player interaction)
-			inactive_station(pos, def)
+			inactive_station(pos, def, player)
 		else -- on active timer (timer started by player interaction)
 			local output = workbench.craft_output(craftlist, "shapes", craftcat, 2, multiplier, true)
 			if output and #output > 0 and ftime and ftime > 0 then -- valid fuel and output > restart crafting
-				meta:set_string("formspec", formspec_shapes(pos, scrollval, def,
-					"animated_image[1.025,7.0;1,1;fuel_icon;gui_fire_animated.png;60;60;1]"..
-					"image_button[1.025,7.0;1,1;invisible.png;fuelamt;;false;false;invisible.png]"..
-					"tooltip[1.025,7.0;1,1;"..fueldesc.." Left: "..ccore.get_time(ftime).." \nPress me to update!]"
-				))
 				locks.init_infotext(pos, desc, "Active ("..fueldesc.." Left: "..ccore.get_time(ftime).. ")")
 				ccore.swap_node(pos, active_node)
 				-- take fuel
@@ -154,10 +243,13 @@ local function fuel_update(pos, def, passive)
 				-- start crafting
 				if inv:is_empty("input") ~= true and inv:is_empty("output") then
 					apply_craft_result(pos, craftcat, multiplier)
-					scroll_reset(pos, def)
+					scroll_reset(pos)
+				end
+				if player then
+					show_formspec(pos, player, def)
 				end
 			else -- no more valid fuel
-				inactive_station(pos, def)
+				inactive_station(pos, def, player)
 			end
 		end
 	end
@@ -172,13 +264,13 @@ local function station_update(pos, listname, index, stack, player, def)
 	local multiplier = meta:get_int("multiplier")
 	local craftcat = def.craft_category
 	if listname == "fuel" then
-		fuel_update(pos, def)
+		fuel_update(pos, def, nil, player)
 	end
 	if listname == "input" then -- putting new input will always override output
 		inv:set_list("output", {})
 		apply_craft_result(pos, craftcat, multiplier)
-		fuel_update(pos, def)
-		scroll_reset(pos, def)
+		fuel_update(pos, def, nil, player)
+		scroll_reset(pos)
 	end
 	if listname == "output" then -- obtaining output applies crafting process
 		local output = workbench.craft_output(craftlist, "shapes", craftcat, 2, multiplier, true)
@@ -208,7 +300,7 @@ local function station_update(pos, listname, index, stack, player, def)
 				end
 				if inv:is_empty("input") ~= true and inv:is_empty("output") then
 					apply_craft_result(pos, craftcat, multiplier)
-					fuel_update(pos, def)
+					fuel_update(pos, def, nil, player)
 				end
 				if inv:is_empty("input") then -- reset if there's no more input
 					meta:set_string("crafted", "")
@@ -244,11 +336,11 @@ local function station_update(pos, listname, index, stack, player, def)
 		if inv:is_empty("input") ~= true then
 			if inv:is_empty("output") or meta:get_string("crafted") == "" then
 				apply_craft_result(pos, craftcat, multiplier)
-				fuel_update(pos, def)
+				fuel_update(pos, def, nil, player)
 			end
 		end
 		-- update fuel time
-		fuel_fs_update(pos, def)
+		-- fuel_fs_update(pos, def)
 		-- ensure recycle is always empty
 		inv:set_list("recycle", {})
 	end
@@ -290,6 +382,8 @@ local function recycle_check(pos, stack, shapetype)
 end
 
 local function register_shapes_station(name, def)
+	local link = def.inactive_node
+	shapes_crafting[link] = {}
 	minetest.register_node(name, {
 		description = def.description,
 		drawtype = "mesh",
@@ -315,19 +409,21 @@ local function register_shapes_station(name, def)
 			return false
 		end,
 		on_timer = function(pos, elapsed)
-			fuel_update(pos, def, true)
+			local playername = shapes_crafting[link][minetest.pos_to_string(pos)] or ""
+			local player = minetest.get_player_by_name(playername)
+			fuel_update(pos, def, true, player)
 		end,
 		on_construct = function(pos)
 			local meta = minetest.get_meta(pos)
 			local inv = meta:get_inventory()
-			inv:set_size("input", 2*2)
+			--inv:set_size("input", 2*2)
+			inv:set_size("input", 1)
 			inv:set_size("fuel", 1)
 			inv:set_size("output", def.output_x * def.output_y)
 			inv:set_size("residue", 1)
 			inv:set_size("recycle", 1)
 			meta:set_string("lock", "lock")
 			meta:set_int("multiplier", 1)
-			meta:set_string("formspec", formspec_shapes(pos, 0, def))
 			meta:set_string("crafted", "")
 			meta:set_string("owner", "")
 			meta:set_int("fueltime", 0)
@@ -339,6 +435,15 @@ local function register_shapes_station(name, def)
 			local playername = placer:get_player_name()
 			meta:set_string("owner", playername)
 			locks.init_infotext(pos, def.description, "Inactive")
+		end,
+		on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
+			local playername = clicker:get_player_name()
+			if not locks.can_access(pos, clicker) then
+				return itemstack
+			end
+			show_formspec(pos, clicker, def)
+			shapes_crafting[link][playername] = pos
+			shapes_crafting[link][minetest.pos_to_string(pos)] = playername
 		end,
 		on_place = function(itemstack, placer, pointed_thing)
 			local pos = pointed_thing.above
@@ -443,35 +548,52 @@ local function register_shapes_station(name, def)
 				return stack:get_count()
 			end
 		end,
-		on_receive_fields = function(pos, formname, fields, sender)
-			local meta = minetest.get_meta(pos)
-			if not locks.can_access(pos, sender) then
-				return 0
-			end
-			if locks.fields(pos, sender, fields, "shapes_station", def.description) then
-				station_update(pos, "fuel", nil, nil, nil, def)
-			end
-			if fields.shapes_station_multiplier  then
-				local sub_multiplier = string.gsub(fields.shapes_station_multiplier, "x", "")
-				if tonumber(sub_multiplier) and tonumber(sub_multiplier) ~= meta:get_int("multiplier") then
-					local multiplier = tonumber(sub_multiplier)
-					if multiplier > 99 then
-						multiplier = 99
-					elseif multiplier < 1 then
-						multiplier = 1
-					end
-					meta:set_int("multiplier", multiplier)
-					apply_craft_result(pos, def.craft_category, multiplier)
-					station_update(pos, "fuel", nil, nil, nil, def)
-				end
-			end
-			if fields.shapes_scrollbar then
-				local scrolldis = minetest.explode_scrollbar_event(fields.shapes_scrollbar)
-				meta:set_int("scroll", scrolldis.value)
-			end
-			fuel_fs_update(pos, def) -- update fuel time
-		end,
 	})
+	
+	minetest.register_on_player_receive_fields(function(player, formname, fields)
+		if formname ~= link or not player then
+			return
+		end
+		local playername = player:get_player_name()
+		local pos = shapes_crafting[link][playername]
+		if not pos then
+			return
+		end
+		local meta = minetest.get_meta(pos)
+		if not locks.can_access(pos, player) then
+			return 0
+		end
+		if locks.fields(pos, player, fields, "shapes_station", def.description) then
+			station_update(pos, "fuel", nil, nil, player, def)
+		end
+		if fields.shapes_station_multiplier  then
+			local sub_multiplier = string.gsub(fields.shapes_station_multiplier, "x", "")
+			if tonumber(sub_multiplier) and tonumber(sub_multiplier) ~= meta:get_int("multiplier") then
+				local multiplier = tonumber(sub_multiplier)
+				if multiplier > 99 then
+					multiplier = 99
+				elseif multiplier < 1 then
+					multiplier = 1
+				end
+				meta:set_int("multiplier", multiplier)
+				apply_craft_result(pos, def.craft_category, multiplier)
+				station_update(pos, "input", nil, nil, player, def)
+			end
+		end
+		if fields.shapes_scrollbar then
+			local scrolldis = minetest.explode_scrollbar_event(fields.shapes_scrollbar)
+			meta:set_int("scroll", scrolldis.value)
+		end
+		-- --fuel_fs_update(pos, def) -- update fuel time
+		if fields.quit then
+			shapes_crafting[link][playername] = nil
+			shapes_crafting[link][minetest.pos_to_string(pos)] = nil
+		end
+		if winv_exists and not fields.quit then
+			winv.node_receive_fields(player, formname, fields)
+			show_formspec(pos, player, def)
+		end
+	end)
 end
 
 -- register mesefuel
@@ -504,9 +626,12 @@ register_shapes_station("shapes:tablesaw", {
 	fueldesc = "Fuel",
 	inactive_node = "shapes:tablesaw",
 	active_node = "shapes:tablesaw_active",
-	output_x = 5,
+	--output_x = 5,
+	--output_y = 10,
+	--max_scroll = 50,
+	output_x = 4,
 	output_y = 10,
-	max_scroll = 50,
+	max_scroll = 54,
 	selection_box = {
 		type = "fixed",
 		fixed = {
@@ -527,9 +652,12 @@ register_shapes_station("shapes:tablesaw_active", {
 	fueldesc = "Fuel",
 	inactive_node = "shapes:tablesaw",
 	active_node = "shapes:tablesaw_active",
-	output_x = 5,
+	--output_x = 5,
+	--output_y = 10,
+	--max_scroll = 50,
+	output_x = 4,
 	output_y = 10,
-	max_scroll = 50,
+	max_scroll = 54,
 	selection_box = {
 		type = "fixed",
 		fixed = {
@@ -559,8 +687,11 @@ register_shapes_station("shapes:cnc", {
 	fueldesc = "Fuel (Mese)",
 	inactive_node = "shapes:cnc",
 	active_node = "shapes:cnc_active",
-	output_x = 5,
-	output_y = 6,
+	--output_x = 5,
+	--output_y = 6,
+	--max_scroll = 0,
+	output_x = 4,
+	output_y = 5,
 	max_scroll = 0,
 	selection_box = {
 		type = "fixed",
@@ -582,8 +713,11 @@ register_shapes_station("shapes:cnc_active", {
 	fueldesc = "Fuel (Mese)",
 	inactive_node = "shapes:cnc",
 	active_node = "shapes:cnc_active",
-	output_x = 5,
-	output_y = 6,
+	--output_x = 5,
+	--output_y = 6,
+	--max_scroll = 0,
+	output_x = 4,
+	output_y = 5,
 	max_scroll = 0,
 	selection_box = {
 		type = "fixed",

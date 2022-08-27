@@ -509,15 +509,33 @@ function workbench.craft_output(ilist, ctype, cat, iw, multiplier, listall)
 		elseif multi > 1 then
 			local final_input = ilist
 			local match_output
-			for i = 1, multi do
-				local r_output, r_dinput = minetest.get_craft_result({method = ctype, width = iw, items = final_input})
-				if r_output and r_output.item then
-					if not match_output then
-						match_output = r_output
-						final_input = r_dinput.items
-					elseif match_output.item:get_name() ~= r_output.item:get_name() -- break the loop if output name is different
-						or match_output.item:get_count() ~= r_output.item:get_count() -- break the loop if output count is different
-						or (match_output.item:get_count() * i) > match_output.item:get_stack_max() then -- break the loop if it exceeds max output stack
+			local output, dinput = minetest.get_craft_result({method = ctype, width = iw, items = ilist})
+			if output and not output.item:is_empty() then
+				for i = 1, multi do
+					local r_output, r_dinput = minetest.get_craft_result({method = ctype, width = iw, items = final_input})
+					if r_output and r_output.item then
+						if not match_output then
+							match_output = r_output
+							final_input = r_dinput.items
+						elseif match_output.item:get_name() ~= r_output.item:get_name() -- break the loop if output name is different
+							or match_output.item:get_count() ~= r_output.item:get_count() -- break the loop if output count is different
+							or (match_output.item:get_count() * i) > match_output.item:get_stack_max() then -- break the loop if it exceeds max output stack
+							local olist = workbench.to_invlist({{match_output.item:get_name().." "..(match_output.item:get_count() * (i - 1))}})
+							return {
+								item = olist,
+								max = 1,
+								dinput = final_input,
+								time = match_output.time,
+								recipe = nil,
+								replacements = match_output.replacements,
+								residue = {},
+								extra = {},
+								multiply = i - 1
+							}
+						else
+							final_input = r_dinput.items
+						end
+					else -- break the loop if there's no valid output
 						local olist = workbench.to_invlist({{match_output.item:get_name().." "..(match_output.item:get_count() * (i - 1))}})
 						return {
 							item = olist,
@@ -530,36 +548,21 @@ function workbench.craft_output(ilist, ctype, cat, iw, multiplier, listall)
 							extra = {},
 							multiply = i - 1
 						}
-					else
-						final_input = r_dinput.items
 					end
-				else -- break the loop if there's no valid output
-					local olist = workbench.to_invlist({{match_output.item:get_name().." "..(match_output.item:get_count() * (i - 1))}})
-					return {
-						item = olist,
-						max = 1,
-						dinput = final_input,
-						time = match_output.time,
-						recipe = nil,
-						replacements = match_output.replacements,
-						residue = {},
-						extra = {},
-						multiply = i - 1
-					}
 				end
+				local olist = workbench.to_invlist({{match_output.item:get_name().." "..(match_output.item:get_count() * multi)}})
+				return {
+					item = olist,
+					max = 1,
+					dinput = final_input,
+					time = match_output.time,
+					recipe = nil,
+					replacements = match_output.replacements,
+					residue = {},
+					extra = {},
+					multiply = multi
+				}
 			end
-			local olist = workbench.to_invlist({{match_output.item:get_name().." "..(match_output.item:get_count() * multi)}})
-			return {
-				item = olist,
-				max = 1,
-				dinput = final_input,
-				time = match_output.time,
-				recipe = nil,
-				replacements = match_output.replacements,
-				residue = {},
-				extra = {},
-				multiply = multi
-			}
 		end
 	end
 end

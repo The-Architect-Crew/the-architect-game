@@ -1,5 +1,6 @@
--- label colors
-local colors = {
+crates.label_list = {}
+local winv_exists = minetest.global_exists("winv")
+local colors = {	-- label colors
 	{"red", "#FF0000"},
 	{"orange", "#FFA500"},
 	{"yellow", "#FFFF00"},
@@ -10,7 +11,6 @@ local colors = {
 	{"white", "#FFFFFF"},
 }
 
-crates.label_list = {}
 function crates:register_label(name, def)
 	table.insert(crates.label_list, {
 		name = name,
@@ -21,7 +21,7 @@ function crates:register_label(name, def)
 end
 
 crates:register_label("tag", {
-	tiles = {"crates_label.png"},
+	tiles = {"crates_blank.png", "crates_blank.png", "crates_blank.png", "crates_blank.png", "crates_label.png"},
 	use_texture_alpha = "opaque",
 	nodebox = {
 		{0.125, 0, 0.46875, 0.3125, 0.5, 0.5},
@@ -31,7 +31,7 @@ crates:register_label("tag", {
 })
 
 crates:register_label("tag2", {
-	tiles = {"crates_label.png"},
+	tiles = {"crates_blank.png", "crates_blank.png", "crates_blank.png", "crates_blank.png", "crates_label.png"},
 	use_texture_alpha = "opaque",
 	nodebox = {
 		{0.125, 0, 0.46875, 0.3125, 0.5, 0.5},
@@ -42,7 +42,7 @@ crates:register_label("tag2", {
 })
 
 crates:register_label("sign", {
-	tiles = {"crates_label3.png"},
+	tiles = {"crates_blank.png", "crates_blank.png", "crates_blank.png", "crates_blank.png", "crates_label3.png"},
 	use_texture_alpha = "opaque",
 	nodebox = {
 		{-0.1875, -0.125, 0.46875, 0.1875, 0.125, 0.5},
@@ -62,7 +62,7 @@ for i in ipairs(colors) do
 		-- create color tiles
 		local colortiles = {}
 		for k in ipairs(tiles) do
-			colortiles[k] = tiles[1].."^[colorize:"..chex..":180"
+			colortiles[k] = tiles[k].."^[colorize:"..chex..":180"
 		end
 		-- create labels
 		minetest.register_node("crates:label_"..name.."_"..cname, {
@@ -88,19 +88,39 @@ for i in ipairs(colors) do
 end
 
 function crates.label_formspec()
-	local lcstr =
-		"style[storage_label_remove;bgimg=gui_cross_big.png;border=false;bgimg_hovered=gui_cross_big.png^[brighten;bgimg_pressed=gui_cross_big.png^[brighten]"..
-		"button[9.265,0.25;0.3,0.3;storage_label_remove;]"..
-		"tooltip[storage_label_remove;Remove colored label]"..
-		"style[storage_label_repos;bgimg=gui_refresh.png;border=false;bgimg_hovered=gui_refresh.png^[brighten;bgimg_pressed=gui_refresh.png^[brighten]"..
-		"button[8.965,0.25;0.3,0.3;storage_label_repos;]"..
-		"tooltip[storage_label_repos;Rotate position of colored label]"
-	for i in ipairs(colors) do
-		lcstr = lcstr..
-			"style[storage_label_"..colors[i][1]..";bgimg=gui_white.png;border=true;bgcolor="..colors[i][2].."]"..
-			"button["..(9.03 - (i * 0.35))..",0.285;0.25,0.25;storage_label_"..colors[i][1]..";]"..
-			"tooltip[storage_label_"..colors[i][1]..";Adds a "..colors[i][1].."-colored label.]"
+	local lcstr
+	if winv_exists then
+		lcstr =
+			"style[storage_label_remove;bgimg=gui_cross_big.png;border=false;bgimg_hovered=gui_cross_big.png^[brighten;bgimg_pressed=gui_cross_big.png^[brighten]"..
+			"button[6.515,0.12;0.3,0.3;storage_label_remove;]"..
+			"tooltip[storage_label_remove;Remove colored label]"..
+			"style[storage_label_repos;bgimg=gui_refresh.png;border=false;bgimg_hovered=gui_refresh.png^[brighten;bgimg_pressed=gui_refresh.png^[brighten]"..
+			"button[6.215,0.12;0.3,0.3;storage_label_repos;]"..
+			"tooltip[storage_label_repos;Rotate position of colored label]"
+				
+		for i in ipairs(colors) do
+			lcstr = lcstr..
+				"style[storage_label_"..colors[i][1]..";bgimg=gui_white.png;border=true;bgcolor="..colors[i][2].."]"..
+				"button["..(6.28 - (i * 0.35))..",0.155;0.25,0.25;storage_label_"..colors[i][1]..";]"..
+				"tooltip[storage_label_"..colors[i][1]..";Adds a "..colors[i][1].."-colored label.]"
+		end
+	else
+		lcstr =
+			"style[storage_label_remove;bgimg=gui_cross_big.png;border=false;bgimg_hovered=gui_cross_big.png^[brighten;bgimg_pressed=gui_cross_big.png^[brighten]"..
+			"button[9.265,0.25;0.3,0.3;storage_label_remove;]"..
+			"tooltip[storage_label_remove;Remove colored label]"..
+			"style[storage_label_repos;bgimg=gui_refresh.png;border=false;bgimg_hovered=gui_refresh.png^[brighten;bgimg_pressed=gui_refresh.png^[brighten]"..
+			"button[8.965,0.25;0.3,0.3;storage_label_repos;]"..
+			"tooltip[storage_label_repos;Rotate position of colored label]"
+			
+		for i in ipairs(colors) do
+			lcstr = lcstr..
+				"style[storage_label_"..colors[i][1]..";bgimg=gui_white.png;border=true;bgcolor="..colors[i][2].."]"..
+				"button["..(9.03 - (i * 0.35))..",0.285;0.25,0.25;storage_label_"..colors[i][1]..";]"..
+				"tooltip[storage_label_"..colors[i][1]..";Adds a "..colors[i][1].."-colored label.]"
+		end
 	end
+	
 	return lcstr
 end
 

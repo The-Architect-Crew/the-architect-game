@@ -479,7 +479,7 @@ minetest.register_chatcommand("home", {
 
 -- remove waypoints table when player leaves
 minetest.register_on_leaveplayer(function(player)
-	local name = minetest.get_player_name(player)
+	local name = player:get_player_name()
 	local hinv = whomes_inventory[name]
 	if hinv then
 		hinv.waypoints = {}

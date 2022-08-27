@@ -298,8 +298,8 @@ winv:register_inventory("creative", {
 		local name = player:get_player_name()
 		update_creative_inv(name)
 		local inv = player_inventory[name]
-		local pagenum = math.floor(inv.start_i / (4*8) + 1)
-		local pagemax = math.ceil(inv.size / (4*8))
+		local pagenum = math.floor(inv.start_i / (6*6) + 1)
+		local pagemax = math.ceil(inv.size / (6*6))
 		local modfilter_form = ""
 		if inv.show_mod_filter then
 			local modf_length = #minetest.get_modnames()
@@ -401,18 +401,21 @@ winv:register_inventory("creative", {
 							end
 						end
 					end
+					inv.start_i = 0
 					winv.refresh(player)
 				end
 			end
 		end
 		if fields.winv_creative_modfilter_reset then
 			inv.mod_filter = {}
+			inv.start_i = 0
 			winv.refresh(player)
 		elseif fields.winv_creative_modfilter_clear then
 			inv.mod_filter = {}
 			for i, modname in ipairs(modnames) do
 				inv.mod_filter[#inv.mod_filter+1] = modname
 			end
+			inv.start_i = 0
 			winv.refresh(player)
 		end
 
@@ -435,15 +438,14 @@ winv:register_inventory("creative", {
 						start_i = math.max(0, inv.size - (6*6))
 					end
 				end
-				winv.refresh(player)
 			elseif fields.winv_creative_next then
 				start_i = start_i + 6*6
 				if start_i >= inv.size then
 					start_i = 0
 				end
-				winv.refresh(player)
 			end
 			inv.start_i = start_i
+			winv.refresh(player)
 		end
 		
 		if fields.winv_creative_modfilter_scroll then

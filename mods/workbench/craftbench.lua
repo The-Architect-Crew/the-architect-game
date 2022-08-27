@@ -47,7 +47,7 @@ local function formspec_crafting(pos, player, add)
 		"field_close_on_enter[workbench_multiplier;false]",
 		-- output
 		"list[nodemeta:"..spos..";output;2.75,7.75;2,2;]",
-		"vertlabel[2.5,7.75;OUTPUT]",
+		--"vertlabel[2.5,7.75;OUTPUT]",
 		winv_listring,
 		-- lock
 		"style_type[image;noclip=true]",
@@ -307,7 +307,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 			show_formspec(pos, player)
 		end
 	end
-	if winv_exists then
+	if winv_exists and not fields.quit then
 		winv.node_receive_fields(player, formname, fields)
 		show_formspec(pos, player)
 	end

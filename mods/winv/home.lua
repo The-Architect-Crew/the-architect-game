@@ -138,7 +138,6 @@ end
 
 local function delete_home(player, hname, htype)
 	local name = player:get_player_name()
-	local hinv = whomes_inventory[name] or init_homes(player)
 	local htype2 = htype or "home"
 	if not hname or hname == "" then
 		homes_chat(name, "Please select a "..htype2.." to delete!")
@@ -442,7 +441,6 @@ minetest.register_chatcommand("homelimit", {
     privs = {privs=true},
     func = function(name, param)
 		local pname, nlimit = string.match(param, '(%S+) (.*)')
-		local hinv = whomes_inventory[name] or init_homes(player)
 		if pname == "" or not pname or nlimit == "" or not nlimit then
 			homes_chat(name, "Invalid parameters, use '/homelimit <playername> <new_limit_no.>'")
 			return
@@ -457,6 +455,7 @@ minetest.register_chatcommand("homelimit", {
 				return
 			end
 		end
+		local hinv = whomes_inventory[name] or init_homes(player)
 		if tonumber(nlimit) then
 			local meta = player:get_meta()
 			hinv.hlimit = tonumber(nlimit)

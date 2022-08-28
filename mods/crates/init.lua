@@ -8,7 +8,6 @@ if winv_exists then
 	row_slots = 6
 end
 
-
 dofile(path.."/labels.lua")
 
 -- Inventory sorting ( Taken from https://github.com/minetest-mods/technic/blob/master/technic_chests/register.lua )

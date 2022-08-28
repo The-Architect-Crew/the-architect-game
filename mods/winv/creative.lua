@@ -340,18 +340,18 @@ winv:register_inventory("creative", {
 			"image[5.325,7.85;0.8,0.8;gui_trash.png]",
 			"list[detached:trash;main;5.25,7.75;1,1;]",
 			-- arrows
-			"image_button[6.5,7.83;0.5,0.8;icon_miniarrow.png^[transformFX;winv_creative_prev;;;false;]",
-			"image_button[7,7.85;0.5,0.8;icon_miniarrow.png;winv_creative_next;;;false;]",
+			"image_button[6.5,7.83;0.5,0.8;winv_cicon_miniarrow.png^[transformFX;winv_creative_prev;;;false;]",
+			"image_button[7,7.85;0.5,0.8;winv_cicon_miniarrow.png;winv_creative_next;;;false;]",
 			-- icons
-			"image_button[-0.9,0.25;0.8,0.8;icon_all.png;winv_creative_all;;true;false;]",
+			"image_button[-0.9,0.25;0.8,0.8;winv_cicon_all.png;winv_creative_all;;true;false;]",
 			"tooltip[winv_creative_all;Show all]",
-			"image_button[-0.9,1.15;0.8,0.8;icon_block.png;winv_creative_block;;true;false;]",
+			"image_button[-0.9,1.15;0.8,0.8;winv_cicon_block.png;winv_creative_block;;true;false;]",
 			"tooltip[winv_creative_block;Show blocks only]",
-			"image_button[-0.9,2.05;0.8,0.8;icon_tool.png;winv_creative_tool;;true;false;]",
+			"image_button[-0.9,2.05;0.8,0.8;winv_cicon_tool.png;winv_creative_tool;;true;false;]",
 			"tooltip[winv_creative_tool;Show tools only]",
-			"image_button[-0.9,2.95;0.8,0.8;icon_craftitem.png;winv_creative_craftitem;;true;false;]",
+			"image_button[-0.9,2.95;0.8,0.8;winv_cicon_craftitem.png;winv_creative_craftitem;;true;false;]",
 			"tooltip[winv_creative_craftitem;Show craft items only]",
-			"image_button[-0.9,3.85;0.8,0.8;icon_filter.png;winv_creative_modfilter;;true;false;]",
+			"image_button[-0.9,3.85;0.8,0.8;winv_cicon_filter.png;winv_creative_modfilter;;true;false;]",
 			"tooltip[winv_creative_modfilter;Filter by mods]",
 			modfilter_form
 		}

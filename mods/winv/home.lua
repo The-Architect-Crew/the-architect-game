@@ -328,7 +328,7 @@ winv:register_inventory("home", {
 						"image_button[6.175,"..(0.375 + yshift)..";0.7,0.7;gui_cross.png;winv_homes_del_"..hname..";]"
 				else
 					waypoint_buttons =
-						"image_button_exit[6.175,"..(0.375 + yshift)..";0.7,0.7;gui_pointer.png;winv_homes_tp_"..hname..";]"..
+						"image_button[6.175,"..(0.375 + yshift)..";0.7,0.7;gui_pointer.png;winv_homes_tp_"..hname..";]"..
 						"image_button[6.175,"..(1.175 + yshift)..";0.7,0.7;gui_cross.png;winv_homes_del_"..hname..";]"
 				end
 				homes_form = homes_form..
@@ -421,7 +421,9 @@ winv:register_inventory("home", {
 					winv.refresh(player)
 				elseif fields["winv_homes_tp_"..hname] then
 					tp_home(player, hname)
-					winv.refresh(player)
+					minetest.after(0.01, function() -- delay to counter node inventories re-applying form
+						minetest.close_formspec(name, "")
+					end)
 				elseif fields["winv_homes_del_"..hname] then
 					delete_home(player, hname)
 					winv.refresh(player)

@@ -566,7 +566,7 @@ local function register_shapes_station(name, def)
 			if locks.fields(pos, player, fields, "shapes_station", def.description) then
 				station_update(pos, "fuel", nil, nil, player, def)
 			end
-			if fields.shapes_station_multiplier  then
+			if fields.key_enter_field == "shapes_station_multiplier" then
 				local sub_multiplier = string.gsub(fields.shapes_station_multiplier, "x", "")
 				if tonumber(sub_multiplier) and tonumber(sub_multiplier) ~= meta:get_int("multiplier") then
 					local multiplier = tonumber(sub_multiplier)
@@ -590,7 +590,9 @@ local function register_shapes_station(name, def)
 			end
 			if winv_exists and not fields.quit then
 				winv.node_receive_fields(player, formname, fields)
-				show_formspec(pos, player, def)
+				if winv.node_refresh(player) then
+					show_formspec(pos, player, def)
+				end
 			end
 		end)
 	end

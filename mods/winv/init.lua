@@ -4,6 +4,7 @@ winv.default.left = "crafting"
 winv.default.right = "player"
 winv.inventories = {}
 winv.listrings = {}
+winv.penrefresh = {}
 winv.mod_storage = minetest.get_mod_storage()
 
 -- store registrations
@@ -159,9 +160,21 @@ end
 
 function winv.refresh(player)
 	if player then
+		local name = player:get_player_name()
 		local invform = winv.init_inventory(player)
 		player:set_inventory_formspec(invform)
+		winv.penrefresh[name] = true -- allow node inventories to detect whether there's a need for refreshes
 	end
+end
+
+-- check whether there's a need to refresh and reset refresh status for node inventories
+function winv.node_refresh(player)
+	local name = player:get_player_name()
+	if winv.penrefresh[name] then
+		winv.penrefresh[name] = nil
+		return true
+	end
+	return nil
 end
 
 local function check_req(player, invname)

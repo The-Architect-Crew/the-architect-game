@@ -288,7 +288,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 	if locks.fields(pos, player, fields, "workbench_craftbench", "Craftbench") then
 		show_formspec(pos, player)
 	end
-	if fields.workbench_multiplier then
+	if fields.key_enter_field == "workbench_multiplier" then
 		local sub_multiplier = string.gsub(fields.workbench_multiplier, "x", "")
 		if tonumber(sub_multiplier) then
 			local multiplier = tonumber(sub_multiplier)
@@ -304,6 +304,8 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 	end
 	if winv_exists and not fields.quit then
 		winv.node_receive_fields(player, formname, fields)
-		show_formspec(pos, player)
+		if winv.node_refresh(player) then
+			show_formspec(pos, player)
+		end
 	end
 end)

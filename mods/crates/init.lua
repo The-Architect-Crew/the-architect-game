@@ -455,9 +455,10 @@ function crates:register_storage(name, def)
 		end
 		-- update winv
 		if winv_exists and not fields.quit then
-			--winv.refresh(player)
 			winv.node_receive_fields(player, formname, fields)
-			show_formspec(player, pos)
+			if winv.node_refresh(player) then
+				show_formspec(player, pos)
+			end
 		end
 	end)
 	-- ===============

@@ -6,6 +6,7 @@ local whomes_icons = {
 	"blocks:stonebrick",
 	"blocks:cobble",
 	"blocks:brick",
+	"blocks:lava_source",
 	"variations:bronzeblock_big_tile",
 	"blocks:amber",
 	"blocks:mese",
@@ -13,6 +14,7 @@ local whomes_icons = {
 	"blocks:dirt_with_grass",
 	"flora:cactus",
 	"flora:leaves",
+	"blocks:water_source",
 	"blocks:diamondblock",
 	"variations:mithrilblock_big_tile",
 	"blocks:amethyst",
@@ -35,18 +37,7 @@ minetest.register_on_newplayer(function(player)
 	meta:set_int("whomes_limit", default_limit)
 end)
 
-local function init_homes(player)
-	local name = player:get_player_name()
-	whomes_inventory[name] = {
-		waypoints = {},
-		ordered_table = {},
-		scroll = 0,
-		teleporting = nil,
-	}
-	return whomes_inventory[name]
-end
-
-local function get_homes_limit(player, type)
+local function get_homes_limit(player)
 	local meta = player:get_meta()
 	local homes_limit = meta:get_int("whomes_limit")
 	if homes_limit and tonumber(homes_limit) then
@@ -80,6 +71,21 @@ local function get_homes_amt(player, type)
 	end
 end
 
+local function init_homes(player)
+	local name = player:get_player_name()
+	local homes_amt, total_amt = get_homes_amt(player, "home")
+	whomes_inventory[name] = {
+		waypoints = {},
+		ordered_table = {},
+		scroll = 0,
+		teleporting = nil,
+		hamt = homes_amt,
+		tamt = total_amt,
+		hlimit = get_homes_limit(player),
+	}
+	return whomes_inventory[name]
+end
+
 local function create_ordered_table(homesdata)
 	local ordered_table = {}
 	for hname, homelist in pairs(homesdata) do
@@ -97,8 +103,8 @@ local function add_home(player, hname, htype)
 		return false
 	end
 	local meta = player:get_meta()
-	local homes_amt, total_amt = get_homes_amt(player, "home")
-	local homes_limit = get_homes_limit(player)
+	local homes_amt, total_amt = hinv.hamt, hinv.tamt
+	local homes_limit = hinv.hlimit
 	local homesdata = minetest.deserialize(meta:get_string("whomes")) or {}
 	if htype2 == "home" and homesdata and (homes_amt + 1) > homes_limit then -- check home limit
 		homes_chat(name, "You have reached your limit of "..homes_limit.." "..htype2.."s! Delete existing ones.")
@@ -110,11 +116,13 @@ local function add_home(player, hname, htype)
 	end
 	local ppos = player:get_pos()
 	local order = total_amt + 1
+	hinv.tamt = hinv.tamt + 1
 	if htype2 == "waypoint" then
 		local color = math.random(0xFFFFFF)
 		homesdata[hname] = {x = ppos.x, y = ppos.y, z = ppos.z, type = "waypoint", icon = math.random(1, #whomes_icons), hud = true, color = color, order = order}
 	else
 		homesdata[hname] = {x = ppos.x, y = ppos.y, z = ppos.z, type = "home", icon = math.random(1, #whomes_icons), hud = nil, color = nil, order = order}
+		hinv.hamt = hinv.hamt + 1
 	end
 	meta:set_string("whomes", minetest.serialize(homesdata))
 	homes_chat(name, "Saved '"..hname.."' ("..ppos.x..", "..ppos.y..", "..ppos.z..") to your list of "..htype2.."s!")
@@ -130,6 +138,7 @@ end
 
 local function delete_home(player, hname, htype)
 	local name = player:get_player_name()
+	local hinv = whomes_inventory[name] or init_homes(player)
 	local htype2 = htype or "home"
 	if not hname or hname == "" then
 		homes_chat(name, "Please select a "..htype2.." to delete!")
@@ -154,6 +163,8 @@ local function delete_home(player, hname, htype)
 		end
 		local htype3 = homesdata[hname].type
 		homesdata[hname] = nil
+		hinv.tamt = hinv.tamt - 1
+		hinv.hamt = hinv.hamt - 1
 		meta:set_string("whomes", minetest.serialize(homesdata))
 		homes_chat(name, "Removed '"..hname.."' from your list of "..htype3.."s!")
 	else
@@ -206,7 +217,7 @@ local function change_order(player, chhome, direction)
 	local homelist = homesdata[chhome]
 	local otable = create_ordered_table(homesdata)
 	local horder = homelist.order
-	local total_amt = get_homes_amt(player)
+	local hinv = whomes_inventory[name] or init_homes(player)
 	if otable[horder] == chhome then
 		if direction == "up" then
 			if (horder - 1) < 1 then
@@ -220,7 +231,7 @@ local function change_order(player, chhome, direction)
 				winv.refresh(player)
 			end
 		elseif direction == "down" then
-			if (horder + 1) > total_amt then
+			if (horder + 1) > hinv.tamt then
 				homes_chat(name, chhome.." is already at the bottom!")
 				return
 			else
@@ -334,13 +345,12 @@ winv:register_inventory("home", {
 					"tooltip[2,"..(0.45 + yshift)..";2.5,1.3;"..hname.."\n"..coords.."]"
 			end
 		end
-		local homes_limit = get_homes_limit(player)
-		local homes_amt = get_homes_amt(player)
+		local total_amt = hinv.tamt
 		local scrollbar_max = 0
-		if homes_amt == 3 then
+		if total_amt == 3 then
 			scrollbar_max = 4
-		elseif homes_amt > 3 then
-			scrollbar_max = 4 + ((homes_amt - 3) * 20)
+		elseif total_amt > 3 then
+			scrollbar_max = 4 + ((total_amt - 3) * 20)
 		end
 		-- scrollbar length
 		local scroll_form = ""
@@ -363,7 +373,7 @@ winv:register_inventory("home", {
 			"field[0.25,6.8;4.65,0.7;winv_home_name;;]",
 			"image_button[5.15,6.8;1.05,0.7;winv_add_home.png;winv_home_add;;;true;winv_add_home.png]",
 			"image_button[6.45,6.8;1.05,0.7;winv_add_waypoint.png;winv_home_add_wp;;;true;winv_add_waypoint.png]",
-			"tooltip[winv_home_add;Add a home \nYour homes limit: "..homes_limit.." homes\nPosition based on your current location \nFill field on the left with home name]",
+			"tooltip[winv_home_add;Add a home \nYour homes limit: "..hinv.hlimit.." homes\nPosition based on your current location \nFill field on the left with home name]",
 			"tooltip[winv_home_add_wp;Add a waypoint \nPosition based on your current location \nFill field on the left with waypoint name]",
 		}
 		return table.concat(formspec, "")
@@ -432,6 +442,7 @@ minetest.register_chatcommand("homelimit", {
     privs = {privs=true},
     func = function(name, param)
 		local pname, nlimit = string.match(param, '(%S+) (.*)')
+		local hinv = whomes_inventory[name] or init_homes(player)
 		if pname == "" or not pname or nlimit == "" or not nlimit then
 			homes_chat(name, "Invalid parameters, use '/homelimit <playername> <new_limit_no.>'")
 			return
@@ -448,6 +459,7 @@ minetest.register_chatcommand("homelimit", {
 		end
 		if tonumber(nlimit) then
 			local meta = player:get_meta()
+			hinv.hlimit = tonumber(nlimit)
 			meta:set_int("whomes_limit", nlimit)
 			homes_chat(name, "Set '"..pname.."' home limits to "..nlimit..".")
 		else

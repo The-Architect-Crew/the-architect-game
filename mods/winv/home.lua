@@ -173,8 +173,8 @@ local function delete_home(player, hname, htype)
 end
 
 local function tp_home(player, hname)
-	local hinv = whomes_inventory[name] or init_homes(player)
 	local name = player:get_player_name()
+	local hinv = whomes_inventory[name] or init_homes(player)
 	if not hname or hname == "" then
 		homes_chat(name, "Please select a home to warp to!")
 		return

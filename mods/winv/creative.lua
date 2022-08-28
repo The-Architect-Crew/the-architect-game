@@ -443,21 +443,22 @@ winv:register_inventory("creative", {
 			inv.start_i = 0
 			inv.filter = fields.winv_creative_filter:lower()
 			winv.refresh(player)
-		elseif not fields.quit then
+		elseif fields.winv_creative_prev then
 			local start_i = inv.start_i or 0
-			if fields.winv_creative_prev then
-				start_i = start_i - 6*6
-				if start_i < 0 then
-					start_i = inv.size - (inv.size % (6*6))
-					if inv.size == start_i then
-						start_i = math.max(0, inv.size - (6*6))
-					end
+			start_i = start_i - 6*6
+			if start_i < 0 then
+				start_i = inv.size - (inv.size % (6*6))
+				if inv.size == start_i then
+					start_i = math.max(0, inv.size - (6*6))
 				end
-			elseif fields.winv_creative_next then
-				start_i = start_i + 6*6
-				if start_i >= inv.size then
-					start_i = 0
-				end
+			end
+			inv.start_i = start_i
+			winv.refresh(player)
+		elseif fields.winv_creative_next then
+			local start_i = inv.start_i or 0
+			start_i = start_i + 6*6
+			if start_i >= inv.size then
+				start_i = 0
 			end
 			inv.start_i = start_i
 			winv.refresh(player)

@@ -133,7 +133,7 @@ winv:register_inventory("crafting", {
 	end,
 	on_player_receive_fields = function(player, formname, fields)
 		local meta = player:get_meta()
-		if fields["winv_craft_multiplier"] then
+		if fields.key_enter_field == "winv_craft_multiplier" then
 			local sub_multiplier = string.gsub(fields.winv_craft_multiplier, "x", "")
 			if tonumber(sub_multiplier) then
 				local multiplier = tonumber(sub_multiplier)

@@ -41,6 +41,7 @@ local function init_homes(player)
 		waypoints = {},
 		ordered_table = {},
 		scroll = 0,
+		teleporting = nil,
 	}
 	return whomes_inventory[name]
 end
@@ -127,10 +128,11 @@ local function add_home(player, hname, htype)
 	end
 end
 
-local function delete_home(player, hname)
+local function delete_home(player, hname, htype)
 	local name = player:get_player_name()
+	local htype2 = htype or "home"
 	if not hname or hname == "" then
-		homes_chat(name, "Please select a home to delete!")
+		homes_chat(name, "Please select a "..htype2.." to delete!")
 		return
 	end
 	local meta = player:get_meta()
@@ -150,19 +152,20 @@ local function delete_home(player, hname)
 		if wp_id then -- remove waypoint if it exists
 			player:hud_remove(wp_id)
 		end
-		local htype = homesdata[hname].type
+		local htype3 = homesdata[hname].type
 		homesdata[hname] = nil
 		meta:set_string("whomes", minetest.serialize(homesdata))
-		homes_chat(name, "Removed '"..hname.."' from your list of "..htype.."s!")
+		homes_chat(name, "Removed '"..hname.."' from your list of "..htype3.."s!")
 	else
-		homes_chat(name, "Invalid home selected. Please refresh.")
+		homes_chat(name, "Invalid home selected / '"..hname.."' does not exist!")
 	end
 end
 
 local function tp_home(player, hname)
 	local name = player:get_player_name()
+	local hinv = whomes_inventory[name] or init_homes(player)
 	if not hname or hname == "" then
-		homes_chat(name, "Please select a home to travel to!")
+		homes_chat(name, "Please select a home to warp to!")
 		return
 	end
 	local meta = player:get_meta()
@@ -170,14 +173,29 @@ local function tp_home(player, hname)
 	if homesdata[hname] then
 		local htype = homesdata[hname].type
 		if htype == "home" then
+			if hinv.teleporting then
+				homes_chat(name, "You are already warping to another home!")
+				return
+			end
 			local hpos = homesdata[hname]
-			player:set_pos(hpos)
-			homes_chat(name, "Travelling to '"..hname.."' home ("..hpos.x..", "..hpos.y..", "..hpos.z..")...")
+			homes_chat(name, "Warping to '"..hname.."' home ("..hpos.x..", "..hpos.y..", "..hpos.z..")...")
+			player:set_fov(350, false, 15)
+			hinv.teleporting = true
+			minetest.sound_play("winv_home_teleport", {
+				to_player = name,
+			})
+			minetest.after(4, function()
+				if minetest.is_player(player) then
+					player:set_fov(0)
+					player:set_pos(hpos)
+					hinv.teleporting = nil
+				end
+			end)
 		elseif htype ~= "home" then
-			homes_chat(name, hname.." is a "..htype..", you can only travel to homes!")
+			homes_chat(name, "'"..hname.."' is a "..htype..", you can only warp to homes!")
 		end
 	else
-		homes_chat(name, "Invalid home selected.")
+		homes_chat(name, "Invalid home selected / '"..hname.."' does not exist!")
 	end
 end
 
@@ -440,7 +458,7 @@ minetest.register_chatcommand("homelimit", {
 
 minetest.register_chatcommand("home", {
 	params = "<home_name>",
-	description = "Travel to your homes.",
+	description = "Warp to your homes.",
 	func = function(name, param)
 		local player = minetest.get_player_by_name(name)
 		tp_home(player, param)
@@ -467,21 +485,12 @@ minetest.register_chatcommand("delhome", {
 	end,
 })
 
-minetest.register_chatcommand("home", {
-	params = "<home_name>",
-	description = "Travel to your homes.",
-	func = function(name, param)
-		local player = minetest.get_player_by_name(name)
-		tp_home(player, param)
-	end,
-})
-
--- remove waypoints table when player leaves
 minetest.register_on_leaveplayer(function(player)
 	local name = player:get_player_name()
 	local hinv = whomes_inventory[name]
 	if hinv then
-		hinv.waypoints = {}
+		hinv.waypoints = {} -- remove waypoints table when player leaves
+		hinv.teleporting = nil -- reset teleporting status
 	end
 end)
 

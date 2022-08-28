@@ -4,6 +4,7 @@ winv.default.left = "crafting"
 winv.default.right = "player"
 winv.inventories = {}
 winv.listrings = {}
+winv.mod_storage = minetest.get_mod_storage()
 
 -- store registrations
 function winv:register_inventory(name, def)
@@ -42,6 +43,7 @@ function winv:register_listring(inv1, inv2, listring)
 	}
 end
 
+-- player inventory
 winv:register_inventory("player", {
 	lists = {
 		{"main", 6 * 6},
@@ -71,7 +73,7 @@ local function nav_buttons(player, incre, side)
 				if side == "left" and left_inv == invname or
 					side == "right" and right_inv == invname or
 					side == "right_node" and right_inv == invname then
-					icon_darken = "^[colorize:#565656"
+					icon_darken = "^[colorize:#565656" -- darken icon for visible inventories
 				end
 				buttonform = buttonform.."image_button["..0.1 + (invno * 0.6) + incre..",-0.6;0.5,0.5;"..bdef.texture..""..icon_darken..";winv_"..invname.."_"..side..";"..bdef.label..";true;false;"..bdef.pressed_texture..""..icon_darken.."]"..
 					"tooltip[winv_"..invname.."_"..side..";"..bdef.tooltip.."]"
@@ -97,20 +99,24 @@ end
 -- construct inventory
 function winv.init_inventory(player, nodeform)
 	local meta = player:get_meta()
-	if meta:get_string("winv:left") == "" or meta:get_string("winv:right") == "" then
-		meta:set_string("winv:left", winv.default.left)
-		meta:set_string("winv:right", winv.default.right)
+	local left_inv, right_inv = meta:get_string("winv:left"), meta:get_string("winv:right")
+	local default_left_inv, default_right_inv = winv.default.left, winv.default.right
+	if left_inv == "" or right_inv == "" then
+		meta:set_string("winv:left", default_left_inv)
+		meta:set_string("winv:right", default_right_inv)
+		left_inv = default_left_inv
+		right_inv = default_right_inv
 	end
 	local idata = winv.inventories
-	local left_inv = meta:get_string("winv:left")
-	local right_inv = meta:get_string("winv:right")
-	-- reset inventory to remove restricted inventories
-	if idata[left_inv].req and not idata[left_inv].req(player) and not nodeform
-		or idata[right_inv].req and not idata[right_inv].req(player) then
-		meta:set_string("winv:left", winv.default.left)
-		meta:set_string("winv:right", winv.default.right)
-		left_inv = winv.default.left
-		right_inv = winv.default.right
+	-- reset inventory to remove inventories that doesnt fit requirement
+	if left_inv ~= default_left_inv and right_inv ~= default_right_inv then
+		if idata[left_inv].req and not idata[left_inv].req(player) and not nodeform
+			or idata[right_inv].req and not idata[right_inv].req(player) then
+			meta:set_string("winv:left", default_left_inv)
+			meta:set_string("winv:right", default_right_inv)
+			left_inv = default_left_inv
+			right_inv = default_right_inv
+		end
 	end
 	local left_form = idata[left_inv].formspec
 	local right_form = idata[right_inv].formspec
@@ -152,8 +158,10 @@ function winv.init_inventory(player, nodeform)
 end
 
 function winv.refresh(player)
-	local invform = winv.init_inventory(player)
-	player:set_inventory_formspec(invform)
+	if player then
+		local invform = winv.init_inventory(player)
+		player:set_inventory_formspec(invform)
+	end
 end
 
 local function check_req(player, invname)

@@ -16,7 +16,6 @@ minetest.register_privilege("creative", {
 
 -- Override the engine's creative mode function
 local old_is_creative_enabled = minetest.is_creative_enabled
-
 function minetest.is_creative_enabled(name)
 	if name == "" then
 		return old_is_creative_enabled(name)

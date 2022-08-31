@@ -127,6 +127,7 @@ local function init_creative_inv(player)
 		old_filter = nil, -- use only for caching in update_creative_inventory
 		old_content = nil,
 		content = minetest.registered_items,
+		content_name = "all",
 		show_mod_filter = nil,
 		old_mod_filter = {},
 		mod_filter = {},
@@ -324,6 +325,23 @@ winv:register_inventory("creative", {
 					modfilter_list(name)..
 				"scroll_container_end[]"
 		end
+		local creative_all = "image_button[-0.9,0.25;0.8,0.8;winv_cicon_all.png;winv_creative_all;;true;false;]"
+		local creative_block = "image_button[-0.9,1.15;0.8,0.8;winv_cicon_block.png;winv_creative_block;;true;false;]"
+		local creative_tool = "image_button[-0.9,2.05;0.8,0.8;winv_cicon_tool.png;winv_creative_tool;;true;false;]"
+		local creative_craftitem = "image_button[-0.9,2.95;0.8,0.8;winv_cicon_craftitem.png;winv_creative_craftitem;;true;false;]"
+		local darken = "^[colorize:#00000055"
+		if inv.content_name then
+			local icname = inv.content_name
+			if icname == "all" then
+				creative_all = "image_button[-0.9,0.25;0.8,0.8;winv_cicon_all.png"..darken..";winv_creative_all;;true;false;]"
+			elseif icname == "block" then
+				creative_block = "image_button[-0.9,1.15;0.8,0.8;winv_cicon_block.png"..darken..";winv_creative_block;;true;false;]"
+			elseif icname == "tool" then
+				creative_tool = "image_button[-0.9,2.05;0.8,0.8;winv_cicon_tool.png"..darken..";winv_creative_tool;;true;false;]"
+			elseif icname == "craftitem" then
+				creative_craftitem = "image_button[-0.9,2.95;0.8,0.8;winv_cicon_craftitem.png"..darken..";winv_creative_craftitem;;true;false;]"
+			end
+		end
 		local formspec = {
 			"style_type[image,label;noclip=true]",
 			"image[0,0;7.75,9;winv_bg.png]",
@@ -343,13 +361,13 @@ winv:register_inventory("creative", {
 			"image_button[6.5,7.83;0.5,0.8;winv_cicon_miniarrow.png^[transformFX;winv_creative_prev;;;false;]",
 			"image_button[7,7.85;0.5,0.8;winv_cicon_miniarrow.png;winv_creative_next;;;false;]",
 			-- icons
-			"image_button[-0.9,0.25;0.8,0.8;winv_cicon_all.png;winv_creative_all;;true;false;]",
+			creative_all,
 			"tooltip[winv_creative_all;Show all]",
-			"image_button[-0.9,1.15;0.8,0.8;winv_cicon_block.png;winv_creative_block;;true;false;]",
+			creative_block,
 			"tooltip[winv_creative_block;Show blocks only]",
-			"image_button[-0.9,2.05;0.8,0.8;winv_cicon_tool.png;winv_creative_tool;;true;false;]",
+			creative_tool,
 			"tooltip[winv_creative_tool;Show tools only]",
-			"image_button[-0.9,2.95;0.8,0.8;winv_cicon_craftitem.png;winv_creative_craftitem;;true;false;]",
+			creative_craftitem,
 			"tooltip[winv_creative_craftitem;Show craft items only]",
 			"image_button[-0.9,3.85;0.8,0.8;winv_cicon_filter.png;winv_creative_modfilter;;true;false;]",
 			"tooltip[winv_creative_modfilter;Filter by mods]",
@@ -365,18 +383,22 @@ winv:register_inventory("creative", {
 		end
 		if fields.winv_creative_all then
 			inv.content = minetest.registered_items
+			inv.content_name = "all"
 			inv.start_i = 0
 			winv.refresh(player)
 		elseif fields.winv_creative_block then
 			inv.content = registered_nodes
+			inv.content_name = "block"
 			inv.start_i = 0
 			winv.refresh(player)
 		elseif fields.winv_creative_tool then
 			inv.content = registered_tools
+			inv.content_name = "tool"
 			inv.start_i = 0
 			winv.refresh(player)
 		elseif fields.winv_creative_craftitem then
 			inv.content = registered_craftitems
+			inv.content_name = "craftitem"
 			inv.start_i = 0
 			winv.refresh(player)
 		elseif fields.winv_creative_modfilter then

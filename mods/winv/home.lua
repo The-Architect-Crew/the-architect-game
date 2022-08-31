@@ -192,6 +192,7 @@ local function tp_home(player, hname)
 			player:set_fov(410, false, 15)
 			hinv.teleporting = true
 			minetest.sound_play("winv_home_teleport", {
+				gain = 0.5,
 				to_player = name,
 			})
 			minetest.after(4, function()

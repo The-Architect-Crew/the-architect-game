@@ -263,7 +263,6 @@ function winv.node_receive_fields(player, formname, fields)
 			end
 			winv.refresh(player)
 		end
-		
 		if invdata.on_player_receive_fields then
 			invdata.on_player_receive_fields(player, formname, fields)
 		end

@@ -4,7 +4,7 @@ winv.default.left = "crafting"
 winv.default.right = "player"
 winv.inventories = {}
 winv.listrings = {}
-winv.penrefresh = {}
+winv_v = {}
 winv.mod_storage = minetest.get_mod_storage()
 
 -- store registrations
@@ -82,6 +82,9 @@ local function nav_buttons(player, incre, side)
 			end
 		end
 	end
+	if side == "right" then -- switch button
+		buttonform = buttonform.."image_button[17.15,-0.6;0.5,0.5;winv_icon_switch.png;winv_switch;;true;false;winv_icon_switch.png]"
+	end
 	return buttonform
 end
 
@@ -158,20 +161,24 @@ function winv.init_inventory(player, nodeform)
 	end
 end
 
-function winv.refresh(player)
+winv_v.nrefresh = {}
+function winv.refresh(player, show)
 	if player then
 		local name = player:get_player_name()
 		local invform = winv.init_inventory(player)
 		player:set_inventory_formspec(invform)
-		winv.penrefresh[name] = true -- allow node inventories to detect whether there's a need for refreshes
+		if show then
+			minetest.show_formspec(name, "", invform)
+		end
+		winv_v.nrefresh[name] = true -- allow node inventories to detect whether there's a need for refreshes
 	end
 end
 
 -- check whether there's a need to refresh and reset refresh status for node inventories
 function winv.node_refresh(player)
 	local name = player:get_player_name()
-	if winv.penrefresh[name] then
-		winv.penrefresh[name] = nil
+	if winv_v.nrefresh[name] then
+		winv_v.nrefresh[name] = nil
 		return true
 	end
 	return nil
@@ -191,25 +198,38 @@ end
 
 function winv.receive_fields(player, formname, fields)
 	local meta = player:get_meta()
+	local switchmode = meta:get_string("winv:switch")
 	for invname, invdata in pairs(winv.inventories) do
 		-- normal handling
 		if fields["winv_"..invname.."_left"] then
 			local left_inv = meta:get_string("winv:left")
 			local right_inv = meta:get_string("winv:right")
-			if check_req(player, invname) then
-				meta:set_string("winv:left", invname)
-				if right_inv == invname then -- switch inventory if its the same
-					meta:set_string("winv:right", left_inv)
+			if check_req(player, invname) then -- ensure meet requirement to show inventory
+				if switchmode == "button" then
+					if right_inv ~= invname then -- do not force switch
+						meta:set_string("winv:left", invname)
+					end
+				else
+					meta:set_string("winv:left", invname)
+					if right_inv == invname then -- force switch inventory if its the same
+						meta:set_string("winv:right", left_inv)
+					end
 				end
 			end
 			winv.refresh(player)
 		elseif fields["winv_"..invname.."_right"] then
 			local left_inv = meta:get_string("winv:left")
 			local right_inv = meta:get_string("winv:right")
-			if check_req(player, invname) then
-				meta:set_string("winv:right", invname)
-				if left_inv == invname then  -- switch inventory if its the same
-					meta:set_string("winv:left", right_inv)
+			if check_req(player, invname) then -- ensure meet requirement to show inventory
+				if switchmode == "button" then
+					if left_inv ~= invname then -- do not force switch
+						meta:set_string("winv:right", invname)
+					end
+				else
+					meta:set_string("winv:right", invname)
+					if left_inv == invname then  -- switch inventory if its the same
+						meta:set_string("winv:left", right_inv)
+					end
 				end
 			end
 			winv.refresh(player)
@@ -217,6 +237,13 @@ function winv.receive_fields(player, formname, fields)
 		if invdata.on_player_receive_fields then
 			invdata.on_player_receive_fields(player, formname, fields)
 		end
+	end
+	if fields.winv_switch then -- button to swap inventory
+		local left_inv = meta:get_string("winv:left")
+		local right_inv = meta:get_string("winv:right")
+		meta:set_string("winv:left", right_inv)
+		meta:set_string("winv:right", left_inv)
+		winv.refresh(player)
 	end
 end
 
@@ -236,6 +263,7 @@ function winv.node_receive_fields(player, formname, fields)
 			end
 			winv.refresh(player)
 		end
+		
 		if invdata.on_player_receive_fields then
 			invdata.on_player_receive_fields(player, formname, fields)
 		end
@@ -248,14 +276,60 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 	end
 end)
 
+-- Chat commands to modify settings
+local function winv_chat(name, message)
+	if minetest.get_player_by_name(name) then
+		minetest.chat_send_player(name, minetest.colorize("grey", "[winv]").." "..message)
+	end
+end
+
+minetest.register_chatcommand("winv_switch", {
+    description = "Enable or disable force inventory switching",
+    func = function(name)
+		local player = minetest.get_player_by_name(name)
+		local meta = player:get_meta()
+		local switchmode = meta:get_string("winv:switch")
+		if switchmode == "" then
+			meta:set_string("winv:switch", "button")
+			winv_chat(name, "Disabled force switching.")
+		else
+			meta:set_string("winv:switch", "")
+			winv_chat(name, "Enabled force switching.")
+		end
+	end,
+})
+
+minetest.register_chatcommand("winv_selector", {
+	param = "<no.>",
+    description = "Select your preferred selector <no.>",
+    func = function(name, param)
+		local player = minetest.get_player_by_name(name)
+		local meta = player:get_meta()
+		if tonumber(param) and tonumber(param) < 3 then
+			meta:set_string("winv:selector", param)
+			player:hud_set_hotbar_selected_image("gui_hotbar_selected_"..param..".png")
+			winv_chat(name, "Set to selector "..param..".")
+		else
+			meta:set_string("winv:selector", "")
+			player:hud_set_hotbar_selected_image("gui_hotbar_selected.png")
+			winv_chat(name, "Set to default selector.")
+		end
+	end,
+})
+
 minetest.register_on_joinplayer(function(player)
+	local meta = player:get_meta()
 	-- Set formspec prepend #141318
 	player:set_formspec_prepend([[
 		listcolors[#00000069;#5A5A5A;#141318;#30434C;#FFF]
 	]])
 	-- Set hotbar textures
 	player:hud_set_hotbar_image("gui_hotbar.png")
-	player:hud_set_hotbar_selected_image("gui_hotbar_selected.png")
+	if meta:get_string("winv:selector") ~= "" then
+		player:hud_set_hotbar_selected_image("gui_hotbar_selected_"..meta:get_string("winv:selector")..".png")
+	else
+		player:hud_set_hotbar_selected_image("gui_hotbar_selected.png")
+	end
 	-- Set hotbar size
 	player:hud_set_hotbar_itemcount(12)
 	-- initialize inventory sizes

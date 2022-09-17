@@ -6,6 +6,7 @@ minetest.register_node("blocks:wood_bars", {
 	wield_image = "blocks_wood_bars.png",
 	paramtype = "light",
 	sunlight_propagates = true,
+	use_texture_alpha = "clip",
 	groups = {choppy=3},
 	sounds = default.node_sound_wood_defaults()
 })
@@ -17,6 +18,7 @@ minetest.register_node("blocks:wood_grille", {
 	wield_image = "blocks_wood_grille.png",
 	paramtype = "light",
 	sunlight_propagates = true,
+	use_texture_alpha = "clip",
 	groups = {choppy=3},
 	sounds = default.node_sound_wood_defaults()
 })
@@ -28,6 +30,7 @@ minetest.register_node("blocks:steel_bars", {
 	wield_image = "blocks_steel_bars.png",
 	paramtype = "light",
 	sunlight_propagates = true,
+	use_texture_alpha = "clip",
 	groups = {cracky=3},
 	sounds = default.node_sound_metal_defaults()
 })
@@ -39,6 +42,7 @@ minetest.register_node("blocks:steel_grille", {
 	wield_image = "blocks_steel_grille.png",
 	paramtype = "light",
 	sunlight_propagates = true,
+	use_texture_alpha = "clip",
 	groups = {cracky=3},
 	sounds = default.node_sound_metal_defaults()
 })

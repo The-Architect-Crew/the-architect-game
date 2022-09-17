@@ -27,6 +27,7 @@ minetest.register_node("blocks:fire", {
     sunlight_propagates = true,
     walkable = false,
     floodable = true,
+	use_texture_alpha = "clip",
     light_source = default.LIGHT_MAX,
     groups = {oddly_breakable_by_hand = 1},
 })
@@ -48,6 +49,7 @@ minetest.register_node("blocks:campfire", {
     sunlight_propagates = true,
     walkable = false,
     floodable = true,
+	use_texture_alpha = "clip",
     light_source = default.LIGHT_MAX,
     groups = {oddly_breakable_by_hand = 1},
     selection_box = {
@@ -69,6 +71,7 @@ minetest.register_node("blocks:pyre", {
     sunlight_propagates = true,
     walkable = false,
     floodable = true,
+	use_texture_alpha = "clip",
     light_source = default.LIGHT_MAX,
     groups = {oddly_breakable_by_hand = 1},
     selection_box = {
@@ -142,6 +145,7 @@ for i=1,#blocks.fire_types do
         sunlight_propagates = true,
         walkable = false,
         floodable = true,
+		use_texture_alpha = "clip",
         light_source = default.LIGHT_MAX,
         groups = {oddly_breakable_by_hand = 1},
     })
@@ -175,6 +179,7 @@ for i=1,#blocks.fire_types do
         sunlight_propagates = true,
         walkable = false,
         floodable = true,
+		use_texture_alpha = "clip",
         light_source = default.LIGHT_MAX,
         groups = {oddly_breakable_by_hand = 1},
         selection_box = {
@@ -196,6 +201,7 @@ for i=1,#blocks.fire_types do
         sunlight_propagates = true,
         walkable = false,
         floodable = true,
+		use_texture_alpha = "clip",
         light_source = default.LIGHT_MAX,
         groups = {oddly_breakable_by_hand = 1},
         selection_box = {

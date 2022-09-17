@@ -1,6 +1,56 @@
-local function formspec_crafting(pos, add)
+workbench.craftbench = {}
+local winv_exists = minetest.global_exists("winv")
+local function formspec_crafting(pos, player, add)
 	local spos = pos.x..","..pos.y..","..pos.z
 	local meta = minetest.get_meta(pos)
+	local winv_listring = ""
+	if winv_exists then
+		local pmeta = player:get_meta()
+		local playername = player:get_player_name()
+		local right_inv = pmeta:get_string("winv:right")
+		if right_inv == "player" then
+			winv_listring =
+				"listring[current_player;main]"..
+				"listring[nodemeta:"..spos..";input]"..
+				"listring[current_player;main]"..
+				"listring[nodemeta:"..spos..";output]"
+		elseif right_inv == "crafting" then
+			winv_listring =
+				"listring[nodemeta:"..spos..";input]"..
+				"listring[detached:winv_craft_"..playername..";input]"..
+				"listring[nodemeta:"..spos..";input]"..
+				"listring[nodemeta:"..spos..";output]"..
+				"listring[detached:winv_craft_"..playername..";input]"..
+				"listring[detached:winv_craft_"..playername..";output]"
+		elseif right_inv == "creative" then
+			winv_listring =
+				"listring[detached:winv_creative_"..playername..";main]"..
+				"listring[nodemeta:"..spos..";input]"..
+				"listring[detached:trash;main]"..
+				"listring[nodemeta:"..spos..";output]"..
+				"listring[detached:trash;main]"
+		end
+	end
+	local winv_formspec = {
+		"image[0,0;7.75,10.25;winv_bg.png]",
+		-- input
+		"list[nodemeta:"..spos..";input;0.875,0.25;5,5;]",
+		-- arrow
+		"image[3.375,6.5;1,1;gui_arrow.png^[transformFY]",
+		-- multiplier
+		"style[workbench_multiplier;border=false]",
+		"box[4.625,6.5;1,1;#00000040]",
+		"field[4.625,6.5;1,1;workbench_multiplier;;x"..meta:get_int("multiplier").."]",
+		"field_close_on_enter[workbench_multiplier;false]",
+		-- output
+		"list[nodemeta:"..spos..";output;2.75,7.75;2,2;]",
+		winv_listring,
+		-- lock
+		"style_type[image;noclip=true]",
+		"image[-1.4,8.8;1.4,1.4;gui_tab.png]",
+		"image_button[-1.1,8.95;1.05,1.05;"..locks.icons(pos, "workbench_craftbench", {"lock", "protect", "public"}).."]",
+		add
+	}
 	local formspec = {
 		"formspec_version[4]",
 		"size[10.5,12.25]",
@@ -32,7 +82,16 @@ local function formspec_crafting(pos, add)
 		"image_button[-1.1,5.65;1.05,1.05;"..locks.icons(pos, "workbench_craftbench", {"lock", "protect", "public"}).."]",
 		add
 	}
-	return table.concat(formspec, "")
+	if winv_exists then
+		return winv.init_inventory(player, table.concat(winv_formspec, ""))
+	else
+		return table.concat(formspec, "")
+	end
+end
+
+local function show_formspec(pos, player, add)
+	local playername = player:get_player_name()
+	minetest.show_formspec(playername, "workbench:craftbench", formspec_crafting(pos, player, add))
 end
 
 local function apply_craft_result(pos, listname, index, stack, player, multiplier)
@@ -116,7 +175,6 @@ minetest.register_node("workbench:craftbench", {
 		inv:set_size("output", 2*2)
 		meta:set_string("lock", "lock")
 		meta:set_int("multiplier", 1)
-		meta:set_string("formspec", formspec_crafting(pos))
 		meta:set_string("crafted", "")
 		meta:set_string("owner", "")
 		locks.init_infotext(pos, "Craftbench")
@@ -126,6 +184,14 @@ minetest.register_node("workbench:craftbench", {
 		local playername = placer:get_player_name()
 		meta:set_string("owner", playername)
 		locks.init_infotext(pos, "Craftbench")
+	end,
+	on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
+		local playername = clicker:get_player_name()
+		if not locks.can_access(pos, clicker) then
+			return itemstack
+		end
+		show_formspec(pos, clicker)
+		workbench.craftbench[playername] = pos
 	end,
 	on_place = function(itemstack, placer, pointed_thing)
 		local pos = pointed_thing.above
@@ -206,28 +272,40 @@ minetest.register_node("workbench:craftbench", {
 		else
 			return 0
 		end
-	end,
-	on_receive_fields = function(pos, formname, fields, sender)
-		local meta = minetest.get_meta(pos)
-		if not locks.can_access(pos, sender) then
-			return 0
-		end
-		if locks.fields(pos, sender, fields, "workbench_craftbench", "Craftbench") then
-			meta:set_string("formspec", formspec_crafting(pos))
-		end
-		if fields.workbench_multiplier then
-			local sub_multiplier = string.gsub(fields.workbench_multiplier, "x", "")
-			if tonumber(sub_multiplier) then
-				local multiplier = tonumber(sub_multiplier)
-				if multiplier > 99 then
-					multiplier = 99
-				elseif multiplier < 1 then
-					multiplier = 1
-				end
-				meta:set_int("multiplier", multiplier)
-				craftbench_update(pos, "input")
-				meta:set_string("formspec", formspec_crafting(pos))
-			end
-		end
-	end,
+	end
 })
+
+minetest.register_on_player_receive_fields(function(player, formname, fields)
+	if formname ~= "workbench:craftbench" or not player then
+		return
+	end
+	local playername = player:get_player_name()
+	local pos = workbench.craftbench[playername]
+	local meta = minetest.get_meta(pos)
+	if not locks.can_access(pos, player) then
+		return 0
+	end
+	if locks.fields(pos, player, fields, "workbench_craftbench", "Craftbench") then
+		show_formspec(pos, player)
+	end
+	if fields.key_enter_field == "workbench_multiplier" then
+		local sub_multiplier = string.gsub(fields.workbench_multiplier, "x", "")
+		if tonumber(sub_multiplier) then
+			local multiplier = tonumber(sub_multiplier)
+			if multiplier > 99 then
+				multiplier = 99
+			elseif multiplier < 1 then
+				multiplier = 1
+			end
+			meta:set_int("multiplier", multiplier)
+			craftbench_update(pos, "input")
+			show_formspec(pos, player)
+		end
+	end
+	if winv_exists and not fields.quit then
+		winv.node_receive_fields(player, formname, fields)
+		if winv.node_refresh(player) then
+			show_formspec(pos, player)
+		end
+	end
+end)

@@ -42,7 +42,14 @@ local function send_error(ctype, ercat, input, output, errordesc)
 		": type: "..ctype..", category: "..ercat..", input: "..dump(input)..", output: "..dump(output))
 end
 
+if minetest.settings:get_bool("workbench_disable_crafts") then
+	minetest.log("warning", "[workbench] All workbench crafts are disabled!")
+end
+
 function workbench:register_craft(def)
+	if minetest.settings:get_bool("workbench_disable_crafts") then
+		return
+	end
 	def = def or {}
 	local ctype = def.type or "normal"
 	local ercat = def.category or ""

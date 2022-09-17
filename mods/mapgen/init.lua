@@ -60,10 +60,6 @@ minetest.register_on_generated(function(minp, maxp, seed)
 end)
 ]]--
 
--- Mapgen settings
-minetest.set_mapgen_setting("mg_name", "carpathian", true)
-minetest.set_mapgen_setting("mg_flags", "caves, dungeons, light, decorations, biomes, ores", true)
-minetest.set_mapgen_setting("mgcarpathian_spflags", "caverns, rivers", true)
 -- Clear default biomes, ores and decorations
 minetest.clear_registered_biomes()
 minetest.clear_registered_ores()
@@ -79,6 +75,9 @@ dofile(path.."/flowergen.lua")
 dofile(path.."/grassspread.lua")
 dofile(path.."/mossspread.lua")
 -- Register biomes, ores and decorations
-mapgen.register_biomes()
-mapgen.register_ores()
-mapgen.register_decorations()
+local mapgen_name = minetest.get_mapgen_setting("mg_name")
+if mapgen_name ~= "singlenode" and mapgen_name ~= "flat" then
+	mapgen.register_biomes()
+	mapgen.register_ores()
+	mapgen.register_decorations()
+end

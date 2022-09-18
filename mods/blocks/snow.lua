@@ -54,7 +54,7 @@ minetest.register_node("blocks:dirt_with_snow", {
 	groups = {crumbly = 3, soil = 1, spreading_dirt_type = 1, snowy = 1},
 	drop = "blocks:dirt",
 	sounds = default.node_sound_dirt_defaults({
-		footstep = {name = "blocks_snow_footstep", gain = 0.2},
+		footstep = {name = "default_glass_footstep", gain = 0.2},
 	}),
 })
 
@@ -113,7 +113,7 @@ minetest.register_node("blocks:permafrost_with_moss", {
 	drop = "blocks:permafrost",
 	groups = {cracky = 3},
 	sounds = default.node_sound_dirt_defaults({
-		footstep = {name = "blocks_grass_footstep", gain = 0.25},
+		footstep = {name = "default_glass_footstep", gain = 0.25},
 	}),
 })
 
@@ -134,7 +134,7 @@ minetest.register_node("blocks:permafrost_with_snow", {
 	drop = "blocks:permafrost",
 	groups = {cracky = 3},
 	sounds = default.node_sound_snow_defaults({
-		footstep = {name = "blocks_grass_footstep", gain = 0.5},
+		footstep = {name = "default_glass_footstep", gain = 0.5},
 	}),
 })
 

@@ -15,7 +15,7 @@ minetest.register_node("blocks:dirt_with_grass", {
 	groups = {crumbly = 3, soil = 1, spreading_dirt_type = 1},
 	drop = "blocks:dirt",
 	sounds = default.node_sound_dirt_defaults({
-		footstep = {name = "default_glass_footstep", gain = 0.25},
+		footstep = {name = "default_grass_footstep", gain = 0.25},
 	}),
 })
 
@@ -27,7 +27,7 @@ minetest.register_node("blocks:dirt_with_grass_footsteps", {
 	groups = {crumbly = 3, soil = 1, not_in_creative_inventory = 1},
 	drop = "blocks:dirt",
 	sounds = default.node_sound_dirt_defaults({
-		footstep = {name = "default_glass_footstep", gain = 0.25},
+		footstep = {name = "default_grass_footstep", gain = 0.25},
 	}),
 })
 
@@ -40,7 +40,7 @@ minetest.register_node("blocks:dirt_with_dry_grass", {
 	groups = {crumbly = 3, soil = 1, spreading_dirt_type = 1},
 	drop = "blocks:dirt",
 	sounds = default.node_sound_dirt_defaults({
-		footstep = {name = "default_glass_footstep", gain = 0.4},
+		footstep = {name = "default_grass_footstep", gain = 0.4},
 	}),
 })
 
@@ -55,7 +55,7 @@ minetest.register_node("blocks:dirt_with_rainforest_litter", {
 	groups = {crumbly = 3, soil = 1, spreading_dirt_type = 1},
 	drop = "blocks:dirt",
 	sounds = default.node_sound_dirt_defaults({
-		footstep = {name = "default_glass_footstep", gain = 0.4},
+		footstep = {name = "default_grass_footstep", gain = 0.4},
 	}),
 })
 
@@ -70,7 +70,7 @@ minetest.register_node("blocks:dirt_with_coniferous_litter", {
 	groups = {crumbly = 3, soil = 1, spreading_dirt_type = 1},
 	drop = "blocks:dirt",
 	sounds = default.node_sound_dirt_defaults({
-		footstep = {name = "default_glass_footstep", gain = 0.4},
+		footstep = {name = "default_grass_footstep", gain = 0.4},
 	}),
 })
 
@@ -89,7 +89,7 @@ minetest.register_node("blocks:dry_dirt_with_dry_grass", {
 	groups = {crumbly = 3, soil = 1},
 	drop = "blocks:dry_dirt",
 	sounds = default.node_sound_dirt_defaults({
-		footstep = {name = "default_glass_footstep", gain = 0.4},
+		footstep = {name = "default_grass_footstep", gain = 0.4},
 	}),
 })
 
@@ -101,7 +101,7 @@ minetest.register_node("blocks:chalk_with_grass", {
 	groups = {crumbly = 3, soil = 1, spreading_dirt_type = 1},
 	drop = "blocks:chalk_powder 4",
 	sounds = default.node_sound_dirt_defaults({
-		footstep = {name = "default_glass_footstep", gain = 0.25},
+		footstep = {name = "default_grass_footstep", gain = 0.25},
 	}),
 })
 

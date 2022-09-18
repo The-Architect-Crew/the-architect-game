@@ -328,6 +328,33 @@ minetest.register_craftitem("blocks:tin_lump", {
 	inventory_image = "blocks_tin_lump.png"
 })
 
+minetest.register_node("blocks:stone_with_tin", {
+	description = S("Tin Ore"),
+	tiles = {"blocks_stone.png^blocks_mineral_tin.png"},
+	groups = {cracky = 2},
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:tin_lump"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:stone_chunk"},
+			},
+			{
+				rarity = 3,
+				items = {"blocks:stone_chunk 2"},
+			},
+			{
+				rarity = 5,
+				items = {"blocks:tin_lump"},
+			},
+		},
+	},
+	sounds = default.node_sound_stone_defaults(),
+})
+
 minetest.register_node("blocks:granite_with_tin", {
 	description = S("Tin Ore"),
 	tiles = {"blocks_granite.png^blocks_mineral_tin.png"},

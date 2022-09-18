@@ -32,7 +32,7 @@ minetest.register_node("blocks:stone_with_coal", {
 })
 
 minetest.register_node("blocks:stone_with_coalblock", {
-	description = S("Coal Ore"),
+	description = S("Coal Deposit"),
 	tiles = {"blocks_mineral_coal_block.png"},
 	groups = {cracky = 2},
 	drop = {
@@ -112,7 +112,7 @@ minetest.register_node("blocks:stone_with_iron", {
 })
 
 minetest.register_node("blocks:desert_stone_with_iron", {
-	description = S("Iron Ore"),
+	description = S("Iron Ore (Desert Stone)"),
 	tiles = {"blocks_desert_stone.png^blocks_mineral_iron.png"},
 	groups = {cracky = 3},
 	drop = {
@@ -139,7 +139,7 @@ minetest.register_node("blocks:desert_stone_with_iron", {
 })
 
 minetest.register_node("blocks:sandstone_with_iron", {
-	description = S("Iron Ore"),
+	description = S("Iron Ore (Sandstone)"),
 	tiles = {"blocks_sandstone.png^blocks_mineral_iron.png"},
 	groups = {crumbly = 1, cracky = 3},
 	drop = {
@@ -166,7 +166,7 @@ minetest.register_node("blocks:sandstone_with_iron", {
 })
 
 minetest.register_node("blocks:desert_sandstone_with_iron", {
-	description = S("Iron Ore"),
+	description = S("Iron Ore (Desert Sandstone)"),
 	tiles = {"blocks_desert_sandstone.png^blocks_mineral_iron.png"},
 	groups = {crumbly = 1, cracky = 3},
 	drop = {
@@ -193,7 +193,7 @@ minetest.register_node("blocks:desert_sandstone_with_iron", {
 })
 
 minetest.register_node("blocks:silver_sandstone_with_iron", {
-	description = S("Iron Ore"),
+	description = S("Iron Ore (Silver Sandstone)"),
 	tiles = {"blocks_silver_sandstone.png^blocks_mineral_iron.png"},
 	groups = {crumbly = 1, cracky = 3},
 	drop = {
@@ -279,7 +279,7 @@ minetest.register_node("blocks:stone_with_copper", {
 })
 
 minetest.register_node("blocks:malachite_with_copper", {
-	description = S("Copper Ore"),
+	description = S("Copper Ore (Malachite)"),
 	tiles = {"blocks_malachite.png^blocks_mineral_copper.png"},
 	groups = {cracky = 2},
 	drop = {
@@ -356,7 +356,7 @@ minetest.register_node("blocks:stone_with_tin", {
 })
 
 minetest.register_node("blocks:granite_with_tin", {
-	description = S("Tin Ore"),
+	description = S("Tin Ore (Granite)"),
 	tiles = {"blocks_granite.png^blocks_mineral_tin.png"},
 	groups = {cracky = 2},
 	drop = {
@@ -453,7 +453,7 @@ minetest.register_node("blocks:stone_with_mese", {
 })
 
 minetest.register_node("blocks:marble_with_mese", {
-	description = S("Mese Ore"),
+	description = S("Mese Ore (Marble)"),
 	tiles = {"blocks_marble.png^blocks_mineral_mese.png"},
 	groups = {cracky = 1},
 	drop = {
@@ -541,7 +541,7 @@ minetest.register_node("blocks:stone_with_gold", {
 })
 
 minetest.register_node("blocks:sandstone_with_gold", {
-	description = S("Gold Ore"),
+	description = S("Gold Ore (Sandstone)"),
 	tiles = {"blocks_sandstone.png^blocks_mineral_gold.png"},
 	groups = {crumbly = 1, cracky = 3},
 	drop = {
@@ -568,7 +568,7 @@ minetest.register_node("blocks:sandstone_with_gold", {
 })
 
 minetest.register_node("blocks:desert_sandstone_with_gold", {
-	description = S("Gold Ore"),
+	description = S("Gold Ore (Desert Sandstone)"),
 	tiles = {"blocks_desert_sandstone.png^blocks_mineral_gold.png"},
 	groups = {crumbly = 1, cracky = 3},
 	drop = {
@@ -595,7 +595,7 @@ minetest.register_node("blocks:desert_sandstone_with_gold", {
 })
 
 minetest.register_node("blocks:silver_sandstone_with_gold", {
-	description = S("Gold Ore"),
+	description = S("Gold Ore (Silver Sandstone)"),
 	tiles = {"blocks_silver_sandstone.png^blocks_mineral_gold.png"},
 	groups = {crumbly = 1, cracky = 3},
 	drop = {
@@ -622,7 +622,7 @@ minetest.register_node("blocks:silver_sandstone_with_gold", {
 })
 
 minetest.register_node("blocks:granite_with_gold", {
-	description = S("Gold Ore"),
+	description = S("Gold Ore (Granite)"),
 	tiles = {"blocks_granite.png^blocks_mineral_gold.png"},
 	groups = {cracky = 2},
 	drop = {
@@ -697,7 +697,7 @@ minetest.register_node("blocks:stone_with_electrum", {
 })
 
 minetest.register_node("blocks:granite_with_electrum", {
-	description = S("Electrum Ore"),
+	description = S("Electrum Ore (Granite)"),
 	tiles = {"blocks_granite.png^blocks_mineral_electrum.png"},
 	groups = {cracky = 2},
 	drop = {
@@ -769,7 +769,7 @@ minetest.register_node("blocks:stone_with_diamond", {
 })
 
 minetest.register_node("blocks:granite_with_diamond", {
-	description = S("Diamond Ore"),
+	description = S("Diamond Ore (Granite)"),
 	tiles = {"blocks_granite.png^blocks_mineral_diamond.png"},
 	groups = {cracky = 1},
 	drop = {
@@ -796,7 +796,7 @@ minetest.register_node("blocks:granite_with_diamond", {
 })
 
 minetest.register_node("blocks:obsidian_with_diamond", {
-	description = S("Diamond Ore"),
+	description = S("Diamond Ore (Obsidian)"),
 	tiles = {"blocks_obsidian.png^blocks_mineral_diamond.png"},
 	groups = {cracky = 1},
 	drop = {
@@ -823,7 +823,7 @@ minetest.register_node("blocks:obsidian_with_diamond", {
 })
 
 minetest.register_node("blocks:basalt_with_diamond", {
-	description = S("Diamond Ore"),
+	description = S("Diamond Ore (Basalt)"),
 	tiles = {"blocks_basalt.png^blocks_mineral_diamond.png"},
 	groups = {cracky = 1},
 	drop = {
@@ -908,7 +908,7 @@ minetest.register_node("blocks:stone_with_amber", {
 })
 
 minetest.register_node("blocks:sandstone_with_amber", {
-	description = S("Sandstone with Amber Ore"),
+	description = S("Amber Ore (Sandstone)"),
 	tiles = {"blocks_sandstone.png^blocks_mineral_amber.png"},
 	is_ground_content = true,
 	groups = {crumbly = 1, cracky = 3},
@@ -942,7 +942,7 @@ minetest.register_node("blocks:sandstone_with_amber", {
 })
 
 minetest.register_node("blocks:desert_sandstone_with_amber", {
-	description = S("Desert Sandstone with Amber Ore"),
+	description = S("Amber Ore (Desert Sandstone)"),
 	tiles = {"blocks_desert_sandstone.png^blocks_mineral_amber.png"},
 	is_ground_content = true,
 	groups = {crumbly = 1, cracky = 3},
@@ -976,7 +976,7 @@ minetest.register_node("blocks:desert_sandstone_with_amber", {
 })
 
 minetest.register_node("blocks:silver_sandstone_with_amber", {
-	description = S("Silver Sandstone with Amber Ore"),
+	description = S("Amber Ore (Silver Sandstone)"),
 	tiles = {"blocks_silver_sandstone.png^blocks_mineral_amber.png"},
 	is_ground_content = true,
 	groups = {crumbly = 1, cracky = 3},
@@ -1010,7 +1010,7 @@ minetest.register_node("blocks:silver_sandstone_with_amber", {
 })
 
 minetest.register_node("blocks:coal_with_amber", {
-	description = S("Coal with Amber Ore"),
+	description = S("Amber Ore (Coal Deposit)"),
 	tiles = {"blocks_stone.png^(blocks_mineral_coal_block.png^blocks_mineral_amber.png)"},
 	groups = {cracky = 3},
 	drop = {
@@ -1043,7 +1043,7 @@ minetest.register_node("blocks:coal_with_amber", {
 })
 
 minetest.register_node("blocks:mud_with_amber", {
-	description = S("Mud with Amber Ore"),
+	description = S("Amber Ore (Mud)"),
 	tiles = {"blocks_mud.png^blocks_mineral_amber.png", "blocks_mud_side.png^blocks_mineral_amber.png"},
 	is_ground_content = true,
 	groups = {crumbly = 3},
@@ -1079,7 +1079,7 @@ minetest.register_node("blocks:mud_with_amber", {
 })
 
 minetest.register_node("blocks:dirt_with_amber", {
-	description = S("Dirt with Amber Ore"),
+	description = S("Amber Ore (Dirt)"),
 	tiles = {"blocks_dirt.png^blocks_mineral_amber.png"},
 	is_ground_content = true,
 	groups = {crumbly = 3, soil = 1},
@@ -1107,7 +1107,7 @@ minetest.register_node("blocks:dirt_with_amber", {
 })
 
 minetest.register_node("blocks:dry_dirt_with_amber", {
-	description = S("Dry Dirt with Amber Ore"),
+	description = S("Amber Ore (Dry Dirt)"),
 	tiles = {"blocks_dry_dirt.png^blocks_mineral_amber.png"},
 	is_ground_content = true,
 	groups = {crumbly = 3, soil = 1},
@@ -1135,7 +1135,7 @@ minetest.register_node("blocks:dry_dirt_with_amber", {
 })
 
 minetest.register_node("blocks:sand_with_amber", {
-	description = S("Sand with Amber Ore"),
+	description = S("Amber Ore (Sand)"),
 	tiles = {"blocks_sand.png^blocks_mineral_amber.png"},
 	is_ground_content = true,
 	groups = {crumbly = 3, falling_node = 1, sand = 1},
@@ -1216,7 +1216,7 @@ minetest.register_node("blocks:stone_with_silver", {
 })
 
 minetest.register_node("blocks:granite_with_silver", {
-	description = S("Silver Ore"),
+	description = S("Silver Ore (Granite)"),
 	tiles = {"blocks_granite.png^blocks_mineral_silver.png"},
 	groups = {cracky = 2},
 	drop = {
@@ -1304,7 +1304,7 @@ minetest.register_node("blocks:mithrilblock", {
 
 -- Amethyst
 minetest.register_node("blocks:granite_with_amethyst", {
-	description = S("Amethyst Ore"),
+	description = S("Amethyst Ore (Granite)"),
 	tiles = {"blocks_granite.png^blocks_mineral_amethyst.png"},
 	groups = {cracky = 2},
 	drop = {
@@ -1331,7 +1331,7 @@ minetest.register_node("blocks:granite_with_amethyst", {
 })
 
 minetest.register_node("blocks:marble_with_amethyst", {
-	description = S("Amethyst Ore"),
+	description = S("Amethyst Ore (Marble)"),
 	tiles = {"blocks_marble.png^blocks_mineral_amethyst.png"},
 	groups = {cracky = 2},
 	drop = {
@@ -1358,7 +1358,7 @@ minetest.register_node("blocks:marble_with_amethyst", {
 })
 
 minetest.register_node("blocks:slate_with_amethyst", {
-	description = S("Amethyst Ore"),
+	description = S("Amethyst Ore (Slate)"),
 	tiles = {"blocks_slate.png^blocks_mineral_amethyst.png"},
 	groups = {cracky = 2},
 	drop = {
@@ -1385,7 +1385,7 @@ minetest.register_node("blocks:slate_with_amethyst", {
 })
 
 minetest.register_node("blocks:sandstone_with_amethyst", {
-	description = S("Amethyst Ore"),
+	description = S("Amethyst Ore (Sandstone)"),
 	tiles = {"blocks_sandstone.png^blocks_mineral_amethyst.png"},
 	groups = {crumbly = 1, cracky = 3},
 	drop = {
@@ -1412,7 +1412,7 @@ minetest.register_node("blocks:sandstone_with_amethyst", {
 })
 
 minetest.register_node("blocks:desert_sandstone_with_amethyst", {
-	description = S("Amethyst Ore"),
+	description = S("Amethyst Ore (Desert Sandstone)"),
 	tiles = {"blocks_desert_sandstone.png^blocks_mineral_amethyst.png"},
 	groups = {crumbly = 1, cracky = 3},
 	drop = {
@@ -1439,7 +1439,7 @@ minetest.register_node("blocks:desert_sandstone_with_amethyst", {
 })
 
 minetest.register_node("blocks:silver_sandstone_with_amethyst", {
-	description = S("Amethyst Ore"),
+	description = S("Amethyst Ore (Silver Sandstone)"),
 	tiles = {"blocks_silver_sandstone.png^blocks_mineral_amethyst.png"},
 	groups = {crumbly = 1, cracky = 3},
 	drop = {
@@ -1484,7 +1484,7 @@ minetest.register_node("blocks:amethyst", {
 
 -- Garnet
 minetest.register_node("blocks:granite_with_garnet", {
-	description = S("Garnet Ore"),
+	description = S("Garnet Ore (Granite)"),
 	tiles = {"blocks_granite.png^blocks_mineral_garnet.png"},
 	groups = {cracky = 2},
 	drop = {
@@ -1511,7 +1511,7 @@ minetest.register_node("blocks:granite_with_garnet", {
 })
 
 minetest.register_node("blocks:marble_with_garnet", {
-	description = S("Garnet Ore"),
+	description = S("Garnet Ore (Marble)"),
 	tiles = {"blocks_marble.png^blocks_mineral_garnet.png"},
 	groups = {cracky = 2},
 	drop = {
@@ -1538,7 +1538,7 @@ minetest.register_node("blocks:marble_with_garnet", {
 })
 
 minetest.register_node("blocks:slate_with_garnet", {
-	description = S("Garnet Ore"),
+	description = S("Garnet Ore (Slate)"),
 	tiles = {"blocks_slate.png^blocks_mineral_garnet.png"},
 	groups = {cracky = 2},
 	drop = {
@@ -1565,7 +1565,7 @@ minetest.register_node("blocks:slate_with_garnet", {
 })
 
 minetest.register_node("blocks:basalt_with_garnet", {
-	description = S("Garnet Ore"),
+	description = S("Garnet Ore (Basalt)"),
 	tiles = {"blocks_basalt.png^blocks_mineral_garnet.png"},
 	groups = {cracky = 2},
 	drop = {
@@ -1592,7 +1592,7 @@ minetest.register_node("blocks:basalt_with_garnet", {
 })
 
 minetest.register_node("blocks:obsidian_with_garnet", {
-	description = S("Garnet Ore"),
+	description = S("Garnet Ore (Obsidian)"),
 	tiles = {"blocks_obsidian.png^blocks_mineral_garnet.png"},
 	groups = {cracky = 1},
 	drop = {
@@ -1659,7 +1659,7 @@ minetest.register_craftitem("blocks:lapis_chunk", {
 })
 
 minetest.register_node("blocks:marble_with_lapis", {
-	description = S("Lapis Lazuli Ore"),
+	description = S("Lapis Lazuli Ore (Marble)"),
 	tiles = {"blocks_marble.png^blocks_mineral_lapis.png"},
 	groups = {cracky = 2},
 	drop = {

@@ -255,6 +255,12 @@ function crates:register_storage(name, def)
 	-- rightclick
 	local function storage_on_rightclick(pos, node, clicker, itemstack, pointed_thing)
 		local playername = clicker:get_player_name()
+		local meta = minetest.get_meta(pos)
+		if not meta or meta and meta:get_string("owner") == "" then -- recreate meta if it doesnt exist
+			storage_on_construct(pos)
+			storage_after_place_node(pos, clicker, itemstack, pointed_thing)
+		end
+
 		if not locks.can_access(pos, clicker) then
 			return itemstack
 		end

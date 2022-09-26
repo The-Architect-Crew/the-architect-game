@@ -13,12 +13,12 @@ local function formspec_shapes(pos, player, def, add)
 			fireanim_form =
 				"animated_image[0.25,6.5;1,1;fuel_icon;gui_fire_animated.png;60;60;1]"..
 				"image_button[0.25,6.5;1,1;invisible.png;fuelamt;;false;false;invisible.png]"..
-				"tooltip[0.25,6.5;1,1;"..fueldesc.." left: "..ccore.get_time(ftime).." \nPress me to update!]"
+				"tooltip[0.25,6.5;1,1;"..fueldesc.." left: "..ccore.get_time(ftime).." \n(Press to update)]"
 		else
 			fireanim_form =
 				"animated_image[1.025,7.0;1,1;fuel_icon;gui_fire_animated.png;60;60;1]"..
 				"image_button[1.025,7.0;1,1;invisible.png;fuelamt;;false;false;invisible.png]"..
-				"tooltip[1.025,7.0;1,1;"..fueldesc.." left: "..ccore.get_time(ftime).." \nPress me to update!]"
+				"tooltip[1.025,7.0;1,1;"..fueldesc.." left: "..ccore.get_time(ftime).." \n(Press to update)]"
 		end
 	end
 	local scroll_form = ""
@@ -383,6 +383,32 @@ end
 local function register_shapes_station(name, def)
 	local link = def.inactive_node
 	shapes_crafting[link] = {}
+
+	local function station_on_construct(pos)
+		local meta = minetest.get_meta(pos)
+		local inv = meta:get_inventory()
+		--inv:set_size("input", 2*2)
+		inv:set_size("input", 1)
+		inv:set_size("fuel", 1)
+		inv:set_size("output", def.output_x * def.output_y)
+		inv:set_size("residue", 1)
+		inv:set_size("recycle", 1)
+		meta:set_string("lock", "lock")
+		meta:set_int("multiplier", 1)
+		meta:set_string("crafted", "")
+		meta:set_string("owner", "")
+		meta:set_int("fueltime", 0)
+		meta:set_int("scroll", 0)
+		locks.init_infotext(pos, def.description, "Inactive")
+	end
+
+	local function station_after_place_node(pos, placer, itemstack, pointed_thing)
+		local meta = minetest.get_meta(pos)
+		local playername = placer:get_player_name()
+		meta:set_string("owner", playername)
+		locks.init_infotext(pos, def.description, "Inactive")
+	end
+
 	minetest.register_node(name, {
 		description = def.description,
 		drawtype = "mesh",
@@ -412,31 +438,16 @@ local function register_shapes_station(name, def)
 			local player = minetest.get_player_by_name(playername)
 			fuel_update(pos, def, true, player)
 		end,
-		on_construct = function(pos)
-			local meta = minetest.get_meta(pos)
-			local inv = meta:get_inventory()
-			--inv:set_size("input", 2*2)
-			inv:set_size("input", 1)
-			inv:set_size("fuel", 1)
-			inv:set_size("output", def.output_x * def.output_y)
-			inv:set_size("residue", 1)
-			inv:set_size("recycle", 1)
-			meta:set_string("lock", "lock")
-			meta:set_int("multiplier", 1)
-			meta:set_string("crafted", "")
-			meta:set_string("owner", "")
-			meta:set_int("fueltime", 0)
-			meta:set_int("scroll", 0)
-			locks.init_infotext(pos, def.description, "Inactive")
-		end,
-		after_place_node = function(pos, placer, itemstack, pointed_thing)
-			local meta = minetest.get_meta(pos)
-			local playername = placer:get_player_name()
-			meta:set_string("owner", playername)
-			locks.init_infotext(pos, def.description, "Inactive")
-		end,
+		on_construct = station_on_construct,
+		after_place_node = station_after_place_node,
 		on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
 			local playername = clicker:get_player_name()
+			local meta = minetest.get_meta(pos)
+			if not meta or meta and meta:get_string("owner") == "" then -- recreate meta if it doesnt exist
+				station_on_construct(pos)
+				station_after_place_node(pos, clicker, itemstack, pointed_thing)
+			end
+
 			if not locks.can_access(pos, clicker) then
 				return itemstack
 			end
@@ -564,6 +575,9 @@ local function register_shapes_station(name, def)
 				return 0
 			end
 			if locks.fields(pos, player, fields, "shapes_station", def.description) then
+				station_update(pos, "fuel", nil, nil, player, def)
+			end
+			if fields.fuelamt then
 				station_update(pos, "fuel", nil, nil, player, def)
 			end
 			if fields.key_enter_field == "shapes_station_multiplier" then

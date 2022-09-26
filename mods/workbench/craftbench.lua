@@ -137,6 +137,26 @@ local function craftbench_update(pos, listname, index, stack, player)
 	end
 end
 
+local function craftbench_on_construct(pos)
+	local meta = minetest.get_meta(pos)
+	local inv = meta:get_inventory()
+	inv:set_size("input", 5*5)
+	inv:set_size("fuel", 1)
+	inv:set_size("output", 2*2)
+	meta:set_string("lock", "lock")
+	meta:set_int("multiplier", 1)
+	meta:set_string("crafted", "")
+	meta:set_string("owner", "")
+	locks.init_infotext(pos, "Craftbench")
+end
+
+local function craftbench_after_place_node(pos, placer, itemstack, pointed_thing)
+	local meta = minetest.get_meta(pos)
+	local playername = placer:get_player_name()
+	meta:set_string("owner", playername)
+	locks.init_infotext(pos, "Craftbench")
+end
+
 minetest.register_node("workbench:craftbench", {
 	description = "Craftbench",
 	drawtype = "mesh",
@@ -167,26 +187,16 @@ minetest.register_node("workbench:craftbench", {
 	end,
 	on_timer = function(pos, elapsed)
 	end,
-	on_construct = function(pos)
-		local meta = minetest.get_meta(pos)
-		local inv = meta:get_inventory()
-		inv:set_size("input", 5*5)
-		inv:set_size("fuel", 1)
-		inv:set_size("output", 2*2)
-		meta:set_string("lock", "lock")
-		meta:set_int("multiplier", 1)
-		meta:set_string("crafted", "")
-		meta:set_string("owner", "")
-		locks.init_infotext(pos, "Craftbench")
-	end,
-	after_place_node = function(pos, placer, itemstack, pointed_thing)
-		local meta = minetest.get_meta(pos)
-		local playername = placer:get_player_name()
-		meta:set_string("owner", playername)
-		locks.init_infotext(pos, "Craftbench")
-	end,
+	on_construct = craftbench_on_construct,
+	after_place_node = craftbench_after_place_node,
 	on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
 		local playername = clicker:get_player_name()
+		local meta = minetest.get_meta(pos)
+		if not meta or meta and meta:get_string("owner") == "" then -- recreate meta if it doesnt exist
+			craftbench_on_construct(pos)
+			craftbench_after_place_node(pos, clicker, itemstack, pointed_thing)
+		end
+
 		if not locks.can_access(pos, clicker) then
 			return itemstack
 		end

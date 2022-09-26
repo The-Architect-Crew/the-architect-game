@@ -42,12 +42,12 @@ local function formspec_cooking(pos, player, add)
 			fireanim_form =
 				"animated_image[6.5,5.6;1,1;fuel_icon;gui_fire_animated.png;60;60;1]"..
 				"image_button[6.5,5.6;1,1;invisible.png;fuelamt;;false;false;invisible.png]"..
-				"tooltip[6.5,5.6;1,1;Fuel Left: "..ccore.get_time(ftime).." \nPress me to update!]"
+				"tooltip[6.5,5.6;1,1;Fuel Left: "..ccore.get_time(ftime).." \n(Press to update)]"
 		else
 			fireanim_form =
 				"animated_image[8.675,2.575;1,1;fuel_icon;gui_fire_animated.png;60;60;1]"..
 				"image_button[8.675,2.575;1,1;invisible.png;fuelamt;;false;false;invisible.png]"..
-				"tooltip[8.675,2.575;1,1;Fuel Left: "..ccore.get_time(ftime).." \nPress me to update!]"
+				"tooltip[8.675,2.575;1,1;Fuel Left: "..ccore.get_time(ftime).." \n(Press to update)]"
 		end
 	end
 	local winv_formspec = {
@@ -225,6 +225,27 @@ local function furnace_update(pos, listname, index, stack, player)
 	end
 end
 
+local function furnace_on_construct(pos)
+	local meta = minetest.get_meta(pos)
+	local inv = meta:get_inventory()
+	inv:set_size("input", 3*3)
+	inv:set_size("fuel", 1)
+	inv:set_size("output", 2*2)
+	meta:set_string("lock", "lock")
+	meta:set_int("multiplier", 1)
+	meta:set_string("crafted", "")
+	meta:set_string("owner", "")
+	meta:set_int("fueltime", 0)
+	locks.init_infotext(pos, "Furnace", "Inactive")
+end
+
+local function furnace_after_place_node(pos, placer, itemstack, pointed_thing)
+	local meta = minetest.get_meta(pos)
+	local playername = placer:get_player_name()
+	meta:set_string("owner", playername)
+	locks.init_infotext(pos, "Furnace", "Inactive")
+end
+
 local function register_furnace(name, def)
 	minetest.register_node(name, {
 		description = def.description,
@@ -268,27 +289,16 @@ local function register_furnace(name, def)
 			local player = minetest.get_player_by_name(playername)
 			fuel_update(pos, true, player)
 		end,
-		on_construct = function(pos)
-			local meta = minetest.get_meta(pos)
-			local inv = meta:get_inventory()
-			inv:set_size("input", 3*3)
-			inv:set_size("fuel", 1)
-			inv:set_size("output", 2*2)
-			meta:set_string("lock", "lock")
-			meta:set_int("multiplier", 1)
-			meta:set_string("crafted", "")
-			meta:set_string("owner", "")
-			meta:set_int("fueltime", 0)
-			locks.init_infotext(pos, "Furnace", "Inactive")
-		end,
-		after_place_node = function(pos, placer, itemstack, pointed_thing)
-			local meta = minetest.get_meta(pos)
-			local playername = placer:get_player_name()
-			meta:set_string("owner", playername)
-			locks.init_infotext(pos, "Furnace", "Inactive")
-		end,
+		on_construct = furnace_on_construct,
+		after_place_node = furnace_after_place_node,
 		on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
 			local playername = clicker:get_player_name()
+			local meta = minetest.get_meta(pos)
+			if not meta or meta and meta:get_string("owner") == "" then -- recreate meta if it doesnt exist
+				furnace_on_construct(pos)
+				furnace_after_place_node(pos, clicker, itemstack, pointed_thing)
+			end
+
 			if not locks.can_access(pos, clicker) then
 				return itemstack
 			end
@@ -398,6 +408,9 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		return
 	end
 	if locks.fields(pos, player, fields, "workbench_furnace", "Furance") then
+		fuel_update(pos, nil, player)
+	end
+	if fields.fuelamt then
 		fuel_update(pos, nil, player)
 	end
 	if fields.key_enter_field == "workbench_multiplier" then

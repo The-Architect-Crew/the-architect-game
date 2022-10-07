@@ -228,6 +228,31 @@ minetest.register_node("blocks:steelblock", {
 	description = S("Steel Block"),
 	tiles = {"blocks_steel_block.png"},
 	is_ground_content = false,
+	groups = {cracky = 1, level = 2, pipes_connect = 1},
+	sounds = default.node_sound_metal_defaults(),
+})
+
+-- Steampunk
+minetest.register_node("blocks:rustblock", {
+	description = S("Rust Block"),
+	tiles = {"blocks_rust_block.png"},
+	is_ground_content = false,
+	groups = {cracky = 1, level = 2, pipes_connect = 1},
+	sounds = default.node_sound_metal_defaults(),
+})
+
+minetest.register_node("blocks:rustblock_hazard", {
+	description = S("Rust Block with Hazard Warning"),
+	tiles = {"blocks_rust_block_hazard.png"},
+	is_ground_content = false,
+	groups = {cracky = 1, level = 2},
+	sounds = default.node_sound_metal_defaults(),
+})
+
+minetest.register_node("blocks:steelblock_hazard", {
+	description = S("Steel Block with Hazard Warning"),
+	tiles = {"blocks_steel_block_hazard.png"},
+	is_ground_content = false,
 	groups = {cracky = 1, level = 2},
 	sounds = default.node_sound_metal_defaults(),
 })
@@ -313,7 +338,7 @@ minetest.register_node("blocks:copperblock", {
 	description = S("Copper Block"),
 	tiles = {"blocks_copper_block.png"},
 	is_ground_content = false,
-	groups = {cracky = 1, level = 2},
+	groups = {cracky = 1, level = 2, pipes_connect = 1},
 	sounds = default.node_sound_metal_defaults(),
 })
 

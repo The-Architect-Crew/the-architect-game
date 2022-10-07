@@ -1,4 +1,11 @@
+local S = default.get_translator
+
 furniture = {}
+
+local path = minetest.get_modpath("furniture")
+
+dofile(path.."/pipes.lua")
+dofile(path.."/steampunk.lua")
 
 furniture.types = {
     {

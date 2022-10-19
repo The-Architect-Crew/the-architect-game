@@ -1,244 +1,305 @@
-local S = default.get_translator
-
 furniture = {}
 
 local path = minetest.get_modpath("furniture")
 
+-- These are furniture in the sense that they're models
 dofile(path.."/pipes.lua")
 dofile(path.."/steampunk.lua")
 
+-- Sound tables
+furniture.storage_sounds = {
+    blocks = "doors_door_open",
+    wood = "doors_door_open",
+    steelblock = "doors_steel_door_open"
+}
+furniture.door_open_sounds = {
+    blocks = "doors_door_open",
+    wood = "doors_door_open",
+    steelblock = "doors_steel_door_open",
+    glass = "doors_glass_door_open",
+    obsidian_glass = "doors_glass_door_open",
+}
+furniture.door_close_sounds = {
+    blocks = "doors_door_close",
+    wood = "doors_door_close",
+    steelblock = "doors_steel_door_close",
+    glass = "doors_glass_door_close",
+    obsidian_glass = "doors_glass_door_close",
+}
+
+-- Model Definitions
 furniture.types = {
+    {
+        -- name - code name
+        -- base - base model, no file extension (leave empty if same as name)
+        -- description - description prefix
+        -- active [true/false] - does this node swap with a different version when right clicked
+        -- special_materials - materials other than base, used for crafting (optional, order important)
+        -- special_textures - textures other than base (optional, order important)
+        -- special_textures_activated - textures other than base for the activated model (optional, order important)
+        -- storage - number of rows of inventory, 8 slots each (optional)
+        -- box - both the selection and the collision box
+        -- box_activated - both the selection and the collision box for the activated counterpart
+        -- activate_sound - table containing the blocks and mod-material-specific sounds that play upon activation
+        -- deactivate_sound - table containing the blocks and mod-material-specific sounds that play upon activation of the active counterpart
+        -- groups - groups which are added to the groups table of the resulting node, can override base node's groups (optional)
+        -- groups_active - groups which are added to the groups table of the active node, can override base node's groups (optional)
+        -- crafting - an array where each position corresponds to a cell in the crafting grid, values represent materials; 0 is empty, 1 is base and
+        -- above are the other materials in the order from special_materials
+        -- The following overrides can be applied to the base node, and/or to the active node by appending the _active suffix (all optional):
+        -- light_source, visual_scale, post_effect_color, walkable, pointable, diggable, climbable, move_resistance, buildable_to, floodable, drowning, damage per second.
+    },
     {
         name = "chair",
         description = "Chair",
-        special_material = false,
-        box = {-0.3125, -0.5, -0.375, 0.3125, 0.6875, 0.3125}
+        box = {-0.3125, -0.5, -0.375, 0.3125, 0.6875, 0.3125},
+        crafting = {0, 0, 1, 0, 1, 1, 0, 2, 2}
     },
     {
         name = "table_square",
         description = "Square Table",
-        special_material = false,
-        box = {-0.5, -0.5, -0.5, 0.5, 0.125, 0.5}
+        box = {-0.5, -0.5, -0.5, 0.5, 0.125, 0.5},
+        crafting = {0, 0, 0, 1, 1, 1, 2, 0, 2}
     },
     {
         name = "table_round",
         description = "Round Table",
-        special_material = false,
-        box = {-0.5, -0.5, -0.5, 0.5, 0.125, 0.5}
+        box = {-0.5, -0.5, -0.5, 0.5, 0.125, 0.5},
+        crafting = {0, 1, 0, 1, 1, 1, 2, 1, 2}
     },
     {
         name = "cabinet",
         description = "Cabinet",
-        special_material = false,
         storage = 4,
-        box = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5}
+        box = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
+        activate_sound = furniture.storage_sounds,
+        crafting = {2, 1, 1, 2, 1, 1, 0, 2, 2}
     },
     {
         name = "half_cabinet",
         description = "Half Cabinet",
-        special_material = false,
         storage = 2,
-        box = {-0.5, -2/16, -0.5, 0.5, 0.5, 0.5}
+        box = {-0.5, -2/16, -0.5, 0.5, 0.5, 0.5},
+        activate_sound = furniture.storage_sounds,
+        crafting = {2, 1, 1, 0, 0, 0, 0, 0, 0}
     },
     {
         name = "wardrobe",
         description = "Wardrobe",
-        special_material = false,
         storage = 8,
-        box = {-0.5, -0.5, -0.5, 0.5, 1.5, 0.5}
+        box = {-0.5, -0.5, -0.5, 0.5, 1.5, 0.5},
+        activate_sound = furniture.storage_sounds,
+        crafting = {0, 2, 1, 0, 2, 1, 0, 2, 2}
     },
     {
         name = "window_glass",
         base = "window",
         description = "Glass Window",
-        special_material = "blocks:glass",
-        box = {-0.5, -0.5, -0.125, 0.5, 0.5, 0.125}
+        special_materials = "blocks:glass",
+        special_textures = "blocks_glass.png",
+        box = {-0.5, -0.5, -0.125, 0.5, 0.5, 0.125},
+        crafting = {0, 1, 0, 2, 3, 2, 0, 1, 0}
     },
     {
         name = "window_obsidian_glass",
         base = "window",
         description = "Obisdian Glass Window",
-        special_material = "blocks:obsidian_glass",
-        box = {-0.5, -0.5, -0.125, 0.5, 0.5, 0.125}
-    },
-    {
-        name = "window_medieval_glass",
-        base = "window",
-        description = "Medieval Glass Window",
-        special_material = "blocks:medieval_glass",
-        box = {-0.5, -0.5, -0.125, 0.5, 0.5, 0.125}
-    },
-    {
-        name = "window_amethyst",
-        base = "window",
-        description = "Amethyst Window",
-        special_material = "blocks:amethyst",
-        box = {-0.5, -0.5, -0.125, 0.5, 0.5, 0.125}
-    },
-    {
-        name = "window_garnet",
-        base = "window",
-        description = "Garnet Window",
-        special_material = "blocks:garnet",
-        box = {-0.5, -0.5, -0.125, 0.5, 0.5, 0.125}
-    },
-    {
-        name = "window_amber",
-        base = "window",
-        description = "Amber Glass Window",
-        special_material = "blocks:amber_glass",
-        box = {-0.5, -0.5, -0.125, 0.5, 0.5, 0.125}
-    },
-    {
-        name = "window_amber_medieval",
-        base = "window",
-        description = "Medieval Amber Glass Window",
-        special_material = "blocks:amber_medieval_glass",
-        box = {-0.5, -0.5, -0.125, 0.5, 0.5, 0.125}
+        special_materials = "blocks:obsidian_glass",
+        special_textures = "blocks_obsidian_glass.png",
+        box = {-0.5, -0.5, -0.125, 0.5, 0.5, 0.125},
+        crafting = {0, 1, 0, 2, 3, 2, 0, 1, 0}
     },
     {
         name = "shelf_small",
         description = "Small Empty Shelf",
-        special_material = false,
         storage = 2,
-        box = {-0.5, -0.5, -0.0625, 0.5, 0.5, 0.5}
+        box = {-0.5, -0.5, -0.0625, 0.5, 0.5, 0.5},
+        activate_sound = furniture.storage_sounds,
+        crafting = {0, 2, 2, 0, 1, 1, 0, 2, 2}
+    },
+    {
+        name = "shelf_small_book",
+        base = "shelf_small_filled",
+        description = "Small Bookshelf",
+        special_materials = "blocks:book",
+        special_textures = "furniture_bookshelf1.png",
+        box = {-0.5, -0.5, -0.0625, 0.5, 0.5, 0.5},
+        crafting = {3, 2, 2, 0, 1, 1, 3, 2, 2}
     },
     {
         name = "shelf_wide",
         description = "Wide Empty Shelf",
-        special_material = false,
         storage = 4,
-        box = {-1.0, -0.5, -0.0625, 1.0, 0.5, 0.5}
+        box = {-1.0, -0.5, -0.0625, 1.0, 0.5, 0.5},
+        activate_sound = furniture.storage_sounds,
+        crafting = {2, 2, 2, 1, 1, 1, 2, 2, 2}
     },
     {
-        name = "door",
-        description = "Door",
-        type = "active",
-        activate_sound = {default = "doors_door_open", wood = "doors_door_open", steelblock = "doors_steel_door_open"},
-        deactivate_sound = {default = "doors_door_close", wood = "doors_door_close", steelblock = "doors_steel_door_close"},
-        special_material = false,
-        generate_locked = true,
-        box = {-0.5, -0.5, -0.5, 0.5, 1.5, -6/16},
-        box_activated = {-0.5, -0.5, -0.5, -6/16, 1.5, 0.5}
+        name = "shelf_wide_book",
+        base = "shelf_wide_filled",
+        description = "Wide Bookshelf",
+        special_materials = "blocks:book",
+        special_textures = "furniture_bookshelf_wide1.png",
+        box = {-1.0, -0.5, -0.0625, 1.0, 0.5, 0.5},
+        crafting = {2, 3, 2, 1, 1, 1, 2, 3, 2}
     },
     -- Stonelike
     {
         name = "window_glass_thick",
         base = "window_thick",
         description = "Glass Window",
-        special_material = "blocks:glass",
-        box = {-0.5, -0.5, -0.1875, 0.5, 0.5, 0.1875}
+        special_materials = "blocks:glass",
+        special_textures = "blocks_glass.png",
+        box = {-0.5, -0.5, -0.1875, 0.5, 0.5, 0.1875},
+        crafting = {1, 1, 1, 1, 3, 1, 1, 1, 1}
     },
     {
         name = "window_obsidian_glass_thick",
         base = "window_thick",
         description = "Obisidan Glass Window",
-        special_material = "blocks:obsidian_glass",
-        box = {-0.5, -0.5, -0.1875, 0.5, 0.5, 0.1875}
-    },
-    {
-        name = "window_medieval_glass_thick",
-        base = "window_thick",
-        description = "Medieval Glass Window",
-        special_material = "blocks:medieval_glass",
-        box = {-0.5, -0.5, -0.1875, 0.5, 0.5, 0.1875}
-    },
-    {
-        name = "window_amethyst_thick",
-        base = "window_thick",
-        description = "Amethyst Window",
-        special_material = "blocks:amethyst",
-        box = {-0.5, -0.5, -0.1875, 0.5, 0.5, 0.1875}
-    },
-    {
-        name = "window_garnet_thick",
-        base = "window_thick",
-        description = "Garnet Window",
-        special_material = "blocks:garnet",
-        box = {-0.5, -0.5, -0.1875, 0.5, 0.5, 0.1875}
-    },
-    {
-        name = "window_amber_thick",
-        base = "window_thick",
-        description = "Amber Glass Window",
-        special_material = "blocks:amber_glass",
-        box = {-0.5, -0.5, -0.1875, 0.5, 0.5, 0.1875}
-    },
-    {
-        name = "window_amber_medieval_thick",
-        base = "window_thick",
-        description = "Medieval Amber Glass Window",
-        special_material = "blocks:amber_medieval_glass",
-        box = {-0.5, -0.5, -0.1875, 0.5, 0.5, 0.1875}
+        special_materials = "blocks:obsidian_glass",
+        special_textures = "blocks_obsidian_glass.png",
+        box = {-0.5, -0.5, -0.1875, 0.5, 0.5, 0.1875},
+        crafting = {1, 1, 1, 1, 3, 1, 1, 1, 1}
     },
     {
         name = "chair_thick",
         description = "Chair",
-        special_material = false,
-        box = {-6/16, -0.5, -5/16, 6/16, 0.5, 7/16}
+        box = {-6/16, -0.5, -5/16, 6/16, 0.5, 7/16},
+        crafting = {0, 0, 2, 0, 1, 1, 2, 2, 2}
     },
     {
         name = "table_square_thick",
         description = "Square Table",
-        special_material = false,
-        box = {-0.5, -0.5, -0.5, 0.5, 0.125, 0.5}
+        box = {-0.5, -0.5, -0.5, 0.5, 0.125, 0.5},
+        crafting = {0, 0, 0, 2, 2, 2, 2, 1, 2}
     },
     {
         name = "table_round_thick",
         description = "Round Table",
-        special_material = false,
-        box = {-0.5, -0.5, -0.5, 0.5, 0.125, 0.5}
+        box = {-0.5, -0.5, -0.5, 0.5, 0.125, 0.5},
+        crafting = {0, 0, 0, 2, 2, 2, 1, 2, 1}
     },
     {
         name = "shelf_small_thick",
         description = "Small Empty Shelf",
-        special_material = false,
         storage = 2,
-        box = {-0.5, -0.5, -0.0625, 0.5, 0.5, 0.5}
+        box = {-0.5, -0.5, -0.0625, 0.5, 0.5, 0.5},
+        activate_sound = furniture.storage_sounds,
+        crafting = {0, 2, 2, 0, 1, 1, 0, 2, 2}
     },
     {
         name = "shelf_wide_thick",
         description = "Wide Empty Shelf",
-        special_material = false,
         storage = 4,
-        box = {-1.0, -0.5, -0.0625, 1.0, 0.5, 0.5}
+        box = {-1.0, -0.5, -0.0625, 1.0, 0.5, 0.5},
+        activate_sound = furniture.storage_sounds,
+        crafting = {2, 2, 2, 1, 1, 1, 2, 2, 2}
     },
     {
         name = "cabinet_thick",
         description = "Cabinet",
-        special_material = false,
         storage = 4,
-        box = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5}
+        box = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
+        activate_sound = furniture.storage_sounds,
+        crafting = {2, 1, 1, 2, 1, 1, 0, 0, 0}
     },
     {
         name = "half_cabinet_thick",
         description = "Half Cabinet",
-        special_material = false,
         storage = 2,
-        box = {-0.5, -2/16, -0.5, 0.5, 0.5, 0.5}
+        box = {-0.5, -2/16, -0.5, 0.5, 0.5, 0.5},
+        activate_sound = furniture.storage_sounds,
+        crafting = {2, 1, 1, 0, 0, 0, 0, 0, 0}
     },
     {
         name = "wardrobe_thick",
         description = "Wardrobe",
-        special_material = false,
         storage = 8,
-        box = {-0.5, -0.5, -0.5, 0.5, 1.5, 0.5}
+        box = {-0.5, -0.5, -0.5, 0.5, 1.5, 0.5},
+        activate_sound = furniture.storage_sounds,
+        crafting = {2, 1, 1, 2, 1, 1, 2, 1, 1}
     },
+    -- Glasslike
+    {
+        name = "table_square_glass",
+        description = "Square Table",
+        box = {-0.5, -0.5, -0.5, 0.5, 0.125, 0.5},
+        crafting = {1, 1, 1, 2, 0, 2, 2, 0, 2}
+    },
+    {
+        name = "table_round_glass",
+        description = "Round Table",
+        box = {-0.5, -0.5, -0.5, 0.5, 0.125, 0.5},
+        crafting = {1, 1, 1, 2, 1, 2, 2, 0, 2}
+    },
+    {
+        name = "chair_glass",
+        description = "Chair",
+        box = {-5/16, -0.5, -3/16, 5/16, 11/16, 6/16},
+        crafting = {0, 0, 1, 0, 1, 1, 0, 2, 2}
+    },
+    {
+        name = "door_glass",
+        description = "Door",
+        active = true,
+        box = {-0.5, -0.5, -0.5, 0.5, 1.5, -6/16},
+        box_activated = {-0.5, -0.5, -0.5, -6/16, 1.5, 0.5},
+        activate_sound = furniture.door_open_sounds,
+        deactivate_sound = furniture.door_close_sounds,
+        crafting = {1, 1, 0, 1, 1, 2, 1, 1, 0}
+    },
+    {
+        name = "door_flipped_glass",
+        description = "Door (flipped)",
+        active = true,
+        box = {-0.5, -0.5, -0.5, 0.5, 1.5, -6/16},
+        box_activated = {0.5, -0.5, -0.5, 6/16, 1.5, 0.5},
+        activate_sound = furniture.door_open_sounds,
+        deactivate_sound = furniture.door_close_sounds,
+        crafting = {0, 1, 1, 2, 1, 1, 0, 1, 1}
+    },
+    -- Universal
     {
         name = "mirror",
         description = "Mirror",
-        special_material = "blocks:glass_full",
-        box = {-4/16, -7/16, 6/16, 4/16, 7/16, 8/16}
+        special_materials = "blocks:glass",
+        special_textures = "furniture_glass_full.png",
+        box = {-4/16, -7/16, 6/16, 4/16, 7/16, 8/16},
+        crafting = {2, 2, 2, 2, 3, 2, 2, 2, 2}
     },
     {
         name = "flowerpot",
         description = "Flowerpot",
-        special_material = "blocks:dirt",
-        box = {-7/16, -8/16, -7/16, 7/16, 8/16, 7/16}
+        special_materials = "blocks:dirt",
+        special_textures = "blocks_dirt.png",
+        box = {-7/16, -8/16, -7/16, 7/16, 8/16, 7/16},
+        crafting = {2, 3, 2, 2, 1, 2, 2, 1, 2}
     },
-    -- Glasslike
+    {
+        name = "door",
+        description = "Door",
+        active = true,
+        box = {-0.5, -0.5, -0.5, 0.5, 1.5, -4/16},
+        box_activated = {-0.5, -0.5, -0.5, -4/16, 1.5, 0.5},
+        activate_sound = furniture.door_open_sounds,
+        deactivate_sound = furniture.door_close_sounds,
+        crafting = {1, 1, 0, 1, 1, 2, 1, 1, 0}
+    },
+    {
+        name = "door_flipped",
+        description = "Door (flipped)",
+        active = true,
+        box = {-0.5, -0.5, -0.5, 0.5, 1.5, -4/16},
+        box_activated = {0.5, -0.5, -0.5, 4/16, 1.5, 0.5},
+        activate_sound = furniture.door_open_sounds,
+        deactivate_sound = furniture.door_close_sounds,
+        crafting = {0, 1, 1, 2, 1, 1, 0, 1, 1}
+    },
 }
 
+-- Sets
+-- //it is preferable that you register new sets here, for readability//
 furniture.woodlike_set = {
     "chair",
     "table_square",
@@ -247,17 +308,15 @@ furniture.woodlike_set = {
     "shelf_wide",
     "window_glass",
     "window_obsidian_glass",
-    "window_medieval_glass",
-    "window_amethyst",
-    "window_garnet",
-    "window_amber",
-    "window_amber_medieval",
     "cabinet",
     "half_cabinet",
     "wardrobe",
     "mirror",
     "flowerpot",
     "door",
+    "door_flipped",
+    "shelf_small_book",
+    "shelf_wide_book"
 }
 
 furniture.stonelike_set = {
@@ -271,18 +330,21 @@ furniture.stonelike_set = {
     "wardrobe_thick",
     "window_glass_thick",
     "window_obsidian_glass_thick",
-    "window_medieval_glass_thick",
-    "window_amethyst_thick",
-    "window_garnet_thick",
-    "window_amber_thick",
-    "window_amber_medieval_thick",
     "mirror",
     "flowerpot",
+    "door",
+    "door_flipped"
 }
 
--- furniture.glasslike_set = {}
+furniture.glasslike_set = {
+    "table_square_glass",
+    "table_round_glass",
+    "chair_glass",
+    "door_glass",
+    "door_flipped_glass",
+}
 
--- To be replaced by the core version
+-- Helper functions
 furniture.table_contains = function(term, table)
     if (table == nil) then
         return true
@@ -295,7 +357,6 @@ furniture.table_contains = function(term, table)
     end
 end
 
--- Don't remember if we did this already somewhere else
 furniture.table_copy = function(table)
     local copy = {}
     for table_key, table_value in pairs(table) do
@@ -304,216 +365,303 @@ furniture.table_copy = function(table)
     return copy
 end
 
-function furniture.register(base_node, limit)
+furniture.dictionary_append = function(table, input_table)
+    for intable_key, intable_value in pairs(input_table) do
+        table[intable_key] = intable_value
+    end
+end
+
+furniture.table_append = function(table, input_table)
+    local table_len = #table
+    for i=1,table_len do
+        table[table_len + i] = input_table[i]
+    end
+end
+
+-- minetest_game's chest formspec, now scalable
+function furniture.get_storage_formspec(pos, storage)
+	local spos = pos.x .. "," .. pos.y .. "," .. pos.z
+	local formspec =
+		"size[8," .. 5 + storage.. "]" ..
+		"list[nodemeta:" .. spos .. ";main;0,0.3;8," .. storage .. ";]" ..
+		"list[current_player;main;0," .. 0.85 + storage .. ";8,1;]" ..
+		"list[current_player;main;0," .. 2.08 + storage .. ";8,3;8]" ..
+		"listring[nodemeta:" .. spos .. ";main]" ..
+		"listring[current_player;main]" ..
+		blocks.get_hotbar_bg(0,0.85 + storage)
+	return formspec
+end
+
+-- Furniture registration
+function furniture.register(base_node, limit, materials, texture)
     for i=1, #furniture.types do
         local fdef = furniture.types[i]
-        if (furniture.table_contains(fdef.name, limit)) then
-            if (fdef.type == "active") then
-            furniture.generate_active(base_node, i)
-            elseif (fdef.type == "storage") then
-                furniture.generate_storage(base_node, i)
-            else
-                furniture.generate_normal(base_node, i)
+        if furniture.table_contains(fdef.name, limit) then
+            furniture.assemble_node(base_node, i, materials, texture)
+            furniture.register_crafting(base_node, i, materials, false)
+            if fdef.generate_locked then
+                furniture.register_crafting(base_node, i, materials, true)
             end
         end
     end
 end
 
-function furniture.pick_special_textures(base_node, fdefid, tiles, furniture_name)
-    local fdef = furniture.types[fdefid]
-    local special_definition
-    local special_sname
-    if (type(fdef.special_material) == "table") then -- In case of multiple materials
-        local special_tile
-        special_sname = string.match(fdef.special_material[1], ':(.*)') -- Take first node as identifier (for now)
-        for j=1, #fdef.special_material do
-            special_definition = minetest.registered_nodes[fdef.special_material[j]]
-            special_tile = special_definition.tiles[1]
-            tiles[j + 1] = special_tile -- Since the first tile is base
+function furniture.assemble_node(base_node, tablep, materials, texture)
+    local fdef = furniture.types[tablep]
+    local base_definition = minetest.registered_nodes[base_node]
+    local sname = string.match(base_node, ':(.*)')
+    local modname = string.match(base_node, '(.*):')
+    local esname = modname .. "_" .. sname -- For avoiding name conflicts in the sound tables
+    local furniture_name = "furniture:" .. modname .. "_" .. fdef.name .. "_" .. sname -- To avoid potential conflicts in mod support
+    if modname == "blocks" then
+        furniture_name = "furniture:" .. fdef.name .. "_" .. sname
+        esname = sname
+    end
+    local furniture_description =  base_definition.description .. " " .. fdef.description
+    local furniture_mesh = (fdef.base or fdef.name) .. ".obj"
+    local tiles = {texture or base_definition.tiles[1]}
+    local alpha = base_definition.use_texture_alpha
+    local sounds = base_definition.sounds
+    local collision_box = {type = "fixed", fixed = fdef.box}
+    local groups = furniture.table_copy(base_definition.groups)
+    if fdef.groups then
+        furniture.dictionary_append(groups, fdef.groups)
+    end
+
+    -- Active versions
+    local furniture_mesh_active = (fdef.base or fdef.name) .. "_activated.obj"
+    local tiles_active = furniture.table_copy(tiles)
+    local collision_box_active = {type = "fixed", fixed = fdef.box_activated}
+    local groups_active = furniture.table_copy(groups)
+    groups_active.not_in_creative_inventory = 1
+    if fdef.groups_active then
+        furniture.dictionary_append(groups_active, fdef.groups_active)
+    end
+
+    -- Textures
+    if (type(fdef.special_textures) == "table") then
+        for i=1, #fdef.special_textures do
+            tiles[i+1] = fdef.special_textures[i]
         end
-        return tiles, furniture_name .. "_" .. special_sname
-    else
-        special_node = fdef.special_material
-        special_definition = minetest.registered_nodes[special_node]
-        special_sname = string.match(special_node, ':(.*)')
-        tiles[2] = special_definition.tiles[1]
-        alpha = special_definition.use_texture_alpha
-        return  tiles, furniture_name .. "_" .. special_sname
-    end
-end
-
-function furniture.generate_normal(base_node, fdefid)
-    local base_definition = minetest.registered_nodes[base_node]
-    local fdef = furniture.types[fdefid]
-    local sname = string.match(base_node, ':(.*)')
-    local furniture_name = "furniture:" .. fdef.name .. "_" .. sname
-    local furniture_description =  base_definition.description .. " " .. fdef.description
-    local furniture_mesh = (fdef.base or fdef.name) .. ".obj"
-    local tiles = {"variations_" .. sname .. ".png^[sheet:3x3:1,0"}
-    local alpha = base_definition.use_texture_alpha
-    local sounds = base_definition.sounds
-    if (fdef.special_material) then          
-        tiles, furniture_name = furniture.pick_special_textures(base_node, fdefid, tiles, furniture_name)
-        alpha = "blend" -- Just in case that transparency is needed
+        alpha = "blend" -- Since we can't figure if any special texture has transparency
+    elseif (type(fdef.special_textures) == "string") then
+        tiles[2] = fdef.special_textures
+        alpha = "blend"
     end
 
-    local collision_box = {
-        type = "fixed",
-        fixed = fdef.box,
-    }
-
-    minetest.register_node(furniture_name, {
-        description = furniture_description,
-        tiles = tiles,
-        groups = base_definition.groups,
-        drawtype = 'mesh',
-        mesh = furniture_mesh,
-        collision_box = collision_box,
-        selection_box = collision_box,
-        use_texture_alpha = alpha,
-        paramtype = "light",
-        paramtype2 = "facedir",
-        sunlight_propagates = true,
-        sounds = sounds,
-    })
-end
-
-function furniture.generate_storage(base_node, fdefid)
-end
-
-function furniture.generate_active(base_node, fdefid)
-    local fdef = furniture.types[fdefid]
-    local base_definition = minetest.registered_nodes[base_node]
-    local sname = string.match(base_node, ':(.*)')
-    local furniture_name = "furniture:" .. fdef.name .. "_" .. sname
-    local furniture_description =  base_definition.description .. " " .. fdef.description
-    local furniture_mesh = (fdef.base or fdef.name) .. ".obj"
-    local tiles = {"variations_" .. sname .. ".png^[sheet:3x3:1,0"}
-    local alpha = base_definition.use_texture_alpha
-    local sounds = base_definition.sounds
-    local groups_hidden = furniture.table_copy(base_definition.groups)
-    groups_hidden.not_in_creative_inventory = 1
-
-    if (fdef.special_material) then           
-        tiles, furniture_name = furniture.pick_special_textures(base_node, fdefid, tiles, furniture_name)
-        alpha = "blend" -- Just in case that transparency is needed
+    if fdef.active then
+        if (type(fdef.special_textures_active) == "table") then
+            for i=1, #fdef.special_textures_active do
+                tiles_active[i+1] = fdef.special_textures_active[i]
+            end
+            alpha = "blend"
+        elseif (type(fdef.special_textures_active) == "string") then
+            tiles_active[2] = fdef.special_textures_active
+            alpha = "blend"
+        end
     end
 
-    local collision_box = {
-        type = "fixed",
-        fixed = fdef.box,
-    }
+    -- Declare function storage
+    local after_place_node
+    local on_rightclick
+    local can_dig
+    local on_blast
+    local on_metadata_inventory_put
+    local on_metadata_inventory_move
+    local on_metadata_inventory_take
 
-    local collision_box_activated = {
-        type = "fixed",
-        fixed = fdef.box_activated,
-    }
+    local on_rightclick_active
 
-    minetest.register_node(furniture_name, {
-        description = furniture_description,
-        tiles = tiles,
-        groups = base_definition.groups,
-        drawtype = 'mesh',
-        mesh = furniture_mesh,
-        collision_box = collision_box,
-        selection_box = collision_box,
-        use_texture_alpha = alpha,
-        paramtype = "light",
-        paramtype2 = "facedir",
-        sunlight_propagates = true,
-        sounds = sounds,
+    -- Fill functions
+    if (fdef.storage) then
+
+        after_place_node = function(pos, placer)
+            local meta = minetest.get_meta(pos)
+			meta:set_string("infotext", furniture_description)
+			local inv = meta:get_inventory()
+			inv:set_size("main", 8*fdef.storage)
+        end
+
+        if fdef.active then
+            on_rightclick = function(pos, node)
+                minetest.swap_node(pos, {name = furniture_name .. "_activated", param2 = node.param2})
+                minetest.show_formspec(player:get_player_name(), furniture_name, furniture.get_storage_formspec(pos, fdef.storage))
+                minetest.sound_play(fdef.activate_sound[esname] or fdef.activate_sound.blocks,
+                {pos = pos, max_hear_distance = 10}, true)
+            end
+            on_rightclick_active = function(pos, node)
+                minetest.swap_node(pos, {name = furniture_name, param2 = node.param2})
+                minetest.show_formspec(player:get_player_name(), furniture_name, furniture.get_storage_formspec(pos, fdef.storage))
+                minetest.sound_play(fdef.deactivate_sound[esname] or fdef.deactivate_sound.blocks,
+                {pos = pos, max_hear_distance = 10}, true)
+            end
+        end
+
+        on_rightclick = function(pos, node, player)
+            minetest.show_formspec(player:get_player_name(), furniture_name, furniture.get_storage_formspec(pos, fdef.storage))
+            minetest.sound_play(fdef.activate_sound[esname] or fdef.activate_sound.blocks,
+            {pos = pos, max_hear_distance = 10}, true)
+        end
+
+        can_dig = function(pos, player)
+            local meta = minetest.get_meta(pos);
+            local inv = meta:get_inventory()
+            return inv:is_empty("main")
+        end
+
+        on_blast = function(pos)
+			local drops = {}
+			blocks.get_inventory_drops(pos, "main", drops)
+			drops[#drops+1] = furniture_name
+			minetest.remove_node(pos)
+			return drops
+		end
+
+        on_metadata_inventory_move = function(pos, from_list, from_index,
+            to_list, to_index, count, player)
+        minetest.log("action", player:get_player_name() ..
+            " moves stuff into " .. furniture_description .. " at " .. minetest.pos_to_string(pos))
+        end
+        on_metadata_inventory_put = function(pos, listname, index, stack, player)
+            minetest.log("action", player:get_player_name() ..
+                " moves " .. stack:get_name() ..
+                " to " .. furniture_description .. " at " .. minetest.pos_to_string(pos))
+        end
+        on_metadata_inventory_take = function(pos, listname, index, stack, player)
+            minetest.log("action", player:get_player_name() ..
+                " takes " .. stack:get_name() ..
+                " from " .. furniture_description .. " at " .. minetest.pos_to_string(pos))
+        end
+    end
+
+    if fdef.active then
         on_rightclick = function(pos, node)
             minetest.swap_node(pos, {name = furniture_name .. "_activated", param2 = node.param2})
-            minetest.sound_play(fdef.activate_sound[sname] or fdef.activate_sound.default,
+            minetest.sound_play(fdef.activate_sound[esname] or fdef.activate_sound.blocks,
             {pos = pos, max_hear_distance = 10}, true)
         end
-    })
-    minetest.register_node(furniture_name .. "_activated", {
+        on_rightclick_active = function(pos, node)
+            minetest.swap_node(pos, {name = furniture_name, param2 = node.param2})
+            minetest.sound_play(fdef.deactivate_sound[esname] or fdef.deactivate_sound.blocks,
+            {pos = pos, max_hear_distance = 10}, true)
+        end
+    end
+
+    -- Assemble node(s)
+
+    minetest.register_node(furniture_name, {
         description = furniture_description,
         tiles = tiles,
-        groups = groups_hidden,
+        groups = groups,
         drawtype = 'mesh',
-        mesh = (fdef.base or fdef.name) .. "_activated.obj",
-        collision_box = collision_box_activated,
-        selection_box = collision_box_activated,
+        mesh = furniture_mesh,
+        collision_box = collision_box,
+        selection_box = collision_box,
         use_texture_alpha = alpha,
         paramtype = "light",
         paramtype2 = "facedir",
         sunlight_propagates = true,
         sounds = sounds,
-        drop = furniture_name,
-        on_rightclick = function(pos, node)
-            minetest.swap_node(pos, {name = furniture_name, param2 = node.param2})
-            minetest.sound_play(fdef.deactivate_sound[sname] or fdef.deactivate_sound.default,
-            {pos = pos, max_hear_distance = 10}, true)
-        end
+        after_place_node = after_place_node,
+        on_rightclick = on_rightclick,
+        can_dig = can_dig,
+        on_blast = on_blast,
+        on_metadata_inventory_put = on_metadata_inventory_put,
+        on_metadata_inventory_move = on_metadata_inventory_move,
+        on_metadata_inventory_take = on_metadata_inventory_take,
+        light_source = fdef.light_source or base_definition.light_source,
+        visual_scale = fdef.visual_scale or base_definition.visual_scale,
+        post_effect_color = fdef.post_effect_color or base_definition.post_effect_color,
+        walkable = fdef.walkable or base_definition.walkable,
+        pointable = fdef.pointable or base_definition.pointable,
+        diggable = fdef.diggable or base_definition.diggable,
+        climbable = fdef.climbable or base_definition.climbable,
+        move_resistance = fdef.move_resistance or base_definition.move_resistance,
+        buildable_to = fdef.buildable_to or base_definition.buildable_to,
+        floodable = fdef.floodable or base_definition.floodable,
+        drowning = fdef.drowning or base_definition.drowning,
+        damage_per_second = fdef.damage_per_second or base_definition.damage_per_second
     })
-    if fdef.generate_locked == true then
-        minetest.register_node(furniture_name .. "_locked", {
-            description = "Locked " .. furniture_description,
-            tiles = tiles,
-            groups = base_definition.groups,
-            drawtype = 'mesh',
-            mesh = furniture_mesh,
-            collision_box = collision_box,
-            selection_box = collision_box,
-            use_texture_alpha = alpha,
-            paramtype = "light",
-            paramtype2 = "facedir",
-            sunlight_propagates = true,
-            sounds = sounds,
-            after_place_node = function(pos, placer)
-                local meta = minetest.get_meta(pos)
-                local playername = placer:get_player_name()
-                meta:set_string("owner", playername)
-                meta:set_string("infotext", "Locked " .. furniture_description .. "\nOwned by " .. playername .. ".")
-            end,
-            on_rightclick = function(pos, node, clicker)
-                local meta = minetest.get_meta(pos)
-                local owner = meta:get_string("owner")
-                local playername = clicker:get_player_name()
-                if (playername == owner) then
-                    minetest.swap_node(pos, {name = furniture_name .. "_locked_activated", param2 = node.param2})
-                    minetest.sound_play(fdef.activate_sound[sname] or fdef.activate_sound.default,
-                    {pos = pos, max_hear_distance = 10}, true)
-                else
-                    minetest.chat_send_player(playername, "This Locked " .. furniture_description .. " is protected by " .. owner .. ".")
-                end
-            end
-        })
-        minetest.register_node(furniture_name .. "_locked_activated", {
+
+    if fdef.active then
+        minetest.register_node(furniture_name .. "_activated", {
             description = furniture_description,
-            tiles = tiles,
-            groups = groups_hidden,
+            tiles = tiles_active,
+            groups = groups_active,
             drawtype = 'mesh',
-            mesh = (fdef.base or fdef.name) .. "_activated.obj",
-            collision_box = collision_box_activated,
-            selection_box = collision_box_activated,
+            mesh = furniture_mesh_active,
+            collision_box = collision_box_active,
+            selection_box = collision_box_active,
             use_texture_alpha = alpha,
             paramtype = "light",
             paramtype2 = "facedir",
             sunlight_propagates = true,
             sounds = sounds,
-            drop = furniture_name .. "_locked",
-            on_rightclick = function(pos, node, clicker)
-                local meta = minetest.get_meta(pos)
-                local owner = meta:get_string("owner")
-                local playername = clicker:get_player_name()
-                if (playername == owner) then
-                    minetest.swap_node(pos, {name = furniture_name .. "_locked", param2 = node.param2})
-                    minetest.sound_play(fdef.deactivate_sound[sname] or fdef.deactivate_sound.default,
-                    {pos = pos, max_hear_distance = 10}, true)
-                else
-                    minetest.chat_send_player(playername, "This Locked " .. furniture_description .. " is protected by " .. owner .. ".")
-                end
-            end
+            drops = furniture_name,
+            after_place_node = after_place_node,
+            on_rightclick = on_rightclick_active,
+            can_dig = can_dig,
+            on_blast = on_blast,
+            on_metadata_inventory_put = on_metadata_inventory_put,
+            on_metadata_inventory_move = on_metadata_inventory_move,
+            on_metadata_inventory_take = on_metadata_inventory_take,
+            light_source = fdef.light_source_active or base_definition.light_source,
+            visual_scale = fdef.visual_scale_active or base_definition.visual_scale,
+            post_effect_color = fdef.post_effect_color_active or base_definition.post_effect_color,
+            walkable = fdef.walkable_active or base_definition.walkable,
+            pointable = fdef.pointable_active or base_definition.pointable,
+            diggable = fdef.diggable_active or base_definition.diggable,
+            climbable = fdef.climbable_active or base_definition.climbable,
+            move_resistance = fdef.move_resistance_active or base_definition.move_resistance,
+            buildable_to = fdef.buildable_to_active or base_definition.buildable_to,
+            floodable = fdef.floodable_active or base_definition.floodable,
+            drowning = fdef.drowning_active or base_definition.drowning,
+            damage_per_second = fdef.damage_per_second_active or base_definition.damage_per_second
         })
     end
 end
 
-furniture.register("blocks:wood", furniture.woodlike_set)
-furniture.register("blocks:steelblock", furniture.woodlike_set)
+-- Furniture crafting
+function furniture.register_crafting(base_node, i, materials_in, locked)
+    local materials = furniture.table_copy(materials_in)
+    local fdef = furniture.types[i]
+    local base_definition = minetest.registered_nodes[base_node]
+    local sname = string.match(base_node, ':(.*)')
+    local modname = string.match(base_node, '(.*):')
+    local furniture_name = "furniture:" .. modname .. "_" .. fdef.name .. "_" .. sname
+    if modname == "blocks" then
+        furniture_name = "furniture:" .. fdef.name .. "_" .. sname
+    end
+    if (type(fdef.special_materials) == "table") then -- Append special material(s) to the end
+        for j=1,#fdef.special_materials do
+            materials[#materials+j] = fdef.special_materials[j]
+        end
+    elseif (type(fdef.special_materials) == "string") then
+        materials[#materials+1] = fdef.special_materials
+    end
+    -- Array to recipe translator -- Needs 5x5 conversion
+    materials[0] = ""
+    if fdef.crafting then
+        local recipe = {{}, {}, {}}
+        for rw=1,3 do
+            for cl=1,3 do
+                recipe[rw][cl] = materials[fdef.crafting[((rw)*3+cl)-3]]
+            end
+        end
+        minetest.register_craft({
+            output = furniture_name,
+            recipe = recipe,
+        })
+    end
+end
 
-furniture.register("blocks:basalt", furniture.stonelike_set)
-furniture.register("blocks:sandstone", furniture.stonelike_set)
-furniture.register("blocks:marble", furniture.stonelike_set)
+furniture.register("blocks:wood", furniture.woodlike_set, {"blocks:wood", "blocks:stick"}, "variations_wood.png^[sheet:3x3:1,0")
+furniture.register("blocks:steelblock", furniture.woodlike_set, {"blocks:steelblock", "blocks:steel_ingot"}, "variations_steelblock.png^[sheet:3x3:1,0")
+furniture.register("blocks:rustblock", furniture.woodlike_set, {"blocks:rustblock", "blocks:steel_ingot"}, "variations_rustblock.png^[sheet:3x3:1,0") -- Fix crafting later
+
+furniture.register("blocks:basalt", furniture.stonelike_set, {"blocks:basalt", "shapes:basalt_slab"}, "variations_basalt.png^[sheet:3x3:1,0")
+furniture.register("blocks:sandstone", furniture.stonelike_set, {"blocks:sandstone", "shapes:sandstone_slab"}, "variations_sandstone.png^[sheet:3x3:1,0")
+furniture.register("blocks:marble", furniture.stonelike_set, {"blocks:marble", "shapes:marble_slab"}, "variations_marble.png^[sheet:3x3:1,0")
+
+furniture.register("blocks:glass", furniture.glasslike_set, {"blocks:glass", "blocks:sand"}, "blocks_glass.png")
+furniture.register("blocks:obsidian_glass", furniture.glasslike_set, {"blocks:obsidian_glass", "blocks:obsidian_shard"}, "blocks_obsidian_glass.png")

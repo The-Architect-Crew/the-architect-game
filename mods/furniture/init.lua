@@ -8,23 +8,23 @@ dofile(path.."/steampunk.lua")
 
 -- Sound tables
 furniture.storage_sounds = {
-    blocks = "doors_door_open",
-    wood = "doors_door_open",
-    steelblock = "doors_steel_door_open"
+    default = {"doors_door_open", 0.06},
+    wood = {"doors_door_open", 0.06},
+    steelblock = {"doors_steel_door_open", 0.2}
 }
 furniture.door_open_sounds = {
-    blocks = "doors_door_open",
-    wood = "doors_door_open",
-    steelblock = "doors_steel_door_open",
-    glass = "doors_glass_door_open",
-    obsidian_glass = "doors_glass_door_open",
+    default = {"doors_door_open", 0.06},
+    wood = {"doors_door_open", 0.06},
+    steelblock = {"doors_steel_door_open", 0.2},
+    glass = {"doors_glass_door_open", 0.3},
+    obsidian_glass = {"doors_glass_door_open", 0.3},
 }
 furniture.door_close_sounds = {
-    blocks = "doors_door_close",
-    wood = "doors_door_close",
-    steelblock = "doors_steel_door_close",
-    glass = "doors_glass_door_close",
-    obsidian_glass = "doors_glass_door_close",
+    default = {"doors_door_close", 0.13},
+    wood = {"doors_door_close", 0.13},
+    steelblock = {"doors_steel_door_close", 0.2},
+    glass = {"doors_glass_door_close", 0.25},
+    obsidian_glass = {"doors_glass_door_close", 0.25},
 }
 
 -- Model Definitions
@@ -427,6 +427,28 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
     if fdef.groups then
         furniture.dictionary_append(groups, fdef.groups)
     end
+    local activate_sound
+    local gain
+    if fdef.activate_sound then
+        if type(fdef.activate_sound[esname]) == "table" then
+            activate_sound = fdef.activate_sound[esname][1] or fdef.activate_sound.default[1]
+            gain = fdef.activate_sound[esname][2] or fdef.activate_sound.default[2]
+        else
+            activate_sound = fdef.activate_sound[esname] or fdef.activate_sound.default
+            gain = 0.06
+        end
+    end
+    local deactivate_sound
+    local gain_activated
+    if fdef.deactivate_sound then
+        if type(fdef.deactivate_sound[esname]) == "table" then
+            deactivate_sound = fdef.deactivate_sound[esname][1] or fdef.deactivate_sound.default[1]
+            gain_activated = fdef.deactivate_sound[esname][2] or fdef.deactivate_sound.default[2]
+        else
+            deactivate_sound = fdef.deactivate_sound[esname] or fdef.deactivate_sound.default
+            gain_activated = 0.13
+        end
+    end
 
     -- Active versions
     local furniture_mesh_active = (fdef.base or fdef.name) .. "_activated.obj"
@@ -486,21 +508,18 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
             on_rightclick = function(pos, node)
                 minetest.swap_node(pos, {name = furniture_name .. "_activated", param2 = node.param2})
                 minetest.show_formspec(player:get_player_name(), furniture_name, furniture.get_storage_formspec(pos, fdef.storage))
-                minetest.sound_play(fdef.activate_sound[esname] or fdef.activate_sound.blocks,
-                {pos = pos, max_hear_distance = 10}, true)
+                minetest.sound_play(activate_sound, {pos = pos, gain = gain, max_hear_distance = 10}, true)
             end
             on_rightclick_active = function(pos, node)
                 minetest.swap_node(pos, {name = furniture_name, param2 = node.param2})
                 minetest.show_formspec(player:get_player_name(), furniture_name, furniture.get_storage_formspec(pos, fdef.storage))
-                minetest.sound_play(fdef.deactivate_sound[esname] or fdef.deactivate_sound.blocks,
-                {pos = pos, max_hear_distance = 10}, true)
+                minetest.sound_play(deactivate_sound, {pos = pos, gain = gain_active, max_hear_distance = 10}, true)
             end
         end
 
         on_rightclick = function(pos, node, player)
             minetest.show_formspec(player:get_player_name(), furniture_name, furniture.get_storage_formspec(pos, fdef.storage))
-            minetest.sound_play(fdef.activate_sound[esname] or fdef.activate_sound.blocks,
-            {pos = pos, max_hear_distance = 10}, true)
+            minetest.sound_play(activate_sound, {pos = pos, gain = gain, max_hear_distance = 10}, true)
         end
 
         can_dig = function(pos, player)
@@ -537,13 +556,11 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
     if fdef.active then
         on_rightclick = function(pos, node)
             minetest.swap_node(pos, {name = furniture_name .. "_activated", param2 = node.param2})
-            minetest.sound_play(fdef.activate_sound[esname] or fdef.activate_sound.blocks,
-            {pos = pos, max_hear_distance = 10}, true)
+            minetest.sound_play(activate_sound, {pos = pos, gain = gain, max_hear_distance = 10}, true)
         end
         on_rightclick_active = function(pos, node)
             minetest.swap_node(pos, {name = furniture_name, param2 = node.param2})
-            minetest.sound_play(fdef.deactivate_sound[esname] or fdef.deactivate_sound.blocks,
-            {pos = pos, max_hear_distance = 10}, true)
+            minetest.sound_play(deactivate_sound, {pos = pos, gain = gain_active, max_hear_distance = 10}, true)
         end
     end
 

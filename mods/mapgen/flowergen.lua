@@ -188,7 +188,7 @@ local function register_flower(seed, flower_name)
 	minetest.register_decoration({
 		name = "flora:"..flower_name,
 		deco_type = "simple",
-		place_on = {"blocks:dirt_with_grass"},
+		place_on = {"blocks:dirt_with_grass", "blocks:chalk_with_grass"},
 		sidelen = 16,
 		noise_params = {
 			offset = -0.02,

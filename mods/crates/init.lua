@@ -2,6 +2,12 @@ crates = {}
 crates.pos = {}
 
 local path = minetest.get_modpath("crates")
+local winv_exists = minetest.global_exists("winv")
+local row_slots = 8
+if winv_exists then
+	row_slots = 6
+end
+
 dofile(path.."/labels.lua")
 
 -- Inventory sorting ( Taken from https://github.com/minetest-mods/technic/blob/master/technic_chests/register.lua )
@@ -57,84 +63,169 @@ function crates:register_storage(name, def)
 	local colw = scolumns * 1.25
 	local locko = def.lock_order
 	-- storage formspec
-	local function storage_formspec(pos)
+	local function storage_formspec(player, pos)
 		local spos = pos.x..","..pos.y..","..pos.z
 		local meta = minetest.get_meta(pos)
+		local pmeta = player:get_meta()
+		local playername = player:get_player_name()
 		local label = meta:get_string("label")
 		local shared = meta:get_string("shared")
-		local lock = meta:get_string("lock")
 		-- sorting formspec
+		local sorting_formspec
 		if def.sorting and scolumns > 1 then
-			crates.sorting_formspec =
-				"button[10.65,1.8;0.5,0.5;storage_sort;S]"..
-				"tooltip[storage_sort;Sort everything]"..
-				"button[10.65,2.4;0.5,0.5;storage_compress;C]"..
-				"tooltip[storage_compress;Compress everything (Fill all the gaps)]"..
-				"button[10.65,3.0;0.5,0.5;storage_row_up;Ʌ]"..
-				"tooltip[storage_row_up;Move everything one row up]"..
-				"button[10.65,3.6;0.5,0.5;storage_row_down;V]"..
-				"tooltip[storage_row_down;Move everything one row down]"
+			if winv_exists then
+				sorting_formspec =
+					"button[7.85,1.5;0.5,0.5;storage_sort;S]"..
+					"tooltip[storage_sort;Sort everything]"..
+					"button[7.85,2.1;0.5,0.5;storage_compress;C]"..
+					"tooltip[storage_compress;Compress everything (Fill all the gaps)]"..
+					"button[7.85,2.7;0.5,0.5;storage_row_up;Ʌ]"..
+					"tooltip[storage_row_up;Move everything one row up]"..
+					"button[7.85,3.3;0.5,0.5;storage_row_down;V]"..
+					"tooltip[storage_row_down;Move everything one row down]"
+			else
+				sorting_formspec =
+					"button[10.65,1.8;0.5,0.5;storage_sort;S]"..
+					"tooltip[storage_sort;Sort everything]"..
+					"button[10.65,2.4;0.5,0.5;storage_compress;C]"..
+					"tooltip[storage_compress;Compress everything (Fill all the gaps)]"..
+					"button[10.65,3.0;0.5,0.5;storage_row_up;Ʌ]"..
+					"tooltip[storage_row_up;Move everything one row up]"..
+					"button[10.65,3.6;0.5,0.5;storage_row_down;V]"..
+					"tooltip[storage_row_down;Move everything one row down]"
+			end
 		elseif def.sorting and scolumns == 1 then
-			crates.sorting_formspec =
-				"button[10.65,1.8;0.5,0.5;storage_sort;S]"..
-				"tooltip[storage_sort;Sort everything]"..
-				"button[10.65,2.4;0.5,0.5;storage_compress;C]"..
-				"tooltip[storage_compress;Compress everything (Fill all the gaps)]"..
-				"tooltip[storage_sort;Sort everything]"
+			if winv_exists then
+				sorting_formspec =
+					"button[7.85,1.5;0.5,0.5;storage_sort;S]"..
+					"tooltip[storage_sort;Sort everything]"..
+					"button[7.85,2.1;0.5,0.5;storage_compress;C]"..
+					"tooltip[storage_compress;Compress everything (Fill all the gaps)]"..
+					"tooltip[storage_sort;Sort everything]"
+			else
+				sorting_formspec =
+					"button[10.65,1.8;0.5,0.5;storage_sort;S]"..
+					"tooltip[storage_sort;Sort everything]"..
+					"button[10.65,2.4;0.5,0.5;storage_compress;C]"..
+					"tooltip[storage_compress;Compress everything (Fill all the gaps)]"..
+					"tooltip[storage_sort;Sort everything]"
+			end
 		else
-			crates.sorting_formspec = ""
+			sorting_formspec = ""
 		end
 		-- color label formspec
+		local label_formspec2
 		if def.colorlabel then
-			crates.label_formspec2 = crates.label_formspec()
+			label_formspec2 = crates.label_formspec()
 		else
-			crates.label_formspec2 = ""
+			label_formspec2 = ""
 		end
 		-- portability formspec
+		local portable_formspec
 		if def.portable then
 			local portability = meta:get_string("portable")
-			crates.porta_formspec =
-				"image[-1.4,"..(5.6 + colw)..";1.4,1.4;gui_tab.png]"..
-				"image_button[-1.1,"..(5.8 + colw)..";1,1;gui_"..portability..".png;storage_"..portability..";;true;false;gui_"..portability..".png^[colorize:black:80]"..
-				"tooltip[storage_portable;Current mode: Portable \n(Able to pick up storage with filled inventory) \nPress to disable portability.]"..
-				"tooltip[storage_unportable;Current mode: Not portable \n(Unable to pick up storage with filled inventory) \nPress to enable portability.]"
+			if winv_exists then
+				portable_formspec =
+					"image[-1.4,"..(colw + 0.05)..";1.4,1.4;gui_tab.png]"..
+					"image_button[-1.1,"..(0.25 + colw)..";1,1;gui_"..portability..".png;storage_"..portability..";;true;false;gui_"..portability..".png^[colorize:black:80]"..
+					"tooltip[storage_portable;Current mode: Portable \n(Able to pick up storage with filled inventory) \nPress to disable portability.]"..
+					"tooltip[storage_unportable;Current mode: Not portable \n(Unable to pick up storage with filled inventory) \nPress to enable portability.]"
+			else
+				portable_formspec =
+					"image[-1.4,"..(5.6 + colw)..";1.4,1.4;gui_tab.png]"..
+					"image_button[-1.1,"..(5.8 + colw)..";1,1;gui_"..portability..".png;storage_"..portability..";;true;false;gui_"..portability..".png^[colorize:black:80]"..
+					"tooltip[storage_portable;Current mode: Portable \n(Able to pick up storage with filled inventory) \nPress to disable portability.]"..
+					"tooltip[storage_unportable;Current mode: Not portable \n(Unable to pick up storage with filled inventory) \nPress to enable portability.]"
+			end
 		else
-			crates.porta_formspec = ""
+			portable_formspec = ""
 		end
-		return "formspec_version[4]"..
-			"size[10.55,"..(8.35 + colw).."]"..
-			-- bg
-			"style_type[image;noclip=true]"..
-			"image[-1.4,"..(6.9 + colw)..";1.4,1.4;gui_tab.png]"..
-			--"image[10.54,"..(6.9 + colw)..";1.4,1.4;gui_tab.png^[transformFX]"..
-			--"image[10.54,0.3;1.4,1.4;gui_tab.png^[transformFX]"..
-			"box[0.2,1.6;10.15,"..(0.15 + colw)..";#707070]"..
+		-- listrings for winv
+		local winv_listring = ""
+		if winv_exists then
+			local right_inv = pmeta:get_string("winv:right")
+			if right_inv == "player" then
+				winv_listring =
+					"listring[nodemeta:"..spos..";main]"..
+					"listring[current_player;main]"
+			elseif right_inv == "crafting" then
+				winv_listring =
+					"listring[nodemeta:"..spos..";main]"..
+					"listring[detached:winv_craft_"..playername..";input]"..
+					"listring[nodemeta:"..spos..";main]"..
+					"listring[detached:winv_craft_"..playername..";output]"..
+					"listring[nodemeta:"..spos..";main]"
+			elseif right_inv == "creative" then
+				winv_listring =
+					"listring[detached:winv_creative_"..playername..";main]"..
+					"listring[nodemeta:"..spos..";main]"..
+					"listring[detached:trash;main]"
+			end
+		end
+		local winv_formspec = {
+			"image[0,0;7.75,"..(colw + 2.75)..";winv_bg.png]",
+			"image[-1.4,"..(colw + 1.35)..";1.4,1.4;gui_tab.png]",
 			-- label
-			"field[0.375,0.6;9.2,0.8;storage_label;"..desc.." Label;"..label.."]"..
-			"field_close_on_enter[storage_label;false]"..
-			"image_button[9.5,0.47;1,1;gui_enter.png;storage_label_save;;true;false;gui_enter.png^[colorize:black:80]"..
-			crates.label_formspec2..
+			"label[0.2,0.3;"..desc.." Label]",
+			"field[0.2,0.5;6.6,0.78;storage_label;;"..label.."]",
+			"field_close_on_enter[storage_label;false]",
+			"image_button[6.8,0.37;1,1;gui_enter.png;storage_label_save;;true;false;gui_enter.png^[colorize:black:80]",
+			label_formspec2,
 			-- storage
-			"list[nodemeta:"..spos..";main;0.4,1.8;8,"..scolumns..";]"..
-			-- player
-			"list[current_player;main;0.4,"..(1.95 + colw)..";8,4;]"..
+			"list[nodemeta:"..spos..";main;0.25,1.5;6,"..scolumns..";]",
 			-- locks
-			"image_button[-1.1,"..(7.05 + colw)..";1.05,1.05;"..locks.icons("storage", lock, locko)..
-			"field[0.375,"..(7.2 + colw)..";9.2,0.8;storage_shared;Shared with (separate names with spaces):;"..shared.."]"..
-			"field_close_on_enter[storage_shared;false]"..
-			"tooltip[storage_shared;Player names here will have access regardless of locked status \nOnly the owner can change settings \nFormat: 'name1 name2 name3...']"..
-			"image_button[9.5,"..(7.07 + colw)..";1,1;gui_enter.png;storage_shared_save;;true;false;gui_enter.png^[colorize:black:80]"..
+			"image_button[-1.1,"..(colw + 1.5)..";1.05,1.05;"..locks.icons(pos, "storage", locko, true),
+			"label[0.2,"..(colw + 1.55)..";Shared with (separate names with spaces):]",
+			"field[0.2,"..(colw + 1.75)..";6.6,0.8;storage_shared;;"..shared.."]",
+			"field_close_on_enter[storage_shared;false]",
+			"tooltip[storage_shared;Player names here will have access regardless of locked status \nOnly the owner can change settings \nFormat: 'name1 name2 name3...']",
+			"image_button[6.8,"..(colw + 1.62)..";1,1;gui_enter.png;storage_shared_save;;true;false;gui_enter.png^[colorize:black:80]",
+			sorting_formspec,
+			portable_formspec,
+			winv_listring
+		}
+		local formspec = {
+			"formspec_version[4]",
+			"size[10.55,"..(8.35 + colw).."]",
+			-- bg
+			"style_type[image;noclip=true]",
+			"image[-1.4,"..(6.9 + colw)..";1.4,1.4;gui_tab.png]",
+			--"image[10.54,"..(6.9 + colw)..";1.4,1.4;gui_tab.png^[transformFX]",
+			--"image[10.54,0.3;1.4,1.4;gui_tab.png^[transformFX]",
+			"box[0.2,1.6;10.15,"..(0.15 + colw)..";#707070]",
+			-- label
+			"field[0.375,0.6;9.2,0.8;storage_label;"..desc.." Label;"..label.."]",
+			"field_close_on_enter[storage_label;false]",
+			"image_button[9.5,0.47;1,1;gui_enter.png;storage_label_save;;true;false;gui_enter.png^[colorize:black:80]",
+			label_formspec2,
+			-- storage
+			"list[nodemeta:"..spos..";main;0.4,1.8;8,"..scolumns..";]",
+			-- player
+			"list[current_player;main;0.4,"..(1.95 + colw)..";8,4;]",
+			-- locks
+			"image_button[-1.1,"..(7.05 + colw)..";1.05,1.05;"..locks.icons(pos, "storage", locko, true),
+			"field[0.375,"..(7.2 + colw)..";9.2,0.8;storage_shared;Shared with (separate names with spaces):;"..shared.."]",
+			"field_close_on_enter[storage_shared;false]",
+			"tooltip[storage_shared;Player names here will have access regardless of locked status \nOnly the owner can change settings \nFormat: 'name1 name2 name3...']",
+			"image_button[9.5,"..(7.07 + colw)..";1,1;gui_enter.png;storage_shared_save;;true;false;gui_enter.png^[colorize:black:80]",
 			-- sorting
-			"style_type[button;noclip=true;bgimg=gui_bg_curved.png;bgimg_hovered=gui_bg_hover_curved.png;border=false]"..
-			crates.sorting_formspec..
-			crates.porta_formspec..
+			"style_type[button;noclip=true;bgimg=gui_bg_curved.png;bgimg_hovered=gui_bg_hover_curved.png;border=false]",
+			sorting_formspec,
+			portable_formspec,
 			-- listring
-			"listring[nodemeta:"..spos..";main]"..
+			"listring[nodemeta:"..spos..";main]",
 			"listring[current_player;main]"
+		}
+		if winv_exists then
+			return winv.init_inventory(player, table.concat(winv_formspec, ""))
+		else
+			return table.concat(formspec, "")
+		end
 	end
 	-- show formspec
-	local function show_formspec(playername, pos)
-		minetest.show_formspec(playername, name, storage_formspec(pos))
+	local function show_formspec(player, pos)
+		local playername = player:get_player_name()
+		minetest.show_formspec(playername, name, storage_formspec(player, pos))
 	end
 	-- ===============
 	-- block functions
@@ -143,7 +234,7 @@ function crates:register_storage(name, def)
 	local function storage_on_construct(pos)
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
-		inv:set_size("main", 8 * scolumns)
+		inv:set_size("main", row_slots * scolumns)
 		meta:set_string("owner", "")
 		meta:set_string("colorlabel", "")
 		meta:set_string("label", "")
@@ -152,22 +243,29 @@ function crates:register_storage(name, def)
 		if def.portable then
 			meta:set_string("portable", "portable")
 		end
-		meta:set_string("infotext", locks.desc(locko[1], 2).." "..desc.." \nUnowned")
+		locks.init_infotext(pos, desc)
 	end
 	-- after place node
 	local function storage_after_place_node(pos, placer, itemstack, pointed_thing)
 		local meta = minetest.get_meta(pos)
 		local playername = placer:get_player_name()
 		meta:set_string("owner", playername)
-		meta:set_string("infotext", locks.desc(locko[1], 2).." "..desc.." (Owned by "..playername..")")
+		locks.init_infotext(pos, desc)
 	end
 	-- rightclick
 	local function storage_on_rightclick(pos, node, clicker, itemstack, pointed_thing)
 		local playername = clicker:get_player_name()
-		if locks.can_access(pos, clicker) then
-			show_formspec(playername, pos)
-			crates.pos[playername] = pos
+		local meta = minetest.get_meta(pos)
+		if not meta or meta and meta:get_string("owner") == "" then -- recreate meta if it doesnt exist
+			storage_on_construct(pos)
+			storage_after_place_node(pos, clicker, itemstack, pointed_thing)
 		end
+
+		if not locks.can_access(pos, clicker) then
+			return itemstack
+		end
+		show_formspec(clicker, pos)
+		crates.pos[playername] = pos
 	end
 	-- allow_metadata_inventory_move
 	local function storage_allow_metadata_inventory_move(pos, from_list, from_index, to_list, to_index, count, player)
@@ -226,7 +324,7 @@ function crates:register_storage(name, def)
 		local inv = meta:get_inventory()
 		if def.portable and meta:get_string("portable") == "portable" and not inv:is_empty("main") then
 			local items = {}
-			for i = 1, (scolumns * 8) do
+			for i = 1, (scolumns * row_slots) do
 				local stack = inv:get_stack("main", i)
 				items[i] = stack:to_string()
 			end
@@ -257,6 +355,118 @@ function crates:register_storage(name, def)
 	local function storage_on_destruct(pos)
 		crates.label_remove(pos)
 	end
+	-- receive fields
+	minetest.register_on_player_receive_fields(function(player, formname, fields)
+		local playername = player:get_player_name()
+		local pos = crates.pos[playername]
+		if not pos then
+			return
+		end
+		-- filled storage
+		if def.portable and formname == name.."_filled" then
+			if fields.quit then -- clear data upon exiting
+				local tinv = minetest.get_inventory({type="detached", name="crates:temp_"..playername})
+				tinv:set_size("main", 0)
+				tinv:set_list("main", {})
+			end
+		end
+		-- storage formspec only
+		if formname ~= name or not player then
+			return
+		end
+		local meta = minetest.get_meta(pos)
+		local owner = meta:get_string("owner")
+		local lock = meta:get_string("lock")
+		local label = meta:get_string("label")
+		-- owner-only settings
+		if playername == owner then
+			-- locks
+			if locks.fields(pos, player, fields, "storage", desc, label_display(label)) then
+				show_formspec(player, pos)
+			end
+			-- labeling
+			if fields.storage_label_save or fields.key_enter_field == "storage_label" then
+				local newlabel = fields.storage_label
+				meta:set_string("label", newlabel)
+				meta:set_string("infotext", locks.desc(lock , 2).." "..desc.." (Owned by "..owner..") \n"..label_display(newlabel))
+				show_formspec(player, pos)
+			end
+			-- sharing
+			if fields.storage_shared_save or fields.key_enter_field == "storage_shared" then
+				local newshared = fields.storage_shared
+				meta:set_string("shared", newshared)
+				show_formspec(player, pos)
+			end
+			-- portability
+			if def.portable then
+				if fields.storage_portable then
+					meta:set_string("portable", "unportable")
+					show_formspec(player, pos)
+				elseif fields.storage_unportable then
+					meta:set_string("portable", "portable")
+					show_formspec(player, pos)
+				end
+			end
+		end
+		-- sorting
+		-- allow shared and owner access always
+		-- if protected + "protect/unlock": allow protection owner(s)
+		-- if unprotected + "protect/unlock": allow everyone
+		local ints = locks.can_access(pos, player)
+		if ints and ints ~= "mail" and ints ~= "public" then
+			local inv = meta:get_inventory()
+			local tslots = scolumns * row_slots
+			local uslots = tslots - row_slots
+			if fields.storage_row_up then
+				local inlist = inv:get_list("main")
+				local newlist = {}
+				for i = 1, row_slots do
+					newlist[uslots+i] = inlist[i]
+				end
+				for i = row_slots, tslots do
+					if (i - row_slots) == 0 then
+						newlist[1] = inlist[i]
+					else
+						newlist[i-row_slots] = inlist[i]
+					end
+				end
+				inv:set_list("main", newlist)
+			elseif fields.storage_row_down then
+				local inlist = inv:get_list("main")
+				local newlist = {}
+				for i = uslots, tslots do
+					if (uslots - i) == 0 then
+						newlist[1] = inlist[i]
+					else
+						newlist[i-uslots] = inlist[i]
+					end
+				end
+				for i = 1, uslots do
+					newlist[i + row_slots] = inlist[i]
+				end
+				inv:set_list("main", newlist)
+			elseif fields.storage_sort then
+				sort_inventory(inv, "all", true)
+			elseif fields.storage_compress then
+				sort_inventory(inv, "all")
+			end
+			-- colour labels
+			if def.colorlabel then
+				crates.label_receive_fields(player, formname, fields, pos, def.colorlabel)
+			end
+		end
+		-- quit field, reset pos
+		if fields.quit then
+			crates.pos[playername] = nil
+		end
+		-- update winv
+		if winv_exists and not fields.quit then
+			winv.node_receive_fields(player, formname, fields)
+			if winv.node_refresh(player) then
+				show_formspec(player, pos)
+			end
+		end
+	end)
 	-- ===============
 	-- storage block
 	minetest.register_node(":"..name, {
@@ -328,8 +538,9 @@ function crates:register_storage(name, def)
 			local chex = row[3]
 			-- create color tiles
 			local colortiles = {}
+			local dyemod = def.dyemod or ""
 			for i in ipairs(def.tiles) do
-				colortiles[i] = def.tiles[1].."^[colorize:"..chex..":80"
+				colortiles[i] = def.tiles[1].."^[colorize:"..chex..":80"..dyemod
 			end
 			-- create coloured variants
 			minetest.register_node(":"..name.."_"..color, {
@@ -421,14 +632,29 @@ function crates:register_storage(name, def)
 			local tinv = minetest.get_inventory({type="detached", name="crates:temp_"..playername})
 			local imeta = itemstack:get_meta()
 			local iinvdata = minetest.deserialize(imeta:get_string("invdata"))
-			tinv:set_size("main", 8 * scolumns)
+			tinv:set_size("main", row_slots * scolumns)
 			tinv:set_list("main", iinvdata)
-			local temp_formspec = "formspec_version[4]"..
-				"size[10.55,"..(3.75 + colw).."]"..
-				"label[0.375,0.435;Viewing storage (Place down to access and modify storage)]"..
-				"field[0.375,1.0;9.82,0.8;storage_label;"..locks.desc(imeta:get_string("lock"), 2).." "..desc.." Label;"..imeta:get_string("label").."]"..
-				"field[0.375,"..(2.6 + colw)..";9.82,0.8;storage_shared;Shared with (separate names with spaces):;"..imeta:get_string("shared").."]"..
-				"list[detached:crates:temp_"..playername..";main;0.4,2.2;8,"..scolumns..";]"
+			local temp_formspec
+			if winv_exists then
+				temp_formspec = "formspec_version[4]"..
+					"size[7.75,"..(colw + 2.75).."]"..
+					"style_type[*;noclip=true;font_size=13]"..
+					"bgcolor[#00000000;neither]"..
+					"image[0,0;7.75,"..(colw + 2.75)..";winv_bg.png]"..
+					"label[0.2,-0.2;"..minetest.colorize("lightgrey", "Viewing storage (Place down to access and modify storage)").."]"..
+					"label[0.2,0.3;"..locks.desc(imeta:get_string("lock"), 2).." "..desc.." Label]"..
+					"field[0.2,0.5;7.3,0.78;storage_label;;"..imeta:get_string("label").."]"..
+					"list[detached:crates:temp_"..playername..";main;0.25,1.5;6,"..scolumns..";]"..
+					"label[0.2,"..(colw + 1.55)..";Shared with (separate names with spaces):]"..
+					"field[0.2,"..(colw + 1.75)..";7.3,0.8;storage_shared;;"..imeta:get_string("shared").."]"
+			else
+				temp_formspec = "formspec_version[4]"..
+					"size[10.55,"..(3.75 + colw).."]"..
+					"label[0.375,0.435;Viewing storage (Place down to access and modify storage)]"..
+					"field[0.375,1.0;9.82,0.8;storage_label;"..locks.desc(imeta:get_string("lock"), 2).." "..desc.." Label;"..imeta:get_string("label").."]"..
+					"field[0.375,"..(2.6 + colw)..";9.82,0.8;storage_shared;Shared with (separate names with spaces):;"..imeta:get_string("shared").."]"..
+					"list[detached:crates:temp_"..playername..";main;0.4,2.2;8,"..scolumns..";]"
+			end
 			minetest.show_formspec(playername, name.."_filled", temp_formspec)
 		end
 		-- on_place
@@ -500,8 +726,9 @@ function crates:register_storage(name, def)
 				-- create color tiles
 				local filled_colortiles = {}
 				local ctiles = def.filled_tiles or def.tiles
+				local dyemod = def.dyemod_filled or def.dyemod or ""
 				for i in ipairs(ctiles) do
-					filled_colortiles[i] = ctiles[1].."^[colorize:"..chex..":80"
+					filled_colortiles[i] = ctiles[1].."^[colorize:"..chex..":80"..dyemod
 				end
 				-- filled storage block
 				minetest.register_node(":"..name.."_"..color.."_filled", {
@@ -545,136 +772,22 @@ function crates:register_storage(name, def)
 					end,
 				})
 				-- Add dyeing recipes
-				minetest.register_craft({
-					type = "shapeless",
-					output = name.."_"..color.."_filled",
-					recipe = {name.."_filled", "group:dye,color_"..color}
+				workbench:register_craft({
+					mod = "shapeless",
+					output = {{name.."_"..color.."_filled"}},
+					input = {{name.."_filled", "group:dye,color_"..color}},
+					transfer_meta = {{name.."_filled", name.."_"..color.."_filled"},},
 				})
-				ccore.register_craftcopy(name.."_filled", name.."_"..color.."_filled")
-				minetest.register_craft({
-					type = "shapeless",
-					output = name.."_filled",
-					recipe = {name.."_"..color.."_filled", "bucket:bucket_water"},
-					replacements = {{'bucket:bucket_water', 'bucket:bucket_empty'},},
+				workbench:register_craft({
+					mod = "shapeless",
+					output = {{name.."_filled"}},
+					input = {{name.."_"..color.."_filled", "bucket:bucket_water"}},
+					replacements = {{'bucket:bucket_water', 'bucket:bucket_empty'}},
+					transfer_meta = {{name.."_"..color.."_filled", name.."_filled"}},
 				})
-				ccore.register_craftcopy(name.."_"..color.."_filled", name.."_filled")
 			end
 		end
 	end
-	-- receive fields
-	minetest.register_on_player_receive_fields(function(player, formname, fields)
-		local playername = player:get_player_name()
-		local pos = crates.pos[playername]
-		if def.portable and formname == name.."_filled" then
-			if fields.quit then
-				local tinv = minetest.get_inventory({type="detached", name="crates:temp_"..playername})
-				tinv:set_size("main", 0)
-				tinv:set_list("main", {})
-			end
-		end
-		if formname ~= name or not player then
-			return
-		end
-		local meta = minetest.get_meta(pos)
-		local owner = meta:get_string("owner")
-		local lock = meta:get_string("lock")
-		local label = meta:get_string("label")
-		-- owner-only settings
-		if playername == owner then
-			-- locks
-			if fields.storage_lock then
-				meta:set_string("lock", "lock")
-				show_formspec(playername, pos)
-				meta:set_string("infotext", locks.desc("lock" , 2).." "..desc.." (Owned by "..owner..") \n"..label_display(label))
-			elseif fields.storage_protect then
-				meta:set_string("lock", "protect")
-				show_formspec(playername, pos)
-				meta:set_string("infotext", locks.desc("protect" , 2).." "..desc.." (Owned by "..owner..") \n"..label_display(label))
-			elseif fields.storage_mail then
-				meta:set_string("lock", "mail")
-				show_formspec(playername, pos)
-				meta:set_string("infotext", locks.desc("mail" , 2).." "..desc.." (Owned by "..owner..") \n"..label_display(label))
-			elseif fields.storage_unlock then
-				meta:set_string("lock", "unlock")
-				show_formspec(playername, pos)
-				meta:set_string("infotext", locks.desc("unlock" , 2).." "..desc.." (Owned by "..owner..") \n"..label_display(label))
-			end
-			-- labeling
-			if fields.storage_label_save or fields.key_enter_field == "storage_label" then
-				local newlabel = fields.storage_label
-				meta:set_string("label", newlabel)
-				meta:set_string("infotext", locks.desc(lock , 2).." "..desc.." (Owned by "..owner..") \n"..label_display(newlabel))
-				show_formspec(playername, pos)
-			end
-			-- sharing
-			if fields.storage_shared_save or fields.key_enter_field == "storage_shared" then
-				local newshared = fields.storage_shared
-				meta:set_string("shared", newshared)
-				show_formspec(playername, pos)
-			end
-			-- portability
-			if def.portable then
-				if fields.storage_portable then
-					meta:set_string("portable", "unportable")
-					show_formspec(playername, pos)
-				elseif fields.storage_unportable then
-					meta:set_string("portable", "portable")
-					show_formspec(playername, pos)
-				end
-			end
-		end
-		-- sorting
-		-- allow shared and owner access always
-		-- if protected + "protect/unlock": allow protection owner(s)
-		-- if unprotected + "protect/unlock": allow everyone
-		local ints = locks.can_access(pos, player)
-		if ints and ints ~= "mail" and ints ~= "public" then
-			local inv = meta:get_inventory()
-			local tslots = scolumns * 8
-			local uslots = tslots - 8
-			if fields.storage_row_up then
-				local inlist = inv:get_list("main")
-				local newlist = {}
-				for i = 1, 8 do
-					newlist[uslots+i] = inlist[i]
-				end
-				for i = 8, tslots do
-					if (i - 8) == 0 then
-						newlist[1] = inlist[i]
-					else
-						newlist[i-8] = inlist[i]
-					end
-				end
-				inv:set_list("main", newlist)
-			elseif fields.storage_row_down then
-				local inlist = inv:get_list("main")
-				local newlist = {}
-				for i = uslots, tslots do
-					if (uslots - i) == 0 then
-						newlist[1] = inlist[i]
-					else
-						newlist[i-uslots] = inlist[i]
-					end
-				end
-				for i = 1, uslots do
-					newlist[i+8] = inlist[i]
-				end
-				inv:set_list("main", newlist)
-			elseif fields.storage_sort then
-				sort_inventory(inv, "all", true)
-			elseif fields.storage_compress then
-				sort_inventory(inv, "all")
-			end
-			-- colour labels
-			if def.colorlabel then
-				crates.label_receive_fields(player, formname, fields, pos, def.colorlabel)
-			end
-		end
-		-- quit field, reset pos
-		if fields.quit then
-			crates.pos[playername] = nil
-		end
-	end)
 end
 
 -- Create temp inventory for filled storage viewing
@@ -697,12 +810,13 @@ end)
 
 crates:register_storage("crates:crate", {
 	description = "Crate",
-	columns = 4, -- 4 * 8 inventory spaces
+	columns = 6, -- 4 * row_slots inventory spaces
 	sorting = true, -- enable sorting functions
 	portable = true, -- enable portability (Able to be picked up)
 	dyeable = true, -- registers multi-coloured storage based on dye
+	dyemod = "^crates_crate_band.png", -- add texture overlays over dyed versions (after colorize applied)
 	colorlabel = "tag2", -- enable colorlabels (Ability to add little colour labels)
-	lock_order = {"lock", "protect", "unlock", "mail"}, -- order of locking modes
+	lock_order = {"lock", "protect", "public", "mail"}, -- order of locking modes
 	drawtype = "mesh",
 	mesh = "crates_crate.obj",
 	groups = {choppy = 2, oddly_breakable_by_hand = 2},
@@ -717,12 +831,13 @@ crates:register_storage("crates:crate", {
 
 crates:register_storage("crates:barrel", {
 	description = "Barrel",
-	columns = 2,
+	columns = 4,
 	sorting = true,
 	portable = true,
 	dyeable = true,
+	dyemod = "^crates_barrel_band.png",
 	colorlabel = "sign",
-	lock_order = {"lock", "protect", "unlock", "mail"},
+	lock_order = {"lock", "protect", "public", "mail"},
 	drawtype = "mesh",
 	mesh = "crates_barrel.obj",
 	groups = {choppy = 2, oddly_breakable_by_hand = 2},
@@ -735,11 +850,39 @@ crates:register_storage("crates:barrel", {
 	sounds = default.node_sound_wood_defaults(),
 })
 
+crates:register_storage("crates:chest", {
+	description = "Chest",
+	columns = 6,
+	sorting = true,
+	lock_order = {"lock", "protect", "public", "mail"},
+	groups = {choppy = 2, oddly_breakable_by_hand = 2},
+	tiles = {
+		"crates_chest_top.png",
+		"crates_chest_top.png",
+		"crates_chest_side.png",
+		"crates_chest_side.png",
+		"crates_chest_side.png",
+		"crates_chest_front.png"
+	},
+	paramtype = "light",
+	paramtype2 = "facedir",
+	sounds = default.node_sound_wood_defaults(),
+})
+
+minetest.register_craft({
+	output = "crates:chest",
+	recipe = {
+		{"group:wood", "group:wood", "group:wood"},
+		{"group:wood", "", "group:wood"},
+		{"group:wood", "group:wood", "group:wood"},
+	}
+})
+
 minetest.register_craft({
 	output = "crates:crate",
 	recipe = {
 		{"group:wood", "group:wood", "group:wood"},
-		{"group:wood", "blocks:chest_locked", "group:wood"},
+		{"group:wood", "crates:chest", "group:wood"},
 		{"group:wood", "group:wood", "group:wood"},
 	}
 })

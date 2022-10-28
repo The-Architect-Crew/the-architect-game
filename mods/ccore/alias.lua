@@ -5,7 +5,6 @@ minetest.register_alias("default:clay_lump", "blocks:clay_lump")
 minetest.register_alias("default:clay", "blocks:clay")
 minetest.register_alias("default:brick", "blocks:stone")
 
-
 -- blocks / book.lua
 minetest.register_alias("default:paper", "blocks:paper")
 minetest.register_alias("default:book", "blocks:book")
@@ -125,14 +124,19 @@ minetest.register_alias("default:obsidianbrick", "blocks:obsidianbrick")
 minetest.register_alias("default:obsidian_block", "blocks:obsidian_block")
 
 -- blocks / torch.lua
-minetest.register_alias("default:furnace", "blocks:furnace")
+minetest.register_alias("default:torch", "blocks:torch")
+minetest.register_alias("default:torch_wall", "blocks:torch_wall")
+minetest.register_alias("default:torch_ceiling", "blocks:torch_ceiling")
 
 -- blocks / chest.lua
 minetest.register_alias("default:chest_locked", "blocks:chest_locked")
 minetest.register_alias("default:chest", "blocks:chest")
 
 -- blocks / furnace.lua
-minetest.register_alias("default:furnace", "blocks:furnace")
+-- minetest.register_alias("default:furnace", "blocks:furnace")
+
+-- blocks / lamp.lua
+minetest.register_alias("default:mese_post_light", "blocks:mese_post_light")
 
 -- flora / coral.lua
 minetest.register_alias("default:sand_with_kelp", "flora:sand_with_kelp")
@@ -178,7 +182,7 @@ minetest.register_alias("default:cactus", "flora:cactus")
 minetest.register_alias("default:large_cactus_seedling", "flora:large_cactus_seedling")
 minetest.register_alias("default:papyrus", "flora:papyrus")
 minetest.register_alias("default:dry_shrub", "flora:dry_shrub")
-minetest.register_alias("default:junglegrass", "flora:junglegrass")
+minetest.register_alias("default:junglegrass", "flora:junglegrass_1")
 minetest.register_alias("default:grass_1", "flora:grass_1")
 minetest.register_alias("default:grass_2", "flora:grass_2")
 minetest.register_alias("default:grass_3", "flora:grass_3")
@@ -269,6 +273,7 @@ minetest.register_alias("flowers:viola", "flora:viola")
 minetest.register_alias("flowers:dandelion_white", "flora:dandelion_white")
 minetest.register_alias("flowers:mushroom_brown", "flora:mushroom_brown")
 minetest.register_alias("flowers:mushroom_red", "flora:mushroom_red")
+minetest.register_alias("flowers:tulip", "flora:tulip")
 minetest.register_alias("flowers:waterlily", "flora:waterlily")
 minetest.register_alias("flowers:waterlily_waving", "flora:waterlily_waving")
 

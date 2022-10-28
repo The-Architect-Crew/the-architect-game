@@ -15,7 +15,7 @@ minetest.register_node("blocks:dirt_with_grass", {
 	groups = {crumbly = 3, soil = 1, spreading_dirt_type = 1},
 	drop = "blocks:dirt",
 	sounds = default.node_sound_dirt_defaults({
-		footstep = {name = "blocks_grass_footstep", gain = 0.25},
+		footstep = {name = "default_grass_footstep", gain = 0.25},
 	}),
 })
 
@@ -27,7 +27,7 @@ minetest.register_node("blocks:dirt_with_grass_footsteps", {
 	groups = {crumbly = 3, soil = 1, not_in_creative_inventory = 1},
 	drop = "blocks:dirt",
 	sounds = default.node_sound_dirt_defaults({
-		footstep = {name = "blocks_grass_footstep", gain = 0.25},
+		footstep = {name = "default_grass_footstep", gain = 0.25},
 	}),
 })
 
@@ -40,7 +40,7 @@ minetest.register_node("blocks:dirt_with_dry_grass", {
 	groups = {crumbly = 3, soil = 1, spreading_dirt_type = 1},
 	drop = "blocks:dirt",
 	sounds = default.node_sound_dirt_defaults({
-		footstep = {name = "blocks_grass_footstep", gain = 0.4},
+		footstep = {name = "default_grass_footstep", gain = 0.4},
 	}),
 })
 
@@ -55,7 +55,7 @@ minetest.register_node("blocks:dirt_with_rainforest_litter", {
 	groups = {crumbly = 3, soil = 1, spreading_dirt_type = 1},
 	drop = "blocks:dirt",
 	sounds = default.node_sound_dirt_defaults({
-		footstep = {name = "blocks_grass_footstep", gain = 0.4},
+		footstep = {name = "default_grass_footstep", gain = 0.4},
 	}),
 })
 
@@ -70,25 +70,53 @@ minetest.register_node("blocks:dirt_with_coniferous_litter", {
 	groups = {crumbly = 3, soil = 1, spreading_dirt_type = 1},
 	drop = "blocks:dirt",
 	sounds = default.node_sound_dirt_defaults({
-		footstep = {name = "blocks_grass_footstep", gain = 0.4},
+		footstep = {name = "default_grass_footstep", gain = 0.4},
 	}),
 })
 
 minetest.register_node("blocks:dry_dirt", {
-	description = S("Savanna Dirt"),
+	description = S("Dry Dirt"),
 	tiles = {"blocks_dry_dirt.png"},
 	groups = {crumbly = 3, soil = 1},
 	sounds = default.node_sound_dirt_defaults(),
 })
 
 minetest.register_node("blocks:dry_dirt_with_dry_grass", {
-	description = S("Savanna Dirt with Savanna Grass"),
+	description = S("Dry Dirt with Savanna Grass"),
 	tiles = {"blocks_dry_grass.png", "blocks_dry_dirt.png",
 		{name = "blocks_dry_dirt.png^blocks_dry_grass_side.png",
 			tileable_vertical = false}},
 	groups = {crumbly = 3, soil = 1},
 	drop = "blocks:dry_dirt",
 	sounds = default.node_sound_dirt_defaults({
-		footstep = {name = "blocks_grass_footstep", gain = 0.4},
+		footstep = {name = "default_grass_footstep", gain = 0.4},
 	}),
+})
+
+minetest.register_node("blocks:chalk_with_grass", {
+	description = S("Chalk with Grass"),
+	tiles = {"blocks_grass.png^[colorize:#dfdcd7:40", "blocks_chalk.png",
+		{name = "blocks_chalk.png^blocks_grass_side.png^[colorize:#dfdcd7:40",
+			tileable_vertical = false}},
+	groups = {crumbly = 3, soil = 1, spreading_dirt_type = 1},
+	drop = "blocks:chalk_powder 4",
+	sounds = default.node_sound_dirt_defaults({
+		footstep = {name = "default_grass_footstep", gain = 0.25},
+	}),
+})
+
+minetest.register_node("blocks:dark_dirt", {
+	description = "Dark Dirt",
+	tiles = {"blocks_dark_dirt.png"},
+	groups = {crumbly=2},
+	sounds = default.node_sound_dirt_defaults(),
+})
+
+-- Crafts
+minetest.register_craft({
+	output = "blocks:dark_dirt 2",
+	recipe = {
+		{"blocks:dirt"},
+		{"blocks:fine_gravel"}
+	}
 })

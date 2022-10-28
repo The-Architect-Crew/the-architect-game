@@ -33,7 +33,7 @@ furniture.types = {
         -- name - code name
         -- base - base model, no file extension (leave empty if same as name)
         -- description - description prefix
-        -- active [true/false] - does this node swap with a different version when right clicked
+        -- active [true/false] - does this node swap with a different version when right clicked -- Using crates makes this exclusionary with storage
         -- special_materials - materials other than base, used for crafting (optional, order important)
         -- special_textures - textures other than base (optional, order important)
         -- special_textures_activated - textures other than base for the activated model (optional, order important)
@@ -242,6 +242,7 @@ furniture.types = {
     {
         name = "door_glass",
         description = "Door",
+        generate_locked = true,
         active = true,
         box = {-0.5, -0.5, -0.5, 0.5, 1.5, -6/16},
         box_activated = {-0.5, -0.5, -0.5, -6/16, 1.5, 0.5},
@@ -252,6 +253,7 @@ furniture.types = {
     {
         name = "door_flipped_glass",
         description = "Door (flipped)",
+        generate_locked = true,
         active = true,
         box = {-0.5, -0.5, -0.5, 0.5, 1.5, -6/16},
         box_activated = {0.5, -0.5, -0.5, 6/16, 1.5, 0.5},
@@ -279,6 +281,7 @@ furniture.types = {
     {
         name = "door",
         description = "Door",
+        generate_locked = true,
         active = true,
         box = {-0.5, -0.5, -0.5, 0.5, 1.5, -4/16},
         box_activated = {-0.5, -0.5, -0.5, -4/16, 1.5, 0.5},
@@ -289,6 +292,7 @@ furniture.types = {
     {
         name = "door_flipped",
         description = "Door (flipped)",
+        generate_locked = true,
         active = true,
         box = {-0.5, -0.5, -0.5, 0.5, 1.5, -4/16},
         box_activated = {0.5, -0.5, -0.5, 4/16, 1.5, 0.5},
@@ -299,7 +303,6 @@ furniture.types = {
 }
 
 -- Sets
--- //it is preferable that you register new sets here, for readability//
 furniture.woodlike_set = {
     "chair",
     "table_square",
@@ -376,20 +379,6 @@ furniture.table_append = function(table, input_table)
     for i=1,table_len do
         table[table_len + i] = input_table[i]
     end
-end
-
--- minetest_game's chest formspec, now scalable
-function furniture.get_storage_formspec(pos, storage)
-	local spos = pos.x .. "," .. pos.y .. "," .. pos.z
-	local formspec =
-		"size[8," .. 5 + storage.. "]" ..
-		"list[nodemeta:" .. spos .. ";main;0,0.3;8," .. storage .. ";]" ..
-		"list[current_player;main;0," .. 0.85 + storage .. ";8,1;]" ..
-		"list[current_player;main;0," .. 2.08 + storage .. ";8,3;8]" ..
-		"listring[nodemeta:" .. spos .. ";main]" ..
-		"listring[current_player;main]" ..
-		blocks.get_hotbar_bg(0,0.85 + storage)
-	return formspec
 end
 
 -- Furniture registration
@@ -486,70 +475,37 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
     -- Declare function storage
     local after_place_node
     local on_rightclick
-    local can_dig
-    local on_blast
-    local on_metadata_inventory_put
-    local on_metadata_inventory_move
-    local on_metadata_inventory_take
-
     local on_rightclick_active
 
-    -- Fill functions
-    if (fdef.storage) then
+    local after_place_node_locked
+    local on_rightclick_locked
+    local on_rightclick_active_locked
+    local can_dig_locked
 
-        after_place_node = function(pos, placer)
+    if fdef.generate_locked then
+        after_place_node_locked = function(pos, placer)
             local meta = minetest.get_meta(pos)
-			meta:set_string("infotext", furniture_description)
-			local inv = meta:get_inventory()
-			inv:set_size("main", 8*fdef.storage)
+            local playername = placer:get_player_name()
+            meta:set_string("owner", playername)
+            meta:set_string("infotext", "Locked " .. furniture_description .. "\nOwned by " .. playername .. ".")
         end
-
-        if fdef.active then
-            on_rightclick = function(pos, node)
-                minetest.swap_node(pos, {name = furniture_name .. "_activated", param2 = node.param2})
-                minetest.show_formspec(player:get_player_name(), furniture_name, furniture.get_storage_formspec(pos, fdef.storage))
+        on_rightclick_locked = function(pos, node, player)
+            local meta = minetest.get_meta(pos)
+            local owner = meta:get_string("owner")
+            local playername = player:get_player_name()
+            if playername == owner then
+                minetest.swap_node(pos, {name = furniture_name .. "_activated_locked", param2 = node.param2})
                 minetest.sound_play(activate_sound, {pos = pos, gain = gain, max_hear_distance = 10}, true)
             end
-            on_rightclick_active = function(pos, node)
-                minetest.swap_node(pos, {name = furniture_name, param2 = node.param2})
-                minetest.show_formspec(player:get_player_name(), furniture_name, furniture.get_storage_formspec(pos, fdef.storage))
+        end
+        on_rightclick_active_locked = function(pos, node, player)
+            local meta = minetest.get_meta(pos)
+            local owner = meta:get_string("owner")
+            local playername = player:get_player_name()
+            if playername == owner then
+                minetest.swap_node(pos, {name = furniture_name .. "_locked", param2 = node.param2})
                 minetest.sound_play(deactivate_sound, {pos = pos, gain = gain_active, max_hear_distance = 10}, true)
             end
-        end
-
-        on_rightclick = function(pos, node, player)
-            minetest.show_formspec(player:get_player_name(), furniture_name, furniture.get_storage_formspec(pos, fdef.storage))
-            minetest.sound_play(activate_sound, {pos = pos, gain = gain, max_hear_distance = 10}, true)
-        end
-
-        can_dig = function(pos, player)
-            local meta = minetest.get_meta(pos);
-            local inv = meta:get_inventory()
-            return inv:is_empty("main")
-        end
-
-        on_blast = function(pos)
-			local drops = {}
-			blocks.get_inventory_drops(pos, "main", drops)
-			drops[#drops+1] = furniture_name
-			minetest.remove_node(pos)
-			return drops
-		end
-
-        on_metadata_inventory_move = function(pos, from_list, from_index,
-            to_list, to_index, count, player)
-        minetest.log("action", player:get_player_name() ..
-            " moves stuff into " .. furniture_description .. " at " .. minetest.pos_to_string(pos))
-        end
-        on_metadata_inventory_put = function(pos, listname, index, stack, player)
-            minetest.log("action", player:get_player_name() ..
-                " moves " .. stack:get_name() ..
-                " to " .. furniture_description .. " at " .. minetest.pos_to_string(pos))
-        end
-        on_metadata_inventory_take = function(pos, listname, index, stack, player)
-            minetest.log("action", player:get_player_name() ..
-                " takes " .. stack:get_name() ..
-                " from " .. furniture_description .. " at " .. minetest.pos_to_string(pos))
         end
     end
 
@@ -566,75 +522,163 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
 
     -- Assemble node(s)
 
-    minetest.register_node(furniture_name, {
-        description = furniture_description,
-        tiles = tiles,
-        groups = groups,
-        drawtype = 'mesh',
-        mesh = furniture_mesh,
-        collision_box = collision_box,
-        selection_box = collision_box,
-        use_texture_alpha = alpha,
-        paramtype = "light",
-        paramtype2 = "facedir",
-        sunlight_propagates = true,
-        sounds = sounds,
-        after_place_node = after_place_node,
-        on_rightclick = on_rightclick,
-        can_dig = can_dig,
-        on_blast = on_blast,
-        on_metadata_inventory_put = on_metadata_inventory_put,
-        on_metadata_inventory_move = on_metadata_inventory_move,
-        on_metadata_inventory_take = on_metadata_inventory_take,
-        light_source = fdef.light_source or base_definition.light_source,
-        visual_scale = fdef.visual_scale or base_definition.visual_scale,
-        post_effect_color = fdef.post_effect_color or base_definition.post_effect_color,
-        walkable = fdef.walkable or base_definition.walkable,
-        pointable = fdef.pointable or base_definition.pointable,
-        diggable = fdef.diggable or base_definition.diggable,
-        climbable = fdef.climbable or base_definition.climbable,
-        move_resistance = fdef.move_resistance or base_definition.move_resistance,
-        buildable_to = fdef.buildable_to or base_definition.buildable_to,
-        floodable = fdef.floodable or base_definition.floodable,
-        drowning = fdef.drowning or base_definition.drowning,
-        damage_per_second = fdef.damage_per_second or base_definition.damage_per_second
-    })
-
-    if fdef.active then
-        minetest.register_node(furniture_name .. "_activated", {
+    if (fdef.storage) then
+       crates:register_storage(furniture_name, {
             description = furniture_description,
-            tiles = tiles_active,
-            groups = groups_active,
+            columns = fdef.storage,
+            tiles = tiles,
+            sorting = true,
+            portable = fdef.portable,
+            --dyeable = fdef.dyeable, -- Don't think it'll work cause of the texturing approach
+            --dyemod = dfef.dyemod, -- Don't think it'll work cause of the texturing approach
+            colorlabel = fdef.colorlabel,
+            lock_order = {"lock", "protect", "public", "mail"},
+            groups = groups,
             drawtype = 'mesh',
-            mesh = furniture_mesh_active,
-            collision_box = collision_box_active,
-            selection_box = collision_box_active,
+            mesh = furniture_mesh,
+            collision_box = collision_box,
+            selection_box = collision_box,
             use_texture_alpha = alpha,
             paramtype = "light",
             paramtype2 = "facedir",
             sunlight_propagates = true,
             sounds = sounds,
-            drops = furniture_name,
-            after_place_node = after_place_node,
-            on_rightclick = on_rightclick_active,
-            can_dig = can_dig,
-            on_blast = on_blast,
-            on_metadata_inventory_put = on_metadata_inventory_put,
-            on_metadata_inventory_move = on_metadata_inventory_move,
-            on_metadata_inventory_take = on_metadata_inventory_take,
-            light_source = fdef.light_source_active or base_definition.light_source,
-            visual_scale = fdef.visual_scale_active or base_definition.visual_scale,
-            post_effect_color = fdef.post_effect_color_active or base_definition.post_effect_color,
-            walkable = fdef.walkable_active or base_definition.walkable,
-            pointable = fdef.pointable_active or base_definition.pointable,
-            diggable = fdef.diggable_active or base_definition.diggable,
-            climbable = fdef.climbable_active or base_definition.climbable,
-            move_resistance = fdef.move_resistance_active or base_definition.move_resistance,
-            buildable_to = fdef.buildable_to_active or base_definition.buildable_to,
-            floodable = fdef.floodable_active or base_definition.floodable,
-            drowning = fdef.drowning_active or base_definition.drowning,
-            damage_per_second = fdef.damage_per_second_active or base_definition.damage_per_second
+            light_source = fdef.light_source or base_definition.light_source,
+            visual_scale = fdef.visual_scale or base_definition.visual_scale,
+            post_effect_color = fdef.post_effect_color or base_definition.post_effect_color,
+            walkable = fdef.walkable or base_definition.walkable,
+            pointable = fdef.pointable or base_definition.pointable,
+            diggable = fdef.diggable or base_definition.diggable,
+            climbable = fdef.climbable or base_definition.climbable,
+            move_resistance = fdef.move_resistance or base_definition.move_resistance,
+            buildable_to = fdef.buildable_to or base_definition.buildable_to,
+            floodable = fdef.floodable or base_definition.floodable,
+            drowning = fdef.drowning or base_definition.drowning,
+            damage_per_second = fdef.damage_per_second or base_definition.damage_per_second,
         })
+    else
+        minetest.register_node(furniture_name, {
+            description = furniture_description,
+            tiles = tiles,
+            groups = groups,
+            drawtype = 'mesh',
+            mesh = furniture_mesh,
+            collision_box = collision_box,
+            selection_box = collision_box,
+            use_texture_alpha = alpha,
+            paramtype = "light",
+            paramtype2 = "facedir",
+            sunlight_propagates = true,
+            sounds = sounds,
+            after_place_node = after_place_node,
+            on_rightclick = on_rightclick,
+            can_dig = can_dig,
+            light_source = fdef.light_source or base_definition.light_source,
+            visual_scale = fdef.visual_scale or base_definition.visual_scale,
+            post_effect_color = fdef.post_effect_color or base_definition.post_effect_color,
+            walkable = fdef.walkable or base_definition.walkable,
+            pointable = fdef.pointable or base_definition.pointable,
+            diggable = fdef.diggable or base_definition.diggable,
+            climbable = fdef.climbable or base_definition.climbable,
+            move_resistance = fdef.move_resistance or base_definition.move_resistance,
+            buildable_to = fdef.buildable_to or base_definition.buildable_to,
+            floodable = fdef.floodable or base_definition.floodable,
+            drowning = fdef.drowning or base_definition.drowning,
+            damage_per_second = fdef.damage_per_second or base_definition.damage_per_second
+        })
+        if fdef.active then
+            minetest.register_node(furniture_name .. "_activated", {
+                description = furniture_description,
+                tiles = tiles_active,
+                groups = groups_active,
+                drawtype = 'mesh',
+                mesh = furniture_mesh_active,
+                collision_box = collision_box_active,
+                selection_box = collision_box_active,
+                use_texture_alpha = alpha,
+                paramtype = "light",
+                paramtype2 = "facedir",
+                sunlight_propagates = true,
+                sounds = sounds,
+                drops = furniture_name,
+                after_place_node = after_place_node,
+                on_rightclick = on_rightclick_active,
+                can_dig = can_dig,
+                light_source = fdef.light_source_active or base_definition.light_source,
+                visual_scale = fdef.visual_scale_active or base_definition.visual_scale,
+                post_effect_color = fdef.post_effect_color_active or base_definition.post_effect_color,
+                walkable = fdef.walkable_active or base_definition.walkable,
+                pointable = fdef.pointable_active or base_definition.pointable,
+                diggable = fdef.diggable_active or base_definition.diggable,
+                climbable = fdef.climbable_active or base_definition.climbable,
+                move_resistance = fdef.move_resistance_active or base_definition.move_resistance,
+                buildable_to = fdef.buildable_to_active or base_definition.buildable_to,
+                floodable = fdef.floodable_active or base_definition.floodable,
+                drowning = fdef.drowning_active or base_definition.drowning,
+                damage_per_second = fdef.damage_per_second_active or base_definition.damage_per_second
+            })
+        end
+        if fdef.generate_locked then
+            minetest.register_node(furniture_name .. "_locked", {
+                description = "Locked " .. furniture_description,
+                tiles = tiles,
+                groups = groups,
+                drawtype = 'mesh',
+                mesh = furniture_mesh,
+                collision_box = collision_box,
+                selection_box = collision_box,
+                use_texture_alpha = alpha,
+                paramtype = "light",
+                paramtype2 = "facedir",
+                sunlight_propagates = true,
+                sounds = sounds,
+                after_place_node = after_place_node_locked,
+                on_rightclick = on_rightclick_locked,
+                can_dig = can_dig,
+                light_source = fdef.light_source or base_definition.light_source,
+                visual_scale = fdef.visual_scale or base_definition.visual_scale,
+                post_effect_color = fdef.post_effect_color or base_definition.post_effect_color,
+                walkable = fdef.walkable or base_definition.walkable,
+                pointable = fdef.pointable or base_definition.pointable,
+                diggable = fdef.diggable or base_definition.diggable,
+                climbable = fdef.climbable or base_definition.climbable,
+                move_resistance = fdef.move_resistance or base_definition.move_resistance,
+                buildable_to = fdef.buildable_to or base_definition.buildable_to,
+                floodable = fdef.floodable or base_definition.floodable,
+                drowning = fdef.drowning or base_definition.drowning,
+                damage_per_second = fdef.damage_per_second or base_definition.damage_per_second
+            })
+            minetest.register_node(furniture_name .. "_activated_locked", {
+                description = "Locked " .. furniture_description,
+                tiles = tiles_active,
+                groups = groups_active,
+                drawtype = 'mesh',
+                mesh = furniture_mesh_active,
+                collision_box = collision_box_active,
+                selection_box = collision_box_active,
+                use_texture_alpha = alpha,
+                paramtype = "light",
+                paramtype2 = "facedir",
+                sunlight_propagates = true,
+                sounds = sounds,
+                drops = furniture_name,
+                after_place_node = after_place_node_locked,
+                on_rightclick = on_rightclick_active_locked,
+                can_dig = can_dig_locked,
+                light_source = fdef.light_source_active or base_definition.light_source,
+                visual_scale = fdef.visual_scale_active or base_definition.visual_scale,
+                post_effect_color = fdef.post_effect_color_active or base_definition.post_effect_color,
+                walkable = fdef.walkable_active or base_definition.walkable,
+                pointable = fdef.pointable_active or base_definition.pointable,
+                diggable = fdef.diggable_active or base_definition.diggable,
+                climbable = fdef.climbable_active or base_definition.climbable,
+                move_resistance = fdef.move_resistance_active or base_definition.move_resistance,
+                buildable_to = fdef.buildable_to_active or base_definition.buildable_to,
+                floodable = fdef.floodable_active or base_definition.floodable,
+                drowning = fdef.drowning_active or base_definition.drowning,
+                damage_per_second = fdef.damage_per_second_active or base_definition.damage_per_second
+            })
+        end
     end
 end
 
@@ -649,36 +693,61 @@ function furniture.register_crafting(base_node, i, materials_in, locked)
     if modname == "blocks" then
         furniture_name = "furniture:" .. fdef.name .. "_" .. sname
     end
-    if (type(fdef.special_materials) == "table") then -- Append special material(s) to the end
-        for j=1,#fdef.special_materials do
-            materials[#materials+j] = fdef.special_materials[j]
-        end
-    elseif (type(fdef.special_materials) == "string") then
-        materials[#materials+1] = fdef.special_materials
-    end
-    -- Array to recipe translator -- Needs 5x5 conversion
-    materials[0] = ""
-    if fdef.crafting then
-        local recipe = {{}, {}, {}}
-        for rw=1,3 do
-            for cl=1,3 do
-                recipe[rw][cl] = materials[fdef.crafting[((rw)*3+cl)-3]]
-            end
-        end
+    if locked then
         minetest.register_craft({
-            output = furniture_name,
-            recipe = recipe,
+            type = "shapeless",
+            output = furniture_name .. "_locked",
+            recipe = {"furniture:lock", furniture_name},
         })
+    else
+        if (type(fdef.special_materials) == "table") then -- Append special material(s) to the end
+            for j=1,#fdef.special_materials do
+                materials[#materials+j] = fdef.special_materials[j]
+            end
+        elseif (type(fdef.special_materials) == "string") then
+            materials[#materials+1] = fdef.special_materials
+        end
+        -- Array to recipe translator
+        materials[0] = ""
+        if fdef.crafting then
+            local recipe = {{}, {}, {}}
+            for rw=1,3 do
+                for cl=1,3 do
+                    recipe[rw][cl] = materials[fdef.crafting[((rw)*3+cl)-3]]
+                end
+            end
+            minetest.register_craft({
+                output = furniture_name,
+                recipe = recipe,
+            })
+        end
     end
 end
+
+-- Locking
+
+-- Craftitems
+minetest.register_craftitem("furniture:lock", {
+	description = "Locking Mechanism",
+	inventory_image = "furniture_lock.png",
+})
+-- Crafting
+minetest.register_craft({
+	output = "furniture:lock",
+	recipe = {
+        {"", "default:steel_ingot", ""},
+		{"default:steel_ingot", "", "default:steel_ingot"},
+		{"default:steel_ingot", "default:steel_ingot", "default:steel_ingot"},
+	}
+})
 
 furniture.register("blocks:wood", furniture.woodlike_set, {"blocks:wood", "blocks:stick"}, "variations_wood.png^[sheet:3x3:1,0")
 furniture.register("blocks:steelblock", furniture.woodlike_set, {"blocks:steelblock", "blocks:steel_ingot"}, "variations_steelblock.png^[sheet:3x3:1,0")
 furniture.register("blocks:rustblock", furniture.woodlike_set, {"blocks:rustblock", "blocks:steel_ingot"}, "variations_rustblock.png^[sheet:3x3:1,0") -- Fix crafting later
 
-furniture.register("blocks:basalt", furniture.stonelike_set, {"blocks:basalt", "shapes:basalt_slab"}, "variations_basalt.png^[sheet:3x3:1,0")
-furniture.register("blocks:sandstone", furniture.stonelike_set, {"blocks:sandstone", "shapes:sandstone_slab"}, "variations_sandstone.png^[sheet:3x3:1,0")
-furniture.register("blocks:marble", furniture.stonelike_set, {"blocks:marble", "shapes:marble_slab"}, "variations_marble.png^[sheet:3x3:1,0")
+furniture.register("blocks:basalt", furniture.stonelike_set, {"blocks:basalt", "blocks:shapes_basalt_slab"}, "variations_basalt.png^[sheet:3x3:1,0")
+furniture.register("blocks:sandstone", furniture.stonelike_set, {"blocks:sandstone", "blocks:shapes_sandstone_slab"}, "variations_sandstone.png^[sheet:3x3:1,0")
+furniture.register("blocks:marble", furniture.stonelike_set, {"blocks:marble", "blocks:shapes_marble_slab"}, "variations_marble.png^[sheet:3x3:1,0")
 
 furniture.register("blocks:glass", furniture.glasslike_set, {"blocks:glass", "blocks:sand"}, "blocks_glass.png")
 furniture.register("blocks:obsidian_glass", furniture.glasslike_set, {"blocks:obsidian_glass", "blocks:obsidian_shard"}, "blocks_obsidian_glass.png")

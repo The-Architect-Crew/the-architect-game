@@ -110,6 +110,51 @@ furniture.types = {
         crafting = {0, 1, 0, 2, 3, 2, 0, 1, 0}
     },
     {
+        name = "window_amethyst",
+        base = "window",
+        description = "Amethyst Window",
+        special_materials = "blocks:amethyst",
+        special_textures = "variations_amethyst.png^[sheet:3x3:1,0",
+        box = {-0.5, -0.5, -0.125, 0.5, 0.5, 0.125},
+        crafting = {0, 1, 0, 2, 3, 2, 0, 1, 0}
+    },
+    {
+        name = "window_garnet",
+        base = "window",
+        description = "Garnet Window",
+        special_materials = "blocks:garnet",
+        special_textures = "variations_garnet.png^[sheet:3x3:1,0",
+        box = {-0.5, -0.5, -0.125, 0.5, 0.5, 0.125},
+        crafting = {0, 1, 0, 2, 3, 2, 0, 1, 0}
+    },
+    {
+        name = "window_amber_glass",
+        base = "window",
+        description = "Amber Glass Window",
+        special_materials = "blocks:amber_glass",
+        special_textures = "blocks_amber_glass.png",
+        box = {-0.5, -0.5, -0.125, 0.5, 0.5, 0.125},
+        crafting = {0, 1, 0, 2, 3, 2, 0, 1, 0}
+    },
+    {
+        name = "window_amber_medieval_glass",
+        base = "window",
+        description = "Medieval Amber Glass Window",
+        special_materials = "blocks:amber_medieval_glass",
+        special_textures = "blocks_amber_glass_medieval.png",
+        box = {-0.5, -0.5, -0.125, 0.5, 0.5, 0.125},
+        crafting = {0, 1, 0, 2, 3, 2, 0, 1, 0}
+    },
+    {
+        name = "window_medieval_glass",
+        base = "window",
+        description = "Medieval Glass Window",
+        special_materials = "blocks:medieval_glass",
+        special_textures = "blocks_medieval_glass.png",
+        box = {-0.5, -0.5, -0.125, 0.5, 0.5, 0.125},
+        crafting = {0, 1, 0, 2, 3, 2, 0, 1, 0}
+    },
+    {
         name = "shelf_small",
         description = "Small Empty Shelf",
         storage = 2,
@@ -159,6 +204,51 @@ furniture.types = {
         description = "Obisidan Glass Window",
         special_materials = "blocks:obsidian_glass",
         special_textures = "blocks_obsidian_glass.png",
+        box = {-0.5, -0.5, -0.1875, 0.5, 0.5, 0.1875},
+        crafting = {1, 1, 1, 1, 3, 1, 1, 1, 1}
+    },
+    {
+        name = "window_amethyst_thick",
+        base = "window_thick",
+        description = "Amethyst Window",
+        special_materials = "blocks:amethyst",
+        special_textures = "variations_amethyst.png^[sheet:3x3:1,0",
+        box = {-0.5, -0.5, -0.1875, 0.5, 0.5, 0.1875},
+        crafting = {1, 1, 1, 1, 3, 1, 1, 1, 1}
+    },
+    {
+        name = "window_garnet_thick",
+        base = "window_thick",
+        description = "Garnet Window",
+        special_materials = "blocks:garnet",
+        special_textures = "variations_garnet.png^[sheet:3x3:1,0",
+        box = {-0.5, -0.5, -0.1875, 0.5, 0.5, 0.1875},
+        crafting = {1, 1, 1, 1, 3, 1, 1, 1, 1}
+    },
+    {
+        name = "window_amber_glass_thick",
+        base = "window_thick",
+        description = "Amber Glass Window",
+        special_materials = "blocks:amber_glass",
+        special_textures = "blocks_amber_glass.png",
+        box = {-0.5, -0.5, -0.1875, 0.5, 0.5, 0.1875},
+        crafting = {1, 1, 1, 1, 3, 1, 1, 1, 1}
+    },
+    {
+        name = "window_amber_medieval_glass_thick",
+        base = "window_thick",
+        description = "Medieval Amber Glass Window",
+        special_materials = "blocks:amber_medieval_glass",
+        special_textures = "blocks_amber_glass_medieval.png",
+        box = {-0.5, -0.5, -0.1875, 0.5, 0.5, 0.1875},
+        crafting = {1, 1, 1, 1, 3, 1, 1, 1, 1}
+    },
+    {
+        name = "window_medieval_glass_thick",
+        base = "window_thick",
+        description = "Medieval Glass Window",
+        special_materials = "blocks:medieval_glass",
+        special_textures = "blocks_medieval_glass.png",
         box = {-0.5, -0.5, -0.1875, 0.5, 0.5, 0.1875},
         crafting = {1, 1, 1, 1, 3, 1, 1, 1, 1}
     },
@@ -311,6 +401,11 @@ furniture.woodlike_set = {
     "shelf_wide",
     "window_glass",
     "window_obsidian_glass",
+    "window_amethyst",
+    "window_garnet",
+    "window_amber_glass",
+    "window_amber_medieval_glass",
+    "window_medieval_glass",
     "cabinet",
     "half_cabinet",
     "wardrobe",
@@ -333,6 +428,11 @@ furniture.stonelike_set = {
     "wardrobe_thick",
     "window_glass_thick",
     "window_obsidian_glass_thick",
+    "window_amethyst_thick",
+    "window_garnet_thick",
+    "window_amber_glass_thick",
+    "window_amber_medieval_glass_thick",
+    "window_medieval_glass_thick",
     "mirror",
     "flowerpot",
     "door",
@@ -745,9 +845,15 @@ furniture.register("blocks:wood", furniture.woodlike_set, {"blocks:wood", "block
 furniture.register("blocks:steelblock", furniture.woodlike_set, {"blocks:steelblock", "blocks:steel_ingot"}, "variations_steelblock.png^[sheet:3x3:1,0")
 furniture.register("blocks:rustblock", furniture.woodlike_set, {"blocks:rustblock", "blocks:steel_ingot"}, "variations_rustblock.png^[sheet:3x3:1,0") -- Fix crafting later
 
+furniture.register("blocks:stone", furniture.stonelike_set, {"blocks:stone", "blocks:shapes_stone_slab"}, "variations_stone.png^[sheet:3x3:1,0")
+furniture.register("blocks:desert_stone", furniture.stonelike_set, {"blocks:desert_stone", "blocks:shapes_desert_stone_slab"}, "variations_desert_stone.png^[sheet:3x3:1,0")
 furniture.register("blocks:basalt", furniture.stonelike_set, {"blocks:basalt", "blocks:shapes_basalt_slab"}, "variations_basalt.png^[sheet:3x3:1,0")
 furniture.register("blocks:sandstone", furniture.stonelike_set, {"blocks:sandstone", "blocks:shapes_sandstone_slab"}, "variations_sandstone.png^[sheet:3x3:1,0")
 furniture.register("blocks:marble", furniture.stonelike_set, {"blocks:marble", "blocks:shapes_marble_slab"}, "variations_marble.png^[sheet:3x3:1,0")
 
+furniture.register("blocks:amber", furniture.stonelike_set, {"blocks:amber", "blocks:shapes_amber_slab"}, "variations_amber.png^[sheet:3x3:1,0")
+
 furniture.register("blocks:glass", furniture.glasslike_set, {"blocks:glass", "blocks:sand"}, "blocks_glass.png")
 furniture.register("blocks:obsidian_glass", furniture.glasslike_set, {"blocks:obsidian_glass", "blocks:obsidian_shard"}, "blocks_obsidian_glass.png")
+furniture.register("blocks:amethyst", furniture.glasslike_set, {"blocks:amethyst", "blocks:amethyst_crystal"}, "variations_amethyst.png^[sheet:3x3:1,0")
+furniture.register("blocks:garnet", furniture.glasslike_set, {"blocks:garnet", "blocks:garnet_crystal"}, "variations_garnet.png^[sheet:3x3:1,0")

@@ -13,15 +13,6 @@ minetest.register_node("blocks:glass", {
 	sounds = default.node_sound_glass_defaults(),
 })
 
--- This one is for furniture mirror model
-minetest.register_node("blocks:glass_full", {
-	description = S("Blurred Glass"),
-	tiles = {"variations_glass.png"},
-	sunlight_propagates = true,
-	groups = {cracky = 3, oddly_breakable_by_hand = 3, not_in_creative_inventory = 1},
-	sounds = default.node_sound_glass_defaults(),
-})
-
 minetest.register_node("blocks:obsidian_glass", {
 	description = S("Obsidian Glass"),
 	drawtype = "glasslike_framed_optional",

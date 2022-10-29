@@ -5,6 +5,7 @@ local path = minetest.get_modpath("furniture")
 -- These are furniture in the sense that they're models
 dofile(path.."/pipes.lua")
 dofile(path.."/steampunk.lua")
+dofile(path.."/assembler.lua")
 
 -- Sound tables
 furniture.storage_sounds = {
@@ -53,19 +54,37 @@ furniture.types = {
         name = "chair",
         description = "Chair",
         box = {-0.3125, -0.5, -0.375, 0.3125, 0.6875, 0.3125},
-        crafting = {0, 0, 1, 0, 1, 1, 0, 2, 2}
+        crafting = {
+            {0, 0, 0, 1, 0},
+            {0, 0, 0, 2, 0},
+            {0, 1, 1, 1, 0},
+            {0, 2, 0, 2, 0},
+            {0, 2, 0, 2, 0},
+        }
     },
     {
         name = "table_square",
         description = "Square Table",
         box = {-0.5, -0.5, -0.5, 0.5, 0.125, 0.5},
-        crafting = {0, 0, 0, 1, 1, 1, 2, 0, 2}
+        crafting = {
+            {0, 0, 0, 0, 0},
+            {2, 1, 1, 1, 2},
+            {0, 1, 1, 1, 0},
+            {0, 2, 0, 2, 0},
+            {0, 2, 0, 2, 0},
+        }
     },
     {
         name = "table_round",
         description = "Round Table",
         box = {-0.5, -0.5, -0.5, 0.5, 0.125, 0.5},
-        crafting = {0, 1, 0, 1, 1, 1, 2, 1, 2}
+        crafting = {
+            {0, 0, 2, 0, 0},
+            {0, 2, 1, 2, 0},
+            {2, 1, 1, 1, 2},
+            {0, 2, 2, 2, 0},
+            {0, 2, 0, 2, 0},
+        }
     },
     {
         name = "cabinet",
@@ -73,7 +92,13 @@ furniture.types = {
         storage = 4,
         box = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
         activate_sound = furniture.storage_sounds,
-        crafting = {2, 1, 1, 2, 1, 1, 0, 2, 2}
+        crafting = {
+            {0, 0, 0, 0, 0},
+            {2, 1, 1, 1, 0},
+            {0, 1, 1, 1, 0},
+            {2, 1, 1, 1, 0},
+            {0, 2, 0, 2, 0},
+        }
     },
     {
         name = "half_cabinet",
@@ -81,7 +106,13 @@ furniture.types = {
         storage = 2,
         box = {-0.5, -2/16, -0.5, 0.5, 0.5, 0.5},
         activate_sound = furniture.storage_sounds,
-        crafting = {2, 1, 1, 0, 0, 0, 0, 0, 0}
+        crafting = {
+            {0, 0, 0, 0, 0},
+            {2, 1, 1, 1, 0},
+            {0, 1, 1, 1, 0},
+            {0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0},
+        }
     },
     {
         name = "wardrobe",
@@ -89,7 +120,13 @@ furniture.types = {
         storage = 8,
         box = {-0.5, -0.5, -0.5, 0.5, 1.5, 0.5},
         activate_sound = furniture.storage_sounds,
-        crafting = {0, 2, 1, 0, 2, 1, 0, 2, 2}
+        crafting = {
+            {2, 1, 1, 1, 2},
+            {2, 1, 1, 1, 2},
+            {2, 1, 1, 1, 2},
+            {0, 1, 1, 1, 0},
+            {2, 1, 1, 1, 2},
+        }
     },
     {
         name = "window_glass",
@@ -98,7 +135,13 @@ furniture.types = {
         special_materials = "blocks:glass",
         special_textures = "blocks_glass.png",
         box = {-0.5, -0.5, -0.125, 0.5, 0.5, 0.125},
-        crafting = {0, 1, 0, 2, 3, 2, 0, 1, 0}
+        crafting = {
+            {1, 0, 2, 0, 1},
+            {0, 3, 2, 3, 0},
+            {2, 2, 2, 2, 2},
+            {0, 3, 2, 3, 0},
+            {1, 0, 2, 0, 1},
+        }
     },
     {
         name = "window_obsidian_glass",
@@ -107,7 +150,13 @@ furniture.types = {
         special_materials = "blocks:obsidian_glass",
         special_textures = "blocks_obsidian_glass.png",
         box = {-0.5, -0.5, -0.125, 0.5, 0.5, 0.125},
-        crafting = {0, 1, 0, 2, 3, 2, 0, 1, 0}
+        crafting = {
+            {1, 0, 2, 0, 1},
+            {0, 3, 2, 3, 0},
+            {2, 2, 2, 2, 2},
+            {0, 3, 2, 3, 0},
+            {1, 0, 2, 0, 1},
+        }
     },
     {
         name = "window_amethyst",
@@ -116,7 +165,13 @@ furniture.types = {
         special_materials = "blocks:amethyst",
         special_textures = "variations_amethyst.png^[sheet:3x3:1,0",
         box = {-0.5, -0.5, -0.125, 0.5, 0.5, 0.125},
-        crafting = {0, 1, 0, 2, 3, 2, 0, 1, 0}
+        crafting = {
+            {1, 0, 2, 0, 1},
+            {0, 3, 2, 3, 0},
+            {2, 2, 2, 2, 2},
+            {0, 3, 2, 3, 0},
+            {1, 0, 2, 0, 1},
+        }
     },
     {
         name = "window_garnet",
@@ -125,7 +180,13 @@ furniture.types = {
         special_materials = "blocks:garnet",
         special_textures = "variations_garnet.png^[sheet:3x3:1,0",
         box = {-0.5, -0.5, -0.125, 0.5, 0.5, 0.125},
-        crafting = {0, 1, 0, 2, 3, 2, 0, 1, 0}
+        crafting = {
+            {1, 0, 2, 0, 1},
+            {0, 3, 2, 3, 0},
+            {2, 2, 2, 2, 2},
+            {0, 3, 2, 3, 0},
+            {1, 0, 2, 0, 1},
+        }
     },
     {
         name = "window_amber_glass",
@@ -134,7 +195,13 @@ furniture.types = {
         special_materials = "blocks:amber_glass",
         special_textures = "blocks_amber_glass.png",
         box = {-0.5, -0.5, -0.125, 0.5, 0.5, 0.125},
-        crafting = {0, 1, 0, 2, 3, 2, 0, 1, 0}
+        crafting = {
+            {1, 0, 2, 0, 1},
+            {0, 3, 2, 3, 0},
+            {2, 2, 2, 2, 2},
+            {0, 3, 2, 3, 0},
+            {1, 0, 2, 0, 1},
+        }
     },
     {
         name = "window_amber_medieval_glass",
@@ -143,7 +210,13 @@ furniture.types = {
         special_materials = "blocks:amber_medieval_glass",
         special_textures = "blocks_amber_glass_medieval.png",
         box = {-0.5, -0.5, -0.125, 0.5, 0.5, 0.125},
-        crafting = {0, 1, 0, 2, 3, 2, 0, 1, 0}
+        crafting = {
+            {1, 0, 2, 0, 1},
+            {0, 3, 2, 3, 0},
+            {2, 2, 2, 2, 2},
+            {0, 3, 2, 3, 0},
+            {1, 0, 2, 0, 1},
+        }
     },
     {
         name = "window_medieval_glass",
@@ -152,7 +225,13 @@ furniture.types = {
         special_materials = "blocks:medieval_glass",
         special_textures = "blocks_medieval_glass.png",
         box = {-0.5, -0.5, -0.125, 0.5, 0.5, 0.125},
-        crafting = {0, 1, 0, 2, 3, 2, 0, 1, 0}
+        crafting = {
+            {1, 0, 2, 0, 1},
+            {0, 3, 2, 3, 0},
+            {2, 2, 2, 2, 2},
+            {0, 3, 2, 3, 0},
+            {1, 0, 2, 0, 1},
+        }
     },
     {
         name = "shelf_small",
@@ -160,7 +239,13 @@ furniture.types = {
         storage = 2,
         box = {-0.5, -0.5, -0.0625, 0.5, 0.5, 0.5},
         activate_sound = furniture.storage_sounds,
-        crafting = {0, 2, 2, 0, 1, 1, 0, 2, 2}
+        crafting = {
+            {0, 1, 1, 1, 0},
+            {2, 0, 0, 0, 2},
+            {2, 2, 2, 2, 2},
+            {2, 0, 0, 0, 2},
+            {0, 1, 1, 1, 0},
+        }
     },
     {
         name = "shelf_small_book",
@@ -169,7 +254,13 @@ furniture.types = {
         special_materials = "blocks:book",
         special_textures = "furniture_bookshelf1.png",
         box = {-0.5, -0.5, -0.0625, 0.5, 0.5, 0.5},
-        crafting = {3, 2, 2, 0, 1, 1, 3, 2, 2}
+        crafting = {
+            {0, 1, 1, 1, 0},
+            {2, 0, 3, 0, 2},
+            {2, 2, 2, 2, 2},
+            {2, 0, 3, 0, 2},
+            {0, 1, 1, 1, 0},
+        }
     },
     {
         name = "shelf_wide",
@@ -177,7 +268,13 @@ furniture.types = {
         storage = 4,
         box = {-1.0, -0.5, -0.0625, 1.0, 0.5, 0.5},
         activate_sound = furniture.storage_sounds,
-        crafting = {2, 2, 2, 1, 1, 1, 2, 2, 2}
+        crafting = {
+            {1, 1, 1, 1, 1},
+            {2, 2, 0, 0, 2},
+            {2, 2, 2, 2, 2},
+            {2, 0, 0, 2, 2},
+            {1, 1, 1, 1, 1},
+        }
     },
     {
         name = "shelf_wide_book",
@@ -186,7 +283,13 @@ furniture.types = {
         special_materials = "blocks:book",
         special_textures = "furniture_bookshelf_wide1.png",
         box = {-1.0, -0.5, -0.0625, 1.0, 0.5, 0.5},
-        crafting = {2, 3, 2, 1, 1, 1, 2, 3, 2}
+        crafting = {
+            {1, 1, 1, 1, 1},
+            {2, 2, 3, 3, 2},
+            {2, 2, 2, 2, 2},
+            {2, 3, 3, 2, 2},
+            {1, 1, 1, 1, 1},
+        }
     },
     -- Stonelike
     {
@@ -196,7 +299,13 @@ furniture.types = {
         special_materials = "blocks:glass",
         special_textures = "blocks_glass.png",
         box = {-0.5, -0.5, -0.1875, 0.5, 0.5, 0.1875},
-        crafting = {1, 1, 1, 1, 3, 1, 1, 1, 1}
+        crafting = {
+            {0, 1, 1, 1, 0},
+            {1, 2, 2, 2, 1},
+            {1, 2, 3, 2, 1},
+            {1, 2, 2, 2, 1},
+            {0, 1, 1, 1, 0},
+        }
     },
     {
         name = "window_obsidian_glass_thick",
@@ -205,7 +314,13 @@ furniture.types = {
         special_materials = "blocks:obsidian_glass",
         special_textures = "blocks_obsidian_glass.png",
         box = {-0.5, -0.5, -0.1875, 0.5, 0.5, 0.1875},
-        crafting = {1, 1, 1, 1, 3, 1, 1, 1, 1}
+        crafting = {
+            {0, 1, 1, 1, 0},
+            {1, 2, 2, 2, 1},
+            {1, 2, 3, 2, 1},
+            {1, 2, 2, 2, 1},
+            {0, 1, 1, 1, 0},
+        }
     },
     {
         name = "window_amethyst_thick",
@@ -214,7 +329,13 @@ furniture.types = {
         special_materials = "blocks:amethyst",
         special_textures = "variations_amethyst.png^[sheet:3x3:1,0",
         box = {-0.5, -0.5, -0.1875, 0.5, 0.5, 0.1875},
-        crafting = {1, 1, 1, 1, 3, 1, 1, 1, 1}
+        crafting = {
+            {0, 1, 1, 1, 0},
+            {1, 2, 2, 2, 1},
+            {1, 2, 3, 2, 1},
+            {1, 2, 2, 2, 1},
+            {0, 1, 1, 1, 0},
+        }
     },
     {
         name = "window_garnet_thick",
@@ -223,7 +344,13 @@ furniture.types = {
         special_materials = "blocks:garnet",
         special_textures = "variations_garnet.png^[sheet:3x3:1,0",
         box = {-0.5, -0.5, -0.1875, 0.5, 0.5, 0.1875},
-        crafting = {1, 1, 1, 1, 3, 1, 1, 1, 1}
+        crafting = {
+            {0, 1, 1, 1, 0},
+            {1, 2, 2, 2, 1},
+            {1, 2, 3, 2, 1},
+            {1, 2, 2, 2, 1},
+            {0, 1, 1, 1, 0},
+        }
     },
     {
         name = "window_amber_glass_thick",
@@ -232,7 +359,13 @@ furniture.types = {
         special_materials = "blocks:amber_glass",
         special_textures = "blocks_amber_glass.png",
         box = {-0.5, -0.5, -0.1875, 0.5, 0.5, 0.1875},
-        crafting = {1, 1, 1, 1, 3, 1, 1, 1, 1}
+        crafting = {
+            {0, 1, 1, 1, 0},
+            {1, 2, 2, 2, 1},
+            {1, 2, 3, 2, 1},
+            {1, 2, 2, 2, 1},
+            {0, 1, 1, 1, 0},
+        }
     },
     {
         name = "window_amber_medieval_glass_thick",
@@ -241,7 +374,13 @@ furniture.types = {
         special_materials = "blocks:amber_medieval_glass",
         special_textures = "blocks_amber_glass_medieval.png",
         box = {-0.5, -0.5, -0.1875, 0.5, 0.5, 0.1875},
-        crafting = {1, 1, 1, 1, 3, 1, 1, 1, 1}
+        crafting = {
+            {0, 1, 1, 1, 0},
+            {1, 2, 2, 2, 1},
+            {1, 2, 3, 2, 1},
+            {1, 2, 2, 2, 1},
+            {0, 1, 1, 1, 0},
+        }
     },
     {
         name = "window_medieval_glass_thick",
@@ -250,25 +389,49 @@ furniture.types = {
         special_materials = "blocks:medieval_glass",
         special_textures = "blocks_medieval_glass.png",
         box = {-0.5, -0.5, -0.1875, 0.5, 0.5, 0.1875},
-        crafting = {1, 1, 1, 1, 3, 1, 1, 1, 1}
+        crafting = {
+            {0, 1, 1, 1, 0},
+            {1, 2, 2, 2, 1},
+            {1, 2, 3, 2, 1},
+            {1, 2, 2, 2, 1},
+            {0, 1, 1, 1, 0},
+        }
     },
     {
         name = "chair_thick",
         description = "Chair",
         box = {-6/16, -0.5, -5/16, 6/16, 0.5, 7/16},
-        crafting = {0, 0, 2, 0, 1, 1, 2, 2, 2}
+        crafting = {
+            {0, 0, 0, 1, 0},
+            {0, 0, 0, 2, 0},
+            {0, 1, 1, 1, 0},
+            {0, 2, 1, 2, 0},
+            {2, 2, 2, 2, 2},
+        }
     },
     {
         name = "table_square_thick",
         description = "Square Table",
         box = {-0.5, -0.5, -0.5, 0.5, 0.125, 0.5},
-        crafting = {0, 0, 0, 2, 2, 2, 2, 1, 2}
+        crafting = {
+            {0, 0, 0, 0, 0},
+            {2, 1, 1, 1, 2},
+            {2, 1, 1, 1, 2},
+            {0, 2, 1, 2, 0},
+            {0, 2, 1, 2, 0},
+        }
     },
     {
         name = "table_round_thick",
         description = "Round Table",
         box = {-0.5, -0.5, -0.5, 0.5, 0.125, 0.5},
-        crafting = {0, 0, 0, 2, 2, 2, 1, 2, 1}
+        crafting = {
+            {0, 0, 2, 0, 0},
+            {0, 2, 1, 2, 0},
+            {2, 1, 1, 1, 2},
+            {2, 2, 2, 2, 2},
+            {2, 2, 1, 2, 2},
+        }
     },
     {
         name = "shelf_small_thick",
@@ -276,7 +439,13 @@ furniture.types = {
         storage = 2,
         box = {-0.5, -0.5, -0.0625, 0.5, 0.5, 0.5},
         activate_sound = furniture.storage_sounds,
-        crafting = {0, 2, 2, 0, 1, 1, 0, 2, 2}
+        crafting = {
+            {0, 1, 1, 1, 0},
+            {2, 0, 0, 0, 2},
+            {2, 2, 2, 2, 2},
+            {2, 0, 0, 0, 2},
+            {0, 1, 1, 1, 0},
+        }
     },
     {
         name = "shelf_wide_thick",
@@ -284,7 +453,13 @@ furniture.types = {
         storage = 4,
         box = {-1.0, -0.5, -0.0625, 1.0, 0.5, 0.5},
         activate_sound = furniture.storage_sounds,
-        crafting = {2, 2, 2, 1, 1, 1, 2, 2, 2}
+        crafting = {
+            {1, 1, 1, 1, 1},
+            {2, 2, 0, 0, 2},
+            {2, 2, 2, 2, 2},
+            {2, 0, 0, 2, 2},
+            {1, 1, 1, 1, 1},
+        }
     },
     {
         name = "cabinet_thick",
@@ -292,7 +467,13 @@ furniture.types = {
         storage = 4,
         box = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
         activate_sound = furniture.storage_sounds,
-        crafting = {2, 1, 1, 2, 1, 1, 0, 0, 0}
+        crafting = {
+            {0, 0, 0, 0, 0},
+            {2, 1, 1, 1, 0},
+            {0, 1, 1, 1, 0},
+            {2, 1, 1, 1, 0},
+            {0, 2, 0, 2, 0},
+        }
     },
     {
         name = "half_cabinet_thick",
@@ -300,7 +481,13 @@ furniture.types = {
         storage = 2,
         box = {-0.5, -2/16, -0.5, 0.5, 0.5, 0.5},
         activate_sound = furniture.storage_sounds,
-        crafting = {2, 1, 1, 0, 0, 0, 0, 0, 0}
+        crafting = {
+            {0, 0, 0, 0, 0},
+            {2, 1, 1, 1, 0},
+            {0, 1, 1, 1, 0},
+            {0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0},
+        }
     },
     {
         name = "wardrobe_thick",
@@ -308,26 +495,50 @@ furniture.types = {
         storage = 8,
         box = {-0.5, -0.5, -0.5, 0.5, 1.5, 0.5},
         activate_sound = furniture.storage_sounds,
-        crafting = {2, 1, 1, 2, 1, 1, 2, 1, 1}
+        crafting = {
+            {2, 1, 1, 1, 2},
+            {2, 1, 1, 1, 2},
+            {2, 1, 1, 1, 2},
+            {0, 1, 1, 1, 0},
+            {2, 1, 1, 1, 2},
+        }
     },
     -- Glasslike
     {
         name = "table_square_glass",
         description = "Square Table",
         box = {-0.5, -0.5, -0.5, 0.5, 0.125, 0.5},
-        crafting = {1, 1, 1, 2, 0, 2, 2, 0, 2}
+        crafting = {
+            {0, 0, 0, 0, 0},
+            {2, 2, 2, 2, 2},
+            {0, 1, 1, 1, 0},
+            {0, 2, 0, 2, 0},
+            {0, 2, 0, 2, 0},
+        }
     },
     {
         name = "table_round_glass",
         description = "Round Table",
         box = {-0.5, -0.5, -0.5, 0.5, 0.125, 0.5},
-        crafting = {1, 1, 1, 2, 1, 2, 2, 0, 2}
+        crafting = {
+            {0, 0, 2, 0, 0},
+            {0, 2, 2, 2, 0},
+            {2, 2, 2, 2, 2},
+            {0, 2, 2, 2, 0},
+            {0, 2, 0, 2, 0},
+        }
     },
     {
         name = "chair_glass",
         description = "Chair",
         box = {-5/16, -0.5, -3/16, 5/16, 11/16, 6/16},
-        crafting = {0, 0, 1, 0, 1, 1, 0, 2, 2}
+        crafting = {
+            {0, 0, 0, 2, 0},
+            {0, 0, 0, 2, 0},
+            {0, 1, 1, 1, 0},
+            {0, 2, 0, 2, 0},
+            {0, 2, 0, 2, 0},
+        }
     },
     {
         name = "door_glass",
@@ -338,7 +549,13 @@ furniture.types = {
         box_activated = {-0.5, -0.5, -0.5, -6/16, 1.5, 0.5},
         activate_sound = furniture.door_open_sounds,
         deactivate_sound = furniture.door_close_sounds,
-        crafting = {1, 1, 0, 1, 1, 2, 1, 1, 0}
+        crafting = {
+            {0, 1, 1, 1, 0},
+            {0, 1, 1, 1, 0},
+            {0, 2, 1, 1, 0},
+            {0, 1, 1, 1, 0},
+            {0, 1, 1, 1, 0},
+        }
     },
     {
         name = "door_flipped_glass",
@@ -349,7 +566,13 @@ furniture.types = {
         box_activated = {0.5, -0.5, -0.5, 6/16, 1.5, 0.5},
         activate_sound = furniture.door_open_sounds,
         deactivate_sound = furniture.door_close_sounds,
-        crafting = {0, 1, 1, 2, 1, 1, 0, 1, 1}
+        crafting = {
+            {0, 1, 1, 1, 0},
+            {0, 1, 1, 1, 0},
+            {0, 1, 1, 2, 0},
+            {0, 1, 1, 1, 0},
+            {0, 1, 1, 1, 0},
+        }
     },
     -- Universal
     {
@@ -358,7 +581,13 @@ furniture.types = {
         special_materials = "blocks:glass",
         special_textures = "furniture_glass_full.png",
         box = {-4/16, -7/16, 6/16, 4/16, 7/16, 8/16},
-        crafting = {2, 2, 2, 2, 3, 2, 2, 2, 2}
+        crafting = {
+            {0, 2, 2, 2, 0},
+            {2, 0, 0, 0, 2},
+            {2, 0, 3, 0, 2},
+            {0, 0, 0, 0, 2},
+            {0, 2, 2, 2, 0},
+        }
     },
     {
         name = "flowerpot",
@@ -366,7 +595,13 @@ furniture.types = {
         special_materials = "blocks:dirt",
         special_textures = "blocks_dirt.png",
         box = {-7/16, -8/16, -7/16, 7/16, 8/16, 7/16},
-        crafting = {2, 3, 2, 2, 1, 2, 2, 1, 2}
+        crafting = {
+            {0, 2, 3, 2, 0},
+            {0, 2, 1, 2, 0},
+            {2, 1, 2, 1, 2},
+            {2, 1, 2, 1, 2},
+            {0, 2, 0, 2, 0},
+        }
     },
     {
         name = "door",
@@ -377,7 +612,13 @@ furniture.types = {
         box_activated = {-0.5, -0.5, -0.5, -4/16, 1.5, 0.5},
         activate_sound = furniture.door_open_sounds,
         deactivate_sound = furniture.door_close_sounds,
-        crafting = {1, 1, 0, 1, 1, 2, 1, 1, 0}
+        crafting = {
+            {0, 1, 1, 1, 0},
+            {0, 1, 1, 1, 0},
+            {0, 2, 1, 1, 0},
+            {0, 1, 1, 1, 0},
+            {0, 1, 1, 1, 0},
+        }
     },
     {
         name = "door_flipped",
@@ -388,7 +629,13 @@ furniture.types = {
         box_activated = {0.5, -0.5, -0.5, 4/16, 1.5, 0.5},
         activate_sound = furniture.door_open_sounds,
         deactivate_sound = furniture.door_close_sounds,
-        crafting = {0, 1, 1, 2, 1, 1, 0, 1, 1}
+        crafting = {
+            {0, 1, 1, 1, 0},
+            {0, 1, 1, 1, 0},
+            {0, 1, 1, 2, 0},
+            {0, 1, 1, 1, 0},
+            {0, 1, 1, 1, 0},
+        }
     },
 }
 
@@ -794,10 +1041,14 @@ function furniture.register_crafting(base_node, i, materials_in, locked)
         furniture_name = "furniture:" .. fdef.name .. "_" .. sname
     end
     if locked then
-        minetest.register_craft({
-            type = "shapeless",
-            output = furniture_name .. "_locked",
-            recipe = {"furniture:lock", furniture_name},
+        workbench:register_craft({
+            type = "furniture",
+            output = {
+                {furniture_name .. "_locked"}
+            },
+            input = {
+                {"furniture:lock", furniture_name},
+            },
         })
     else
         if (type(fdef.special_materials) == "table") then -- Append special material(s) to the end
@@ -810,15 +1061,18 @@ function furniture.register_crafting(base_node, i, materials_in, locked)
         -- Array to recipe translator
         materials[0] = ""
         if fdef.crafting then
-            local recipe = {{}, {}, {}}
-            for rw=1,3 do
-                for cl=1,3 do
-                    recipe[rw][cl] = materials[fdef.crafting[((rw)*3+cl)-3]]
+            local recipe = {{}, {}, {}, {}, {}}
+            for rw=1,5 do
+                for cl=1,5 do
+                    recipe[rw][cl] = materials[fdef.crafting[rw][cl]] or ""
                 end
             end
-            minetest.register_craft({
-                output = furniture_name,
-                recipe = recipe,
+            workbench:register_craft({
+                type = "furniture",
+                input = recipe,
+                output = {
+                    {furniture_name},
+                }
             })
         end
     end
@@ -842,6 +1096,7 @@ minetest.register_craft({
 })
 
 furniture.register("blocks:wood", furniture.woodlike_set, {"blocks:wood", "blocks:stick"}, "variations_wood.png^[sheet:3x3:1,0")
+furniture.register("blocks:acacia_wood", furniture.woodlike_set, {"blocks:acacia_wood", "blocks:stick"}, "variations_acacia_wood.png^[sheet:3x3:1,0")
 furniture.register("blocks:steelblock", furniture.woodlike_set, {"blocks:steelblock", "blocks:steel_ingot"}, "variations_steelblock.png^[sheet:3x3:1,0")
 furniture.register("blocks:rustblock", furniture.woodlike_set, {"blocks:rustblock", "blocks:steel_ingot"}, "variations_rustblock.png^[sheet:3x3:1,0") -- Fix crafting later
 

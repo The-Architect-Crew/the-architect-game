@@ -67,6 +67,19 @@ minetest.register_node("blocks:amber_medieval_glass", {
 	sounds = default.node_sound_glass_defaults(),
 })
 
+
+minetest.register_node("blocks:malachite_glass", {
+	description = S("Malachite Glass"),
+	drawtype = "glasslike",
+	tiles = {"blocks_malachite_glass.png"},
+	use_texture_alpha = "blend", 
+	paramtype = "light",
+	sunlight_propagates = true,
+	is_ground_content = false,
+	groups = {cracky = 3, oddly_breakable_by_hand = 3},
+	sounds = default.node_sound_glass_defaults(),
+})
+
 --
 -- == CRAFTS
 --

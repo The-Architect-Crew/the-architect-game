@@ -15,7 +15,7 @@ minetest.register_node("furniture:gear_big_steel", {
     paramtype = "light",
     paramtype2 = "facedir",
     light_source = 1,
-	groups = {cracky = 1, level = 2},
+	groups = {cracky = 1, level = 2, dig_immediate = 3}, -- dig_immediate cause drawing a crack animation on a texture of this size is extremely resource-intensive
 	sounds = default.node_sound_metal_defaults(),
 })
 
@@ -34,7 +34,7 @@ minetest.register_node("furniture:gear_big_rust", {
     paramtype = "light",
     paramtype2 = "facedir",
     light_source = 1,
-	groups = {cracky = 1, level = 2},
+	groups = {cracky = 1, level = 2, dig_immediate = 3},
 	sounds = default.node_sound_metal_defaults(),
 })
 

@@ -86,6 +86,7 @@ function variations.register_for_base(base_node, transparent, sunlight)
 			use_texture_alpha = transparent or base_definition.use_texture_alpha,
 			paramtype = paramtype_light or base_definition.paramtype,
 			sunlight_propagates = sunlight or base_definition.sunlight_propagates,
+			sounds = base_definition.sounds,
 		})
 		shapes:register_shape(variation_name, {
 			enabled = variation.enabled_shapes,
@@ -94,13 +95,24 @@ function variations.register_for_base(base_node, transparent, sunlight)
 	end
 end
 
-function variations.register_support(base_node, transparent, sunlight)
+variations.supp_desc = {
+	steel = "Steel",
+	rust = "Rusty",
+	wood = "Wooden"
+}
+
+function variations.register_support(base_node, support_type, support_material, transparent, sunlight)
 	local base_definition = minetest.registered_nodes[base_node]
 	for _, variation in ipairs(variations.variations) do
 		local sname = string.match(base_node, ':(.*)')
-		local variation_name = "variations:" .. sname .. "_" .. variation.name .. "_support"
-		local variation_description = base_definition.description .. " with Support " .. variation.description
-		local tiles = {"(variations_" .. sname .. ".png^[sheet:3x3:" .. variation.texture .. ")^(variations_support.png^[sheet:3x3:" .. variation.texture .. ")"}
+		local variation_name = "variations:" .. sname .. "_" .. variation.name .. "_support_" .. support_material
+		local variation_description = base_definition.description .. variation.description .. " with " .. variations.supp_desc[support_material] .. " Support"
+		local tiles
+		if (support_type == "full") then
+			tiles = {"(variations_" .. sname .. ".png^[sheet:3x3:" .. variation.texture .. ")^(variations_support_" .. support_material .. ".png^[sheet:3x3:" .. variation.texture .. ")"}
+		elseif (support_type == "single") then
+			tiles = {"(variations_" .. sname .. ".png^[sheet:3x3:" .. variation.texture .. ")^variations_support_" .. support_material .. "_single.png"}
+		end
 		local paramtype_light = ""
 		if not sunlight and transparent then
 			sunlight = true
@@ -114,11 +126,11 @@ function variations.register_support(base_node, transparent, sunlight)
 			use_texture_alpha = transparent or base_definition.use_texture_alpha,
 			paramtype = paramtype_light or base_definition.paramtype,
 			sunlight_propagates = sunlight or base_definition.sunlight_propagates,
+			sounds = base_definition.sounds,
 		})
 		shapes:register_shape(variation_name, {
 			enabled = variation.enabled_shapes,
 		})
-		convert_craft(base_node, variation_name)
 	end
 end
 
@@ -198,12 +210,48 @@ function variations.register_frame(base_node)
 				paramtype = "light",
 				paramtype2 = "facedir",
 				sunlight_propagates = true,
+				sounds = base_definition.sounds,
 			})
 			convert_craft(base_node, frame_name)
 		end
 	end
 end
-
+function variations.register_stainglass(base_node)
+	local base_definition = minetest.registered_nodes[base_node]
+	for _, frame in ipairs(variations.frames) do
+		for _, variation in ipairs(variations.frame_variations) do
+			local sname = string.match(base_node, ':(.*)')
+			local frame_name = "variations:stainglass_" .. sname .. "_" .. variation.name .. "_" .. frame.name
+			local frame_description = base_definition.description .. " " .. variation.description .. " " .. frame.description .. " Stainglass"
+			local tiles = {"variations_stainglass_" .. sname .. ".png^[sheet:3x5:" .. variation.texture .. "," .. frame.texture, "variations_void.png"}
+			minetest.register_node(frame_name, {
+				description = frame_description,
+				tiles = tiles,
+				groups = base_definition.groups,
+				drawtype = "mesh",
+				mesh = "frame.obj",
+				collision_box = {
+					type = "fixed",
+					fixed = {
+						{-0.5, -0.5, -0.1, 0.5, 0.5, 0.1},
+					},
+				},
+				selection_box = {
+					type = "fixed",
+					fixed = {
+						{-0.5, -0.5, -0.1, 0.5, 0.5, 0.1},
+					},
+				},
+				use_texture_alpha = base_definition.use_texture_alpha,
+				paramtype = "light",
+				paramtype2 = "facedir",
+				sunlight_propagates = true,
+				sounds = base_definition.sounds,
+			})
+			convert_craft(base_node, frame_name)
+		end
+	end
+end
 variations.register_frame("blocks:obsidian_glass")
 variations.register_frame("blocks:glass")
 
@@ -243,14 +291,26 @@ variations.register_for_base("blocks:mineral_salt")
 variations.register_for_base("blocks:concrete")
 variations.register_for_base("blocks:wood")
 variations.register_for_base("blocks:acacia_wood")
+variations.register_for_base("blocks:aspen_wood")
+variations.register_for_base("blocks:firewood")
+variations.register_for_base("blocks:junglewood")
+variations.register_for_base("blocks:mushroom_wood")
+variations.register_for_base("blocks:pine_wood")
 variations.register_for_base("blocks:rustblock")
 variations.register_for_base("blocks:rustblock_hazard")
 variations.register_for_base("blocks:mese")
+variations.register_for_base("blocks:malachite_glass")
 
-variations.register_support("blocks:stone")
-variations.register_support("blocks:sandstone")
-variations.register_support("blocks:chalk")
+variations.register_support("blocks:stone", "full", "wood")
+variations.register_support("blocks:sandstone", "full", "wood")
+variations.register_support("blocks:chalk", "full", "wood")
 
+variations.register_support("blocks:brick", "single", "steel")
+variations.register_support("blocks:brick", "single", "rust")
+
+variations.register_stainglass("blocks:malachite_glass")
+variations.register_stainglass("blocks:amethyst")
+variations.register_stainglass("blocks:garnet")
 for _, color in ipairs(blocks.stone_colors) do
 	variations.register_for_base("blocks:stone_" .. color[1])
 end

@@ -210,7 +210,21 @@ end)
 
 
 minetest.register_node("furniture:assembler", {
+	drawtype = "mesh",
+	mesh = "assembler.obj",
+	tiles = {"variations_wood.png^[sheet:3x3:1,0", "variations_steelblock.png^[sheet:3x3:1,0",
+			{
+				name = "furniture_assembler_animated.png",
+				animation = {
+				type = "vertical_frames",
+				aspect_w = 16,
+				aspect_h = 16,
+				length = 2.0,
+			},
+			}, "furniture_assembler_static.png", "furniture_assembler_void.png"},
 	description = ccore.comment("Furniture Assembler", "Test"),
+	paramtype = "light",
+	paramtype2 = "facedir",
 	groups = {oddly_breakable_by_hand = 2},
 	sounds = default.node_sound_wood_defaults(),
 	can_dig = function(pos, player)

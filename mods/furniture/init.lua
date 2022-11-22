@@ -1058,7 +1058,6 @@ function furniture.register_crafting(base_node, i, materials_in, locked)
         elseif (type(fdef.special_materials) == "string") then
             materials[#materials+1] = fdef.special_materials
         end
-        -- Array to recipe translator
         materials[0] = ""
         if fdef.crafting then
             local recipe = {{}, {}, {}, {}, {}}
@@ -1067,12 +1066,13 @@ function furniture.register_crafting(base_node, i, materials_in, locked)
                     recipe[rw][cl] = materials[fdef.crafting[rw][cl]] or ""
                 end
             end
+            print(dump(recipe))
             workbench:register_craft({
                 type = "furniture",
-                input = recipe,
                 output = {
-                    {furniture_name},
-                }
+                    {furniture_name}
+                },
+                input = recipe,
             })
         end
     end
@@ -1097,8 +1097,12 @@ minetest.register_craft({
 
 furniture.register("blocks:wood", furniture.woodlike_set, {"blocks:wood", "blocks:stick"}, "variations_wood.png^[sheet:3x3:1,0")
 furniture.register("blocks:acacia_wood", furniture.woodlike_set, {"blocks:acacia_wood", "blocks:stick"}, "variations_acacia_wood.png^[sheet:3x3:1,0")
+furniture.register("blocks:aspen_wood", furniture.woodlike_set, {"blocks:aspen_wood", "blocks:stick"}, "variations_aspen_wood.png^[sheet:3x3:1,0")
+furniture.register("blocks:junglewood", furniture.woodlike_set, {"blocks:junglewood", "blocks:stick"}, "variations_junglewood.png^[sheet:3x3:1,0")
+furniture.register("blocks:mushroom_wood", furniture.woodlike_set, {"blocks:mushroom_wood", "blocks:stick"}, "variations_mushroom_wood.png^[sheet:3x3:1,0")
+furniture.register("blocks:pine_wood", furniture.woodlike_set, {"blocks:pine_wood", "blocks:stick"}, "variations_pine_wood.png^[sheet:3x3:1,0")
 furniture.register("blocks:steelblock", furniture.woodlike_set, {"blocks:steelblock", "blocks:steel_ingot"}, "variations_steelblock.png^[sheet:3x3:1,0")
-furniture.register("blocks:rustblock", furniture.woodlike_set, {"blocks:rustblock", "blocks:steel_ingot"}, "variations_rustblock.png^[sheet:3x3:1,0") -- Fix crafting later
+furniture.register("blocks:rustblock", furniture.woodlike_set, {"blocks:rustblock", "blocks:steel_ingot"}, "furniture_rustblock_clean.png") -- Fix crafting later
 
 furniture.register("blocks:stone", furniture.stonelike_set, {"blocks:stone", "blocks:shapes_stone_slab"}, "variations_stone.png^[sheet:3x3:1,0")
 furniture.register("blocks:desert_stone", furniture.stonelike_set, {"blocks:desert_stone", "blocks:shapes_desert_stone_slab"}, "variations_desert_stone.png^[sheet:3x3:1,0")

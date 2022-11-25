@@ -114,7 +114,7 @@ replacer.replace = function(itemstack, user, pointed_thing, mode)
             "' with the replacer is not allowed. Replacement failed.")
         return nil
     end
-    -- Place innactive crafting stations when active ones are selected. 
+    -- Place innactive crafting stations when active ones are selected.
     if (daten[1]:find("_active") ~= nil) then
         daten[1] = daten[1]:gsub("_active", "")
         item["metadata"] = daten[1] .. " " .. daten[2] .. " " .. daten[3]
@@ -132,7 +132,7 @@ replacer.replace = function(itemstack, user, pointed_thing, mode)
     local inv_lists = inv:get_lists()
     for listname, inv_list in pairs(inv_lists) do
         if (inv:is_empty(listname) == false) then
-            ccore.notify(name, 
+            ccore.notify(name,
                 "Replacing a node containing items in inventory is not allowed. Replacement failed"
             )
                 return nil
@@ -146,7 +146,7 @@ replacer.replace = function(itemstack, user, pointed_thing, mode)
         -- fortunately, dirt and dirt_with_grass does not make use of rotation
         if (
             daten[1] == "blocks:dirt_with_grass"
-            or daten[1] == "blocks:dirt_with_grass_footsteps" 
+            or daten[1] == "blocks:dirt_with_grass_footsteps"
             or daten[1] == "blocks:dirt_with_dry_grass"
             or daten[1] == "blocks:dirt_with_rainforest_litter"
             or daten[1] == "blocks:dirt_with_coniferous_litter"
@@ -205,7 +205,7 @@ replacer.replace = function(itemstack, user, pointed_thing, mode)
         param1 = daten[2],
         param2 = daten[3]
     })
-    -- Handle after_place_node such as for handling node metadata. 
+    -- Handle after_place_node such as for handling node metadata.
     if (minetest.registered_nodes[daten[1]].after_place_node ~= nil) then
         minetest.registered_nodes[daten[1]].after_place_node(pos, user, itemstack, pointed_thing)
     end

@@ -97,8 +97,8 @@ replacer.replace = function(itemstack, user, pointed_thing, mode)
     local daten = item["metadata"]:split(" ")
     -- the old format stored only the node name
     if (#daten < 3) then
-        daten[2] = 0
-        daten[3] = 0
+        daten[2] = "0"
+        daten[3] = "0"
     end
     -- if someone else owns that node then we can not change it
     if replacer.node_is_owned(pos, user) then
@@ -106,25 +106,37 @@ replacer.replace = function(itemstack, user, pointed_thing, mode)
     end
     if (node.name and node.name ~= "" and replacer.blacklist[node.name]) then
         ccore.notify(name, "Replacing blocks of the type '" .. (node.name or "?") ..
-            "' is not allowed on this server. Replacement failed.")
+            "' is not allowed. Replacement failed.")
         return nil
     end
     if (replacer.blacklist[daten[1]]) then
         ccore.notify(name, "Placing blocks of the type '" .. (daten[1] or "?") ..
-            "' with the replacer is not allowed on this server. Replacement failed.")
+            "' with the replacer is not allowed. Replacement failed.")
         return nil
     end
-    -- do not replace if there is nothing to be done
+    -- Place innactive crafting stations when active ones are selected. 
+    if (daten[1]:find("_active") ~= nil) then
+        daten[1] = daten[1]:gsub("_active", "")
+        item["metadata"] = daten[1] .. " " .. daten[2] .. " " .. daten[3]
+    end
+    -- Do not replace if there is nothing to be done
     if (node.name == daten[1]) then
         -- the node itshelf remains the same, but the orientation was changed
-        if (node.param1 ~= daten[2] or node.param2 ~= daten[3]) then
-            minetest.add_node(pos, {
-                name = node.name,
-                param1 = daten[2],
-                param2 = daten[3]
-            })
+        if (node.param1 == daten[2] and node.param2 == daten[3]) then
+            return nil
         end
-        return nil
+    end
+    -- Do not replace node that has inventory that is not empty
+    local meta = minetest.get_meta(pos)
+    local inv = meta:get_inventory()
+    local inv_lists = inv:get_lists()
+    for listname, inv_list in pairs(inv_lists) do
+        if (inv:is_empty(listname) == false) then
+            ccore.notify(name, 
+                "Replacing a node containing items in inventory is not allowed. Replacement failed"
+            )
+                return nil
+        end
     end
     -- in survival mode, the player has to provide the node he wants to place
     if (not (minetest.settings:get_bool("creative_mode")) and not (minetest.check_player_privs(name, {
@@ -132,12 +144,41 @@ replacer.replace = function(itemstack, user, pointed_thing, mode)
     }))) then
         -- players usually don't carry dirt_with_grass around it's safe to assume normal dirt here
         -- fortunately, dirt and dirt_with_grass does not make use of rotation
-        if (daten[1] == "blocks:dirt_with_grass") then
+        if (
+            daten[1] == "blocks:dirt_with_grass"
+            or daten[1] == "blocks:dirt_with_grass_footsteps" 
+            or daten[1] == "blocks:dirt_with_dry_grass"
+            or daten[1] == "blocks:dirt_with_rainforest_litter"
+            or daten[1] == "blocks:dirt_with_coniferous_litter"
+            or daten[1] == "blocks:dirt_with_snow"
+            or daten[1] == "blocks:dirt_with_grass_sfcave"
+        ) then
             daten[1] = "blocks:dirt"
             item["metadata"] = "blocks:dirt 0 0"
+        elseif (daten[1] == "blocks:dry_dirt_with_dry_grass"
+            or daten[1] == "blocks:dry_dirt_with_dry_grass_sfcave"
+        ) then
+            daten[1] = "blocks:dry_dirt"
+            item["metadata"] = "blocks:dry_dirt 0 0"
+        elseif (daten[1] == "blocks:chalk_with_grass") then
+            daten[1] = "blocks:chalk"
+            item["metadata"] = "blocks:chalk 0 0"
+        elseif (
+            daten[1] == "blocks:permafrost_with_moss"
+            or daten[1] == "blocks:permafrost_with_snow"
+            or daten[1] == "blocks:permafrost_with_bone_roots"
+            or daten[1] == "blocks:permafrost_with_stones"
+        ) then
+            daten[1] = "blocks:permafrost"
+            item["metadata"] = "blocks:permafrost 0 0"
+        elseif (
+            daten[1] == "blocks:cave_ice"
+            or daten[1] == "blocks:cracked_ice"
+        ) then
+            daten[1] = "blocks:ice"
+            item["metadata"] = "blocks:ice 0 0"
         end
-
-        -- does the player carry at least one of the desired nodes with him?
+        --does the player carry at least one of the desired nodes with him?
         if (not (user:get_inventory():contains_item("main", daten[1]))) then
             ccore.notify(name, "You have no further '" .. (daten[1] or "?") .. "'. Replacement failed.")
             return nil
@@ -164,6 +205,10 @@ replacer.replace = function(itemstack, user, pointed_thing, mode)
         param1 = daten[2],
         param2 = daten[3]
     })
+    -- Handle after_place_node such as for handling node metadata. 
+    if (minetest.registered_nodes[daten[1]].after_place_node ~= nil) then
+        minetest.registered_nodes[daten[1]].after_place_node(pos, user, itemstack, pointed_thing)
+    end
     return nil -- no item shall be removed from inventory
 end
 -- protection checking from Vanessa Ezekowitz' homedecor mod

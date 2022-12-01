@@ -6,6 +6,13 @@ local path = minetest.get_modpath("furniture")
 dofile(path.."/pipes.lua")
 dofile(path.."/steampunk.lua")
 dofile(path.."/assembler.lua")
+dofile(path.."/cutter.lua")
+dofile(path.."/engraver.lua")
+dofile(path.."/tablesaw.lua")
+
+-- And these are furniture since players can't get the stuff otherwise
+dofile(path.."/craftitems.lua")
+dofile(path.."/crafts.lua")
 
 -- Sound tables
 furniture.storage_sounds = {

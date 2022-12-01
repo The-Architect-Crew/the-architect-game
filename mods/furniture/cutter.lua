@@ -1,10 +1,10 @@
-furniture.assembler = {}
+furniture.cutter = {}
 
-workbench:register_crafttype("furniture") -- adds a new crafting type called "furniture"
+workbench:register_crafttype("cutter") -- adds a new crafting type called "cutter"
 -- for full details; see https://github.com/Craigs-Crew/edgy-dark-ominous-game/blob/main/mods/workbench/api/api.txt#L4
 -- otherwise it works similar to how minetest.register_craft does, but output is uses a table format
 workbench:register_craft({
-	type = "furniture", -- crafting type
+	type = "cutter", -- crafting type
 	input =	{
 		{"blocks:glass", "blocks:mese", "blocks:glass", "blocks:mese", "blocks:glass"},
 		{"blocks:glass", "blocks:mese", "blocks:glass", "blocks:mese", "blocks:glass"},
@@ -14,7 +14,7 @@ workbench:register_craft({
 	},
 })
 
-local function assembler_formspec_crafting(pos, player, add)
+local function cutter_formspec_crafting(pos, player, add)
 	local spos = pos.x..","..pos.y..","..pos.z -- node position for node inventory
 	local meta = minetest.get_meta(pos)
 	local winv_listring = ""
@@ -74,7 +74,7 @@ local function assembler_formspec_crafting(pos, player, add)
         -- "protect" -- protected area OR if unprotected == public
         -- "public" -- public access
         -- "mail" -- like locked, but anyone can add stuff in (but cant take out)
-		"image_button[-1.1,8.95;1.05,1.05;"..locks.icons(pos, "furniture_assembler", {"lock", "protect", "public"}).."]",
+		"image_button[-1.1,8.95;1.05,1.05;"..locks.icons(pos, "furniture_cutter", {"lock", "protect", "public"}).."]",
         -- =======================================================
 		add
 	}
@@ -85,20 +85,20 @@ local function assembler_formspec_crafting(pos, player, add)
 end
 
 -- quick simplified minetest.show_formspec
-local function assembler_show_formspec(pos, player, add)
+local function cutter_show_formspec(pos, player, add)
 	local playername = player:get_player_name()
-	minetest.show_formspec(playername, "furniture:assembler", assembler_formspec_crafting(pos, player, add)) -- calls above formspec handler
+	minetest.show_formspec(playername, "furniture:cutter", cutter_formspec_crafting(pos, player, add)) -- calls above formspec handler
 end
 
 -- applies craft result
-local function assembler_apply_craft_result(pos, listname, index, stack, player, multiplier)
+local function cutter_apply_craft_result(pos, listname, index, stack, player, multiplier)
 	local meta = minetest.get_meta(pos)
 	local inv = meta:get_inventory()
 	local craftlist = inv:get_list("input") -- get input list
     -- =======================================================
     -- workbench crafting handler "workbench.craft_output"
     -- craftlist is input list
-    -- "furniture" is crafting type, for custom version, use whatever name you defined
+    -- "cutter" is crafting type, for custom version, use whatever name you defined
     -- "normal" is for normal crafting recipes
     -- "nil" is for crafting category (subcategory of crafting type) -- for more complicated types -- for basic types just put "nil" here
     -- "5" is input list width 5 = (5x5)
@@ -107,7 +107,7 @@ local function assembler_apply_craft_result(pos, listname, index, stack, player,
     -- IF you are doing something like shapes crafting, whereby a single recipe can have multiple outputs, the final "nil" players a part here
     -- Setting to true will unlock advanced multi recipe output, if you want to do that, contact me.
     -- more info: https://github.com/Craigs-Crew/edgy-dark-ominous-game/blob/main/mods/workbench/api/api.txt#L110
-	local output = workbench.craft_output(craftlist, "furniture", nil, 5, multiplier, nil)
+	local output = workbench.craft_output(craftlist, "cutter", nil, 5, multiplier, nil)
     -- returns a table
     -- for all variables see: https://github.com/Craigs-Crew/edgy-dark-ominous-game/blob/main/mods/workbench/api/api.txt#L129
     -- otherwise important data: ensure output is not nil and output.item exists
@@ -119,7 +119,7 @@ local function assembler_apply_craft_result(pos, listname, index, stack, player,
 	end
 end
 
-local function assembler_update(pos, listname, index, stack, player)
+local function cutter_update(pos, listname, index, stack, player)
 	local meta = minetest.get_meta(pos)
 	local inv = meta:get_inventory()
 	local craftlist = inv:get_list("input")
@@ -127,11 +127,11 @@ local function assembler_update(pos, listname, index, stack, player)
 	local multiplier = meta:get_int("multiplier")
 	-- update output list when item placed in input
 	if listname == "input" then
-		assembler_apply_craft_result(pos, listname, index, stack, player, multiplier)
+		cutter_apply_craft_result(pos, listname, index, stack, player, multiplier)
 	end
 	-- remove items when taking from output
 	if listname == "output" then
-		local output = workbench.craft_output(craftlist, "furniture", nil, 5, multiplier, nil) -- same as above, but this is to get the decremented input (what happens to input after item is crafted)
+		local output = workbench.craft_output(craftlist, "cutter", nil, 5, multiplier, nil) -- same as above, but this is to get the decremented input (what happens to input after item is crafted)
 		local remainder = workbench.output_stack(outlist) -- check how many stacks are left in output slot
 		-- ensure there's nothing remaining in the output list, otherwise prevent modifying the input list
 		if output and output.dinput and meta:get_string("crafted") == "" then
@@ -145,13 +145,13 @@ local function assembler_update(pos, listname, index, stack, player)
 		end
 		-- if theres spare input, apply crafting again
 		if inv:is_empty("input") ~= true and inv:is_empty("output") then
-			assembler_apply_craft_result(pos, listname, index, stack, player, multiplier)
+			cutter_apply_craft_result(pos, listname, index, stack, player, multiplier)
 		end
 	end
 end
 
 -- initialize various data and inventory variables
-local function assembler_on_construct(pos)
+local function cutter_on_construct(pos)
 	local meta = minetest.get_meta(pos)
 	local inv = meta:get_inventory()
 	inv:set_size("input", 5*5) -- input list size
@@ -160,29 +160,29 @@ local function assembler_on_construct(pos)
 	meta:set_int("multiplier", 1) -- multiplier default size
 	meta:set_string("crafted", "") -- required for multiple output, bit complex to explain here, if you dont understand what i said above, ask me
 	meta:set_string("owner", "") -- owner name
-	locks.init_infotext(pos, "Furniture Assembler") -- locks infotext, automatically adds "Locked/Unlocked/Public/Protected" to "assembler" based on lock state
+	locks.init_infotext(pos, "Variations Cutter") -- locks infotext, automatically adds "Locked/Unlocked/Public/Protected" to "cutter" based on lock state
 end
 
 -- after place node to set owner name & update infotext
-local function assembler_after_place_node(pos, placer, itemstack, pointed_thing)
+local function cutter_after_place_node(pos, placer, itemstack, pointed_thing)
 	local meta = minetest.get_meta(pos)
 	local playername = placer:get_player_name()
 	meta:set_string("owner", playername)
-	locks.init_infotext(pos, "Furniture Assembler")
+	locks.init_infotext(pos, "Variations Cutter")
 end
 
 minetest.register_on_player_receive_fields(function(player, formname, fields)
-	if formname ~= "furniture:assembler" or not player then
+	if formname ~= "furniture:cutter" or not player then
 		return
 	end
 	local playername = player:get_player_name()
-	local pos = furniture.assembler[playername]
+	local pos = furniture.cutter[playername]
 	local meta = minetest.get_meta(pos)
 	if not locks.can_access(pos, player) then -- ensure player can access, hence modify locks
 		return 0
 	end
-	if locks.fields(pos, player, fields, "furniture_assembler", "assembler") then
-		assembler_show_formspec(pos, player)
+	if locks.fields(pos, player, fields, "furniture_cutter", "cutter") then
+		cutter_show_formspec(pos, player)
 	end
 	if fields.key_enter_field == "furniture_multiplier" then
 		local sub_multiplier = string.gsub(fields.furniture_multiplier, "x", "") -- allow player to set multiplier
@@ -194,43 +194,41 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 				multiplier = 1
 			end
 			meta:set_int("multiplier", multiplier)
-			assembler_update(pos, "input")
-			assembler_show_formspec(pos, player)
+			cutter_update(pos, "input")
+			cutter_show_formspec(pos, player)
 		end
 	end
 	if not fields.quit then -- ensure exiting the formspec doesnt trigger the update as well
 		winv.node_receive_fields(player, formname, fields) -- contains all winv inventories fields handling
 		if winv.node_refresh(player) then -- winv.node_refresh tells the player if there's an update in winv inventories, requiring a refresh of node inventory
-			assembler_show_formspec(pos, player)
+			cutter_show_formspec(pos, player)
 		end
 	end
 end)
 
 -- Registration
-
-
-minetest.register_node("furniture:assembler", {
+minetest.register_node("furniture:cutter", {
 	drawtype = "mesh",
-	mesh = "assembler.obj",
-	tiles = {{name = "variations_wood.png^[sheet:3x3:1,0", backface_culling = true},
-	{name = "variations_steelblock.png^[sheet:3x3:1,0", backface_culling = true},
-			{
-				name = "furniture_assembler_animated.png",
+	mesh = "cutter.obj",
+	tiles = {{ name = "variations_wood.png^[sheet:3x3:1,0", backface_culling = true}, 
+    { name = "variations_steelblock.png^[sheet:3x3:1,0", backface_culling = true},
+    {name = "furniture_cutter_static.png", backface_culling = true}, {
+				name = "furniture_cutter_animated.png",
 				animation = {
 				type = "vertical_frames",
 				aspect_w = 16,
 				aspect_h = 16,
 				length = 2.0,
-			},
-			},
-	{name = "furniture_assembler_static.png", backface_culling = true},
-	{name = "furniture_assembler_void.png", backface_culling = true}},
-	description = ccore.comment("Furniture Assembler", "Test"),
+			}
+        }
+    },
+	description = ccore.comment("Variations Cutter", "Test"),
+    use_texture_alpha = "blend",
 	paramtype = "light",
 	paramtype2 = "facedir",
 	groups = {oddly_breakable_by_hand = 2},
 	sounds = default.node_sound_wood_defaults(),
-	can_dig = function(pos, player)
+    can_dig = function(pos, player)
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
 		if inv:is_empty("input") and inv:is_empty("fuel") and inv:is_empty("output") then -- ensure table is empty
@@ -240,32 +238,32 @@ minetest.register_node("furniture:assembler", {
 		end
 		return false
 	end,
-	on_construct = assembler_on_construct, -- calls above function
-	after_place_node = assembler_after_place_node, -- calls above function
+	on_construct = cutter_on_construct, -- calls above function
+	after_place_node = cutter_after_place_node, -- calls above function
 	on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
 		local playername = clicker:get_player_name()
 		local meta = minetest.get_meta(pos)
 		if not meta or meta and meta:get_string("owner") == "" then -- recreate meta if it doesnt exist (prevents crashes from worldedit schems)
-			assembler_on_construct(pos)
-			assembler_after_place_node(pos, clicker, itemstack, pointed_thing)
+			cutter_on_construct(pos)
+			cutter_after_place_node(pos, clicker, itemstack, pointed_thing)
 		end
 
 		if not locks.can_access(pos, clicker) then -- utilize locks API, automatically checks the lock state and whether player can access
 			return itemstack
 		end
-		assembler_show_formspec(pos, clicker) -- calls formspec if player can
-		furniture.assembler[playername] = pos -- store data for fields
+		cutter_show_formspec(pos, clicker) -- calls formspec if player can
+		furniture.cutter[playername] = pos -- store data for fields
 	end,
 	on_metadata_inventory_put = function(pos, listname, index, stack, player)
-		assembler_update(pos, listname, index, stack, player)
+		cutter_update(pos, listname, index, stack, player)
 	end,
 	on_metadata_inventory_take = function(pos, listname, index, stack, player)
-		assembler_update(pos, listname, index, stack, player)
+		cutter_update(pos, listname, index, stack, player)
 	end,
 	on_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
 		local meta = minetest.get_meta(pos)
 		local stack = meta:get_inventory():get_stack(from_list, from_index)
-		assembler_update(pos, from_list, from_index, stack, player)
+		cutter_update(pos, from_list, from_index, stack, player)
 	end,
 	allow_metadata_inventory_put = function(pos, listname, index, stack, player)
 		local meta = minetest.get_meta(pos)
@@ -277,7 +275,7 @@ minetest.register_node("furniture:assembler", {
 				return stack:get_count()
 			else
 				local playername = player:get_player_name()
-				minetest.chat_send_player(playername, "[Furniture Assembler] Please remove all output items first.")
+				minetest.chat_send_player(playername, "[Variations Cutter] Please remove all output items first.")
 				return 0
 			end
 		else
@@ -294,7 +292,7 @@ minetest.register_node("furniture:assembler", {
 				return stack:get_count()
 			else
 				local playername = player:get_player_name()
-				minetest.chat_send_player(playername, "[Furniture Assembler] Please remove all output items first.")
+				minetest.chat_send_player(playername, "[Variations Cutter] Please remove all output items first.")
 				return 0
 			end
 		elseif listname == "output" then
@@ -319,7 +317,7 @@ minetest.register_node("furniture:assembler", {
 				return stack:get_count()
 			else
 				local playername = player:get_player_name()
-				minetest.chat_send_player(playername, "[Furniture Assembler] Please remove all output items first.")
+				minetest.chat_send_player(playername, "[Variations Cutter] Please remove all output items first.")
 				return 0
 			end
 		else

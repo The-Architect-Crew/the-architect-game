@@ -2,6 +2,17 @@ furniture = {}
 
 local path = minetest.get_modpath("furniture")
 
+furniture.craftstation_materials = {
+    "blocks:wood",
+    "blocks:stone",
+    "blocks:sandstone",
+    "blocks:obsidian",
+    "blocks:basalt",
+    "blocks:concrete",
+    {"blocks:marble", "blocks:goldblock"},
+    {"blocks:rustblock", "blocks:rustblock"}
+}
+
 -- These are furniture in the sense that they're models
 dofile(path.."/pipes.lua")
 dofile(path.."/steampunk.lua")
@@ -1073,7 +1084,6 @@ function furniture.register_crafting(base_node, i, materials_in, locked)
                     recipe[rw][cl] = materials[fdef.crafting[rw][cl]] or ""
                 end
             end
-            print(dump(recipe))
             workbench:register_craft({
                 type = "furniture",
                 output = {

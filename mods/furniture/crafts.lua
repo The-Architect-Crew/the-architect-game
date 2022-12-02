@@ -103,35 +103,46 @@ minetest.register_craft({
 	}
 })
 -- Craftstations
-minetest.register_craft({
-	output = "furniture:assembler",
-	recipe = {
-		{"furniture:display", "furniture:arm", "furniture:case"},
-		{"furniture:arm", "furniture:arm", "furniture:cpu"},
-		{"blocks:wood", "blocks:wood", "blocks:wood"},
-	}
-})
-minetest.register_craft({
-	output = "furniture:cutter",
-	recipe = {
-		{"furniture:arm", "blocks:wood", "furniture:power_supply"},
-		{"furniture:arm_cutter", "furniture:arm_drill", "furniture:arm_cutter"},
-		{"blocks:wood", "furniture:cable", "blocks:wood"},
-	}
-})
-minetest.register_craft({
-	output = "furniture:engraver",
-	recipe = {
-		{"furniture:cable", "furniture:holder", "blocks:wood"},
-		{"furniture:holder", "furniture:laser", "furniture:holder"},
-		{"blocks:wood", "furniture:arm_engraver", "blocks:wood"},
-	}
-})
-minetest.register_craft({
-	output = "furniture:tablesaw",
-	recipe = {
-		{"furniture:cable", "furniture:case", "furniture:arm"},
-		{"furniture:arm", "furniture:sawblade", "furniture:arm"},
-		{"blocks:wood", "blocks:wood", "blocks:wood"},
-	}
-})
+for i=1,#furniture.craftstation_materials do
+	local material = furniture.craftstation_materials[i]
+	local secondary_material
+	if (type(material) == "table") then
+		material = furniture.craftstation_materials[i][1]
+		secondary_material = furniture.craftstation_materials[i][2]
+	else
+		secondary_material = material
+	end
+    local sname = string.match(material, ':(.*)')
+	minetest.register_craft({
+		output = "furniture:assembler_" .. sname,
+		recipe = {
+			{"furniture:display", "furniture:arm", "furniture:case"},
+			{"furniture:arm", "furniture:arm", "furniture:cpu"},
+			{material, secondary_material, material},
+		}
+	})
+	minetest.register_craft({
+		output = "furniture:cutter_" .. sname,
+		recipe = {
+			{"furniture:arm", secondary_material, "furniture:power_supply"},
+			{"furniture:arm_cutter", "furniture:arm_drill", "furniture:arm_cutter"},
+			{material, "furniture:cable", material},
+		}
+	})
+	minetest.register_craft({
+		output = "furniture:engraver_" .. sname,
+		recipe = {
+			{"furniture:cable", "furniture:holder", secondary_material},
+			{"furniture:holder", "furniture:laser", "furniture:holder"},
+			{material, "furniture:arm_engraver", material},
+		}
+	})
+	minetest.register_craft({
+		output = "furniture:tablesaw_" .. sname,
+		recipe = {
+			{"furniture:cable", "furniture:case", "furniture:arm"},
+			{"furniture:arm", "furniture:sawblade", "furniture:arm"},
+			{material, secondary_material, material},
+		}
+	})
+end

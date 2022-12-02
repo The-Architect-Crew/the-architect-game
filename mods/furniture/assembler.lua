@@ -3,16 +3,6 @@ furniture.assembler = {}
 workbench:register_crafttype("furniture") -- adds a new crafting type called "furniture"
 -- for full details; see https://github.com/Craigs-Crew/edgy-dark-ominous-game/blob/main/mods/workbench/api/api.txt#L4
 -- otherwise it works similar to how minetest.register_craft does, but output is uses a table format
-workbench:register_craft({
-	type = "furniture", -- crafting type
-	input =	{
-		{"blocks:glass", "blocks:mese", "blocks:glass", "blocks:mese", "blocks:glass"},
-		{"blocks:glass", "blocks:mese", "blocks:glass", "blocks:mese", "blocks:glass"},
-	},
-	output = {
-		{"furniture:chair_wood 3"},
-	},
-})
 
 local function assembler_formspec_crafting(pos, player, add)
 	local spos = pos.x..","..pos.y..","..pos.z -- node position for node inventory
@@ -207,123 +197,144 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 end)
 
 -- Registration
-
-
-minetest.register_node("furniture:assembler", {
-	drawtype = "mesh",
-	mesh = "assembler.obj",
-	tiles = {{name = "variations_wood.png^[sheet:3x3:1,0", backface_culling = true},
-	{name = "variations_steelblock.png^[sheet:3x3:1,0", backface_culling = true},
-			{
-				name = "furniture_assembler_animated.png",
-				animation = {
-				type = "vertical_frames",
-				aspect_w = 16,
-				aspect_h = 16,
-				length = 2.0,
-			},
-			},
-	{name = "furniture_assembler_static.png", backface_culling = true},
-	{name = "furniture_assembler_void.png", backface_culling = true}},
-	description = ccore.comment("Furniture Assembler", "Test"),
-	paramtype = "light",
-	paramtype2 = "facedir",
-	groups = {oddly_breakable_by_hand = 2},
-	sounds = default.node_sound_wood_defaults(),
-	can_dig = function(pos, player)
-		local meta = minetest.get_meta(pos)
-		local inv = meta:get_inventory()
-		if inv:is_empty("input") and inv:is_empty("fuel") and inv:is_empty("output") then -- ensure table is empty
-			if locks.can_access(pos, player) == true then -- utilize locks API, automatically checks the lock state and whether player can access
-				return true
+for i=1,#furniture.craftstation_materials do
+	local material = furniture.craftstation_materials[i]
+	local secondary_tile = {name = "variations_steelblock.png^[sheet:3x3:1,0", backface_culling = true}
+	if (type(furniture.craftstation_materials[i]) == "table") then
+		material = furniture.craftstation_materials[i][1]
+		local secondary_material = furniture.craftstation_materials[i][2]
+		local secondary_sname = string.match(secondary_material, ':(.*)')
+		secondary_tile = {name = "variations_" .. secondary_sname .. ".png^[sheet:3x3:1,0", backface_culling = true}
+	end
+	local base_definition = minetest.registered_nodes[material]
+	local sname = string.match(material, ':(.*)')
+	local description = base_definition.description .. " Furniture Assembler"
+	local groups = base_definition.groups
+	local sounds = base_definition.sounds
+	local box = {-16/16, -8/16, -8/16, 16/16, 23/16, 8/16}
+	minetest.register_node("furniture:assembler_" .. sname, {
+		drawtype = "mesh",
+		mesh = "assembler.obj",
+		selection_box = {
+			type = "fixed",
+			fixed = box,
+		},
+		collision_box = {
+			type = "fixed",
+			fixed = box,
+		},
+		tiles = {{name = "variations_" .. sname .. ".png^[sheet:3x3:1,0", backface_culling = true}, secondary_tile,
+				{
+					name = "furniture_assembler_animated.png",
+					animation = {
+					type = "vertical_frames",
+					aspect_w = 16,
+					aspect_h = 16,
+					length = 2.0,
+				},
+				},
+		{name = "furniture_assembler_static.png", backface_culling = true},
+		{name = "furniture_assembler_void.png", backface_culling = true}},
+		description = description,
+		paramtype = "light",
+		paramtype2 = "facedir",
+		groups = groups,
+		sounds = sounds,
+		can_dig = function(pos, player)
+			local meta = minetest.get_meta(pos)
+			local inv = meta:get_inventory()
+			if inv:is_empty("input") and inv:is_empty("fuel") and inv:is_empty("output") then -- ensure table is empty
+				if locks.can_access(pos, player) == true then -- utilize locks API, automatically checks the lock state and whether player can access
+					return true
+				end
 			end
-		end
-		return false
-	end,
-	on_construct = assembler_on_construct, -- calls above function
-	after_place_node = assembler_after_place_node, -- calls above function
-	on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
-		local playername = clicker:get_player_name()
-		local meta = minetest.get_meta(pos)
-		if not meta or meta and meta:get_string("owner") == "" then -- recreate meta if it doesnt exist (prevents crashes from worldedit schems)
-			assembler_on_construct(pos)
-			assembler_after_place_node(pos, clicker, itemstack, pointed_thing)
-		end
+			return false
+		end,
+		on_construct = assembler_on_construct, -- calls above function
+		after_place_node = assembler_after_place_node, -- calls above function
+		on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
+			local playername = clicker:get_player_name()
+			local meta = minetest.get_meta(pos)
+			if not meta or meta and meta:get_string("owner") == "" then -- recreate meta if it doesnt exist (prevents crashes from worldedit schems)
+				assembler_on_construct(pos)
+				assembler_after_place_node(pos, clicker, itemstack, pointed_thing)
+			end
 
-		if not locks.can_access(pos, clicker) then -- utilize locks API, automatically checks the lock state and whether player can access
-			return itemstack
-		end
-		assembler_show_formspec(pos, clicker) -- calls formspec if player can
-		furniture.assembler[playername] = pos -- store data for fields
-	end,
-	on_metadata_inventory_put = function(pos, listname, index, stack, player)
-		assembler_update(pos, listname, index, stack, player)
-	end,
-	on_metadata_inventory_take = function(pos, listname, index, stack, player)
-		assembler_update(pos, listname, index, stack, player)
-	end,
-	on_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
-		local meta = minetest.get_meta(pos)
-		local stack = meta:get_inventory():get_stack(from_list, from_index)
-		assembler_update(pos, from_list, from_index, stack, player)
-	end,
-	allow_metadata_inventory_put = function(pos, listname, index, stack, player)
-		local meta = minetest.get_meta(pos)
-		if not locks.can_access(pos, player) then
-			return 0
-		end
-		if listname == "input" then
-			if meta:get_string("crafted") == "" then
-				return stack:get_count()
-			else
-				local playername = player:get_player_name()
-				minetest.chat_send_player(playername, "[Furniture Assembler] Please remove all output items first.")
-				return 0
+			if not locks.can_access(pos, clicker) then -- utilize locks API, automatically checks the lock state and whether player can access
+				return itemstack
 			end
-		else
-			return 0
-		end
-	end,
-	allow_metadata_inventory_take = function(pos, listname, index, stack, player)
-		local meta = minetest.get_meta(pos)
-		if not locks.can_access(pos, player) then
-			return 0
-		end
-		if listname == "input" then
-			if meta:get_string("crafted") == "" then
-				return stack:get_count()
-			else
-				local playername = player:get_player_name()
-				minetest.chat_send_player(playername, "[Furniture Assembler] Please remove all output items first.")
-				return 0
-			end
-		elseif listname == "output" then
-			return stack:get_count()
-		else
-			return 0
-		end
-	end,
-	allow_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
-		if not locks.can_access(pos, player) then
-			return 0
-		end
-		-- disallow moving things in from within inventory to output
-		if to_list == "output" then
-			return 0
-		end
-		-- ensure output is empty before allowing modification of input
-		if from_list == "input" then
+			assembler_show_formspec(pos, clicker) -- calls formspec if player can
+			furniture.assembler[playername] = pos -- store data for fields
+		end,
+		on_metadata_inventory_put = function(pos, listname, index, stack, player)
+			assembler_update(pos, listname, index, stack, player)
+		end,
+		on_metadata_inventory_take = function(pos, listname, index, stack, player)
+			assembler_update(pos, listname, index, stack, player)
+		end,
+		on_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
 			local meta = minetest.get_meta(pos)
 			local stack = meta:get_inventory():get_stack(from_list, from_index)
-			if meta:get_string("crafted") == "" then
-				return stack:get_count()
-			else
-				local playername = player:get_player_name()
-				minetest.chat_send_player(playername, "[Furniture Assembler] Please remove all output items first.")
+			assembler_update(pos, from_list, from_index, stack, player)
+		end,
+		allow_metadata_inventory_put = function(pos, listname, index, stack, player)
+			local meta = minetest.get_meta(pos)
+			if not locks.can_access(pos, player) then
 				return 0
 			end
-		else
-			return 0
+			if listname == "input" then
+				if meta:get_string("crafted") == "" then
+					return stack:get_count()
+				else
+					local playername = player:get_player_name()
+					minetest.chat_send_player(playername, "[Furniture Assembler] Please remove all output items first.")
+					return 0
+				end
+			else
+				return 0
+			end
+		end,
+		allow_metadata_inventory_take = function(pos, listname, index, stack, player)
+			local meta = minetest.get_meta(pos)
+			if not locks.can_access(pos, player) then
+				return 0
+			end
+			if listname == "input" then
+				if meta:get_string("crafted") == "" then
+					return stack:get_count()
+				else
+					local playername = player:get_player_name()
+					minetest.chat_send_player(playername, "[Furniture Assembler] Please remove all output items first.")
+					return 0
+				end
+			elseif listname == "output" then
+				return stack:get_count()
+			else
+				return 0
+			end
+		end,
+		allow_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
+			if not locks.can_access(pos, player) then
+				return 0
+			end
+			-- disallow moving things in from within inventory to output
+			if to_list == "output" then
+				return 0
+			end
+			-- ensure output is empty before allowing modification of input
+			if from_list == "input" then
+				local meta = minetest.get_meta(pos)
+				local stack = meta:get_inventory():get_stack(from_list, from_index)
+				if meta:get_string("crafted") == "" then
+					return stack:get_count()
+				else
+					local playername = player:get_player_name()
+					minetest.chat_send_player(playername, "[Furniture Assembler] Please remove all output items first.")
+					return 0
+				end
+			else
+				return 0
+			end
 		end
-	end
-})
+	})
+end

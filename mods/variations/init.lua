@@ -23,6 +23,7 @@ variations.variations = {
 		name = "hexagon";
 		description = "Hexagon Tile";
 		texture = "0,1";
+		rotation = true;
 		enabled_shapes = "slab, cube, step, cat:stair, splitstair, cat:pillar, cat:pillarcown, corner, slope, slope2, slope3, innerslope, innerslope2, innerslope3, outerslope, outerslope2, outerslope3";
 	},
 	{
@@ -38,9 +39,10 @@ variations.variations = {
 		enabled_shapes = "slab, cube, step, cat:stair, splitstair, cat:pillar, cat:pillarcown, corner, slope, slope2, slope3, innerslope, innerslope2, innerslope3, outerslope, outerslope2, outerslope3";
 	},
 	{
-		name = "horizontal_stripe";
-		description = "Horizontal Stripe";
+		name = "stripe";
+		description = "Stripe";
 		texture = "0,2";
+		rotation = true;
 		enabled_shapes = "slab, cube, step, cat:stair, splitstair, cat:pillar, cat:pillarcown, corner, slope, slope2, slope3, innerslope, innerslope2, innerslope3, outerslope, outerslope2, outerslope3";
 	},
 	{
@@ -74,6 +76,10 @@ function variations.register_for_base(base_node, transparent, sunlight)
 		local variation_description = base_definition.description .. " " .. variation.description
 		local tiles = {"variations_" .. sname .. ".png^[sheet:3x3:" .. variation.texture}
 		local paramtype_light = ""
+		local paramtype2 = nil
+		if (variation.rotation) then
+			paramtype2 = "facedir"
+		end
 		if not sunlight and transparent then
 			sunlight = true
 			paramtype_light = "light"
@@ -85,6 +91,7 @@ function variations.register_for_base(base_node, transparent, sunlight)
 			drawtype = base_definition.drawtype,
 			use_texture_alpha = transparent or base_definition.use_texture_alpha,
 			paramtype = paramtype_light or base_definition.paramtype,
+			paramtype2 = paramtype2,
 			sunlight_propagates = sunlight or base_definition.sunlight_propagates,
 			sounds = base_definition.sounds,
 		})

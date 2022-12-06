@@ -66,7 +66,7 @@ furniture.types = {
         -- crafting - an array where each position corresponds to a cell in the crafting grid, values represent materials; 0 is empty, 1 is base and
         -- above are the other materials in the order from special_materials
         -- The following overrides can be applied to the base node, and/or to the active node by appending the _active suffix (all optional):
-        -- light_source, visual_scale, post_effect_color, walkable, pointable, diggable, climbable, move_resistance, buildable_to, floodable, drowning, damage per second.
+        -- alpha, sunlight_propagates, light_source, visual_scale, post_effect_color, walkable, pointable, diggable, climbable, move_resistance, buildable_to, floodable, drowning, damage per second.
     },
     {
         name = "chair",
@@ -629,6 +629,8 @@ furniture.types = {
         box = {-0.5, -0.5, -0.5, 0.5, 1.5, -4/16},
         box_activated = {-0.5, -0.5, -0.5, -4/16, 1.5, 0.5},
         activate_sound = furniture.door_open_sounds,
+        sunlight_propagates = false,
+        sunlight_propagates_active = true,
         deactivate_sound = furniture.door_close_sounds,
         crafting = {
             {0, 1, 1, 1, 0},
@@ -646,6 +648,8 @@ furniture.types = {
         box = {-0.5, -0.5, -0.5, 0.5, 1.5, -4/16},
         box_activated = {0.5, -0.5, -0.5, 4/16, 1.5, 0.5},
         activate_sound = furniture.door_open_sounds,
+        sunlight_propagates = false,
+        sunlight_propagates_active = true,
         deactivate_sound = furniture.door_close_sounds,
         crafting = {
             {0, 1, 1, 1, 0},
@@ -774,7 +778,12 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
     local furniture_description =  base_definition.description .. " " .. fdef.description
     local furniture_mesh = (fdef.base or fdef.name) .. ".obj"
     local tiles = {texture or base_definition.tiles[1]}
-    local alpha = base_definition.use_texture_alpha
+    local sunlight
+    if (fdef.sunlight_propagates) then
+        sunlight = fdef.sunlight_propagates
+    else
+        sunlight = true
+    end
     local sounds = base_definition.sounds
     local collision_box = {type = "fixed", fixed = fdef.box}
     local groups = furniture.table_copy(base_definition.groups)
@@ -812,6 +821,12 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
     groups_active.not_in_creative_inventory = 1
     if fdef.groups_active then
         furniture.dictionary_append(groups_active, fdef.groups_active)
+    end
+    local sunlight_active
+    if (fdef.sunlight_propagates_active) then
+        sunlight_active = fdef.sunlight_propagates_active
+    else
+        sunlight_active = true
     end
 
     -- Textures
@@ -903,10 +918,10 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
             mesh = furniture_mesh,
             collision_box = collision_box,
             selection_box = collision_box,
-            use_texture_alpha = alpha,
+            use_texture_alpha = fdef.alpha or base_definition.use_texture_alpha,
             paramtype = "light",
             paramtype2 = "facedir",
-            sunlight_propagates = true,
+            sunlight_propagates = sunlight,
             sounds = sounds,
             light_source = fdef.light_source or base_definition.light_source,
             visual_scale = fdef.visual_scale or base_definition.visual_scale,
@@ -930,10 +945,10 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
             mesh = furniture_mesh,
             collision_box = collision_box,
             selection_box = collision_box,
-            use_texture_alpha = alpha,
+            use_texture_alpha = fdef.alpha or base_definition.use_texture_alpha,
             paramtype = "light",
             paramtype2 = "facedir",
-            sunlight_propagates = true,
+            sunlight_propagates = sunlight,
             sounds = sounds,
             after_place_node = after_place_node,
             on_rightclick = on_rightclick,
@@ -960,10 +975,10 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
                 mesh = furniture_mesh_active,
                 collision_box = collision_box_active,
                 selection_box = collision_box_active,
-                use_texture_alpha = alpha,
+                use_texture_alpha = fdef.alpha_active or base_definition.use_texture_alpha,
                 paramtype = "light",
                 paramtype2 = "facedir",
-                sunlight_propagates = true,
+                sunlight_propagates = sunlight_active,
                 sounds = sounds,
                 drops = furniture_name,
                 after_place_node = after_place_node,
@@ -992,10 +1007,10 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
                 mesh = furniture_mesh,
                 collision_box = collision_box,
                 selection_box = collision_box,
-                use_texture_alpha = alpha,
+                use_texture_alpha = fdef.alpha or base_definition.use_texture_alpha,
                 paramtype = "light",
                 paramtype2 = "facedir",
-                sunlight_propagates = true,
+                sunlight_propagates = sunlight,
                 sounds = sounds,
                 after_place_node = after_place_node_locked,
                 on_rightclick = on_rightclick_locked,
@@ -1021,10 +1036,10 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
                 mesh = furniture_mesh_active,
                 collision_box = collision_box_active,
                 selection_box = collision_box_active,
-                use_texture_alpha = alpha,
+                use_texture_alpha = fdef.alpha_active or base_definition.use_texture_alpha,
                 paramtype = "light",
                 paramtype2 = "facedir",
-                sunlight_propagates = true,
+                sunlight_propagates = sunlight_active,
                 sounds = sounds,
                 drops = furniture_name,
                 after_place_node = after_place_node_locked,

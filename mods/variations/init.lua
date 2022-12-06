@@ -73,7 +73,7 @@ function variations.register_for_base(base_node, transparent, sunlight)
 	for _, variation in ipairs(variations.variations) do
 		local sname = string.match(base_node, ':(.*)')
 		local variation_name = "variations:" .. sname .. "_" .. variation.name
-		local variation_description = base_definition.description .. " " .. variation.description
+		local variation_description = ccore.strip_newlines(base_definition.description) .. " " .. variation.description
 		local tiles = {"variations_" .. sname .. ".png^[sheet:3x3:" .. variation.texture}
 		local paramtype_light = ""
 		local paramtype2 = nil
@@ -113,7 +113,7 @@ function variations.register_support(base_node, support_type, support_material, 
 	for _, variation in ipairs(variations.variations) do
 		local sname = string.match(base_node, ':(.*)')
 		local variation_name = "variations:" .. sname .. "_" .. variation.name .. "_support_" .. support_material
-		local variation_description = base_definition.description .. variation.description .. " with " .. variations.supp_desc[support_material] .. " Support"
+		local variation_description = ccore.strip_newlines(base_definition.description) .. variation.description .. " with " .. variations.supp_desc[support_material] .. " Support"
 		local tiles
 		if (support_type == "full") then
 			tiles = {"(variations_" .. sname .. ".png^[sheet:3x3:" .. variation.texture .. ")^(variations_support_" .. support_material .. ".png^[sheet:3x3:" .. variation.texture .. ")"}
@@ -193,7 +193,7 @@ function variations.register_frame(base_node)
 		for _, variation in ipairs(variations.frame_variations) do
 			local sname = string.match(base_node, ':(.*)')
 			local frame_name = "variations:" .. sname .. "_" .. variation.name .. "_" .. frame.name
-			local frame_description = base_definition.description .. " " .. variation.description .. " " .. frame.description .. " Frame"
+			local frame_description = ccore.comment(ccore.strip_newlines(base_definition.description) .. " Frame", "Type: " .. variation.description .. "\nSegment: " .. frame.description)
 			local tiles = {"(variations_" .. sname .. ".png^[mask:(variations_glass_mask.png\\^[sheet\\:3x5\\:" .. variation.texture .. "," .. frame.texture .. "))", "variations_" .. sname .. ".png"}
 			minetest.register_node(frame_name, {
 				description = frame_description,
@@ -229,7 +229,7 @@ function variations.register_stainglass(base_node)
 		for _, variation in ipairs(variations.frame_variations) do
 			local sname = string.match(base_node, ':(.*)')
 			local frame_name = "variations:stainglass_" .. sname .. "_" .. variation.name .. "_" .. frame.name
-			local frame_description = base_definition.description .. " " .. variation.description .. " " .. frame.description .. " Stainglass"
+			local frame_description = ccore.comment(ccore.strip_newlines(base_definition.description) .. " Stainglass", "Type: " .. variation.description .. "\nSegment: " .. frame.description)
 			local tiles = {"variations_stainglass_" .. sname .. ".png^[sheet:3x5:" .. variation.texture .. "," .. frame.texture, "variations_void.png"}
 			minetest.register_node(frame_name, {
 				description = frame_description,

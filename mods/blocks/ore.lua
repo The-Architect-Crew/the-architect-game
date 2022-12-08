@@ -236,16 +236,18 @@ minetest.register_node("blocks:steelblock", {
 -- Steampunk
 minetest.register_node("blocks:rustblock", {
 	description = S("Rust Block"),
-	tiles = {"blocks_rust_block.png"},
+	tiles = {"blocks_rust_block_top.png", "blocks_rust_block_top.png", "blocks_rust_block.png"},
 	is_ground_content = false,
+	paramtype2 = "facedir",
 	groups = {cracky = 1, level = 2, pipes_connect = 1},
 	sounds = default.node_sound_metal_defaults(),
 })
 
 minetest.register_node("blocks:rustblock_hazard", {
 	description = S("Rust Block with Hazard Warning"),
-	tiles = {"blocks_rust_block_hazard.png"},
+	tiles = {"blocks_rust_block_hazard_top.png", "blocks_rust_block_hazard_top.png", "blocks_rust_block_hazard.png"},
 	is_ground_content = false,
+	paramtype2 = "facedir",
 	groups = {cracky = 1, level = 2},
 	sounds = default.node_sound_metal_defaults(),
 })

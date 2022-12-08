@@ -830,7 +830,7 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
     end
 
     -- Textures
-    local alpha
+    local alpha = "opaque",
     if (type(fdef.special_textures) == "table") then
         for i=1, #fdef.special_textures do
             tiles[i+1] = fdef.special_textures[i]
@@ -859,7 +859,8 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
 
     local after_place_node_locked
     local on_rightclick_locked
-    local can_dig_locked
+    local on_rightclick_active_locked
+    local can_dig_locked = false
 
     if fdef.generate_locked then
         after_place_node_locked = function(pos, placer)
@@ -949,7 +950,6 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
             paramtype2 = "facedir",
             sunlight_propagates = sunlight,
             sounds = sounds,
-            after_place_node = after_place_node,
             on_rightclick = on_rightclick,
             light_source = fdef.light_source or base_definition.light_source,
             visual_scale = fdef.visual_scale or base_definition.visual_scale,
@@ -979,9 +979,7 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
                 sunlight_propagates = sunlight_active,
                 sounds = sounds,
                 drops = furniture_name,
-                after_place_node = after_place_node,
                 on_rightclick = on_rightclick_active,
-                can_dig = can_dig,
                 light_source = fdef.light_source_active or base_definition.light_source,
                 visual_scale = fdef.visual_scale_active or base_definition.visual_scale,
                 post_effect_color = fdef.post_effect_color_active or base_definition.post_effect_color,

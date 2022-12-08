@@ -4,9 +4,9 @@ furniture.small_pipe = {
     fixed           =   {{-2/16, -1/16, -1/16, 2/16, 1/16, 1/16}, {-1/16, -2/16, -1/16, 1/16, 2/16, 1/16}, {-1/16, -1/16, -2/16, 1/16, 1/16, 2/16}},
     connect_bottom  =   {{-2/16, -8/16, -1/16,  2/16, 0/16, 1/16}, {-1/16, -8/16, -2/16,  1/16, 0/16, 2/16},
                         {-3/16, -1/16, -2/16,  3/16, 0/16, 2/16}, {-2/16, -1/16, -3/16,  2/16, 0/16, 3/16}, {-2/16, -1/16, -2/16,  2/16, 0/16, 2/16}},
-    connect_top     =   {{-2/16, 0/16, -1/16,  2/16, 8/16, 1/16}, {-1/16, 0/16, -2/16,  1/16, 8/16, 2/16}, 
+    connect_top     =   {{-2/16, 0/16, -1/16,  2/16, 8/16, 1/16}, {-1/16, 0/16, -2/16,  1/16, 8/16, 2/16},
                         {-3/16, 0/16, -2/16,  3/16, 1/16, 2/16}, {-2/16, 0/16, -3/16,  2/16, 1/16, 3/16}, {-2/16, 0/16, -2/16,  2/16, 1/16, 2/16}},
-    connect_back    =   {{-2/16, -1/16, 0/16,  2/16, 1/16, 8/16}, {-1/16, -2/16, 0/16,  1/16, 2/16, 8/16}, 
+    connect_back    =   {{-2/16, -1/16, 0/16,  2/16, 1/16, 8/16}, {-1/16, -2/16, 0/16,  1/16, 2/16, 8/16},
                         {-3/16, -2/16, 0/16,  3/16, 2/16, 1/16}, {-2/16, -3/16, 0/16,  2/16, 3/16, 1/16}, {-2/16, -2/16, 0/16,  2/16, 2/16, 1/16}},
     connect_front   =   {{-2/16, -1/16, -8/16,  2/16, 1/16, 0/16}, {-1/16, -2/16, -8/16,  1/16, 2/16, 0/16},
                         {-3/16, -2/16, -1/16,  3/16, 2/16, 0/16}, {-2/16, -3/16, -1/16,  2/16, 3/16, 0/16}, {-2/16, -2/16, -1/16,  2/16, 2/16, 0/16}},
@@ -97,7 +97,7 @@ furniture.register_pipes = function(base_node)
         groups = base_groups,
         sounds = base_sounds
         })
-    
+
     minetest.register_node("furniture:pipe_" .. sname .. "_horizontal", {
         description = S(base_description .. " Horizontal Pipe"),
         tiles = {"furniture_pipe_" .. sname .. ".png"},
@@ -137,7 +137,7 @@ furniture.register_pipes = function(base_node)
         groups = base_groups,
         sounds = base_sounds
         })
-    
+
     minetest.register_node("furniture:seamless_pipe_" .. sname .. "_vertical", {
         description = S(base_description .. " Seamless Vertical Pipe"),
         tiles = {"furniture_pipe_" .. sname .. ".png"},
@@ -154,7 +154,7 @@ furniture.register_pipes = function(base_node)
         groups = base_groups,
         sounds = base_sounds
         })
-    
+
     minetest.register_node("furniture:seamless_pipe_" .. sname .. "_horizontal", {
         description = S(base_description .. " Seamless Horizontal Pipe"),
         tiles = {"furniture_pipe_" .. sname .. ".png"},
@@ -196,7 +196,7 @@ furniture.register_pipes = function(base_node)
         groups = base_groups,
         sounds = base_sounds
         })
-    
+
     minetest.register_node("furniture:big_pipe_" .. sname .. "_vertical", {
         description = S(base_description .. " Big Vertical Pipe"),
         tiles = {"furniture_pipe_" .. sname .. ".png"},
@@ -213,7 +213,7 @@ furniture.register_pipes = function(base_node)
         groups = base_groups,
         sounds = base_sounds
         })
-    
+
     minetest.register_node("furniture:big_pipe_" .. sname .. "_horizontal", {
         description = S(base_description .. " Big Horizontal Pipe"),
         tiles = {"furniture_pipe_" .. sname .. ".png"},
@@ -253,7 +253,7 @@ furniture.register_pipes = function(base_node)
         groups = base_groups,
         sounds = base_sounds
         })
-    
+
     minetest.register_node("furniture:seamless_big_pipe_" .. sname .. "_vertical", {
         description = S(base_description .. " Big Seamless Vertical Pipe"),
         tiles = {"furniture_pipe_" .. sname .. ".png"},
@@ -270,7 +270,7 @@ furniture.register_pipes = function(base_node)
         groups = base_groups,
         sounds = base_sounds
         })
-    
+  
     minetest.register_node("furniture:seamless_big_pipe_" .. sname .. "_horizontal", {
         description = S(base_description .. " Big Seamless Horizontal Pipe"),
         tiles = {"furniture_pipe_" .. sname .. ".png"},

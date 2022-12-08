@@ -26,7 +26,7 @@ for i=1,#furniture.craftstation_materials do
 			fixed = box,
 		},
 		tiles = {{name = "variations_" .. sname .. ".png^[sheet:3x3:1,0", backface_culling = true}, secondary_tile,
-		{name = "furniture_tablesaw_static.png", backface_culling = true}, 
+		{name = "furniture_tablesaw_static.png", backface_culling = true},
 		{name = "furniture_tablesaw_void.png", backface_culling = true}, {
 					name = "furniture_tablesaw_animated.png",
 					animation = {

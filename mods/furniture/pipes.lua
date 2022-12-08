@@ -270,7 +270,7 @@ furniture.register_pipes = function(base_node)
         groups = base_groups,
         sounds = base_sounds
         })
-  
+
     minetest.register_node("furniture:seamless_big_pipe_" .. sname .. "_horizontal", {
         description = S(base_description .. " Big Seamless Horizontal Pipe"),
         tiles = {"furniture_pipe_" .. sname .. ".png"},

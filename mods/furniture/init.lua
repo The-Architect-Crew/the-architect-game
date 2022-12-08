@@ -802,14 +802,14 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
         end
     end
     local deactivate_sound
-    local gain_activated
+    local gain_active
     if fdef.deactivate_sound then
         if type(fdef.deactivate_sound[esname]) == "table" then
             deactivate_sound = fdef.deactivate_sound[esname][1] or fdef.deactivate_sound.default[1]
-            gain_activated = fdef.deactivate_sound[esname][2] or fdef.deactivate_sound.default[2]
+            gain_active = fdef.deactivate_sound[esname][2] or fdef.deactivate_sound.default[2]
         else
             deactivate_sound = fdef.deactivate_sound[esname] or fdef.deactivate_sound.default
-            gain_activated = 0.13
+            gain_active = 0.13
         end
     end
 
@@ -830,6 +830,7 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
     end
 
     -- Textures
+    local alpha
     if (type(fdef.special_textures) == "table") then
         for i=1, #fdef.special_textures do
             tiles[i+1] = fdef.special_textures[i]
@@ -853,13 +854,11 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
     end
 
     -- Declare function storage
-    local after_place_node
     local on_rightclick
     local on_rightclick_active
 
     local after_place_node_locked
     local on_rightclick_locked
-    local on_rightclick_active_locked
     local can_dig_locked
 
     if fdef.generate_locked then
@@ -952,7 +951,6 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
             sounds = sounds,
             after_place_node = after_place_node,
             on_rightclick = on_rightclick,
-            can_dig = can_dig,
             light_source = fdef.light_source or base_definition.light_source,
             visual_scale = fdef.visual_scale or base_definition.visual_scale,
             post_effect_color = fdef.post_effect_color or base_definition.post_effect_color,
@@ -1014,7 +1012,6 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
                 sounds = sounds,
                 after_place_node = after_place_node_locked,
                 on_rightclick = on_rightclick_locked,
-                can_dig = can_dig,
                 light_source = fdef.light_source or base_definition.light_source,
                 visual_scale = fdef.visual_scale or base_definition.visual_scale,
                 post_effect_color = fdef.post_effect_color or base_definition.post_effect_color,
@@ -1066,7 +1063,6 @@ end
 function furniture.register_crafting(base_node, i, materials_in, locked)
     local materials = furniture.table_copy(materials_in)
     local fdef = furniture.types[i]
-    local base_definition = minetest.registered_nodes[base_node]
     local sname = string.match(base_node, ':(.*)')
     local modname = string.match(base_node, '(.*):')
     local furniture_name = "furniture:" .. modname .. "_" .. fdef.name .. "_" .. sname

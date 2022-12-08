@@ -830,7 +830,7 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
     end
 
     -- Textures
-    local alpha = "opaque",
+    local alpha = "opaque"
     if (type(fdef.special_textures) == "table") then
         for i=1, #fdef.special_textures do
             tiles[i+1] = fdef.special_textures[i]
@@ -918,7 +918,7 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
             mesh = furniture_mesh,
             collision_box = collision_box,
             selection_box = collision_box,
-            use_texture_alpha = fdef.alpha or base_definition.use_texture_alpha,
+            use_texture_alpha = fdef.alpha or alpha,
             paramtype = "light",
             paramtype2 = "facedir",
             sunlight_propagates = sunlight,
@@ -945,7 +945,7 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
             mesh = furniture_mesh,
             collision_box = collision_box,
             selection_box = collision_box,
-            use_texture_alpha = fdef.alpha or base_definition.use_texture_alpha,
+            use_texture_alpha = fdef.alpha or alpha,
             paramtype = "light",
             paramtype2 = "facedir",
             sunlight_propagates = sunlight,
@@ -973,7 +973,7 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
                 mesh = furniture_mesh_active,
                 collision_box = collision_box_active,
                 selection_box = collision_box_active,
-                use_texture_alpha = fdef.alpha_active or base_definition.use_texture_alpha,
+                use_texture_alpha = fdef.alpha_active or alpha,
                 paramtype = "light",
                 paramtype2 = "facedir",
                 sunlight_propagates = sunlight_active,
@@ -1003,7 +1003,7 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
                 mesh = furniture_mesh,
                 collision_box = collision_box,
                 selection_box = collision_box,
-                use_texture_alpha = fdef.alpha or base_definition.use_texture_alpha,
+                use_texture_alpha = fdef.alpha or alpha,
                 paramtype = "light",
                 paramtype2 = "facedir",
                 sunlight_propagates = sunlight,
@@ -1031,7 +1031,7 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
                 mesh = furniture_mesh_active,
                 collision_box = collision_box_active,
                 selection_box = collision_box_active,
-                use_texture_alpha = fdef.alpha_active or base_definition.use_texture_alpha,
+                use_texture_alpha = fdef.alpha_active or alpha,
                 paramtype = "light",
                 paramtype2 = "facedir",
                 sunlight_propagates = sunlight_active,

@@ -1,4 +1,4 @@
-local S = default.get_translator
+--[[local S = default.get_translator
 
 furniture.small_pipe = {
     fixed           =   {{-2/16, -1/16, -1/16, 2/16, 1/16, 1/16}, {-1/16, -2/16, -1/16, 1/16, 2/16, 1/16}, {-1/16, -1/16, -2/16, 1/16, 1/16, 2/16}},
@@ -295,3 +295,4 @@ end
 furniture.register_pipes("blocks:copperblock")
 furniture.register_pipes("blocks:steelblock")
 furniture.register_pipes("blocks:rustblock")
+]]--

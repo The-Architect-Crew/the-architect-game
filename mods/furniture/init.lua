@@ -14,12 +14,13 @@ furniture.craftstation_materials = {
 }
 
 -- These are furniture in the sense that they're models
-dofile(path.."/pipes.lua")
-dofile(path.."/steampunk.lua")
 dofile(path.."/assembler.lua")
 dofile(path.."/cutter.lua")
 dofile(path.."/engraver.lua")
 dofile(path.."/tablesaw.lua")
+
+-- Anything that contains crafting registrations has to go after craftstations
+dofile(path.."/steampunk.lua")
 
 -- And these are furniture since players can't get the stuff otherwise
 dofile(path.."/craftitems.lua")

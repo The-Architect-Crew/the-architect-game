@@ -234,6 +234,11 @@ minetest.register_node("blocks:steelblock", {
 })
 
 -- Steampunk
+minetest.register_craftitem("blocks:rust_ingot", {
+	description = S("Rusted Ingot"),
+	inventory_image = "blocks_rust_ingot.png"
+})
+
 minetest.register_node("blocks:rustblock", {
 	description = S("Rust Block"),
 	tiles = {"blocks_rust_block_top.png", "blocks_rust_block_top.png", "blocks_rust_block.png"},
@@ -2189,6 +2194,20 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
+	output = "blocks:rust_ingot 9",
+	recipe = {
+		{"blocks:rustblock"},
+	}
+})
+minetest.register_craft({
+	output = "blocks:rust_ingot",
+	recipe = {
+		{"blocks:dirt"},
+		{"blocks:steel_ingot"},
+	}
+})
+
+minetest.register_craft({
 	output = "blocks:coalblock",
 	recipe = {
 		{"blocks:coal_lump", "blocks:coal_lump", "blocks:coal_lump"},
@@ -2203,6 +2222,47 @@ minetest.register_craft({
 		{"blocks:steel_ingot", "blocks:steel_ingot", "blocks:steel_ingot"},
 		{"blocks:steel_ingot", "blocks:steel_ingot", "blocks:steel_ingot"},
 		{"blocks:steel_ingot", "blocks:steel_ingot", "blocks:steel_ingot"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:steelblock",
+	recipe = {
+		{"blocks:steelblock_hazard"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:steelblock_hazard 4",
+	recipe = {
+		{"dye:red", "blocks:steelblock", "dye:red"},
+		{"blocks:steelblock", "dye:red", "blocks:steelblock"},
+		{"dye:red", "blocks:steelblock", "dye:red"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:rustblock",
+	recipe = {
+		{"blocks:rust_ingot", "blocks:rust_ingot", "blocks:rust_ingot"},
+		{"blocks:rust_ingot", "blocks:rust_ingot", "blocks:rust_ingot"},
+		{"blocks:rust_ingot", "blocks:rust_ingot", "blocks:rust_ingot"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:rustblock",
+	recipe = {
+		{"blocks:rustblock_hazard"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:rustblock_hazard 4",
+	recipe = {
+		{"dye:yellow", "blocks:rustblock", "dye:yellow"},
+		{"blocks:rustblock", "dye:yellow", "blocks:rustblock"},
+		{"dye:yellow", "blocks:rustblock", "dye:yellow"},
 	}
 })
 

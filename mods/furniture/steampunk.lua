@@ -252,4 +252,4 @@ furniture.register_pipe_recipe("valve_large", "blocks:steel_ingot")
 
 furniture.register_pipes("copper", "Copper", "blocks:copper_ingot")
 furniture.register_pipes("steel", "Steel", "blocks:steel_ingot")
-furniture.register_pipes("rust", "Rusted", "blocks:rustblock")
+furniture.register_pipes("rust", "Rusted", "blocks:rust_ingot")

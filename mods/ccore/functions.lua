@@ -65,3 +65,7 @@ end
 function ccore.round(num, decpoint)
 	return tonumber(string.format("%."..decpoint.."f", num))
 end
+-- remove comment from description
+function ccore.strip_newlines(string)
+	return string.match(string, '(.*)\n') or string
+end

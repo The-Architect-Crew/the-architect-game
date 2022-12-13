@@ -226,8 +226,42 @@ minetest.register_craftitem("blocks:steel_ingot", {
 
 minetest.register_node("blocks:steelblock", {
 	description = S("Steel Block"),
-	tiles = {"blocks_steel_block.png"},
+	tiles = {"blocks_steel_block_top.png", "blocks_steel_block_top.png", "blocks_steel_block.png"},
 	is_ground_content = false,
+	paramtype2 = "facedir",
+	groups = {cracky = 1, level = 2, pipes_connect = 1},
+	sounds = default.node_sound_metal_defaults(),
+})
+
+-- Steampunk
+minetest.register_craftitem("blocks:rust_ingot", {
+	description = S("Rusted Ingot"),
+	inventory_image = "blocks_rust_ingot.png"
+})
+
+minetest.register_node("blocks:rustblock", {
+	description = S("Rust Block"),
+	tiles = {"blocks_rust_block_top.png", "blocks_rust_block_top.png", "blocks_rust_block.png"},
+	is_ground_content = false,
+	paramtype2 = "facedir",
+	groups = {cracky = 1, level = 2, pipes_connect = 1},
+	sounds = default.node_sound_metal_defaults(),
+})
+
+minetest.register_node("blocks:rustblock_hazard", {
+	description = S("Rust Block with Hazard Warning"),
+	tiles = {"blocks_rust_block_hazard_top.png", "blocks_rust_block_hazard_top.png", "blocks_rust_block_hazard.png"},
+	is_ground_content = false,
+	paramtype2 = "facedir",
+	groups = {cracky = 1, level = 2},
+	sounds = default.node_sound_metal_defaults(),
+})
+
+minetest.register_node("blocks:steelblock_hazard", {
+	description = S("Steel Block with Hazard Warning"),
+	tiles = {"blocks_steel_block_hazard_top.png", "blocks_steel_block_hazard_top.png", "blocks_steel_block_hazard.png"},
+	is_ground_content = false,
+	paramtype2 = "facedir",
 	groups = {cracky = 1, level = 2},
 	sounds = default.node_sound_metal_defaults(),
 })
@@ -311,9 +345,10 @@ minetest.register_node("blocks:malachite_with_copper", {
 
 minetest.register_node("blocks:copperblock", {
 	description = S("Copper Block"),
-	tiles = {"blocks_copper_block.png"},
+	tiles = {"blocks_copper_block_top.png", "blocks_copper_block_top.png", "blocks_copper_block.png"},
 	is_ground_content = false,
-	groups = {cracky = 1, level = 2},
+	paramtype2 = "facedir",
+	groups = {cracky = 1, level = 2, pipes_connect = 1},
 	sounds = default.node_sound_metal_defaults(),
 })
 
@@ -384,8 +419,9 @@ minetest.register_node("blocks:granite_with_tin", {
 
 minetest.register_node("blocks:tinblock", {
 	description = S("Tin Block"),
-	tiles = {"blocks_tin_block.png"},
+	tiles = {"blocks_tin_block_top.png", "blocks_tin_block_top.png", "blocks_tin_block.png"},
 	is_ground_content = false,
+	paramtype2 = "facedir",
 	groups = {cracky = 1, level = 2},
 	sounds = default.node_sound_metal_defaults(),
 })
@@ -398,8 +434,9 @@ minetest.register_craftitem("blocks:bronze_ingot", {
 
 minetest.register_node("blocks:bronzeblock", {
 	description = S("Bronze Block"),
-	tiles = {"blocks_bronze_block.png"},
+	tiles = {"blocks_bronze_block_top.png", "blocks_bronze_block_top.png", "blocks_bronze_block.png"},
 	is_ground_content = false,
+	paramtype2 = "facedir",
 	groups = {cracky = 1, level = 2},
 	sounds = default.node_sound_metal_defaults(),
 })
@@ -650,8 +687,9 @@ minetest.register_node("blocks:granite_with_gold", {
 
 minetest.register_node("blocks:goldblock", {
 	description = S("Gold Block"),
-	tiles = {"blocks_gold_block.png"},
+	tiles = {"blocks_gold_block_top.png", "blocks_gold_block_top.png", "blocks_gold_block.png"},
 	is_ground_content = false,
+	paramtype2 = "facedir",
 	groups = {cracky = 1},
 	sounds = default.node_sound_metal_defaults(),
 })
@@ -1250,8 +1288,9 @@ minetest.register_node("blocks:granite_with_silver", {
 
 minetest.register_node("blocks:silverblock", {
 	description = S("Silver Block"),
-	tiles = {"blocks_silver_block.png"},
+	tiles = {"blocks_silver_block_top.png", "blocks_silver_block_top.png", "blocks_silver_block.png"},
 	is_ground_content = false,
+	paramtype2 = "facedir",
 	groups = {cracky = 1},
 	sounds = default.node_sound_metal_defaults(),
 })
@@ -1296,8 +1335,9 @@ minetest.register_node("blocks:stone_with_mithril", {
 
 minetest.register_node("blocks:mithrilblock", {
 	description = S("Mithril Block"),
-	tiles = {"blocks_mithril_block.png"},
+	tiles = {"blocks_mithril_block_top.png", "blocks_mithril_block_top.png", "blocks_mithril_block.png"},
 	is_ground_content = false,
+	paramtype2 = "facedir",
 	groups = {cracky = 1, level = 3},
 	sounds = default.node_sound_metal_defaults(),
 })
@@ -2154,6 +2194,20 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
+	output = "blocks:rust_ingot 9",
+	recipe = {
+		{"blocks:rustblock"},
+	}
+})
+minetest.register_craft({
+	output = "blocks:rust_ingot",
+	recipe = {
+		{"blocks:dirt"},
+		{"blocks:steel_ingot"},
+	}
+})
+
+minetest.register_craft({
 	output = "blocks:coalblock",
 	recipe = {
 		{"blocks:coal_lump", "blocks:coal_lump", "blocks:coal_lump"},
@@ -2168,6 +2222,47 @@ minetest.register_craft({
 		{"blocks:steel_ingot", "blocks:steel_ingot", "blocks:steel_ingot"},
 		{"blocks:steel_ingot", "blocks:steel_ingot", "blocks:steel_ingot"},
 		{"blocks:steel_ingot", "blocks:steel_ingot", "blocks:steel_ingot"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:steelblock",
+	recipe = {
+		{"blocks:steelblock_hazard"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:steelblock_hazard 4",
+	recipe = {
+		{"dye:red", "blocks:steelblock", "dye:red"},
+		{"blocks:steelblock", "dye:red", "blocks:steelblock"},
+		{"dye:red", "blocks:steelblock", "dye:red"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:rustblock",
+	recipe = {
+		{"blocks:rust_ingot", "blocks:rust_ingot", "blocks:rust_ingot"},
+		{"blocks:rust_ingot", "blocks:rust_ingot", "blocks:rust_ingot"},
+		{"blocks:rust_ingot", "blocks:rust_ingot", "blocks:rust_ingot"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:rustblock",
+	recipe = {
+		{"blocks:rustblock_hazard"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:rustblock_hazard 4",
+	recipe = {
+		{"dye:yellow", "blocks:rustblock", "dye:yellow"},
+		{"blocks:rustblock", "dye:yellow", "blocks:rustblock"},
+		{"dye:yellow", "blocks:rustblock", "dye:yellow"},
 	}
 })
 

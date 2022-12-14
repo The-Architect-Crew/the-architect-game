@@ -67,7 +67,7 @@ function skygen.save()
     local data = {}
     local output = io.open(skygen.save_file, "w")
     if output then
-        local s = ""
+        local s
         for i, v in pairs(skygen.sky_state) do
             s = skygen.skybox_status[i]
             if not s then
@@ -83,7 +83,6 @@ function skygen.save()
 end
 
 function skygen.event_save()
-    local data = {}
     local output = io.open(skygen.event_save_file, "w")
     if output then
         output:write(skygen.event)
@@ -116,6 +115,7 @@ skygen.sky_globalstep = function(players)
         elseif (skygen.sky_state[player_name] == "inactive_reset") then
             skygen.deactivate(player_name)
         elseif (skygen.sky_state[player_name] == "skybox") or (skygen.sky_state[player_name] == "inactive") then
+            return
         else
             local biome_data = skygen.fetch_biome(player)
             local biome_name = biome_data[1]
@@ -124,6 +124,7 @@ skygen.sky_globalstep = function(players)
                 skygen.sky_state[player_name] = "biome"
             end
             if skygen.sky_state[player_name] == "transition" then
+                return
             elseif biome_name == previous_biome_name then
                 skygen.set_clouds(player, biome_name) -- Cause minetest resets them every now and then
             elseif previous_biome_name == nil then
@@ -159,8 +160,8 @@ minetest.register_globalstep(function()
         else
             for i=1,#skygen.events do
                 if skygen.event == skygen.events[i] then
-                    for i=1, #skygen.biome_names do
-                        local biome_name = skygen.biome_names[i]
+                    for j=1, #skygen.biome_names do
+                        local biome_name = skygen.biome_names[j]
                         local biome_colors = skygen.biomes[biome_name].colors
                         local event_biome_colors = {}
                         event_biome_colors[1] = skygen.colorize(biome_colors[1], skygen.event_data[skygen.event].color, 0.75) -- Day

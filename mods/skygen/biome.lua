@@ -12,9 +12,9 @@ local function biome_exists(biome_name)
 	end
 end
 
-skygen.set_sky = function(player, biome_name)
-    local base_values = {}
-    local biome_name = biome_exists(biome_name)
+skygen.set_sky = function(player, in_biome_name)
+    local base_values
+    local biome_name = biome_exists(in_biome_name)
     if skygen.event == "none" then
         base_values = skygen.biomes[biome_name].colors
     else
@@ -37,9 +37,9 @@ skygen.set_sky = function(player, biome_name)
     })
 end
 
-skygen.init_transition = function(player, prev_biome_name, biome_name)
-    local prev_biome_name = biome_exists(prev_biome_name)
-    local biome_name = biome_exists(biome_name)
+skygen.init_transition = function(player, in_prev_biome_name, in_biome_name)
+    local prev_biome_name = biome_exists(in_prev_biome_name)
+    local biome_name = biome_exists(in_biome_name)
     skygen.sky_state[player:get_player_name()] = "transition"
     local base_colors = {}
     if skygen.event == "none" then
@@ -73,8 +73,7 @@ skygen.transition = function(player, base_colors, base_params, color_diffs, para
             end
         end
         local sun = base_colors[1]
-        local moon = base_colors[2]
-        local cloud_color = {}
+        local cloud_color
         if skygen.event == "none" then
             cloud_color = {r = 255, g =  255, b =  255, a = 255 * humidity}
         else
@@ -130,7 +129,7 @@ end
 
 skygen.colorize = function(color, colorizer, amount)
     local result = {}
-    local difference = 0
+    local difference
     for i=1,3 do
         difference = colorizer[i] - color[i]
         result[i] = color[i] + (difference * amount)
@@ -138,19 +137,17 @@ skygen.colorize = function(color, colorizer, amount)
     return result
 end
 
-skygen.set_all = function(player, biome_name) -- For initial case
-    local biome_name = biome_exists(biome_name)
-    local sun, moon
+skygen.set_all = function(player, in_biome_name) -- For initial case
+    local biome_name = biome_exists(in_biome_name)
+    local sun
     if skygen.event == "none" then
         sun = skygen.biomes[biome_name].colors[3] -- Sun tint
-        moon = skygen.biomes[biome_name].colors[4] -- Moon tint
     else
         sun = skygen.biomes[biome_name].event_colors[3] -- Sun tint
-        moon = skygen.biomes[biome_name].event_colors[4] -- Moon tint
     end
     local heat = minetest.registered_biomes[biome_name].heat_point*2.55
     local humidity = minetest.registered_biomes[biome_name].humidity_point/100
-    local cloud_color = {}
+    local cloud_color
     if skygen.event == "none" then
         cloud_color = {r = 255, g =  255, b =  255, a = 255 * humidity}
     else
@@ -198,11 +195,10 @@ skygen.set_all = function(player, biome_name) -- For initial case
     end
 end
 
-skygen.set_clouds = function(player, biome_name) -- Cause minetest sets them to default every now and then
-    local biome_name = biome_exists(biome_name)
-    local heat = minetest.registered_biomes[biome_name].heat_point*2.55
+skygen.set_clouds = function(player, in_biome_name) -- Cause minetest sets them to default every now and then
+    local biome_name = biome_exists(in_biome_name)
     local humidity = minetest.registered_biomes[biome_name].humidity_point/100
-    local cloud_color = {}
+    local cloud_color
     if skygen.event == "none" then
         cloud_color = {r = 255, g =  255, b =  255, a = 255 * humidity}
     else
@@ -216,9 +212,9 @@ skygen.set_clouds = function(player, biome_name) -- Cause minetest sets them to 
     })
 end
 
-skygen.get_param_diffs = function(prev_biome_name, biome_name)
-    local prev_biome_name = biome_exists(prev_biome_name)
-    local biome_name = biome_exists(biome_name)
+skygen.get_param_diffs = function(in_prev_biome_name, in_biome_name)
+    local prev_biome_name = biome_exists(in_prev_biome_name)
+    local biome_name = biome_exists(in_biome_name)
     local prev_heat = minetest.registered_biomes[prev_biome_name].heat_point
     local prev_humidity = minetest.registered_biomes[prev_biome_name].humidity_point
     local heat = minetest.registered_biomes[biome_name].heat_point
@@ -229,9 +225,9 @@ skygen.get_param_diffs = function(prev_biome_name, biome_name)
     return results
 end
 
-skygen.get_color_diffs = function(prev_biome_name, biome_name)
-    local prev_biome_name = biome_exists(prev_biome_name)
-    local biome_name = biome_exists(biome_name)
+skygen.get_color_diffs = function(in_prev_biome_name, in_biome_name)
+    local prev_biome_name = biome_exists(in_prev_biome_name)
+    local biome_name = biome_exists(in_biome_name)
     local prev_colorset = {}
     local colorset = {}
     if skygen.event == "none" then

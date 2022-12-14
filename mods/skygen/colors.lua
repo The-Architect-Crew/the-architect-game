@@ -7,48 +7,38 @@
 
 skygen.biome_names = {
     "cold_desert",
-    "cold_desert_under",
     "cold_desert_ocean",
     "desert",
     "desert_ocean",
-    "desert_under",
     "taiga",
     "taiga_ocean",
-    "taiga_under",
     "snowy_grassland",
-    "snowy_grassland_under",
     "snowy_grassland_ocean",
     "grassland",
     "grassland_ocean",
     "grassland_dunes",
-    "grassland_under",
     "coniferous_forest",
     "coniferous_forest_dunes",
     "coniferous_forest_ocean",
-    "coniferous_forest_under",
     "deciduous_forest",
     "deciduous_forest_ocean",
-    "deciduous_forest_under",
     "deciduous_forest_shore",
     "rainforest",
     "rainforest_ocean",
     "rainforest_swamp",
-    "rainforest_under",
     "icesheet",
     "icesheet_ocean",
-    "icesheet_under",
     "tundra",
     "tundra_highland",
     "tundra_beach",
     "tundra_ocean",
-    "tundra_under",
     "sandstone_desert",
     "sandstone_desert_ocean",
-    "sandstone_desert_under",
     "savanna",
     "savanna_shore",
     "savanna_ocean",
-    "savanna_under",
+    "chalk_grassland",
+    "chalk_grassland_ocean",
     "underground",
     "hell"
 }
@@ -441,6 +431,24 @@ skygen.biomes = {
             {53, 29, 75}, -- Moon Tint
         }
     },
+    chalk_grassland = {
+        name = "Chalk Grassland",
+        colors = {
+            {48, 48, 48}, -- Day
+            {75, 74, 70}, -- Day Horizon
+            {79, 63, 28}, -- Sun Tint
+            {51, 53, 81}, -- Moon Tint
+        }
+    },
+    chalk_grassland_ocean = {
+        name = "Chalk Grassland",
+        colors = {
+            {50, 50, 50}, -- Day
+            {13, 44, 72}, -- Day Horizon
+            {79, 63, 28}, -- Sun Tint
+            {51, 53, 81}, -- Moon Tint
+        }
+    },
     underground = {
         name = "Underground",
         colors = {
@@ -448,17 +456,17 @@ skygen.biomes = {
             {192, 192, 192}, -- Day Horizon
             {230, 230, 230}, -- Sun Tint
             {160, 160, 160}, -- Moon Tint
-            {0, 0, 0} -- Indoors
+            {0, 0, 0}, -- Indoors
         }
     },
     hell = {
         name = "Hell",
         colors = {
-            {192, 64, 64}, -- Day
-            {240, 64, 64}, -- Day Horizon
-            {255, 192, 0}, -- Sun Tint
-            {128, 128, 64}, -- Moon Tint
-            {255, 192, 64} -- Indoors
+            {93, 13, 0}, -- Day
+            {38, 9, 0}, -- Day Horizon
+            {93, 13, 0}, -- Sun Tint
+            {27, 9, 0}, -- Moon Tint
+            {71, 8, 0}, -- Indoors
         }
     },
 }

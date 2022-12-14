@@ -847,11 +847,11 @@ function mapgen.register_ores()
 		},
 		stratum_thickness = 400,
 	})
-	-- World Boundary Placeholder
+	-- World Boundary Planetary Core Plating // Do not remove, protects core integrity
 	minetest.register_ore({
 		ore_type        = "stratum",
-		ore             = "blocks:obsidian",
-		wherein         = {"blocks:lava_source", "blocks:stone"},
+		ore             = "blocks:core_plating",
+		wherein         = {"blocks:lava_source", "blocks:stone", "blocks:obsidian", "air"},
 		clust_scarcity  = 1,
 		y_max           = mapgen.hell_level,
 		y_min           = mapgen.world_bottom,
@@ -862,7 +862,7 @@ function mapgen.register_ores()
 			seed = 72234,
 			octaves = 1,
 		},
-		stratum_thickness = 2,
+		stratum_thickness = 4,
 	})
 	-- Decorative Strata from MTG
 	-- Silver sandstone

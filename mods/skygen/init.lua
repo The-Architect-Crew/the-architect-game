@@ -9,9 +9,11 @@ skygen.active = true
 skygen.event = "none"
 skygen.scale_sun_moon = "true"
 
+skygen.sky_biome_start = 512
+
 skygen.events = {"test"} -- Add event names here
 
-skygen.skybox_names = {"test_sky", "spawn"} -- Add skybox names here
+skygen.skybox_names = {"test_sky", "sky"} -- Add skybox names here
 
 skygen.skyboxes = {}
 skygen.event_data = {}
@@ -21,14 +23,14 @@ skygen.event_save_file = minetest.get_worldpath() .. "/skygen_event"
 skygen.colorize_stars = true
 
 skygen.default_star_params = {
-    visible = "true",
+    visible = true,
     count = 1000,
     star_color = "#ebebff69",
     scale = 1,
 }
 
 local path = minetest.get_modpath("skygen")
-local skybox_path = minetest.get_modpath("skygen") .. "/skyboxes"
+local skybox_path = path .. "/skyboxes"
 dofile(path.."/colors.lua")
 dofile(path.."/biome.lua")
 dofile(path.."/skybox.lua")
@@ -111,9 +113,17 @@ skygen.sky_globalstep = function(players)
         local player = players[i]
         local player_name = player:get_player_name()
         if (skygen.sky_state[player_name] == "skybox_reset") then -- Player has reconnected in the meantime and the skybox has to be set anew
-            skygen.set_skybox(player, skygen.skybox_status[player:get_player_name()])
+            skygen.set_skybox(player, skygen.skybox_status[player_name])
         elseif (skygen.sky_state[player_name] == "inactive_reset") then
             skygen.deactivate(player_name)
+        elseif (player:get_pos().y > skygen.sky_biome_start) then
+            if (skygen.skybox_status[player_name] == "sky") then
+                return
+            else
+                skygen.set_skybox(player, "sky")
+            end
+        elseif (player:get_pos().y < skygen.sky_biome_start) and (skygen.skybox_status[player_name] == "sky") then
+            skygen.biome_mode(player_name)
         elseif (skygen.sky_state[player_name] == "skybox") or (skygen.sky_state[player_name] == "inactive") then
             return
         else

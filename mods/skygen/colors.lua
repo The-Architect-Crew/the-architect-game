@@ -128,8 +128,8 @@ skygen.biomes = {
     snowy_grassland = {
         name = "Snowy Grassland",
         colors = {
-            {164, 164, 164}, -- Day
-            {255, 165, 165}, -- Day Horizon
+            {192, 112, 172}, -- Day
+            {180, 164, 204}, -- Day Horizon
             {214, 241, 254}, -- Sun Tint
             {87, 61, 250}, -- Moon Tint
         }

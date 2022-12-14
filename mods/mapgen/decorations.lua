@@ -331,8 +331,8 @@ mapgen.register_microbiome_decorations("hell", {
 	grass_node = "blocks:fire",
 	main_small_plant = "blocks:pyre",
 	--secondary_small_plant
-	plant_rarity = 0.01,
-	grass_rarity = 0.25,
+	plant_rarity = 0.005,
+	grass_rarity = 0.05,
 	main_large_plant = "variations:obsidian_big_tile";
 	--secondary_large_plant
 	main_vines = "blocks:obsidian",
@@ -538,20 +538,6 @@ minetest.register_decoration({
 	height = 3,
 	height_max = 8,
 	decoration = "flora:vines",
-})
-
-minetest.register_decoration({
-	name = "quests:spaceship",
-	deco_type = "schematic",
-	place_on = {"blocks:sand"},
-	sidelen = 16,
-	fill_ratio = 0.00000001,
-	y_max = 31000,
-	y_min = -31000,
-	schematic = minetest.get_modpath("quests") .. "/schematics/spaceship.mts",
-	flags = "place_center_x, place_center_z",
-	rotation = "random",
-	place_offset_y = -1,
 })
 
 -- Rocks

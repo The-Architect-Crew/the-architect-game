@@ -29,7 +29,7 @@ mapgen.cave_opening_noise = { -- Should be same as mapgen.surface_cave_np but wi
 }]]--
 
 mapgen.np_stalagmites = {
-	offset = -0.5,
+	offset = -0.85,
 	scale = 1,
 	spread = {x = 10, y = 10, z = 10},
 	seed = 2620,

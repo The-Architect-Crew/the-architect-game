@@ -2064,6 +2064,16 @@ minetest.register_node("blocks:desert_stone_with_fossils", {
 	sounds = default.node_sound_stone_defaults(),
 })
 
+minetest.register_node("blocks:dark_dirt_with_fossils", {
+	description = S("Dark Dirt with Fossils"),
+	tiles = {"blocks_dark_dirt.png^blocks_fossil_overlay.png"},
+	drop = {
+		items = blocks.fossil_drop_table
+	},
+	groups = {crumbly = 2},
+	sounds = default.node_sound_dirt_defaults(),
+})
+
 -- Geodes
 
 blocks.geode_drop_table = {

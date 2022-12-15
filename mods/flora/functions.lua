@@ -100,6 +100,10 @@ function flora.grow_sapling(pos)
 		minetest.log("action", "An emergent jungle sapling grows into a tree at "..
 			minetest.pos_to_string(pos))
 		flora.grow_new_emergent_jungle_tree(pos)
+	elseif node.name == "flora:cherry_sapling" then
+		minetest.log("action", "A cherry sapling grows into a tree at "..
+			minetest.pos_to_string(pos))
+		flora.grow_new_cherry_tree(pos)
 	end
 end
 
@@ -107,7 +111,7 @@ minetest.register_lbm({
 	name = "flora:convert_saplings_to_node_timer",
 	nodenames = {"flora:sapling", "flora:junglesapling",
 			"flora:pine_sapling", "flora:acacia_sapling",
-			"flora:aspen_sapling"},
+			"flora:aspen_sapling", "flora:cherry_sapling"},
 	action = function(pos)
 		minetest.get_node_timer(pos):start(math.random(300, 1500))
 	end
@@ -470,6 +474,12 @@ function flora.grow_new_aspen_tree(pos)
 		path, "0", nil, false)
 end
 
+function flora.grow_new_cherry_tree(pos)
+	local path = minetest.get_modpath("flora") ..
+		"/schematics/cherry_tree.mts"
+	minetest.place_schematic({x = pos.x - 3, y = pos.y - 1, z = pos.z - 3},
+		path, "random", nil, false)
+end
 
 -- Bushes do not need 'from sapling' schematic variants because
 -- only the stem node is force-placed in the schematic.

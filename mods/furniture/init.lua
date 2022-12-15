@@ -1128,6 +1128,7 @@ furniture.register("blocks:aspen_wood", furniture.woodlike_set, {"blocks:aspen_w
 furniture.register("blocks:junglewood", furniture.woodlike_set, {"blocks:junglewood", "blocks:stick"}, "variations_junglewood.png^[sheet:3x3:1,0")
 furniture.register("blocks:mushroom_wood", furniture.woodlike_set, {"blocks:mushroom_wood", "blocks:stick"}, "variations_mushroom_wood.png^[sheet:3x3:1,0")
 furniture.register("blocks:pine_wood", furniture.woodlike_set, {"blocks:pine_wood", "blocks:stick"}, "variations_pine_wood.png^[sheet:3x3:1,0")
+furniture.register("blocks:cherry_wood", furniture.woodlike_set, {"blocks:cherry_wood", "blocks:stick"}, "variations_cherry_wood.png^[sheet:3x3:1,0")
 furniture.register("blocks:steelblock", furniture.woodlike_set, {"blocks:steelblock", "blocks:steel_ingot"}, "variations_steelblock.png^[sheet:3x3:1,0")
 furniture.register("blocks:rustblock", furniture.woodlike_set, {"blocks:rustblock", "blocks:steel_ingot"}, "furniture_rustblock_clean.png") -- Fix crafting later
 

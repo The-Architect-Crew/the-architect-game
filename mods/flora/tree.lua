@@ -452,6 +452,81 @@ minetest.register_node("flora:aspen_sapling", {
 	end,
 })
 
+minetest.register_node("flora:cherry_tree", {
+	description = S("Cherry Log"),
+	tiles = {"flora_cherry_tree_top.png", "flora_cherry_tree_top.png", "flora_cherry_tree.png"},
+	paramtype2 = "facedir",
+	is_ground_content = false,
+	groups = {tree = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2},
+	sounds = default.node_sound_wood_defaults(),
+
+	on_place = minetest.rotate_node
+})
+
+minetest.register_node("flora:cherry_sapling", {
+	description = S("Cherry Tree Sapling"),
+	drawtype = "plantlike",
+	tiles = {"flora_cherry_sapling.png"},
+	inventory_image = "flora_cherry_sapling.png",
+	wield_image = "flora_cherry_sapling.png",
+	paramtype = "light",
+	sunlight_propagates = true,
+	walkable = false,
+	on_timer = grow_sapling,
+	selection_box = {
+		type = "fixed",
+		fixed = {-4 / 16, -0.5, -4 / 16, 4 / 16, 7 / 16, 4 / 16}
+	},
+	groups = {snappy = 2, dig_immediate = 3, flammable = 2,
+		attached_node = 1, sapling = 1},
+	sounds = default.node_sound_leaves_defaults(),
+
+	on_construct = function(pos)
+		minetest.get_node_timer(pos):start(math.random(300, 1500))
+	end,
+
+	on_place = function(itemstack, placer, pointed_thing)
+		itemstack = flora.sapling_on_place(itemstack, placer, pointed_thing,
+			"flora:cherry_sapling",
+			-- minp, maxp to be checked, relative to sapling pos
+			-- minp_relative.y = 1 because sapling pos has been checked
+			{x = -3, y = 1, z = -3},
+			{x = 3, y = 6, z = 3},
+			-- maximum interval of interior volume check
+			4)
+
+		return itemstack
+	end,
+})
+
+minetest.register_node("flora:cherry_leaves", {
+	description = S("Cherry Tree Leaves"),
+	drawtype = "allfaces",
+	waving = 1,
+	tiles = {"flora_cherry_leaves.png"},
+	paramtype = "light",
+	is_ground_content = false,
+	groups = {snappy = 3, leafdecay = 3, flammable = 2, leaves = 1},
+	drop = {
+		max_items = 1,
+		items = {
+			{
+				-- player will get sapling with 1/20 chance
+				items = {"flora:cherry_sapling"},
+				rarity = 20,
+			},
+			{
+				-- player will get leaves only if he get no saplings,
+				-- this is because max_items is 1
+				items = {"flora:cherry_leaves"},
+			}
+		}
+	},
+	sounds = default.node_sound_leaves_defaults(),
+
+	after_place_node = after_place_leaves,
+})
+
 minetest.register_node("flora:dry_leaves", {
 	description = S("Dry Leaves"),
 	drawtype = "allfaces_optional",
@@ -533,6 +608,12 @@ default.register_leafdecay({
 default.register_leafdecay({
 	trunks = {"flora:aspen_tree"},
 	leaves = {"flora:aspen_leaves"},
+	radius = 3,
+})
+
+default.register_leafdecay({
+	trunks = {"flora:cherry_tree"},
+	leaves = {"flora:cherry_leaves"},
 	radius = 3,
 })
 

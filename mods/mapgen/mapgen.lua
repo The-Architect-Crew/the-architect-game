@@ -1211,7 +1211,7 @@ function mapgen.register_decorations()
 		sidelen = 16,
 		noise_params = {
 			offset = 0,
-			scale = 0.002,
+			scale = 0.001,
 			spread = {x = 250, y = 250, z = 250},
 			seed = 2,
 			octaves = 3,
@@ -1233,7 +1233,7 @@ function mapgen.register_decorations()
 		sidelen = 16,
 		noise_params = {
 			offset = 0,
-			scale = 0.001,
+			scale = 0.0005,
 			spread = {x = 250, y = 250, z = 250},
 			seed = 2788,
 			octaves = 3,

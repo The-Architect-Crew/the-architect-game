@@ -102,6 +102,46 @@ function variations.register_for_base(base_node, transparent, sunlight)
 	end
 end
 
+function variations.register_checker(base_node, second_node, name, transparent, sunlight)
+	local base_definition = minetest.registered_nodes[base_node]
+	for _, variation in ipairs(variations.variations) do
+		local sname = string.match(base_node, ':(.*)') .. "_" .. string.match(second_node, ':(.*)')
+		local variation_name = "variations:" .. sname .. "_checker_" .. variation.name
+		local variation_description = name .. " " .. variation.description
+		local tiles = {"variations_" .. sname .. "_checker.png^[sheet:3x3:" .. variation.texture}
+		local paramtype_light = ""
+		local paramtype2 = nil
+		if (variation.rotation) then
+			paramtype2 = "facedir"
+		end
+		if not sunlight and transparent then
+			sunlight = true
+			paramtype_light = "light"
+		end
+		minetest.register_node(variation_name, {
+			description = variation_description,
+			tiles = tiles,
+			groups = base_definition.groups,
+			drawtype = base_definition.drawtype,
+			use_texture_alpha = transparent or base_definition.use_texture_alpha,
+			paramtype = paramtype_light or base_definition.paramtype,
+			paramtype2 = paramtype2,
+			sunlight_propagates = sunlight or base_definition.sunlight_propagates,
+			sounds = base_definition.sounds,
+		})
+		shapes:register_shape(variation_name, {
+			enabled = variation.enabled_shapes,
+		})
+		minetest.register_craft({
+			output = variation_name,
+			recipe = {
+				{"variations:" .. string.match(base_node, ':(.*)') .. "_" .. variation.name, "variations:" .. string.match(second_node, ':(.*)') .. "_" .. variation.name},
+				{"variations:" .. string.match(second_node, ':(.*)') .. "_" .. variation.name, "variations:" .. string.match(base_node, ':(.*)') .. "_" .. variation.name},
+			}
+		})
+	end
+end
+
 variations.supp_desc = {
 	steel = "Steel",
 	rust = "Rusty",
@@ -309,6 +349,7 @@ variations.register_for_base("blocks:rustblock")
 variations.register_for_base("blocks:rustblock_hazard")
 variations.register_for_base("blocks:mese")
 variations.register_for_base("blocks:malachite_glass")
+variations.register_for_base("blocks:cobble")
 
 variations.register_support("blocks:stone", "full", "wood")
 variations.register_support("blocks:sandstone", "full", "wood")
@@ -323,3 +364,7 @@ variations.register_stainglass("blocks:garnet")
 for _, color in ipairs(blocks.stone_colors) do
 	variations.register_for_base("blocks:stone_" .. color[1])
 end
+
+variations.register_checker("blocks:stone_black", "blocks:stone_dark_grey", "Black-Dark Grey Stone")
+variations.register_checker("blocks:stone_dark_grey", "blocks:stone_grey", "Dark Grey-Grey Stone")
+variations.register_checker("blocks:stone_grey", "blocks:stone_white", "Grey-White Stone")

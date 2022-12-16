@@ -57,6 +57,42 @@ minetest.register_node("flora:sapling", {
 	end,
 })
 
+minetest.register_node("flora:sapling_big", {
+	description = S("Big Apple Tree Sapling"),
+	drawtype = "plantlike",
+	tiles = {"flora_sapling_big.png"},
+	inventory_image = "flora_sapling_big.png",
+	wield_image = "flora_sapling_big.png",
+	paramtype = "light",
+	sunlight_propagates = true,
+	walkable = false,
+	on_timer = grow_sapling,
+	selection_box = {
+		type = "fixed",
+		fixed = {-4 / 16, -0.5, -4 / 16, 4 / 16, 7 / 16, 4 / 16}
+	},
+	groups = {snappy = 2, dig_immediate = 3, flammable = 2,
+		attached_node = 1, sapling = 1},
+	sounds = default.node_sound_leaves_defaults(),
+
+	on_construct = function(pos)
+		minetest.get_node_timer(pos):start(math.random(300, 1500))
+	end,
+
+	on_place = function(itemstack, placer, pointed_thing)
+		itemstack = flora.sapling_on_place(itemstack, placer, pointed_thing,
+			"flora:sapling_big",
+			-- minp, maxp to be checked, relative to sapling pos
+			-- minp_relative.y = 1 because sapling pos has been checked
+			{x = -6, y = 2, z = -6},
+			{x = 6, y = 24, z = 6},
+			-- maximum interval of interior volume check
+			4)
+
+		return itemstack
+	end,
+})
+
 minetest.register_node("flora:leaves", {
 	description = S("Apple Tree Leaves"),
 	drawtype = "allfaces_optional",
@@ -314,6 +350,41 @@ minetest.register_node("flora:pine_sapling", {
 	end,
 })
 
+minetest.register_node("flora:pine_sapling_big", {
+	description = S("Big Pine Tree Sapling"),
+	drawtype = "plantlike",
+	tiles = {"flora_pine_sapling_big.png"},
+	inventory_image = "flora_pine_sapling_big.png",
+	wield_image = "flora_pine_sapling_big.png",
+	paramtype = "light",
+	sunlight_propagates = true,
+	walkable = false,
+	on_timer = grow_sapling,
+	selection_box = {
+		type = "fixed",
+		fixed = {-4 / 16, -0.5, -4 / 16, 4 / 16, 7 / 16, 4 / 16}
+	},
+	groups = {snappy = 2, dig_immediate = 3, flammable = 2,
+		attached_node = 1, sapling = 1},
+	sounds = default.node_sound_leaves_defaults(),
+
+	on_construct = function(pos)
+		minetest.get_node_timer(pos):start(math.random(300, 1500))
+	end,
+
+	on_place = function(itemstack, placer, pointed_thing)
+		itemstack = flora.sapling_on_place(itemstack, placer, pointed_thing,
+			"flora:pine_sapling_big",
+			-- minp, maxp to be checked, relative to sapling pos
+			-- minp_relative.y = 1 because sapling pos has been checked
+			{x = -6, y = 2, z = -6},
+			{x = 6, y = 28, z = 6},
+			-- maximum interval of interior volume check
+			4)
+
+		return itemstack
+	end,
+})
 
 minetest.register_node("flora:acacia_tree", {
 	description = S("Acacia Log"),
@@ -384,6 +455,43 @@ minetest.register_node("flora:acacia_sapling", {
 	end,
 })
 
+minetest.register_node("flora:acacia_sapling_big", {
+	description = S("Big Acacia Tree Sapling"),
+	drawtype = "plantlike",
+	tiles = {"flora_acacia_sapling_big.png"},
+	inventory_image = "flora_acacia_sapling_big.png",
+	wield_image = "flora_acacia_sapling_big.png",
+	paramtype = "light",
+	sunlight_propagates = true,
+	walkable = false,
+	on_timer = grow_sapling,
+	selection_box = {
+		type = "fixed",
+		fixed = {-4 / 16, -0.5, -4 / 16, 4 / 16, 7 / 16, 4 / 16}
+	},
+	groups = {snappy = 2, dig_immediate = 3, flammable = 2,
+		attached_node = 1, sapling = 1},
+	sounds = default.node_sound_leaves_defaults(),
+
+	on_construct = function(pos)
+		minetest.get_node_timer(pos):start(math.random(300, 1500))
+	end,
+
+	on_place = function(itemstack, placer, pointed_thing)
+		itemstack = flora.sapling_on_place(itemstack, placer, pointed_thing,
+			"flora:acacia_sapling_big",
+			-- minp, maxp to be checked, relative to sapling pos
+			-- minp_relative.y = 1 because sapling pos has been checked
+			{x = -7, y = 2, z = -7},
+			{x = 7, y = 24, z = 7},
+			-- maximum interval of interior volume check
+			4)
+
+		return itemstack
+	end,
+})
+
+
 minetest.register_node("flora:aspen_tree", {
 	description = S("Aspen Log"),
 	tiles = {"flora_aspen_tree_top.png", "flora_aspen_tree_top.png",
@@ -452,6 +560,42 @@ minetest.register_node("flora:aspen_sapling", {
 	end,
 })
 
+minetest.register_node("flora:aspen_sapling_big", {
+	description = S("Big Aspen Tree Sapling"),
+	drawtype = "plantlike",
+	tiles = {"flora_aspen_sapling_big.png"},
+	inventory_image = "flora_aspen_sapling_big.png",
+	wield_image = "flora_aspen_sapling_big.png",
+	paramtype = "light",
+	sunlight_propagates = true,
+	walkable = false,
+	on_timer = grow_sapling,
+	selection_box = {
+		type = "fixed",
+		fixed = {-4 / 16, -0.5, -4 / 16, 4 / 16, 7 / 16, 4 / 16}
+	},
+	groups = {snappy = 2, dig_immediate = 3, flammable = 2,
+		attached_node = 1, sapling = 1},
+	sounds = default.node_sound_leaves_defaults(),
+
+	on_construct = function(pos)
+		minetest.get_node_timer(pos):start(math.random(300, 1500))
+	end,
+
+	on_place = function(itemstack, placer, pointed_thing)
+		itemstack = flora.sapling_on_place(itemstack, placer, pointed_thing,
+			"flora:aspen_sapling_big",
+			-- minp, maxp to be checked, relative to sapling pos
+			-- minp_relative.y = 1 because sapling pos has been checked
+			{x = -4, y = 2, z = -4},
+			{x = 4, y = 24, z = 4},
+			-- maximum interval of interior volume check
+			4)
+
+		return itemstack
+	end,
+})
+
 minetest.register_node("flora:cherry_tree", {
 	description = S("Cherry Log"),
 	tiles = {"flora_cherry_tree_top.png", "flora_cherry_tree_top.png", "flora_cherry_tree.png"},
@@ -490,8 +634,44 @@ minetest.register_node("flora:cherry_sapling", {
 			"flora:cherry_sapling",
 			-- minp, maxp to be checked, relative to sapling pos
 			-- minp_relative.y = 1 because sapling pos has been checked
-			{x = -3, y = 1, z = -3},
-			{x = 3, y = 6, z = 3},
+			{x = -4, y = 1, z = -4},
+			{x = 4, y = 11, z = 4},
+			-- maximum interval of interior volume check
+			4)
+
+		return itemstack
+	end,
+})
+
+minetest.register_node("flora:cherry_sapling_big", {
+	description = S("Big Cherry Tree Sapling"),
+	drawtype = "plantlike",
+	tiles = {"flora_cherry_sapling_big.png"},
+	inventory_image = "flora_cherry_sapling_big.png",
+	wield_image = "flora_cherry_sapling_big.png",
+	paramtype = "light",
+	sunlight_propagates = true,
+	walkable = false,
+	on_timer = grow_sapling,
+	selection_box = {
+		type = "fixed",
+		fixed = {-4 / 16, -0.5, -4 / 16, 4 / 16, 7 / 16, 4 / 16}
+	},
+	groups = {snappy = 2, dig_immediate = 3, flammable = 2,
+		attached_node = 1, sapling = 1},
+	sounds = default.node_sound_leaves_defaults(),
+
+	on_construct = function(pos)
+		minetest.get_node_timer(pos):start(math.random(300, 1500))
+	end,
+
+	on_place = function(itemstack, placer, pointed_thing)
+		itemstack = flora.sapling_on_place(itemstack, placer, pointed_thing,
+			"flora:cherry_sapling_big",
+			-- minp, maxp to be checked, relative to sapling pos
+			-- minp_relative.y = 1 because sapling pos has been checked
+			{x = -8, y = 1, z = -8},
+			{x = 8, y = 25, z = 8},
 			-- maximum interval of interior volume check
 			4)
 
@@ -551,6 +731,78 @@ minetest.register_node("flora:bone_tree", {
 	on_place = minetest.rotate_node
 })
 
+minetest.register_node("flora:bone_sapling", {
+	description = S("Bone Tree Sapling"),
+	drawtype = "plantlike",
+	tiles = {"flora_bone_sapling.png"},
+	inventory_image = "flora_bone_sapling.png",
+	wield_image = "flora_bone_sapling.png",
+	paramtype = "light",
+	sunlight_propagates = true,
+	walkable = false,
+	on_timer = grow_sapling,
+	selection_box = {
+		type = "fixed",
+		fixed = {-4 / 16, -0.5, -4 / 16, 4 / 16, 7 / 16, 4 / 16}
+	},
+	groups = {snappy = 2, dig_immediate = 3, flammable = 2,
+		attached_node = 1, sapling = 1},
+	sounds = default.node_sound_leaves_defaults(),
+
+	on_construct = function(pos)
+		minetest.get_node_timer(pos):start(math.random(300, 1500))
+	end,
+
+	on_place = function(itemstack, placer, pointed_thing)
+		itemstack = flora.sapling_on_place(itemstack, placer, pointed_thing,
+			"flora:bone_sapling",
+			-- minp, maxp to be checked, relative to sapling pos
+			-- minp_relative.y = 1 because sapling pos has been checked
+			{x = -3, y = 1, z = -3},
+			{x = 3, y = 18, z = 3},
+			-- maximum interval of interior volume check
+			4)
+
+		return itemstack
+	end,
+})
+
+minetest.register_node("flora:bone_sapling_big", {
+	description = S("Big Bone Tree Sapling"),
+	drawtype = "plantlike",
+	tiles = {"flora_bone_sapling_big.png"},
+	inventory_image = "flora_bone_sapling_big.png",
+	wield_image = "flora_bone_sapling_big.png",
+	paramtype = "light",
+	sunlight_propagates = true,
+	walkable = false,
+	on_timer = grow_sapling,
+	selection_box = {
+		type = "fixed",
+		fixed = {-4 / 16, -0.5, -4 / 16, 4 / 16, 7 / 16, 4 / 16}
+	},
+	groups = {snappy = 2, dig_immediate = 3, flammable = 2,
+		attached_node = 1, sapling = 1},
+	sounds = default.node_sound_leaves_defaults(),
+
+	on_construct = function(pos)
+		minetest.get_node_timer(pos):start(math.random(300, 1500))
+	end,
+
+	on_place = function(itemstack, placer, pointed_thing)
+		itemstack = flora.sapling_on_place(itemstack, placer, pointed_thing,
+			"flora:bone_sapling_big",
+			-- minp, maxp to be checked, relative to sapling pos
+			-- minp_relative.y = 1 because sapling pos has been checked
+			{x = -5, y = 1, z = -5},
+			{x = 5, y = 26, z = 5},
+			-- maximum interval of interior volume check
+			4)
+
+		return itemstack
+	end,
+})
+
 minetest.register_node("flora:crimson_leaves", {
 	description = S("Crimson Leaves"),
 	drawtype = "allfaces_optional",
@@ -558,6 +810,21 @@ minetest.register_node("flora:crimson_leaves", {
 	waving = 1,
 	paramtype = "light",
 	is_ground_content = false,
+	drop = {
+		max_items = 1,
+		items = {
+			{
+				-- player will get sapling with 1/20 chance
+				items = {"flora:bone_sapling"},
+				rarity = 20,
+			},
+			{
+				-- player will get leaves only if he get no saplings,
+				-- this is because max_items is 1
+				items = {"flora:crimson_leaves"},
+			}
+		}
+	},
 	groups = {snappy = 3, leafdecay = 3, leaves = 1},
 	sounds = default.node_sound_leaves_defaults(),
 	after_place_node = after_place_leaves,
@@ -633,6 +900,60 @@ minetest.register_craft({
 		{"flora:junglesapling", "flora:junglesapling", "flora:junglesapling"},
 		{"flora:junglesapling", "flora:junglesapling", "flora:junglesapling"},
 		{"flora:junglesapling", "flora:junglesapling", "flora:junglesapling"},
+	}
+})
+
+minetest.register_craft({
+	output = "flora:sapling_big",
+	recipe = {
+		{"flora:sapling", "flora:sapling", "flora:sapling"},
+		{"flora:sapling", "flora:sapling", "flora:sapling"},
+		{"flora:sapling", "flora:sapling", "flora:sapling"},
+	}
+})
+
+minetest.register_craft({
+	output = "flora:pine_sapling_big",
+	recipe = {
+		{"flora:pine_sapling", "flora:pine_sapling", "flora:pine_sapling"},
+		{"flora:pine_sapling", "flora:pine_sapling", "flora:pine_sapling"},
+		{"flora:pine_sapling", "flora:pine_sapling", "flora:pine_sapling"},
+	}
+})
+
+minetest.register_craft({
+	output = "flora:acacia_sapling_big",
+	recipe = {
+		{"flora:acacia_sapling", "flora:acacia_sapling", "flora:acacia_sapling"},
+		{"flora:acacia_sapling", "flora:acacia_sapling", "flora:acacia_sapling"},
+		{"flora:acacia_sapling", "flora:acacia_sapling", "flora:acacia_sapling"},
+	}
+})
+
+minetest.register_craft({
+	output = "flora:aspen_sapling_big",
+	recipe = {
+		{"flora:aspen_sapling", "flora:aspen_sapling", "flora:aspen_sapling"},
+		{"flora:aspen_sapling", "flora:aspen_sapling", "flora:aspen_sapling"},
+		{"flora:aspen_sapling", "flora:aspen_sapling", "flora:aspen_sapling"},
+	}
+})
+
+minetest.register_craft({
+	output = "flora:cherry_sapling_big",
+	recipe = {
+		{"flora:cherry_sapling", "flora:cherry_sapling", "flora:cherry_sapling"},
+		{"flora:cherry_sapling", "flora:cherry_sapling", "flora:cherry_sapling"},
+		{"flora:cherry_sapling", "flora:cherry_sapling", "flora:cherry_sapling"},
+	}
+})
+
+minetest.register_craft({
+	output = "flora:bone_sapling_big",
+	recipe = {
+		{"flora:bone_sapling", "flora:bone_sapling", "flora:bone_sapling"},
+		{"flora:bone_sapling", "flora:bone_sapling", "flora:bone_sapling"},
+		{"flora:bone_sapling", "flora:bone_sapling", "flora:bone_sapling"},
 	}
 })
 

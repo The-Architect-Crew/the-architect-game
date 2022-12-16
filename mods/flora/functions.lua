@@ -53,6 +53,10 @@ function flora.grow_sapling(pos)
 		else
 			flora.grow_new_apple_tree(pos)
 		end
+	elseif node.name == "flora:sapling_big" then
+		minetest.log("action", "A big sapling grows into a huge tree at "..
+			minetest.pos_to_string(pos))
+		flora.grow_new_big_apple_tree(pos)
 	elseif node.name == "flora:junglesapling" then
 		minetest.log("action", "A jungle sapling grows into a tree at "..
 			minetest.pos_to_string(pos))
@@ -72,14 +76,42 @@ function flora.grow_sapling(pos)
 		else
 			flora.grow_new_pine_tree(pos)
 		end
+	elseif node.name == "flora:pine_sapling_big" then
+		minetest.log("action", "A big pine sapling grows into a huge pine tree at "..
+		minetest.pos_to_string(pos))
+		flora.grow_new_big_pine_tree(pos)
 	elseif node.name == "flora:acacia_sapling" then
 		minetest.log("action", "An acacia sapling grows into a tree at "..
 			minetest.pos_to_string(pos))
 		flora.grow_new_acacia_tree(pos)
+	elseif node.name == "flora:acacia_sapling_big" then
+		minetest.log("action", "A big acacia sapling grows into a huge acacia tree at "..
+		minetest.pos_to_string(pos))
+		flora.grow_new_big_acacia_tree(pos)
 	elseif node.name == "flora:aspen_sapling" then
 		minetest.log("action", "An aspen sapling grows into a tree at "..
 			minetest.pos_to_string(pos))
 		flora.grow_new_aspen_tree(pos)
+	elseif node.name == "flora:aspen_sapling_big" then
+		minetest.log("action", "A big aspen sapling grows into a huge aspen tree at "..
+		minetest.pos_to_string(pos))
+		flora.grow_new_big_aspen_tree(pos)
+	elseif node.name == "flora:cherry_sapling" then
+		minetest.log("action", "A cherry sapling grows into a tree at "..
+			minetest.pos_to_string(pos))
+		flora.grow_new_cherry_tree(pos)
+	elseif node.name == "flora:cherry_sapling_big" then
+		minetest.log("action", "A big cherry sapling grows into a huge cherry tree at "..
+		minetest.pos_to_string(pos))
+		flora.grow_new_big_cherry_tree(pos)
+	elseif node.name == "flora:bone_sapling" then
+		minetest.log("action", "A bone sapling grows into a bone tree at "..
+			minetest.pos_to_string(pos))
+		flora.grow_new_bone_tree(pos)
+	elseif node.name == "flora:bone_sapling_big" then
+		minetest.log("action", "A big bone sapling grows into a huge bone tree at "..
+		minetest.pos_to_string(pos))
+		flora.grow_new_big_bone_tree(pos)
 	elseif node.name == "flora:bush_sapling" then
 		minetest.log("action", "A bush sapling grows into a bush at "..
 			minetest.pos_to_string(pos))
@@ -100,10 +132,6 @@ function flora.grow_sapling(pos)
 		minetest.log("action", "An emergent jungle sapling grows into a tree at "..
 			minetest.pos_to_string(pos))
 		flora.grow_new_emergent_jungle_tree(pos)
-	elseif node.name == "flora:cherry_sapling" then
-		minetest.log("action", "A cherry sapling grows into a tree at "..
-			minetest.pos_to_string(pos))
-		flora.grow_new_cherry_tree(pos)
 	end
 end
 
@@ -111,7 +139,12 @@ minetest.register_lbm({
 	name = "flora:convert_saplings_to_node_timer",
 	nodenames = {"flora:sapling", "flora:junglesapling",
 			"flora:pine_sapling", "flora:acacia_sapling",
-			"flora:aspen_sapling", "flora:cherry_sapling"},
+			"flora:aspen_sapling", "flora:cherry_sapling",
+			"flora:bone_sapling",
+			"flora:sapling_big", "flora:emergent_jungle_sapling",
+			"flora:pine_sapling_big", "flora:acacia_sapling_big",
+			"flora:aspen_sapling_big", "flora:cherry_sapling_big",
+			"flora:bone_sapling_big"},
 	action = function(pos)
 		minetest.get_node_timer(pos):start(math.random(300, 1500))
 	end
@@ -402,6 +435,14 @@ function flora.grow_new_apple_tree(pos)
 		path, "random", nil, false)
 end
 
+-- New big apple tree
+
+function flora.grow_new_big_apple_tree(pos)
+	local path = minetest.get_modpath("flora") ..
+		"/schematics/apple_tree_large.mts"
+	minetest.place_schematic({x = pos.x - 6, y = pos.y - 2, z = pos.z - 6},
+		path, "random", nil, false)
+end
 
 -- New jungle tree
 
@@ -438,6 +479,14 @@ function flora.grow_new_pine_tree(pos)
 		path, "0", nil, false)
 end
 
+-- New big pine tree
+
+function flora.grow_new_big_pine_tree(pos)
+	local path = minetest.get_modpath("flora") ..
+		"/schematics/pine_tree_large.mts"
+	minetest.place_schematic({x = pos.x - 6, y = pos.y - 2, z = pos.z - 6},
+		path, "random", nil, false)
+end
 
 -- New snowy pine tree
 
@@ -464,6 +513,15 @@ function flora.grow_new_acacia_tree(pos)
 		path, "random", nil, false)
 end
 
+-- New big acacia tree
+
+function flora.grow_new_big_acacia_tree(pos)
+	local path = minetest.get_modpath("flora") ..
+		"/schematics/acacia_tree_large.mts"
+	minetest.place_schematic({x = pos.x - 7, y = pos.y - 2, z = pos.z - 7},
+		path, "random", nil, false)
+end
+
 
 -- New aspen tree
 
@@ -474,13 +532,50 @@ function flora.grow_new_aspen_tree(pos)
 		path, "0", nil, false)
 end
 
+-- New big aspen tree
+
+function flora.grow_new_big_aspen_tree(pos)
+	local path = minetest.get_modpath("flora") ..
+		"/schematics/aspen_tree_large.mts"
+	minetest.place_schematic({x = pos.x - 4, y = pos.y - 2, z = pos.z - 4},
+		path, "random", nil, false)
+end
+
+-- Cherry tree
+
 function flora.grow_new_cherry_tree(pos)
 	local path = minetest.get_modpath("flora") ..
 		"/schematics/cherry_tree.mts"
+	minetest.place_schematic({x = pos.x - 4, y = pos.y - 1, z = pos.z - 4},
+		path, "random", nil, false)
+end
+
+-- New big cherry tree
+
+function flora.grow_new_big_cherry_tree(pos)
+	local path = minetest.get_modpath("flora") ..
+		"/schematics/cherry_tree_large.mts"
+	minetest.place_schematic({x = pos.x - 8, y = pos.y - 1, z = pos.z - 8},
+		path, "random", nil, false)
+end
+
+-- Bone tree
+
+function flora.grow_new_bone_tree(pos)
+	local path = minetest.get_modpath("flora") ..
+		"/schematics/bone_tree.mts"
 	minetest.place_schematic({x = pos.x - 3, y = pos.y - 1, z = pos.z - 3},
 		path, "random", nil, false)
 end
 
+-- Bone big tree
+
+function flora.grow_new_big_bone_tree(pos)
+	local path = minetest.get_modpath("flora") ..
+		"/schematics/bone_tree_large.mts"
+	minetest.place_schematic({x = pos.x - 5, y = pos.y - 1, z = pos.z - 5},
+		path, "random", nil, false)
+end
 -- Bushes do not need 'from sapling' schematic variants because
 -- only the stem node is force-placed in the schematic.
 

@@ -88,8 +88,8 @@ skygen.set_skybox = function(player, skybox)
 end
 
 skygen.biome_mode = function(player)
-    skygen.skybox_status[player] = "none"
-    skygen.sky_state[player] = "biome"
+    skygen.storage:set_string(player .. "_skybox", "none")
+    skygen.storage:set_string(player .. "_sky_state", "biome")
     skygen.previous_biome[player] = nil
     local player_obj = minetest.get_player_by_name(player)
     player_obj:set_sky()

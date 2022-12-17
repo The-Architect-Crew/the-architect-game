@@ -15,7 +15,7 @@ end
 skygen.set_sky = function(player, in_biome_name)
     local base_values
     local biome_name = biome_exists(in_biome_name)
-    if skygen.event == "none" then
+    if skygen.storage:get_string("event") == "none" then
         base_values = skygen.biomes[biome_name].colors
     else
         base_values = skygen.biomes[biome_name].event_colors
@@ -40,9 +40,9 @@ end
 skygen.init_transition = function(player, in_prev_biome_name, in_biome_name)
     local prev_biome_name = biome_exists(in_prev_biome_name)
     local biome_name = biome_exists(in_biome_name)
-    skygen.sky_state[player:get_player_name()] = "transition"
+    skygen.storage:set_string(player:get_player_name() .. "_sky_state", "transition")
     local base_colors = {}
-    if skygen.event == "none" then
+    if skygen.storage:get_string("event") == "none" then
         base_colors[1] = skygen.biomes[prev_biome_name].colors[3] -- Sun tint
         base_colors[2] = skygen.biomes[prev_biome_name].colors[4] -- Moon tint
     else
@@ -59,7 +59,7 @@ end
 
 skygen.transition = function(player, base_colors, base_params, color_diffs, param_diffs, progress, biome)
     if progress == skygen.transition_frames then
-        skygen.sky_state[player:get_player_name()] = "biome"
+        skygen.storage:set_string(player:get_player_name() .. "_sky_state", "biome")
         skygen.previous_biome[player:get_player_name()] = biome
     else
         progress = progress + 1
@@ -74,10 +74,10 @@ skygen.transition = function(player, base_colors, base_params, color_diffs, para
         end
         local sun = base_colors[1]
         local cloud_color
-        if skygen.event == "none" then
+        if skygen.storage:get_string("event") == "none" then
             cloud_color = {r = 255, g =  255, b =  255, a = 255 * humidity}
         else
-            local colorset = skygen.event_data[skygen.event].color_cloud
+            local colorset = skygen.event_data[skygen.storage:get_string("event")].color_cloud
             cloud_color = {r = colorset[1], g = colorset[2], b = colorset[3], a = 255 * humidity}
         end
         player:set_clouds({
@@ -87,9 +87,9 @@ skygen.transition = function(player, base_colors, base_params, color_diffs, para
         })
         local sun_texture
         local moon_texture
-        if skygen.event ~= "none" then
-            sun_texture = skygen.event_data[skygen.event].sun_texture
-            moon_texture = skygen.event_data[skygen.event].moon_texture
+        if skygen.storage:get_string("event") ~= "none" then
+            sun_texture = skygen.event_data[skygen.storage:get_string("event")].sun_texture
+            moon_texture = skygen.event_data[skygen.storage:get_string("event")].moon_texture
         else
             sun_texture = "sun.png"
             moon_texture = "moon.png"
@@ -140,7 +140,7 @@ end
 skygen.set_all = function(player, in_biome_name) -- For initial case
     local biome_name = biome_exists(in_biome_name)
     local sun
-    if skygen.event == "none" then
+    if skygen.storage:get_string("event") == "none" then
         sun = skygen.biomes[biome_name].colors[3] -- Sun tint
     else
         sun = skygen.biomes[biome_name].event_colors[3] -- Sun tint
@@ -148,10 +148,10 @@ skygen.set_all = function(player, in_biome_name) -- For initial case
     local heat = minetest.registered_biomes[biome_name].heat_point*2.55
     local humidity = minetest.registered_biomes[biome_name].humidity_point/100
     local cloud_color
-    if skygen.event == "none" then
+    if skygen.storage:get_string("event") == "none" then
         cloud_color = {r = 255, g =  255, b =  255, a = 255 * humidity}
     else
-        local colorset = skygen.event_data[skygen.event].color_cloud
+        local colorset = skygen.event_data[skygen.storage:get_string("event")].color_cloud
         cloud_color = {r = colorset[1], g = colorset[2], b = colorset[3], a = 255 * humidity}
     end
     player:set_clouds({
@@ -161,9 +161,9 @@ skygen.set_all = function(player, in_biome_name) -- For initial case
     })
     local sun_texture
     local moon_texture
-    if skygen.event ~= "none" then
-        sun_texture = skygen.event_data[skygen.event].sun_texture
-        moon_texture = skygen.event_data[skygen.event].moon_texture
+    if skygen.storage:get_string("event") ~= "none" then
+        sun_texture = skygen.event_data[skygen.storage:get_string("event")].sun_texture
+        moon_texture = skygen.event_data[skygen.storage:get_string("event")].moon_texture
     else
         sun_texture = "sun.png"
         moon_texture = "moon.png"
@@ -199,10 +199,10 @@ skygen.set_clouds = function(player, in_biome_name) -- Cause minetest sets them 
     local biome_name = biome_exists(in_biome_name)
     local humidity = minetest.registered_biomes[biome_name].humidity_point/100
     local cloud_color
-    if skygen.event == "none" then
+    if skygen.storage:get_string("event") == "none" then
         cloud_color = {r = 255, g =  255, b =  255, a = 255 * humidity}
     else
-        local colorset = skygen.event_data[skygen.event].color_cloud
+        local colorset = skygen.event_data[skygen.storage:get_string("event")].color_cloud
         cloud_color = {r = colorset[1], g = colorset[2], b = colorset[3], a = 255 * humidity}
     end
     player:set_clouds({
@@ -230,7 +230,7 @@ skygen.get_color_diffs = function(in_prev_biome_name, in_biome_name)
     local biome_name = biome_exists(in_biome_name)
     local prev_colorset = {}
     local colorset = {}
-    if skygen.event == "none" then
+    if skygen.storage:get_string("event") == "none" then
         prev_colorset[1] = skygen.biomes[prev_biome_name].colors[3] -- Sun tint
         prev_colorset[2] = skygen.biomes[prev_biome_name].colors[4] -- Moon tint
         colorset[1] = skygen.biomes[biome_name].colors[3] -- Sun tint

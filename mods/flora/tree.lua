@@ -830,6 +830,204 @@ minetest.register_node("flora:crimson_leaves", {
 	after_place_node = after_place_leaves,
 })
 
+-- Bonsai Trees
+
+minetest.register_node("flora:jungle_tree_bonsai", {
+	description = ccore.comment("Bonsai Jungle Tree", "Doesn't grow"),
+	drawtype = "plantlike",
+	tiles = {"flora_junglesapling.png"},
+	inventory_image = "flora_junglesapling.png",
+	wield_image = "flora_junglesapling.png",
+	paramtype = "light",
+	sunlight_propagates = true,
+	walkable = false,
+	groups = {snappy = 2, dig_immediate = 3, flammable = 2,
+		attached_node = 1, sapling = 1},
+	sounds = default.node_sound_leaves_defaults(),
+})
+
+minetest.register_node("flora:jungle_tree_big_bonsai", {
+	description = ccore.comment("Bonsai Big Jungle Tree", "Doesn't grow"),
+	drawtype = "plantlike",
+	tiles = {"flora_emergent_jungle_sapling.png"},
+	inventory_image = "flora_emergent_jungle_sapling.png",
+	wield_image = "flora_emergent_jungle_sapling.png",
+	paramtype = "light",
+	sunlight_propagates = true,
+	walkable = false,
+	groups = {snappy = 2, dig_immediate = 3, flammable = 2,
+		attached_node = 1, sapling = 1},
+	sounds = default.node_sound_leaves_defaults(),
+})
+
+minetest.register_node("flora:tree_bonsai", {
+	description = ccore.comment("Bonsai Apple Tree", "Doesn't grow"),
+	drawtype = "plantlike",
+	tiles = {"flora_sapling.png"},
+	inventory_image = "flora_sapling.png",
+	wield_image = "flora_sapling.png",
+	paramtype = "light",
+	sunlight_propagates = true,
+	walkable = false,
+	groups = {snappy = 2, dig_immediate = 3, flammable = 2,
+		attached_node = 1, sapling = 1},
+	sounds = default.node_sound_leaves_defaults(),
+})
+
+minetest.register_node("flora:tree_big_bonsai", {
+	description = ccore.comment("Bonsai Big Apple Tree", "Doesn't grow"),
+	drawtype = "plantlike",
+	tiles = {"flora_sapling_big.png"},
+	inventory_image = "flora_sapling_big.png",
+	wield_image = "flora_sapling_big.png",
+	paramtype = "light",
+	sunlight_propagates = true,
+	walkable = false,
+	groups = {snappy = 2, dig_immediate = 3, flammable = 2,
+		attached_node = 1, sapling = 1},
+	sounds = default.node_sound_leaves_defaults(),
+})
+
+minetest.register_node("flora:pine_tree_bonsai", {
+	description = ccore.comment("Bonsai Pine Tree", "Doesn't grow"),
+	drawtype = "plantlike",
+	tiles = {"flora_pine_sapling.png"},
+	inventory_image = "flora_pine_sapling.png",
+	wield_image = "flora_pine_sapling.png",
+	paramtype = "light",
+	sunlight_propagates = true,
+	walkable = false,
+	groups = {snappy = 2, dig_immediate = 3, flammable = 2,
+		attached_node = 1, sapling = 1},
+	sounds = default.node_sound_leaves_defaults(),
+})
+
+minetest.register_node("flora:pine_tree_big_bonsai", {
+	description = ccore.comment("Bonsai Big Pine Tree", "Doesn't grow"),
+	drawtype = "plantlike",
+	tiles = {"flora_pine_sapling_big.png"},
+	inventory_image = "flora_pine_sapling_big.png",
+	wield_image = "flora_pine_sapling_big.png",
+	paramtype = "light",
+	sunlight_propagates = true,
+	walkable = false,
+	groups = {snappy = 2, dig_immediate = 3, flammable = 2,
+		attached_node = 1, sapling = 1},
+	sounds = default.node_sound_leaves_defaults(),
+})
+
+minetest.register_node("flora:acacia_tree_bonsai", {
+	description = ccore.comment("Bonsai Acacia Tree", "Doesn't grow"),
+	drawtype = "plantlike",
+	tiles = {"flora_acacia_sapling.png"},
+	inventory_image = "flora_acacia_sapling.png",
+	wield_image = "flora_acacia_sapling.png",
+	paramtype = "light",
+	sunlight_propagates = true,
+	walkable = false,
+	groups = {snappy = 2, dig_immediate = 3, flammable = 2,
+		attached_node = 1, sapling = 1},
+	sounds = default.node_sound_leaves_defaults(),
+})
+
+minetest.register_node("flora:acacia_tree_big_bonsai", {
+	description = ccore.comment("Bonsai Big Acacia Tree", "Doesn't grow"),
+	drawtype = "plantlike",
+	tiles = {"flora_acacia_sapling_big.png"},
+	inventory_image = "flora_acacia_sapling_big.png",
+	wield_image = "flora_acacia_sapling_big.png",
+	paramtype = "light",
+	sunlight_propagates = true,
+	walkable = false,
+	groups = {snappy = 2, dig_immediate = 3, flammable = 2,
+		attached_node = 1, sapling = 1},
+	sounds = default.node_sound_leaves_defaults(),
+})
+
+minetest.register_node("flora:aspen_tree_bonsai", {
+	description = ccore.comment("Bonsai Aspen Tree", "Doesn't grow"),
+	drawtype = "plantlike",
+	tiles = {"flora_aspen_sapling.png"},
+	inventory_image = "flora_aspen_sapling.png",
+	wield_image = "flora_aspen_sapling.png",
+	paramtype = "light",
+	sunlight_propagates = true,
+	walkable = false,
+	groups = {snappy = 2, dig_immediate = 3, flammable = 2,
+		attached_node = 1, sapling = 1},
+	sounds = default.node_sound_leaves_defaults(),
+})
+
+minetest.register_node("flora:aspen_tree_big_bonsai", {
+	description = ccore.comment("Bonsai Big Aspen Tree", "Doesn't grow"),
+	drawtype = "plantlike",
+	tiles = {"flora_aspen_sapling_big.png"},
+	inventory_image = "flora_aspen_sapling_big.png",
+	wield_image = "flora_aspen_sapling_big.png",
+	paramtype = "light",
+	sunlight_propagates = true,
+	walkable = false,
+	groups = {snappy = 2, dig_immediate = 3, flammable = 2,
+		attached_node = 1, sapling = 1},
+	sounds = default.node_sound_leaves_defaults(),
+})
+
+minetest.register_node("flora:cherry_tree_bonsai", {
+	description = ccore.comment("Bonsai Cherry Tree", "Doesn't grow"),
+	drawtype = "plantlike",
+	tiles = {"flora_cherry_sapling.png"},
+	inventory_image = "flora_cherry_sapling.png",
+	wield_image = "flora_cherry_sapling.png",
+	paramtype = "light",
+	sunlight_propagates = true,
+	walkable = false,
+	groups = {snappy = 2, dig_immediate = 3, flammable = 2,
+		attached_node = 1, sapling = 1},
+	sounds = default.node_sound_leaves_defaults(),
+})
+
+minetest.register_node("flora:cherry_tree_big_bonsai", {
+	description = ccore.comment("Bonsai Big Cherry Tree", "Doesn't grow"),
+	drawtype = "plantlike",
+	tiles = {"flora_cherry_sapling_big.png"},
+	inventory_image = "flora_cherry_sapling_big.png",
+	wield_image = "flora_cherry_sapling_big.png",
+	paramtype = "light",
+	sunlight_propagates = true,
+	walkable = false,
+	groups = {snappy = 2, dig_immediate = 3, flammable = 2,
+		attached_node = 1, sapling = 1},
+	sounds = default.node_sound_leaves_defaults(),
+})
+
+minetest.register_node("flora:bone_tree_bonsai", {
+	description = ccore.comment("Bonsai Bone Tree", "Doesn't grow"),
+	drawtype = "plantlike",
+	tiles = {"flora_bone_sapling.png"},
+	inventory_image = "flora_bone_sapling.png",
+	wield_image = "flora_bone_sapling.png",
+	paramtype = "light",
+	sunlight_propagates = true,
+	walkable = false,
+	groups = {snappy = 2, dig_immediate = 3, flammable = 2,
+		attached_node = 1, sapling = 1},
+	sounds = default.node_sound_leaves_defaults(),
+})
+
+minetest.register_node("flora:bone_tree_big_bonsai", {
+	description = ccore.comment("Bonsai Big Bone Tree", "Doesn't grow"),
+	drawtype = "plantlike",
+	tiles = {"flora_bone_sapling_big.png"},
+	inventory_image = "flora_bone_sapling_big.png",
+	wield_image = "flora_bone_sapling_big.png",
+	paramtype = "light",
+	sunlight_propagates = true,
+	walkable = false,
+	groups = {snappy = 2, dig_immediate = 3, flammable = 2,
+		attached_node = 1, sapling = 1},
+	sounds = default.node_sound_leaves_defaults(),
+})
+
 --
 -- register trees for leafdecay
 --
@@ -904,11 +1102,67 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
+	output = "flora:jungle_tree_big_bonsai",
+	recipe = {
+		{"flora:emergent_jungle_sapling"},
+	}
+})
+
+minetest.register_craft({
+	output = "flora:emergent_jungle_sapling",
+	recipe = {
+		{"flora:jungle_tree_big_bonsai"},
+	}
+})
+
+minetest.register_craft({
+	output = "flora:jungle_tree_bonsai",
+	recipe = {
+		{"flora:junglesapling"},
+	}
+})
+
+minetest.register_craft({
+	output = "flora:junglesapling",
+	recipe = {
+		{"flora:jungle_tree_bonsai"},
+	}
+})
+
+minetest.register_craft({
 	output = "flora:sapling_big",
 	recipe = {
 		{"flora:sapling", "flora:sapling", "flora:sapling"},
 		{"flora:sapling", "flora:sapling", "flora:sapling"},
 		{"flora:sapling", "flora:sapling", "flora:sapling"},
+	}
+})
+
+minetest.register_craft({
+	output = "flora:tree_big_bonsai",
+	recipe = {
+		{"flora:sapling_big"},
+	}
+})
+
+minetest.register_craft({
+	output = "flora:sapling_big",
+	recipe = {
+		{"flora:tree_big_bonsai"},
+	}
+})
+
+minetest.register_craft({
+	output = "flora:tree_bonsai",
+	recipe = {
+		{"flora:sapling"},
+	}
+})
+
+minetest.register_craft({
+	output = "flora:sapling",
+	recipe = {
+		{"flora:tree_bonsai"},
 	}
 })
 
@@ -922,11 +1176,67 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
+	output = "flora:pine_tree_big_bonsai",
+	recipe = {
+		{"flora:pine_sapling_big"},
+	}
+})
+
+minetest.register_craft({
+	output = "flora:pine_sapling_big",
+	recipe = {
+		{"flora:pine_tree_big_bonsai"},
+	}
+})
+
+minetest.register_craft({
+	output = "flora:pine_tree_bonsai",
+	recipe = {
+		{"flora:pine_sapling"},
+	}
+})
+
+minetest.register_craft({
+	output = "flora:pine_sapling",
+	recipe = {
+		{"flora:pine_tree_bonsai"},
+	}
+})
+
+minetest.register_craft({
 	output = "flora:acacia_sapling_big",
 	recipe = {
 		{"flora:acacia_sapling", "flora:acacia_sapling", "flora:acacia_sapling"},
 		{"flora:acacia_sapling", "flora:acacia_sapling", "flora:acacia_sapling"},
 		{"flora:acacia_sapling", "flora:acacia_sapling", "flora:acacia_sapling"},
+	}
+})
+
+minetest.register_craft({
+	output = "flora:acacia_tree_big_bonsai",
+	recipe = {
+		{"flora:acacia_sapling_big"},
+	}
+})
+
+minetest.register_craft({
+	output = "flora:acacia_sapling_big",
+	recipe = {
+		{"flora:acacia_tree_big_bonsai"},
+	}
+})
+
+minetest.register_craft({
+	output = "flora:acacia_tree_bonsai",
+	recipe = {
+		{"flora:acacia_sapling"},
+	}
+})
+
+minetest.register_craft({
+	output = "flora:acacia_sapling",
+	recipe = {
+		{"flora:acacia_tree_bonsai"},
 	}
 })
 
@@ -940,6 +1250,34 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
+	output = "flora:aspen_tree_big_bonsai",
+	recipe = {
+		{"flora:aspen_sapling_big"},
+	}
+})
+
+minetest.register_craft({
+	output = "flora:aspen_sapling_big",
+	recipe = {
+		{"flora:aspen_tree_big_bonsai"},
+	}
+})
+
+minetest.register_craft({
+	output = "flora:aspen_tree_bonsai",
+	recipe = {
+		{"flora:aspen_sapling"},
+	}
+})
+
+minetest.register_craft({
+	output = "flora:aspen_sapling",
+	recipe = {
+		{"flora:aspen_tree_bonsai"},
+	}
+})
+
+minetest.register_craft({
 	output = "flora:cherry_sapling_big",
 	recipe = {
 		{"flora:cherry_sapling", "flora:cherry_sapling", "flora:cherry_sapling"},
@@ -949,11 +1287,67 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
+	output = "flora:cherry_tree_big_bonsai",
+	recipe = {
+		{"flora:cherry_sapling_big"},
+	}
+})
+
+minetest.register_craft({
+	output = "flora:cherry_sapling_big",
+	recipe = {
+		{"flora:cherry_tree_big_bonsai"},
+	}
+})
+
+minetest.register_craft({
+	output = "flora:cherry_tree_bonsai",
+	recipe = {
+		{"flora:cherry_sapling"},
+	}
+})
+
+minetest.register_craft({
+	output = "flora:cherry_sapling",
+	recipe = {
+		{"flora:cherry_tree_bonsai"},
+	}
+})
+
+minetest.register_craft({
 	output = "flora:bone_sapling_big",
 	recipe = {
 		{"flora:bone_sapling", "flora:bone_sapling", "flora:bone_sapling"},
 		{"flora:bone_sapling", "flora:bone_sapling", "flora:bone_sapling"},
 		{"flora:bone_sapling", "flora:bone_sapling", "flora:bone_sapling"},
+	}
+})
+
+minetest.register_craft({
+	output = "flora:bone_tree_big_bonsai",
+	recipe = {
+		{"flora:bone_sapling_big"},
+	}
+})
+
+minetest.register_craft({
+	output = "flora:bone_sapling_big",
+	recipe = {
+		{"flora:bone_tree_big_bonsai"},
+	}
+})
+
+minetest.register_craft({
+	output = "flora:bone_tree_bonsai",
+	recipe = {
+		{"flora:bone_sapling"},
+	}
+})
+
+minetest.register_craft({
+	output = "flora:bone_sapling",
+	recipe = {
+		{"flora:bone_tree_bonsai"},
 	}
 })
 

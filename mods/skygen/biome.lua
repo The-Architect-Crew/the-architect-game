@@ -94,7 +94,8 @@ skygen.transition = function(player, base_colors, base_params, color_diffs, para
             sun_texture = "sun.png"
             moon_texture = "moon.png"
         end
-        if (skygen.scale_sun_moon == "true") then
+        local name = player:get_player_name()
+        if (skygen.storage:get_string(name .. "_scaling")) == "true" then
             player:set_sun({
                 texture = sun_texture,
                 scale = ((heat/255) + 0.1)*2,
@@ -106,19 +107,22 @@ skygen.transition = function(player, base_colors, base_params, color_diffs, para
         else
             player:set_sun({
                 texture = sun_texture,
+                scale = 1.0,
             })
             player:set_moon({
                 texture = moon_texture,
+                scale = 1.0,
             })
         end
-        if skygen.colorize_stars == true then
+        if (skygen.storage:get_string(name .. "_star_coloring")) == "true" then
             player:set_stars({
                 star_color = {r = sun[1], g = sun[2], b = sun[3]},
                 count = (1.5 - humidity) * 4 * 10
             })
         else
             player:set_stars({
-                count = (1.5 - humidity) * 4 * 10
+                count = (1.5 - humidity) * 4 * 10,
+                star_color = skygen.default_star_params.star_color
             })
         end
         minetest.after(1 / skygen.transition_frames, function()
@@ -168,7 +172,8 @@ skygen.set_all = function(player, in_biome_name) -- For initial case
         sun_texture = "sun.png"
         moon_texture = "moon.png"
     end
-    if (skygen.scale_sun_moon == "true") then
+    local name = player:get_player_name()
+    if (skygen.storage:get_string(name .. "_scaling")) == "true" then
         player:set_sun({
             texture = sun_texture,
             scale = ((heat/255) + 0.1)*2,
@@ -180,12 +185,14 @@ skygen.set_all = function(player, in_biome_name) -- For initial case
     else
         player:set_sun({
             texture = sun_texture,
+            scale = 1.0,
         })
         player:set_moon({
             texture = moon_texture,
+            scale = 1.0,
         })
     end
-    if skygen.colorize_stars == true then
+    if (skygen.storage:get_string(name .. "_star_coloring")) == "true" then
         player:set_stars({
             star_color = {r = sun[1], g = sun[2], b = sun[3]},
             count = (1.5 - humidity) * 4 * 10

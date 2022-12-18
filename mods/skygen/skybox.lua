@@ -3,8 +3,9 @@
 skygen.skybox_status = {}
 
 skygen.set_skybox = function(player, skybox)
-    skygen.skybox_status[player:get_player_name()] = skybox
-    skygen.sky_state[player:get_player_name()] = "skybox"
+    local name = player:get_player_name()
+    skygen.storage:set_string(name .. "_skybox", skybox)
+    skygen.storage:set_string(name .. "_sky_state", "skybox")
     local skybox_data = skygen.skyboxes[skybox]
     local skybox_textures = {}
     for i=1,6 do

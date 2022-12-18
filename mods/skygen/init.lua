@@ -53,8 +53,7 @@ minetest.register_on_joinplayer(function(player)
     if skygen.storage:get_int(name .. "_shadow_intensity") == "" then
         skygen.storage:set_int(name .. "_shadow_intensity", 0.33)
     end
-    player:set_lighting({ shadows = { intensity = skygen.storage:get_int(name .. "_shadow_intensity") }
-	})
+    player:set_lighting({ shadows = { intensity = skygen.storage:get_int(name .. "_shadow_intensity") } })
 end)
 
 minetest.register_on_leaveplayer(function(player)
@@ -78,10 +77,30 @@ skygen.sky_globalstep = function(players)
             if (skygen.storage:get_string(player_name .. "_skybox") == "sky") then
                 return
             else
+                local old_state = skygen.storage:get_string(player_name .. "_sky_state")
+                local saved_state
+                if old_state == "skybox" then
+                    saved_state = "skybox_reset"
+                    local saved_skybox = skygen.storage:get_string(player_name .. "_skybox")
+                    skygen.storage:set_string(player_name .. "_override_skybox", saved_skybox)
+                elseif old_state == "inactive" then
+                    saved_state = "inactive_reset"
+                else
+                    saved_state = old_state
+                end
+                skygen.storage:set_string(player_name .. "_override_state", saved_state) -- Save the selection before the override
                 skygen.set_skybox(player, "sky")
             end
         elseif (player:get_pos().y < skygen.sky_biome_start) and (skygen.storage:get_string(player_name .. "_skybox") == "sky") then
-            skygen.biome_mode(player_name)
+            skygen.storage:set_string(player_name .. "_sky_state", skygen.storage:get_string(player_name .. "_override_state")) -- Apply selection from before the override
+            if skygen.storage:get_string(player_name .. "_override_state") == "skybox_reset" then -- Saved skybox in this case (state saved as skybox_reset above)
+                skygen.storage:set_string(player_name .. "_skybox", skygen.storage:get_string(player_name .. "_override_skybox"))
+            else
+                skygen.storage:set_string(player_name .. "_skybox", "none")
+            end
+            if skygen.storage:get_string(player_name .. "_override_state") == "biome"  then
+                skygen.biome_mode(player_name)
+            end
         elseif (skygen.storage:get_string(player_name .. "_sky_state") == "skybox") or (skygen.storage:get_string(player_name .. "_sky_state") == "inactive") then
             return
         else

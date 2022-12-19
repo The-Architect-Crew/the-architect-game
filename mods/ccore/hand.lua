@@ -1,6 +1,7 @@
 -- The hand
 -- Override the hand item registered in the engine in builtin/game/register.lua
 minetest.override_item("", {
+	range = 10,
 	wield_scale = {x=1,y=1,z=2.5},
 	tool_capabilities = {
 		full_punch_interval = 0.9,

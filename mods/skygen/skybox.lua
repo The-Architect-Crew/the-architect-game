@@ -87,15 +87,3 @@ skygen.set_skybox = function(player, skybox)
         })
     end
 end
-
-skygen.biome_mode = function(player)
-    skygen.storage:set_string(player .. "_skybox", "none")
-    skygen.storage:set_string(player .. "_sky_state", "biome")
-    skygen.previous_biome[player] = nil
-    local player_obj = minetest.get_player_by_name(player)
-    player_obj:set_sky()
-    player_obj:override_day_night_ratio(nil)
-    player_obj:set_sun()
-    player_obj:set_moon()
-    player_obj:set_stars(skygen.default_star_params)
-end

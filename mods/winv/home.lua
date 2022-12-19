@@ -290,6 +290,7 @@ winv:register_inventory("home", {
 		texture = "winv_icon_home.png",
 		tooltip = "Saved Homes",
 	},
+	hide_in_node = true,
 	formspec_function = function(player)
 		local name = player:get_player_name()
 		local hinv = whomes_inventory[name] or init_homes(player)

@@ -1,6 +1,6 @@
 mapgen = {}
 mapgen.underground_start = -48 -- The level where surface caves end and underground begins
-mapgen.underground_limit = -512 - 128 -- The lower limit of the underground "biome", first caverns appear at -512
+mapgen.underground_limit = -1024 -- The lower limit of the underground "biome", first caverns appear at -512
 mapgen.hell_level = -8192 + 512 -- The upper limit of hell
 mapgen.world_bottom = -8192 -- Map bottom limit
 --[[mapgen.sfcaves_level = -16

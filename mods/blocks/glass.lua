@@ -26,6 +26,20 @@ minetest.register_node("blocks:obsidian_glass", {
 	groups = {cracky = 3},
 })
 
+minetest.register_node("blocks:glass_frosted", {
+	description = S("Frosted Glass"),
+	drawtype = "glasslike_framed_optional",
+	tiles = {"blocks_glass_frosted.png"},
+	use_texture_alpha = true,
+	paramtype = "light",
+	paramtype2 = "glasslikeliquidlevel",
+	sunlight_propagates = true,
+	is_ground_content = false,
+	groups = {cracky = 3, oddly_breakable_by_hand = 3},
+	sounds = default.node_sound_glass_defaults(),
+})
+
+
 -- Medieval Glass
 
 minetest.register_node("blocks:medieval_glass", {

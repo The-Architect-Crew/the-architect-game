@@ -43,7 +43,7 @@ if skygen.storage:get_string("event") == "" then
 end
 
 minetest.register_on_joinplayer(function(player)
-    name = player:get_player_name()
+    local name = player:get_player_name()
     -- Recovery Variables
     if skygen.storage:get_string(name .. "_sky_state") == "skybox" then
         skygen.storage:set_string(name .. "_sky_state", "skybox_reset")
@@ -69,7 +69,7 @@ minetest.register_on_joinplayer(function(player)
 end)
 
 minetest.register_on_leaveplayer(function(player)
-    name = player:get_player_name()
+    local name = player:get_player_name()
     if skygen.storage:get_string(name .. "_sky_state") == "skybox" then
         skygen.storage:set_string(name .. "_sky_state", "skybox_reset")
     elseif skygen.storage:get_string(name .. "_sky_state") == "inactive" then

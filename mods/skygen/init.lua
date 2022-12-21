@@ -9,7 +9,7 @@ skygen.sky_state = {}
 skygen.active = true
 skygen.scale_sun_moon = "true"
 
-skygen.sky_biome_start = 512
+skygen.sky_biome_start = 1024
 
 skygen.events = {"test"} -- Add event names here
 

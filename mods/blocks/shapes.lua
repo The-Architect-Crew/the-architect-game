@@ -12,19 +12,40 @@ shapes:register_shape("blocks:dirt_with_grass", {
 })
 -- glass.lua
 shapes:register_shape("blocks:glass", {
-	slab_tiles = {"blocks_glass.png","blocks_glass.png", "shapes_glass.png", "shapes_glass.png", "shapes_glass.png", "shapes_glass.png"},
-	cube_tiles = {"shapes_glass_2.png","shapes_glass_2.png^[transformFXR90", "shapes_glass_2.png^[transformFY", "shapes_glass_2.png^[transformFY", "shapes_glass_2.png^[transformFY", "shapes_glass_2.png^[transformFY"},
+	slab_tiles = {"blocks_glass.png","blocks_glass.png", "shapes_glass.png"},
+	slab1_tiles = {"blocks_glass.png","blocks_glass.png", "shapes_glass_top.png"},
+	slab2_tiles = {"blocks_glass.png","blocks_glass.png", "shapes_glass_top.png"},
+	slab4_tiles = {"blocks_glass.png","blocks_glass.png", "shapes_glass_4.png"},
+	slab12_tiles = {"blocks_glass.png","blocks_glass.png", "shapes_glass_12.png"},
+	slab14_tiles = {"blocks_glass.png","blocks_glass.png", "shapes_glass_14.png"},
+	cube_tiles = {"shapes_glass_2.png","shapes_glass_2.png^[transformFXR90", "shapes_glass_2.png^[transformFY"},
+	cube1_tiles = {"shapes_glass_2.png","shapes_glass_2.png^[transformFXR90", "shapes_glass_top.png"},
+	cube2_tiles = {"shapes_glass_2.png","shapes_glass_2.png^[transformFXR90", "shapes_glass_top.png"},
+	cube4_tiles = {"shapes_glass_2.png","shapes_glass_2.png^[transformFXR90", "shapes_glass_5.png"},
+	cube12_tiles = {"shapes_glass_2.png","shapes_glass_2.png^[transformFXR90", "shapes_glass_13.png"},
+	cube14_tiles = {"shapes_glass_2.png","shapes_glass_2.png^[transformFXR90", "shapes_glass_15.png"},
 	step_tiles = {"shapes_glass.png","shapes_glass.png", "shapes_glass_2.png^[transformFY", "shapes_glass_2.png^[transformFY", "shapes_glass.png", "shapes_glass.png"},
+	corner_tiles = {"shapes_glass_3.png","shapes_glass_3.png^[transformFY", "shapes_glass.png"},
 	halfstair_tiles = {"shapes_glass_2.png^[transformFXR90","shapes_glass_2.png^[transformFYR90", "shapes_glass_3.png^[transformFX", "shapes_glass_3.png", "shapes_glass_2.png^[transformFXR90", "shapes_glass_2.png^[transformFXR90"},
+	righthalfstair_tiles = {"shapes_glass_2.png^[transformFXR90","shapes_glass_2.png^[transformFYR90", "shapes_glass_3.png^[transformFX", "shapes_glass_3.png", "shapes_glass_2.png^[transformFXR90", "shapes_glass_2.png^[transformFXR90"},
 	stair_tiles = {"shapes_glass.png","blocks_glass.png", "shapes_glass_3.png^[transformFX", "shapes_glass_3.png", "blocks_glass.png", "shapes_glass.png"},
 	outerstair_tiles = {"shapes_glass_3.png^[transformFX","blocks_glass.png", "shapes_glass_2.png", "shapes_glass_3.png", "shapes_glass_3.png^[transformFX", "shapes_glass_2.png"},
 	innerstair_tiles = {"shapes_glass_3.png^[transformFY","blocks_glass.png", "shapes_glass_3.png^[transformFX", "blocks_glass.png", "blocks_glass.png", "shapes_glass_3.png"},
+	forkstair_tiles = {"shapes_glass_6.png", "shapes_glass_3.png", "shapes_glass_6.png",},
+
+	splitstair1_tiles = {"shapes_glass.png", "shapes_glass.png", "shapes_glass_top.png"},
+	splitstair_tiles = {"shapes_glass.png", "shapes_glass.png", "shapes_glass.png"},
 	pole_tiles = {"shapes_glass_fence_top.png", "shapes_glass_fence_top.png", "shapes_glass_fence.png"},
+	wallpole_tiles = {"shapes_glass_fence_top_2.png", "shapes_glass_fence_top_2.png^[transformFY", "shapes_glass_fence_2.png", "shapes_glass_fence_2.png^[transformFX", "shapes_glass_fence.png", "shapes_glass_fence.png"},
+	cornerpole_tiles = {"shapes_glass_fence_top_3.png", "shapes_glass_fence_top_3.png^[transformFY", "shapes_glass_fence_2.png", "shapes_glass_fence_2.png^[transformFX", "shapes_glass_fence_2.png", "shapes_glass_fence_2.png^[transformFX"},
 	pillar_tiles = {"shapes_glass_wall_top.png", "shapes_glass_wall_top.png", "shapes_glass_wall.png"},
+	wallpillar_tiles = {"shapes_glass_wall_top_2.png", "shapes_glass_wall_top_2.png^[transformFY", "shapes_glass_wall_2.png", "shapes_glass_wall_2.png^[transformFX", "shapes_glass_wall.png", "shapes_glass_wall.png"},
+	halfpillar_tiles = {"shapes_glass_wall_top_3.png", "shapes_glass_wall_top_3.png^[transformFY", "shapes_glass_4.png^[transformR90", "shapes_glass_4.png^[transformR90", "shapes_glass_wall.png", "shapes_glass_wall.png"},
 	pane_flat_tiles = {"shapes_glass_top.png", "shapes_glass_top.png", "shapes_glass.png^[transformFXR90", "shapes_glass.png^[transformFXR90", "blocks_glass.png"},
 	pane_tiles = {"shapes_glass_top.png", "shapes_glass_top.png", "blocks_glass.png"},
-	disabled = "fence, wall",
+	disabled = "fence, fencerail, wall, cat:pillarcrown, cat:beam",
 	texture = "blocks_glass.png",
+	align_style = "node",
 })
 
 shapes:register_shape("blocks:obsidian_glass", {

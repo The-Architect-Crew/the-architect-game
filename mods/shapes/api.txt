@@ -117,7 +117,6 @@ forkstair				-- trident-like stairs
 cat:splitstair			-- Splitstairs Category (Like stairs created with double steps)
 ================		-- ==================
 splitstair1				-- 1-pixel thick splitstairs
-splitstair4				-- 4-pixel thick splitstairs
 splitstair				-- normal splitstairs
 ==========				-- ==================
 cat:pole				-- Pole Category

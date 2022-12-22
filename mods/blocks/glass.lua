@@ -30,7 +30,7 @@ minetest.register_node("blocks:glass_frosted", {
 	description = S("Frosted Glass"),
 	drawtype = "glasslike_framed_optional",
 	tiles = {"blocks_glass_frosted.png"},
-	use_texture_alpha = true,
+	use_texture_alpha = "blend",
 	paramtype = "light",
 	paramtype2 = "glasslikeliquidlevel",
 	sunlight_propagates = true,

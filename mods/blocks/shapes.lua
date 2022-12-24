@@ -114,7 +114,7 @@ shapes:register_shape("blocks:medieval_glass", {
 	halfpillar_tiles = {"shapes_medieval_glass_wall_top_3.png", "shapes_medieval_glass_wall_top_3.png^[transformFY", "shapes_medieval_glass_4.png^[transformR90", "shapes_medieval_glass_4.png^[transformR90", "shapes_medieval_glass_wall.png", "shapes_medieval_glass_wall.png"},
 	pane_flat_tiles = {"shapes_medieval_glass_top.png", "shapes_medieval_glass_top.png", "shapes_medieval_glass.png^[transformFXR90", "shapes_medieval_glass.png^[transformFXR90", "blocks_medieval_glass.png"},
 	pane_tiles = {"shapes_medieval_glass_top.png", "shapes_medieval_glass_top.png", "blocks_medieval_glass.png"},
-	isabled = "fence, fencerail, wall, cat:pillarcrown, cat:beam",
+	disabled = "fence, fencerail, wall, cat:pillarcrown, cat:beam",
 	texture = "blocks_medieval_glass.png",
 	align_style = "node",
 })

@@ -84,7 +84,7 @@ shapes:register_shape("blocks:obsidian_glass", {
 })
 
 shapes:register_shape("blocks:medieval_glass", {
-	slab_tiles = {"blocks_medieval_glass.png","blocks_medieval_glass.png", "shapes_medieval_glass.png"}, 
+	slab_tiles = {"blocks_medieval_glass.png","blocks_medieval_glass.png", "shapes_medieval_glass.png"},
 	slab1_tiles = {"blocks_medieval_glass.png", "blocks_medieval_glass.png", "shapes_medieval_glass_top.png"},
 	slab2_tiles = {"blocks_medieval_glass.png", "blocks_medieval_glass.png", "shapes_medieval_glass_top.png"},
 	slab4_tiles = {"blocks_medieval_glass.png","blocks_medieval_glass.png", "shapes_medieval_glass_4.png"},

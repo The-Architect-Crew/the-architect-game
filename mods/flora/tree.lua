@@ -40,7 +40,7 @@ minetest.register_node("flora:sapling", {
 	sounds = default.node_sound_leaves_defaults(),
 
 	on_construct = function(pos)
-		minetest.get_node_timer(pos):start(math.random(300, 1500))
+		minetest.get_node_timer(pos):start(math.random(300,1500))
 	end,
 
 	on_place = function(itemstack, placer, pointed_thing)

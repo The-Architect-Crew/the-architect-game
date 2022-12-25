@@ -1,14 +1,12 @@
 mapgen = {}
-mapgen.underground_start = -48 -- The level where surface caves end and underground begins
+mapgen.underground_start = -128 -- The level where surface caves end and underground begins
 mapgen.underground_limit = -1024 -- The lower limit of the underground "biome", first caverns appear at -512
 mapgen.hell_level = -8192 + 512 -- The upper limit of hell
 mapgen.world_bottom = -8192 -- Map bottom limit
---[[mapgen.sfcaves_level = -16
-mapgen.sfcave_limit = 512
-mapgen.clay_transformer_limit = -30 -- Probably -32 actually
+mapgen.sfcaves_level = -64
 
 mapgen.surface_cave_np = {
-	offset = -0.9 * 160,
+	offset = -0.8 * 160,
 	scale = 160,
 	spread = {x = 96, y = 96, z = 96},
 	seed = 261,
@@ -16,17 +14,6 @@ mapgen.surface_cave_np = {
 	persistence = 0.5,
 	lacunarity = 3,
 }
-
-mapgen.cave_opening_noise = { -- Should be same as mapgen.surface_cave_np but with insane scale and a bit smaller offset
-	offset = -1.0 * 1024 * 1024, -- Its just 1.25, but we have to multiply by scale because its not normalized
-	scale = 1024 * 1024,
-	spread = {x = 96, y = 96, z = 96},
-	seed = 261,
-	octaves = 2, -- These are for adding detail on the resulting ravines
-	persistence = 0.5,
-	lacunarity = 3,
-	--flags = "eased",
-}]]--
 
 mapgen.np_stalagmites = {
 	offset = -0.85,
@@ -42,7 +29,8 @@ mapgen.np_stalagmites = {
 mapgen.lush_biomes = {"grassland", "grassland_dunes", "grassland_ocean",
 					"coniferous_forest", "coniferous_forest_ocean", "coniferous_forest_dunes",
 					"deciduous_forest", "deciduous_forest_shore", "deciduous_forest_ocean",
-					"rainforest", "rainforest_swamp", "rainforest_ocean"}
+					"rainforest", "rainforest_swamp", "rainforest_ocean",
+					"chalk_grassland", "chalk_grassland_ocean"}
 mapgen.icy_biomes = {"cold_desert", "cold_desert_ocean",
 					"taiga", "taiga_ocean",
 					"snowy_grassland", "snowy_grassland_ocean",
@@ -51,14 +39,6 @@ mapgen.icy_biomes = {"cold_desert", "cold_desert_ocean",
 mapgen.hot_biomes = {"desert", "desert_ocean",
 					"sandstone_desert", "sandstone_desert_ocean",
 					"savanna", "savanna_shore", "savanna_ocean"}
---[[
-minetest.register_on_generated(function(minp, maxp, seed)
-	if (minp.y > -32) then
-		local vm, emin, emax = minetest.get_mapgen_object("voxelmanip")
-		minetest.fix_light(emin, emax)
-	end
-end)
-]]--
 
 -- Clear default biomes, ores and decorations
 minetest.clear_registered_biomes()

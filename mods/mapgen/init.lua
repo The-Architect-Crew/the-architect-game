@@ -4,11 +4,12 @@ mapgen.underground_limit = -1024 -- The lower limit of the underground "biome", 
 mapgen.hell_level = -8192 + 512 -- The upper limit of hell
 mapgen.world_bottom = -8192 -- Map bottom limit
 mapgen.sfcaves_level = -64
+mapgen.sfcave_limit = -32 -- How high can sfcaves go
 
 mapgen.surface_cave_np = {
-	offset = -0.8 * 160,
-	scale = 160,
-	spread = {x = 96, y = 96, z = 96},
+	offset = -0.8 * 144,
+	scale = 144,
+	spread = {x = 144, y = 144, z = 144},
 	seed = 261,
 	octaves = 2,
 	persistence = 0.5,

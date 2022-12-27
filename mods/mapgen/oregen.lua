@@ -332,7 +332,7 @@ end
 -- All mapgens except mgv6
 
 mapgen.surface_nodes = {"blocks:stone", "blocks:dry_dirt", "blocks:dry_dirt_with_dry_grass", "blocks:dirt", "blocks:dirt_with_grass", "blocks:dirt_with_snow", "blocks:dirt_with_rainforest_litter", "blocks:dirt_with_coniferous_litter",
-"blocks:desert_stone", "blocks:desert_sand", "blocks:desert_sandstone", "blocks:sandstone", "blocks:sand", "blocks:silver_sandstone", "blocks:silver_sand",
+"blocks:desert_stone", "blocks:desert_sand", "blocks:desert_sandstone", "blocks:sandstone", "blocks:sand", "blocks:silver_sandstone", "blocks:silver_sand", "blocks:chalk", "blocks:cobble",
 "blocks:cave_ice", "blocks:ice", "blocks:gravel", "blocks:snowblock", "blocks:permafrost", "blocks:permafrost_with_stones", "blocks:desert_cobble", "blocks:mossycobble", "blocks:dune_sand"} -- Hope I didn't miss any
 
 function mapgen.register_ores()
@@ -348,8 +348,8 @@ function mapgen.register_ores()
 		y_min           = -128,
 		noise_params    = {
 			offset = mapgen.sfcaves_level,
-			scale = 8,
-			spread = {x = 20, y = 20, z = 20},
+			scale = 16,
+			spread = {x = 16, y = 16, z = 16},
 			seed = 262,
 			octaves = 1,
 			flags = "eased",

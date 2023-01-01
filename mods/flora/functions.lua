@@ -26,15 +26,132 @@ function flora.can_grow(pos)
 	return true
 end
 
-
--- 'is snow nearby' function
-
-local function is_snow_nearby(pos)
-	return minetest.find_node_near(pos, 1, {"group:snowy"})
+function flora.grow_large_cactus(pos)
+	local path = minetest.get_modpath("flora") ..
+		"/schematics/large_cactus.mts"
+	minetest.place_schematic({x = pos.x - 2, y = pos.y - 1, z = pos.z - 2},
+		path, "random", nil, false)
 end
 
+flora.saplings = {
+	sapling = {
+		name = "apple tree sapling",
+		description = "apple tree",
+		schem_name = "apple_tree_from_sapling",
+		offset = {x = 3, y = 1, z = 3}
+	},
+	sapling_big = {
+		name = "big apple tree sapling",
+		description = "huge apple tree",
+		schem_name = "apple_tree_large",
+		offset = {x = 6, y = 2, z = 6}
+	},
+	pine_sapling = {
+		name = "pine tree sapling",
+		description = "pine tree",
+		schem_name = "pine_tree_from_sapling",
+		offset = {x = 2, y = 1, z = 2}
+	},
+	pine_sapling_big = {
+		name = "big pine tree sapling",
+		description = "huge pine tree",
+		schem_name = "pine_tree_large",
+		offset = {x = 6, y = 2, z = 6}
+	},
+	acacia_sapling = {
+		name = "acacia tree sapling",
+		description = "acacia tree",
+		schem_name = "acacia_tree_from_sapling",
+		offset = {x = 4, y = 1, z = 4}
+	},
+	acacia_sapling_big = {
+		name = "big acacia tree sapling",
+		description = "huge acacia tree",
+		schem_name = "acacia_tree_large",
+		offset = {x = 7, y = 2, z = 7}
+	},
+	aspen_sapling = {
+		name = "aspen tree sapling",
+		description = "aspen tree",
+		schem_name = "aspen_tree_from_sapling",
+		offset = {x = 2, y = 1, z = 2}
+	},
+	aspen_sapling_big = {
+		name = "big aspen tree sapling",
+		description = "huge aspen tree",
+		schem_name = "aspen_tree_large",
+		offset = {x = 4, y = 2, z = 4}
+	},
+	cherry_sapling = {
+		name = "cherry tree sapling",
+		description = "cherry tree",
+		schem_name = "cherry_tree",
+		offset = {x = 4, y = 1, z = 4}
+	},
+	cherry_sapling_big = {
+		name = "big cherry tree sapling",
+		description = "huge cherry tree",
+		schem_name = "cherry_tree_large",
+		offset = {x = 8, y = 1, z = 8}
+	},
+	bone_sapling = {
+		name = "bone tree sapling",
+		description = "bone tree",
+		schem_name = "bone_tree",
+		offset = {x = 3, y = 1, z = 3}
+	},
+	bone_sapling_big = {
+		name = "big bone tree sapling",
+		description = "huge bone tree",
+		schem_name = "bone_tree_large",
+		offset = {x = 5, y = 1, z = 5}
+	},
+	junglesapling = {
+		name = "jungle tree sapling",
+		description = "jungle tree",
+		schem_name = "jungle_tree_from_sapling",
+		offset = {x = 2, y = 1, z = 2}
+	},
+	emergent_jungle_sapling = {
+		name = "emergent jungle tree sapling",
+		description = "emergent jungle tree",
+		schem_name = "emergent_jungle_tree_from_sapling",
+		offset = {x = 3, y = 5, z = 3}
+	},
+	bush_sapling = {
+		name = "bush sapling",
+		description = "bush",
+		schem_name = "bush",
+		offset = {x = 1, y = 1, z = 1}
+	},
+	blueberry_bush_sapling = {
+		name = "blueberry bush sapling",
+		description = "blueberry bush",
+		schem_name = "blueberry_bush",
+		offset = {x = 1, y = 0, z = 1}
+	},
+	acacia_bush_sapling = {
+		name = "acacia bush sapling",
+		description = "acacia bush",
+		schem_name = "acacia_bush",
+		offset = {x = 1, y = 1, z = 1}
+	},
+	pine_bush_sapling = {
+		name = "pine bush sapling",
+		description = "pine bush",
+		schem_name = "pine_bush",
+		offset = {x = 1, y = 1, z = 1}
+	},
+}
 
--- Grow sapling
+function flora.grow(pos, plant_data)
+	local pos_offset = plant_data.offset
+	local schem_name = plant_data.schem_name
+	local path = minetest.get_modpath("flora") .. "/schematics/" .. schem_name .. ".mts"
+	minetest.place_schematic(
+		{x = pos.x - pos_offset.x, y = pos.y - pos_offset.y, z = pos.z - pos_offset.z},
+		path, "random", nil, false)
+end
 
 function flora.grow_sapling(pos)
 	if not flora.can_grow(pos) then
@@ -42,64 +159,15 @@ function flora.grow_sapling(pos)
 		minetest.get_node_timer(pos):start(300)
 		return
 	end
-
-	local mg_name = minetest.get_mapgen_setting("mg_name")
 	local node = minetest.get_node(pos)
-	if node.name == "flora:sapling" then
-		minetest.log("action", "A sapling grows into a tree at "..
-			minetest.pos_to_string(pos))
-		if mg_name == "v6" then
-			flora.grow_tree(pos, random(1, 4) == 1)
-		else
-			flora.grow_new_apple_tree(pos)
+	-- Reads everything after the semicolon
+	local nodename = string.match(node.name, ':(.*)')
+	for key in pairs(flora.saplings) do
+		if nodename == key then
+			local data = flora.saplings[nodename]
+			minetest.log("action", "A " .. data.name .. " grows into a " .. data.description .. " at ".. minetest.pos_to_string(pos))
+			flora.grow(pos, data)
 		end
-	elseif node.name == "flora:junglesapling" then
-		minetest.log("action", "A jungle sapling grows into a tree at "..
-			minetest.pos_to_string(pos))
-		if mg_name == "v6" then
-			flora.grow_jungle_tree(pos)
-		else
-			flora.grow_new_jungle_tree(pos)
-		end
-	elseif node.name == "flora:pine_sapling" then
-		minetest.log("action", "A pine sapling grows into a tree at "..
-			minetest.pos_to_string(pos))
-		local snow = is_snow_nearby(pos)
-		if mg_name == "v6" then
-			flora.grow_pine_tree(pos, snow)
-		elseif snow then
-			flora.grow_new_snowy_pine_tree(pos)
-		else
-			flora.grow_new_pine_tree(pos)
-		end
-	elseif node.name == "flora:acacia_sapling" then
-		minetest.log("action", "An acacia sapling grows into a tree at "..
-			minetest.pos_to_string(pos))
-		flora.grow_new_acacia_tree(pos)
-	elseif node.name == "flora:aspen_sapling" then
-		minetest.log("action", "An aspen sapling grows into a tree at "..
-			minetest.pos_to_string(pos))
-		flora.grow_new_aspen_tree(pos)
-	elseif node.name == "flora:bush_sapling" then
-		minetest.log("action", "A bush sapling grows into a bush at "..
-			minetest.pos_to_string(pos))
-		flora.grow_bush(pos)
-	elseif node.name == "flora:blueberry_bush_sapling" then
-		minetest.log("action", "A blueberry bush sapling grows into a bush at "..
-			minetest.pos_to_string(pos))
-		flora.grow_blueberry_bush(pos)
-	elseif node.name == "flora:acacia_bush_sapling" then
-		minetest.log("action", "An acacia bush sapling grows into a bush at "..
-			minetest.pos_to_string(pos))
-		flora.grow_acacia_bush(pos)
-	elseif node.name == "flora:pine_bush_sapling" then
-		minetest.log("action", "A pine bush sapling grows into a bush at "..
-			minetest.pos_to_string(pos))
-		flora.grow_pine_bush(pos)
-	elseif node.name == "flora:emergent_jungle_sapling" then
-		minetest.log("action", "An emergent jungle sapling grows into a tree at "..
-			minetest.pos_to_string(pos))
-		flora.grow_new_emergent_jungle_tree(pos)
 	end
 end
 
@@ -107,7 +175,12 @@ minetest.register_lbm({
 	name = "flora:convert_saplings_to_node_timer",
 	nodenames = {"flora:sapling", "flora:junglesapling",
 			"flora:pine_sapling", "flora:acacia_sapling",
-			"flora:aspen_sapling"},
+			"flora:aspen_sapling", "flora:cherry_sapling",
+			"flora:bone_sapling",
+			"flora:sapling_big", "flora:emergent_jungle_sapling",
+			"flora:pine_sapling_big", "flora:acacia_sapling_big",
+			"flora:aspen_sapling_big", "flora:cherry_sapling_big",
+			"flora:bone_sapling_big"},
 	action = function(pos)
 		minetest.get_node_timer(pos):start(math.random(300, 1500))
 	end
@@ -387,141 +460,6 @@ function flora.grow_pine_tree(pos, snow)
 	vm:write_to_map()
 	vm:update_map()
 end
-
-
--- New apple tree
-
-function flora.grow_new_apple_tree(pos)
-	local path = minetest.get_modpath("flora") ..
-		"/schematics/apple_tree_from_sapling.mts"
-	minetest.place_schematic({x = pos.x - 3, y = pos.y - 1, z = pos.z - 3},
-		path, "random", nil, false)
-end
-
-
--- New jungle tree
-
-function flora.grow_new_jungle_tree(pos)
-	local path = minetest.get_modpath("flora") ..
-		"/schematics/jungle_tree_from_sapling.mts"
-	minetest.place_schematic({x = pos.x - 2, y = pos.y - 1, z = pos.z - 2},
-		path, "random", nil, false)
-end
-
-
--- New emergent jungle tree
-
-function flora.grow_new_emergent_jungle_tree(pos)
-	local path = minetest.get_modpath("flora") ..
-		"/schematics/emergent_jungle_tree_from_sapling.mts"
-	minetest.place_schematic({x = pos.x - 3, y = pos.y - 5, z = pos.z - 3},
-		path, "random", nil, false)
-end
-
-
--- New pine tree
-
-function flora.grow_new_pine_tree(pos)
-	local path
-	if math.random() > 0.5 then
-		path = minetest.get_modpath("flora") ..
-			"/schematics/pine_tree_from_sapling.mts"
-	else
-		path = minetest.get_modpath("flora") ..
-			"/schematics/small_pine_tree_from_sapling.mts"
-	end
-	minetest.place_schematic({x = pos.x - 2, y = pos.y - 1, z = pos.z - 2},
-		path, "0", nil, false)
-end
-
-
--- New snowy pine tree
-
-function flora.grow_new_snowy_pine_tree(pos)
-	local path
-	if math.random() > 0.5 then
-		path = minetest.get_modpath("flora") ..
-			"/schematics/snowy_pine_tree_from_sapling.mts"
-	else
-		path = minetest.get_modpath("flora") ..
-			"/schematics/snowy_small_pine_tree_from_sapling.mts"
-	end
-	minetest.place_schematic({x = pos.x - 2, y = pos.y - 1, z = pos.z - 2},
-		path, "random", nil, false)
-end
-
-
--- New acacia tree
-
-function flora.grow_new_acacia_tree(pos)
-	local path = minetest.get_modpath("flora") ..
-		"/schematics/acacia_tree_from_sapling.mts"
-	minetest.place_schematic({x = pos.x - 4, y = pos.y - 1, z = pos.z - 4},
-		path, "random", nil, false)
-end
-
-
--- New aspen tree
-
-function flora.grow_new_aspen_tree(pos)
-	local path = minetest.get_modpath("flora") ..
-		"/schematics/aspen_tree_from_sapling.mts"
-	minetest.place_schematic({x = pos.x - 2, y = pos.y - 1, z = pos.z - 2},
-		path, "0", nil, false)
-end
-
-
--- Bushes do not need 'from sapling' schematic variants because
--- only the stem node is force-placed in the schematic.
-
--- Bush
-
-function flora.grow_bush(pos)
-	local path = minetest.get_modpath("flora") ..
-		"/schematics/bush.mts"
-	minetest.place_schematic({x = pos.x - 1, y = pos.y - 1, z = pos.z - 1},
-		path, "0", nil, false)
-end
-
--- Blueberry bush
-
-function flora.grow_blueberry_bush(pos)
-	local path = minetest.get_modpath("flora") ..
-		"/schematics/blueberry_bush.mts"
-	minetest.place_schematic({x = pos.x - 1, y = pos.y, z = pos.z - 1},
-		path, "0", nil, false)
-end
-
-
--- Acacia bush
-
-function flora.grow_acacia_bush(pos)
-	local path = minetest.get_modpath("flora") ..
-		"/schematics/acacia_bush.mts"
-	minetest.place_schematic({x = pos.x - 1, y = pos.y - 1, z = pos.z - 1},
-		path, "0", nil, false)
-end
-
-
--- Pine bush
-
-function flora.grow_pine_bush(pos)
-	local path = minetest.get_modpath("flora") ..
-		"/schematics/pine_bush.mts"
-	minetest.place_schematic({x = pos.x - 1, y = pos.y - 1, z = pos.z - 1},
-		path, "0", nil, false)
-end
-
-
--- Large cactus
-
-function flora.grow_large_cactus(pos)
-	local path = minetest.get_modpath("flora") ..
-		"/schematics/large_cactus.mts"
-	minetest.place_schematic({x = pos.x - 2, y = pos.y - 1, z = pos.z - 2},
-		path, "random", nil, false)
-end
-
 
 --
 -- Sapling 'on place' function to check protection of node and resulting tree volume

@@ -332,167 +332,31 @@ end
 -- All mapgens except mgv6
 
 mapgen.surface_nodes = {"blocks:stone", "blocks:dry_dirt", "blocks:dry_dirt_with_dry_grass", "blocks:dirt", "blocks:dirt_with_grass", "blocks:dirt_with_snow", "blocks:dirt_with_rainforest_litter", "blocks:dirt_with_coniferous_litter",
-"blocks:desert_stone", "blocks:desert_sand", "blocks:desert_sandstone", "blocks:sandstone", "blocks:sand", "blocks:silver_sandstone", "blocks:silver_sand",
+"blocks:desert_stone", "blocks:desert_sand", "blocks:desert_sandstone", "blocks:sandstone", "blocks:sand", "blocks:silver_sandstone", "blocks:silver_sand", "blocks:chalk", "blocks:cobble",
 "blocks:cave_ice", "blocks:ice", "blocks:gravel", "blocks:snowblock", "blocks:permafrost", "blocks:permafrost_with_stones", "blocks:desert_cobble", "blocks:mossycobble", "blocks:dune_sand"} -- Hope I didn't miss any
 
 function mapgen.register_ores()
 	-- Stratum ores.
 	-- These obviously first.
-	--[[
-	-- Carve the surface caves!
-	-- Two noises: one for the caves themselves, one for carving the sky openings into the terrain
-	-- Keep the noise params the same on these noises , only change the scale on the thickness noise and the offset on both
-
-	minetest.register_ore({
-		ore_type        = "stratum",
-		ore             = "blocks:clay",
-		wherein         = {"blocks:gravel", "blocks:sand"},
-		clust_scarcity  = 1,
-		y_max           = 0,
-		y_min           = mapgen.clay_transformer_limit,
-		noise_params    = {
-			offset = mapgen.sfcaves_level,-- This is the depth at which the noise is placed
-			scale = 8,
-			spread = {x = 20, y = 20, z = 20},
-			seed = 262,
-			octaves = 1,
-			flags = "eased",
-		},
-		np_stratum_thickness = mapgen.surface_cave_np,
-		biomes = mapgen.lush_biomes,
-	})
-
-	minetest.register_ore({
-		ore_type        = "stratum",
-		ore             = "blocks:clay",
-		wherein         = {"blocks:gravel", "blocks:sand"},
-		clust_scarcity  = 1,
-		y_max           = 0, -- Important, we don't want the clay-ifier to do its thing above 0
-		y_min           = mapgen.sfcaves_level, -- The middle of the actual cave noise
-		noise_params    = {
-			offset = mapgen.sfcaves_level + 64,-- This is the depth at which the noise is placed
-			scale = 8,
-			spread = {x = 20, y = 20, z = 20},
-			seed = 262,
-			octaves = 1,
-			flags = "eased",
-		},
-		np_stratum_thickness = mapgen.cave_opening_noise,
-		biomes = mapgen.lush_biomes,
-	})
-
-	minetest.register_ore({
-		ore_type        = "stratum",
-		ore             = "blocks:clay",
-		wherein         = {"blocks:gravel", "blocks:sand"},
-		clust_scarcity  = 1,
-		y_max           = 0,
-		y_min           = mapgen.clay_transformer_limit,
-		noise_params    = {
-			offset = mapgen.sfcaves_level,-- This is the depth at which the noise is placed
-			scale = 8,
-			spread = {x = 20, y = 20, z = 20},
-			seed = 262,
-			octaves = 1,
-			flags = "eased",
-		},
-		np_stratum_thickness = mapgen.surface_cave_np,
-		biomes = mapgen.hot_biomes,
-	})
-
-	minetest.register_ore({
-		ore_type        = "stratum",
-		ore             = "blocks:clay",
-		wherein         = {"blocks:gravel", "blocks:sand"},
-		clust_scarcity  = 1,
-		y_max           = 0, -- Important, we don't want the clay-ifier to do its thing above 0
-		y_min           = mapgen.sfcaves_level, -- The middle of the actual cave noise
-		noise_params    = {
-			offset = mapgen.sfcaves_level + 64,-- This is the depth at which the noise is placed
-			scale = 8,
-			spread = {x = 20, y = 20, z = 20},
-			seed = 262,
-			octaves = 1,
-			flags = "eased",
-		},
-		np_stratum_thickness = mapgen.cave_opening_noise,
-		biomes = mapgen.hot_biomes,
-	})
-
-	minetest.register_ore({
-		ore_type        = "stratum",
-		ore             = "blocks:ice",
-		wherein         = {"blocks:gravel", "blocks:sand"},
-		clust_scarcity  = 1,
-		y_max           = 0,
-		y_min           = mapgen.clay_transformer_limit,
-		noise_params    = {
-			offset = mapgen.sfcaves_level,-- This is the depth at which the noise is placed
-			scale = 8,
-			spread = {x = 20, y = 20, z = 20},
-			seed = 262,
-			octaves = 1,
-			flags = "eased",
-		},
-		np_stratum_thickness = mapgen.surface_cave_np,
-		biomes = mapgen.icy_biomes,
-	})
-
-	minetest.register_ore({
-		ore_type        = "stratum",
-		ore             = "blocks:ice",
-		wherein         = {"blocks:gravel", "blocks:sand"},
-		clust_scarcity  = 1,
-		y_max           = 0, -- Important, we don't want the clay-ifier to do its thing above 0
-		y_min           = mapgen.sfcaves_level, -- The middle of the actual cave noise
-		noise_params    = {
-			offset = mapgen.sfcaves_level + 64,-- This is the depth at which the noise is placed
-			scale = 8,
-			spread = {x = 20, y = 20, z = 20},
-			seed = 262,
-			octaves = 1,
-			flags = "eased",
-		},
-		np_stratum_thickness = mapgen.cave_opening_noise,
-		biomes = mapgen.icy_biomes,
-	})
 
 	minetest.register_ore({
 		ore_type        = "stratum",
 		ore             = "air",
 		wherein         = mapgen.surface_nodes,
 		clust_scarcity  = 1,
-		y_max           = 512, -- And hope that the mountains will not go over that
-		y_min           = mapgen.sfcaves_level, -- The middle of the actual cave noise
+		y_max           = -32,
+		y_min           = -128,
 		noise_params    = {
-			offset = mapgen.sfcaves_level + 64,-- This is the depth at which the noise is placed
-			scale = 8,
-			spread = {x = 20, y = 20, z = 20},
-			seed = 262,
-			octaves = 1,
-			flags = "eased",
-		},
-		np_stratum_thickness = mapgen.cave_opening_noise,
-	})
-
-	minetest.register_ore({
-		ore_type        = "stratum",
-		ore             = "air",
-		wherein         = mapgen.surface_nodes,
-		clust_scarcity  = 1,
-		y_max           = 128,
-		y_min           = -256,
-		noise_params    = {
-			offset = mapgen.sfcaves_level,-- This is the depth at which the noise is placed
-			scale = 8,
-			spread = {x = 20, y = 20, z = 20},
+			offset = mapgen.sfcaves_level,
+			scale = 16,
+			spread = {x = 16, y = 16, z = 16},
 			seed = 262,
 			octaves = 1,
 			flags = "eased",
 		},
 		np_stratum_thickness = mapgen.surface_cave_np,
 	})
-]]--
+
 	for i=1, #blocks.stone_colors do
 		for j=1,8 do
 			minetest.register_ore({
@@ -639,18 +503,18 @@ function mapgen.register_ores()
 		ore             = "blocks:marble",
 		wherein         = {"blocks:stone"},
 		clust_scarcity  = 1,
-		y_max           = -64,
-		y_min           = -512,
+		y_max           = mapgen.underground_limit,
+		y_min           = mapgen.world_bottom,
 		noise_params    = {
-			offset = -256,
-			scale = 80,
+			offset = -1024,
+			scale = 512,
 			spread = {x = 80, y = 80, z = 80},
 			seed = 6644434,
 			octaves = 1,
 		},
 		np_stratum_thickness = {
 			offset = 0,
-			scale = 128,
+			scale = 64,
 			spread = {x = 12, y = 12, z = 12},
 			seed = 265,
 			octaves = 1,
@@ -661,11 +525,11 @@ function mapgen.register_ores()
 		ore             = "blocks:marble",
 		wherein         = {"blocks:stone"},
 		clust_scarcity  = 1,
-		y_max           = -256,
-		y_min           = -1024,
+		y_max           = mapgen.underground_limit,
+		y_min           = mapgen.world_bottom,
 		noise_params    = {
-			offset = -768,
-			scale = 128,
+			offset = -2048,
+			scale = 512,
 			spread = {x = 80, y = 80, z = 80},
 			seed = 664,
 			octaves = 1,
@@ -683,11 +547,11 @@ function mapgen.register_ores()
 		ore             = "blocks:marble",
 		wherein         = {"blocks:stone"},
 		clust_scarcity  = 1,
-		y_max           = -256,
-		y_min           = -1538,
+		y_max           = mapgen.underground_limit,
+		y_min           = mapgen.world_bottom,
 		noise_params    = {
-			offset = -1024,
-			scale = 192,
+			offset = -5120,
+			scale = 256,
 			spread = {x = 80, y = 80, z = 80},
 			seed = 663344,
 			octaves = 1,
@@ -700,17 +564,16 @@ function mapgen.register_ores()
 			octaves = 1,
 		},
 	})
-	-- Marble Deep Layer
 	minetest.register_ore({
 		ore_type        = "stratum",
 		ore             = "blocks:marble",
 		wherein         = {"blocks:stone"},
 		clust_scarcity  = 1,
-		y_max           = -768,
-		y_min           = -2000,
+		y_max           = mapgen.underground_limit,
+		y_min           = mapgen.world_bottom,
 		noise_params    = {
-			offset = -1538,
-			scale = 256,
+			offset = -6144,
+			scale = 1024,
 			spread = {x = 96, y = 96, z = 96},
 			seed = 3344,
 			octaves = 1,
@@ -729,11 +592,11 @@ function mapgen.register_ores()
 		ore             = "blocks:granite",
 		wherein         = {"blocks:stone"},
 		clust_scarcity  = 1,
-		y_max           = 0,
-		y_min           = -1280,
+		y_max           = mapgen.underground_limit,
+		y_min           = mapgen.world_bottom,
 		noise_params    = {
-			offset = -512,
-			scale = 128,
+			offset = -2048,
+			scale = 512,
 			spread = {x = 80, y = 80, z = 80},
 			seed = 62623,
 			octaves = 1,
@@ -751,11 +614,11 @@ function mapgen.register_ores()
 		ore             = "blocks:granite",
 		wherein         = {"blocks:stone"},
 		clust_scarcity  = 1,
-		y_max           = -768,
-		y_min           = -2000,
+		y_max           = mapgen.underground_limit,
+		y_min           = mapgen.world_bottom,
 		noise_params    = {
-			offset = -1280,
-			scale = 192,
+			offset = -4096,
+			scale = 1024,
 			spread = {x = 80, y = 80, z = 80},
 			seed = 354,
 			octaves = 1,
@@ -817,7 +680,7 @@ function mapgen.register_ores()
 	minetest.register_ore({
 		ore_type        = "stratum",
 		ore             = "air",
-		wherein         = {"blocks:stone", "blocks:water_source", "blocks:lava_source"},
+		wherein         = {"blocks:stone", "blocks:obsidian"},
 		clust_scarcity  = 1,
 		y_max           = mapgen.hell_level,
 		y_min           = mapgen.world_bottom,
@@ -826,9 +689,9 @@ function mapgen.register_ores()
 			scale = 40,
 			spread = {x = 64, y = 64, z = 64},
 			seed = 55465,
-			octaves = 1,
+			octaves = 2,
 		},
-		stratum_thickness = 80,
+		stratum_thickness = 160,
 	})
 	-- World Boundary Lava
 	minetest.register_ore({
@@ -836,7 +699,7 @@ function mapgen.register_ores()
 		ore             = "blocks:lava_source",
 		wherein         = {"air"},
 		clust_scarcity  = 1,
-		y_max           = mapgen.world_bottom + 18,
+		y_max           = mapgen.world_bottom + 160,
 		y_min           = mapgen.world_bottom + 1,
 		noise_params    = {
 			offset = mapgen.world_bottom,
@@ -847,11 +710,11 @@ function mapgen.register_ores()
 		},
 		stratum_thickness = 400,
 	})
-	-- World Boundary Placeholder
+	-- World Boundary Planetary Core Plating // Do not remove, protects core integrity
 	minetest.register_ore({
 		ore_type        = "stratum",
-		ore             = "blocks:obsidian",
-		wherein         = {"blocks:lava_source", "blocks:stone"},
+		ore             = "blocks:core_plating",
+		wherein         = {"blocks:lava_source", "blocks:stone", "blocks:obsidian", "air"},
 		clust_scarcity  = 1,
 		y_max           = mapgen.hell_level,
 		y_min           = mapgen.world_bottom,
@@ -862,7 +725,7 @@ function mapgen.register_ores()
 			seed = 72234,
 			octaves = 1,
 		},
-		stratum_thickness = 2,
+		stratum_thickness = 4,
 	})
 	-- Decorative Strata from MTG
 	-- Silver sandstone
@@ -1391,6 +1254,44 @@ function mapgen.register_ores()
 		},
 		biomes = mapgen.hot_biomes,
 	})
+	-- Hell dark dirt
+	minetest.register_ore({
+		ore_type        = "blob",
+		ore             = "blocks:dark_dirt",
+		wherein         = {"blocks:obsidian"},
+		clust_scarcity  = 9 * 9 * 9,
+		clust_size      = 4,
+		y_max           = mapgen.hell_level,
+		y_min           = mapgen.world_bottom,
+		noise_threshold = 0.0,
+		noise_params    = {
+			offset = 0.75,
+			scale = 1.0,
+			spread = {x = 4, y = 4, z = 4},
+			seed = 82,
+			octaves = 1,
+			persist = 0.0,
+			flags = "absvalue",
+		},
+	})
+	minetest.register_ore({
+		ore_type        = "blob",
+		ore             = "blocks:dark_dirt",
+		wherein         = {"blocks:obsidian"},
+		clust_scarcity  = 14 * 14 * 14,
+		clust_size      = 6,
+		y_max           = mapgen.hell_level,
+		y_min           = mapgen.world_bottom,
+		noise_threshold = 0.0,
+		noise_params    = {
+			offset = 0.5,
+			scale = 0.25,
+			spread = {x = 8, y = 8, z = 8},
+			seed = 8862,
+			octaves = 1,
+			persist = 0.0
+		},
+	})
 	-- Iron "Meteorites", at least thats the idea
 	minetest.register_ore({
 		ore_type        = "blob",
@@ -1418,7 +1319,7 @@ function mapgen.register_ores()
 		clust_scarcity  = 64 * 64 * 64,
 		clust_size      = 18,
 		y_max           = -32,
-		y_min           = -2048,
+		y_min           = mapgen.world_bottom,
 		noise_threshold = 0.0,
 		noise_params    = {
 			offset = 0.5,
@@ -1436,8 +1337,8 @@ function mapgen.register_ores()
 		wherein         = {"blocks:stone"},
 		clust_scarcity  = 80 * 80 * 80,
 		clust_size      = 11,
-		y_max           = -1024,
-		y_min           = -2048,
+		y_max           = -5120,
+		y_min           = mapgen.world_bottom,
 		noise_threshold = 0.0,
 		noise_params    = {
 			offset = 0.5,
@@ -1690,7 +1591,7 @@ function mapgen.register_ores()
 		ore             = "blocks:obsidian",
 		wherein         = {"blocks:stone"},
 		y_max           = -64,
-		y_min           = -2048,
+		y_min           = mapgen.world_bottom,
 		noise_threshold = 6,
 		column_height_max = 1,
 		column_height_min = 1,
@@ -1875,7 +1776,7 @@ function mapgen.register_ores()
 		ore             = "blocks:turquoise",
 		wherein         = {"blocks:stone"},
 		y_max           = -32,
-		y_min           = -2048,
+		y_min           = mapgen.world_bottom,
 		noise_threshold = 10,
 		column_height_max = 2,
 		column_height_min = 2,
@@ -1894,7 +1795,7 @@ function mapgen.register_ores()
 		ore             = "blocks:malachite",
 		wherein         = {"blocks:stone"},
 		y_max           = -1024,
-		y_min           = -2048,
+		y_min           = mapgen.world_bottom,
 		noise_threshold = 18,
 		column_height_max = 8,
 		column_height_min = 1,
@@ -1913,7 +1814,7 @@ function mapgen.register_ores()
 		ore             = "blocks:serpentine",
 		wherein         = {"blocks:stone"},
 		y_max           = 0,
-		y_min           = -2048,
+		y_min           = mapgen.world_bottom,
 		noise_threshold = 18,
 		column_height_max = 3,
 		column_height_min = 3,
@@ -1932,7 +1833,7 @@ function mapgen.register_ores()
 		ore             = "blocks:lapis_lazuli",
 		wherein         = {"blocks:stone"},
 		y_max           = -1536,
-		y_min           = -2048,
+		y_min           = mapgen.world_bottom,
 		noise_threshold = 20,
 		column_height_max = 4,
 		column_height_min = 3,
@@ -1977,7 +1878,7 @@ function mapgen.register_ores()
 		clust_num_ores = 4,
 		clust_size     = 5,
 		y_max          = 64,
-		y_min          = -2048,
+		y_min          = mapgen.world_bottom,
 	})
 
 	-- Copper
@@ -2010,7 +1911,7 @@ function mapgen.register_ores()
 		clust_num_ores = 4,
 		clust_size     = 4,
 		y_max          = -1024,
-		y_min          = -2048,
+		y_min          = mapgen.world_bottom,
 	})
 	-- Iron
 	minetest.register_ore({
@@ -2420,7 +2321,7 @@ function mapgen.register_ores()
 		clust_num_ores = 7,
 		clust_size     = 6,
 		y_max          = 0,
-		y_min          = -2048,
+		y_min          = mapgen.world_bottom,
 	})
 	minetest.register_ore({
 		ore_type       = "scatter",
@@ -2430,7 +2331,7 @@ function mapgen.register_ores()
 		clust_num_ores = 4,
 		clust_size     = 5,
 		y_max          = 32,
-		y_min          = -2048,
+		y_min          = mapgen.world_bottom,
 	})
 	minetest.register_ore({
 		ore_type       = "scatter",
@@ -2440,7 +2341,7 @@ function mapgen.register_ores()
 		clust_num_ores = 4,
 		clust_size     = 5,
 		y_max          = 32,
-		y_min          = -2048,
+		y_min          = mapgen.world_bottom,
 	})
 	minetest.register_ore({
 		ore_type       = "scatter",
@@ -2481,7 +2382,7 @@ function mapgen.register_ores()
 		clust_num_ores = 6,
 		clust_size     = 8,
 		y_max          = 0,
-		y_min          = -2048,
+		y_min          = mapgen.world_bottom,
 	})
 	minetest.register_ore({
 		ore_type       = "scatter",
@@ -2491,7 +2392,7 @@ function mapgen.register_ores()
 		clust_num_ores = 6,
 		clust_size     = 8,
 		y_max          = 0,
-		y_min          = -2048,
+		y_min          = mapgen.world_bottom,
 	})
 	minetest.register_ore({
 		ore_type       = "scatter",
@@ -2501,7 +2402,7 @@ function mapgen.register_ores()
 		clust_num_ores = 6,
 		clust_size     = 8,
 		y_max          = 0,
-		y_min          = -2048,
+		y_min          = mapgen.world_bottom,
 	})
 	minetest.register_ore({
 		ore_type       = "scatter",
@@ -2511,7 +2412,7 @@ function mapgen.register_ores()
 		clust_num_ores = 6,
 		clust_size     = 8,
 		y_max          = 0,
-		y_min          = -2048,
+		y_min          = mapgen.world_bottom,
 	})
 	minetest.register_ore({
 		ore_type       = "scatter",
@@ -2521,7 +2422,7 @@ function mapgen.register_ores()
 		clust_num_ores = 6,
 		clust_size     = 8,
 		y_max          = 0,
-		y_min          = -2048,
+		y_min          = mapgen.world_bottom,
 	})
 	--Lapis Lazuli
 	minetest.register_ore({
@@ -2532,7 +2433,7 @@ function mapgen.register_ores()
 		clust_num_ores = 12,
 		clust_size     = 8,
 		y_max          = 0,
-		y_min          = -2048,
+		y_min          = mapgen.world_bottom,
 	})
 	-- Fossils
 	minetest.register_ore({
@@ -2563,6 +2464,16 @@ function mapgen.register_ores()
 		clust_num_ores = 2,
 		clust_size     = 3,
 		y_max          = 0,
+		y_min          = mapgen.world_bottom,
+	})
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:dark_dirt_with_fossils",
+		wherein        = "blocks:dark_dirt",
+		clust_scarcity = 8 * 8 * 8,
+		clust_num_ores = 3,
+		clust_size     = 3,
+		y_max          = mapgen.hell_level,
 		y_min          = mapgen.world_bottom,
 	})
 	minetest.register_ore({

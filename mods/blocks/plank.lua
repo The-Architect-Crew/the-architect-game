@@ -61,6 +61,16 @@ minetest.register_node("blocks:aspen_wood", {
 	sounds = default.node_sound_wood_defaults(),
 })
 
+minetest.register_node("blocks:cherry_wood", {
+	description = S("Cherry Wood Planks"),
+	paramtype2 = "facedir",
+	place_param2 = 0,
+	tiles = {"blocks_cherry_wood.png"},
+	is_ground_content = false,
+	groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2, wood = 1},
+	sounds = default.node_sound_wood_defaults(),
+})
+
 minetest.register_node("blocks:bonewood", {
 	description = S("Ossified Planks"),
 	paramtype2 = "facedir",
@@ -155,6 +165,13 @@ minetest.register_craft({
 	output = "blocks:aspen_wood 4",
 	recipe = {
 		{"flora:aspen_tree"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:cherry_wood 4",
+	recipe = {
+		{"flora:cherry_tree"},
 	}
 })
 

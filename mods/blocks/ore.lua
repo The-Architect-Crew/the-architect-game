@@ -272,6 +272,11 @@ minetest.register_craftitem("blocks:copper_ingot", {
 	inventory_image = "blocks_copper_ingot.png"
 })
 
+minetest.register_craftitem("blocks:copper_patinated_ingot", {
+	description = S("Patinated Copper Ingot"),
+	inventory_image = "blocks_copper_patinated_ingot.png"
+})
+
 minetest.register_craftitem("blocks:copper_lump", {
 	description = S("Copper Lump"),
 	inventory_image = "blocks_copper_lump.png"
@@ -346,6 +351,15 @@ minetest.register_node("blocks:malachite_with_copper", {
 minetest.register_node("blocks:copperblock", {
 	description = S("Copper Block"),
 	tiles = {"blocks_copper_block_top.png", "blocks_copper_block_top.png", "blocks_copper_block.png"},
+	is_ground_content = false,
+	paramtype2 = "facedir",
+	groups = {cracky = 1, level = 2, pipes_connect = 1},
+	sounds = default.node_sound_metal_defaults(),
+})
+
+minetest.register_node("blocks:copperblock_patinated", {
+	description = S("Patinated Copper Block"),
+	tiles = {"blocks_copper_block_patinated_top.png", "blocks_copper_block_patinated_top.png", "blocks_copper_block_patinated.png"},
 	is_ground_content = false,
 	paramtype2 = "facedir",
 	groups = {cracky = 1, level = 2, pipes_connect = 1},
@@ -2064,6 +2078,16 @@ minetest.register_node("blocks:desert_stone_with_fossils", {
 	sounds = default.node_sound_stone_defaults(),
 })
 
+minetest.register_node("blocks:dark_dirt_with_fossils", {
+	description = S("Dark Dirt with Fossils"),
+	tiles = {"blocks_dark_dirt.png^blocks_fossil_overlay.png"},
+	drop = {
+		items = blocks.fossil_drop_table
+	},
+	groups = {crumbly = 2},
+	sounds = default.node_sound_dirt_defaults(),
+})
+
 -- Geodes
 
 blocks.geode_drop_table = {
@@ -2180,6 +2204,25 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
+	output = "blocks:copper_patinated_ingot 9",
+	recipe = {
+		{"blocks:copperblock_patinated"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:copper_patinated_ingot 8",
+	recipe = {
+		{"blocks:copper_ingot", "blocks:copper_ingot", "blocks:copper_ingot"},
+		{"blocks:copper_ingot", "bucket:bucket_water", "blocks:copper_ingot"},
+		{"blocks:copper_ingot", "blocks:copper_ingot", "blocks:copper_ingot"},
+	},
+	replacements = {
+		{"bucket:bucket_water", "bucket:bucket_empty"},
+	}
+})
+
+minetest.register_craft({
 	output = "blocks:diamond 9",
 	recipe = {
 		{"blocks:diamondblock"},
@@ -2272,6 +2315,15 @@ minetest.register_craft({
 		{"blocks:copper_ingot", "blocks:copper_ingot", "blocks:copper_ingot"},
 		{"blocks:copper_ingot", "blocks:copper_ingot", "blocks:copper_ingot"},
 		{"blocks:copper_ingot", "blocks:copper_ingot", "blocks:copper_ingot"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:copperblock_patinated",
+	recipe = {
+		{"blocks:copper_patinated_ingot", "blocks:copper_patinated_ingot", "blocks:copper_patinated_ingot"},
+		{"blocks:copper_patinated_ingot", "blocks:copper_patinated_ingot", "blocks:copper_patinated_ingot"},
+		{"blocks:copper_patinated_ingot", "blocks:copper_patinated_ingot", "blocks:copper_patinated_ingot"},
 	}
 })
 

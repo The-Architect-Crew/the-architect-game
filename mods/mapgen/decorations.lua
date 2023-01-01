@@ -4,6 +4,16 @@ mapgen.register_microbiome_decorations = function(base_name, data)
 	local seed = data.seed
 	local base_node = data.base_node
 	local surface_node = data.surface_node
+	local small_plant_variation = true
+	local grass_variation = true
+
+	if (data.small_plant_variation == false) then
+		small_plant_variation = false
+	end
+
+	if (data.grass_variation == false) then
+		grass_variation = false
+	end
 
 	local grass = data.grass_node
 	local small_plant = data.main_small_plant
@@ -134,49 +144,89 @@ mapgen.register_microbiome_decorations = function(base_name, data)
 		decoration = moss,
 	})
 
-	for i=1,5 do
-		-- Small plants
-		minetest.register_decoration({
-			name = base_name .. "_" .. small_plant .. "_" .. i .. "_small_plant_" .. i,
-			deco_type = "simple",
-			place_on = surface_node,
-			fill_ratio = data.plant_rarity/5,
-			y_max = height_max,
-			y_min = height_min,
-			flags = "all_floors",
-			decoration = small_plant .. "_" .. i,
-		})
-		if (secondary_small_plant) then
+	if (small_plant_variation) then
+		for i=1,5 do
+			-- Small plants
 			minetest.register_decoration({
-				name = base_name .. "_" .. secondary_small_plant .. "_" .. i .. "_secondary_small_plant_" .. i,
+				name = base_name .. "_" .. small_plant .. "_" .. i .. "_small_plant_" .. i,
 				deco_type = "simple",
 				place_on = surface_node,
 				fill_ratio = data.plant_rarity/5,
 				y_max = height_max,
 				y_min = height_min,
 				flags = "all_floors",
-				decoration = secondary_small_plant .. "_" .. i,
+				decoration = small_plant .. "_" .. i,
+			})
+			if (secondary_small_plant) then
+				minetest.register_decoration({
+					name = base_name .. "_" .. secondary_small_plant .. "_" .. i .. "_secondary_small_plant_" .. i,
+					deco_type = "simple",
+					place_on = surface_node,
+					fill_ratio = data.plant_rarity/5,
+					y_max = height_max,
+					y_min = height_min,
+					flags = "all_floors",
+					decoration = secondary_small_plant .. "_" .. i,
+				})
+			end
+		end
+	else
+		-- Small plants
+		minetest.register_decoration({
+			name = base_name .. "_" .. small_plant .. "_small_plant",
+			deco_type = "simple",
+			place_on = surface_node,
+			fill_ratio = data.plant_rarity,
+			y_max = height_max,
+			y_min = height_min,
+			flags = "all_floors",
+			decoration = small_plant,
+		})
+		if (secondary_small_plant) then
+			minetest.register_decoration({
+				name = base_name .. "_" .. secondary_small_plant .. "_secondary_small_plant",
+				deco_type = "simple",
+				place_on = surface_node,
+				fill_ratio = data.plant_rarity,
+				y_max = height_max,
+				y_min = height_min,
+				flags = "all_floors",
+				decoration = secondary_small_plant,
 			})
 		end
 	end
 
-	for i=1,5 do
+	if (grass_variation) then
+		for i=1,5 do
+			-- Grass
+			minetest.register_decoration({
+				name = base_name .. "_" .. grass .. "_" .. i .. "_grass_" .. i,
+				deco_type = "simple",
+				place_on = surface_node,
+				fill_ratio = data.grass_rarity/5,
+				y_max = height_max,
+				y_min = height_min,
+				flags = "all_floors",
+				decoration = grass .. "_" .. i,
+			})
+		end
+	else
 		-- Grass
 		minetest.register_decoration({
-			name = base_name .. "_" .. grass .. "_" .. i .. "_grass_" .. i,
+			name = base_name .. "_" .. grass .. "_grass",
 			deco_type = "simple",
 			place_on = surface_node,
-			fill_ratio = data.grass_rarity/5,
+			fill_ratio = data.grass_rarity,
 			y_max = height_max,
 			y_min = height_min,
 			flags = "all_floors",
-			decoration = grass .. "_" .. i,
+			decoration = grass,
 		})
 	end
 end
 
 mapgen.register_microbiome_decorations("fire", {
-	height_min = -2048,
+	height_min = mapgen.world_bottom,
 	height_max = mapgen.underground_start,
 	seed = 262,
 	base_node = {"blocks:cobble"}, -- surface_node matches the base_node, they also have to be the same length
@@ -195,7 +245,7 @@ mapgen.register_microbiome_decorations("fire", {
 })
 
 mapgen.register_microbiome_decorations("azure", {
-	height_min = -2048,
+	height_min = mapgen.world_bottom,
 	height_max = mapgen.underground_start,
 	seed = 263,
 	base_node = {"blocks:desert_cobble", "blocks:sand", "blocks:desert_sand", "blocks:silver_sand", "blocks:dry_dirt"},
@@ -269,10 +319,30 @@ mapgen.register_microbiome_decorations("frosty", {
 	secondary_vines = "flora:vines_frosty_moonstone",
 	moss = "flora:vines_frosty_horizontal",
 })
+mapgen.register_microbiome_decorations("hell", {
+	small_plant_variation = false,
+	grass_variation = false,
+	height_min = mapgen.world_bottom,
+	height_max = mapgen.hell_level,
+	seed = 7734,
+	base_node = {"blocks:obsidian", "blocks:dark_dirt"}, -- surface_node matches the base_node, they also have to be the same length
+	surface_node = {"blocks:embers", "blocks:embers"},
+	surface_coverage = 5.0,
+	grass_node = "blocks:fire",
+	main_small_plant = "blocks:pyre",
+	--secondary_small_plant
+	plant_rarity = 0.005,
+	grass_rarity = 0.05,
+	main_large_plant = "variations:obsidian_big_tile";
+	--secondary_large_plant
+	main_vines = "blocks:obsidian",
+	--secondary_vines
+	moss = "blocks:obsidian",
+})
 --[[
 -- Should be the mese biome, but there are too many exceptions
 mapgen.register_microbiome_decorations("mese", {
-	height_min = -2048,
+	height_min = mapgen.world_bottom,
 	height_max = mapgen.underground_limit,
 	seed = 26262,
 	base_node = {"blocks:stone"}, -- surface_node matches the base_node, they also have to be the same length
@@ -470,20 +540,6 @@ minetest.register_decoration({
 	decoration = "flora:vines",
 })
 
-minetest.register_decoration({
-	name = "quests:spaceship",
-	deco_type = "schematic",
-	place_on = {"blocks:sand"},
-	sidelen = 16,
-	fill_ratio = 0.00000001,
-	y_max = 31000,
-	y_min = -31000,
-	schematic = minetest.get_modpath("quests") .. "/schematics/spaceship.mts",
-	flags = "place_center_x, place_center_z",
-	rotation = "random",
-	place_offset_y = -1,
-})
-
 -- Rocks
 
 mapgen.register_stalagmites = function(base_node, seed, surface, secondary_base)
@@ -504,7 +560,7 @@ mapgen.register_stalagmites = function(base_node, seed, surface, secondary_base)
 		sidelen = 8,
 		noise_params = mapgen.np_stalagmites,
 		y_max = stalagmite_max_height,
-		y_min = -2048,
+		y_min = mapgen.world_bottom,
 		flags = "all_floors",
 		decoration = "decorations:stalagmite_base_" .. sname,
 	})
@@ -516,7 +572,7 @@ mapgen.register_stalagmites = function(base_node, seed, surface, secondary_base)
 		sidelen = 8,
 		noise_params = mapgen.np_stalagmites,
 		y_max = 256,
-		y_min = -2048,
+		y_min = mapgen.world_bottom,
 		flags = "all_ceilings",
 		decoration = "decorations:stalactite_base_" .. sname,
 	})
@@ -527,7 +583,7 @@ mapgen.register_stalagmites = function(base_node, seed, surface, secondary_base)
 		place_on = {"decorations:stalagmite_base_" .. sname},
 		fill_ratio = 10.0,
 		y_max = 256,
-		y_min = -2048,
+		y_min = mapgen.world_bottom,
 		height = 1,
 		height_max = 4,
 		flags = "all_floors, force_placement",
@@ -540,7 +596,7 @@ mapgen.register_stalagmites = function(base_node, seed, surface, secondary_base)
 		place_on = {"decorations:stalactite_base_" .. sname},
 		fill_ratio = 10.0,
 		y_max = 256,
-		y_min = -2048,
+		y_min = mapgen.world_bottom,
 		height = 1,
 		height_max = 2,
 		flags = "all_ceilings, force_placement",
@@ -553,7 +609,7 @@ mapgen.register_stalagmites = function(base_node, seed, surface, secondary_base)
 		place_on = {"decorations:stalagmite_middle_" .. sname},
 		fill_ratio = 10.0,
 		y_max = 256,
-		y_min = -2048,
+		y_min = mapgen.world_bottom,
 		flags = "all_floors, force_placement",
 		place_offset_y = -1,
 		decoration = "decorations:stalagmite_top_" .. sname,
@@ -565,7 +621,7 @@ mapgen.register_stalagmites = function(base_node, seed, surface, secondary_base)
 		place_on = {"decorations:stalactite_middle_" .. sname},
 		fill_ratio = 10.0,
 		y_max = 256,
-		y_min = -2048,
+		y_min = mapgen.world_bottom,
 		flags = "all_ceilings, force_placement",
 		place_offset_y = -1,
 		decoration = "decorations:stalactite_top_" .. sname,
@@ -583,7 +639,7 @@ mapgen.register_stalagmites = function(base_node, seed, surface, secondary_base)
 			sidelen = 8,
 			fill_ratio = 0.02,
 			y_max = 0,
-			y_min = -2048,
+			y_min = mapgen.world_bottom,
 			flags = "all_floors",
 			decoration = "decorations:stalagmite_" .. sname .. "_" .. i,
 		})
@@ -596,7 +652,7 @@ mapgen.register_stalagmites = function(base_node, seed, surface, secondary_base)
 			sidelen = 8,
 			fill_ratio = 0.02,
 			y_max = 256,
-			y_min = -2048,
+			y_min = mapgen.world_bottom,
 			place_offset_y = 1,
 			flags = "all_ceilings",
 			decoration = "decorations:stalactite_" .. sname .. "_" .. i,

@@ -10,7 +10,8 @@ minetest.register_node("furniture:gear_big_steel", {
     {
         name = "furniture_gear_steel_big_inner.png",
         animation = {type = "vertical_frames", aspect_w = 128, aspect_h = 128, length = 4.0}
-    }},
+    },
+    "variations_steelblock.png^[sheet:3x3:1,0"},
     mesh = "gear.obj",
     paramtype = "light",
     paramtype2 = "facedir",
@@ -29,7 +30,8 @@ minetest.register_node("furniture:gear_big_rust", {
     {
         name = "furniture_gear_rust_big_inner.png",
         animation = {type = "vertical_frames", aspect_w = 128, aspect_h = 128, length = 4.0}
-    }},
+    },
+    "variations_rustblock.png^[sheet:3x3:1,0"},
     mesh = "gear.obj",
     paramtype = "light",
     paramtype2 = "facedir",

@@ -224,6 +224,11 @@ minetest.register_craftitem("blocks:steel_ingot", {
 	inventory_image = "blocks_steel_ingot.png"
 })
 
+minetest.register_craftitem("blocks:steel_stick", {
+	description = S("Steel Stick"),
+	inventory_image = "blocks_steel_stick.png"
+})
+
 minetest.register_node("blocks:steelblock", {
 	description = S("Steel Block"),
 	tiles = {"blocks_steel_block_top.png", "blocks_steel_block_top.png", "blocks_steel_block.png"},
@@ -237,6 +242,11 @@ minetest.register_node("blocks:steelblock", {
 minetest.register_craftitem("blocks:rust_ingot", {
 	description = S("Rusted Ingot"),
 	inventory_image = "blocks_rust_ingot.png"
+})
+
+minetest.register_craftitem("blocks:rust_stick", {
+	description = S("Rusted Stick"),
+	inventory_image = "blocks_rust_stick.png"
 })
 
 minetest.register_node("blocks:rustblock", {
@@ -2251,6 +2261,15 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
+	output = "blocks:rust_stick 9",
+	recipe = {
+		{"", "", "blocks:rust_ingot"},
+		{"", "blocks:rust_ingot", ""},
+		{"blocks:rust_ingot", "", ""},
+	}
+})
+
+minetest.register_craft({
 	output = "blocks:coalblock",
 	recipe = {
 		{"blocks:coal_lump", "blocks:coal_lump", "blocks:coal_lump"},
@@ -2430,6 +2449,15 @@ minetest.register_craft({
 	output = "blocks:steel_ingot 9",
 	recipe = {
 		{"blocks:steelblock"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:steel_stick 9",
+	recipe = {
+		{"", "", "blocks:steel_ingot"},
+		{"", "blocks:steel_ingot", ""},
+		{"blocks:steel_ingot", "", ""},
 	}
 })
 

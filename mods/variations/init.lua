@@ -6,18 +6,42 @@ variations.variations = {
 		description = "Brick";
 		texture = "0,0";
 		enabled_shapes = "cat:slab, cat:cube, cat:step, cat:stair, splitstair, cat:pillar, cat:pillarcrown, cat:beam, cat:corner, cat:slope";
+		recipe = {
+			{0, 1, 1, 1, 0},
+			{0, 1, 1, 1, 0},
+			{0, 0, 0, 0, 0},
+			{1, 1, 0, 1, 1},
+			{1, 1, 0, 1, 1},
+		},
+		recipe_amount = 14,
 	},
 	{
 		name = "big_tile";
 		description = "Big Tile";
 		texture = "1,0";
 		enabled_shapes = "slab, cube, step, cat:stair, splitstair, cat:pillar, cat:pillarcown, corner, pane, pane_flat, slope, slope2, slope3, innerslope, innerslope2, innerslope3, outerslope, outerslope2, outerslope3";
+		recipe = {
+			{0, 0, 0, 0, 0},
+			{0, 1, 1, 1, 0},
+			{0, 1, 1, 1, 0},
+			{0, 1, 1, 1, 0},
+			{0, 0, 0, 0, 0},
+		},
+		recipe_amount = 9,
 	},
 	{
 		name = "tile";
 		description = "Tile";
 		texture = "2,0";
 		enabled_shapes = "slab, cube, step, cat:stair, splitstair, cat:pillar, cat:pillarcown, corner, pane, pane_flat, slope, slope2, slope3, innerslope, innerslope2, innerslope3, outerslope, outerslope2, outerslope3";
+		recipe = {
+			{1, 1, 0, 1, 1},
+			{1, 1, 0, 1, 1},
+			{0, 0, 0, 0, 0},
+			{1, 1, 0, 1, 1},
+			{1, 1, 0, 1, 1},
+		},
+		recipe_amount = 16,
 	},
 	{
 		name = "hexagon";
@@ -25,18 +49,42 @@ variations.variations = {
 		texture = "0,1";
 		rotation = true;
 		enabled_shapes = "slab, cube, step, cat:stair, splitstair, cat:pillar, cat:pillarcown, corner, slope, slope2, slope3, innerslope, innerslope2, innerslope3, outerslope, outerslope2, outerslope3";
+		recipe = {
+			{0, 0, 0, 0, 0},
+			{0, 1, 1, 1, 0},
+			{1, 1, 1, 1, 1},
+			{0, 1, 1, 1, 0},
+			{0, 0, 0, 0, 0},
+		},
+		recipe_amount = 11,
 	},
 	{
 		name = "small_brick";
 		description = "Small Brick";
 		texture = "1,1";
 		enabled_shapes = "slab, cube, step, cat:stair, splitstair, cat:pillar, cat:pillarcown, corner, slope, slope2, slope3, innerslope, innerslope2, innerslope3, outerslope, outerslope2, outerslope3";
+		recipe = {
+			{1, 1, 0, 1, 1},
+			{0, 1, 1, 1, 0},
+			{1, 1, 0, 1, 1},
+			{0, 1, 1, 1, 0},
+			{1, 1, 0, 1, 1},
+		},
+		recipe_amount = 18,
 	},
 	{
 		name = "small_tile";
 		description = "Small Tile";
 		texture = "2,1";
 		enabled_shapes = "slab, cube, step, cat:stair, splitstair, cat:pillar, cat:pillarcown, corner, slope, slope2, slope3, innerslope, innerslope2, innerslope3, outerslope, outerslope2, outerslope3";
+		recipe = {
+			{1, 0, 1, 0, 1},
+			{0, 1, 0, 1, 0},
+			{1, 0, 1, 0, 1},
+			{0, 1, 0, 1, 0},
+			{1, 0, 1, 0, 1},
+		},
+		recipe_amount = 13,
 	},
 	{
 		name = "stripe";
@@ -44,18 +92,42 @@ variations.variations = {
 		texture = "0,2";
 		rotation = true;
 		enabled_shapes = "slab, cube, step, cat:stair, splitstair, cat:pillar, cat:pillarcown, corner, slope, slope2, slope3, innerslope, innerslope2, innerslope3, outerslope, outerslope2, outerslope3";
+		recipe = {
+			{1, 1, 1, 1, 1},
+			{1, 1, 1, 1, 1},
+			{0, 0, 0, 0, 0},
+			{1, 1, 1, 1, 1},
+			{1, 1, 1, 1, 1},
+		},
+		recipe_amount = 20,
 	},
 	{
 		name = "cross_tile";
 		description = "Cross Tile";
 		texture = "1,2";
 		enabled_shapes = "slab, cube, step, cat:stair, splitstair, cat:pillar, cat:pillarcown, corner, pane, pane_flat, slope, slope2, slope3";
+		recipe = {
+			{0, 1, 1, 1, 0},
+			{1, 1, 1, 1, 1},
+			{1, 1, 1, 1, 1},
+			{1, 1, 1, 1, 1},
+			{0, 1, 1, 1, 0},
+		},
+		recipe_amount = 21,
 	},
 	{
 		name = "spiral_tile";
 		description = "Spiral Tile";
 		texture = "2,2";
 		enabled_shapes = "slab1, cat:pane";
+		recipe = {
+			{1, 1, 1, 0, 1},
+			{0, 1, 1, 1, 1},
+			{1, 1, 1, 1, 1},
+			{1, 1, 1, 1, 0},
+			{1, 0, 1, 1, 1},
+		},
+		recipe_amount = 21,
 	},
 }
 
@@ -97,6 +169,23 @@ function variations.register_for_base(base_node, transparent, sunlight)
 		})
 		shapes:register_shape(variation_name, {
 			enabled = variation.enabled_shapes,
+		})
+		local recipe = {{}, {}, {}, {}, {}}
+		for i=1,5 do
+			for j=1,5 do
+				if variation.recipe[i][j] == 1 then
+					recipe[i][j] = base_node
+				else
+					recipe[i][j] = ""
+				end
+			end
+		end
+		workbench:register_craft({
+			type = "cutter",
+			input =	recipe,
+			output = {
+				{variation_name .. " " .. variation.recipe_amount},
+			},
 		})
 		convert_craft(base_node, variation_name)
 	end
@@ -148,11 +237,19 @@ variations.supp_desc = {
 	wood = "Wooden"
 }
 
+variations.supp_craft = {
+	steel = "blocks:steel_stick",
+	rust = "blocks:rust_stick",
+	wood = "blocks:stick"
+}
+
 function variations.register_support(base_node, support_type, support_material, transparent, sunlight)
 	local base_definition = minetest.registered_nodes[base_node]
+	local sname = string.match(base_node, ':(.*)')
+	local craft_secondary = variations.supp_craft[support_material]
 	for _, variation in ipairs(variations.variations) do
-		local sname = string.match(base_node, ':(.*)')
 		local variation_name = "variations:" .. sname .. "_" .. variation.name .. "_support_" .. support_material
+		local variation_clean_name = "variations:" .. sname .. "_" .. variation.name
 		local variation_description = ccore.strip_newlines(base_definition.description) .. variation.description .. " with " .. variations.supp_desc[support_material] .. " Support"
 		local tiles
 		if (support_type == "full") then
@@ -178,7 +275,43 @@ function variations.register_support(base_node, support_type, support_material, 
 		shapes:register_shape(variation_name, {
 			enabled = variation.enabled_shapes,
 		})
+		minetest.register_craft({
+			output = variation_name .. " 4",
+			recipe = {
+				{craft_secondary, variation_clean_name, craft_secondary},
+				{variation_clean_name, craft_secondary, variation_clean_name},
+				{craft_secondary, variation_clean_name, craft_secondary},
+			}
+		})
 	end
+	-- And for the base node
+	local tiles_base
+	if (support_type == "full") then
+		tiles_base = {base_definition.tiles[1] .. "^(variations_support_" .. support_material .. ".png^[sheet:3x3:1,0)"}
+	elseif (support_type == "single") then
+		tiles_base = {base_definition.tiles[1] .. "^variations_support_" .. support_material .. "_single.png"}
+	end
+	minetest.register_node("variations:" .. sname .. "_support_" .. support_material, {
+		description = ccore.strip_newlines(base_definition.description) .. " with " .. variations.supp_desc[support_material] .. " Support",
+		tiles = tiles_base,
+		groups = base_definition.groups,
+		drawtype = base_definition.drawtype,
+		use_texture_alpha = base_definition.use_texture_alpha,
+		paramtype = base_definition.paramtype,
+		sunlight_propagates = base_definition.sunlight_propagates,
+		sounds = base_definition.sounds,
+	})
+	shapes:register_shape("variations:" .. sname .. "_support_" .. support_material, {
+		enabled = "slab, cube, step, cat:stair, splitstair, cat:pillar, cat:pillarcown, corner, pane, pane_flat, slope, slope2, slope3, innerslope, innerslope2, innerslope3, outerslope, outerslope2, outerslope3",
+	})
+	minetest.register_craft({
+		output = "variations:" .. sname .. "_support_" .. support_material .. " 4",
+		recipe = {
+			{craft_secondary, base_node, craft_secondary},
+			{base_node, craft_secondary, base_node},
+			{craft_secondary, base_node, craft_secondary},
+		}
+	})
 end
 
 variations.frames = {
@@ -268,12 +401,17 @@ function variations.register_stainglass(base_node)
 	for _, frame in ipairs(variations.frames) do
 		for _, variation in ipairs(variations.frame_variations) do
 			local sname = string.match(base_node, ':(.*)')
-			local frame_name = "variations:stainglass_" .. sname .. "_" .. variation.name .. "_" .. frame.name
-			local frame_description = ccore.comment(ccore.strip_newlines(base_definition.description) .. " Stainglass", "Type: " .. variation.description .. "\nSegment: " .. frame.description)
-			local tiles = {"variations_stainglass_" .. sname .. ".png^[sheet:3x5:" .. variation.texture .. "," .. frame.texture, "variations_void.png"}
-			minetest.register_node(frame_name, {
-				description = frame_description,
-				tiles = tiles,
+			local frame_dark_name = "variations:stainglass_dark_" .. sname .. "_" .. variation.name .. "_" .. frame.name
+			local frame_dark_description = ccore.comment(ccore.strip_newlines(base_definition.description) .. " Dark Stainglass", "Type: " .. variation.description .. "\nSegment: " .. frame.description)
+			local tiles_dark = {"variations_stainglass_" .. sname .. ".png^[sheet:3x5:" .. variation.texture .. "," .. frame.texture, "variations_void.png"}
+			local frame_light_name = "variations:stainglass_light_" .. sname .. "_" .. variation.name .. "_" .. frame.name
+			local frame_light_description = ccore.comment(ccore.strip_newlines(base_definition.description) .. " Light Stainglass", "Type: " .. variation.description .. "\nSegment: " .. frame.description)
+			local tiles_light = {"(variations_stainglass_" .. sname .. ".png^[sheet:3x5:" .. variation.texture .. "," .. frame.texture .. ")" ..
+			"^(variations_glass.png^[mask:(variations_glass_mask.png\\^[sheet\\:3x5\\:" .. variation.texture .. "," .. frame.texture .. "))",
+			"variations_glass.png"}
+			minetest.register_node(frame_dark_name, {
+				description = frame_dark_description,
+				tiles = tiles_dark,
 				groups = base_definition.groups,
 				drawtype = "mesh",
 				mesh = "frame.obj",
@@ -295,7 +433,30 @@ function variations.register_stainglass(base_node)
 				sunlight_propagates = true,
 				sounds = base_definition.sounds,
 			})
-			convert_craft(base_node, frame_name)
+			minetest.register_node(frame_light_name, {
+				description = frame_light_description,
+				tiles = tiles_light,
+				groups = base_definition.groups,
+				drawtype = "mesh",
+				mesh = "frame.obj",
+				collision_box = {
+					type = "fixed",
+					fixed = {
+						{-0.5, -0.5, -0.1, 0.5, 0.5, 0.1},
+					},
+				},
+				selection_box = {
+					type = "fixed",
+					fixed = {
+						{-0.5, -0.5, -0.1, 0.5, 0.5, 0.1},
+					},
+				},
+				use_texture_alpha = base_definition.use_texture_alpha,
+				paramtype = "light",
+				paramtype2 = "facedir",
+				sunlight_propagates = true,
+				sounds = base_definition.sounds,
+			})
 		end
 	end
 end

@@ -106,6 +106,10 @@ for i=1,5 do
 				},
 			},
 		},
+		selection_box = {
+			type = "fixed",
+			fixed = {-8 / 16, -8/16, -8 / 16, 8 / 16, -4/16, 8 / 16},
+		},
 		groups = {snappy = 1, oddly_breakable_by_hand = 1},
 		sounds = default.node_sound_leaves_defaults(),
 	})
@@ -274,6 +278,10 @@ for i=1,5 do
 				},
 			},
 		},
+		selection_box = {
+			type = "fixed",
+			fixed = {-8 / 16, -8/16, -8 / 16, 8 / 16, -4/16, 8 / 16},
+		},
 		groups = {snappy = 1, oddly_breakable_by_hand = 1},
 		sounds = default.node_sound_leaves_defaults(),
 	})
@@ -360,6 +368,10 @@ for i=1,5 do
 					items = {"flora:dry_leaves"},
 				},
 			},
+		},
+		selection_box = {
+			type = "fixed",
+			fixed = {-8 / 16, -8/16, -8 / 16, 8 / 16, -4/16, 8 / 16},
 		},
 		groups = {snappy = 1, oddly_breakable_by_hand = 1},
 		sounds = default.node_sound_leaves_defaults(),
@@ -473,6 +485,10 @@ for i=1,5 do
 					items = {"blocks:moonstone_powder 2"},
 				},
 			},
+		},
+		selection_box = {
+			type = "fixed",
+			fixed = {-8 / 16, -8/16, -8 / 16, 8 / 16, -4/16, 8 / 16},
 		},
 		groups = {snappy = 1, oddly_breakable_by_hand = 1},
 		sounds = default.node_sound_leaves_defaults(),

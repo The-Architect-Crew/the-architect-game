@@ -164,6 +164,7 @@ function variations.register_for_base(base_node, transparent, sunlight)
 			use_texture_alpha = transparent or base_definition.use_texture_alpha,
 			paramtype = paramtype_light or base_definition.paramtype,
 			paramtype2 = paramtype2,
+			light_source = base_definition.light_source,
 			sunlight_propagates = sunlight or base_definition.sunlight_propagates,
 			sounds = base_definition.sounds,
 		})
@@ -406,9 +407,7 @@ function variations.register_stainglass(base_node)
 			local tiles_dark = {"variations_stainglass_" .. sname .. ".png^[sheet:3x5:" .. variation.texture .. "," .. frame.texture, "variations_void.png"}
 			local frame_light_name = "variations:stainglass_light_" .. sname .. "_" .. variation.name .. "_" .. frame.name
 			local frame_light_description = ccore.comment(ccore.strip_newlines(base_definition.description) .. " Light Stainglass", "Type: " .. variation.description .. "\nSegment: " .. frame.description)
-			local tiles_light = {"(variations_stainglass_" .. sname .. ".png^[sheet:3x5:" .. variation.texture .. "," .. frame.texture .. ")" ..
-			"^(variations_glass.png^[mask:(variations_glass_mask.png\\^[sheet\\:3x5\\:" .. variation.texture .. "," .. frame.texture .. "))",
-			"variations_glass.png"}
+			local tiles_light = {"variations_stainglass_light_" .. sname .. ".png^[sheet:3x5:" .. variation.texture .. "," .. frame.texture, "variations_glass.png"}
 			minetest.register_node(frame_dark_name, {
 				description = frame_dark_description,
 				tiles = tiles_dark,
@@ -427,6 +426,7 @@ function variations.register_stainglass(base_node)
 						{-0.5, -0.5, -0.1, 0.5, 0.5, 0.1},
 					},
 				},
+				light_source = 4,
 				use_texture_alpha = base_definition.use_texture_alpha,
 				paramtype = "light",
 				paramtype2 = "facedir",
@@ -451,6 +451,7 @@ function variations.register_stainglass(base_node)
 						{-0.5, -0.5, -0.1, 0.5, 0.5, 0.1},
 					},
 				},
+				light_source = 8,
 				use_texture_alpha = base_definition.use_texture_alpha,
 				paramtype = "light",
 				paramtype2 = "facedir",
@@ -511,6 +512,7 @@ variations.register_for_base("blocks:rustblock_hazard")
 variations.register_for_base("blocks:mese")
 variations.register_for_base("blocks:malachite_glass")
 variations.register_for_base("blocks:cobble")
+variations.register_for_base("blocks:moonstone")
 
 variations.register_support("blocks:stone", "full", "wood")
 variations.register_support("blocks:sandstone", "full", "wood")
@@ -522,6 +524,7 @@ variations.register_support("blocks:brick", "single", "rust")
 variations.register_stainglass("blocks:malachite_glass")
 variations.register_stainglass("blocks:amethyst")
 variations.register_stainglass("blocks:garnet")
+variations.register_stainglass("blocks:moonstone")
 for _, color in ipairs(blocks.stone_colors) do
 	variations.register_for_base("blocks:stone_" .. color[1])
 end

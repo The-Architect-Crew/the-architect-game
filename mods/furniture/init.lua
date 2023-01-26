@@ -267,6 +267,20 @@ furniture.types = {
         }
     },
     {
+        name = "shelf_node_small",
+        description = "Small Full-Node Empty Shelf",
+        storage = 3,
+        box = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
+        activate_sound = furniture.storage_sounds,
+        crafting = {
+            {0, 1, 1, 1, 0},
+            {2, 1, 1, 1, 2},
+            {2, 2, 2, 2, 2},
+            {2, 1, 1, 1, 2},
+            {0, 1, 1, 1, 0},
+        }
+    },
+    {
         name = "shelf_small_book",
         base = "shelf_small_filled",
         description = "Small Bookshelf",
@@ -278,6 +292,21 @@ furniture.types = {
             {2, 0, 3, 0, 2},
             {2, 2, 2, 2, 2},
             {2, 0, 3, 0, 2},
+            {0, 1, 1, 1, 0},
+        }
+    },
+    {
+        name = "shelf_node_small_book",
+        base = "shelf_node_small_filled",
+        description = "Small Node-Sized Bookshelf",
+        special_materials = "blocks:book",
+        special_textures = "furniture_bookshelf1.png",
+        box = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
+        crafting = {
+            {0, 1, 1, 1, 0},
+            {2, 1, 3, 1, 2},
+            {2, 2, 2, 2, 2},
+            {2, 1, 3, 1, 2},
             {0, 1, 1, 1, 0},
         }
     },
@@ -463,6 +492,20 @@ furniture.types = {
             {2, 0, 0, 0, 2},
             {2, 2, 2, 2, 2},
             {2, 0, 0, 0, 2},
+            {0, 1, 1, 1, 0},
+        }
+    },
+    {
+        name = "shelf_node_small_thick",
+        description = "Small Node-Sized Empty Shelf",
+        storage = 2,
+        box = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
+        activate_sound = furniture.storage_sounds,
+        crafting = {
+            {0, 1, 1, 1, 0},
+            {2, 1, 1, 1, 2},
+            {2, 2, 2, 2, 2},
+            {2, 1, 1, 1, 2},
             {0, 1, 1, 1, 0},
         }
     },
@@ -668,6 +711,7 @@ furniture.woodlike_set = {
     "table_square",
     "table_round",
     "shelf_small",
+    "shelf_node_small",
     "shelf_wide",
     "window_glass",
     "window_obsidian_glass",
@@ -684,6 +728,7 @@ furniture.woodlike_set = {
     "door",
     "door_flipped",
     "shelf_small_book",
+    "shelf_node_small_book",
     "shelf_wide_book"
 }
 
@@ -692,6 +737,7 @@ furniture.stonelike_set = {
     "table_square_thick",
     "table_round_thick",
     "shelf_small_thick",
+    "shelf_node_small_thick",
     "shelf_wide_thick",
     "cabinet_thick",
     "half_cabinet_thick",

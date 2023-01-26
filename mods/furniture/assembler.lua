@@ -171,7 +171,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 	if not locks.can_access(pos, player) then -- ensure player can access, hence modify locks
 		return 0
 	end
-	if locks.fields(pos, player, fields, "furniture_assembler", "assembler") then
+	if locks.fields(pos, player, fields, "furniture_assembler", "Furniture Assembler") then
 		assembler_show_formspec(pos, player)
 	end
 	if fields.key_enter_field == "furniture_multiplier" then

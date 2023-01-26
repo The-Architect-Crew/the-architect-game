@@ -19,5 +19,5 @@ minetest.register_tool("tools:moonlight", {
 		damage_groups = {fleshy=5},
 	},
 	sound = {breaks = "default_tool_breaks"},
-	groups = {pickaxe = 1}
+	groups = {pickaxe = 1, not_in_creative_inventory = 1, not_in_craft_guide = 1}
 })

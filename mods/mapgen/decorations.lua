@@ -497,7 +497,7 @@ for i=1,5 do
 end
 
 for i=1,5 do
-	-- Grass
+	-- Grassamethyst
 	minetest.register_decoration({
 		name = "mese_grass_" .. i,
 		deco_type = "simple",
@@ -510,6 +510,627 @@ for i=1,5 do
 		decoration = "flora:grass_mese_" .. i,
 	})
 end
+
+-- Crystal Clusters
+
+-- Amethyst
+
+minetest.register_decoration({
+	name = "cluster_ore_amethyst_stone",
+	deco_type = "simple",
+	place_on = {"blocks:stone_with_amethyst"},
+	fill_ratio = 5.0,
+	y_max = 1024,
+	y_min = mapgen.world_bottom,
+	flags = "all_floors",
+	decoration = "blocks:amethyst_cluster",
+})
+
+minetest.register_decoration({
+	name = "cluster_amethyst_stone",
+	deco_type = "simple",
+	place_on = {"blocks:stone"},
+	fill_ratio = 0.001,
+	y_max = 1024,
+	y_min = mapgen.world_bottom,
+	flags = "all_floors",
+	decoration = "blocks:amethyst_cluster",
+})
+
+minetest.register_decoration({
+	name = "cluster_ore_amethyst_granite",
+	deco_type = "simple",
+	place_on = {"blocks:granite_with_amethyst"},
+	fill_ratio = 5.0,
+	y_max = 1024,
+	y_min = mapgen.world_bottom,
+	flags = "all_floors",
+	decoration = "blocks:amethyst_cluster",
+})
+
+minetest.register_decoration({
+	name = "cluster_amethyst_granite",
+	deco_type = "simple",
+	place_on = {"blocks:granite"},
+	fill_ratio = 0.01,
+	y_max = 1024,
+	y_min = mapgen.world_bottom,
+	flags = "all_floors",
+	decoration = "blocks:amethyst_cluster",
+})
+
+minetest.register_decoration({
+	name = "cluster_ore_amethyst_marble",
+	deco_type = "simple",
+	place_on = {"blocks:marble_with_amethyst"},
+	fill_ratio = 5.0,
+	y_max = 1024,
+	y_min = mapgen.world_bottom,
+	flags = "all_floors",
+	decoration = "blocks:amethyst_cluster",
+})
+
+minetest.register_decoration({
+	name = "cluster_amethyst_marble",
+	deco_type = "simple",
+	place_on = {"blocks:marble"},
+	fill_ratio = 0.01,
+	y_max = 1024,
+	y_min = mapgen.world_bottom,
+	flags = "all_floors",
+	decoration = "blocks:amethyst_cluster",
+})
+
+minetest.register_decoration({
+	name = "cluster_ore_amethyst_slate",
+	deco_type = "simple",
+	place_on = {"blocks:slate_with_amethyst"},
+	fill_ratio = 5.0,
+	y_max = 1024,
+	y_min = mapgen.world_bottom,
+	flags = "all_floors",
+	decoration = "blocks:amethyst_cluster",
+})
+
+minetest.register_decoration({
+	name = "cluster_ore_amethyst_sandstone",
+	deco_type = "simple",
+	place_on = {"blocks:sandstone_with_amethyst"},
+	fill_ratio = 5.0,
+	y_max = 1024,
+	y_min = mapgen.world_bottom,
+	flags = "all_floors",
+	decoration = "blocks:amethyst_cluster",
+})
+
+minetest.register_decoration({
+	name = "cluster_amethyst_sandstone",
+	deco_type = "simple",
+	place_on = {"blocks:sandstone"},
+	fill_ratio = 0.001,
+	y_max = 1024,
+	y_min = mapgen.world_bottom,
+	flags = "all_floors",
+	decoration = "blocks:amethyst_cluster",
+})
+
+minetest.register_decoration({
+	name = "cluster_ore_amethyst_desert_sandstone",
+	deco_type = "simple",
+	place_on = {"blocks:desert_sandstone_with_amethyst"},
+	fill_ratio = 5.0,
+	y_max = 1024,
+	y_min = mapgen.world_bottom,
+	flags = "all_floors",
+	decoration = "blocks:amethyst_cluster",
+})
+
+minetest.register_decoration({
+	name = "cluster_amethyst_desert_sandstone",
+	deco_type = "simple",
+	place_on = {"blocks:desert_sandstone"},
+	fill_ratio = 0.001,
+	y_max = 1024,
+	y_min = mapgen.world_bottom,
+	flags = "all_floors",
+	decoration = "blocks:amethyst_cluster",
+})
+
+minetest.register_decoration({
+	name = "cluster_ore_amethyst_silver_sandstone",
+	deco_type = "simple",
+	place_on = {"blocks:silver_sandstone_with_amethyst"},
+	fill_ratio = 5.0,
+	y_max = 1024,
+	y_min = mapgen.world_bottom,
+	flags = "all_floors",
+	decoration = "blocks:amethyst_cluster",
+})
+
+minetest.register_decoration({
+	name = "cluster_amethyst_silver_sandstone",
+	deco_type = "simple",
+	place_on = {"blocks:silver_sandstone"},
+	fill_ratio = 0.001,
+	y_max = 1024,
+	y_min = mapgen.world_bottom,
+	flags = "all_floors",
+	decoration = "blocks:amethyst_cluster",
+})
+
+-- Garnet
+
+minetest.register_decoration({
+	name = "cluster_ore_garnet_stone",
+	deco_type = "simple",
+	place_on = {"blocks:stone_with_garnet"},
+	fill_ratio = 5.0,
+	y_max = 1024,
+	y_min = mapgen.world_bottom,
+	flags = "all_floors",
+	decoration = "blocks:garnet_cluster",
+})
+
+minetest.register_decoration({
+	name = "cluster_garnet_stone",
+	deco_type = "simple",
+	place_on = {"blocks:stone"},
+	fill_ratio = 0.001,
+	y_max = 1024,
+	y_min = mapgen.world_bottom,
+	flags = "all_floors",
+	decoration = "blocks:garnet_cluster",
+})
+
+minetest.register_decoration({
+	name = "cluster_ore_garnet_granite",
+	deco_type = "simple",
+	place_on = {"blocks:granite_with_garnet"},
+	fill_ratio = 5.0,
+	y_max = 1024,
+	y_min = mapgen.world_bottom,
+	flags = "all_floors",
+	decoration = "blocks:garnet_cluster",
+})
+
+minetest.register_decoration({
+	name = "cluster_garnet_granite",
+	deco_type = "simple",
+	place_on = {"blocks:granite"},
+	fill_ratio = 0.01,
+	y_max = 1024,
+	y_min = mapgen.world_bottom,
+	flags = "all_floors",
+	decoration = "blocks:garnet_cluster",
+})
+
+minetest.register_decoration({
+	name = "cluster_ore_garnet_marble",
+	deco_type = "simple",
+	place_on = {"blocks:marble_with_garnet"},
+	fill_ratio = 5.0,
+	y_max = 1024,
+	y_min = mapgen.world_bottom,
+	flags = "all_floors",
+	decoration = "blocks:garnet_cluster",
+})
+
+minetest.register_decoration({
+	name = "cluster_garnet_marble",
+	deco_type = "simple",
+	place_on = {"blocks:marble"},
+	fill_ratio = 0.01,
+	y_max = 1024,
+	y_min = mapgen.world_bottom,
+	flags = "all_floors",
+	decoration = "blocks:garnet_cluster",
+})
+
+minetest.register_decoration({
+	name = "cluster_ore_garnet_slate",
+	deco_type = "simple",
+	place_on = {"blocks:slate_with_garnet"},
+	fill_ratio = 5.0,
+	y_max = 1024,
+	y_min = mapgen.world_bottom,
+	flags = "all_floors",
+	decoration = "blocks:garnet_cluster",
+})
+
+minetest.register_decoration({
+	name = "cluster_garnet_slate",
+	deco_type = "simple",
+	place_on = {"blocks:slate"},
+	fill_ratio = 0.01,
+	y_max = 1024,
+	y_min = mapgen.world_bottom,
+	flags = "all_floors",
+	decoration = "blocks:garnet_cluster",
+})
+
+minetest.register_decoration({
+	name = "cluster_ore_garnet_basalt",
+	deco_type = "simple",
+	place_on = {"blocks:basalt_with_garnet"},
+	fill_ratio = 5.0,
+	y_max = 1024,
+	y_min = mapgen.world_bottom,
+	flags = "all_floors",
+	decoration = "blocks:garnet_cluster",
+})
+
+minetest.register_decoration({
+	name = "cluster_garnet_basalt",
+	deco_type = "simple",
+	place_on = {"blocks:basalt"},
+	fill_ratio = 0.01,
+	y_max = 1024,
+	y_min = mapgen.world_bottom,
+	flags = "all_floors",
+	decoration = "blocks:garnet_cluster",
+})
+
+minetest.register_decoration({
+	name = "cluster_ore_garnet_obsidian",
+	deco_type = "simple",
+	place_on = {"blocks:obsidian_with_garnet"},
+	fill_ratio = 5.0,
+	y_max = 1024,
+	y_min = mapgen.world_bottom,
+	flags = "all_floors",
+	decoration = "blocks:garnet_cluster",
+})
+
+minetest.register_decoration({
+	name = "cluster_garnet_obsidian",
+	deco_type = "simple",
+	place_on = {"blocks:obsidian"},
+	fill_ratio = 0.002,
+	y_max = 1024,
+	y_min = mapgen.world_bottom,
+	flags = "all_floors",
+	decoration = "blocks:garnet_cluster",
+})
+
+-- Lapis Lazuli
+
+minetest.register_decoration({
+	name = "cluster_lapis_lazuli_stone",
+	deco_type = "simple",
+	place_on = {"blocks:stone"},
+	fill_ratio = 0.001,
+	y_max = 1024,
+	y_min = mapgen.world_bottom,
+	flags = "all_floors",
+	decoration = "blocks:lapis_lazuli_cluster",
+})
+
+minetest.register_decoration({
+	name = "cluster_ore_lapis_lazuli_marble",
+	deco_type = "simple",
+	place_on = {"blocks:marble_with_lapis"},
+	fill_ratio = 5.0,
+	y_max = 1024,
+	y_min = mapgen.world_bottom,
+	flags = "all_floors",
+	decoration = "blocks:lapis_lazuli_cluster",
+})
+
+minetest.register_decoration({
+	name = "cluster_lapis_lazuli_marble",
+	deco_type = "simple",
+	place_on = {"blocks:marble"},
+	fill_ratio = 0.001,
+	y_max = 1024,
+	y_min = mapgen.world_bottom,
+	flags = "all_floors",
+	decoration = "blocks:lapis_lazuli_cluster",
+})
+
+-- Malachite Glass
+
+minetest.register_decoration({
+	name = "cluster_malachite_glass_stone",
+	deco_type = "simple",
+	place_on = {"blocks:stone"},
+	fill_ratio = 0.001,
+	y_max = 1024,
+	y_min = mapgen.world_bottom,
+	flags = "all_floors",
+	decoration = "blocks:malachite_glass_cluster",
+})
+
+minetest.register_decoration({
+	name = "cluster_malachite_glass_malachite",
+	deco_type = "simple",
+	place_on = {"blocks:malachite"},
+	fill_ratio = 0.02,
+	y_max = 1024,
+	y_min = mapgen.world_bottom,
+	flags = "all_floors",
+	decoration = "blocks:malachite_glass_cluster",
+})
+
+-- Mese
+
+minetest.register_decoration({
+	name = "cluster_ore_mese_stone",
+	deco_type = "simple",
+	place_on = {"blocks:stone_with_mese"},
+	fill_ratio = 5.0,
+	y_max = 1024,
+	y_min = mapgen.world_bottom,
+	flags = "all_floors",
+	decoration = "blocks:mese_cluster",
+})
+
+minetest.register_decoration({
+	name = "cluster_mese_stone",
+	deco_type = "simple",
+	place_on = {"blocks:stone"},
+	fill_ratio = 0.001,
+	y_max = 1024,
+	y_min = mapgen.world_bottom,
+	flags = "all_floors",
+	decoration = "blocks:mese_cluster",
+})
+
+minetest.register_decoration({
+	name = "cluster_mese_mese",
+	deco_type = "simple",
+	place_on = {"blocks:mese"},
+	fill_ratio = 5.0,
+	y_max = 1024,
+	y_min = mapgen.world_bottom,
+	flags = "all_floors",
+	decoration = "blocks:mese_cluster",
+})
+
+minetest.register_decoration({
+	name = "cluster_ore_mese_marble",
+	deco_type = "simple",
+	place_on = {"blocks:marble_with_mese"},
+	fill_ratio = 5.0,
+	y_max = 1024,
+	y_min = mapgen.world_bottom,
+	flags = "all_floors",
+	decoration = "blocks:mese_cluster",
+})
+
+minetest.register_decoration({
+	name = "cluster_mese_marble",
+	deco_type = "simple",
+	place_on = {"blocks:marble"},
+	fill_ratio = 0.001,
+	y_max = 1024,
+	y_min = mapgen.world_bottom,
+	flags = "all_floors",
+	decoration = "blocks:mese_cluster",
+})
+
+minetest.register_decoration({
+	name = "cluster_ore_mese_surface_marble",
+	deco_type = "simple",
+	place_on = {"blocks:mese_surface_marble"},
+	fill_ratio = 1.0,
+	y_max = 1024,
+	y_min = mapgen.world_bottom,
+	flags = "all_floors",
+	decoration = "blocks:mese_cluster",
+})
+
+minetest.register_decoration({
+	name = "cluster_ore_mese_surface_stone",
+	deco_type = "simple",
+	place_on = {"blocks:mese_surface_stone"},
+	fill_ratio = 1.0,
+	y_max = 1024,
+	y_min = mapgen.world_bottom,
+	flags = "all_floors",
+	decoration = "blocks:mese_cluster",
+})
+
+-- Diamond
+
+minetest.register_decoration({
+	name = "cluster_ore_diamond_stone",
+	deco_type = "simple",
+	place_on = {"blocks:stone_with_diamond"},
+	fill_ratio = 5.0,
+	y_max = 1024,
+	y_min = mapgen.world_bottom,
+	flags = "all_floors",
+	decoration = "blocks:diamond_cluster",
+})
+
+minetest.register_decoration({
+	name = "cluster_diamond_stone",
+	deco_type = "simple",
+	place_on = {"blocks:stone"},
+	fill_ratio = 0.001,
+	y_max = 1024,
+	y_min = mapgen.world_bottom,
+	flags = "all_floors",
+	decoration = "blocks:diamond_cluster",
+})
+
+minetest.register_decoration({
+	name = "cluster_ore_diamond_granite",
+	deco_type = "simple",
+	place_on = {"blocks:granite_with_diamond"},
+	fill_ratio = 5.0,
+	y_max = 1024,
+	y_min = mapgen.world_bottom,
+	flags = "all_floors",
+	decoration = "blocks:diamond_cluster",
+})
+
+minetest.register_decoration({
+	name = "cluster_diamond_granite",
+	deco_type = "simple",
+	place_on = {"blocks:granite"},
+	fill_ratio = 0.001,
+	y_max = 1024,
+	y_min = mapgen.world_bottom,
+	flags = "all_floors",
+	decoration = "blocks:diamond_cluster",
+})
+
+minetest.register_decoration({
+	name = "cluster_ore_diamond_basalt",
+	deco_type = "simple",
+	place_on = {"blocks:basalt_with_diamond"},
+	fill_ratio = 5.0,
+	y_max = 1024,
+	y_min = mapgen.world_bottom,
+	flags = "all_floors",
+	decoration = "blocks:diamond_cluster",
+})
+
+minetest.register_decoration({
+	name = "cluster_diamond_basalt",
+	deco_type = "simple",
+	place_on = {"blocks:basalt"},
+	fill_ratio = 0.001,
+	y_max = 1024,
+	y_min = mapgen.world_bottom,
+	flags = "all_floors",
+	decoration = "blocks:diamond_cluster",
+})
+
+minetest.register_decoration({
+	name = "cluster_ore_diamond_obsidian",
+	deco_type = "simple",
+	place_on = {"blocks:obsidian_with_diamond"},
+	fill_ratio = 5.0,
+	y_max = 1024,
+	y_min = mapgen.world_bottom,
+	flags = "all_floors",
+	decoration = "blocks:diamond_cluster",
+})
+
+minetest.register_decoration({
+	name = "cluster_diamond_obsidian",
+	deco_type = "simple",
+	place_on = {"blocks:obsidian"},
+	fill_ratio = 0.001,
+	y_max = 1024,
+	y_min = mapgen.world_bottom,
+	flags = "all_floors",
+	decoration = "blocks:diamond_cluster",
+})
+
+-- Amber
+
+minetest.register_decoration({
+	name = "cluster_ore_amber_stone",
+	deco_type = "simple",
+	place_on = {"blocks:stone_with_amber"},
+	fill_ratio = 5.0,
+	y_max = 1024,
+	y_min = mapgen.world_bottom,
+	flags = "all_floors",
+	decoration = "blocks:amber_cluster",
+})
+
+minetest.register_decoration({
+	name = "cluster_amber_stone",
+	deco_type = "simple",
+	place_on = {"blocks:stone"},
+	fill_ratio = 0.001,
+	y_max = 1024,
+	y_min = mapgen.world_bottom,
+	flags = "all_floors",
+	decoration = "blocks:amber_cluster",
+})
+
+minetest.register_decoration({
+	name = "cluster_ore_amber_sandstone",
+	deco_type = "simple",
+	place_on = {"blocks:sandstone_with_amber"},
+	fill_ratio = 5.0,
+	y_max = 1024,
+	y_min = mapgen.world_bottom,
+	flags = "all_floors",
+	decoration = "blocks:amber_cluster",
+})
+
+minetest.register_decoration({
+	name = "cluster_amber_sandstone",
+	deco_type = "simple",
+	place_on = {"blocks:sandstone"},
+	fill_ratio = 0.001,
+	y_max = 1024,
+	y_min = mapgen.world_bottom,
+	flags = "all_floors",
+	decoration = "blocks:amber_cluster",
+})
+
+minetest.register_decoration({
+	name = "cluster_ore_amber_desert_sandstone",
+	deco_type = "simple",
+	place_on = {"blocks:desert_sandstone_with_amber"},
+	fill_ratio = 5.0,
+	y_max = 1024,
+	y_min = mapgen.world_bottom,
+	flags = "all_floors",
+	decoration = "blocks:amber_cluster",
+})
+
+minetest.register_decoration({
+	name = "cluster_amber_desert_sandstone",
+	deco_type = "simple",
+	place_on = {"blocks:desert_sandstone"},
+	fill_ratio = 0.001,
+	y_max = 1024,
+	y_min = mapgen.world_bottom,
+	flags = "all_floors",
+	decoration = "blocks:amber_cluster",
+})
+
+minetest.register_decoration({
+	name = "cluster_ore_amber_silver_sandstone",
+	deco_type = "simple",
+	place_on = {"blocks:silver_sandstone_with_amber"},
+	fill_ratio = 5.0,
+	y_max = 1024,
+	y_min = mapgen.world_bottom,
+	flags = "all_floors",
+	decoration = "blocks:amber_cluster",
+})
+
+minetest.register_decoration({
+	name = "cluster_amber_silver_sandstone",
+	deco_type = "simple",
+	place_on = {"blocks:silver_sandstone"},
+	fill_ratio = 0.001,
+	y_max = 1024,
+	y_min = mapgen.world_bottom,
+	flags = "all_floors",
+	decoration = "blocks:amber_cluster",
+})
+
+minetest.register_decoration({
+	name = "cluster_ore_amber_coal",
+	deco_type = "simple",
+	place_on = {"blocks:coal_with_amber"},
+	fill_ratio = 5.0,
+	y_max = 1024,
+	y_min = mapgen.world_bottom,
+	flags = "all_floors",
+	decoration = "blocks:amber_cluster",
+})
+
+minetest.register_decoration({
+	name = "cluster_amber_coal",
+	deco_type = "simple",
+	place_on = {"blocks:coalblock"},
+	fill_ratio = 0.001,
+	y_max = 1024,
+	y_min = mapgen.world_bottom,
+	flags = "all_floors",
+	decoration = "blocks:amber_cluster",
+})
 
 -- Other Decorations
 

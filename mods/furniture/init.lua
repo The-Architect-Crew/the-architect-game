@@ -26,6 +26,9 @@ dofile(path.."/steampunk.lua")
 dofile(path.."/craftitems.lua")
 dofile(path.."/crafts.lua")
 
+-- Testing stuff
+dofile(path.."/testing.lua")
+
 -- Sound tables
 furniture.storage_sounds = {
     default = {"doors_door_open", 0.06},

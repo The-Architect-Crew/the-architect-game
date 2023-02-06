@@ -548,6 +548,25 @@ minetest.register_node("blocks:mese", {
 	sounds = default.node_sound_stone_defaults(),
 	light_source = 3,
 })
+minetest.register_node("blocks:mese_cluster", {
+	description = S("Mese Cluster"),
+	drawtype = "plantlike",
+	tiles = {"blocks_mese_cluster.png"},
+	inventory_image = "blocks_mese_cluster.png",
+	paramtype = "light",
+	paramtype2 = "facedir",
+	walkable = false,
+	floodable = true,
+	light_source = 16,
+	use_texture_alpha = "clip",
+	sunlight_propagates = true,
+	groups = {cracky = 1, level = 2},
+	selection_box = {
+		type = "fixed",
+		fixed = {-8 / 16, -8/16, -8 / 16, 8 / 16, -4/16, 8 / 16},
+	},
+	sounds = default.node_sound_glass_defaults(),
+})
 minetest.register_node("blocks:mese_tech_crystal", {
 	description = S("Mese Tech Crystal"),
 	tiles = {"blocks_mese_tech_crystal.png"},
@@ -919,6 +938,26 @@ minetest.register_node("blocks:diamondblock", {
 	sounds = default.node_sound_stone_defaults(),
 })
 
+minetest.register_node("blocks:diamond_cluster", {
+	description = S("Diamond Cluster"),
+	drawtype = "plantlike",
+	tiles = {"blocks_diamond_cluster.png"},
+	inventory_image = "blocks_diamond_cluster.png",
+	paramtype = "light",
+	paramtype2 = "facedir",
+	walkable = false,
+	floodable = true,
+	light_source = 14,
+	use_texture_alpha = "clip",
+	sunlight_propagates = true,
+	groups = {cracky = 1, level = 3},
+	selection_box = {
+		type = "fixed",
+		fixed = {-8 / 16, -8/16, -8 / 16, 8 / 16, -4/16, 8 / 16},
+	},
+	sounds = default.node_sound_glass_defaults(),
+})
+
 -- Amber
 minetest.register_craftitem("blocks:amber_shard", {
 	description = S("Amber Shard"),
@@ -1229,6 +1268,26 @@ minetest.register_node("blocks:amber", {
 	tiles = {"blocks_amber.png"},
 	is_ground_content = false,
 	groups = {cracky = 3, oddly_breakable_by_hand = 3},
+	sounds = default.node_sound_glass_defaults(),
+})
+
+minetest.register_node("blocks:amber_cluster", {
+	description = S("Amber Cluster"),
+	drawtype = "plantlike",
+	tiles = {"blocks_amber_cluster.png"},
+	inventory_image = "blocks_amber_cluster.png",
+	paramtype = "light",
+	paramtype2 = "facedir",
+	walkable = false,
+	floodable = true,
+	light_source = 8,
+	use_texture_alpha = "clip",
+	sunlight_propagates = true,
+	groups = {cracky = 3, oddly_breakable_by_hand = 3},
+	selection_box = {
+		type = "fixed",
+		fixed = {-8 / 16, -8/16, -8 / 16, 8 / 16, -4/16, 8 / 16},
+	},
 	sounds = default.node_sound_glass_defaults(),
 })
 
@@ -1546,6 +1605,26 @@ minetest.register_node("blocks:amethyst", {
 	sounds = default.node_sound_glass_defaults(),
 })
 
+minetest.register_node("blocks:amethyst_cluster", {
+	description = S("Amethyst Cluster"),
+	drawtype = "plantlike",
+	tiles = {"blocks_amethyst_cluster.png"},
+	inventory_image = "blocks_amethyst_cluster.png",
+	paramtype = "light",
+	paramtype2 = "facedir",
+	walkable = false,
+	floodable = true,
+	light_source = 14,
+	use_texture_alpha = "clip",
+	sunlight_propagates = true,
+	groups = {cracky = 2},
+	selection_box = {
+		type = "fixed",
+		fixed = {-8 / 16, -8/16, -8 / 16, 8 / 16, -4/16, 8 / 16},
+	},
+	sounds = default.node_sound_glass_defaults(),
+})
+
 -- Garnet
 minetest.register_node("blocks:granite_with_garnet", {
 	description = S("Garnet Ore (Granite)"),
@@ -1699,6 +1778,26 @@ minetest.register_node("blocks:garnet", {
 	sounds = default.node_sound_glass_defaults(),
 })
 
+minetest.register_node("blocks:garnet_cluster", {
+	description = S("Garnet Cluster"),
+	drawtype = "plantlike",
+	tiles = {"blocks_garnet_cluster.png"},
+	inventory_image = "blocks_garnet_cluster.png",
+	paramtype = "light",
+	paramtype2 = "facedir",
+	walkable = false,
+	floodable = true,
+	light_source = 10,
+	use_texture_alpha = "clip",
+	sunlight_propagates = true,
+	groups = {cracky = 2},
+	selection_box = {
+		type = "fixed",
+		fixed = {-8 / 16, -8/16, -8 / 16, 8 / 16, -4/16, 8 / 16},
+	},
+	sounds = default.node_sound_glass_defaults(),
+})
+
 -- Turquoise
 minetest.register_node("blocks:turquoise", {
 	description = S("Turquoise"),
@@ -1714,6 +1813,26 @@ minetest.register_node("blocks:lapis_lazuli", {
 	tiles = {"blocks_lapis_lazuli.png"},
 	is_ground_content = true,
 	groups = {cracky = 2},
+	sounds = default.node_sound_stone_defaults(),
+})
+
+minetest.register_node("blocks:lapis_lazuli_cluster", {
+	description = S("Lapis Lazuli Cluster"),
+	drawtype = "plantlike",
+	tiles = {"blocks_lapis_lazuli_cluster.png"},
+	inventory_image = "blocks_lapis_lazuli_cluster.png",
+	paramtype = "light",
+	paramtype2 = "facedir",
+	walkable = false,
+	floodable = true,
+	light_source = 6,
+	use_texture_alpha = "clip",
+	sunlight_propagates = true,
+	groups = {cracky = 2},
+	selection_box = {
+		type = "fixed",
+		fixed = {-8 / 16, -8/16, -8 / 16, 8 / 16, -4/16, 8 / 16},
+	},
 	sounds = default.node_sound_stone_defaults(),
 })
 
@@ -1765,6 +1884,26 @@ minetest.register_node("blocks:malachite", {
 minetest.register_craftitem("blocks:malachite_chunk", {
 	description = S("Malachite Chunk"),
 	inventory_image = "blocks_malachite_chunk.png",
+})
+
+minetest.register_node("blocks:malachite_glass_cluster", {
+	description = S("Malachite Glass Cluster"),
+	drawtype = "plantlike",
+	tiles = {"blocks_malachite_glass_cluster.png"},
+	inventory_image = "blocks_malachite_glass_cluster.png",
+	paramtype = "light",
+	paramtype2 = "facedir",
+	walkable = false,
+	floodable = true,
+	light_source = 12,
+	use_texture_alpha = "clip",
+	sunlight_propagates = true,
+	groups = {cracky = 2},
+	selection_box = {
+		type = "fixed",
+		fixed = {-8 / 16, -8/16, -8 / 16, 8 / 16, -4/16, 8 / 16},
+	},
+	sounds = default.node_sound_glass_defaults(),
 })
 
 -- Basalt
@@ -1976,9 +2115,24 @@ minetest.register_node("blocks:stone_with_moonstone", {
 	sounds = default.node_sound_stone_defaults(),
 })
 
-minetest.register_craftitem("blocks:moonstone_crystal", {
+minetest.register_node("blocks:moonstone_crystal", {
 	description = S("Moonstone Crystal"),
+	drawtype = "plantlike",
+	tiles = {"blocks_moonstone_crystal.png"},
 	inventory_image = "blocks_moonstone_crystal.png",
+	paramtype = "light",
+	paramtype2 = "facedir",
+	walkable = false,
+	floodable = true,
+	light_source = 16,
+	use_texture_alpha = "clip",
+	sunlight_propagates = true,
+	groups = {cracky = 3, oddly_breakable_by_hand = 3},
+	selection_box = {
+		type = "fixed",
+		fixed = {-8 / 16, -8/16, -8 / 16, 8 / 16, -4/16, 8 / 16},
+	},
+	sounds = default.node_sound_glass_defaults(),
 })
 
 minetest.register_craftitem("blocks:moonstone_powder", {
@@ -2240,6 +2394,13 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
+	output = "blocks:diamond 2",
+	recipe = {
+		{"blocks:diamond_cluster"},
+	}
+})
+
+minetest.register_craft({
 	output = "blocks:gold_ingot 9",
 	recipe = {
 		{"blocks:goldblock"},
@@ -2397,6 +2558,13 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
+	output = "blocks:mese_crystal 2",
+	recipe = {
+		{"blocks:mese_cluster"},
+	}
+})
+
+minetest.register_craft({
 	output = "blocks:mese_crystal",
 	recipe = {
 		{"blocks:mese_crystal_fragment", "blocks:mese_fiber", "blocks:mese_crystal_fragment"},
@@ -2483,6 +2651,12 @@ minetest.register_craft({
 	}
 })
 minetest.register_craft({
+	output= "blocks:amber_shard 2",
+	recipe = {
+		{"blocks:amber_cluster"},
+	}
+})
+minetest.register_craft({
 	output = "blocks:amethyst",
 	recipe = {
 		{"blocks:amethyst_crystal", "blocks:amethyst_crystal", "blocks:amethyst_crystal"},
@@ -2507,9 +2681,23 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
+	output = "blocks:amethyst_crystal 2",
+	recipe = {
+		{"blocks:amethyst_cluster"},
+	}
+})
+
+minetest.register_craft({
 	output = "blocks:garnet_crystal 9",
 	recipe = {
 		{"blocks:garnet"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:garnet_crystal 2",
+	recipe = {
+		{"blocks:garnet_cluster"},
 	}
 })
 
@@ -2518,6 +2706,13 @@ minetest.register_craft({
 	recipe = {
 		{"blocks:malachite_chunk", "blocks:malachite_chunk"},
 		{"blocks:malachite_chunk", "blocks:malachite_chunk"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:malachite_chunk 2",
+	recipe = {
+		{"blocks:malachite_glass_cluster"},
 	}
 })
 
@@ -2566,6 +2761,13 @@ minetest.register_craft({
 	recipe = {
 		{"blocks:lapis_chunk", "blocks:lapis_chunk"},
 		{"blocks:lapis_chunk", "blocks:lapis_chunk"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:lapis_chunk 2",
+	recipe = {
+		{"blocks:lapis_lazuli_cluster"},
 	}
 })
 

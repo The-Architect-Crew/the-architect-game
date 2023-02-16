@@ -286,6 +286,20 @@ shapes:register_shapedef("splitstair1", {
 	sunlight_propagates = true,
 })
 
+shapes:register_shapedef("splitstair4", {
+	description = "Splitstair (4/16)",
+	cost = 2,
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-0.5, -0.25, -0.5, 0.5, 0, 0},
+			{-0.5, 0.25, 0, 0.5, 0.5, 0.5},
+		},
+	},
+	category = "splitstair",
+	sunlight_propagates = true,
+})
+
 shapes:register_shapedef("splitstair", {
 	description = "Splitstair",
 	cost = 4,

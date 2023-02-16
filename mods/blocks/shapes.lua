@@ -227,3 +227,6 @@ shapes:register_shape("blocks:wool_orange")
 shapes:register_shape("blocks:wool_red")
 shapes:register_shape("blocks:wool_magenta")
 shapes:register_shape("blocks:wool_pink")
+-- streets.lua
+shapes:register_shape("blocks:asphalt")
+shapes:register_shape("blocks:concrete")

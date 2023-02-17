@@ -21,24 +21,6 @@ minetest.register_node("blocks:cobble", {
 	sounds = default.node_sound_stone_defaults(),
 })
 
-minetest.register_node("blocks:stonebrick", {
-	description = S("Stone Brick"),
-	paramtype2 = "facedir",
-	place_param2 = 0,
-	tiles = {"blocks_stone_brick.png"},
-	is_ground_content = false,
-	groups = {cracky = 2, stone = 1},
-	sounds = default.node_sound_stone_defaults(),
-})
-
-minetest.register_node("blocks:stone_block", {
-	description = S("Stone Block"),
-	tiles = {"blocks_stone_block.png"},
-	is_ground_content = false,
-	groups = {cracky = 2, stone = 1},
-	sounds = default.node_sound_stone_defaults(),
-})
-
 minetest.register_node("blocks:mossycobble", {
 	description = S("Mossy Cobblestone"),
 	tiles = {"blocks_mossycobble.png"},
@@ -78,24 +60,6 @@ minetest.register_node("blocks:desert_cobble", {
 	sounds = default.node_sound_stone_defaults(),
 })
 
-minetest.register_node("blocks:desert_stonebrick", {
-	description = S("Desert Stone Brick"),
-	paramtype2 = "facedir",
-	place_param2 = 0,
-	tiles = {"blocks_desert_stone_brick.png"},
-	is_ground_content = false,
-	groups = {cracky = 2, stone = 1},
-	sounds = default.node_sound_stone_defaults(),
-})
-
-minetest.register_node("blocks:desert_stone_block", {
-	description = S("Desert Stone Block"),
-	tiles = {"blocks_desert_stone_block.png"},
-	is_ground_content = false,
-	groups = {cracky = 2, stone = 1},
-	sounds = default.node_sound_stone_defaults(),
-})
-
 minetest.register_node("blocks:mossy_desert_cobble", {
 	description = S("Mossy Desert Cobblestone"),
 	tiles = {"blocks_desert_cobble.png^blocks_moss_dry_overlay.png"},
@@ -119,24 +83,6 @@ minetest.register_node("blocks:sandstone", {
 	sounds = default.node_sound_stone_defaults(),
 })
 
-minetest.register_node("blocks:sandstonebrick", {
-	description = S("Sandstone Brick"),
-	paramtype2 = "facedir",
-	place_param2 = 0,
-	tiles = {"blocks_sandstone_brick.png"},
-	is_ground_content = false,
-	groups = {cracky = 2},
-	sounds = default.node_sound_stone_defaults(),
-})
-
-minetest.register_node("blocks:sandstone_block", {
-	description = S("Sandstone Block"),
-	tiles = {"blocks_sandstone_block.png"},
-	is_ground_content = false,
-	groups = {cracky = 2},
-	sounds = default.node_sound_stone_defaults(),
-})
-
 minetest.register_node("blocks:mossy_sandstone", {
 	description = S("Mossy Sandstone"),
 	tiles = {"blocks_sandstone.png^(blocks_moss_sand_overlay.png^[opacity:128)"},
@@ -152,24 +98,6 @@ minetest.register_node("blocks:desert_sandstone", {
 	sounds = default.node_sound_stone_defaults(),
 })
 
-minetest.register_node("blocks:desert_sandstone_brick", {
-	description = S("Desert Sandstone Brick"),
-	paramtype2 = "facedir",
-	place_param2 = 0,
-	tiles = {"blocks_desert_sandstone_brick.png"},
-	is_ground_content = false,
-	groups = {cracky = 2},
-	sounds = default.node_sound_stone_defaults(),
-})
-
-minetest.register_node("blocks:desert_sandstone_block", {
-	description = S("Desert Sandstone Block"),
-	tiles = {"blocks_desert_sandstone_block.png"},
-	is_ground_content = false,
-	groups = {cracky = 2},
-	sounds = default.node_sound_stone_defaults(),
-})
-
 minetest.register_node("blocks:mossy_desert_sandstone", {
 	description = S("Mossy Desert Sandstone"),
 	tiles = {"blocks_desert_sandstone.png^(blocks_moss_sand_overlay.png^[opacity:192)"},
@@ -182,24 +110,6 @@ minetest.register_node("blocks:silver_sandstone", {
 	description = S("Silver Sandstone"),
 	tiles = {"blocks_silver_sandstone.png"},
 	groups = {crumbly = 1, cracky = 3},
-	sounds = default.node_sound_stone_defaults(),
-})
-
-minetest.register_node("blocks:silver_sandstone_brick", {
-	description = S("Silver Sandstone Brick"),
-	paramtype2 = "facedir",
-	place_param2 = 0,
-	tiles = {"blocks_silver_sandstone_brick.png"},
-	is_ground_content = false,
-	groups = {cracky = 2},
-	sounds = default.node_sound_stone_defaults(),
-})
-
-minetest.register_node("blocks:silver_sandstone_block", {
-	description = S("Silver Sandstone Block"),
-	tiles = {"blocks_silver_sandstone_block.png"},
-	is_ground_content = false,
-	groups = {cracky = 2},
 	sounds = default.node_sound_stone_defaults(),
 })
 
@@ -219,24 +129,6 @@ minetest.register_craftitem("blocks:obsidian_shard", {
 minetest.register_node("blocks:obsidian", {
 	description = S("Obsidian"),
 	tiles = {"blocks_obsidian.png"},
-	sounds = default.node_sound_stone_defaults(),
-	groups = {cracky = 1, level = 2},
-})
-
-minetest.register_node("blocks:obsidianbrick", {
-	description = S("Obsidian Brick"),
-	paramtype2 = "facedir",
-	place_param2 = 0,
-	tiles = {"blocks_obsidian_brick.png"},
-	is_ground_content = false,
-	sounds = default.node_sound_stone_defaults(),
-	groups = {cracky = 1, level = 2},
-})
-
-minetest.register_node("blocks:obsidian_block", {
-	description = S("Obsidian Block"),
-	tiles = {"blocks_obsidian_block.png"},
-	is_ground_content = false,
 	sounds = default.node_sound_stone_defaults(),
 	groups = {cracky = 1, level = 2},
 })

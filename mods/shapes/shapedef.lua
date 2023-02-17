@@ -957,6 +957,7 @@ shapes:register_shapedef("pane_flat", {
 	category = "pane",
 	groups = {pane = 1},
 	sunlight_propagates = true,
+	disable_by_default = true,
 	rotate_and_place = false,
 })
 
@@ -975,6 +976,7 @@ shapes:register_shapedef("pane", {
 	groups = {pane = 1},
 	sunlight_propagates = true,
 	drop = "shapes:shape_pane_flat",
+	disable_by_default = true,
 	rotate_and_place = false,
 })
 
@@ -992,7 +994,7 @@ shapes:register_shapedef("panemc_flat", {
 		},
 	},
 	connect_sides = {"left", "right"},
-	category = "pane",
+	category = "panemc",
 	groups = {panemc = 1},
 	sunlight_propagates = true,
 	disable_by_default = true,
@@ -1031,7 +1033,7 @@ shapes:register_shapedef("panemc", {
 		},
 	},
 	connects_to = {"group:panemc", "group:pane", "group:stone", "group:glass", "group:wood", "group:tree"},
-	category = "pane",
+	category = "panemc",
 	groups = {panemc = 1},
 	sunlight_propagates = true,
 	drop = "shapes:shape_panemc_flat",

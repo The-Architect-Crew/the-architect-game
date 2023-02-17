@@ -141,6 +141,7 @@ end
 function patterns.register_patterns(base_node, limit)
 
 	patterns.register_patterns_single(base_node, limit)
+	ccore.station_comment(base_node, "Patternable")
 
 	for _, colors in ipairs(patterns.colors) do
 		if (patterns.check_limit(colors[1], limit)) then

@@ -29,7 +29,7 @@ minetest.register_craftitem("furniture:laser", {
 	inventory_image = "furniture_laser.png",
 })
 minetest.register_craftitem("furniture:power_supply", {
-	description = S("Cutter Power Supply"),
+	description = S("Brickmaker Power Supply"),
 	inventory_image = "furniture_power_supply.png",
 })
 minetest.register_craftitem("furniture:sawblade", {

@@ -18,7 +18,7 @@ dofile(path .."/content.lua")
 
 -- These are furniture in the sense that they're models
 dofile(path.."/assembler.lua")
-dofile(path.."/cutter.lua")
+dofile(path.."/brickmaker.lua")
 dofile(path.."/engraver.lua")
 dofile(path.."/tablesaw.lua")
 

@@ -122,7 +122,7 @@ for i=1,#furniture.craftstation_materials do
 		}
 	})
 	minetest.register_craft({
-		output = "furniture:cutter_" .. sname,
+		output = "furniture:brickmaker_" .. sname,
 		recipe = {
 			{"furniture:arm", secondary_material, "furniture:power_supply"},
 			{"furniture:arm_cutter", "furniture:arm_drill", "furniture:arm_cutter"},

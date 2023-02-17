@@ -5,7 +5,7 @@ variations.variations = {
 		name = "brick";
 		description = "Brick";
 		texture = "0,0";
-		enabled_shapes = "cat:slab, cat:cube, cat:step, cat:stair, splitstair, cat:pillar, cat:pillarcrown, cat:beam, cat:corner, cat:slope";
+		enabled_shapes = "cat:slab, cat:cube, cat:step, cat:corner, cat:stair, cat:splitstair, cat:pole, cat:pillar, cat:pillarcrown, cat:beam, cat:slope, cat:fence";
 		recipe = {
 			{0, 1, 1, 1, 0},
 			{0, 1, 1, 1, 0},
@@ -19,7 +19,7 @@ variations.variations = {
 		name = "big_tile";
 		description = "Big Tile";
 		texture = "1,0";
-		enabled_shapes = "slab, cube, step, cat:stair, splitstair, cat:pillar, cat:pillarcown, corner, pane, pane_flat, slope, slope2, slope3, innerslope, innerslope2, innerslope3, outerslope, outerslope2, outerslope3";
+		enabled_shapes = "cat:slab, cat:cube, cat:step, cat:corner, cat:stair, cat:splitstair, cat:pole, cat:pillar, cat:pillarcrown, cat:beam, cat:slope, cat:fence";
 		recipe = {
 			{0, 0, 0, 0, 0},
 			{0, 1, 1, 1, 0},
@@ -33,7 +33,7 @@ variations.variations = {
 		name = "tile";
 		description = "Tile";
 		texture = "2,0";
-		enabled_shapes = "slab, cube, step, cat:stair, splitstair, cat:pillar, cat:pillarcown, corner, pane, pane_flat, slope, slope2, slope3, innerslope, innerslope2, innerslope3, outerslope, outerslope2, outerslope3";
+		enabled_shapes = "slab1, slab4, slab, slab12, cat:step, cat:corner, cat:stair, cat:slope";
 		recipe = {
 			{1, 1, 0, 1, 1},
 			{1, 1, 0, 1, 1},
@@ -44,25 +44,25 @@ variations.variations = {
 		recipe_amount = 16,
 	},
 	{
-		name = "hexagon";
-		description = "Hexagon Tile";
-		texture = "0,1";
+		name = "stripe";
+		description = "Stripe";
+		texture = "0,2";
 		rotation = true;
-		enabled_shapes = "slab, cube, step, cat:stair, splitstair, cat:pillar, cat:pillarcown, corner, slope, slope2, slope3, innerslope, innerslope2, innerslope3, outerslope, outerslope2, outerslope3";
+		enabled_shapes = "slab1, slab4, slab, slab12, cat:step, cat:corner, cat:stair, cat:slope";
 		recipe = {
-			{0, 0, 0, 0, 0},
-			{0, 1, 1, 1, 0},
 			{1, 1, 1, 1, 1},
-			{0, 1, 1, 1, 0},
+			{1, 1, 1, 1, 1},
 			{0, 0, 0, 0, 0},
+			{1, 1, 1, 1, 1},
+			{1, 1, 1, 1, 1},
 		},
-		recipe_amount = 11,
+		recipe_amount = 20,
 	},
 	{
 		name = "small_brick";
 		description = "Small Brick";
 		texture = "1,1";
-		enabled_shapes = "slab, cube, step, cat:stair, splitstair, cat:pillar, cat:pillarcown, corner, slope, slope2, slope3, innerslope, innerslope2, innerslope3, outerslope, outerslope2, outerslope3";
+		enabled_shapes = "slab1, slab4, slab, slab12, cube, cat:step, cat:corner, cat:stair";
 		recipe = {
 			{1, 1, 0, 1, 1},
 			{0, 1, 1, 1, 0},
@@ -76,7 +76,7 @@ variations.variations = {
 		name = "small_tile";
 		description = "Small Tile";
 		texture = "2,1";
-		enabled_shapes = "slab, cube, step, cat:stair, splitstair, cat:pillar, cat:pillarcown, corner, slope, slope2, slope3, innerslope, innerslope2, innerslope3, outerslope, outerslope2, outerslope3";
+		enabled_shapes = "slab1, slab4, slab, slab12, cube, cat:step, cat:corner, cat:stair";
 		recipe = {
 			{1, 0, 1, 0, 1},
 			{0, 1, 0, 1, 0},
@@ -86,26 +86,27 @@ variations.variations = {
 		},
 		recipe_amount = 13,
 	},
+	-- Unique patterns (Only basic shapes enabled)
 	{
-		name = "stripe";
-		description = "Stripe";
-		texture = "0,2";
+		name = "hexagon";
+		description = "Hexagon Tile";
+		texture = "0,1";
 		rotation = true;
-		enabled_shapes = "slab, cube, step, cat:stair, splitstair, cat:pillar, cat:pillarcown, corner, slope, slope2, slope3, innerslope, innerslope2, innerslope3, outerslope, outerslope2, outerslope3";
+		enabled_shapes = "slab1, slab4, slab, slab12, cube, cat:step, cat:corner, cat:stair";
 		recipe = {
-			{1, 1, 1, 1, 1},
-			{1, 1, 1, 1, 1},
 			{0, 0, 0, 0, 0},
+			{0, 1, 1, 1, 0},
 			{1, 1, 1, 1, 1},
-			{1, 1, 1, 1, 1},
+			{0, 1, 1, 1, 0},
+			{0, 0, 0, 0, 0},
 		},
-		recipe_amount = 20,
+		recipe_amount = 11,
 	},
 	{
 		name = "cross_tile";
 		description = "Cross Tile";
 		texture = "1,2";
-		enabled_shapes = "slab, cube, step, cat:stair, splitstair, cat:pillar, cat:pillarcown, corner, pane, pane_flat, slope, slope2, slope3";
+		enabled_shapes = "slab1, slab4, slab, slab12, cube, cat:step, cat:corner, cat:stair";
 		recipe = {
 			{0, 1, 1, 1, 0},
 			{1, 1, 1, 1, 1},
@@ -119,7 +120,7 @@ variations.variations = {
 		name = "spiral_tile";
 		description = "Spiral Tile";
 		texture = "2,2";
-		enabled_shapes = "slab1, cat:pane";
+		enabled_shapes = "slab1, slab4, slab, slab12, cube, cat:step, cat:corner, cat:stair";
 		recipe = {
 			{1, 1, 1, 0, 1},
 			{0, 1, 1, 1, 1},
@@ -142,6 +143,7 @@ end
 
 function variations.register_for_base(base_node, transparent, sunlight)
 	local base_definition = minetest.registered_nodes[base_node]
+	ccore.station_comment(base_node, "Brickable")
 	for _, variation in ipairs(variations.variations) do
 		local sname = string.match(base_node, ':(.*)')
 		local variation_name = "variations:" .. sname .. "_" .. variation.name
@@ -182,7 +184,7 @@ function variations.register_for_base(base_node, transparent, sunlight)
 			end
 		end
 		workbench:register_craft({
-			type = "cutter",
+			type = "brickmaking",
 			input =	recipe,
 			output = {
 				{variation_name .. " " .. variation.recipe_amount},

@@ -43,6 +43,7 @@ shapes:register_shape("blocks:glass", {
 	pane_flat_tiles = {"shapes_glass_top.png", "shapes_glass_top.png", "shapes_glass.png^[transformFXR90", "shapes_glass.png^[transformFXR90", "blocks_glass.png"},
 	pane_tiles = {"shapes_glass_top.png", "shapes_glass_top.png", "blocks_glass.png"},
 	disabled = "fence, fencerail, wall, cat:pillarcrown, cat:beam",
+	enabled = "cat:pane",
 	texture = "blocks_glass.png",
 	align_style = "node",
 })
@@ -79,6 +80,7 @@ shapes:register_shape("blocks:obsidian_glass", {
 	pane_flat_tiles = {"shapes_obsidian_glass_top.png", "shapes_obsidian_glass_top.png", "shapes_obsidian_glass.png^[transformFXR90", "shapes_obsidian_glass.png^[transformFXR90", "blocks_obsidian_glass.png"},
 	pane_tiles = {"shapes_obsidian_glass_top.png", "shapes_obsidian_glass_top.png", "blocks_obsidian_glass.png"},
 	disabled = "fence, fencerail, wall, cat:pillarcrown, cat:beam",
+	enabled = "cat:pane",
 	texture = "blocks_obsidian_glass.png",
 	align_style = "node",
 })
@@ -115,33 +117,34 @@ shapes:register_shape("blocks:medieval_glass", {
 	pane_flat_tiles = {"shapes_medieval_glass_top.png", "shapes_medieval_glass_top.png", "shapes_medieval_glass.png^[transformFXR90", "shapes_medieval_glass.png^[transformFXR90", "blocks_medieval_glass.png"},
 	pane_tiles = {"shapes_medieval_glass_top.png", "shapes_medieval_glass_top.png", "blocks_medieval_glass.png"},
 	disabled = "fence, fencerail, wall, cat:pillarcrown, cat:beam",
+	enabled = "cat:pane",
 	texture = "blocks_medieval_glass.png",
 	align_style = "node",
 })
 -- bars.lua
 shapes:register_shape("blocks:wood_bars", {
-	enabled = "panemc, panemc_flat, slab1, slab",
+	enabled = "cat:panemc, slab1, slab",
 	panemc_tiles = {"shapes_wood_bars_top.png", "blocks_wood_bars.png", "blocks_wood_bars.png"},
 	panemc_flat_tiles = {"shapes_wood_bars_top.png", "blocks_wood_bars.png", "blocks_wood_bars.png"},
 	texture = "blocks_wood_bars.png",
 })
 
 shapes:register_shape("blocks:wood_grille", {
-	enabled = "pane, pane_flat, slab1, slab",
+	enabled = "cat:pane, slab1, slab",
 	pane_flat_tiles = {"shapes_wood_bars_top.png", "shapes_wood_bars_top.png", "blocks_wood_grille.png"},
 	pane_tiles = {"shapes_wood_bars_top.png", "shapes_wood_bars_top.png", "blocks_wood_grille.png",},
 	texture = "blocks_wood_grille.png",
 })
 
 shapes:register_shape("blocks:steel_bars", {
-	enabled = "panemc, panemc_flat, slab1, slab",
+	enabled = "cat:panemc, slab1, slab",
 	panemc_tiles = {"shapes_steel_bars_top.png", "blocks_steel_bars.png", "blocks_steel_bars.png"},
 	panemc_flat_tiles = {"shapes_steel_bars_top.png", "blocks_steel_bars.png", "blocks_steel_bars.png"},
 	texture = "blocks_steel_bars.png",
 })
 
 shapes:register_shape("blocks:steel_grille", {
-	enabled = "pane, pane_flat, slab1, slab",
+	enabled = "cat:pane, slab1, slab",
 	pane_flat_tiles = {"shapes_steel_bars_top.png", "shapes_steel_bars_top.png", "blocks_steel_grille.png"},
 	pane_tiles = {"shapes_steel_bars_top.png", "shapes_steel_bars_top.png", "blocks_steel_grille.png",},
 	texture = "blocks_steel_grille.png",

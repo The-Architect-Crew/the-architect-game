@@ -57,9 +57,30 @@ function ccore.dig_dir(pos, nodes, dir, digger)
 end
 
 -- description commenting
-function ccore.comment(desc, comment)
-	return desc.."\n"..minetest.colorize("grey", comment)
+function ccore.comment(desc, comment, color)
+	if color then
+		return desc.."\n"..minetest.colorize(color, comment)
+	else
+		return desc.."\n"..minetest.colorize("grey", comment)
+	end
 end
+
+local station_comment_list = {}
+function ccore.station_comment(name, desc)
+	if station_comment_list[name] then
+		station_comment_list[name] = station_comment_list[name]..", "..desc
+	else
+		station_comment_list[name] = desc
+	end
+end
+
+minetest.register_on_mods_loaded(function()
+    for name in pairs(station_comment_list) do
+        minetest.override_item(name, {
+			description = ccore.comment(minetest.registered_nodes[name].description, station_comment_list[name], "green"),
+		})
+    end
+end)
 
 -- round number to a select decimal point
 function ccore.round(num, decpoint)

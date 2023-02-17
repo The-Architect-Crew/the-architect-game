@@ -78,8 +78,11 @@ local function check_enabled(disabled, enabled, shapename, groupname, default_di
 		if namefind or groupfind then
 			return true
 		end
-		-- without disabled list, assume all shpaes are disabled except in enabled
+		-- without disabled list, assume all shapes are disabled except in enabled
 		if not disabled then
+			return nil
+		end
+		if default_disable then
 			return nil
 		end
 	end
@@ -112,7 +115,7 @@ function shapes:register_shape(name, def)
 	-- get names and data
 	local sname = string.match(name, ':(.*)')
 	local mname = string.match(name, '(.*):')
-	local itemmeta = minetest.registered_items[name]
+	local itemmeta = minetest.registered_nodes[name]
 	if itemmeta == nil then
 		minetest.log("error", "[shapes] "..name.." does not exist!")
 		return
@@ -122,6 +125,8 @@ function shapes:register_shape(name, def)
 	local r_group = table.copy(n_group)
 	r_group.not_in_creative_inventory = 1
 	local stexture = def.texture or itemmeta.tiles[1]
+	local cncable = false
+	local sawable = false
 	-- mass definitions
 	for i in ipairs(shapes.shape_list) do
 		local tname = shapes.shape_list[i].name
@@ -141,7 +146,7 @@ function shapes:register_shape(name, def)
 		local tovly = shapes.shape_list[i].overlay
 		local tcraf = shapes.shape_list[i].crafting
 		local tcost = shapes.shape_list[i].cost
-		local tdbyd = shapes.shape_list[i].disable_by_default
+		local tdbyd = shapes.shape_list[i].disable_by_default or false
 		local troap = shapes.shape_list[i].rotate_and_place or true
 		-- Add groups
 		local u_group = table.copy(r_group)
@@ -199,9 +204,7 @@ function shapes:register_shape(name, def)
 		end
 		-- ensure enabled
 		if check_enabled(disabled, enabled, tname, tcate, tdbyd) then
-			-- registering nodebox
-			if tnobo then
-				-- align style and backface_culling
+			-- align style and backface_culling
 				local shape_images = {}
 				local images = def[tname.."_tiles"] or def.global_tiles or stexture3
 				for j, image in ipairs(images) do
@@ -213,6 +216,9 @@ function shapes:register_shape(name, def)
 						}
 					end
 				end
+			-- registering nodebox
+			if tnobo then
+				sawable = true
 				-- register shape
 				minetest.register_node(":"..mname..":shapes_"..sname.."_"..tname, {
 					description = udesc,
@@ -238,12 +244,13 @@ function shapes:register_shape(name, def)
 				})
 			-- registering models
 			elseif tmesh then
+				cncable = true
 				minetest.register_node(":"..mname..":shapes_"..sname.."_"..tname, {
 					description = udesc,
 					drawtype = "mesh",
 					mesh = tmesh,
 					groups = u_group,
-					tiles = def[tname.."_tiles"] or def.global_tiles or itemmeta.tiles,
+					tiles = shape_images,
 					paramtype = "light",
 					paramtype2 = "facedir",
 					sunlight_propagates = def[tname.."_sunlight_propagates"] or tsunl,
@@ -362,6 +369,13 @@ function shapes:register_shape(name, def)
 				{name},
 			},
 		})
+	end
+
+	if sawable then
+		ccore.station_comment(name, "Sawable")
+	end
+	if cncable then
+		ccore.station_comment(name, "CNCable")
 	end
 end
 

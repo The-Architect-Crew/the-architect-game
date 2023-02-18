@@ -1,6 +1,6 @@
 local tree_shapes_list = {"tree", "jungletree", "pine_tree", "acacia_tree", "aspen_tree", "cherry_tree", "bone_tree"}
 
-for i, names in ipairs(tree_shapes_list) do
+for _, names in ipairs(tree_shapes_list) do
 	shapes:register_shape("flora:"..names, {
 		cube_tiles = {"flora_"..names.."_top.png","flora_"..names.."_top.png", "shapes_"..names.."_2.png", "flora_"..names..".png", "flora_"..names..".png", "shapes_"..names.."_2.png"},
 		cube1_tiles = {"flora_"..names.."_top.png","flora_"..names.."_top.png", "shapes_"..names.."_2.png", "flora_"..names..".png", "flora_"..names..".png", "shapes_"..names.."_2.png"},
@@ -35,5 +35,9 @@ for i, names in ipairs(tree_shapes_list) do
 		texture = "flora_"..names..".png",
 		align_style = "node",
 		use_texture_alpha = "opaque",
+	})
+
+	shapes:register_shape("flora:"..names.."_bark", {
+		disabled = "cat:pole, cat:pillar, cat:pillarcrown, cat:beam, cat:fence",
 	})
 end

@@ -21,6 +21,17 @@ minetest.register_node("flora:tree", {
 	on_place = minetest.rotate_node
 })
 
+minetest.register_node("flora:tree_bark", {
+	description = S("Apple Tree Bark"),
+	tiles = {"flora_tree.png"},
+	paramtype2 = "facedir",
+	is_ground_content = false,
+	groups = {bark = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2},
+	sounds = default.node_sound_wood_defaults(),
+
+	on_place = minetest.rotate_node
+})
+
 minetest.register_node("flora:sapling", {
 	description = S("Apple Tree Sapling"),
 	drawtype = "plantlike",
@@ -189,6 +200,17 @@ minetest.register_node("flora:jungletree", {
 	on_place = minetest.rotate_node
 })
 
+minetest.register_node("flora:jungletree_bark", {
+	description = S("Jungle Tree Bark"),
+	tiles = {"flora_jungletree.png"},
+	paramtype2 = "facedir",
+	is_ground_content = false,
+	groups = {bark = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2},
+	sounds = default.node_sound_wood_defaults(),
+
+	on_place = minetest.rotate_node
+})
+
 minetest.register_node("flora:jungleleaves", {
 	description = S("Jungle Tree Leaves"),
 	drawtype = "allfaces_optional",
@@ -294,6 +316,17 @@ minetest.register_node("flora:pine_tree", {
 	on_place = minetest.rotate_node
 })
 
+minetest.register_node("flora:pine_tree_bark", {
+	description = S("Pine Tree Bark"),
+	tiles = {"flora_pine_tree.png"},
+	paramtype2 = "facedir",
+	is_ground_content = false,
+	groups = {bark = 1, choppy = 3, oddly_breakable_by_hand = 1, flammable = 3},
+	sounds = default.node_sound_wood_defaults(),
+
+	on_place = minetest.rotate_node
+})
+
 minetest.register_node("flora:pine_needles",{
 	description = S("Pine Needles"),
 	drawtype = "allfaces_optional",
@@ -393,6 +426,17 @@ minetest.register_node("flora:acacia_tree", {
 	paramtype2 = "facedir",
 	is_ground_content = false,
 	groups = {tree = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2},
+	sounds = default.node_sound_wood_defaults(),
+
+	on_place = minetest.rotate_node
+})
+
+minetest.register_node("flora:acacia_tree_bark", {
+	description = S("Acacia Tree Bark"),
+	tiles = {"flora_acacia_tree.png"},
+	paramtype2 = "facedir",
+	is_ground_content = false,
+	groups = {bark = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2},
 	sounds = default.node_sound_wood_defaults(),
 
 	on_place = minetest.rotate_node
@@ -504,6 +548,17 @@ minetest.register_node("flora:aspen_tree", {
 	on_place = minetest.rotate_node
 })
 
+minetest.register_node("flora:aspen_tree_bark", {
+	description = S("Aspen Tree Bark"),
+	tiles = {"flora_aspen_tree.png"},
+	paramtype2 = "facedir",
+	is_ground_content = false,
+	groups = {bark = 1, choppy = 3, oddly_breakable_by_hand = 1, flammable = 3},
+	sounds = default.node_sound_wood_defaults(),
+
+	on_place = minetest.rotate_node
+})
+
 minetest.register_node("flora:aspen_leaves", {
 	description = S("Aspen Tree Leaves"),
 	drawtype = "allfaces_optional",
@@ -602,6 +657,17 @@ minetest.register_node("flora:cherry_tree", {
 	paramtype2 = "facedir",
 	is_ground_content = false,
 	groups = {tree = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2},
+	sounds = default.node_sound_wood_defaults(),
+
+	on_place = minetest.rotate_node
+})
+
+minetest.register_node("flora:cherry_tree_bark", {
+	description = S("Cherry Tree Bark"),
+	tiles = {"flora_cherry_tree.png"},
+	paramtype2 = "facedir",
+	is_ground_content = false,
+	groups = {bark = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2},
 	sounds = default.node_sound_wood_defaults(),
 
 	on_place = minetest.rotate_node
@@ -726,6 +792,17 @@ minetest.register_node("flora:bone_tree", {
 	paramtype2 = "facedir",
 	is_ground_content = false,
 	groups = {tree = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2},
+	sounds = default.node_sound_wood_defaults(),
+
+	on_place = minetest.rotate_node
+})
+
+minetest.register_node("flora:bone_tree_bark", {
+	description = S("Ossified Bark"),
+	tiles = {"flora_bone_tree.png"},
+	paramtype2 = "facedir",
+	is_ground_content = false,
+	groups = {bark = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2},
 	sounds = default.node_sound_wood_defaults(),
 
 	on_place = minetest.rotate_node
@@ -1351,6 +1428,24 @@ minetest.register_craft({
 	}
 })
 
+local bark_craft_list = {"tree", "jungletree", "pine_tree", "acacia_tree", "aspen_tree", "cherry_tree", "bone_tree"}
+for _, names in ipairs(bark_craft_list) do
+	minetest.register_craft({
+		output = "flora:"..names.." 4",
+		recipe = {
+			{"flora:"..names.."_bark"},
+		}
+	})
+
+	minetest.register_craft({
+		output = "flora:"..names.."_bark",
+		recipe = {
+			{"flora:"..names, "flora:"..names},
+			{"flora:"..names, "flora:"..names},
+		}
+	})
+end
+
 minetest.register_craft({
 	type = "cooking",
 	output = "flora:dry_leaves",
@@ -1361,6 +1456,12 @@ minetest.register_craft({
 	type = "fuel",
 	recipe = "group:tree",
 	burntime = 30,
+})
+
+minetest.register_craft({
+	type = "fuel",
+	recipe = "group:bark",
+	burntime = 150,
 })
 
 minetest.register_craft({

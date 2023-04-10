@@ -251,7 +251,7 @@ function variations.register_support(base_node, support_type, support_material, 
 	for _, variation in ipairs(variations.variations) do
 		local variation_name = "variations:" .. sname .. "_" .. variation.name .. "_support_" .. support_material
 		local variation_clean_name = "variations:" .. sname .. "_" .. variation.name
-		local variation_description = ccore.strip_newlines(base_definition.description) .. variation.description .. " with " .. variations.supp_desc[support_material] .. " Support"
+		local variation_description = ccore.strip_newlines(base_definition.description) .. " " .. variation.description .. " with " .. variations.supp_desc[support_material] .. " Support"
 		local tiles
 		if (support_type == "full") then
 			tiles = {"(variations_" .. sname .. ".png^[sheet:3x3:" .. variation.texture .. ")^(variations_support_" .. support_material .. ".png^[sheet:3x3:" .. variation.texture .. ")"}

@@ -138,6 +138,12 @@ minetest.register_craft({
 
 minetest.register_craft({
 	type = "cooking",
+	output = "blocks:malachite_glass",
+	recipe = "blocks:malachite_chunk",
+})
+
+minetest.register_craft({
+	type = "cooking",
 	output = "blocks:amber_glass_tile",
 	recipe = "blocks:amber_shard",
 })

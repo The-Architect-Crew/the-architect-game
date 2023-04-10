@@ -2717,6 +2717,13 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
+	output = "blocks:malachite_chunk 4",
+	recipe = {
+		{"blocks:malachite"},
+	}
+})
+
+minetest.register_craft({
 	output = "blocks:granite",
 	recipe = {
 		{"blocks:granite_chunk", "blocks:granite_chunk"},

@@ -130,8 +130,6 @@ function workbench:register_craft(def)
 	end
 	::stop_front_row_trim::
 
-	local trim = false
-
 	local trimmed_input = table.copy(def.input)
 	if (trimmed_width ~= iwidth) or (trimmed_height ~= iheight) then
 		-- adjust list according to trim
@@ -142,8 +140,6 @@ function workbench:register_craft(def)
 		end
 		iwidth = trimmed_width
 		iheight = trimmed_height
-
-		trim = true
 	end
 
 	-- trim back columns (if any)
@@ -154,9 +150,8 @@ function workbench:register_craft(def)
 			end
 		end
 		trimmed_width = trimmed_width - 1
-		print("trimmed!")
 	end
-	
+
 	::stop_back_col_trim::
 	iwidth = trimmed_width
 
@@ -168,16 +163,10 @@ function workbench:register_craft(def)
 			end
 		end
 		trimmed_height = trimmed_height - 1
-		print("trimmed!")
 	end
-	
+
 	::stop_back_row_trim::
 	iheight = trimmed_height
-
-	if (trim) then
-		print("TRIM: W:"..iwidth.." H:"..iheight.. " O:"..def.output[1][1])
-	end
-
 
 	local new_id = #workbench_crafts.input[ctype] + 1
 	local stackcount = get_recipe_stacks(trimmed_input, iwidth, iheight) -- recipe ID

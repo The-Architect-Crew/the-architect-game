@@ -130,6 +130,8 @@ function workbench:register_craft(def)
 	end
 	::stop_front_row_trim::
 
+	local trim = false
+
 	local trimmed_input = table.copy(def.input)
 	if (trimmed_width ~= iwidth) or (trimmed_height ~= iheight) then
 		-- adjust list according to trim
@@ -140,6 +142,40 @@ function workbench:register_craft(def)
 		end
 		iwidth = trimmed_width
 		iheight = trimmed_height
+
+		trim = true
+	end
+
+	-- trim back columns (if any)
+	for col = 0, (iwidth - 1) do
+		for row = 1, iheight do
+			if (trimmed_input)[row][iwidth - col] ~= "" then
+				goto stop_back_col_trim
+			end
+		end
+		trimmed_width = trimmed_width - 1
+		print("trimmed!")
+	end
+	
+	::stop_back_col_trim::
+	iwidth = trimmed_width
+
+	-- trim back rows (if any)
+	for row = 0, (iheight - 1) do
+		for col = 1, iwidth do
+			if (trimmed_input)[iheight - row][col] ~= "" then
+				goto stop_back_row_trim
+			end
+		end
+		trimmed_height = trimmed_height - 1
+		print("trimmed!")
+	end
+	
+	::stop_back_row_trim::
+	iheight = trimmed_height
+
+	if (trim) then
+		print("TRIM: W:"..iwidth.." H:"..iheight.. " O:"..def.output[1][1])
 	end
 
 

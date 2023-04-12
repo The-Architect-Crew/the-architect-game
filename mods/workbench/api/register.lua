@@ -2,6 +2,7 @@ workbench_crafts = {}
 workbench_crafts.input = {}
 workbench_crafts.output = {}
 
+-- new craft type
 function workbench:register_crafttype(name)
 	workbench_crafts.input[name] = {}
 	workbench_crafts.output[name] = {}
@@ -29,12 +30,12 @@ local function cache_recipe(input, width, height)
 			local ni = #rdata + 1
 			local ritem = ItemStack(input[i][j])
 			rdata[ni] = {}
-			rdata[ni].stack = ritem
-			rdata[ni].name = ritem:get_name()
-			rdata[ni].count = ritem:get_count()
+			rdata[ni].stack = ritem -- recipe item stack
+			rdata[ni].name = ritem:get_name() -- recipe item name
+			rdata[ni].count = ritem:get_count() -- recipe item count
 		end
 	end
-	return rdata
+	return rdata -- table of a single recipe consisting of all above data
 end
 
 local function send_error(ctype, ercat, input, output, errordesc)
@@ -51,7 +52,7 @@ function workbench:register_craft(def)
 		return
 	end
 	def = def or {}
-	local ctype = def.type or "normal"
+	local ctype = def.type or "normal" -- recipe type
 	local ercat = def.category or ""
 	local ctime = def.time or 0
 	-- ensure essential values are present
@@ -102,10 +103,10 @@ function workbench:register_craft(def)
 	end
 
 	-- save input data
-	local iwidth = #def.input[1]
-	local iheight = #def.input
-	local newid = #workbench_crafts.input[ctype] + 1
-	local stackcount = get_recipe_stacks(def.input, iwidth, iheight)
+	local iwidth = #def.input[1] -- recipe width
+	local iheight = #def.input -- recipe height
+	local new_id = #workbench_crafts.input[ctype] + 1
+	local stackcount = get_recipe_stacks(def.input, iwidth, iheight) -- recipe ID
 	local i_items = cache_recipe(def.input, iwidth, iheight)
 	if def.multi_id then
 		local multi_oid = workbench_crafts.output[ctype][def.multi_id]
@@ -135,14 +136,14 @@ function workbench:register_craft(def)
 			items = i_items, -- items table
 			input = def.input, -- raw input
 			replacements = def.replacements or {},
-			id = newid, -- output id
+			id = new_id, -- output id
 		})
-		workbench_crafts.output[ctype][newid] = {}
+		workbench_crafts.output[ctype][new_id] = {}
 	end
 
 	-- save output data
 	local o_items = workbench.to_invlist(def.output)
-	local o_id = def.multi_id or newid
+	local o_id = def.multi_id or new_id
 	table.insert(workbench_crafts.output[ctype][o_id], {
 		cat = def.category,
 		output = def.output, -- primary output

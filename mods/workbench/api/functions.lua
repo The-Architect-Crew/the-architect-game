@@ -1,15 +1,32 @@
--- get starting index
-local function get_startindex(ilist)
+-- get starting index (first item in a recipe)
+local function get_startindex(ilist, input_width, input_height)
 	for i = 1, #ilist do
 		if ilist[i]:is_empty() ~= true then
-			return i
+			if i == 1 then
+				return i
+			else
+				local curr_row = math.ceil(i / input_width)
+				local curr_col = (i % input_width)
+				if curr_col == 0 then
+					curr_col = input_width
+				end
+				for col = 1, (curr_col - 1) do
+					for row = curr_row, input_height do
+						local index = (row - 1) * input_width + col
+						if ilist[index]:is_empty() ~= true then
+							return (curr_row - 1) * input_width + col;
+						end
+					end
+				end
+				return i
+			end
 		end
 	end
 end
 
 -- group matches
-local function groupcheck(rname, cname)
-	local prefix, groupname = string.match(rname, '(.*):'), string.match(rname, ':(.*)')
+local function groupcheck(recipe_name, input_name)
+	local prefix, groupname = string.match(recipe_name, '(.*):'), string.match(recipe_name, ':(.*)')
 	if prefix == "group" then
 		-- form a list of groups required separated by commas
 		local group_list = {}
@@ -18,7 +35,7 @@ local function groupcheck(rname, cname)
 		end
 		-- check item fulfill all groups
 		for i = 1, #group_list do
-			if minetest.get_item_group(cname, group_list[i]) == 0 then
+			if minetest.get_item_group(input_name, group_list[i]) == 0 then
 				return nil
 			end
 		end
@@ -27,20 +44,20 @@ local function groupcheck(rname, cname)
 end
 
 -- shapeless matches
-local function shapeless_match(ilist2, ritem)
-	local rname = ritem:get_name()
-	local rcount = ritem:get_count()
+local function shapeless_match(ilist2, recipe_item)
+	local recipe_name = recipe_item:get_name()
+	local recipe_count = recipe_item:get_count()
 	for i in pairs(ilist2) do
 		if ilist2[i] then
-			local citem = ilist2[i]
-			local cname = citem:get_name()
-			local ccount = citem:get_count()
+			local input_item = ilist2[i]
+			local input_name = input_item:get_name()
+			local input_count = input_item:get_count()
 			-- find matches
-			if (rname == cname or groupcheck(rname, cname)) then -- name match or group match
-				if ccount >= rcount then -- TODO: match higher count recipe with higher count items rather than grabbing the first found
-					local maxamt = math.floor(ccount / rcount)
+			if (recipe_name == input_name or groupcheck(recipe_name, input_name)) then -- name match or group match
+				if input_count >= recipe_count then -- TODO: match higher count recipe with higher count items rather than grabbing the first found
+					local maxamt = math.floor(input_count / recipe_count)
 					ilist2[i] = nil -- remove match to prevent doublecount
-					return ilist2, citem, i, maxamt
+					return ilist2, input_item, i, maxamt
 				end
 			end
 		end
@@ -48,17 +65,17 @@ local function shapeless_match(ilist2, ritem)
 end
 
 -- add replacements to decremented inputs
-local function craft_replacements(ilist, rcdata, d_ilist)
-	local rplist = rcdata.replacements
+local function craft_replacements(ilist, rinput_data, d_ilist)
+	local rplist = rinput_data.replacements
 	for i in ipairs(rplist) do
 		local rd_item = ItemStack(rplist[i][1]) -- to be replaced item
 		local rg_item = ItemStack(rplist[i][2]) -- replacing item
 		local rd_name = rd_item:get_name()
 		for j = 1, #ilist do
 			if d_ilist[j]:is_empty() then -- ensure slot is empty and hence replaceable
-				local citem = ilist[j]
-				local cname = citem:get_name()
-				if (rd_name == cname or groupcheck(rd_name, cname)) then -- name match or group match
+				local input_item = ilist[j]
+				local input_name = input_item:get_name()
+				if (rd_name == input_name or groupcheck(rd_name, input_name)) then -- name match or group match
 					d_ilist[j] = rg_item
 					break
 				end
@@ -68,7 +85,7 @@ local function craft_replacements(ilist, rcdata, d_ilist)
 end
 
 -- transferring meta from input to output
-local function transfer_metadata(ilist, rcdata, odata)
+local function transfer_metadata(ilist, rinput_data, odata)
 	if odata.transfer_meta[1] then
 		local tmlist = odata.transfer_meta
 		local oplist = odata.items
@@ -78,14 +95,14 @@ local function transfer_metadata(ilist, rcdata, odata)
 			local fr_name = fr_item:get_name()
 			local to_name = to_item:get_name()
 			for j = 1, #ilist do
-				local citem = ilist[j]
-				local cname = citem:get_name()
-				if (fr_name == cname or groupcheck(fr_name, cname)) then -- name match or group match
+				local input_item = ilist[j]
+				local input_name = input_item:get_name()
+				if (fr_name == input_name or groupcheck(fr_name, input_name)) then -- name match or group match
 					for k = 1, #oplist do
 						local oitem = oplist[k]
 						local oname = oitem:get_name()
 						if (to_name == oname or groupcheck(to_name, oname)) then -- name match or group match
-							local copymeta = citem:get_meta():to_table()
+							local copymeta = input_item:get_meta():to_table()
 							oitem:get_meta():from_table(copymeta)
 							break
 						end
@@ -144,15 +161,15 @@ local function toolrepair(ilist)
 	end
 end
 
-local function wbcraft_compare(rcdata, ilist, cdata)
-	local rdata = rcdata.items
+local function wbcraft_compare(rinput_data, ilist, input_data)
+	local recipe_data = rinput_data.items
 	-- shapeless crafting
-	if rcdata.mod == "shapeless" then
+	if rinput_data.mod == "shapeless" then
 		local ilist2 = table.copy(ilist) -- list to match
-		for i = 1, rcdata.height do
-			for j = 1, rcdata.width do
-				local ritem = ItemStack(rcdata.input[i][j]) -- recipe item
-				local ilist_match = shapeless_match(ilist2, ritem)
+		for i = 1, rinput_data.height do
+			for j = 1, rinput_data.width do
+				local recipe_item = ItemStack(rinput_data.input[i][j]) -- recipe item
+				local ilist_match = shapeless_match(ilist2, recipe_item)
 				if ilist_match then
 					-- remove match to prevent doublecount
 					ilist2 = ilist_match
@@ -167,43 +184,44 @@ local function wbcraft_compare(rcdata, ilist, cdata)
 		end
 		return "shapeless"
 	end
+
 	-- shaped crafting
-	if cdata.width == rcdata.width and cdata.height == rcdata.height then -- input size == recipe size
-		for i = 1, cdata.length do
-			local rname = rdata[i].name
-			local rcount = rdata[i].count
-			local cname = cdata.items[i].name
-			local ccount = cdata.items[i].count
+	if input_data.width == rinput_data.width and input_data.height == rinput_data.height then -- input size == recipe size
+		for i = 1, input_data.length do
+			local recipe_name = recipe_data[i].name
+			local recipe_count = recipe_data[i].count
+			local input_name = input_data.items[i].name
+			local input_count = input_data.items[i].count
 			-- ensure enough count and matches name, if not return nil (name matches)
-			if rname ~= cname and not groupcheck(rname, cname) -- both name and group doesn't match
-				or ccount < rcount then -- not enough count
+			if recipe_name ~= input_name and not groupcheck(recipe_name, input_name) -- both name and group doesn't match
+				or input_count < recipe_count then -- not enough count
 				return nil
 			end
 		end
 		return "shaped_fit"
 	else
-		local istart = get_startindex(ilist)
+		local istart = get_startindex(ilist, input_data.width, input_data.height)
 		local istartrow = 1
 		-- ensure grid isn't empty
 		if not istart then
 			return nil
 		end
 		-- get starting row
-		if istart > cdata.width then
-			istartrow = math.ceil(istart / cdata.width)
+		if istart > input_data.width then
+			istartrow = math.ceil(istart / input_data.width)
 		end
 		-- run within starting row & total row
-		for i = istartrow, (istartrow + rcdata.height - 1) do
-			for j = 1, rcdata.width do
-				local rindex = ((i - istartrow) * rcdata.width) + j
-				local rname = rdata[rindex].name
-				local rcount = rdata[rindex].count
-				local cindex = istart + ((i - istartrow) * cdata.width) + j - 1
-				local cname = cdata.items[cindex].name
-				local ccount = cdata.items[cindex].count
+		for i = istartrow, (istartrow + rinput_data.height - 1) do
+			for j = 1, rinput_data.width do
+				local rindex = ((i - istartrow) * rinput_data.width) + j
+				local recipe_name = recipe_data[rindex].name
+				local recipe_count = recipe_data[rindex].count
+				local cindex = istart + ((i - istartrow) * input_data.width) + j - 1
+				local input_name = input_data.items[cindex].name
+				local input_count = input_data.items[cindex].count
 				-- ensure enough count and matches name, if not return nil
-				if rname ~= cname and not groupcheck(rname, cname) -- both name and group doesn't match
-					or ccount < rcount then -- not enough count
+				if recipe_name ~= input_name and not groupcheck(recipe_name, input_name) -- both name and group doesn't match
+					or input_count < recipe_count then -- not enough count
 					return nil
 				end
 			end
@@ -212,26 +230,26 @@ local function wbcraft_compare(rcdata, ilist, cdata)
 	end
 end
 
-local function wbcraft_genoutput(ctype, rcdata, ilist, cdata, cresult, listall)
-	local rdata = rcdata.items
-	local odata = workbench_crafts.output[ctype][rcdata.id] -- output data
+local function wbcraft_genoutput(ctype, rinput_data, ilist, input_data, cresult, listall)
+	local recipe_data = rinput_data.items
+	local odata = workbench_crafts.output[ctype][rinput_data.id] -- output data
 	local camt = 0
 	local d_ilist = table.copy(ilist) -- decremented list
 	if cresult == "shapeless" then
 		local ilist2 = table.copy(ilist) -- list to match
-		for i = 1, rcdata.height do
-			for j = 1, rcdata.width do
-				local ritem = ItemStack(rcdata.input[i][j]) -- recipe item
-				local ilist_match, citem, cindex = shapeless_match(ilist2, ritem)
-				local rcount = ritem:get_count()
-				local ccount = citem:get_count()
+		for i = 1, rinput_data.height do
+			for j = 1, rinput_data.width do
+				local recipe_item = ItemStack(rinput_data.input[i][j]) -- recipe item
+				local ilist_match, input_item, cindex = shapeless_match(ilist2, recipe_item)
+				local recipe_count = recipe_item:get_count()
+				local input_count = input_item:get_count()
 				if ilist_match then
 					-- remove match to prevent doublecount
 					ilist2 = ilist_match
 					-- construct decremented list
-					local d_citem = citem:peek_item(ccount - rcount)
-					d_ilist[cindex] = d_citem
-					local maxamt = math.floor(ccount / rcount)
+					local d_input_item = input_item:peek_item(input_count - recipe_count)
+					d_ilist[cindex] = d_input_item
+					local maxamt = math.floor(input_count / recipe_count)
 					if maxamt ~= 0 then
 						if camt == 0 or maxamt < camt then
 							camt = maxamt
@@ -241,56 +259,62 @@ local function wbcraft_genoutput(ctype, rcdata, ilist, cdata, cresult, listall)
 			end
 		end
 		-- if replacements exists modify list accordingly
-		if rcdata.replacements[1] then
-			craft_replacements(ilist, rcdata, d_ilist)
+		if rinput_data.replacements[1] then
+			craft_replacements(ilist, rinput_data, d_ilist)
 		end
 		return camt, d_ilist, odata
 	elseif cresult == "shaped_fit" then
-		for i = 1, cdata.length do
-			local rcount = rdata[i].count
-			local citem = ilist[i] -- input item
-			local ccount = cdata.items[i].count
-			if ccount >= rcount then -- ensure enough count
-				-- construct decremented list
-				local d_citem = citem:peek_item(ccount - rcount)
-				d_ilist[i] = d_citem
-				-- get max multiplier
-				local maxamt = math.floor(ccount / rcount)
-				if maxamt ~= 0 then
-					if camt == 0 or maxamt < camt then
-						camt = maxamt
+		for i = 1, input_data.length do
+			local recipe_count = recipe_data[i].count
+			local input_item = ilist[i] -- input item
+			local input_count = input_data.items[i].count
+
+			if recipe_data[i].name ~= "" then -- ensure it is not an empty item
+				if input_count >= recipe_count then -- ensure enough count
+					-- construct decremented list
+					local d_input_item = input_item:peek_item(input_count - recipe_count)
+					d_ilist[i] = d_input_item
+					-- get max multiplier
+					local maxamt = math.floor(input_count / recipe_count)
+					if maxamt ~= 0 then
+						if camt == 0 or maxamt < camt then
+							camt = maxamt
+						end
 					end
 				end
 			end
 		end
 	elseif cresult == "shaped_big" then
-		local istart = get_startindex(ilist)
+		local istart = get_startindex(ilist, input_data.width, input_data.height)
 		local istartrow = 1
 		-- ensure grid isn't empty
 		if not istart then
 			return nil
 		end
 		-- get starting row
-		if istart > cdata.width then
-			istartrow = math.ceil(istart / cdata.width)
+		if istart > input_data.width then
+			istartrow = math.ceil(istart / input_data.width)
 		end
 		-- run within starting row & total row
-		for i = istartrow, (istartrow + rcdata.height - 1) do
-			for j = 1, rcdata.width do
-				local rindex = ((i - istartrow) * rcdata.width) + j
-				local rcount = rdata[rindex].count
-				local cindex = istart + ((i - istartrow) * cdata.width) + j - 1
-				local citem = ilist[cindex] -- craft item
-				local ccount = cdata.items[cindex].count
-				if ccount >= rcount then -- ensure enough count
-					-- construct decremented list
-					local d_citem = citem:peek_item(ccount - rcount)
-					d_ilist[cindex] = d_citem
-					-- get max multiplier
-					local maxamt = math.floor(ccount / rcount)
-					if maxamt ~= 0 then
-						if camt == 0 or maxamt < camt then
-							camt = maxamt
+		for i = istartrow, (istartrow + rinput_data.height - 1) do
+			for j = 1, rinput_data.width do
+				local rindex = ((i - istartrow) * rinput_data.width) + j
+				local recipe_count = recipe_data[rindex].count
+				local cindex = istart + ((i - istartrow) * input_data.width) + j - 1
+				local input_item = ilist[cindex] -- craft item
+				local input_count = input_data.items[cindex].count
+
+				if recipe_data[rindex].name ~= "" then -- ensure it is not an empty item
+					if input_count >= recipe_count then -- ensure enough count
+						-- construct decremented list
+						local d_input_item = input_item:peek_item(input_count - recipe_count)
+						d_ilist[cindex] = d_input_item
+						-- get max multiplier
+						local maxamt = math.floor(input_count / recipe_count)
+						if maxamt ~= 0 then
+							if camt == 0 or maxamt < camt then
+								camt = maxamt
+							end
 						end
 					end
 				end
@@ -300,8 +324,8 @@ local function wbcraft_genoutput(ctype, rcdata, ilist, cdata, cresult, listall)
 
 	if camt > 0 then
 		-- if replacements exists modify list accordingly
-		if rcdata.replacements[1] then
-			craft_replacements(ilist, rcdata, d_ilist)
+		if rinput_data.replacements[1] then
+			craft_replacements(ilist, rinput_data, d_ilist)
 		end
 		return camt, d_ilist, odata
 	end
@@ -354,8 +378,8 @@ local function check_max_possible_multiplier(olist)
 	return l_multipler, h_multipler
 end
 
-local function cache_input(ilist, iw)
-	local cdata = {}
+local function cache_input(ilist, input_width)
+	local input_data = {}
 	-- full length of craft
 	local scount = 0
 	for i = 1, #ilist do
@@ -363,25 +387,25 @@ local function cache_input(ilist, iw)
 			scount = scount + 1
 		end
 	end
-	cdata.stacks = scount
-	cdata.length = #ilist
-	cdata.height = #ilist / iw
-	cdata.width = iw
+	input_data.stacks = scount
+	input_data.length = #ilist
+	input_data.height = #ilist / input_width
+	input_data.width = input_width
 	-- cache all names and counts
-	cdata.items = {}
+	input_data.items = {}
 	for i = 1, #ilist do
-		local citem = ilist[i]
-		cdata.items[i] = {}
-		cdata.items[i].stack = citem
-		cdata.items[i].name = citem:get_name()
-		cdata.items[i].count = citem:get_count()
+		local input_item = ilist[i]
+		input_data.items[i] = {}
+		input_data.items[i].stack = input_item
+		input_data.items[i].name = input_item:get_name()
+		input_data.items[i].count = input_item:get_count()
 	end
-	return cdata
+	return input_data
 end
 
-local function craft_multiply(final_input, ctype, multi, rcdata, cdata, cresult, output, oamt, maxamt, listall)
+local function craft_multiply(final_input, ctype, multi, rinput_data, input_data, cresult, output, oamt, maxamt, listall)
 	local min_multi = check_max_possible_multiplier(output[oamt].items)
-	local m_output = transfer_metadata(final_input, rcdata, output[oamt]) or output[oamt].items
+	local m_output = transfer_metadata(final_input, rinput_data, output[oamt]) or output[oamt].items
 	local runamt
 	if multi >= maxamt then
 		runamt = maxamt
@@ -390,8 +414,8 @@ local function craft_multiply(final_input, ctype, multi, rcdata, cdata, cresult,
 	end
 	-- run loops to calculate multiplied values
 	for j = 1, runamt do
-		local newcdata = cache_input(final_input, cdata.width)
-		local r_maxamt, r_dinput, noutput = wbcraft_genoutput(ctype, rcdata, final_input, newcdata, cresult, listall)
+		local newinput_data = cache_input(final_input, input_data.width)
+		local r_maxamt, r_dinput, noutput = wbcraft_genoutput(ctype, rinput_data, final_input, newinput_data, cresult, listall)
 		if not noutput[oamt].items or r_maxamt < 1  -- break the loop if there's no valid output
 			or not check_list_matches(m_output, noutput[oamt].items) -- break the loop if output name/count is different
 			or j > min_multi then
@@ -399,9 +423,9 @@ local function craft_multiply(final_input, ctype, multi, rcdata, cdata, cresult,
 				item = multiply_output(m_output, j - 1),
 				max = r_maxamt,
 				dinput = final_input,
-				time = rcdata.time,
-				recipe = rcdata.input,
-				replacements = rcdata.replacements,
+				time = rinput_data.time,
+				recipe = rinput_data.input,
+				replacements = rinput_data.replacements,
 				residue = output[oamt].residue,
 				extra = output[oamt].extra,
 				multiply = j - 1,
@@ -413,46 +437,46 @@ local function craft_multiply(final_input, ctype, multi, rcdata, cdata, cresult,
 		item = multiply_output(m_output, runamt),
 		max = 1,
 		dinput = final_input,
-		time = rcdata.time,
-		recipe = rcdata.input,
-		replacements = rcdata.replacements,
+		time = rinput_data.time,
+		recipe = rinput_data.input,
+		replacements = rinput_data.replacements,
 		residue = output[oamt].residue,
 		extra = output[oamt].extra,
 		multiply = runamt,
 	}
 end
 
-local function craft_genmultiply(ilist, ctype, multiplier, rcdata, cdata, cresult, listall)
+local function craft_genmultiply(ilist, ctype, multiplier, rinput_data, input_data, cresult, listall)
 	local multi = multiplier or 1
-	local maxamt, _, output = wbcraft_genoutput(ctype, rcdata, ilist, cdata, cresult, listall) -- generate base output
+	local maxamt, _, output = wbcraft_genoutput(ctype, rinput_data, ilist, input_data, cresult, listall) -- generate base output
 	local oamt = #output
 	if not listall then
-		return craft_multiply(ilist, ctype, multi, rcdata, cdata, cresult, output, oamt, maxamt)
+		return craft_multiply(ilist, ctype, multi, rinput_data, input_data, cresult, output, oamt, maxamt)
 	elseif listall then
 		local listall_output = {}
 		for i = 1, oamt do
-			listall_output[#listall_output + 1] = craft_multiply(ilist, ctype, multi, rcdata, cdata, cresult, output, i, maxamt, listall)
+			listall_output[#listall_output + 1] = craft_multiply(ilist, ctype, multi, rinput_data, input_data, cresult, output, i, maxamt, listall)
 		end
 		return listall_output
 	end
 end
 
 -- combined output function
-function workbench.craft_output(ilist, ctype, cat, iw, multiplier, listall)
+function workbench.craft_output(ilist, ctype, cat, input_width, multiplier, listall)
 	-- ensure valid input list
 	if not ilist or #ilist < 1 then
 		return nil
 	end
 	-- workbench crafts
-	local rclist = workbench_crafts.input[ctype]
+	local recipes_list = workbench_crafts.input[ctype]
 	local multi = multiplier or 1
-	local cdata = cache_input(ilist, iw)
-	for i, rcdata in pairs(rclist) do -- run through recipe data
-		if rcdata.cat == cat then -- ensure same category
-			if cdata.stacks == rcdata.stacks then -- ensure craft item amount == recipe item amount
-				local cresult = wbcraft_compare(rcdata, ilist, cdata) -- compare individual stack to ensure it matches
+	local input_data = cache_input(ilist, input_width)
+	for i, rinput_data in pairs(recipes_list) do -- run through recipe list data
+		if rinput_data.cat == cat then -- ensure same category
+			if input_data.stacks == rinput_data.stacks then -- ensure craft item amount == recipe item amount
+				local cresult = wbcraft_compare(rinput_data, ilist, input_data) -- compare individual stack to ensure it matches
 				if cresult then
-					local multioutput = craft_genmultiply(ilist, ctype, multiplier, rcdata, cdata, cresult, listall)
+					local multioutput = craft_genmultiply(ilist, ctype, multiplier, rinput_data, input_data, cresult, listall)
 					return multioutput
 				end
 			end
@@ -477,13 +501,13 @@ function workbench.craft_output(ilist, ctype, cat, iw, multiplier, listall)
 	if ctype == "normal" or ctype == "cooking" then -- backward compability for default crafts
 		-- single output
 		if multi == 1 then
-			local output, dinput = minetest.get_craft_result({method = ctype, width = iw, items = ilist})
+			local output, dinput = minetest.get_craft_result({method = ctype, width = input_width, items = ilist})
 			if output and output.item then
 				-- obtain max possible crafts
 				local doamt = 0
 				for i = 1, #ilist do
-					local citem = ilist[i]
-					local newcount = citem:get_count()
+					local input_item = ilist[i]
+					local newcount = input_item:get_count()
 					if newcount ~= 0 then
 						if doamt == 0 or newcount < doamt then
 							doamt = newcount
@@ -509,10 +533,10 @@ function workbench.craft_output(ilist, ctype, cat, iw, multiplier, listall)
 		elseif multi > 1 then
 			local final_input = ilist
 			local match_output
-			local output = minetest.get_craft_result({method = ctype, width = iw, items = ilist})
+			local output = minetest.get_craft_result({method = ctype, width = input_width, items = ilist})
 			if output and not output.item:is_empty() then
 				for i = 1, multi do
-					local r_output, r_dinput = minetest.get_craft_result({method = ctype, width = iw, items = final_input})
+					local r_output, r_dinput = minetest.get_craft_result({method = ctype, width = input_width, items = final_input})
 					if r_output and r_output.item then
 						if not match_output then
 							match_output = r_output

@@ -105,9 +105,47 @@ function workbench:register_craft(def)
 	-- save input data
 	local iwidth = #def.input[1] -- recipe width
 	local iheight = #def.input -- recipe height
+
+	-- trim front columns (if any)
+	local trimmed_width = iwidth
+	for col = 1, iwidth do
+		for row = 1, iheight do
+			if (def.input)[row][col] ~= "" then
+				goto stop_front_col_trim
+			end
+		end
+		trimmed_width = trimmed_width - 1
+	end
+	::stop_front_col_trim::
+
+	-- trim front rows (if any)
+	local trimmed_height = iheight
+	for row = 1, iheight do
+		for col = 1, iwidth do
+			if (def.input)[row][col] ~= "" then
+				goto stop_front_row_trim
+			end
+		end
+		trimmed_height = trimmed_height - 1
+	end
+	::stop_front_row_trim::
+
+	local trimmed_input = table.copy(def.input)
+	if (trimmed_width ~= iwidth) or (trimmed_height ~= iheight) then
+		-- adjust list according to trim
+		for row = 1, trimmed_height do
+			for col = 1, trimmed_width do
+				trimmed_input[row][col] = (def.input)[row + (iheight - trimmed_height)][col + (iwidth - trimmed_width)]
+			end
+		end
+		iwidth = trimmed_width
+		iheight = trimmed_height
+	end
+
+
 	local new_id = #workbench_crafts.input[ctype] + 1
-	local stackcount = get_recipe_stacks(def.input, iwidth, iheight) -- recipe ID
-	local i_items = cache_recipe(def.input, iwidth, iheight)
+	local stackcount = get_recipe_stacks(trimmed_input, iwidth, iheight) -- recipe ID
+	local i_items = cache_recipe(trimmed_input, iwidth, iheight)
 	if def.multi_id then
 		local multi_oid = workbench_crafts.output[ctype][def.multi_id]
 		if not multi_oid then -- id doesn't exists
@@ -119,7 +157,7 @@ function workbench:register_craft(def)
 				height = iheight, -- height
 				stacks = stackcount, -- stack count
 				items = i_items, -- items table
-				input = def.input, -- raw input
+				input = trimmed_input, -- raw input
 				replacements = def.replacements or {},
 				id = def.multi_id, -- output id
 			})
@@ -134,7 +172,7 @@ function workbench:register_craft(def)
 			height = iheight, -- height
 			stacks = stackcount, -- stack count
 			items = i_items, -- items table
-			input = def.input, -- raw input
+			input = trimmed_input, -- raw input
 			replacements = def.replacements or {},
 			id = new_id, -- output id
 		})

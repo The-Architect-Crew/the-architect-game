@@ -33,7 +33,7 @@ variations.variations = {
 		name = "tile";
 		description = "Tile";
 		texture = "2,0";
-		enabled_shapes = "slab1, slab4, slab, slab12, cat:step, cat:corner, cat:stair, cat:slope";
+		enabled_shapes = "slab1, slab4, slab, slab12, slab16, cube, step, cat:corner, cat:stair, cat:slope";
 		recipe = {
 			{1, 1, 0, 1, 1},
 			{1, 1, 0, 1, 1},
@@ -48,7 +48,7 @@ variations.variations = {
 		description = "Stripe";
 		texture = "0,2";
 		rotation = true;
-		enabled_shapes = "slab1, slab4, slab, slab12, cat:step, cat:corner, cat:stair, cat:slope";
+		enabled_shapes = "slab1, slab4, slab, slab12, slab16, cube, step, cat:corner, cat:stair, cat:slope";
 		recipe = {
 			{1, 1, 1, 1, 1},
 			{1, 1, 1, 1, 1},
@@ -62,7 +62,7 @@ variations.variations = {
 		name = "small_brick";
 		description = "Small Brick";
 		texture = "1,1";
-		enabled_shapes = "slab1, slab4, slab, slab12, cube, cat:step, cat:corner, cat:stair";
+		enabled_shapes = "slab1, slab4, slab, slab12, slab16, cube, step, cat:corner, cat:stair, cat:slope";
 		recipe = {
 			{1, 1, 0, 1, 1},
 			{0, 1, 1, 1, 0},
@@ -76,7 +76,7 @@ variations.variations = {
 		name = "small_tile";
 		description = "Small Tile";
 		texture = "2,1";
-		enabled_shapes = "slab1, slab4, slab, slab12, cube, cat:step, cat:corner, cat:stair";
+		enabled_shapes = "slab1, slab4, slab, slab12, slab16, cube, step, cat:corner, cat:stair, cat:slope";
 		recipe = {
 			{1, 0, 1, 0, 1},
 			{0, 1, 0, 1, 0},
@@ -92,7 +92,7 @@ variations.variations = {
 		description = "Hexagon Tile";
 		texture = "0,1";
 		rotation = true;
-		enabled_shapes = "slab1, slab4, slab, slab12, cube, cat:step, cat:corner, cat:stair";
+		enabled_shapes = "slab1, slab4, slab, slab12, slab16, cube, step, cat:corner, cat:stair, cat:slope";
 		recipe = {
 			{0, 0, 0, 0, 0},
 			{0, 1, 1, 1, 0},
@@ -106,7 +106,7 @@ variations.variations = {
 		name = "cross_tile";
 		description = "Cross Tile";
 		texture = "1,2";
-		enabled_shapes = "slab1, slab4, slab, slab12, cube, cat:step, cat:corner, cat:stair";
+		enabled_shapes = "slab1, slab4, slab, slab12, slab16, cube, step, cat:corner, cat:stair, cat:slope";
 		recipe = {
 			{0, 1, 1, 1, 0},
 			{1, 1, 1, 1, 1},
@@ -120,7 +120,7 @@ variations.variations = {
 		name = "spiral_tile";
 		description = "Spiral Tile";
 		texture = "2,2";
-		enabled_shapes = "slab1, slab4, slab, slab12, cube, cat:step, cat:corner, cat:stair";
+		enabled_shapes = "slab1, slab4, slab, slab12, slab16, cube, step, cat:corner, cat:stair, cat:slope";
 		recipe = {
 			{1, 1, 1, 0, 1},
 			{0, 1, 1, 1, 1},

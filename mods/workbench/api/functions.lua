@@ -217,15 +217,17 @@ local function wbcraft_compare(rinput_data, ilist, input_data)
 				local recipe_name = recipe_data[rindex].name
 				local recipe_count = recipe_data[rindex].count
 				local cindex = istart + ((i - istartrow) * input_data.width) + j - 1
-				--if (input_data.items[cindex]) then
-				local input_name = input_data.items[cindex].name
-				local input_count = input_data.items[cindex].count
-				-- ensure enough count and matches name, if not return nil
-				if recipe_name ~= input_name and not groupcheck(recipe_name, input_name) -- both name and group doesn't match
-					or input_count < recipe_count then -- not enough count
+				if (input_data.items[cindex]) then
+					local input_name = input_data.items[cindex].name
+					local input_count = input_data.items[cindex].count
+					-- ensure enough count and matches name, if not return nil
+					if recipe_name ~= input_name and not groupcheck(recipe_name, input_name) -- both name and group doesn't match
+						or input_count < recipe_count then -- not enough count
+						return nil
+					end
+				else
 					return nil
 				end
-				--end
 			end
 		end
 		return "shaped_big"
@@ -237,6 +239,7 @@ local function wbcraft_genoutput(ctype, rinput_data, ilist, input_data, cresult,
 	local odata = workbench_crafts.output[ctype][rinput_data.id] -- output data
 	local camt = 0
 	local d_ilist = table.copy(ilist) -- decremented list
+
 	if cresult == "shapeless" then
 		local ilist2 = table.copy(ilist) -- list to match
 		for i = 1, rinput_data.height do
@@ -306,22 +309,22 @@ local function wbcraft_genoutput(ctype, rinput_data, ilist, input_data, cresult,
 				local input_item = ilist[cindex] -- craft item
 
 				--if (input_data.items[cindex]) then
-				local input_count = input_data.items[cindex].count
+					local input_count = input_data.items[cindex].count
 
-				if recipe_data[rindex].name ~= "" then -- ensure it is not an empty item
-					if input_count >= recipe_count then -- ensure enough count
-						-- construct decremented list
-						local d_input_item = input_item:peek_item(input_count - recipe_count)
-						d_ilist[cindex] = d_input_item
-						-- get max multiplier
-						local maxamt = math.floor(input_count / recipe_count)
-						if maxamt ~= 0 then
-							if camt == 0 or maxamt < camt then
-								camt = maxamt
+					if recipe_data[rindex].name ~= "" then -- ensure it is not an empty item
+						if input_count >= recipe_count then -- ensure enough count
+							-- construct decremented list
+							local d_input_item = input_item:peek_item(input_count - recipe_count)
+							d_ilist[cindex] = d_input_item
+							-- get max multiplier
+							local maxamt = math.floor(input_count / recipe_count)
+							if maxamt ~= 0 then
+								if camt == 0 or maxamt < camt then
+									camt = maxamt
+								end
 							end
 						end
 					end
-				end
 				--end
 			end
 		end

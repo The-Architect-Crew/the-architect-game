@@ -6,10 +6,10 @@ function winv:register_inventory(name, def)
 	-- compress button data
 	local bdef = def.button
 	local bdata = {
-		texture = bdef.texture,
-		pressed_texture = bdef.texture,
-		label = bdef.label or "",
-		tooltip = bdef.tooltip or name,
+		texture = bdef.texture, -- main icon
+		pressed_texture = bdef.texture, -- icon when pressed
+		label = bdef.label or "", -- word label, defaults to nothing
+		tooltip = bdef.tooltip or name, -- tooltip label, defaults to inv name
 	}
 	local formspec = nil
 	if def.formspec then

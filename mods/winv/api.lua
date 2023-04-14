@@ -1,3 +1,5 @@
+local WINV_SELECTOR_AMOUNT = 3
+
 -- create navigation buttons
 local function nav_buttons(player, incre, side, node)
 	local meta = player:get_meta()
@@ -288,11 +290,11 @@ minetest.register_chatcommand("winv_switch", {
 -- Selector styles
 minetest.register_chatcommand("winv_selector", {
 	param = "<no.>",
-    description = "Select your preferred selector <no.>",
+    description = "Select your preferred selector <no.> (1-"..WINV_SELECTOR_AMOUNT..")",
     func = function(name, param)
 		local player = minetest.get_player_by_name(name)
 		local meta = player:get_meta()
-		if tonumber(param) and tonumber(param) < 3 then
+		if tonumber(param) and tonumber(param) < WINV_SELECTOR_AMOUNT then
 			meta:set_string("winv:selector", param)
 			player:hud_set_hotbar_selected_image("gui_hotbar_selected_"..param..".png")
 			winv_chat(name, "Set to selector "..param..".")

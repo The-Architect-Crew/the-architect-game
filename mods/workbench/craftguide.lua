@@ -51,12 +51,16 @@ local function craftguide_recipe_form(player)
                     end
 
                     -- output item
-                    local output_item = (workbench_crafts.output[value.ctype][input_data.id][value.output_index].items[1])
-                    local output_itemname = output_item:get_name()
-                    local output_itemstring = output_item:get_name().." "..output_item:get_count()
+                    local output_items = (workbench_crafts.output[value.ctype][input_data.id][value.output_index].items)
+                    for index2, output_item in pairs(output_items) do
+                        local output_itemname = output_item:get_name()
+                        local output_itemstring = output_item:get_name().." "..output_item:get_count()
+                        ret_form = ret_form..
+                            "item_image_button["..1.4375 + ((index2 - 1) * 1.25)..",7.625;1,1;"..output_itemstring..";workbench_craftguide_item_"..output_itemname..";]"
+                    end
+
+                    -- output arrow (crafting type)
                     ret_form = ret_form..
-                        "item_image_button[1.4375,7.625;1,1;"..output_itemstring..";workbench_craftguide_item_"..output_itemname..";]"..
-                        -- output arrow (crafting type)
                         "image_button[0.25,7.625;1,1;gui_arrow.png^[transformFYR90;workbench_craftguide_ctype;]"..
                         "tooltip[workbench_craftguide_ctype;"..value.ctype.."]"
                 end
@@ -119,8 +123,10 @@ local function craftguide_display_form(player)
     return ret_form
 end
 
+local start_time
 minetest.register_on_mods_loaded(function()
-    print("caching craft guide items...")
+    start_time = os.clock()
+    print("[workbench] caching craftguide items...")
     for itemname, def in pairs(minetest.registered_items) do
         if def.description and def.description ~= "" then --and def.groups.not_in_creative_inventory ~= 1 then
             if minetest.get_craft_recipe(itemname) and minetest.get_craft_recipe(itemname).items or workbench_crafts.output_by_name[itemname] then
@@ -161,7 +167,7 @@ minetest.register_on_mods_loaded(function()
     end
 
     max_page = math.ceil(count / max_item_per_page)
-    print("craft guide items cached!")
+    print("[workbench] craftguide items cached! took "..os.clock() - start_time.."s")
 end)
 
 local function craftguide_form(player)

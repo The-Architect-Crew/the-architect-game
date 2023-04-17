@@ -48,10 +48,20 @@ if minetest.settings:get_bool("workbench_disable_crafts") then
 	minetest.log("warning", "[workbench] All workbench crafts are disabled!")
 end
 
+local function no_match_output(output_table, output_name)
+    for index, value in pairs(output_table) do
+        if output_name == value then
+            return nil
+        end
+    end
+    return true
+end
+
 function workbench:register_craft(def)
 	if minetest.settings:get_bool("workbench_disable_crafts") then
 		return
 	end
+
 	def = def or {}
 	local ctype = def.type or "normal" -- recipe type
 	local ercat = def.category or ""
@@ -247,6 +257,30 @@ function workbench:register_craft(def)
             output_index = output_index,
 			ctype = ctype,
 		})
-	--else -- TODO sort output by multi ID
+	else -- sort multiple output
+        print("SORTING MULTI OUTPUT: "..output_count)
+        local sorted_output_names = {} -- table to sort output names (prevent duplicates)
+        for i = 1, #def.output do -- height
+            for j = 1, #def.output do -- width
+                local output_item = ItemStack(def.output[i][j])
+                local output_itemname = output_item:get_name()
+                if no_match_output(sorted_output_names, output_itemname) then
+                    sorted_output_names[#sorted_output_names + 1] = output_itemname
+                end
+            end
+        end
+
+        if #sorted_output_names > 0 then
+            for index, value in pairs(sorted_output_names) do
+                if not workbench_crafts.output_by_name[value] then
+                    workbench_crafts.output_by_name[value] = {}
+                end
+                table.insert(workbench_crafts.output_by_name[value], {
+                    input_index = input_index,
+                    output_index = output_index,
+                    ctype = ctype,
+                })
+            end
+        end
 	end
 end

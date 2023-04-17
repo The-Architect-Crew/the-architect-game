@@ -1,6 +1,7 @@
 workbench_crafts = {}
 workbench_crafts.input = {}
 workbench_crafts.output = {}
+workbench_crafts.output_by_name = {}
 
 -- new craft type
 function workbench:register_crafttype(name)
@@ -168,10 +169,13 @@ function workbench:register_craft(def)
 	::stop_back_row_trim::
 	iheight = trimmed_height
 
-	local new_id = #workbench_crafts.input[ctype] + 1
-	local stackcount = get_recipe_stacks(trimmed_input, iwidth, iheight) -- recipe ID
+	local new_id = #workbench_crafts.input[ctype] + 1 -- recipe ID
+	local stackcount = get_recipe_stacks(trimmed_input, iwidth, iheight)
 	local i_items = cache_recipe(trimmed_input, iwidth, iheight)
-	if def.multi_id then
+
+
+	local input_index
+	if def.multi_id then -- creates singular input for multiple output (create only when it doesn't exist yet)
 		local multi_oid = workbench_crafts.output[ctype][def.multi_id]
 		if not multi_oid then -- id doesn't exists
 			table.insert(workbench_crafts.input[ctype], {
@@ -187,7 +191,15 @@ function workbench:register_craft(def)
 				id = def.multi_id, -- output id
 			})
 			workbench_crafts.output[ctype][def.multi_id] = {}
-		end
+			input_index = #workbench_crafts.input[ctype]
+		else
+            -- extract input index
+            for index, value in pairs(workbench_crafts.input[ctype]) do
+                if value.id == def.multi_id then
+                    input_index = index
+                end
+            end
+        end
 	else
 		table.insert(workbench_crafts.input[ctype], {
 			cat = def.category, -- category
@@ -202,6 +214,7 @@ function workbench:register_craft(def)
 			id = new_id, -- output id
 		})
 		workbench_crafts.output[ctype][new_id] = {}
+		input_index = #workbench_crafts.input[ctype]
 	end
 
 	-- save output data
@@ -218,4 +231,22 @@ function workbench:register_craft(def)
 		height = #def.output,
 		id = o_id,
 	})
+    local output_index = #workbench_crafts.output[ctype][o_id]
+
+	-- cache output by item name
+	local output_count = #def.output[1] * #def.output
+	if output_count == 1 then
+		local output_item = def.output[1][1]
+		local output_stack = ItemStack(output_item)
+		local output_itemname = output_stack:get_name()
+		if not workbench_crafts.output_by_name[output_itemname] then
+			workbench_crafts.output_by_name[output_itemname] = {}
+		end
+		table.insert(workbench_crafts.output_by_name[output_itemname], {
+			input_index = input_index,
+            output_index = output_index,
+			ctype = ctype,
+		})
+	--else -- TODO sort output by multi ID
+	end
 end

@@ -39,7 +39,10 @@ local function no_placecube(itemstack, placer, pointed_thing)
 end
 
 if minetest.global_exists("workbench") then
-	workbench:register_crafttype("shapes")
+	workbench:register_crafttype("shapes", {
+		description = ccore.comment("Shaping", "Use a table saw for cubic shapes \nUse a CNC machine for sloped shapes"),
+		icon = "shapes_crafticon_stairs.png",
+	})
 end
 
 local path = minetest.get_modpath("shapes")

@@ -50,7 +50,7 @@ local function craftguide_recipe_form(player)
                         end
                     end
 
-                    -- output item
+                    -- output item(s)
                     local output_items = (workbench_crafts.output[value.ctype][input_data.id][value.output_index].items)
                     for index2, output_item in pairs(output_items) do
                         local output_itemname = output_item:get_name()
@@ -60,9 +60,20 @@ local function craftguide_recipe_form(player)
                     end
 
                     -- output arrow (crafting type)
+                    crafting_arrow = "gui_arrow.png^[transformFYR90"
+                    if workbench_crafts.data[value.ctype].icon then
+                        crafting_arrow = workbench_crafts.data[value.ctype].icon
+                    end
+
+                    crafting_desc = value.ctype
+                    if workbench_crafts.data[value.ctype].description then
+                        crafting_desc = workbench_crafts.data[value.ctype].description
+                    end
+                    
                     ret_form = ret_form..
-                        "image_button[0.25,7.625;1,1;gui_arrow.png^[transformFYR90;workbench_craftguide_ctype;]"..
-                        "tooltip[workbench_craftguide_ctype;"..value.ctype.."]"
+                        "style[workbench_craftguide_ctype;border=false]"..
+                        "image_button[0.25,7.625;1,1;"..crafting_arrow..";workbench_craftguide_ctype;]"..
+                        "tooltip[workbench_craftguide_ctype;"..crafting_desc.."]"
                 end
             end
         end
@@ -89,11 +100,26 @@ local function craftguide_recipe_form(player)
                 -- output item
                 local output_item = value.output
                 local output_itemname = ItemStack(output_item):get_name()
+
+                crafting_arrow = "gui_arrow.png^[transformFYR90"
+                if value.method == "normal" then
+                    crafting_arrow = workbench_crafts.data["normal"].icon
+                elseif value.method == "cooking" then
+                    crafting_arrow = workbench_crafts.data["cooking"].icon
+                end
+
+                crafting_desc = value.method
+                if value.method == "normal" then
+                    crafting_desc = workbench_crafts.data["normal"].description
+                elseif value.method == "cooking" then
+                    crafting_desc = workbench_crafts.data["cooking"].description
+                end
+
                 ret_form = ret_form..
                     "item_image_button[1.4375,7.625;1,1;"..output_item..";workbench_craftguide_item_"..output_itemname..";]"..
-                    -- output arrow (crafting type)
-                    "image_button[0.25,7.625;1,1;gui_arrow.png^[transformFYR90;workbench_craftguide_ctype;]"..
-                    "tooltip[workbench_craftguide_ctype;"..value.method.."]"
+                    "style[workbench_craftguide_ctype;border=false]"..
+                    "image_button[0.25,7.625;1,1;"..crafting_arrow..";workbench_craftguide_ctype;]"..
+                    "tooltip[workbench_craftguide_ctype;"..crafting_desc.."]"
             end
         end
     end
@@ -215,8 +241,6 @@ local function craftguide_form(player)
 			"image_button[6.5,7.83;0.5,0.8;winv_cicon_miniarrow.png^[transformFX;workbench_craftguide_prev;;;false;]"..
 			"image_button[7,7.85;0.5,0.8;winv_cicon_miniarrow.png;workbench_craftguide_next;;;false;]"..
             "label[0.25,9.25;Page " .. minetest.colorize("#FFFF00", tostring(craftguide_data[playername].page)) .. " / " .. tostring(max_page) .. "]"..
-
-			--"list[current_player;main;0.25,0.25;6,6;]"..
         "container_end[]"..
         "container[10,0]"..
             --right_form..
@@ -228,22 +252,9 @@ local function craftguide_form(player)
             "box[0.25,0.25;7.275,7.055;#00000070]"..
             craftguide_recipe_form(player)..
 
-            --"box[1.375,7.5;6.125,1.25;#00000070]"..
-            -- "box[2.75,7.75;1,1;#00000070]"..
-            -- "box[4.00,7.75;1,1;#00000070]"..
-            -- "box[5.25,7.75;1,1;#00000070]"..
-            -- "box[6.50,7.75;1,1;#00000070]"..
-
-            -- "item_image_button[1.4375,7.625;1,1;blocks:dirt 1;workbench_current_item;]"..
-            -- "item_image_button[2.6875,7.625;1,1;blocks:dirt 2;workbench_current_item;]"..
-            -- "item_image_button[3.9375,7.625;1,1;blocks:dirt 3;workbench_current_item;]"..
-            -- "item_image_button[5.1875,7.625;1,1;blocks:dirt 4;workbench_current_item;]"..
-
             -- arrows
 			"image_button[6.5,7.83;0.5,0.8;winv_cicon_miniarrow.png^[transformFX;workbench_craftguide_recipe_prev;;;false;]"..
 			"image_button[7,7.85;0.5,0.8;winv_cicon_miniarrow.png;workbench_craftguide_recipe_next;;;false;]"..
-
-            --"list[current_player;main;1.5,7.75;5,1;]"..
         "container_end[]"
 
     return form
@@ -302,11 +313,11 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
     for key, itemname in ipairs(craftguide_sorted_list) do
         if (fields["workbench_craftguide_item_"..itemname]) then
             craftguide_data[playername].item = itemname
-            craftguide_data[playername].item_recipe_curr = 1
+            craftguide_data[playername].item_recipe_curr = 1 -- reset page
         end
     end
 
-    if not fields.quit then -- refresh and updates formspec (as long as form is not quitting)
+    if not fields.quit then -- refresh and updates formspec (if not quitting)
         minetest.show_formspec(playername, "workbench:craftguide", craftguide_form(player))
     end
 end)

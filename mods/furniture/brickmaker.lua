@@ -1,18 +1,11 @@
 furniture.brickmaker = {}
 
-workbench:register_crafttype("brickmaking") -- adds a new crafting type called "brickmaking"
+workbench:register_crafttype("brickmaking", {
+	description = ccore.comment("Brick Making", "Use a variations brickmaker"),
+	icon = "crafticon_brickmaking.png",
+}) -- adds a new crafting type called "brickmaking"
 -- for full details; see https://github.com/Craigs-Crew/edgy-dark-ominous-game/blob/main/mods/workbench/api/api.txt#L4
 -- otherwise it works similar to how minetest.register_craft does, but output is uses a table format
-workbench:register_craft({
-	type = "brickmaking", -- crafting type
-	input =	{
-		{"blocks:glass", "blocks:mese", "blocks:glass", "blocks:mese", "blocks:glass"},
-		{"blocks:glass", "blocks:mese", "blocks:glass", "blocks:mese", "blocks:glass"},
-	},
-	output = {
-		{"furniture:chair_wood 3"},
-	},
-})
 
 local function brickmaker_formspec_crafting(pos, player, add)
 	local spos = pos.x..","..pos.y..","..pos.z -- node position for node inventory

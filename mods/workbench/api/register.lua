@@ -2,11 +2,24 @@ workbench_crafts = {}
 workbench_crafts.input = {}
 workbench_crafts.output = {}
 workbench_crafts.output_by_name = {}
+workbench_crafts.data = {}
 
 -- new craft type
-function workbench:register_crafttype(name)
+function workbench:register_crafttype(name, def)
 	workbench_crafts.input[name] = {}
 	workbench_crafts.output[name] = {}
+	workbench_crafts.data[name] = {}
+
+	if def then
+		local ctype_data = workbench_crafts.data[name]
+		if def.description then
+			ctype_data.description = def.description
+		end
+
+		if def.icon then
+			ctype_data.icon = def.icon
+		end
+	end
 end
 
 -- get input size

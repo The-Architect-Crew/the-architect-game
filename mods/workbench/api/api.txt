@@ -62,7 +62,13 @@ workbench:register_craft
 workbench:register_crafttype(name)
 ----------------------------------
 Adds a new custom crafting type called <name>
-Required before registrating new crafts in that type - for error logging
+Required before registrating new crafts in that type - for error logging and identification
+
+Additional (optional) fields:
+* description
+	* craft type description (used for crafting guide when identifying type)
+* icon
+	* craft type icon (used for crafting guide when identifying type)
 
 Example
 -------

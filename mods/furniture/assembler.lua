@@ -1,6 +1,9 @@
 furniture.assembler = {}
 
-workbench:register_crafttype("furniture") -- adds a new crafting type called "furniture"
+workbench:register_crafttype("furniture", {
+	description = ccore.comment("Furniture Making", "Use a furniture assembler"),
+	icon = "crafticon_furniture.png",
+}) -- adds a new crafting type called "furniture"
 -- for full details; see https://github.com/Craigs-Crew/edgy-dark-ominous-game/blob/main/mods/workbench/api/api.txt#L4
 -- otherwise it works similar to how minetest.register_craft does, but output is uses a table format
 

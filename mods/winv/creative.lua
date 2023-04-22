@@ -123,6 +123,8 @@ local function init_creative_inv(player)
 	player_inventory[name] = {
 		size = 0,
 		start_i = 0,
+		stack_size = 1,
+
 		filter = "",
 		old_filter = nil, -- use only for caching in update_creative_inventory
 
@@ -133,9 +135,7 @@ local function init_creative_inv(player)
 		mod_filter = {},
 		show_mod_filter = nil,
 		old_mod_filter = {},
-		
 		mod_filter_scroll = 0,
-		stack_size = 1,
 	}
 	minetest.create_detached_inventory("winv_creative_"..name, {
 		allow_move = function(inv, from_list, from_index, to_list, to_index, count, player2)

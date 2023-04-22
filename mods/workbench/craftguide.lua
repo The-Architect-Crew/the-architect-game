@@ -60,12 +60,12 @@ local function craftguide_recipe_form(player)
                     end
 
                     -- output arrow (crafting type)
-                    crafting_arrow = "gui_arrow.png^[transformFYR90"
+                    local crafting_arrow = "gui_arrow.png^[transformFYR90"
                     if workbench_crafts.data[value.ctype].icon then
                         crafting_arrow = workbench_crafts.data[value.ctype].icon
                     end
 
-                    crafting_desc = value.ctype
+                    local crafting_desc = value.ctype
                     if workbench_crafts.data[value.ctype].description then
                         crafting_desc = workbench_crafts.data[value.ctype].description
                     end
@@ -101,14 +101,14 @@ local function craftguide_recipe_form(player)
                 local output_item = value.output
                 local output_itemname = ItemStack(output_item):get_name()
 
-                crafting_arrow = "gui_arrow.png^[transformFYR90"
+                local crafting_arrow = "gui_arrow.png^[transformFYR90"
                 if value.method == "normal" then
                     crafting_arrow = workbench_crafts.data["normal"].icon
                 elseif value.method == "cooking" then
                     crafting_arrow = workbench_crafts.data["cooking"].icon
                 end
 
-                crafting_desc = value.method
+                local crafting_desc = value.method
                 if value.method == "normal" then
                     crafting_desc = workbench_crafts.data["normal"].description
                 elseif value.method == "cooking" then

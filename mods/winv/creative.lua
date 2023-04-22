@@ -122,15 +122,18 @@ local function init_creative_inv(player)
 	local name = player:get_player_name()
 	player_inventory[name] = {
 		size = 0,
-		filter = "",
 		start_i = 0,
+		filter = "",
 		old_filter = nil, -- use only for caching in update_creative_inventory
-		old_content = nil,
+
 		content = minetest.registered_items,
 		content_name = "all",
+		old_content = nil,
+
+		mod_filter = {},
 		show_mod_filter = nil,
 		old_mod_filter = {},
-		mod_filter = {},
+		
 		mod_filter_scroll = 0,
 		stack_size = 1,
 	}

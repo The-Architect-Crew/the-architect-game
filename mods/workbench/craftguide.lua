@@ -19,6 +19,18 @@ local function craftguide_init(player)
         item_recipe_curr = 1,
         item_recipe_max = 1,
         page = 1,
+
+        filter = "",
+        old_filter = nil,
+
+        content = minetest.registered_items,
+        content_name = "all",
+        old_content = nil,
+
+        mod_filter = {},
+		show_mod_filter = nil,
+		old_mod_filter = {},
+		mod_filter_scroll = 0,
     }
 end
 
@@ -139,6 +151,7 @@ local function craftguide_display_form(player)
     if craftguide_data[playername].item and craftguide_data[playername].item ~= "" then
         local itemname = craftguide_data[playername].item
         local itemdesc = minetest.registered_items[itemname].short_description or minetest.registered_items[itemname].description
+        itemdesc = itemdesc:gsub("\n.*", "") -- First line only
         ret_form =
             "item_image_button[0.25,-0.9;0.8,0.8;"..itemname..";workbench_craftguide_display_"..itemname..";]"..
             "style_type[label;font_size=20;font=bold]"..

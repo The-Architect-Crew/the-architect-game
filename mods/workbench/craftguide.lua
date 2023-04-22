@@ -69,7 +69,7 @@ local function craftguide_recipe_form(player)
                     if workbench_crafts.data[value.ctype].description then
                         crafting_desc = workbench_crafts.data[value.ctype].description
                     end
-                    
+
                     ret_form = ret_form..
                         "style[workbench_craftguide_ctype;border=false]"..
                         "image_button[0.25,7.625;1,1;"..crafting_arrow..";workbench_craftguide_ctype;]"..

@@ -215,7 +215,7 @@ local function construct_itemlist_form(player)
 	local order = {}
     -- created a sorted list according to filter
     for itemname, def in pairs(craftguide_list) do
-        local mf = mod_match(name, craftguide_data[playername].mod_filter)
+        local mf = mod_match(itemname, craftguide_data[playername].mod_filter)
 		if mf then
             local m = match(description(def), filter)
             if m > 0 then

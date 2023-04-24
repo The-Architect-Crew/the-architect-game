@@ -311,7 +311,7 @@ winv:register_inventory("creative", {
 			local modf_bg = 0
 			if modf_length > 12 then
 				modf_scroll =
-					"scrollbaroptions[max="..((modf_length - 12) * 4.3)..";thumbsize=15]"..
+					"scrollbaroptions[max="..((modf_length - 12) * 4.1)..";thumbsize=15]"..
 					"scrollbar[3.625,4.4;0.3,4.2;vertical;winv_creative_modfilter_scroll;"..(inv.mod_filter_scroll).."]"
 				modf_bg = modf_length - 12
 			end
@@ -384,6 +384,8 @@ winv:register_inventory("creative", {
 		if not inv then
 			return
 		end
+
+		-- content filter
 		if fields.winv_creative_all then
 			inv.content = minetest.registered_items
 			inv.content_name = "all"
@@ -404,7 +406,10 @@ winv:register_inventory("creative", {
 			inv.content_name = "craftitem"
 			inv.start_i = 0
 			winv.refresh(player)
-		elseif fields.winv_creative_modfilter then
+		end
+
+		-- mod filter
+		if fields.winv_creative_modfilter then
 			if inv.show_mod_filter then
 				inv.show_mod_filter = nil
 			else
@@ -415,8 +420,9 @@ winv:register_inventory("creative", {
 			inv.show_mod_filter = nil
 			winv.refresh(player)
 		end
-		local modnames = minetest.get_modnames()
+
 		if inv.show_mod_filter then
+			local modnames = minetest.get_modnames()
 			for i, modname in ipairs(modnames) do
 				local mfield = fields["winv_creative_modfilter_mod_"..modname]
 				if mfield then
@@ -433,18 +439,18 @@ winv:register_inventory("creative", {
 					winv.refresh(player)
 				end
 			end
-		end
-		if fields.winv_creative_modfilter_reset then
-			inv.mod_filter = {}
-			inv.start_i = 0
-			winv.refresh(player)
-		elseif fields.winv_creative_modfilter_clear then
-			inv.mod_filter = {}
-			for i, modname in ipairs(modnames) do
-				inv.mod_filter[#inv.mod_filter+1] = modname
+			if fields.winv_creative_modfilter_reset then
+				inv.mod_filter = {}
+				inv.start_i = 0
+				winv.refresh(player)
+			elseif fields.winv_creative_modfilter_clear then
+				inv.mod_filter = {}
+				for i, modname in ipairs(modnames) do
+					inv.mod_filter[#inv.mod_filter+1] = modname
+				end
+				inv.start_i = 0
+				winv.refresh(player)
 			end
-			inv.start_i = 0
-			winv.refresh(player)
 		end
 
 		if fields.winv_creative_clear then

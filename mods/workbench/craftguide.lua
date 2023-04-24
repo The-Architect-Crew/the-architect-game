@@ -1,16 +1,14 @@
-workbench.craftbench = {}
 local winv_exists = minetest.global_exists("winv")
 if not winv_exists then
     return
 end
 
---local craftguide_form_list = {}
-local max_item_per_page = 36
-local max_item_per_row = 6
-local craftguide_list = {}
-local craftguide_names_list = {}
-local craftguide_desc_list = {}
-local craftguide_data = {}
+local max_item_per_page = 36 -- items per page
+local max_item_per_row = 6 -- items per row
+local craftguide_list = {} -- valid crafts list
+local craftguide_names_list = {} -- valid crafts names
+local craftguide_desc_list = {} -- valid crafts descriptions
+local craftguide_data = {} -- various player specific form data
 
 local function craftguide_init(player)
     local playername = player:get_player_name()
@@ -47,13 +45,43 @@ local function generate_item_tooltip(itemname)
     return "tooltip[workbench_craftguide_item_"..itemname..";"..desc.."]"
 end
 
-local function craftguide_recipe_form(player)
+local function craftguide_display_form(player)
     local playername = player:get_player_name()
     if not craftguide_data[playername] or craftguide_data[playername].item == "" then
         return ""
     end
 
     local ret_form = ""
+    if craftguide_data[playername].item and craftguide_data[playername].item ~= "" then
+        local itemname = craftguide_data[playername].item
+        local itemdesc = minetest.registered_items[itemname].short_description or minetest.registered_items[itemname].description
+        itemdesc = itemdesc:gsub("\n.*", "") -- First line only
+        ret_form =
+            "item_image_button[0.25,-0.9;0.8,0.8;"..itemname..";workbench_craftguide_display_"..itemname..";]"..
+            generate_item_tooltip(itemname)..
+            "style_type[label;font_size=20;font=bold]"..
+            "label[1.2,-0.7;"..itemdesc.."]"..
+            "style_type[label;font_size=13;font=normal]"..
+            "label[1.2,-0.3;"..itemname.."]"
+    end
+    return ret_form
+end
+
+local function craftguide_recipe_form(player)
+    local playername = player:get_player_name()
+    if not craftguide_data[playername] or craftguide_data[playername].item == "" then
+        return ""
+    end
+
+    local ret_form =
+        "image[0,0;7.75,9;winv_bg.png]"..
+        "style[workbench_current_item;border=false]"..
+        craftguide_display_form(player)..
+        "box[0.25,0.25;7.275,7.055;#00000070]"..
+        -- arrows
+        "image_button[6.5,7.83;0.5,0.8;winv_cicon_miniarrow.png^[transformFX;workbench_craftguide_recipe_prev;;;false;]"..
+        "image_button[7,7.85;0.5,0.8;winv_cicon_miniarrow.png;workbench_craftguide_recipe_next;;;false;]"
+
     local item = craftguide_data[playername].item
     local output_data = workbench_crafts.output_by_name[item]
     local recipe_count = 0
@@ -64,7 +92,6 @@ local function craftguide_recipe_form(player)
                 recipe_count = recipe_count + 1
 
                 if recipe_count == craftguide_data[playername].item_recipe_curr then
-                    --local input_size = input_data.width * input_data.height
                     for i = 1, input_data.height do
                         for j = 1, input_data.width do
                             local recipe_item = input_data.input[i][j]
@@ -160,29 +187,7 @@ local function craftguide_recipe_form(player)
     end
     craftguide_data[playername].item_recipe_max = recipe_count
     ret_form = ret_form..
-            "label[0.25,9.25;Recipe " .. minetest.colorize("#FFFF00", tostring(craftguide_data[playername].item_recipe_curr)) .. " / " .. tostring(recipe_count) .. "]"
-    return ret_form
-end
-
-local function craftguide_display_form(player)
-    local playername = player:get_player_name()
-    if not craftguide_data[playername] or craftguide_data[playername].item == "" then
-        return ""
-    end
-
-    local ret_form = ""
-    if craftguide_data[playername].item and craftguide_data[playername].item ~= "" then
-        local itemname = craftguide_data[playername].item
-        local itemdesc = minetest.registered_items[itemname].short_description or minetest.registered_items[itemname].description
-        itemdesc = itemdesc:gsub("\n.*", "") -- First line only
-        ret_form =
-            "item_image_button[0.25,-0.9;0.8,0.8;"..itemname..";workbench_craftguide_display_"..itemname..";]"..
-            generate_item_tooltip(itemname)..
-            "style_type[label;font_size=20;font=bold]"..
-            "label[1.2,-0.7;"..itemdesc.."]"..
-            "style_type[label;font_size=13;font=normal]"..
-            "label[1.2,-0.3;"..itemname.."]"
-    end
+        "label[0.25,9.25;Recipe " .. minetest.colorize("#FFFF00", tostring(craftguide_data[playername].item_recipe_curr)) .. " / " .. tostring(recipe_count) .. "]"
     return ret_form
 end
 
@@ -309,8 +314,8 @@ local function construct_itemlist_form(player)
                 generate_item_tooltip(itemname)
     end
 
-    if not craftguide_data[playername].form_list[1] then -- ensure first page is always constructed -- TODO -- change to "Nothing found" message
-        craftguide_data[playername].form_list[1] = ""
+    if not craftguide_data[playername].form_list[1] then -- ensure first page is always constructed
+        craftguide_data[playername].form_list[1] = "label[0.25,0.4;Nothing found...]"
     end
     craftguide_data[playername].max_page = math.ceil(count / max_item_per_page)
 end
@@ -432,17 +437,7 @@ local function craftguide_form(player)
         "container_end[]"..
         "container[10,0]"..
             --right_form..
-
-            "image[0,0;7.75,9;winv_bg.png]"..
-			-- CRAFT FORM
-            "style[workbench_current_item;border=false]"..
-            craftguide_display_form(player)..
-            "box[0.25,0.25;7.275,7.055;#00000070]"..
             craftguide_recipe_form(player)..
-
-            -- arrows
-			"image_button[6.5,7.83;0.5,0.8;winv_cicon_miniarrow.png^[transformFX;workbench_craftguide_recipe_prev;;;false;]"..
-			"image_button[7,7.85;0.5,0.8;winv_cicon_miniarrow.png;workbench_craftguide_recipe_next;;;false;]"..
         "container_end[]"
 
     return form

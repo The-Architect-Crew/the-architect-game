@@ -1,6 +1,45 @@
 Workbench Crafting API Reference
 ================================
 
+Special Variables
+=================
+* not_in_craftguide = 1
+	special group, set to 1 to hide from craft guide
+* workbench_crafts.output_by_name[modname:itemname]
+	Returns an output table if itemname is craftable with workbench craft
+	Table contains subtables with the following
+	* input_index
+		Index corresponding to `workbench_crafts.input[ctype][input_index]`
+	* output_index
+		Output corresponding to `workbench_crafts.output[ctype][<ID>][output_index]`
+		In which ID is obtained from `workbench_crafts.input[ctype][input_index].id`
+	* ctype
+		Crafting type
+* workbench_crafts.input[ctype][<index>]
+	Table consist of the following
+		* cat -- category
+		* mod -- modification (supported: shapeless)
+		* time -- time (optional) (if any, returns 0 otherwise)
+		* width -- width of input table
+		* height -- height of input table
+		* stacks -- stack count (get the amount of stacks, how many table slot i.e.)
+		* items -- items table (ItemStack with inventory list format)
+		* input -- raw input (as defined in recipe)
+		* replacements -- replacements table (optional) (if any, returns empty table otherwise)
+		* id -- output id (corresponds to multi_id OR unique incrementing number)
+* workbench_crafts.output[ctype][<ID>][<index>]
+	ID represents output id (corresponds to multi_id OR unique incrementing number generated with input)
+	Table consist of the following
+		* cat
+		* output -- primary output
+		* items 
+		* residue -- secondary output table (optional) (if any, returns empty table otherwise)
+		* extra -- tertiary output table (optional) (if any, returns empty table otherwise)
+		* transfer_meta -- transfer_meta table (optional) (if any, returns empty table otherwise)
+		* width -- width of output table
+		* height -- height of output table
+		* id -- output id (corresponds to multi_id OR unique incrementing number) (same as <ID> above)
+
 workbench:register_craft
 ------------------------
 * type (optional)
@@ -47,6 +86,7 @@ workbench:register_craft
 	* Used for multiple-output
 	* Provided string can be same across craft types, but must be different across craft categories
 	* Multiple-output allows recipes with the same input to have a table of output rather than confined to output/residue/extra
+	* This is done by forcing the indexing to be done by a common string rather than using the default generated numbers
 	
 ### Behaviour
 * Ported toolrepair

@@ -13,6 +13,7 @@ local craftguide_data = {} -- various player specific form data
 local function craftguide_init(player)
     local playername = player:get_player_name()
     craftguide_data[playername] = {
+        active = false,
         item = "",
         item_recipe_curr = 1,
         item_recipe_max = 1,
@@ -400,6 +401,9 @@ local function craftguide_form(player)
         "size[17.75, 9]"..
         "style_type[*;noclip=true;font_size=13]"..
         "bgcolor[#00000000;neither]"..
+        "style[workbench_craftguide_exit;border=false]"..
+        "image_button[0.1,-0.6;0.5,0.5;winv_icon_return.png;workbench_craftguide_exit;]"..
+        "tooltip[workbench_craftguide_exit;Return to main inventory]"..
         "container[0,0]"..
             --left_form..
             --1.25 per grid
@@ -451,17 +455,27 @@ winv:register_inventory("craftguide", {
     hide_in_node = true,
     button_function = function(player)
         local playername = player:get_player_name()
-        minetest.show_formspec(playername, "workbench:craftguide", craftguide_form(player))
+        if not craftguide_data[playername] then -- ensure data initalized
+            craftguide_init(player)
+        end
+        craftguide_data[playername].active = true
+        player:set_inventory_formspec(craftguide_form(player))
     end,
 })
 
 minetest.register_on_player_receive_fields(function(player, formname, fields)
-    if formname ~= "workbench:craftguide" then
-        return
+    --if formname ~= "workbench:craftguide" then
+    --    return
+    --end
+    local playername = player:get_player_name()
+    if not craftguide_data[playername] then -- ensure data initalized
+        craftguide_init(player)
     end
 
-    local playername = player:get_player_name()
     local cgdata = craftguide_data[playername]
+    if not (cgdata.active) then
+        return
+    end
 
     -- content filter
     if fields.workbench_craftguide_filter_all then
@@ -597,7 +611,12 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
         end
     end
 
-    if not fields.quit then -- refresh and updates formspec (if not quitting)
-        minetest.show_formspec(playername, "workbench:craftguide", craftguide_form(player))
+    if fields.workbench_craftguide_exit or fields.quit then
+        cgdata.active = false
+        winv.refresh(player)
+    end
+
+    if not fields.quit and not fields.workbench_craftguide_exit then -- refresh and updates formspec (if not quitting)
+        player:set_inventory_formspec(craftguide_form(player))
     end
 end)

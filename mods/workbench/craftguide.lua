@@ -98,15 +98,21 @@ local function craftguide_recipe_form(player)
         for index, value in pairs(mt_output_data) do
             recipe_count = recipe_count + 1
             if recipe_count == craftguide_data[playername].item_recipe_curr then
+                local width = value.width
+                if width == 0 then -- shapeless recipe
+                    width = 3
+                end
                 for i = 1, 3 do -- height
-                    for j = 1, 3 do -- width
-                        local recipe_index = ((i - 1) * 3) + j
+                    for j = 1, width do -- width
+                        local recipe_index = ((i - 1) * width) + j
                         local recipe_item = value.items[recipe_index]
-                        local recipe_itemname = ItemStack(recipe_item):get_name()
-                        if recipe_itemname and recipe_itemname ~= "" then
-                            ret_form = ret_form..
-                                "item_image_button["..( 0.875 + ((j - 1) * 1.25) )..","..( 0.75 + ((i - 1) * 1.25) )..
-                                    ";1,1;"..recipe_item..";workbench_craftguide_item_"..recipe_itemname..";]"
+                        if recipe_item then
+                            local recipe_itemname = ItemStack(recipe_item):get_name()
+                            if recipe_itemname then
+                                ret_form = ret_form..
+                                    "item_image_button["..( 0.875 + ((j - 1) * 1.25) )..","..( 0.75 + ((i - 1) * 1.25) )..
+                                        ";1,1;"..recipe_item..";workbench_craftguide_item_"..recipe_itemname..";]"
+                            end
                         end
                     end
                 end
@@ -301,6 +307,11 @@ local function craftguide_form(player)
         construct_itemlist_form(player)
     end
 
+    local modfilter_form  = ""
+    --if craftguide_data[playername].show_mod_filter then
+        -- TODO provide mod filter
+    --end
+
     local form =
         "formspec_version[4]"..
         "size[17.75, 9]"..
@@ -332,6 +343,7 @@ local function craftguide_form(player)
 
 			"image_button[-0.9,3.85;0.8,0.8;winv_cicon_filter.png;workbench_craftguide_modfilter;;true;false;]"..
 			"tooltip[workbench_craftguide_modfilter;Filter by mods]"..
+            modfilter_form..
 
             "style_type[item_image_button;border=false]"..
             craftguide_data[playername].form_list[craftguide_data[playername].curr_page]..
@@ -388,19 +400,19 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
         cgdata.form_list = nil
     elseif fields.workbench_craftguide_filter_block then
         cgdata.content = minetest.registered_nodes
-        cgdata.content_name = "all"
+        cgdata.content_name = "block"
         cgdata.curr_page = 1
         cgdata.max_page = 1
         cgdata.form_list = nil
     elseif fields.workbench_craftguide_filter_tool then
         cgdata.content = minetest.registered_tools
-        cgdata.content_name = "all"
+        cgdata.content_name = "tool"
         cgdata.curr_page = 1
         cgdata.max_page = 1
         cgdata.form_list = nil
     elseif fields.workbench_craftguide_filter_craftitem then
         cgdata.content = minetest.registered_craftitems
-        cgdata.content_name = "all"
+        cgdata.content_name = "craftitem"
         cgdata.curr_page = 1
         cgdata.max_page = 1
         cgdata.form_list = nil

@@ -4,12 +4,11 @@ if not winv_exists then
     return
 end
 
-local craftguide_form_list = {}
+--local craftguide_form_list = {}
 local max_item_per_page = 36
 local max_item_per_row = 6
-local max_page = 0
 local craftguide_list = {}
-local craftguide_sorted_list = {}
+local craftguide_names_list = {}
 local craftguide_data = {}
 
 local function craftguide_init(player)
@@ -18,7 +17,10 @@ local function craftguide_init(player)
         item = "",
         item_recipe_curr = 1,
         item_recipe_max = 1,
-        page = 1,
+        form_list = nil,
+
+        curr_page = 1,
+        max_page = 1,
 
         filter = "",
         old_filter = nil,
@@ -162,6 +164,111 @@ local function craftguide_display_form(player)
     return ret_form
 end
 
+local function mod_match(s, mod_filter)
+	if not mod_filter or not next(mod_filter) then
+		return true
+	end
+	for i, modname in pairs(mod_filter) do
+		if s:lower():find(modname..":", 1, true) then
+			return nil
+		end
+	end
+	return true
+end
+
+local NO_MATCH = 999
+local function match(s, filter)
+	if filter == "" then
+		return 0
+	end
+	if s:lower():find(filter, 1, true) then
+		return #s - #filter
+	end
+	return NO_MATCH
+end
+
+local function description(def, lang_code)
+	local s = def.description
+	if lang_code then
+		s = minetest.get_translated_string(lang_code, s)
+	end
+	return s:gsub("\n.*", "") -- First line only
+end
+
+local function construct_itemlist_form(player)
+    print("constructing item list!")
+    local playername = player:get_player_name()
+    if craftguide_data[playername].form_list then
+        return
+    else
+        craftguide_data[playername].form_list = {}
+    end
+
+    local lang
+	local player_info = minetest.get_player_information(playername)
+	if player_info and player_info.lang_code ~= "" then
+		lang = player_info.lang_code
+	end
+
+    local filter = craftguide_data[playername].filter
+    local filtered_list = {}
+	local order = {}
+    -- created a sorted list according to filter
+    for itemname, def in pairs(craftguide_list) do
+        local mf = mod_match(name, craftguide_data[playername].mod_filter)
+		if mf then
+            local m = match(description(def), filter)
+            if m > 0 then
+                m = math.min(m, match(description(def, lang), filter))
+            end
+            if m > 0 then
+                m = math.min(m, match(itemname, filter))
+            end
+
+            if m < NO_MATCH then
+                filtered_list[#filtered_list+1] = itemname
+                -- Sort by match value first so closer matches appear earlier
+                order[itemname] = string.format("%02d", m) .. itemname
+            end
+        end
+    end
+
+    table.sort(filtered_list, function(a, b) return order[a] < order[b] end)
+
+    local count = 0
+    for index, itemname in ipairs(filtered_list) do
+        --if match(itemname, craftguide_data[playername].filter) then
+            count = count + 1
+            local curr_page = math.ceil(count / max_item_per_page)
+            if not craftguide_data[playername].form_list[curr_page] then
+                craftguide_data[playername].form_list[curr_page] = ""
+            end
+            -- item counters
+            local item_count_in_page = count % max_item_per_page
+            if item_count_in_page == 0 then
+                item_count_in_page = max_item_per_page
+            end
+            local curr_row = math.ceil(item_count_in_page / max_item_per_row)
+
+            local item_count_in_row = count % max_item_per_row
+            if item_count_in_row == 0 then
+                item_count_in_row = max_item_per_row
+            end
+
+            -- construct form
+            craftguide_data[playername].form_list[curr_page] = craftguide_data[playername].form_list[curr_page]..
+                "item_image_button["..( 0.25 + ((item_count_in_row - 1) * 1.25))..","..( 0.25 + ((curr_row - 1) * 1.25))..
+                    ";1,1;"..itemname..";workbench_craftguide_item_"..itemname..";]"
+        --end
+    end
+
+    if not craftguide_data[playername].form_list[1] then -- ensure first page is always constructed -- TODO -- change to "Nothing found" message
+        craftguide_data[playername].form_list[1] = ""
+    end
+    craftguide_data[playername].max_page = math.ceil(count / max_item_per_page)
+end
+
+-- cache all craft items
 local start_time
 minetest.register_on_mods_loaded(function()
     start_time = os.clock()
@@ -175,44 +282,21 @@ minetest.register_on_mods_loaded(function()
     end
 
     for key, def in pairs(craftguide_list) do
-        craftguide_sorted_list[#craftguide_sorted_list+1] = key
+        craftguide_names_list[#craftguide_names_list+1] = key
     end
-    table.sort(craftguide_sorted_list)
-
-    local count = 0
-    for key, itemname in ipairs(craftguide_sorted_list) do
-        count = count + 1
-
-        local curr_page = math.ceil(count / max_item_per_page)
-        if not craftguide_form_list[curr_page] then
-            craftguide_form_list[curr_page] = ""
-        end
-        -- item counters
-        local item_count_in_page = count % max_item_per_page
-        if item_count_in_page == 0 then
-            item_count_in_page = max_item_per_page
-        end
-        local curr_row = math.ceil(item_count_in_page / max_item_per_row)
-
-        local item_count_in_row = count % max_item_per_row
-        if item_count_in_row == 0 then
-            item_count_in_row = max_item_per_row
-        end
-
-        -- construct form
-        craftguide_form_list[curr_page] = craftguide_form_list[curr_page]..
-            "item_image_button["..( 0.25 + ((item_count_in_row - 1) * 1.25))..","..( 0.25 + ((curr_row - 1) * 1.25))..
-                ";1,1;"..itemname..";workbench_craftguide_item_"..itemname..";]"
-    end
-
-    max_page = math.ceil(count / max_item_per_page)
+    table.sort(craftguide_names_list)
     print("[workbench] craftguide items cached! took "..os.clock() - start_time.."s")
 end)
 
+-- craftguide formspec
 local function craftguide_form(player)
     local playername = player:get_player_name()
-    if not craftguide_data[playername] then
+    if not craftguide_data[playername] then -- ensure data initalized
         craftguide_init(player)
+    end
+
+    if not craftguide_data[playername].form_list then -- reconstruct item list
+        construct_itemlist_form(player)
     end
 
     local form =
@@ -226,34 +310,34 @@ local function craftguide_form(player)
             "image[0,0;7.75,9;winv_bg.png]"..
             -- LIST
             -- search icons
-			"field[0.25,7.75;5.25,1;winv_creative_filter;;search]"..
-			"field_close_on_enter[winv_creative_filter;false]"..
-			"image_button[5.75,7.75;0.5,0.5;gui_pointer.png;winv_creative_search;]"..
-			"image_button[5.75,8.25;0.5,0.5;gui_cross.png;winv_creative_clear;]"..
+			"field[0.25,7.75;5.25,1;workbench_craftguide_filter;;"..craftguide_data[playername].filter.."]"..
+			"field_close_on_enter[workbench_craftguide_filter;false]"..
+			"image_button[5.75,7.75;0.5,0.5;gui_pointer.png;workbench_craftguide_search;]"..
+			"image_button[5.75,8.25;0.5,0.5;gui_cross.png;workbench_craftguide_clear;]"..
 
             -- icons
-            "image_button[-0.9,0.25;0.8,0.8;winv_cicon_all.png;winv_creative_all;;true;false;]"..
-			"tooltip[winv_creative_all;Show all]"..
+            "image_button[-0.9,0.25;0.8,0.8;winv_cicon_all.png;workbench_craftguide_filter_all;;true;false;]"..
+			"tooltip[workbench_craftguide_filter_all;Show all]"..
 
-			"image_button[-0.9,1.15;0.8,0.8;winv_cicon_block.png;winv_creative_block;;true;false;]"..
-			"tooltip[winv_creative_block;Show blocks only]"..
+			"image_button[-0.9,1.15;0.8,0.8;winv_cicon_block.png;workbench_craftguide_filter_block;;true;false;]"..
+			"tooltip[workbench_craftguide_filter_block;Show blocks only]"..
 
-			"image_button[-0.9,2.05;0.8,0.8;winv_cicon_tool.png;winv_creative_tool;;true;false;]"..
-			"tooltip[winv_creative_tool;Show tools only]"..
+			"image_button[-0.9,2.05;0.8,0.8;winv_cicon_tool.png;workbench_craftguide_filter_tool;;true;false;]"..
+			"tooltip[workbench_craftguide_filter_tool;Show tools only]"..
 
-			"image_button[-0.9,2.95;0.8,0.8;winv_cicon_craftitem.png;winv_creative_craftitem;;true;false;]"..
-			"tooltip[winv_creative_craftitem;Show craft items only]"..
+			"image_button[-0.9,2.95;0.8,0.8;winv_cicon_craftitem.png;workbench_craftguide_filter_craftitem;;true;false;]"..
+			"tooltip[workbench_craftguide_filter_craftitem;Show craft items only]"..
 
-			"image_button[-0.9,3.85;0.8,0.8;winv_cicon_filter.png;winv_creative_modfilter;;true;false;]"..
-			"tooltip[winv_creative_modfilter;Filter by mods]"..
+			"image_button[-0.9,3.85;0.8,0.8;winv_cicon_filter.png;workbench_craftguide_filter_mod;;true;false;]"..
+			"tooltip[workbench_craftguide_filter_mod;Filter by mods]"..
 
             "style_type[item_image_button;border=false]"..
-            craftguide_form_list[craftguide_data[playername].page]..
+            craftguide_data[playername].form_list[craftguide_data[playername].curr_page]..
 
             -- arrows
 			"image_button[6.5,7.83;0.5,0.8;winv_cicon_miniarrow.png^[transformFX;workbench_craftguide_prev;;;false;]"..
 			"image_button[7,7.85;0.5,0.8;winv_cicon_miniarrow.png;workbench_craftguide_next;;;false;]"..
-            "label[0.25,9.25;Page " .. minetest.colorize("#FFFF00", tostring(craftguide_data[playername].page)) .. " / " .. tostring(max_page) .. "]"..
+            "label[0.25,9.25;Page " .. minetest.colorize("#FFFF00", tostring(craftguide_data[playername].curr_page)) .. " / " .. tostring(craftguide_data[playername].max_page) .. "]"..
         "container_end[]"..
         "container[10,0]"..
             --right_form..
@@ -291,42 +375,63 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
     end
 
     local playername = player:get_player_name()
-    if fields.workbench_craftguide_prev then -- previous page
-        if craftguide_data[playername].page <= 1 then
-            craftguide_data[playername].page = max_page
+    local cgdata = craftguide_data[playername]
+
+    -- search filter
+    if fields.workbench_craftguide_search or fields.key_enter_field == "workbench_craftguide_filter" or fields.workbench_craftguide_clear then
+        cgdata.old_filter = cgdata.filter
+        if fields.workbench_craftguide_clear then
+            cgdata.filter = ""
         else
-            craftguide_data[playername].page = craftguide_data[playername].page - 1
+            cgdata.filter = fields.workbench_craftguide_filter:lower()
         end
-    elseif fields.workbench_craftguide_next then -- next page
-        if craftguide_data[playername].page >= max_page then
-            craftguide_data[playername].page = 1
-        else
-            craftguide_data[playername].page = craftguide_data[playername].page + 1
+
+        if cgdata.filter ~= cgdata.old_filter then -- prevent unnecessary reconstruction
+            -- reset filter and list
+            cgdata.curr_page = 1
+            cgdata.max_page = 1
+            cgdata.form_list = nil
         end
     end
 
-    if craftguide_data[playername].item and craftguide_data[playername].item ~= "" then
-        if craftguide_data[playername].item_recipe_max > 1 then
+    -- change pages
+    if fields.workbench_craftguide_prev then -- previous page
+        if cgdata.curr_page <= 1 then
+            cgdata.curr_page = cgdata.max_page
+        else
+            cgdata.curr_page = cgdata.curr_page - 1
+        end
+    elseif fields.workbench_craftguide_next then -- next page
+        if cgdata.curr_page >= cgdata.max_page then
+            cgdata.curr_page = 1
+        else
+            cgdata.curr_page = cgdata.curr_page + 1
+        end
+    end
+
+    -- change recipes
+    if cgdata.item and cgdata.item ~= "" then
+        if cgdata.item_recipe_max > 1 then
             if fields.workbench_craftguide_recipe_prev then -- previous recipe
-                if craftguide_data[playername].item_recipe_curr <= 1 then
-                    craftguide_data[playername].item_recipe_curr = craftguide_data[playername].item_recipe_max
+                if cgdata.item_recipe_curr <= 1 then
+                    cgdata.item_recipe_curr = cgdata.item_recipe_max
                 else
-                    craftguide_data[playername].item_recipe_curr = craftguide_data[playername].item_recipe_curr - 1
+                    cgdata.item_recipe_curr = cgdata.item_recipe_curr - 1
                 end
             elseif fields.workbench_craftguide_recipe_next then -- next recipe
-                if craftguide_data[playername].item_recipe_curr >= craftguide_data[playername].item_recipe_max then
-                    craftguide_data[playername].item_recipe_curr = 1
+                if cgdata.item_recipe_curr >= cgdata.item_recipe_max then
+                    cgdata.item_recipe_curr = 1
                 else
-                    craftguide_data[playername].item_recipe_curr = craftguide_data[playername].item_recipe_curr + 1
+                    cgdata.item_recipe_curr = cgdata.item_recipe_curr + 1
                 end
             end
         end
     end
 
-    for key, itemname in ipairs(craftguide_sorted_list) do
+    for index, itemname in ipairs(craftguide_names_list) do
         if (fields["workbench_craftguide_item_"..itemname]) then
-            craftguide_data[playername].item = itemname
-            craftguide_data[playername].item_recipe_curr = 1 -- reset page
+            cgdata.item = itemname
+            cgdata.item_recipe_curr = 1 -- reset page
         end
     end
 

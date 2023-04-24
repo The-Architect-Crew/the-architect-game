@@ -6,7 +6,7 @@ dofile(path.."/api/functions.lua")
 dofile(path.."/api/fuel.lua")
 -- Builtin craft types
 workbench:register_crafttype("normal", {
-	description = ccore.comment("Crafting", "Use your crafting grid or a workbench"),
+	description = ccore.comment("Crafting", "Use your crafting grid or a craftbench"),
 	icon = "workbench_crafticon_crafting.png"
 })
 

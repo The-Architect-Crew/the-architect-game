@@ -169,14 +169,14 @@ end
 local function get_modfilter_status(modname, name)
 	local inv = player_inventory[name]
 	if not inv.mod_filter or not next(inv.mod_filter) then
-		return "true"
+		return true
 	end
 	for i, modfname in pairs(inv.mod_filter) do
 		if modfname == modname then
-			return "false"
+			return false
 		end
 	end
-	return "true"
+	return true
 end
 
 local function mod_match(s, mod_filter)
@@ -282,7 +282,7 @@ local function modfilter_list(name)
 	local modlist = ""
 	local modnames = minetest.get_modnames()
 	for i, modname in ipairs(modnames) do
-		modlist = modlist.."checkbox[0.1,"..((i - 1) * 0.4 + 0.25)..";winv_creative_modfilter_mod_"..modname..";"..modname..";"..get_modfilter_status(modname, name).."]"
+		modlist = modlist.."checkbox[0.1,"..((i - 1) * 0.4 + 0.25)..";winv_creative_modfilter_mod_"..modname..";"..modname..";"..tostring(get_modfilter_status(modname, name)).."]"
 	end
 	return modlist
 end

@@ -328,21 +328,21 @@ winv:register_inventory("creative", {
 					modfilter_list(name)..
 				"scroll_container_end[]"
 		end
-		local creative_all = "image_button[-0.9,0.25;0.8,0.8;winv_cicon_all.png;winv_creative_all;;true;false;]"
-		local creative_block = "image_button[-0.9,1.15;0.8,0.8;winv_cicon_block.png;winv_creative_block;;true;false;]"
-		local creative_tool = "image_button[-0.9,2.05;0.8,0.8;winv_cicon_tool.png;winv_creative_tool;;true;false;]"
-		local creative_craftitem = "image_button[-0.9,2.95;0.8,0.8;winv_cicon_craftitem.png;winv_creative_craftitem;;true;false;]"
+		local creative_filter_all = "image_button[-0.9,0.25;0.8,0.8;winv_cicon_all.png;winv_creative_all;;true;false;]"
+		local creative_filter_block = "image_button[-0.9,1.15;0.8,0.8;winv_cicon_block.png;winv_creative_block;;true;false;]"
+		local creative_filter_tool = "image_button[-0.9,2.05;0.8,0.8;winv_cicon_tool.png;winv_creative_tool;;true;false;]"
+		local creative_filter_craftitem = "image_button[-0.9,2.95;0.8,0.8;winv_cicon_craftitem.png;winv_creative_craftitem;;true;false;]"
 		local darken = "^[colorize:#00000055"
 		if inv.content_name then
 			local icname = inv.content_name
 			if icname == "all" then
-				creative_all = "image_button[-0.9,0.25;0.8,0.8;winv_cicon_all.png"..darken..";winv_creative_all;;true;false;]"
+				creative_filter_all = "image_button[-0.9,0.25;0.8,0.8;winv_cicon_all.png"..darken..";winv_creative_all;;true;false;]"
 			elseif icname == "block" then
-				creative_block = "image_button[-0.9,1.15;0.8,0.8;winv_cicon_block.png"..darken..";winv_creative_block;;true;false;]"
+				creative_filter_block = "image_button[-0.9,1.15;0.8,0.8;winv_cicon_block.png"..darken..";winv_creative_block;;true;false;]"
 			elseif icname == "tool" then
-				creative_tool = "image_button[-0.9,2.05;0.8,0.8;winv_cicon_tool.png"..darken..";winv_creative_tool;;true;false;]"
+				creative_filter_tool = "image_button[-0.9,2.05;0.8,0.8;winv_cicon_tool.png"..darken..";winv_creative_tool;;true;false;]"
 			elseif icname == "craftitem" then
-				creative_craftitem = "image_button[-0.9,2.95;0.8,0.8;winv_cicon_craftitem.png"..darken..";winv_creative_craftitem;;true;false;]"
+				creative_filter_craftitem = "image_button[-0.9,2.95;0.8,0.8;winv_cicon_craftitem.png"..darken..";winv_creative_craftitem;;true;false;]"
 			end
 		end
 		local formspec = {
@@ -364,13 +364,13 @@ winv:register_inventory("creative", {
 			"image_button[6.5,7.83;0.5,0.8;winv_cicon_miniarrow.png^[transformFX;winv_creative_prev;;;false;]",
 			"image_button[7,7.85;0.5,0.8;winv_cicon_miniarrow.png;winv_creative_next;;;false;]",
 			-- icons
-			creative_all,
+			creative_filter_all,
 			"tooltip[winv_creative_all;Show all]",
-			creative_block,
+			creative_filter_block,
 			"tooltip[winv_creative_block;Show blocks only]",
-			creative_tool,
+			creative_filter_tool,
 			"tooltip[winv_creative_tool;Show tools only]",
-			creative_craftitem,
+			creative_filter_craftitem,
 			"tooltip[winv_creative_craftitem;Show craft items only]",
 			"image_button[-0.9,3.85;0.8,0.8;winv_cicon_filter.png;winv_creative_modfilter;;true;false;]",
 			"tooltip[winv_creative_modfilter;Filter by mods]",

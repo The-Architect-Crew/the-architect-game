@@ -9,6 +9,7 @@ local max_item_per_page = 36
 local max_item_per_row = 6
 local craftguide_list = {}
 local craftguide_names_list = {}
+local craftguide_desc_list = {}
 local craftguide_data = {}
 
 local function craftguide_init(player)
@@ -37,11 +38,13 @@ local function craftguide_init(player)
 end
 
 local function generate_item_tooltip(itemname)
-    local desc = ""
-    if minetest.registered_items[itemname] and minetest.registered_items[itemname].description then
-        desc = minetest.registered_items[itemname].description
+    local desc = itemname
+    -- TODO handle group description
+    local desc_from_table = craftguide_desc_list[itemname]
+    if desc_from_table then
+        desc = desc_from_table
     end
-    return "tooltip[workbench_craftguide_item_"..itemname..";"..ccore.comment(desc, itemname).."]"
+    return "tooltip[workbench_craftguide_item_"..itemname..";"..desc.."]"
 end
 
 local function craftguide_recipe_form(player)
@@ -321,6 +324,7 @@ minetest.register_on_mods_loaded(function()
         if def.description and def.description ~= "" and def.groups.not_in_craftguide ~= 1 then --and def.groups.not_in_creative_inventory ~= 1 then
             if minetest.get_craft_recipe(itemname) and minetest.get_craft_recipe(itemname).items or workbench_crafts.output_by_name[itemname] then
                 craftguide_list[itemname] = def
+                craftguide_desc_list[itemname] = ccore.comment(def.description, itemname)
             end
         end
     end

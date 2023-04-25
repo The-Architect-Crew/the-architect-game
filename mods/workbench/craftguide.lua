@@ -6,10 +6,12 @@ end
 local max_item_per_page = 36 -- items per page
 local max_item_per_row = 6 -- items per row
 local craftguide_list = {} -- valid crafts list
+local craftguide_list_all = {} -- all possible items
 local craftguide_names_list = {} -- valid crafts names
 local craftguide_desc_list = {} -- valid crafts descriptions
 local craftguide_data = {} -- various player specific form data
 local craftguide_groups = {}
+local craftguide_groups_auto = {}
 
 function workbench:register_craftguide_group(groupname, def)
     craftguide_groups[groupname] = {
@@ -48,7 +50,10 @@ end
 
 local function is_group(itemname)
     if itemname:find("group:", 1, true) then
-        return true
+        local groupstring = string.match(itemname, ':(.*)')
+        if groupstring and groupstring ~= "" then
+            return true
+        end
     end
 end
 
@@ -154,6 +159,7 @@ local function craftguide_recipe_form(player)
                                 else
                                     recipe_itemname = find_first_in_group(groupname)
                                     recipe_item = recipe_itemname.." "..recipe_itemcount
+                                    craftguide_groups_auto[groupname] = groupstring
                                     ret_form = ret_form..
                                         "item_image_button["..( 0.875 + ((j - 1) * 1.25) )..","..( 0.75 + ((i - 1) * 1.25) )..
                                             ";1,1;"..recipe_item..";"..groupstring..";(G)]"..
@@ -228,6 +234,7 @@ local function craftguide_recipe_form(player)
                                     else
                                         recipe_itemname = find_first_in_group(groupname)
                                         recipe_item = recipe_itemname.." "..recipe_itemcount
+                                        craftguide_groups_auto[groupname] = groupstring
                                         ret_form = ret_form..
                                             "item_image_button["..( 0.875 + ((j - 1) * 1.25) )..","..( 0.75 + ((i - 1) * 1.25) )..
                                                 ";1,1;"..recipe_item..";workbench_craftguide_item_"..groupstring..";(G)]"..
@@ -274,6 +281,12 @@ local function craftguide_recipe_form(player)
     craftguide_data[playername].item_recipe_max = recipe_count
     ret_form = ret_form..
         "label[0.25,9.25;Recipe " .. minetest.colorize("#FFFF00", tostring(craftguide_data[playername].item_recipe_curr)) .. " / " .. tostring(recipe_count) .. "]"
+    if recipe_count == 0 then
+        ret_form = ret_form..
+            "style[workbench_craftguide_no_recipe;border=false]"..
+            "image_button[0.25,7.625;1,1;gui_cross_big.png;workbench_craftguide_no_recipe;]"..
+            "tooltip[workbench_craftguide_no_recipe;No recipe found!]"
+    end
     return ret_form
 end
 
@@ -349,22 +362,34 @@ local function construct_itemlist_form(player)
     local filter = craftguide_data[playername].filter
     local filtered_list = {}
 	local order = {}
-    for itemname, def in pairs(craftguide_list) do
+
+    local search_list = craftguide_list
+    if is_group(filter) then
+        search_list = craftguide_list_all
+    end
+    for itemname, def in pairs(search_list) do
         if craftguide_data[playername].content[itemname] then -- content filter
             local mf = mod_match(itemname, craftguide_data[playername].mod_filter)
             if mf then
-                local m = match(description(def), filter)
-                if m > 0 then
-                    m = math.min(m, match(description(def, lang), filter))
-                end
-                if m > 0 then
-                    m = math.min(m, match(itemname, filter))
-                end
+                if is_group(filter) then
+                    if group_match(filter, itemname) then
+                        filtered_list[#filtered_list+1] = itemname
+                        order[itemname] = string.format("%02d", 1) .. itemname
+                    end
+                else
+                    local m = match(description(def), filter)
+                    if m > 0 then
+                        m = math.min(m, match(description(def, lang), filter))
+                    end
+                    if m > 0 then
+                        m = math.min(m, match(itemname, filter))
+                    end
 
-                if m < NO_MATCH then
-                    filtered_list[#filtered_list+1] = itemname
-                    -- Sort by match value first so closer matches appear earlier
-                    order[itemname] = string.format("%02d", m) .. itemname
+                    if m < NO_MATCH then
+                        filtered_list[#filtered_list+1] = itemname
+                        -- Sort by match value first so closer matches appear earlier
+                        order[itemname] = string.format("%02d", m) .. itemname
+                    end
                 end
             end
         end
@@ -406,6 +431,12 @@ local function construct_itemlist_form(player)
     craftguide_data[playername].max_page = math.ceil(count / max_item_per_page)
 end
 
+local function is_craftable(itemname)
+    if minetest.get_craft_recipe(itemname) and minetest.get_craft_recipe(itemname).items or workbench_crafts.output_by_name[itemname] then
+        return true
+    end
+end
+
 -- cache all craft items
 local start_time
 minetest.register_on_mods_loaded(function()
@@ -413,17 +444,17 @@ minetest.register_on_mods_loaded(function()
     print("[workbench] caching craftguide items...")
     for itemname, def in pairs(minetest.registered_items) do
         if def.description and def.description ~= "" and def.groups.not_in_craftguide ~= 1 then --and def.groups.not_in_creative_inventory ~= 1 then
-            if minetest.get_craft_recipe(itemname) and minetest.get_craft_recipe(itemname).items or workbench_crafts.output_by_name[itemname] then
+            if is_craftable(itemname) then
                 craftguide_list[itemname] = def
-                craftguide_desc_list[itemname] = ccore.comment(def.description, itemname)
             end
+            craftguide_list_all[itemname] = def
+            craftguide_desc_list[itemname] = ccore.comment(def.description, itemname)
         end
     end
 
-    for key, def in pairs(craftguide_list) do
+    for key, def in pairs(craftguide_list_all) do
         craftguide_names_list[#craftguide_names_list+1] = key
     end
-    table.sort(craftguide_names_list)
     print("[workbench] craftguide items cached! took "..os.clock() - start_time.."s")
 end)
 
@@ -696,8 +727,23 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
     for groupname, def in pairs(craftguide_groups) do
         local groupstring = groupname:gsub(",", "") -- remove all commas to prevent invalid fieldname
         if (fields["workbench_craftguide_item_"..groupstring]) then
-            cgdata.item = def.redirect
-            cgdata.item_recipe_curr = 1 -- reset page
+            --cgdata.item = def.redirect
+            --cgdata.item_recipe_curr = 1 -- reset page
+            cgdata.filter = groupname
+            cgdata.content = minetest.registered_items
+            cgdata.content_name = "all"
+            cgdata.curr_page = 1
+            cgdata.form_list = nil
+        end
+    end
+
+    for groupname, groupstring in pairs(craftguide_groups_auto) do
+        if (fields["workbench_craftguide_item_"..groupstring]) then
+            cgdata.filter = groupname
+            cgdata.content = minetest.registered_items
+            cgdata.content_name = "all"
+            cgdata.curr_page = 1
+            cgdata.form_list = nil
         end
     end
 

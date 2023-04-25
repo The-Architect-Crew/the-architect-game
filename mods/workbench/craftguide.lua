@@ -141,6 +141,14 @@ local function craftguide_recipe_form(player)
                 recipe_count = recipe_count + 1
 
                 if recipe_count == craftguide_data[playername].item_recipe_curr then
+                    local item_scale = 1
+                    local item_width = 1.25
+                    local max_width = math.max(input_data.width, input_data.height)
+                    if max_width > 5 then
+                        item_width = (6.25 / max_width)
+                        item_scale = item_width - 0.25
+                    end
+
                     for i = 1, input_data.height do
                         for j = 1, input_data.width do
                             local recipe_item = input_data.input[i][j]
@@ -153,22 +161,22 @@ local function craftguide_recipe_form(player)
                                     recipe_itemname = craftguide_groups[groupname].redirect
                                     recipe_item = recipe_itemname.." "..recipe_itemcount
                                     ret_form = ret_form..
-                                        "item_image_button["..( 0.875 + ((j - 1) * 1.25) )..","..( 0.75 + ((i - 1) * 1.25) )..
-                                            ";1,1;"..recipe_item..";"..groupstring..";(G)]"..
-                                        "tooltip["..groupstring..";"..craftguide_groups[groupname].description.."]"
+                                        "item_image_button["..( 0.875 + ((j - 1) * item_width) )..","..( 0.75 + ((i - 1) * item_width) )..
+                                            ";"..item_scale..","..item_scale..";"..recipe_item..";workbench_craftguide_item_"..groupstring..";(G)]"..
+                                        "tooltip[workbench_craftguide_item_"..groupstring..";"..craftguide_groups[groupname].description.."]"
                                 else
                                     recipe_itemname = find_first_in_group(groupname)
                                     recipe_item = recipe_itemname.." "..recipe_itemcount
                                     craftguide_groups_auto[groupname] = groupstring
                                     ret_form = ret_form..
-                                        "item_image_button["..( 0.875 + ((j - 1) * 1.25) )..","..( 0.75 + ((i - 1) * 1.25) )..
-                                            ";1,1;"..recipe_item..";"..groupstring..";(G)]"..
-                                        "tooltip["..groupstring..";"..minetest.formspec_escape(groupname).."]"
+                                        "item_image_button["..( 0.875 + ((j - 1) * item_width) )..","..( 0.75 + ((i - 1) * item_width) )..
+                                            ";"..item_scale..","..item_scale..";"..recipe_item..";workbench_craftguide_item_"..groupstring..";(G)]"..
+                                        "tooltip[workbench_craftguide_item_"..groupstring..";"..minetest.formspec_escape(groupname).."]"
                                 end
                             else
                                 ret_form = ret_form..
-                                    "item_image_button["..( 0.875 + ((j - 1) * 1.25) )..","..( 0.75 + ((i - 1) * 1.25) )..
-                                        ";1,1;"..recipe_item..";workbench_craftguide_item_"..recipe_itemname..";]"..
+                                    "item_image_button["..( 0.875 + ((j - 1) * item_width) )..","..( 0.75 + ((i - 1) * item_width) )..
+                                        ";"..item_scale..","..item_scale..";"..recipe_item..";workbench_craftguide_item_"..recipe_itemname..";]"..
                                     generate_item_tooltip(recipe_itemname)
                             end
                         end

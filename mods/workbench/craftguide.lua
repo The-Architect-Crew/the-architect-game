@@ -691,11 +691,6 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
             cgdata.curr_page = 1
             cgdata.form_list = nil
         end
-
-        if fields.workbench_craftguide_modfilter_scroll then
-			local scrolldis = minetest.explode_scrollbar_event(fields.workbench_craftguide_modfilter_scroll)
-			cgdata.mod_filter_scroll = scrolldis.value
-		end
     end
 
     -- search filter
@@ -786,8 +781,18 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
         winv.refresh(player) -- switch back to normal inventory
     end
 
-    -- refresh and updates formspec (if not quitting)
-    if not fields.quit and not fields.workbench_craftguide_exit then
+    if fields.workbench_craftguide_modfilter_scroll then
+        local scrolldis = minetest.explode_scrollbar_event(fields.workbench_craftguide_modfilter_scroll)
+        if cgdata.mod_filter_scroll ~= scrolldis.value then
+            cgdata.mod_filter_scroll = scrolldis.value
+        else
+            player:set_inventory_formspec(craftguide_form(player))
+            return
+        end
+    end
+
+    -- refresh and updates formspec (if not quitting and not scrolling)
+    if not fields.quit and not fields.workbench_craftguide_exit and not fields.workbench_craftguide_modfilter_scroll then
         player:set_inventory_formspec(craftguide_form(player))
     end
 end)

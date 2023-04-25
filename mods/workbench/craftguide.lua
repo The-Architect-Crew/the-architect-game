@@ -226,8 +226,8 @@ local function craftguide_recipe_form(player)
     local mt_output_data = minetest.get_all_craft_recipes(item)
     if mt_output_data then -- mt crafting api
         for index, value in pairs(mt_output_data) do
-            recipe_count = recipe_count + 1
-            if recipe_count == craftguide_data[playername].item_recipe_curr then
+            --recipe_count = recipe_count + 1
+            if (recipe_count + index) == craftguide_data[playername].item_recipe_curr then
                 -- determine size (width & height) of recipe
                 local width = value.width
                 local recipe_amt = #value.items
@@ -235,6 +235,9 @@ local function craftguide_recipe_form(player)
                     width = 3
                 end
                 local height = math.ceil(recipe_amt / width)
+                if height < 5 then
+                    height = 5 -- hacky method -- to figure out better way to find height
+                end
                 -- apply dynamic input scale
                 local item_scale = 1
                 local item_width = 1.25
@@ -310,6 +313,7 @@ local function craftguide_recipe_form(player)
                     "tooltip[workbench_craftguide_ctype;"..crafting_desc.."]"
             end
         end
+        recipe_count = recipe_count + #mt_output_data
     end
     craftguide_data[playername].item_recipe_max = recipe_count
     ret_form = ret_form..

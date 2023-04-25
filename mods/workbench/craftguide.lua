@@ -234,10 +234,7 @@ local function craftguide_recipe_form(player)
                 if width == 0 then -- shapeless recipe
                     width = 3
                 end
-                local height = recipe_amt / width
-                if height < 1 then
-                    height = 1
-                end
+                local height = math.ceil(recipe_amt / width)
                 -- apply dynamic input scale
                 local item_scale = 1
                 local item_width = 1.25

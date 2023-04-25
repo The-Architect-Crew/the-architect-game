@@ -9,6 +9,16 @@ local craftguide_list = {} -- valid crafts list
 local craftguide_names_list = {} -- valid crafts names
 local craftguide_desc_list = {} -- valid crafts descriptions
 local craftguide_data = {} -- various player specific form data
+local craftguide_groups = {}
+
+function workbench:register_craftguide_group(groupname, def)
+    craftguide_groups[groupname] = {
+        redirect = def.redirect, -- item to redirect
+        description = def.description, -- description of group
+    }
+end
+local path = minetest.get_modpath("workbench")
+dofile(path.."/craftguide_groups.lua")
 
 local function craftguide_init(player)
     local playername = player:get_player_name()
@@ -34,6 +44,39 @@ local function craftguide_init(player)
 		old_mod_filter = {},
 		mod_filter_scroll = 0,
     }
+end
+
+local function is_group(itemname)
+    if itemname:find("group:", 1, true) then
+        return true
+    end
+end
+
+local function group_match(groupname, itemname)
+    local group_list = {}
+    local groupstring = string.match(groupname, ':(.*)')
+    for group in string.gmatch(groupstring, '([^,]+)') do
+        table.insert(group_list, group)
+    end
+
+    -- check item fulfill all groups
+    for i = 1, #group_list do
+        if minetest.get_item_group(itemname, group_list[i]) == 0 then
+            return nil
+        end
+    end
+    return true
+end
+
+local function find_first_in_group(groupname)
+    for itemname, def in pairs(minetest.registered_items) do
+        if def.groups.not_in_creative_inventory ~= 1 and def.groups.not_in_craftguide ~= 1 then
+            if group_match(groupname, itemname) then
+                return itemname
+            end
+        end
+    end
+    return groupname
 end
 
 local function generate_item_tooltip(itemname)
@@ -97,10 +140,31 @@ local function craftguide_recipe_form(player)
                         for j = 1, input_data.width do
                             local recipe_item = input_data.input[i][j]
                             local recipe_itemname = ItemStack(recipe_item):get_name()
-                            ret_form = ret_form..
-                                "item_image_button["..( 0.875 + ((j - 1) * 1.25) )..","..( 0.75 + ((i - 1) * 1.25) )..
-                                    ";1,1;"..recipe_item..";workbench_craftguide_item_"..recipe_itemname..";]"..
+                            local recipe_itemcount = ItemStack(recipe_item):get_count()
+                            if is_group(recipe_itemname) then -- group label
+                                local groupname = recipe_itemname
+                                local groupstring = groupname:gsub(",", "") -- remove all commas to prevent invalid fieldname
+                                if craftguide_groups[groupname] then
+                                    recipe_itemname = craftguide_groups[groupname].redirect
+                                    recipe_item = recipe_itemname.." "..recipe_itemcount
+                                    ret_form = ret_form..
+                                        "item_image_button["..( 0.875 + ((j - 1) * 1.25) )..","..( 0.75 + ((i - 1) * 1.25) )..
+                                            ";1,1;"..recipe_item..";"..groupstring..";(G)]"..
+                                        "tooltip["..groupstring..";"..craftguide_groups[groupname].description.."]"
+                                else
+                                    recipe_itemname = find_first_in_group(groupname)
+                                    recipe_item = recipe_itemname.." "..recipe_itemcount
+                                    ret_form = ret_form..
+                                        "item_image_button["..( 0.875 + ((j - 1) * 1.25) )..","..( 0.75 + ((i - 1) * 1.25) )..
+                                            ";1,1;"..recipe_item..";"..groupstring..";(G)]"..
+                                        "tooltip["..groupstring..";"..minetest.formspec_escape(groupname).."]"
+                                end
+                            else
+                                ret_form = ret_form..
+                                    "item_image_button["..( 0.875 + ((j - 1) * 1.25) )..","..( 0.75 + ((i - 1) * 1.25) )..
+                                        ";1,1;"..recipe_item..";workbench_craftguide_item_"..recipe_itemname..";]"..
                                     generate_item_tooltip(recipe_itemname)
+                            end
                         end
                     end
 
@@ -150,10 +214,31 @@ local function craftguide_recipe_form(player)
                         if recipe_item then
                             local recipe_itemname = ItemStack(recipe_item):get_name()
                             if recipe_itemname then
-                                ret_form = ret_form..
-                                    "item_image_button["..( 0.875 + ((j - 1) * 1.25) )..","..( 0.75 + ((i - 1) * 1.25) )..
-                                        ";1,1;"..recipe_item..";workbench_craftguide_item_"..recipe_itemname..";]"..
+                                local recipe_itemcount = ItemStack(recipe_item):get_count()
+                                if is_group(recipe_itemname) then -- group label
+                                    local groupname = recipe_itemname
+                                    local groupstring = groupname:gsub(",", "") -- remove all commas to prevent invalid fieldname
+                                    if craftguide_groups[groupname] then
+                                        recipe_itemname = craftguide_groups[groupname].redirect
+                                        recipe_item = recipe_itemname.." "..recipe_itemcount
+                                        ret_form = ret_form..
+                                            "item_image_button["..( 0.875 + ((j - 1) * 1.25) )..","..( 0.75 + ((i - 1) * 1.25) )..
+                                                ";1,1;"..recipe_item..";workbench_craftguide_item_"..groupstring..";(G)]"..
+                                            "tooltip[workbench_craftguide_item_"..groupstring..";"..craftguide_groups[groupname].description.."]"
+                                    else
+                                        recipe_itemname = find_first_in_group(groupname)
+                                        recipe_item = recipe_itemname.." "..recipe_itemcount
+                                        ret_form = ret_form..
+                                            "item_image_button["..( 0.875 + ((j - 1) * 1.25) )..","..( 0.75 + ((i - 1) * 1.25) )..
+                                                ";1,1;"..recipe_item..";workbench_craftguide_item_"..groupstring..";(G)]"..
+                                            "tooltip[workbench_craftguide_item_"..groupstring..";"..minetest.formspec_escape(groupname).."]"
+                                    end
+                                else
+                                    ret_form = ret_form..
+                                        "item_image_button["..( 0.875 + ((j - 1) * 1.25) )..","..( 0.75 + ((i - 1) * 1.25) )..
+                                            ";1,1;"..recipe_item..";workbench_craftguide_item_"..recipe_itemname..";]"..
                                         generate_item_tooltip(recipe_itemname)
+                                end
                             end
                         end
                     end
@@ -455,7 +540,7 @@ winv:register_inventory("craftguide", {
     hide_in_node = true,
     button_function = function(player)
         local playername = player:get_player_name()
-        if not craftguide_data[playername] then -- ensure data initalized
+        if not craftguide_data[playername] then
             craftguide_init(player)
         end
         craftguide_data[playername].active = true
@@ -464,11 +549,8 @@ winv:register_inventory("craftguide", {
 })
 
 minetest.register_on_player_receive_fields(function(player, formname, fields)
-    --if formname ~= "workbench:craftguide" then
-    --    return
-    --end
     local playername = player:get_player_name()
-    if not craftguide_data[playername] then -- ensure data initalized
+    if not craftguide_data[playername] then
         craftguide_init(player)
     end
 
@@ -611,12 +693,22 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
         end
     end
 
-    if fields.workbench_craftguide_exit or fields.quit then
-        cgdata.active = false
-        winv.refresh(player)
+    for groupname, def in pairs(craftguide_groups) do
+        local groupstring = groupname:gsub(",", "") -- remove all commas to prevent invalid fieldname
+        if (fields["workbench_craftguide_item_"..groupstring]) then
+            cgdata.item = def.redirect
+            cgdata.item_recipe_curr = 1 -- reset page
+        end
     end
 
-    if not fields.quit and not fields.workbench_craftguide_exit then -- refresh and updates formspec (if not quitting)
+    -- quitting
+    if fields.workbench_craftguide_exit or fields.quit then
+        cgdata.active = false
+        winv.refresh(player) -- switch back to normal inventory
+    end
+
+    -- refresh and updates formspec (if not quitting)
+    if not fields.quit and not fields.workbench_craftguide_exit then
         player:set_inventory_formspec(craftguide_form(player))
     end
 end)

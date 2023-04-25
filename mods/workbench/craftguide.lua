@@ -150,7 +150,7 @@ local function craftguide_recipe_form(player)
                         item_scale = item_width - 0.25
                     end
 
-                    -- create item form
+                    -- create input item form
                     for i = 1, input_data.height do
                         for j = 1, input_data.width do
                             local recipe_item = input_data.input[i][j]
@@ -184,13 +184,21 @@ local function craftguide_recipe_form(player)
                         end
                     end
 
-                    -- output item(s)
+                    -- output item(s) form
                     local output_items = (workbench_crafts.output[value.ctype][input_data.id][value.output_index].items)
+                    local output_amt = #output_items
+                    -- apply dynamic output scale
+                    local output_item_scale = 1
+                    local output_item_width = 1.25
+                    if output_amt > 4 then
+                        output_item_width = (5 / output_amt)
+                        output_item_scale = output_item_width - 0.25
+                    end
                     for index2, output_item in pairs(output_items) do
                         local output_itemname = output_item:get_name()
                         local output_itemstring = output_item:get_name().." "..output_item:get_count()
                         ret_form = ret_form..
-                            "item_image_button["..1.4375 + ((index2 - 1) * 1.25)..",7.625;1,1;"..output_itemstring..";workbench_craftguide_item_"..output_itemname..";]"..
+                            "item_image_button["..1.4375 + ((index2 - 1) * output_item_width)..",7.625;"..output_item_scale..","..output_item_scale..";"..output_itemstring..";workbench_craftguide_item_"..output_itemname..";]"..
                             generate_item_tooltip(output_itemname)
                     end
 

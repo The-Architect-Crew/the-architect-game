@@ -271,7 +271,6 @@ function workbench:register_craft(def)
 			ctype = ctype,
 		})
 	else -- sort multiple output
-        print("SORTING MULTI OUTPUT: "..output_count)
         local sorted_output_names = {} -- table to sort output names (prevent duplicates)
         for i = 1, #def.output do -- height
             for j = 1, #def.output do -- width

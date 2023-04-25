@@ -116,6 +116,7 @@ local function craftguide_display_form(player)
     return ret_form
 end
 
+-- recipe form (right side)
 local function craftguide_recipe_form(player)
     local playername = player:get_player_name()
     if not craftguide_data[playername] or craftguide_data[playername].item == "" then
@@ -126,7 +127,7 @@ local function craftguide_recipe_form(player)
         "image[0,0;7.75,9;winv_bg.png]"..
         "style[workbench_current_item;border=false]"..
         craftguide_display_form(player)..
-        "box[0.25,0.25;7.275,7.055;#00000070]"..
+        "box[0.25,0.25;7.275,7.275;#00000070]"..
         -- arrows
         "image_button[6.5,7.83;0.5,0.8;winv_cicon_miniarrow.png^[transformFX;workbench_craftguide_recipe_prev;;;false;]"..
         "image_button[7,7.85;0.5,0.8;winv_cicon_miniarrow.png;workbench_craftguide_recipe_next;;;false;]"
@@ -163,7 +164,7 @@ local function craftguide_recipe_form(player)
                                     recipe_itemname = craftguide_groups[groupname].redirect
                                     recipe_item = recipe_itemname.." "..recipe_itemcount
                                     ret_form = ret_form..
-                                        "item_image_button["..( 0.875 + ((j - 1) * item_width) )..","..( 0.75 + ((i - 1) * item_width) )..
+                                        "item_image_button["..( 0.875 + ((j - 1) * item_width) )..","..( 0.875 + ((i - 1) * item_width) )..
                                             ";"..item_scale..","..item_scale..";"..recipe_item..";workbench_craftguide_item_"..groupstring..";(G)]"..
                                         "tooltip[workbench_craftguide_item_"..groupstring..";"..craftguide_groups[groupname].description.."]"
                                 else
@@ -171,13 +172,13 @@ local function craftguide_recipe_form(player)
                                     recipe_item = recipe_itemname.." "..recipe_itemcount
                                     craftguide_groups_auto[groupname] = groupstring
                                     ret_form = ret_form..
-                                        "item_image_button["..( 0.875 + ((j - 1) * item_width) )..","..( 0.75 + ((i - 1) * item_width) )..
+                                        "item_image_button["..( 0.875 + ((j - 1) * item_width) )..","..( 0.875 + ((i - 1) * item_width) )..
                                             ";"..item_scale..","..item_scale..";"..recipe_item..";workbench_craftguide_item_"..groupstring..";(G)]"..
                                         "tooltip[workbench_craftguide_item_"..groupstring..";"..minetest.formspec_escape(groupname).."]"
                                 end
                             else
                                 ret_form = ret_form..
-                                    "item_image_button["..( 0.875 + ((j - 1) * item_width) )..","..( 0.75 + ((i - 1) * item_width) )..
+                                    "item_image_button["..( 0.875 + ((j - 1) * item_width) )..","..( 0.875 + ((i - 1) * item_width) )..
                                         ";"..item_scale..","..item_scale..";"..recipe_item..";workbench_craftguide_item_"..recipe_itemname..";]"..
                                     generate_item_tooltip(recipe_itemname)
                             end
@@ -198,7 +199,7 @@ local function craftguide_recipe_form(player)
                         local output_itemname = output_item:get_name()
                         local output_itemstring = output_item:get_name().." "..output_item:get_count()
                         ret_form = ret_form..
-                            "item_image_button["..1.4375 + ((index2 - 1) * output_item_width)..",7.625;"..output_item_scale..","..output_item_scale..";"..output_itemstring..";workbench_craftguide_item_"..output_itemname..";]"..
+                            "item_image_button["..1.4375 + ((index2 - 1) * output_item_width)..",7.75;"..output_item_scale..","..output_item_scale..";"..output_itemstring..";workbench_craftguide_item_"..output_itemname..";]"..
                             generate_item_tooltip(output_itemname)
                     end
 
@@ -215,7 +216,7 @@ local function craftguide_recipe_form(player)
 
                     ret_form = ret_form..
                         "style[workbench_craftguide_ctype;border=false]"..
-                        "image_button[0.25,7.625;1,1;"..crafting_arrow..";workbench_craftguide_ctype;]"..
+                        "image_button[0.25,7.75;1,1;"..crafting_arrow..";workbench_craftguide_ctype;]"..
                         "tooltip[workbench_craftguide_ctype;"..crafting_desc.."]"
                 end
             end
@@ -234,6 +235,9 @@ local function craftguide_recipe_form(player)
                     width = 3
                 end
                 local height = recipe_amt / width
+                if height < 1 then
+                    height = 1
+                end
                 -- apply dynamic input scale
                 local item_scale = 1
                 local item_width = 1.25
@@ -259,7 +263,7 @@ local function craftguide_recipe_form(player)
                                         recipe_itemname = craftguide_groups[groupname].redirect
                                         recipe_item = recipe_itemname.." "..recipe_itemcount
                                         ret_form = ret_form..
-                                            "item_image_button["..( 0.875 + ((j - 1) * item_width) )..","..( 0.75 + ((i - 1) * item_width) )..
+                                            "item_image_button["..( 0.875 + ((j - 1) * item_width) )..","..( 0.875 + ((i - 1) * item_width) )..
                                                 ";"..item_scale..","..item_scale..";"..recipe_item..";workbench_craftguide_item_"..groupstring..";(G)]"..
                                             "tooltip[workbench_craftguide_item_"..groupstring..";"..craftguide_groups[groupname].description.."]"
                                     else
@@ -267,13 +271,13 @@ local function craftguide_recipe_form(player)
                                         recipe_item = recipe_itemname.." "..recipe_itemcount
                                         craftguide_groups_auto[groupname] = groupstring
                                         ret_form = ret_form..
-                                            "item_image_button["..( 0.875 + ((j - 1) * item_width) )..","..( 0.75 + ((i - 1) * item_width) )..
+                                            "item_image_button["..( 0.875 + ((j - 1) * item_width) )..","..( 0.875 + ((i - 1) * item_width) )..
                                                 ";"..item_scale..","..item_scale..";"..recipe_item..";workbench_craftguide_item_"..groupstring..";(G)]"..
                                             "tooltip[workbench_craftguide_item_"..groupstring..";"..minetest.formspec_escape(groupname).."]"
                                     end
                                 else
                                     ret_form = ret_form..
-                                        "item_image_button["..( 0.875 + ((j - 1) * item_width) )..","..( 0.75 + ((i - 1) * item_width) )..
+                                        "item_image_button["..( 0.875 + ((j - 1) * item_width) )..","..( 0.875 + ((i - 1) * item_width) )..
                                             ";"..item_scale..","..item_scale..";"..recipe_item..";workbench_craftguide_item_"..recipe_itemname..";]"..
                                         generate_item_tooltip(recipe_itemname)
                                 end
@@ -301,10 +305,11 @@ local function craftguide_recipe_form(player)
                 end
 
                 ret_form = ret_form..
-                    "item_image_button[1.4375,7.625;1,1;"..output_item..";workbench_craftguide_item_"..output_itemname..";]"..
+                    "item_image_button[1.4375,7.75;1,1;"..output_item..";workbench_craftguide_item_"..output_itemname..";]"..
                     generate_item_tooltip(output_itemname)..
+                    -- craft type
                     "style[workbench_craftguide_ctype;border=false]"..
-                    "image_button[0.25,7.625;1,1;"..crafting_arrow..";workbench_craftguide_ctype;]"..
+                    "image_button[0.25,7.75;1,1;"..crafting_arrow..";workbench_craftguide_ctype;]"..
                     "tooltip[workbench_craftguide_ctype;"..crafting_desc.."]"
             end
         end
@@ -315,7 +320,7 @@ local function craftguide_recipe_form(player)
     if recipe_count == 0 then
         ret_form = ret_form..
             "style[workbench_craftguide_no_recipe;border=false]"..
-            "image_button[0.25,7.625;1,1;gui_cross_big.png;workbench_craftguide_no_recipe;]"..
+            "image_button[0.25,7.75;1,1;gui_cross_big.png;workbench_craftguide_no_recipe;]"..
             "tooltip[workbench_craftguide_no_recipe;No recipe found!]"
     end
     return ret_form

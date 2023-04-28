@@ -202,7 +202,7 @@ local function craftguide_recipe_form(player)
 
     local output_data = workbench_crafts.output_by_name[item] -- workbench crafting
     local mt_output_data = minetest.get_all_craft_recipes(item) -- mt crafting
-    total_count = 0
+    local total_count
     if output_data and mt_output_data then
         total_count = #output_data + #mt_output_data
     else

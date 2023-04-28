@@ -13,25 +13,6 @@ furniture.craftstation_materials = {
     {"blocks:rustblock", "blocks:rustblock"}
 }
 
--- Model and Collection definitions
-dofile(path .."/content.lua")
-
--- These are furniture in the sense that they're models
-dofile(path.."/assembler.lua")
-dofile(path.."/brickmaker.lua")
-dofile(path.."/engraver.lua")
-dofile(path.."/tablesaw.lua")
-
--- Anything that contains crafting registrations has to go after craftstations
-dofile(path.."/steampunk.lua")
-
--- And these are furniture since players can't get the stuff otherwise
-dofile(path.."/craftitems.lua")
-dofile(path.."/crafts.lua")
-
--- Testing stuff
-dofile(path.."/testing.lua")
-
 -- Helper functions
 furniture.table_contains = function(term, table)
     if (table == nil) then
@@ -65,6 +46,29 @@ furniture.table_append = function(table, input_table)
         table[table_len + i] = input_table[i]
     end
 end
+
+-- Model and Collection definitions
+dofile(path .."/content/base.lua")
+dofile(path .."/content/bathroom.lua")
+dofile(path .."/content/kitchen.lua")
+dofile(path .."/content/medieval.lua")
+dofile(path .."/content/steampunk.lua")
+
+-- These are furniture in the sense that they're models
+dofile(path.."/assembler.lua")
+dofile(path.."/brickmaker.lua")
+dofile(path.."/engraver.lua")
+dofile(path.."/tablesaw.lua")
+
+-- Anything that contains crafting registrations has to go after craftstations
+dofile(path.."/steampunk.lua")
+
+-- And these are furniture since players can't get the stuff otherwise
+dofile(path.."/craftitems.lua")
+dofile(path.."/crafts.lua")
+
+-- Testing stuff
+dofile(path.."/testing.lua")
 
 -- Furniture registration
 function furniture.register(base_node, limit, materials, texture)
@@ -445,7 +449,7 @@ furniture.register("blocks:mushroom_wood", furniture.woodlike_set, {"blocks:mush
 furniture.register("blocks:pine_wood", furniture.woodlike_set, {"blocks:pine_wood", "blocks:stick"}, "variations_pine_wood.png^[sheet:3x3:1,0")
 furniture.register("blocks:cherry_wood", furniture.woodlike_set, {"blocks:cherry_wood", "blocks:stick"}, "variations_cherry_wood.png^[sheet:3x3:1,0")
 furniture.register("blocks:steelblock", furniture.woodlike_set, {"blocks:steelblock", "blocks:steel_ingot"}, "variations_steelblock.png^[sheet:3x3:1,0")
-furniture.register("blocks:rustblock", furniture.woodlike_set, {"blocks:rustblock", "blocks:steel_ingot"}, "furniture_rustblock_clean.png") -- Fix crafting later
+furniture.register("blocks:rustblock", furniture.woodlike_set, {"blocks:rustblock", "blocks:rust_ingot"}, "furniture_rustblock_clean.png") -- Fix crafting later
 
 furniture.register("blocks:stone", furniture.stonelike_set, {"blocks:stone", "blocks:shapes_stone_slab"}, "variations_stone.png^[sheet:3x3:1,0")
 furniture.register("blocks:desert_stone", furniture.stonelike_set, {"blocks:desert_stone", "blocks:shapes_desert_stone_slab"}, "variations_desert_stone.png^[sheet:3x3:1,0")
@@ -462,3 +466,6 @@ furniture.register("blocks:garnet", furniture.glasslike_set, {"blocks:garnet", "
 
 furniture.register("blocks:steelblock", furniture.steampunk_set, {"blocks:steelblock", "blocks:steel_ingot"}, "variations_steelblock.png^[sheet:3x3:1,0")
 furniture.register("blocks:rustblock", furniture.steampunk_set, {"blocks:rustblock", "blocks:rust_ingot"}, "variations_rustblock.png^[sheet:3x3:1,0")
+
+furniture.register("blocks:steelblock", furniture.house_appliances, {"blocks:steelblock", "blocks:steel_ingot"}, "variations_steelblock.png^[sheet:3x3:1,0")
+furniture.register("blocks:steelblock", furniture.bathroom_set, {"blocks:steelblock", "blocks:steel_ingot"}, "variations_steelblock.png^[sheet:3x3:1,0")

@@ -152,13 +152,14 @@ function furniture.register_pipe_recipe(cname, item, material)
     local recipe = {{}, {}, {}, {}, {}}
     for rw=1,5 do
         for cl=1,5 do
-            if (furniture.pipe_crafting[cname][rw][cl]) then
+            if (furniture.pipe_crafting[cname][rw][cl] == 1) then
                 recipe[rw][cl] = item
             else
                 recipe[rw][cl] = ""
             end
         end
     end
+    print(dump(recipe))
     if (material) then
         workbench:register_craft({
             type = "furniture",

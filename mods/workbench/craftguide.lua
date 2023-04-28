@@ -98,6 +98,9 @@ end
 
 -- generate item tooltip
 local function generate_item_tooltip(itemname)
+    if not itemname or itemname == "" then
+        return ""
+    end
     local desc = itemname
     local desc_from_table = craftguide_desc_list[itemname]
     if desc_from_table then
@@ -112,7 +115,7 @@ local function generate_item_tooltip(itemname)
     end
     -- unknown tooltip + prints warning
     desc = ccore.comment("Unknown", itemname)
-    print("[workbench] Unknown item found: "..itemname)
+    print("[workbench] warning: unknown item found: "..itemname)
     return "tooltip[workbench_craftguide_item_"..itemname..";"..desc.."]"
 end
 
@@ -194,10 +197,29 @@ local function craftguide_recipe_form(player)
         "style[workbench_craftguide_redo;border=false]"..
         redo_button..
         "tooltip[workbench_craftguide_redo;Redo to next recipe]"
+        --"image_button[7.85,2.3;0.5,0.5;winv_icon_return.png^[colorize:#565656;workbench_craftguide_usage;U]"..
+        --"tooltip[workbench_craftguide_usage;Show usage]"
 
-    -- workbench crafting
-    local output_data = workbench_crafts.output_by_name[item]
+    local output_data = workbench_crafts.output_by_name[item] -- workbench crafting
+    local mt_output_data = minetest.get_all_craft_recipes(item) -- mt crafting
+    total_count = 0
+    if output_data and mt_output_data then
+        total_count = #output_data + #mt_output_data
+    else
+        if output_data then
+            total_count = #output_data
+        else
+            total_count = #mt_output_data
+        end
+    end
+    if craftguide_data[playername].item_recipe_curr == 0 then
+        craftguide_data[playername].item_recipe_curr = total_count
+    end
+
+    -- TODO: manipulate order according to item name (variations should have mt first to push crafting to first)
+
     local recipe_count = 0
+    -- workbench crafting
     if output_data then
         for index, value in pairs(output_data) do
             local input_data = workbench_crafts.input[value.ctype][value.input_index]
@@ -287,7 +309,6 @@ local function craftguide_recipe_form(player)
     end
 
     -- mt crafting api
-    local mt_output_data = minetest.get_all_craft_recipes(item)
     if mt_output_data then
         for index, value in pairs(mt_output_data) do
             --recipe_count = recipe_count + 1
@@ -378,7 +399,7 @@ local function craftguide_recipe_form(player)
     -- handle common displays (recipe page)
     craftguide_data[playername].item_recipe_max = recipe_count
     ret_form = ret_form..
-        "label[0.25,9.25;Recipe " .. minetest.colorize("#FFFF00", tostring(craftguide_data[playername].item_recipe_curr)) .. " / " .. tostring(recipe_count) .. "]"
+        "label[0.25,9.25;Recipe " .. minetest.colorize("#FFFF00", tostring(recipe_count - craftguide_data[playername].item_recipe_curr) + 1) .. " / " .. tostring(recipe_count) .. "]" -- reverse page count (ensure older recipes are shown first)
     if recipe_count == 0 then -- no recipe found
         ret_form = ret_form..
             "style[workbench_craftguide_no_recipe;border=false]"..
@@ -561,12 +582,60 @@ local function is_craftable(itemname)
     end
 end
 
+workbench:register_crafttype("drops", {
+	description = ccore.comment("Drops", "Digging by chance"),
+    icon = "workbench_crafticon_drops.png"
+})
+
 -- cache all craft items
 local start_time
 minetest.register_on_mods_loaded(function()
     start_time = os.clock()
     print("[workbench] caching craftguide items...")
     for itemname, def in pairs(minetest.registered_items) do
+        -- handle drops
+        local drops = def.drop
+        if drops then
+            if def.groups.not_in_creative_inventory ~= 1 then
+                if type(drops) == "string" then
+                    local drop_itemstack = ItemStack(drops)
+                    local drop_itemname = drop_itemstack:get_name()
+                    local drop_item = minetest.registered_items[drop_itemname]
+                    if drop_itemname ~= itemname and drop_item.groups.not_in_creative_inventory ~= 1 then
+                        workbench:register_craft({
+                            type = "drops",
+                            input = {
+                                {itemname}
+                            },
+                            output = {
+                                {drops}
+                            }
+                        })
+                    end
+                elseif drops.items then
+                    for index, data in pairs(drops.items) do
+                        local drop_itemstack = ItemStack(data.items[index])
+                        local drop_itemname = drop_itemstack:get_name()
+                        local drop_item = minetest.registered_items[drop_itemname]
+                        if drop_itemname ~= itemname and drop_item.groups.not_in_creative_inventory ~= 1 then
+                            workbench:register_craft({
+                                type = "drops",
+                                input = {
+                                    {itemname}
+                                },
+                                output = {
+                                    {data.items[1]}
+                                }
+                            })
+                        end
+                    end
+                else
+                    print("[workbench] warning: faulty drop for: "..itemname)
+                end
+            end
+        end
+
+        -- handle craft guide list
         if def.description and def.description ~= "" and def.groups.not_in_craft_guide ~= 1 and itemname:find(":") then --and def.groups.not_in_creative_inventory ~= 1 then
             if is_craftable(itemname) then
                 craftguide_list[itemname] = def -- cache all craftable items definitions
@@ -581,6 +650,7 @@ minetest.register_on_mods_loaded(function()
     for key, def in pairs(craftguide_list_all) do
         craftguide_names_list[#craftguide_names_list+1] = key -- cache all valid names
     end
+
     print("[workbench] craftguide items cached! took "..os.clock() - start_time.."s")
 end)
 
@@ -894,13 +964,13 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
     -- change recipes
     if cgdata.item and cgdata.item ~= "" then
         if cgdata.item_recipe_max > 1 then
-            if fields.workbench_craftguide_recipe_prev then -- previous recipe
+            if fields.workbench_craftguide_recipe_next then -- previous recipe
                 if cgdata.item_recipe_curr <= 1 then
                     cgdata.item_recipe_curr = cgdata.item_recipe_max
                 else
                     cgdata.item_recipe_curr = cgdata.item_recipe_curr - 1
                 end
-            elseif fields.workbench_craftguide_recipe_next then -- next recipe
+            elseif fields.workbench_craftguide_recipe_prev then -- next recipe
                 if cgdata.item_recipe_curr >= cgdata.item_recipe_max then
                     cgdata.item_recipe_curr = 1
                 else
@@ -917,14 +987,14 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
                 cgdata.item_view = cgdata.item_view - 1
 
                 cgdata.item = cgdata.history[cgdata.item_view]
-                cgdata.item_recipe_curr = 1 -- reset page
+                cgdata.item_recipe_curr = 0 -- reset page
             end
         elseif fields.workbench_craftguide_redo then
             if cgdata.item_view < #cgdata.history then
                 cgdata.item_view = cgdata.item_view + 1
 
                 cgdata.item = cgdata.history[cgdata.item_view]
-                cgdata.item_recipe_curr = 1 -- reset page
+                cgdata.item_recipe_curr = 0 -- reset page
             end
         end
     end
@@ -944,7 +1014,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
                 end
                 -- set item
                 cgdata.item = itemname
-                cgdata.item_recipe_curr = 1 -- reset page
+                cgdata.item_recipe_curr = 0 -- reset page
             end
         end
     end

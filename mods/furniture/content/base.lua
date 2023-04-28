@@ -468,6 +468,36 @@ furniture.types = {
         }
     },
     {
+        name = "shelf_small_thick_book",
+        base = "shelf_small_filled_thick",
+        description = "Small Bookshelf",
+        special_materials = "blocks:book",
+        special_textures = "furniture_bookshelf_thick1.png",
+        box = {-0.5, -0.5, -0.0625, 0.5, 0.5, 0.5},
+        crafting = {
+            {0, 1, 1, 1, 0},
+            {2, 0, 3, 0, 2},
+            {2, 2, 2, 2, 2},
+            {2, 0, 3, 0, 2},
+            {0, 1, 1, 1, 0},
+        }
+    },
+    {
+        name = "shelf_node_small_thick_book",
+        base = "shelf_node_small_filled_thick",
+        description = "Small Node-Sized Bookshelf",
+        special_materials = "blocks:book",
+        special_textures = "furniture_bookshelf_thick1.png",
+        box = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
+        crafting = {
+            {0, 1, 1, 1, 0},
+            {2, 1, 3, 1, 2},
+            {2, 2, 2, 2, 2},
+            {2, 1, 3, 1, 2},
+            {0, 1, 1, 1, 0},
+        }
+    },
+    {
         name = "shelf_node_small_thick",
         description = "Small Node-Sized Empty Shelf",
         storage = 2,
@@ -492,6 +522,21 @@ furniture.types = {
             {2, 2, 0, 0, 2},
             {2, 2, 2, 2, 2},
             {2, 0, 0, 2, 2},
+            {1, 1, 1, 1, 1},
+        }
+    },
+    {
+        name = "shelf_wide_thick_book",
+        base = "shelf_wide_filled_thick",
+        description = "Wide Bookshelf",
+        special_materials = "blocks:book",
+        special_textures = "furniture_bookshelf_wide_thick1.png",
+        box = {-1.0, -0.5, -0.0625, 1.0, 0.5, 0.5},
+        crafting = {
+            {1, 1, 1, 1, 1},
+            {2, 2, 3, 3, 2},
+            {2, 2, 2, 2, 2},
+            {2, 3, 3, 2, 2},
             {1, 1, 1, 1, 1},
         }
     },
@@ -725,6 +770,9 @@ furniture.stonelike_set = {
     "flowerpot",
     "door",
     "door_flipped",
+    "shelf_small_thick_book",
+    "shelf_node_small_thick_book",
+    "shelf_wide_thick_book",
 }
 
 furniture.glasslike_set = {

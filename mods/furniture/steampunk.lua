@@ -159,7 +159,6 @@ function furniture.register_pipe_recipe(cname, item, material)
             end
         end
     end
-    print(dump(recipe))
     if (material) then
         workbench:register_craft({
             type = "furniture",

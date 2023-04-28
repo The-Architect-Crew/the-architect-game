@@ -10,7 +10,7 @@ furniture.medieval_content = {
         }},
         special_materials = "blocks:coal_lump",
         description = "Wall Sconce",
-        light_source = 12,
+        light_source = 8,
         box = {-2/16, -6/16, 8/16, 2/16, 4/16, 3/16},
         sunlight_propagates = true,
         crafting = {
@@ -32,7 +32,7 @@ furniture.medieval_content = {
         }},
         special_materials = "blocks:coal",
         description = "Brazier",
-        light_source = 16,
+        light_source = 12,
         box = {-7/16, -8/16, -7/16, 7/16, 3/16, 7/16},
         sunlight_propagates = true,
         crafting = {

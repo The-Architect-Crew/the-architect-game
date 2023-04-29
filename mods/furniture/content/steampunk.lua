@@ -7,7 +7,7 @@ furniture.steampunk_content = {
         light_source = 8,
         special_materials = "blocks:glass",
         special_textures = {"blocks_glass.png", {
-            name = "blocks_fire_animated.png",
+            name = "furniture_gaslamp_animated.png",
             animation = {type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = 2.0}
         }},
         crafting = {
@@ -39,7 +39,7 @@ furniture.steampunk_content = {
         light_source = 12,
         special_materials = "blocks:glass",
         special_textures = {"blocks_glass.png", {
-            name = "blocks_fire_animated.png",
+            name = "furniture_gaslamp_animated.png",
             animation = {type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = 2.0}
         }},
         crafting = {
@@ -71,7 +71,7 @@ furniture.steampunk_content = {
         light_source = 12,
         special_materials = "blocks:glass",
         special_textures = {"blocks_glass.png", {
-            name = "blocks_fire_animated.png",
+            name = "furniture_gaslamp_animated.png",
             animation = {type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = 2.0}
         }},
         crafting = {

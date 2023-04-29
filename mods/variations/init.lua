@@ -161,7 +161,7 @@ function variations.register_for_base(base_node, transparent, sunlight)
 		minetest.register_node(variation_name, {
 			description = variation_description,
 			tiles = tiles,
-			groups = base_definition.groups,
+			groups = ccore.groups_copy(base_definition.groups),
 			drawtype = base_definition.drawtype,
 			use_texture_alpha = transparent or base_definition.use_texture_alpha,
 			paramtype = paramtype_light or base_definition.paramtype,
@@ -213,7 +213,7 @@ function variations.register_checker(base_node, second_node, name, transparent, 
 		minetest.register_node(variation_name, {
 			description = variation_description,
 			tiles = tiles,
-			groups = base_definition.groups,
+			groups = ccore.groups_copy(base_definition.groups),
 			drawtype = base_definition.drawtype,
 			use_texture_alpha = transparent or base_definition.use_texture_alpha,
 			paramtype = paramtype_light or base_definition.paramtype,
@@ -268,7 +268,7 @@ function variations.register_support(base_node, support_type, support_material, 
 		minetest.register_node(variation_name, {
 			description = variation_description,
 			tiles = tiles,
-			groups = base_definition.groups,
+			groups = ccore.groups_copy(base_definition.groups),
 			drawtype = base_definition.drawtype,
 			use_texture_alpha = transparent or base_definition.use_texture_alpha,
 			paramtype = paramtype_light or base_definition.paramtype,
@@ -297,7 +297,7 @@ function variations.register_support(base_node, support_type, support_material, 
 	minetest.register_node("variations:" .. sname .. "_support_" .. support_material, {
 		description = ccore.strip_newlines(base_definition.description) .. " with " .. variations.supp_desc[support_material] .. " Support",
 		tiles = tiles_base,
-		groups = base_definition.groups,
+		groups = ccore.groups_copy(base_definition.groups),
 		drawtype = base_definition.drawtype,
 		use_texture_alpha = base_definition.use_texture_alpha,
 		paramtype = base_definition.paramtype,
@@ -374,7 +374,7 @@ function variations.register_frame(base_node)
 			minetest.register_node(frame_name, {
 				description = frame_description,
 				tiles = tiles,
-				groups = base_definition.groups,
+				groups = ccore.groups_copy(base_definition.groups),
 				drawtype = "mesh",
 				mesh = "frame.obj",
 				collision_box = {
@@ -413,7 +413,7 @@ function variations.register_stainglass(base_node)
 			minetest.register_node(frame_dark_name, {
 				description = frame_dark_description,
 				tiles = tiles_dark,
-				groups = base_definition.groups,
+				groups = ccore.groups_copy(base_definition.groups),
 				drawtype = "mesh",
 				mesh = "frame.obj",
 				collision_box = {
@@ -438,7 +438,7 @@ function variations.register_stainglass(base_node)
 			minetest.register_node(frame_light_name, {
 				description = frame_light_description,
 				tiles = tiles_light,
-				groups = base_definition.groups,
+				groups = ccore.groups_copy(base_definition.groups),
 				drawtype = "mesh",
 				mesh = "frame.obj",
 				collision_box = {

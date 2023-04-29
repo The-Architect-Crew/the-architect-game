@@ -77,7 +77,7 @@ function patterns.register_corners(base_node)
 					base_texture,
 					base_texture,
 					"(" .. base_texture .. "^patterns_shadow_overlay_right.png)^" .. overlay_right},
-				groups = base_definition.groups,
+				groups = ccore.groups_copy(base_definition.groups),
 				drawtype = base_definition.drawtype,
 				paramtype2 = "facedir"
 		})

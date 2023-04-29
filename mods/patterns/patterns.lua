@@ -171,7 +171,7 @@ function patterns.register_patterns(base_node, limit)
 				minetest.register_node(pattern_name, {
 					description = pattern_description,
 					tiles = tiles,
-					groups = base_definition.groups,
+					groups = ccore.groups_copy(base_definition.groups),
 					drawtype = base_definition.drawtype,
 					paramtype2 = "facedir"
 					})
@@ -198,7 +198,7 @@ function patterns.register_patterns_single(base_node, limit)
 				minetest.register_node(pattern_name, {
 					description = pattern_description,
 					tiles = tiles,
-					groups = base_definition.groups,
+					groups = ccore.groups_copy(base_definition.groups),
 					drawtype = base_definition.drawtype
 				})
 			end

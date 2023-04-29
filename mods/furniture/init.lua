@@ -106,7 +106,7 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
     end
     local sounds = base_definition.sounds
     local collision_box = {type = "fixed", fixed = fdef.box}
-    local groups = furniture.table_copy(base_definition.groups)
+    local groups = ccore.groups_copy(base_definition.groups)
     if fdef.groups then
         furniture.dictionary_append(groups, fdef.groups)
     end
@@ -137,7 +137,7 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
     local furniture_mesh_active = (fdef.base or fdef.name) .. "_activated.obj"
     local tiles_active = furniture.table_copy(tiles)
     local collision_box_active = {type = "fixed", fixed = fdef.box_activated}
-    local groups_active = furniture.table_copy(groups)
+    local groups_active = ccore.groups_copy(groups)
     groups_active.not_in_creative_inventory = 1
     if fdef.groups_active then
         furniture.dictionary_append(groups_active, fdef.groups_active)

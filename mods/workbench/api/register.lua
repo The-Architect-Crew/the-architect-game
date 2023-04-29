@@ -70,6 +70,58 @@ local function no_match_output(output_table, output_name)
     return true
 end
 
+local function trim_front_columns(twidth, def, iwidth, iheight)
+	local trimmed_width = twidth
+	for col = 1, iwidth do
+		for row = 1, iheight do
+			if (def.input)[row][col] ~= "" then
+				return trimmed_width
+			end
+		end
+		trimmed_width = trimmed_width - 1
+	end
+	return trimmed_width
+end
+
+local function trim_front_rows(theight, def, iwidth, iheight)
+	local trimmed_height = theight
+	for row = 1, iheight do
+		for col = 1, iwidth do
+			if (def.input)[row][col] ~= "" then
+				return trimmed_height
+			end
+		end
+		trimmed_height = trimmed_height - 1
+	end
+	return trimmed_height
+end
+
+local function trim_back_columns(twidth, input, iwidth, iheight)
+	local trimmed_width = twidth
+	for col = 0, (iwidth - 1) do
+		for row = 1, iheight do
+			if (input)[row][iwidth - col] ~= "" then
+				return trimmed_width
+			end
+		end
+		trimmed_width = trimmed_width - 1
+	end
+	return trimmed_width
+end
+
+local function trim_back_rows(theight, input, iwidth, iheight)
+	local trimmed_height = theight
+	for row = 0, (iheight - 1) do
+		for col = 1, iwidth do
+			if (input)[iheight - row][col] ~= "" then
+				return trimmed_height
+			end
+		end
+		trimmed_height = trimmed_height - 1
+	end
+	return trimmed_height
+end
+
 function workbench:register_craft(def)
 	if minetest.settings:get_bool("workbench_disable_crafts") then
 		return
@@ -130,29 +182,10 @@ function workbench:register_craft(def)
 	local iwidth = #def.input[1] -- recipe width
 	local iheight = #def.input -- recipe height
 
-	-- trim front columns (if any)
 	local trimmed_width = iwidth
-	for col = 1, iwidth do
-		for row = 1, iheight do
-			if (def.input)[row][col] ~= "" then
-				goto stop_front_col_trim
-			end
-		end
-		trimmed_width = trimmed_width - 1
-	end
-	::stop_front_col_trim::
-
-	-- trim front rows (if any)
+	trimmed_width = trim_front_columns(trimmed_width, def, iwidth, iheight)
 	local trimmed_height = iheight
-	for row = 1, iheight do
-		for col = 1, iwidth do
-			if (def.input)[row][col] ~= "" then
-				goto stop_front_row_trim
-			end
-		end
-		trimmed_height = trimmed_height - 1
-	end
-	::stop_front_row_trim::
+	trimmed_height = trim_front_rows(trimmed_height, def, iwidth, iheight)
 
 	local trimmed_input = table.copy(def.input)
 	if (trimmed_width ~= iwidth) or (trimmed_height ~= iheight) then
@@ -166,31 +199,8 @@ function workbench:register_craft(def)
 		iheight = trimmed_height
 	end
 
-	-- trim back columns (if any)
-	for col = 0, (iwidth - 1) do
-		for row = 1, iheight do
-			if (trimmed_input)[row][iwidth - col] ~= "" then
-				goto stop_back_col_trim
-			end
-		end
-		trimmed_width = trimmed_width - 1
-	end
-
-	::stop_back_col_trim::
-	iwidth = trimmed_width
-
-	-- trim back rows (if any)
-	for row = 0, (iheight - 1) do
-		for col = 1, iwidth do
-			if (trimmed_input)[iheight - row][col] ~= "" then
-				goto stop_back_row_trim
-			end
-		end
-		trimmed_height = trimmed_height - 1
-	end
-
-	::stop_back_row_trim::
-	iheight = trimmed_height
+	iwidth = trim_back_columns(trimmed_width, trimmed_input, iwidth, iheight) --trimmed_width
+	iheight = trim_back_rows(trimmed_height, trimmed_input, iwidth, iheight) --trimmed_height
 
 	local new_id = #workbench_crafts.input[ctype] + 1 -- recipe ID
 	local stackcount = get_recipe_stacks(trimmed_input, iwidth, iheight)

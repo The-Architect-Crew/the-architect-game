@@ -9,24 +9,26 @@ local function nav_buttons(player, incre, side, node)
 	local invno = 0
 	for invname, invdata in pairs(winv.inventories) do
 		if invdata.button then
+			local hide_in = nil
 			if node then
 				if invdata.hide_in_node == true then
-					goto continue
+					hide_in = true
 				end
 			end
-			if invdata.req and invdata.req(player) or not invdata.req then
-				local bdef = invdata.button
-				local icon_darken = ""
-				if side == "left" and left_inv == invname or
-					side == "right" and right_inv == invname or
-					side == "right_node" and right_inv == invname then
-					icon_darken = "^[colorize:#565656" -- darken icon for visible inventories
+			if not hide_in then
+				if invdata.req and invdata.req(player) or not invdata.req then
+					local bdef = invdata.button
+					local icon_darken = ""
+					if side == "left" and left_inv == invname or
+						side == "right" and right_inv == invname or
+						side == "right_node" and right_inv == invname then
+						icon_darken = "^[colorize:#565656" -- darken icon for visible inventories
+					end
+					buttonform = buttonform.."image_button["..0.1 + (invno * 0.6) + incre..",-0.6;0.5,0.5;"..bdef.texture..""..icon_darken..";winv_"..invname.."_"..side..";"..bdef.label..";true;false;"..bdef.pressed_texture..""..icon_darken.."]"..
+						"tooltip[winv_"..invname.."_"..side..";"..bdef.tooltip.."]"
+					invno = invno + 1
 				end
-				buttonform = buttonform.."image_button["..0.1 + (invno * 0.6) + incre..",-0.6;0.5,0.5;"..bdef.texture..""..icon_darken..";winv_"..invname.."_"..side..";"..bdef.label..";true;false;"..bdef.pressed_texture..""..icon_darken.."]"..
-					"tooltip[winv_"..invname.."_"..side..";"..bdef.tooltip.."]"
-				invno = invno + 1
 			end
-			::continue::
 		end
 	end
 	if side == "right" then -- switch button

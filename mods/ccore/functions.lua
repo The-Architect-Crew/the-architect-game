@@ -96,7 +96,7 @@ ccore.not_inherited = {"wood", "stone", "fire_biome", "azure", "sand", "stick"}
 ccore.groups_copy = function(table)
     local copy = {}
     for table_key, table_value in pairs(table) do
-		inherit = true
+		local inherit = true
 		for i=1,#ccore.not_inherited do
 			if table_key == ccore.not_inherited[i] then
 				inherit = false
@@ -107,7 +107,7 @@ ccore.groups_copy = function(table)
 			inherit = false
 		end
 		if (inherit) then
-        	copy[table_key] = table_value
+			copy[table_key] = table_value
 		end
     end
     return copy

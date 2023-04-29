@@ -142,91 +142,15 @@ local function craftguide_display_form(player)
     return ret_form
 end
 
--- generate recipe form (right side)
-local function craftguide_recipe_form(player)
-    local playername = player:get_player_name()
-    if not craftguide_data[playername] or craftguide_data[playername].item == "" then
-        return ""
-    end
-
-    local item = craftguide_data[playername].item
-    local fav_button = ""
-
-    if craftguide_list[item] then -- allow favoriting only if valid craft
-        fav_button = "image_button[7.85,0.2;0.5,0.5;winv_icon_star.png;workbench_craftguide_fav;]"
-
-        if item ~= "" then
-            if craftguide_data[playername].fav_list[item] then
-                fav_button = "image_button[7.85,0.2;0.5,0.5;winv_icon_star.png^[colorize:#565656;workbench_craftguide_fav;]"
-            end
-        end
-    end
-
-    if fav_button ~= "" then
-        fav_button = fav_button..
-            "tooltip[workbench_craftguide_fav;Add to favourites]"
-    end
-
-    local undo_button = "image_button[7.85,0.9;0.5,0.5;winv_icon_return.png;workbench_craftguide_undo;]"
-    local redo_button = "image_button[7.85,1.6;0.5,0.5;winv_icon_return.png^[transformFX;workbench_craftguide_redo;]"
-
-    if not craftguide_data[playername].history then
-        undo_button = "image_button[7.85,0.9;0.5,0.5;winv_icon_return.png^[colorize:#565656;workbench_craftguide_undo;]"
-        redo_button = "image_button[7.85,1.6;0.5,0.5;winv_icon_return.png^[transformFX^[colorize:#565656;workbench_craftguide_redo;]"
-    else
-        if craftguide_data[playername].item_view == #craftguide_data[playername].history then
-            redo_button = "image_button[7.85,1.6;0.5,0.5;winv_icon_return.png^[transformFX^[colorize:#565656;workbench_craftguide_redo;]"
-        end
-        if craftguide_data[playername].item_view <= 1 then
-            undo_button = "image_button[7.85,0.9;0.5,0.5;winv_icon_return.png^[colorize:#565656;workbench_craftguide_undo;]"
-        end
-    end
-
-    -- background
-    local ret_form =
-        "image[0,0;7.75,9;winv_bg.png]"..
-        "style[workbench_current_item;border=false]"..
-        craftguide_display_form(player)..
-        "box[0.25,0.25;7.275,7.275;#00000070]"..
-        -- buttons (0.6 width)
-        "style[workbench_craftguide_fav;border=false]"..
-        fav_button..
-        "style[workbench_craftguide_undo;border=false]"..
-        undo_button..
-        "tooltip[workbench_craftguide_undo;Undo to last recipe]"..
-        "style[workbench_craftguide_redo;border=false]"..
-        redo_button..
-        "tooltip[workbench_craftguide_redo;Redo to next recipe]"
-        --"image_button[7.85,2.3;0.5,0.5;winv_icon_return.png^[colorize:#565656;workbench_craftguide_usage;U]"..
-        --"tooltip[workbench_craftguide_usage;Show usage]"
-
+local function handle_workbench_recipes(playername, item, srecipe_count)
+    local ret_form = ""
+    local recipe_count = srecipe_count
     local output_data = workbench_crafts.output_by_name[item] -- workbench crafting
-    local mt_output_data = minetest.get_all_craft_recipes(item) -- mt crafting
-    local total_count
-    if output_data and mt_output_data then
-        total_count = #output_data + #mt_output_data
-    else
-        if output_data then
-            total_count = #output_data
-        else
-            total_count = #mt_output_data
-        end
-    end
-    if craftguide_data[playername].item_recipe_curr == 0 then
-        craftguide_data[playername].item_recipe_curr = total_count
-    end
-
-    -- TODO: manipulate order according to item name (variations should have mt first to push crafting to first)
-
-    local recipe_count = 0
-    -- workbench crafting
     if output_data then
         for index, value in pairs(output_data) do
             local input_data = workbench_crafts.input[value.ctype][value.input_index]
             if input_data then
-                recipe_count = recipe_count + 1
-
-                if recipe_count == craftguide_data[playername].item_recipe_curr then
+                if (recipe_count + index) == craftguide_data[playername].item_recipe_curr then
                     -- apply dynamic input scale
                     local item_scale = 1
                     local item_width = 1.25
@@ -306,9 +230,15 @@ local function craftguide_recipe_form(player)
                 end
             end
         end
+        recipe_count = recipe_count + #output_data
     end
+    return recipe_count, ret_form
+end
 
-    -- mt crafting api
+local function handle_mt_recipes(playername, item, srecipe_count)
+    local ret_form = ""
+    local recipe_count = srecipe_count
+    local mt_output_data = minetest.get_all_craft_recipes(item)
     if mt_output_data then
         for index, value in pairs(mt_output_data) do
             --recipe_count = recipe_count + 1
@@ -394,6 +324,106 @@ local function craftguide_recipe_form(player)
             end
         end
         recipe_count = recipe_count + #mt_output_data
+    end
+    return recipe_count, ret_form
+end
+
+-- generate recipe form (right side)
+local function craftguide_recipe_form(player)
+    local playername = player:get_player_name()
+    if not craftguide_data[playername] or craftguide_data[playername].item == "" then
+        return ""
+    end
+
+    local item = craftguide_data[playername].item
+    local fav_button = ""
+
+    if craftguide_list[item] then -- allow favoriting only if valid craft
+        fav_button = "image_button[7.85,0.2;0.5,0.5;winv_icon_star.png;workbench_craftguide_fav;]"
+
+        if item ~= "" then
+            if craftguide_data[playername].fav_list[item] then
+                fav_button = "image_button[7.85,0.2;0.5,0.5;winv_icon_star.png^[colorize:#565656;workbench_craftguide_fav;]"
+            end
+        end
+    end
+
+    if fav_button ~= "" then
+        fav_button = fav_button..
+            "tooltip[workbench_craftguide_fav;Add to favourites]"
+    end
+
+    local undo_button = "image_button[7.85,0.9;0.5,0.5;winv_icon_return.png;workbench_craftguide_undo;]"
+    local redo_button = "image_button[7.85,1.6;0.5,0.5;winv_icon_return.png^[transformFX;workbench_craftguide_redo;]"
+
+    if not craftguide_data[playername].history then
+        undo_button = "image_button[7.85,0.9;0.5,0.5;winv_icon_return.png^[colorize:#565656;workbench_craftguide_undo;]"
+        redo_button = "image_button[7.85,1.6;0.5,0.5;winv_icon_return.png^[transformFX^[colorize:#565656;workbench_craftguide_redo;]"
+    else
+        if craftguide_data[playername].item_view == #craftguide_data[playername].history then
+            redo_button = "image_button[7.85,1.6;0.5,0.5;winv_icon_return.png^[transformFX^[colorize:#565656;workbench_craftguide_redo;]"
+        end
+        if craftguide_data[playername].item_view <= 1 then
+            undo_button = "image_button[7.85,0.9;0.5,0.5;winv_icon_return.png^[colorize:#565656;workbench_craftguide_undo;]"
+        end
+    end
+
+    -- background
+    local ret_form =
+        "image[0,0;7.75,9;winv_bg.png]"..
+        "style[workbench_current_item;border=false]"..
+        craftguide_display_form(player)..
+        "box[0.25,0.25;7.275,7.275;#00000070]"..
+        -- buttons (0.6 width)
+        "style[workbench_craftguide_fav;border=false]"..
+        fav_button..
+        "style[workbench_craftguide_undo;border=false]"..
+        undo_button..
+        "tooltip[workbench_craftguide_undo;Undo to last recipe]"..
+        "style[workbench_craftguide_redo;border=false]"..
+        redo_button..
+        "tooltip[workbench_craftguide_redo;Redo to next recipe]"
+        --"image_button[7.85,2.3;0.5,0.5;winv_icon_return.png^[colorize:#565656;workbench_craftguide_usage;U]"..
+        --"tooltip[workbench_craftguide_usage;Show usage]"
+
+    local output_data = workbench_crafts.output_by_name[item] -- workbench crafting
+    local mt_output_data = minetest.get_all_craft_recipes(item) -- mt crafting
+    local total_count
+    if output_data and mt_output_data then
+        total_count = #output_data + #mt_output_data
+    else
+        if output_data then
+            total_count = #output_data
+        else
+            total_count = #mt_output_data
+        end
+    end
+    if craftguide_data[playername].item_recipe_curr == 0 then
+        craftguide_data[playername].item_recipe_curr = total_count
+    end
+
+    -- TODO: manipulate order according to item name (variations should have mt first to push crafting to first)
+
+    local recipe_count = 0
+    local op_form
+    local reverse_order = nil
+
+    -- manual handling to change some recipe ordering...
+    if item:find("variations:") and not item:find("_support_") then
+        reverse_order = true
+    end
+
+    if reverse_order then
+        recipe_count, op_form = handle_mt_recipes(playername, item, recipe_count)
+        ret_form = ret_form.. op_form
+    end
+
+    recipe_count, op_form = handle_workbench_recipes(playername, item, recipe_count)
+    ret_form = ret_form.. op_form
+
+    if not reverse_order then
+        recipe_count, op_form = handle_mt_recipes(playername, item, recipe_count)
+        ret_form = ret_form.. op_form
     end
 
     -- handle common displays (recipe page)

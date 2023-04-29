@@ -275,9 +275,6 @@ function variations.register_support(base_node, support_type, support_material, 
 			sunlight_propagates = sunlight or base_definition.sunlight_propagates,
 			sounds = base_definition.sounds,
 		})
-		shapes:register_shape(variation_name, {
-			enabled = variation.enabled_shapes,
-		})
 		minetest.register_craft({
 			output = variation_name .. " 4",
 			recipe = {
@@ -285,6 +282,9 @@ function variations.register_support(base_node, support_type, support_material, 
 				{variation_clean_name, craft_secondary, variation_clean_name},
 				{craft_secondary, variation_clean_name, craft_secondary},
 			}
+		})
+		shapes:register_shape(variation_name, {
+			enabled = variation.enabled_shapes,
 		})
 	end
 	-- And for the base node
@@ -304,9 +304,6 @@ function variations.register_support(base_node, support_type, support_material, 
 		sunlight_propagates = base_definition.sunlight_propagates,
 		sounds = base_definition.sounds,
 	})
-	shapes:register_shape("variations:" .. sname .. "_support_" .. support_material, {
-		enabled = "slab, cube, step, cat:stair, splitstair, cat:pillar, cat:pillarcown, corner, pane, pane_flat, slope, slope2, slope3, innerslope, innerslope2, innerslope3, outerslope, outerslope2, outerslope3",
-	})
 	minetest.register_craft({
 		output = "variations:" .. sname .. "_support_" .. support_material .. " 4",
 		recipe = {
@@ -314,6 +311,9 @@ function variations.register_support(base_node, support_type, support_material, 
 			{base_node, craft_secondary, base_node},
 			{craft_secondary, base_node, craft_secondary},
 		}
+	})
+	shapes:register_shape("variations:" .. sname .. "_support_" .. support_material, {
+		enabled = "slab, cube, step, cat:stair, splitstair, cat:pillar, cat:pillarcown, corner, pane, pane_flat, slope, slope2, slope3, innerslope, innerslope2, innerslope3, outerslope, outerslope2, outerslope3",
 	})
 end
 

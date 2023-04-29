@@ -25,36 +25,42 @@ dofile(path.."/craftguide_groups.lua")
 
 local function craftguide_init(player)
     local playername = player:get_player_name()
-    craftguide_data[playername] = {
-        active = false, -- whether form is active
-        item = "", -- selected item
-        item_recipe_curr = 1, -- current recipe page
-        item_recipe_max = 1, -- max recipe page
-        form_list = nil, -- cached recipe list
-        fav_list = {}, -- favourite list
-        -- craft history
-        history = nil, -- item history
-        item_view = 0, -- viewing
-        -- pages
-        curr_page = 1,
-        max_page = 1,
-        -- search filter
-        filter = "",
-        old_filter = nil,
-        -- content filter
-        content = minetest.registered_items,
-        content_name = "all",
-        old_content = nil,
-        -- mod filter
-        mod_filter = {},
-		show_mod_filter = nil,
-		old_mod_filter = {},
-		mod_filter_scroll = 0,
-        -- adv filter
-        show_adv_filter = nil,
-        adv_filter_all = nil,
-        adv_filter_shapes = nil,
-    }
+    local player_meta = player:get_meta()
+    if player_meta:get_string("workbench:craftguide") == "" then
+        craftguide_data[playername] = {
+            active = false, -- whether form is active
+            item = "", -- selected item
+            item_recipe_curr = 1, -- current recipe page
+            item_recipe_max = 1, -- max recipe page
+            form_list = nil, -- cached recipe list
+            fav_list = {}, -- favourite list
+            -- craft history
+            history = nil, -- item history
+            item_view = 0, -- viewing
+            -- pages
+            curr_page = 1,
+            max_page = 1,
+            -- search filter
+            filter = "",
+            old_filter = nil,
+            -- content filter
+            content = minetest.registered_items,
+            content_name = "all",
+            old_content = nil,
+            -- mod filter
+            mod_filter = {},
+            show_mod_filter = nil,
+            old_mod_filter = {},
+            mod_filter_scroll = 0,
+            -- adv filter
+            show_adv_filter = nil,
+            adv_filter_all = nil,
+            adv_filter_shapes = nil,
+        }
+    else
+        craftguide_data[playername] = minetest.deserialize(player_meta:get_string("workbench:craftguide"))
+        craftguide_data[playername].history = nil -- reset history
+    end
 end
 
 -- check if item is group (prefix with group:)
@@ -1093,5 +1099,27 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
     -- refresh and updates formspec (if not quitting and no scroll event)
     if not fields.quit and not fields.workbench_craftguide_exit and not fields.workbench_craftguide_modfilter_scroll then
         player:set_inventory_formspec(craftguide_form(player))
+    end
+end)
+
+-- handling data saving
+local function save_craftguide_data(player)
+    if player then
+        local playername = player:get_player_name()
+        if craftguide_data and craftguide_data[playername] then
+            local player_meta = player:get_meta()
+            player_meta:set_string("workbench:craftguide", minetest.serialize(craftguide_data[playername]))
+            craftguide_data[playername] = nil -- remove data
+        end
+    end
+end
+
+minetest.register_on_leaveplayer(function(player)
+    save_craftguide_data(player)
+end)
+
+minetest.register_on_shutdown(function()
+    for _, player in pairs(minetest.get_connected_players()) do
+		save_craftguide_data(player)
     end
 end)

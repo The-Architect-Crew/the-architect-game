@@ -26,41 +26,43 @@ dofile(path.."/craftguide_groups.lua")
 local function craftguide_init(player)
     local playername = player:get_player_name()
     local player_meta = player:get_meta()
-    if player_meta:get_string("workbench:craftguide") == "" then
-        craftguide_data[playername] = {
-            active = false, -- whether form is active
-            item = "", -- selected item
-            item_recipe_curr = 1, -- current recipe page
-            item_recipe_max = 1, -- max recipe page
-            form_list = nil, -- cached recipe list
-            fav_list = {}, -- favourite list
-            -- craft history
-            history = nil, -- item history
-            item_view = 0, -- viewing
-            -- pages
-            curr_page = 1,
-            max_page = 1,
-            -- search filter
-            filter = "",
-            old_filter = nil,
-            -- content filter
-            content = minetest.registered_items,
-            content_name = "all",
-            old_content = nil,
-            -- mod filter
-            mod_filter = {},
-            show_mod_filter = nil,
-            old_mod_filter = {},
-            mod_filter_scroll = 0,
-            -- adv filter
-            show_adv_filter = nil,
-            adv_filter_all = nil,
-            adv_filter_shapes = nil,
-        }
-    else
-        craftguide_data[playername] = minetest.deserialize(player_meta:get_string("workbench:craftguide"))
-        craftguide_data[playername].history = nil -- reset history
+
+    local save_data = {}
+    if player_meta:get_string("workbench:craftguide") ~= "" then
+        print("[workbench] data loaded for "..playername)
+        save_data = minetest.deserialize(player_meta:get_string("workbench:craftguide"))
     end
+
+    craftguide_data[playername] = {
+        active = false, -- whether form is active
+        item = "", -- selected item
+        item_recipe_curr = 1, -- current recipe page
+        item_recipe_max = 1, -- max recipe page
+        form_list = nil, -- cached recipe list
+        fav_list = save_data.fav_list or {}, -- favourite list
+        -- craft history
+        history = nil, -- item history
+        item_view = 0, -- viewing
+        -- pages
+        curr_page = 1,
+        max_page = 1,
+        -- search filter
+        filter = "",
+        old_filter = nil,
+        -- content filter
+        content = minetest.registered_items,
+        content_name = "all",
+        old_content = nil,
+        -- mod filter
+        mod_filter = save_data.mod_filter or {},
+        show_mod_filter = nil,
+        old_mod_filter = {},
+        mod_filter_scroll = 0,
+        -- adv filter
+        show_adv_filter = nil,
+        adv_filter_all = save_data.adv_filter_all or nil,
+        adv_filter_shapes = save_data.adv_filter_shapes or nil,
+    }
 end
 
 -- check if item is group (prefix with group:)
@@ -1108,8 +1110,15 @@ local function save_craftguide_data(player)
         local playername = player:get_player_name()
         if craftguide_data and craftguide_data[playername] then
             local player_meta = player:get_meta()
-            player_meta:set_string("workbench:craftguide", minetest.serialize(craftguide_data[playername]))
+            local cgdata = craftguide_data[playername]
+            local save_data = {}
+            save_data.fav_list = cgdata.fav_list
+            save_data.mod_filter = cgdata.mod_filter
+            save_data.adv_filter_all = cgdata.adv_filter_all
+            save_data.adv_filter_shapes = cgdata.adv_filter_shapes
+            player_meta:set_string("workbench:craftguide", minetest.serialize(save_data))
             craftguide_data[playername] = nil -- remove data
+            print("[workbench] data saved for "..playername)
         end
     end
 end

@@ -9,6 +9,7 @@ local craftguide_list = {} -- valid crafts list
 local craftguide_list_all = {} -- all possible items
 local craftguide_names_list = {} -- valid crafts names
 local craftguide_desc_list = {} -- valid crafts descriptions
+local craftguide_usage_list = {} -- usages list
 local craftguide_data = {} -- various player specific form data
 local craftguide_groups = {} -- manually defined groups
 local craftguide_groups_auto = {} -- automatically generated groups
@@ -62,6 +63,10 @@ local function craftguide_init(player)
         show_adv_filter = nil,
         adv_filter_all = save_data.adv_filter_all or nil,
         adv_filter_shapes = save_data.adv_filter_shapes or nil,
+        -- usage
+        show_usage = nil,
+        item_usage_curr = 1,
+        item_usage_max = 1,
     }
 end
 
@@ -150,6 +155,171 @@ local function craftguide_display_form(player)
     return ret_form
 end
 
+local function workbench_recipe_to_form(recipe_data, output_data)
+    local ret_form = ""
+    -- apply dynamic input scale
+    local item_scale = 1
+    local item_width = 1.25
+    local max_width = math.max(recipe_data.width, recipe_data.height)
+    if max_width > 5 then
+        item_width = (6.25 / max_width)
+        item_scale = item_width - 0.25
+    end
+
+    -- create input item form
+    for i = 1, recipe_data.height do
+        for j = 1, recipe_data.width do
+            local recipe_item = recipe_data.input[i][j]
+            local recipe_itemname = ItemStack(recipe_item):get_name()
+            local recipe_itemcount = ItemStack(recipe_item):get_count()
+            if is_group(recipe_itemname) then -- group label
+                local groupname = recipe_itemname
+                local groupstring = groupname:gsub(",", "") -- remove all commas to prevent invalid fieldname
+                if craftguide_groups[groupname] then
+                    recipe_itemname = craftguide_groups[groupname].redirect
+                    recipe_item = recipe_itemname.." "..recipe_itemcount
+                    ret_form = ret_form..
+                        "item_image_button["..( 0.875 + ((j - 1) * item_width) )..","..( 0.875 + ((i - 1) * item_width) )..
+                            ";"..item_scale..","..item_scale..";"..recipe_item..";workbench_craftguide_item_"..groupstring..";(G)]"..
+                        "tooltip[workbench_craftguide_item_"..groupstring..";"..craftguide_groups[groupname].description.."]"
+                else
+                    recipe_itemname = find_first_in_group(groupname)
+                    recipe_item = recipe_itemname.." "..recipe_itemcount
+                    craftguide_groups_auto[groupname] = groupstring
+                    ret_form = ret_form..
+                        "item_image_button["..( 0.875 + ((j - 1) * item_width) )..","..( 0.875 + ((i - 1) * item_width) )..
+                            ";"..item_scale..","..item_scale..";"..recipe_item..";workbench_craftguide_item_"..groupstring..";(G)]"..
+                        generate_item_tooltip(groupname)
+                end
+            else
+                ret_form = ret_form..
+                    "item_image_button["..( 0.875 + ((j - 1) * item_width) )..","..( 0.875 + ((i - 1) * item_width) )..
+                        ";"..item_scale..","..item_scale..";"..recipe_item..";workbench_craftguide_item_"..recipe_itemname..";]"..
+                    generate_item_tooltip(recipe_itemname)
+            end
+        end
+    end
+
+    -- output item(s) form
+    local output_items = (workbench_crafts.output[output_data.ctype][recipe_data.id][output_data.output_index].items)
+    local output_amt = #output_items
+    -- apply dynamic output scale
+    local output_item_scale = 1
+    local output_item_width = 1.25
+    if output_amt > 4 then
+        output_item_width = (5 / output_amt)
+        output_item_scale = output_item_width - 0.25
+    end
+    for index2, output_item in pairs(output_items) do
+        local output_itemname = output_item:get_name()
+        local output_itemstring = output_item:get_name().." "..output_item:get_count()
+        ret_form = ret_form..
+            "item_image_button["..1.4375 + ((index2 - 1) * output_item_width)..",7.75;"..output_item_scale..","..output_item_scale..";"..output_itemstring..";workbench_craftguide_item_"..output_itemname..";]"..
+            generate_item_tooltip(output_itemname)
+    end
+
+    -- output arrow (crafting type)
+    local crafting_arrow = "gui_arrow.png^[transformFYR90"
+    if workbench_crafts.data[output_data.ctype].icon then
+        crafting_arrow = workbench_crafts.data[output_data.ctype].icon
+    end
+
+    local crafting_desc = output_data.ctype
+    if workbench_crafts.data[output_data.ctype].description then
+        crafting_desc = workbench_crafts.data[output_data.ctype].description
+    end
+
+    ret_form = ret_form..
+        "style[workbench_craftguide_ctype;border=false]"..
+        "image_button[0.25,7.75;1,1;"..crafting_arrow..";workbench_craftguide_ctype;]"..
+        "tooltip[workbench_craftguide_ctype;"..crafting_desc.."]"
+
+    return ret_form
+end
+
+local function mt_recipe_to_form(recipe_data)
+    local ret_form = ""
+    local width = recipe_data.width
+    if recipe_data.method == "cooking" then -- if cooking, hardset width to 1 (prevent faulty widths)
+        width = 1
+    end
+    local recipe_amt = #recipe_data.items
+    if width == 0 then -- shapeless recipe
+        width = 3
+    end
+    local height = math.ceil(recipe_amt / width)
+    if height < 5 then
+        height = 5 -- hacky method -- to figure out better way to find height
+    end
+    -- apply dynamic input scale
+    local item_scale = 1
+    local item_width = 1.25
+    local max_width = math.max(width, height)
+    if max_width > 5 then
+        item_width = (6.25 / max_width)
+        item_scale = item_width - 0.25
+    end
+
+    -- create item form
+    for i = 1, height do -- height
+        for j = 1, width do -- width
+            local recipe_index = ((i - 1) * width) + j
+            local recipe_item = recipe_data.items[recipe_index]
+            if recipe_item then
+                local recipe_itemname = ItemStack(recipe_item):get_name()
+                if recipe_itemname then
+                    local recipe_itemcount = ItemStack(recipe_item):get_count()
+                    if is_group(recipe_itemname) then -- group label
+                        local groupname = recipe_itemname
+                        local groupstring = groupname:gsub(",", "") -- remove all commas to prevent invalid fieldname
+                        if craftguide_groups[groupname] then
+                            recipe_itemname = craftguide_groups[groupname].redirect
+                            recipe_item = recipe_itemname.." "..recipe_itemcount
+                            ret_form = ret_form..
+                                "item_image_button["..( 0.875 + ((j - 1) * item_width) )..","..( 0.875 + ((i - 1) * item_width) )..
+                                    ";"..item_scale..","..item_scale..";"..recipe_item..";workbench_craftguide_item_"..groupstring..";(G)]"..
+                                "tooltip[workbench_craftguide_item_"..groupstring..";"..craftguide_groups[groupname].description.."]"
+                        else
+                            recipe_itemname = find_first_in_group(groupname)
+                            recipe_item = recipe_itemname.." "..recipe_itemcount
+                            craftguide_groups_auto[groupname] = groupstring
+                            ret_form = ret_form..
+                                "item_image_button["..( 0.875 + ((j - 1) * item_width) )..","..( 0.875 + ((i - 1) * item_width) )..
+                                    ";"..item_scale..","..item_scale..";"..recipe_item..";workbench_craftguide_item_"..groupstring..";(G)]"..
+                                generate_item_tooltip(groupname)
+                        end
+                    else
+                        ret_form = ret_form..
+                            "item_image_button["..( 0.875 + ((j - 1) * item_width) )..","..( 0.875 + ((i - 1) * item_width) )..
+                                ";"..item_scale..","..item_scale..";"..recipe_item..";workbench_craftguide_item_"..recipe_itemname..";]"..
+                            generate_item_tooltip(recipe_itemname)
+                    end
+                end
+            end
+        end
+    end
+
+    -- output item
+    local output_item = recipe_data.output
+    local output_itemname = ItemStack(output_item):get_name()
+
+    local crafting_arrow = "gui_arrow.png^[transformFYR90"
+    local crafting_desc = recipe_data.method
+    if recipe_data.method == "normal" or recipe_data.method == "cooking" then
+        crafting_arrow = workbench_crafts.data[recipe_data.method].icon
+        crafting_desc = workbench_crafts.data[recipe_data.method].description
+    end
+
+    ret_form = ret_form..
+        "item_image_button[1.4375,7.75;1,1;"..output_item..";workbench_craftguide_item_"..output_itemname..";]"..
+        generate_item_tooltip(output_itemname)..
+        -- craft type
+        "style[workbench_craftguide_ctype;border=false]"..
+        "image_button[0.25,7.75;1,1;"..crafting_arrow..";workbench_craftguide_ctype;]"..
+        "tooltip[workbench_craftguide_ctype;"..crafting_desc.."]"
+    return ret_form
+end
+
 local function handle_workbench_recipes(playername, item, srecipe_count)
     local ret_form = ""
     local recipe_count = srecipe_count
@@ -159,82 +329,7 @@ local function handle_workbench_recipes(playername, item, srecipe_count)
             local input_data = workbench_crafts.input[value.ctype][value.input_index]
             if input_data then
                 if (recipe_count + index) == craftguide_data[playername].item_recipe_curr then
-                    -- apply dynamic input scale
-                    local item_scale = 1
-                    local item_width = 1.25
-                    local max_width = math.max(input_data.width, input_data.height)
-                    if max_width > 5 then
-                        item_width = (6.25 / max_width)
-                        item_scale = item_width - 0.25
-                    end
-
-                    -- create input item form
-                    for i = 1, input_data.height do
-                        for j = 1, input_data.width do
-                            local recipe_item = input_data.input[i][j]
-                            local recipe_itemname = ItemStack(recipe_item):get_name()
-                            local recipe_itemcount = ItemStack(recipe_item):get_count()
-                            if is_group(recipe_itemname) then -- group label
-                                local groupname = recipe_itemname
-                                local groupstring = groupname:gsub(",", "") -- remove all commas to prevent invalid fieldname
-                                if craftguide_groups[groupname] then
-                                    recipe_itemname = craftguide_groups[groupname].redirect
-                                    recipe_item = recipe_itemname.." "..recipe_itemcount
-                                    ret_form = ret_form..
-                                        "item_image_button["..( 0.875 + ((j - 1) * item_width) )..","..( 0.875 + ((i - 1) * item_width) )..
-                                            ";"..item_scale..","..item_scale..";"..recipe_item..";workbench_craftguide_item_"..groupstring..";(G)]"..
-                                        "tooltip[workbench_craftguide_item_"..groupstring..";"..craftguide_groups[groupname].description.."]"
-                                else
-                                    recipe_itemname = find_first_in_group(groupname)
-                                    recipe_item = recipe_itemname.." "..recipe_itemcount
-                                    craftguide_groups_auto[groupname] = groupstring
-                                    ret_form = ret_form..
-                                        "item_image_button["..( 0.875 + ((j - 1) * item_width) )..","..( 0.875 + ((i - 1) * item_width) )..
-                                            ";"..item_scale..","..item_scale..";"..recipe_item..";workbench_craftguide_item_"..groupstring..";(G)]"..
-                                        generate_item_tooltip(groupname)
-                                end
-                            else
-                                ret_form = ret_form..
-                                    "item_image_button["..( 0.875 + ((j - 1) * item_width) )..","..( 0.875 + ((i - 1) * item_width) )..
-                                        ";"..item_scale..","..item_scale..";"..recipe_item..";workbench_craftguide_item_"..recipe_itemname..";]"..
-                                    generate_item_tooltip(recipe_itemname)
-                            end
-                        end
-                    end
-
-                    -- output item(s) form
-                    local output_items = (workbench_crafts.output[value.ctype][input_data.id][value.output_index].items)
-                    local output_amt = #output_items
-                    -- apply dynamic output scale
-                    local output_item_scale = 1
-                    local output_item_width = 1.25
-                    if output_amt > 4 then
-                        output_item_width = (5 / output_amt)
-                        output_item_scale = output_item_width - 0.25
-                    end
-                    for index2, output_item in pairs(output_items) do
-                        local output_itemname = output_item:get_name()
-                        local output_itemstring = output_item:get_name().." "..output_item:get_count()
-                        ret_form = ret_form..
-                            "item_image_button["..1.4375 + ((index2 - 1) * output_item_width)..",7.75;"..output_item_scale..","..output_item_scale..";"..output_itemstring..";workbench_craftguide_item_"..output_itemname..";]"..
-                            generate_item_tooltip(output_itemname)
-                    end
-
-                    -- output arrow (crafting type)
-                    local crafting_arrow = "gui_arrow.png^[transformFYR90"
-                    if workbench_crafts.data[value.ctype].icon then
-                        crafting_arrow = workbench_crafts.data[value.ctype].icon
-                    end
-
-                    local crafting_desc = value.ctype
-                    if workbench_crafts.data[value.ctype].description then
-                        crafting_desc = workbench_crafts.data[value.ctype].description
-                    end
-
-                    ret_form = ret_form..
-                        "style[workbench_craftguide_ctype;border=false]"..
-                        "image_button[0.25,7.75;1,1;"..crafting_arrow..";workbench_craftguide_ctype;]"..
-                        "tooltip[workbench_craftguide_ctype;"..crafting_desc.."]"
+                    ret_form = ret_form.. workbench_recipe_to_form(input_data, value)
                 end
             end
         end
@@ -251,84 +346,7 @@ local function handle_mt_recipes(playername, item, srecipe_count)
         for index, value in pairs(mt_output_data) do
             --recipe_count = recipe_count + 1
             if (recipe_count + index) == craftguide_data[playername].item_recipe_curr then
-                local width = value.width
-                if value.method == "cooking" then -- if cooking, hardset width to 1 (prevent faulty widths)
-                    width = 1
-                end
-                local recipe_amt = #value.items
-                if width == 0 then -- shapeless recipe
-                    width = 3
-                end
-                local height = math.ceil(recipe_amt / width)
-                if height < 5 then
-                    height = 5 -- hacky method -- to figure out better way to find height
-                end
-                -- apply dynamic input scale
-                local item_scale = 1
-                local item_width = 1.25
-                local max_width = math.max(width, height)
-                if max_width > 5 then
-                    item_width = (6.25 / max_width)
-                    item_scale = item_width - 0.25
-                end
-
-                -- create item form
-                for i = 1, height do -- height
-                    for j = 1, width do -- width
-                        local recipe_index = ((i - 1) * width) + j
-                        local recipe_item = value.items[recipe_index]
-                        if recipe_item then
-                            local recipe_itemname = ItemStack(recipe_item):get_name()
-                            if recipe_itemname then
-                                local recipe_itemcount = ItemStack(recipe_item):get_count()
-                                if is_group(recipe_itemname) then -- group label
-                                    local groupname = recipe_itemname
-                                    local groupstring = groupname:gsub(",", "") -- remove all commas to prevent invalid fieldname
-                                    if craftguide_groups[groupname] then
-                                        recipe_itemname = craftguide_groups[groupname].redirect
-                                        recipe_item = recipe_itemname.." "..recipe_itemcount
-                                        ret_form = ret_form..
-                                            "item_image_button["..( 0.875 + ((j - 1) * item_width) )..","..( 0.875 + ((i - 1) * item_width) )..
-                                                ";"..item_scale..","..item_scale..";"..recipe_item..";workbench_craftguide_item_"..groupstring..";(G)]"..
-                                            "tooltip[workbench_craftguide_item_"..groupstring..";"..craftguide_groups[groupname].description.."]"
-                                    else
-                                        recipe_itemname = find_first_in_group(groupname)
-                                        recipe_item = recipe_itemname.." "..recipe_itemcount
-                                        craftguide_groups_auto[groupname] = groupstring
-                                        ret_form = ret_form..
-                                            "item_image_button["..( 0.875 + ((j - 1) * item_width) )..","..( 0.875 + ((i - 1) * item_width) )..
-                                                ";"..item_scale..","..item_scale..";"..recipe_item..";workbench_craftguide_item_"..groupstring..";(G)]"..
-                                            generate_item_tooltip(groupname)
-                                    end
-                                else
-                                    ret_form = ret_form..
-                                        "item_image_button["..( 0.875 + ((j - 1) * item_width) )..","..( 0.875 + ((i - 1) * item_width) )..
-                                            ";"..item_scale..","..item_scale..";"..recipe_item..";workbench_craftguide_item_"..recipe_itemname..";]"..
-                                        generate_item_tooltip(recipe_itemname)
-                                end
-                            end
-                        end
-                    end
-                end
-
-                -- output item
-                local output_item = value.output
-                local output_itemname = ItemStack(output_item):get_name()
-
-                local crafting_arrow = "gui_arrow.png^[transformFYR90"
-                local crafting_desc = value.method
-                if value.method == "normal" or value.method == "cooking" then
-                    crafting_arrow = workbench_crafts.data[value.method].icon
-                    crafting_desc = workbench_crafts.data[value.method].description
-                end
-
-                ret_form = ret_form..
-                    "item_image_button[1.4375,7.75;1,1;"..output_item..";workbench_craftguide_item_"..output_itemname..";]"..
-                    generate_item_tooltip(output_itemname)..
-                    -- craft type
-                    "style[workbench_craftguide_ctype;border=false]"..
-                    "image_button[0.25,7.75;1,1;"..crafting_arrow..";workbench_craftguide_ctype;]"..
-                    "tooltip[workbench_craftguide_ctype;"..crafting_desc.."]"
+                ret_form = ret_form.. mt_recipe_to_form(value)
             end
         end
         recipe_count = recipe_count + #mt_output_data
@@ -375,6 +393,15 @@ local function craftguide_recipe_form(player)
             undo_button = "image_button[7.85,0.9;0.5,0.5;winv_icon_return.png^[colorize:#565656;workbench_craftguide_undo;]"
         end
     end
+    local usage_button = ""
+    if craftguide_usage_list[item] then
+        usage_button =      "button[7.85,2.3;0.5,0.5;workbench_craftguide_usage;U]"..
+                            "tooltip[workbench_craftguide_usage;Show usages]"
+        if craftguide_data[playername].show_usage then
+            usage_button =  "button[7.85,2.3;0.5,0.5;workbench_craftguide_usage;R]"..
+                            "tooltip[workbench_craftguide_usage;Show recipes]"
+        end
+    end
 
     -- background
     local ret_form =
@@ -390,66 +417,93 @@ local function craftguide_recipe_form(player)
         "tooltip[workbench_craftguide_undo;Undo to last recipe]"..
         "style[workbench_craftguide_redo;border=false]"..
         redo_button..
-        "tooltip[workbench_craftguide_redo;Redo to next recipe]"
-        --"image_button[7.85,2.3;0.5,0.5;winv_icon_return.png^[colorize:#565656;workbench_craftguide_usage;U]"..
-        --"tooltip[workbench_craftguide_usage;Show usage]"
+        "tooltip[workbench_craftguide_redo;Redo to next recipe]"..
+        usage_button
 
-    local output_data = workbench_crafts.output_by_name[item] -- workbench crafting
-    local mt_output_data = minetest.get_all_craft_recipes(item) -- mt crafting
-    local total_count
-    if output_data and mt_output_data then
-        total_count = #output_data + #mt_output_data
+    if craftguide_data[playername].show_usage then
+        -- show usage
+        if craftguide_usage_list[item] then
+            local usage_count = 0
+            for output_itemname, value in pairs(craftguide_usage_list[item]) do
+                for ctype, value2 in pairs(value) do
+                    usage_count = usage_count + 1
+                    if usage_count == craftguide_data[playername].item_usage_curr then
+                        if value2.utype == "mt" then
+                            ret_form = ret_form.. mt_recipe_to_form(value2.data)
+                        elseif value2.utype == "workbench" then
+                            ret_form = ret_form.. workbench_recipe_to_form(value2.data, value2.odata)
+                        end
+                    end
+                end
+            end
+
+            craftguide_data[playername].item_usage_max = usage_count
+            ret_form = ret_form..
+                "label[0.25,9.25;Usage " .. minetest.colorize("#FFFF00", tostring(craftguide_data[playername].item_usage_curr)) .. " / " .. tostring(usage_count) .. "]"
+            if usage_count > 1 then -- show arrows (recipe page)
+                ret_form = ret_form..
+                    "image_button[6.5,7.83;0.5,0.8;winv_cicon_miniarrow.png^[transformFX;workbench_craftguide_usage_prev;;;false;]"..
+                    "image_button[7,7.85;0.5,0.8;winv_cicon_miniarrow.png;workbench_craftguide_usage_next;;;false;]"
+            end
+        end
     else
-        if output_data then
-            total_count = #output_data
+        -- show recipes
+        local output_data = workbench_crafts.output_by_name[item] -- workbench crafting
+        local mt_output_data = minetest.get_all_craft_recipes(item) -- mt crafting
+        local total_count
+        if output_data and mt_output_data then
+            total_count = #output_data + #mt_output_data
         else
-            total_count = #mt_output_data
+            if output_data then
+                total_count = #output_data
+            else
+                total_count = #mt_output_data
+            end
+        end
+        if craftguide_data[playername].item_recipe_curr == 0 then
+            craftguide_data[playername].item_recipe_curr = total_count
+        end
+
+        local recipe_count = 0
+        local op_form
+        local reverse_order = nil
+
+        -- manual handling to change some recipe ordering...
+        if item:find("variations:") and not item:find("_support_") then
+            reverse_order = true
+        end
+
+        if reverse_order then
+            recipe_count, op_form = handle_mt_recipes(playername, item, recipe_count)
+            ret_form = ret_form.. op_form
+        end
+
+        recipe_count, op_form = handle_workbench_recipes(playername, item, recipe_count)
+        ret_form = ret_form.. op_form
+
+        if not reverse_order then
+            recipe_count, op_form = handle_mt_recipes(playername, item, recipe_count)
+            ret_form = ret_form.. op_form
+        end
+
+        -- handle common displays (recipe page)
+        craftguide_data[playername].item_recipe_max = recipe_count
+        ret_form = ret_form..
+            "label[0.25,9.25;Recipe " .. minetest.colorize("#FFFF00", tostring(recipe_count - craftguide_data[playername].item_recipe_curr) + 1) .. " / " .. tostring(recipe_count) .. "]" -- reverse page count (ensure older recipes are shown first)
+        if recipe_count == 0 then -- no recipe found
+            ret_form = ret_form..
+                "style[workbench_craftguide_no_recipe;border=false]"..
+                "image_button[0.25,7.75;1,1;gui_cross_big.png;workbench_craftguide_no_recipe;]"..
+                "label[0.5, 0.5;No recipe found!]"..
+                "tooltip[workbench_craftguide_no_recipe;No recipe found!]"
+        end
+        if recipe_count > 1 then -- show arrows (recipe page)
+            ret_form = ret_form..
+                "image_button[6.5,7.83;0.5,0.8;winv_cicon_miniarrow.png^[transformFX;workbench_craftguide_recipe_prev;;;false;]"..
+                "image_button[7,7.85;0.5,0.8;winv_cicon_miniarrow.png;workbench_craftguide_recipe_next;;;false;]"
         end
     end
-    if craftguide_data[playername].item_recipe_curr == 0 then
-        craftguide_data[playername].item_recipe_curr = total_count
-    end
 
-    -- TODO: manipulate order according to item name (variations should have mt first to push crafting to first)
-
-    local recipe_count = 0
-    local op_form
-    local reverse_order = nil
-
-    -- manual handling to change some recipe ordering...
-    if item:find("variations:") and not item:find("_support_") then
-        reverse_order = true
-    end
-
-    if reverse_order then
-        recipe_count, op_form = handle_mt_recipes(playername, item, recipe_count)
-        ret_form = ret_form.. op_form
-    end
-
-    recipe_count, op_form = handle_workbench_recipes(playername, item, recipe_count)
-    ret_form = ret_form.. op_form
-
-    if not reverse_order then
-        recipe_count, op_form = handle_mt_recipes(playername, item, recipe_count)
-        ret_form = ret_form.. op_form
-    end
-
-    -- handle common displays (recipe page)
-    craftguide_data[playername].item_recipe_max = recipe_count
-    ret_form = ret_form..
-        "label[0.25,9.25;Recipe " .. minetest.colorize("#FFFF00", tostring(recipe_count - craftguide_data[playername].item_recipe_curr) + 1) .. " / " .. tostring(recipe_count) .. "]" -- reverse page count (ensure older recipes are shown first)
-    if recipe_count == 0 then -- no recipe found
-        ret_form = ret_form..
-            "style[workbench_craftguide_no_recipe;border=false]"..
-            "image_button[0.25,7.75;1,1;gui_cross_big.png;workbench_craftguide_no_recipe;]"..
-            "label[0.5, 0.5;No recipe found!]"..
-            "tooltip[workbench_craftguide_no_recipe;No recipe found!]"
-    end
-    if recipe_count > 1 then -- show arrows (recipe page)
-        ret_form = ret_form..
-            "image_button[6.5,7.83;0.5,0.8;winv_cicon_miniarrow.png^[transformFX;workbench_craftguide_recipe_prev;;;false;]"..
-            "image_button[7,7.85;0.5,0.8;winv_cicon_miniarrow.png;workbench_craftguide_recipe_next;;;false;]"
-    end
     return ret_form
 end
 
@@ -626,9 +680,8 @@ workbench:register_crafttype("drops", {
 })
 
 -- cache all craft items
-local start_time
 minetest.register_on_mods_loaded(function()
-    start_time = os.clock()
+    local start_time = os.clock()
     print("[workbench] caching craftguide items...")
     for itemname, def in pairs(minetest.registered_items) do
         -- handle drops
@@ -685,8 +738,58 @@ minetest.register_on_mods_loaded(function()
         end
     end
 
-    for key, def in pairs(craftguide_list_all) do
-        craftguide_names_list[#craftguide_names_list+1] = key -- cache all valid names
+    for itemname, def in pairs(craftguide_list_all) do
+        -- cache all valid names
+        craftguide_names_list[#craftguide_names_list+1] = itemname
+    end
+
+    -- handle usage
+    for itemname, def in pairs(craftguide_list) do
+        local mt_craftlist = minetest.get_all_craft_recipes(itemname)
+        if mt_craftlist then
+            for index, value in pairs(mt_craftlist) do
+                for index2, used_itemstring in pairs(value.items) do
+                    if used_itemstring ~= "" then
+                        local used_itemname = ItemStack(used_itemstring):get_name()
+                        if not craftguide_usage_list[used_itemname] then
+                            craftguide_usage_list[used_itemname] = {}
+                        end
+                        if not craftguide_usage_list[used_itemname][value.method] then
+                            craftguide_usage_list[used_itemname][value.method] = {}
+                        end
+                        craftguide_usage_list[used_itemname][value.method][itemname] = {}
+                        local udata = craftguide_usage_list[used_itemname][value.method][itemname]
+                        udata.data = value
+                        udata.utype = "mt"
+                    end
+                end
+            end
+        end
+
+        local workbench_craftlist = workbench_crafts.output_by_name[itemname]
+        if workbench_craftlist then
+            for index, value in pairs(workbench_craftlist) do
+                local input_data = workbench_crafts.input[value.ctype][value.input_index]
+                if input_data then
+                    for index2, used_itemstack in pairs(input_data.items) do
+                        if used_itemstack.name ~= "" then
+                            local used_itemname = used_itemstack.name
+                            if not craftguide_usage_list[used_itemname] then
+                                craftguide_usage_list[used_itemname] = {}
+                            end
+                            if not craftguide_usage_list[used_itemname][value.ctype] then
+                                craftguide_usage_list[used_itemname][value.ctype] = {}
+                            end
+                            craftguide_usage_list[used_itemname][value.ctype][itemname] = {}
+                            local udata = craftguide_usage_list[used_itemname][value.ctype][itemname]
+                            udata.data = input_data
+                            udata.odata = value
+                            udata.utype = "workbench"
+                        end
+                    end
+                end
+            end
+        end
     end
 
     print("[workbench] craftguide items cached! took "..os.clock() - start_time.."s")
@@ -999,8 +1102,8 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
         end
     end
 
-    -- change recipes
     if cgdata.item and cgdata.item ~= "" then
+        -- change recipes
         if cgdata.item_recipe_max > 1 then
             if fields.workbench_craftguide_recipe_next then -- previous recipe
                 if cgdata.item_recipe_curr <= 1 then
@@ -1013,6 +1116,23 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
                     cgdata.item_recipe_curr = 1
                 else
                     cgdata.item_recipe_curr = cgdata.item_recipe_curr + 1
+                end
+            end
+        end
+
+        -- change usages
+        if cgdata.item_usage_max > 1 then
+            if fields.workbench_craftguide_usage_next then
+                if cgdata.item_usage_curr >= cgdata.item_usage_max then
+                    cgdata.item_usage_curr = 1
+                else
+                    cgdata.item_usage_curr = cgdata.item_usage_curr + 1
+                end
+            elseif fields.workbench_craftguide_usage_prev then
+                if cgdata.item_usage_curr <= 1 then
+                    cgdata.item_usage_curr = cgdata.item_usage_max
+                else
+                    cgdata.item_usage_curr = cgdata.item_usage_curr - 1
                 end
             end
         end
@@ -1053,6 +1173,8 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
                 -- set item
                 cgdata.item = itemname
                 cgdata.item_recipe_curr = 0 -- reset page
+                cgdata.item_usage_curr = 1 -- reset page
+                cgdata.show_usage = nil
             end
         end
     end
@@ -1078,6 +1200,15 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
             cgdata.content = minetest.registered_items
             cgdata.content_name = "all"
             reset_craftguide(playername)
+        end
+    end
+
+    -- usage
+    if fields.workbench_craftguide_usage then
+        if cgdata.show_usage then
+            cgdata.show_usage = nil
+        else
+            cgdata.show_usage = true
         end
     end
 

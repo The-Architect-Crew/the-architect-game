@@ -1,10 +1,56 @@
-local WINV_SELECTOR_AMOUNT = 3
+local WINV_SELECTOR_AMOUNT = 3 -- gui selectors
 
--- create navigation buttons
-local function nav_buttons(player, incre, side, node)
+-- reset inventory
+function winv.reset_inventory(player)
+	local playername = player:get_player_name()
+	winv.data[playername].left = winv.default.left
+	winv.data[playername].right = winv.default.right
+end
+
+local function init_inventory_data(player)
+	local playername = player:get_player_name()
 	local meta = player:get_meta()
 	local left_inv = meta:get_string("winv:left")
 	local right_inv = meta:get_string("winv:right")
+	local switch_mode = meta:get_string("winv:switch")
+	if left_inv == "" or right_inv == "" then
+		left_inv = winv.default.left
+		right_inv = winv.default.right
+	end
+	winv.data[playername] = {
+		left = left_inv,
+		right = right_inv,
+		active = nil,
+		switch_mode = switch_mode
+	}
+end
+
+local function save_inventory_data(player)
+	if player then
+		local playername = player:get_player_name()
+		if winv.data[playername] then
+			local meta = player:get_meta()
+			meta:set_string("winv:left", winv.data[playername].left)
+			meta:set_string("winv:right", winv.data[playername].right)
+		end
+	end
+end
+
+minetest.register_on_leaveplayer(function(player)
+    save_inventory_data(player)
+end)
+
+minetest.register_on_shutdown(function()
+    for _, player in pairs(minetest.get_connected_players()) do
+		save_inventory_data(player)
+    end
+end)
+
+-- create navigation buttons
+local function nav_buttons(player, incre, side, node)
+	local playername = player:get_player_name()
+	local left_inv = winv.data[playername].left
+	local right_inv = winv.data[playername].right
 	local buttonform = ""
 	local invno = 0
 	for invname, invdata in pairs(winv.inventories) do
@@ -38,10 +84,10 @@ local function nav_buttons(player, incre, side, node)
 end
 
 -- create listrings rings
-local function create_listring(player)
-	local meta = player:get_meta()
-	local left_inv = meta:get_string("winv:left")
-	local right_inv = meta:get_string("winv:right")
+local function get_listring(player)
+	local playername = player:get_player_name()
+	local left_inv = winv.data[playername].left
+	local right_inv = winv.data[playername].right
 	local lrdata = winv.listrings[left_inv..","..right_inv] or winv.listrings[right_inv..","..left_inv]
 	if lrdata then
 		return lrdata.listring(player)
@@ -50,28 +96,21 @@ local function create_listring(player)
 	end
 end
 
--- reset inventory
-function winv.reset_inventory(player)
-	local meta = player:get_meta()
-	local default_left_inv, default_right_inv = winv.default.left, winv.default.right
-	meta:set_string("winv:left", default_left_inv)
-	meta:set_string("winv:right", default_right_inv)
-end
-
 -- construct inventory
 function winv.init_inventory(player, nodeform)
-	local meta = player:get_meta()
-	local inv_active = meta:get_string("winv:active")
-	local left_inv, right_inv = meta:get_string("winv:left"), meta:get_string("winv:right")
+	local playername = player:get_player_name()
+	if not winv.data[playername] then
+		init_inventory_data(player)
+	end
+
+	local inv_active = winv.data[playername].active
+	local left_inv = winv.data[playername].left
+	local right_inv = winv.data[playername].right
+
 	local default_left_inv, default_right_inv = winv.default.left, winv.default.right
 	local force_form
-	if inv_active == "" then
-		meta:set_string("winv:active", "true")
-	end
-	if left_inv == "" or right_inv == "" then
-		winv.reset_inventory(player)
-		left_inv = default_left_inv
-		right_inv = default_right_inv
+	if not inv_active then
+		winv.data[playername].active = true
 	end
 	local idata = winv.inventories
 	-- reset inventory to remove inventories that doesnt fit requirement
@@ -86,10 +125,10 @@ function winv.init_inventory(player, nodeform)
 	if nodeform then
 		if idata[right_inv].hide_in_node then -- if inventory is not supposed to appear in node, switch to default inventory
 			if left_inv == default_right_inv then
-				meta:set_string("winv:left", default_left_inv)
+				winv.data[playername].left = default_left_inv
 				left_inv = default_left_inv
 			end
-			meta:set_string("winv:right", default_right_inv)
+			winv.data[playername].right = default_right_inv
 			right_inv = default_right_inv
 			force_form = true
 		end
@@ -116,7 +155,7 @@ function winv.init_inventory(player, nodeform)
 		"container[10,0]"..
 			right_form..
 		"container_end[]"..
-		create_listring(player)
+		get_listring(player)
 	if nodeform then
 		if force_form then
 			player:set_inventory_formspec(form)
@@ -142,21 +181,21 @@ winv_v = {}
 winv_v.nrefresh = {}
 function winv.refresh(player, show_formspec)
 	if player then
-		local name = player:get_player_name()
+		local playername = player:get_player_name()
 		local invform = winv.init_inventory(player)
 		player:set_inventory_formspec(invform)
 		if show_formspec then
-			minetest.show_formspec(name, "", invform)
+			minetest.show_formspec(playername, "", invform)
 		end
-		winv_v.nrefresh[name] = true -- allow node inventories to detect whether there's a need for refreshes
+		winv_v.nrefresh[playername] = true -- allow node inventories to detect whether there's a need for refreshes
 	end
 end
 
 -- check whether there's a need to refresh and reset refresh status for node inventories
 function winv.node_refresh(player)
-	local name = player:get_player_name()
-	if winv_v.nrefresh[name] then
-		winv_v.nrefresh[name] = nil
+	local playername = player:get_player_name()
+	if winv_v.nrefresh[playername] then
+		winv_v.nrefresh[playername] = nil
 		return true
 	end
 	return nil
@@ -177,45 +216,43 @@ end
 
 -- player fields
 function winv.receive_fields(player, formname, fields)
-	local meta = player:get_meta()
-	local switchmode = meta:get_string("winv:switch")
+	local playername = player:get_player_name()
+	local left_inv = winv.data[playername].left
+	local right_inv = winv.data[playername].right
+	local switch_mode = winv.data[playername].switch_mode
 	for invname, invdata in pairs(winv.inventories) do
 		-- update form name
 		if fields["winv_"..invname.."_left"] then
-			local left_inv = meta:get_string("winv:left")
-			local right_inv = meta:get_string("winv:right")
 			if invdata.button_function then -- handle function instead
 				invdata.button_function(player, formname, fields)
 			else
 				if check_req(player, invname) then -- ensure meet requirement to show inventory
-					if switchmode == "button" then
+					if switch_mode == "button" then
 						if right_inv ~= invname then -- do not force switch
-							meta:set_string("winv:left", invname)
+							winv.data[playername].left = invname
 						end
 					else
-						meta:set_string("winv:left", invname)
+						winv.data[playername].left = invname
 						if right_inv == invname then -- force switch inventory if its the same
-							meta:set_string("winv:right", left_inv)
+							winv.data[playername].right = left_inv
 						end
 					end
 				end
 				winv.refresh(player)
 			end
 		elseif fields["winv_"..invname.."_right"] then
-			local left_inv = meta:get_string("winv:left")
-			local right_inv = meta:get_string("winv:right")
 			if invdata.button_function then -- handle function instead
 				invdata.button_function(player, formname, fields)
 			else
 				if check_req(player, invname) then -- ensure meet requirement to show inventory
-					if switchmode == "button" then
+					if switch_mode == "button" then
 						if left_inv ~= invname then -- do not force switch
-							meta:set_string("winv:right", invname)
+							winv.data[playername].right = invname
 						end
 					else
-						meta:set_string("winv:right", invname)
+						winv.data[playername].right = invname
 						if left_inv == invname then  -- switch inventory if its the same
-							meta:set_string("winv:left", right_inv)
+							winv.data[playername].left = right_inv
 						end
 					end
 				end
@@ -227,39 +264,45 @@ function winv.receive_fields(player, formname, fields)
 		end
 	end
 	if fields.winv_switch then -- button to swap inventory
-		local left_inv = meta:get_string("winv:left")
-		local right_inv = meta:get_string("winv:right")
-		meta:set_string("winv:left", right_inv)
-		meta:set_string("winv:right", left_inv)
+		winv.data[playername].left = right_inv
+		winv.data[playername].right = left_inv
 		winv.refresh(player)
+	end
+
+	if fields.quit then
+		save_inventory_data(player)
 	end
 end
 
 minetest.register_on_player_receive_fields(function(player, formname, fields)
-	local meta = player:get_meta()
-	if formname == "" and meta:get_string("winv:active") == "true" then -- ensure fields only apply for player & winv inventory is active
+	local playername = player:get_player_name()
+	if formname == "" and winv.data[playername].active then -- ensure fields only apply for player & winv inventory is active
 		winv.receive_fields(player, formname, fields)
 	end
 end)
 
 -- called for nodes interacting with winv
 function winv.node_receive_fields(player, formname, fields)
-	local meta = player:get_meta()
+	local playername = player:get_player_name()
+	local left_inv = winv.data[playername].left
+	local right_inv = winv.data[playername].right
 	for invname, invdata in pairs(winv.inventories) do
 		-- node handling
 		if fields["winv_"..invname.."_right_node"] then
-			local left_inv = meta:get_string("winv:left")
-			local right_inv = meta:get_string("winv:right")
 			if check_req(player, invname) then
-				meta:set_string("winv:right", invname)
+				winv.data[playername].right = invname
 				if left_inv == invname then  -- switch inventory if its the same
-					meta:set_string("winv:left", right_inv)
+					winv.data[playername].left = right_inv
 				end
 			end
 			winv.refresh(player)
 		end
 		if invdata.on_player_receive_fields then
 			invdata.on_player_receive_fields(player, formname, fields)
+		end
+
+		if fields.quit then
+			save_inventory_data(player)
 		end
 	end
 end
@@ -275,16 +318,18 @@ end
 -- Enforce inventory switching
 minetest.register_chatcommand("winv_switch", {
     description = "Enable or disable force inventory switching",
-    func = function(name)
-		local player = minetest.get_player_by_name(name)
+    func = function(playername)
+		local player = minetest.get_player_by_name(playername)
 		local meta = player:get_meta()
-		local switchmode = meta:get_string("winv:switch")
-		if switchmode == "" then
+		local switch_mode = winv.data[playername].switch_mode
+		if switch_mode == "" then
 			meta:set_string("winv:switch", "button")
-			winv_chat(name, "Disabled force switching.")
+			winv.data[playername].switch_mode = "button"
+			winv_chat(playername, "Disabled force switching.")
 		else
 			meta:set_string("winv:switch", "")
-			winv_chat(name, "Enabled force switching.")
+			winv.data[playername].switch_mode = ""
+			winv_chat(playername, "Enabled force switching.")
 		end
 	end,
 })

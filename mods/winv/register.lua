@@ -1,7 +1,7 @@
 -- store registrations
-function winv:register_inventory(name, def)
-	if winv.inventories[name] then
-		return minetest.log("error", "[winv] Error registering inventory, '"..name.."' already exists!")
+function winv:register_inventory(inv_name, def)
+	if winv.inventories[inv_name] then
+		return minetest.log("error", "[winv] Error registering inventory, '"..inv_name.."' already exists!")
 	end
 	-- compress button data
 	local bdef = def.button
@@ -9,14 +9,14 @@ function winv:register_inventory(name, def)
 		texture = bdef.texture, -- main icon
 		pressed_texture = bdef.texture, -- icon when pressed
 		label = bdef.label or "", -- word label, defaults to nothing
-		tooltip = bdef.tooltip or name, -- tooltip label, defaults to inv name
+		tooltip = bdef.tooltip or inv_name, -- tooltip label, defaults to inv name
 	}
 	local formspec = nil
 	if def.formspec then
 		formspec = table.concat(def.formspec)
 	end
 	-- store data
-	winv.inventories[name] = {
+	winv.inventories[inv_name] = {
 		lists = def.lists,
 		req = def.requirement,
 		button = bdata,

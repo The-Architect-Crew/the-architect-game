@@ -1,9 +1,11 @@
 winv = {}
+-- default inventories
 winv.default = {}
 winv.default.left = "crafting"
 winv.default.right = "player"
-winv.inventories = {}
-winv.listrings = {}
+winv.inventories = {} -- definitions of each inventory
+winv.data = {} -- cached active inventory per player
+winv.listrings = {} -- listrings between two inventories
 winv.mod_storage = minetest.get_mod_storage()
 
 local path = minetest.get_modpath("winv")

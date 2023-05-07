@@ -880,8 +880,8 @@ local function craftguide_form(player)
     local form =
         "formspec_version[4]"..
         "size[17.75, 9]"..
+        "bgcolor[#00000099;true;#00000099]"..
         "style_type[*;noclip=true;font_size=13]"..
-        "bgcolor[#00000000;neither]"..
         "style[workbench_craftguide_exit;border=false]"..
         "image_button[0.1,-0.6;0.5,0.5;winv_icon_player.png;workbench_craftguide_exit;]"..
         "tooltip[workbench_craftguide_exit;Return to main inventory]"..

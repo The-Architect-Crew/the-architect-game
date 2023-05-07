@@ -145,8 +145,8 @@ function winv.init_inventory(player, nodeform)
 	local form =
 		"formspec_version[4]"..
 		"size[17.75, 9]"..
+		"bgcolor[#00000099;true;#00000099]"..
 		"style_type[*;noclip=true;font_size=13]"..
-		"bgcolor[#00000000;neither]"..
 		nav_buttons(player, 0, "left")..
 		"container[0,0]"..
 			left_form..
@@ -163,8 +163,8 @@ function winv.init_inventory(player, nodeform)
 		return
 			"formspec_version[4]"..
 			"size[17.75, 10.25]"..
+			"bgcolor[#00000099;true;#00000099]"..
 			"style_type[*;noclip=true;font_size=13]"..
-			"bgcolor[#00000000;neither]"..
 			"container[0,0]"..
 				nodeform..
 			"container_end[]"..

@@ -58,7 +58,7 @@ dofile(path.."/mossspread.lua")
 -- Register biomes, ores and decorations
 local mapgen_name = minetest.get_mapgen_setting("mg_name")
 if mapgen_name ~= "singlenode" and mapgen_name ~= "flat" then
-	mapgen.register_biomes()
+	mapgen.register_surface_biomes()
 	mapgen.register_ores()
 	mapgen.register_decorations()
 end

@@ -47,6 +47,7 @@ minetest.clear_registered_ores()
 minetest.clear_registered_decorations()
 
 local path = minetest.get_modpath("mapgen")
+local biomes_path = minetest.get_modpath("mapgen") .. "/underground_biomes"
 dofile(path.."/alias.lua")
 dofile(path.."/noise.lua")
 dofile(path.."/mapgen.lua")
@@ -55,10 +56,17 @@ dofile(path.."/decorations.lua")
 dofile(path.."/flowergen.lua")
 dofile(path.."/grassspread.lua")
 dofile(path.."/mossspread.lua")
+
+dofile(biomes_path .. "/quarry.lua")
 -- Register biomes, ores and decorations
 local mapgen_name = minetest.get_mapgen_setting("mg_name")
 if mapgen_name ~= "singlenode" and mapgen_name ~= "flat" then
+	mapgen.register_quarry_biomes()
 	mapgen.register_surface_biomes()
+
+	mapgen.register_quarry_ores()
 	mapgen.register_ores()
+
+	mapgen.register_quarry_terrain_decorations()
 	mapgen.register_decorations()
 end

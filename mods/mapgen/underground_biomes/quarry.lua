@@ -33,7 +33,7 @@ mapgen.register_quarry_biomes = function()
 end
 
 mapgen.register_quarry_ores = function()
-    -- Cavern
+    -- Cavern Base
     minetest.register_ore({
         ore_type = "stratum",
         ore = "air",
@@ -42,7 +42,7 @@ mapgen.register_quarry_ores = function()
 		y_min = mapgen.quarry_bottom,
         noise_params = {
             offset = mapgen.quarry_cavern_level,
-            scale = 64,
+            scale = 16,
             spread = {x = 200, y = 200, z = 200},
             seed = 61,
             octaves = 5,
@@ -50,14 +50,13 @@ mapgen.register_quarry_ores = function()
             flags = "noeased"
         },
         np_stratum_thickness = {
-            offset = 64,
-            scale = 128,
-            spread = {x = 100, y = 100, z = 100},
+            offset = 0,
+            scale = 8,
+            spread = {x = 6, y = 6, z = 6},
             seed = 884,
-            octaves = 1,
+            octaves = 2,
             persistence = 0.5,
-            lacunatiry = 1.5,
-            flags = "noeased"
+            flags = "absolute"
         }
     })
     -- Blobs for schematic caves
@@ -74,6 +73,7 @@ mapgen.register_quarry_ores = function()
 end
 
 mapgen.register_quarry_terrain_decorations = function()
+    -- Caves
     minetest.register_decoration({
         deco_type = "schematic",
         place_on = "blocks:stone",
@@ -107,6 +107,31 @@ mapgen.register_quarry_terrain_decorations = function()
             y_min = mapgen.quarry_middle,
             flags = "force_placement, all_floors, all_ceilings place_center_x, place_center_y, place_center_z",
             schematic = "schematics/underground/quarry_terrain_small" .. i .. ".mts",
+            replacements = {["default:sandstone"] = "air"},
+            rotation = "random"
+        })
+    end
+    -- Cavern
+    minetest.register_decoration({
+        deco_type = "schematic",
+        place_on = "blocks:stone",
+        fill_ratio = 0.0024,
+        y_max = mapgen.quarry_middle,
+        y_min = mapgen.quarry_bottom,
+        flags = "force_placement, all_floors, all_ceilings place_center_x, place_center_y, place_center_z",
+        schematic = "schematics/underground/quarry_terrain_cavern1.mts",
+        replacements = {["default:sandstone"] = "air"},
+        rotation = "random"
+    })
+    for i=2,8 do
+        minetest.register_decoration({
+            deco_type = "schematic",
+            place_on = "blocks:stone",
+            fill_ratio = 0.0006  - (i * 0.00006),
+            y_max = mapgen.quarry_middle,
+            y_min = mapgen.quarry_bottom,
+            flags = "force_placement, all_floors, all_ceilings place_center_x, place_center_y, place_center_z",
+            schematic = "schematics/underground/quarry_terrain_cavern" .. i .. ".mts",
             replacements = {["default:sandstone"] = "air"},
             rotation = "random"
         })

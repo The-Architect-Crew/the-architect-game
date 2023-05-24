@@ -25,15 +25,7 @@ minetest.register_tool("tools:replacer", {
             if (not (keys["sneak"])) then
                 return replacer.replace(itemstack, placer, pointed_thing, 0);
             end
-            local pos = minetest.get_pointed_thing_position(pointed_thing, false);
-            local node = minetest.get_node_or_nil(pos);
-            local metadata = "blocks:dirt 0 0";
-            if (node ~= nil and node.name) then
-                metadata = node.name .. ' ' .. node.param1 .. ' ' .. node.param2;
-            end
-            itemstack:set_metadata(metadata);
-            ccore.notify(name, "Node replacement tool set to: '" .. metadata .. "'.");
-            return itemstack; -- nothing consumed but data changed
+            return replacer.set_replacement_node(itemstack, placer, pointed_thing)
         end
         -- just place the stored node if now new one is to be selected
         if (not (keys["sneak"])) then
@@ -54,23 +46,31 @@ minetest.register_tool("tools:replacer", {
             return replacer.replace(itemstack, user, pointed_thing, false);
         end
         if (keys["sneak"]) then
-            local pos = minetest.get_pointed_thing_position(pointed_thing, false)
-            local node = minetest.get_node_or_nil(pos)
-            local metadata = "blocks:dirt 0 0"
-            if (node ~= nil and node.name) then
-                metadata = node.name .. ' ' .. node.param1 .. ' ' .. node.param2
-            end
-            itemstack:set_metadata(metadata)
-
-            ccore.notify(name, "Node replacement tool set to: '" .. metadata .. "'.")
-
-            return itemstack -- nothing consumed but data changed
+            return replacer.set_replacement_node(itemstack, user, pointed_thing)
         else
             return replacer.replace(itemstack, user, pointed_thing, false)
         end
     end
 })
 
+-- Handle replacement node setting
+replacer.set_replacement_node = function(itemstack, user, pointed_thing)
+    local name = user:get_player_name()
+    local pos = minetest.get_pointed_thing_position(pointed_thing, false);
+    local node = minetest.get_node_or_nil(pos);
+    local metadata = "blocks:dirt 0 0";
+    if (node ~= nil and node.name) then
+        if minetest.get_item_group(node.name, "not_in_creative_inventory") ~= 0 then
+            ccore.notify(name, "Error: This node cannot be selected")
+                return nil
+        end
+        metadata = node.name .. ' ' .. node.param1 .. ' ' .. node.param2;
+    end
+    itemstack:set_metadata(metadata);
+    ccore.notify(name, "Node replacement tool set to: '" .. metadata .. "'.");
+    return itemstack; -- nothing consumed but data changed
+end
+-- Handle node replacement
 replacer.replace = function(itemstack, user, pointed_thing, mode)
     if (user == nil or pointed_thing == nil) then
         return nil
@@ -80,7 +80,6 @@ replacer.replace = function(itemstack, user, pointed_thing, mode)
         ccore.notify(name, "  Error: No node.")
         return nil
     end
-
     local pos = minetest.get_pointed_thing_position(pointed_thing, mode)
     local node = minetest.get_node_or_nil(pos)
     if (node == nil) then

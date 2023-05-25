@@ -60,9 +60,10 @@ replacer.set_replacement_node = function(itemstack, user, pointed_thing)
     local node = minetest.get_node_or_nil(pos);
     local metadata = "blocks:dirt 0 0";
     if (node ~= nil and node.name) then
-        if minetest.get_item_group(node.name, "not_in_creative_inventory") ~= 0 then
+        if minetest.get_item_group(node.name, "not_in_creative_inventory") ~= 0 
+        or minetest.get_item_group(node.name, "not_in_replacer") ~= 0 then
             ccore.notify(name, "Error: This node cannot be selected")
-                return nil
+            return nil
         end
         metadata = node.name .. ' ' .. node.param1 .. ' ' .. node.param2;
     end
@@ -70,6 +71,7 @@ replacer.set_replacement_node = function(itemstack, user, pointed_thing)
     ccore.notify(name, "Node replacement tool set to: '" .. metadata .. "'.");
     return itemstack; -- nothing consumed but data changed
 end
+
 -- Handle node replacement
 replacer.replace = function(itemstack, user, pointed_thing, mode)
     if (user == nil or pointed_thing == nil) then
@@ -113,11 +115,6 @@ replacer.replace = function(itemstack, user, pointed_thing, mode)
             "' with the replacer is not allowed. Replacement failed.")
         return nil
     end
-    -- Place innactive crafting stations when active ones are selected.
-    if (daten[1]:find("_active") ~= nil) then
-        daten[1] = daten[1]:gsub("_active", "")
-        item["metadata"] = daten[1] .. " " .. daten[2] .. " " .. daten[3]
-    end
     -- Do not replace if there is nothing to be done
     if (node.name == daten[1]) then
         -- the node itshelf remains the same, but the orientation was changed
@@ -134,7 +131,7 @@ replacer.replace = function(itemstack, user, pointed_thing, mode)
             ccore.notify(name,
                 "Replacing a node containing items in inventory is not allowed. Replacement failed"
             )
-                return nil
+            return nil
         end
     end
     -- in survival mode, the player has to provide the node he wants to place

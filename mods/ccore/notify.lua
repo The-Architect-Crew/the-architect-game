@@ -40,8 +40,8 @@ ccore.notify = function(playername, message, timeout)
     local id = player:hud_add({
         hud_elem_type = "text",
 		number = 0xFFFFFF,
-		position = {x=0.5, y=0.9},
-		offset = {x=-264, y=0},
+		position = {x=0.5, y=1},
+		offset = {x = (-10 * 24) - 25, y = -(64 + 24 + 16)},
 		text = message,
 		scale = {x=0, y=60},
 		alignment = {x=1, y=-1},

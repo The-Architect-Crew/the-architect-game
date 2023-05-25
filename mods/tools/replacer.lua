@@ -60,7 +60,7 @@ replacer.set_replacement_node = function(itemstack, user, pointed_thing)
     local node = minetest.get_node_or_nil(pos);
     local metadata = "blocks:dirt 0 0";
     if (node ~= nil and node.name) then
-        if minetest.get_item_group(node.name, "not_in_creative_inventory") ~= 0 
+        if minetest.get_item_group(node.name, "not_in_creative_inventory") ~= 0
         or minetest.get_item_group(node.name, "not_in_replacer") ~= 0 then
             ccore.notify(name, "Error: This node cannot be selected")
             return nil

@@ -294,24 +294,6 @@ function mapgen.register_ores()
 			flags = "absvalue",
 		},
 	})
-	minetest.register_ore({
-		ore_type        = "blob",
-		ore             = "blocks:cobble",
-		wherein         = {"blocks:stone"},
-		clust_scarcity  = 12 * 12 * 12,
-		clust_size      = 8,
-		y_max           = mapgen.underground_limit,
-		y_min           = mapgen.world_bottom,
-		noise_threshold = 0.0,
-		noise_params    = {
-			offset = 0.5,
-			scale = 0.25,
-			spread = {x = 8, y = 8, z = 8},
-			seed = 8862,
-			octaves = 1,
-			persist = 0.0
-		},
-	})
 	-- Underground, sandstone-based
 	minetest.register_ore({
 		ore_type        = "blob",
@@ -668,7 +650,7 @@ function mapgen.register_ores()
 		clust_scarcity  = 16 * 16 * 16,
 		clust_size      = 5,
 		y_max           = 31000,
-		y_min           = -31000,
+		y_min           = mapgen.underground_limit,
 		noise_threshold = 0.0,
 		noise_params    = {
 			offset = 0.5,
@@ -708,7 +690,7 @@ function mapgen.register_ores()
 		clust_scarcity  = 16 * 16 * 16,
 		clust_size      = 5,
 		y_max           = 31000,
-		y_min           = -31000,
+		y_min           = mapgen.underground_limit,
 		noise_threshold = 0.0,
 		noise_params    = {
 			offset = 0.5,
@@ -785,7 +767,7 @@ function mapgen.register_ores()
 		ore             = "blocks:basalt",
 		wherein         = {"blocks:stone", "blocks:sandstone", "blocks:desert_sandstone", "blocks:silver_sandstone", "blocks:desert_stone"},
 		y_max           = 10,
-		y_min           = -1024,
+		y_min           = mapgen.underground_limit,
 		noise_threshold = 0.5,
 		column_height_max = 3,
 		column_height_min = 3,
@@ -804,7 +786,7 @@ function mapgen.register_ores()
 		ore             = "blocks:slate",
 		wherein         = {"blocks:stone", "blocks:sandstone"},
 		y_max           = 128,
-		y_min           = -1024,
+		y_min           = mapgen.underground_limit,
 		noise_threshold = 1.0,
 		column_height_max = 1,
 		column_height_min = 1,

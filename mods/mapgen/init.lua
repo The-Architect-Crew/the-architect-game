@@ -1,6 +1,6 @@
 mapgen = {}
 mapgen.underground_start = -128 -- The level where surface caves end and underground begins
-mapgen.underground_limit = -1024 -- The lower limit of the underground "biome", first caverns appear at -512
+mapgen.underground_limit = -768 -- The lower limit of the underground "biome", first caverns appear at -512
 mapgen.hell_level = -8192 + 512 -- The upper limit of hell
 mapgen.world_bottom = -8192 -- Map bottom limit
 mapgen.sfcaves_level = -64
@@ -67,6 +67,6 @@ if mapgen_name ~= "singlenode" and mapgen_name ~= "flat" then
 	mapgen.register_quarry_ores()
 	mapgen.register_ores()
 
-	mapgen.register_quarry_terrain_decorations()
+	mapgen.register_quarry_decorations()
 	mapgen.register_decorations()
 end

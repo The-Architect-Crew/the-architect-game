@@ -12,7 +12,8 @@ mapgen.register_quarry_biomes = function()
 		name = "quarry",
 		node_stone = mapgen.quarry_base,
 		node_dungeon = "variations:stone_big_tile",
-		node_dungeon_stair = "variations:shapes_stone_big_tile_stair",
+        node_dungeon_alt = "variations:stone_cross_tile",
+		node_dungeon_stair = "variations:shapes_stone_tile_stair",
         node_cave_liquid = {"blocks:water_source", "blocks:lava_source"},
 		y_max = mapgen.quarry_top,
 		y_min = mapgen.quarry_middle,
@@ -23,7 +24,8 @@ mapgen.register_quarry_biomes = function()
 		name = "quarry_cavern",
 		node_stone = mapgen.quarry_base,
 		node_dungeon = "variations:stone_big_tile",
-		node_dungeon_stair = "variations:shapes_stone_big_tile_stair",
+        node_dungeon_alt = "variations:stone_cross_tile",
+		node_dungeon_stair = "variations:shapes_stone_tile_stair",
         node_cave_liquid = "air",
 		y_max = mapgen.quarry_middle,
 		y_min = mapgen.quarry_bottom,
@@ -70,9 +72,150 @@ mapgen.register_quarry_ores = function()
         y_max = mapgen.quarry_top,
         y_min = mapgen.quarry_middle
     })
+    -- Small Ores
+    minetest.register_ore({
+        ore_type = "blob",
+        ore = "blocks:stone_with_coal",
+        wherein = "blocks:stone",
+        clust_scarcity = 6 * 6 * 6,
+        clust_num_ores = 27,
+        clust_size = 3,
+        y_max = mapgen.quarry_top,
+        y_min = mapgen.quarry_bottom,
+    })
+    minetest.register_ore({
+        ore_type = "blob",
+        ore = "blocks:stone_with_tin",
+        wherein = "blocks:stone",
+        clust_scarcity = 12 * 12 * 12,
+        clust_num_ores = 32,
+        clust_size = 4,
+        y_max = mapgen.quarry_top,
+        y_min = mapgen.quarry_bottom,
+    })
+    minetest.register_ore({
+        ore_type = "blob",
+        ore = "blocks:stone_with_copper",
+        wherein = "blocks:stone",
+        clust_scarcity = 12 * 12 * 12,
+        clust_num_ores = 32,
+        clust_size = 4,
+        y_max = mapgen.quarry_top,
+        y_min = mapgen.quarry_bottom,
+    })
+    minetest.register_ore({
+        ore_type = "blob",
+        ore = "blocks:stone_with_iron",
+        wherein = "blocks:stone",
+        clust_scarcity = 8 * 8 * 8,
+        clust_num_ores = 32,
+        clust_size = 4,
+        y_max = mapgen.quarry_top,
+        y_min = mapgen.quarry_bottom,
+    })
+    minetest.register_ore({
+        ore_type = "blob",
+        ore = "blocks:stone_with_silver",
+        wherein = "blocks:stone",
+        clust_scarcity = 8 * 8 * 8,
+        clust_num_ores = 24,
+        clust_size = 3,
+        y_max = mapgen.quarry_top,
+        y_min = mapgen.quarry_bottom,
+    })
+    minetest.register_ore({
+        ore_type = "blob",
+        ore = "blocks:stone_with_gold",
+        wherein = "blocks:stone",
+        clust_scarcity = 12 * 12 * 12,
+        clust_num_ores = 24,
+        clust_size = 3,
+        y_max = mapgen.quarry_top,
+        y_min = mapgen.quarry_bottom,
+    })
+    minetest.register_ore({
+        ore_type = "vein",
+        ore = "blocks:stone_with_mithril",
+        wherein = "blocks:stone",
+        clust_scarcity = 12 * 12 * 12,
+        clust_num_ores = 24,
+        clust_size = 3,
+        y_max = mapgen.quarry_top,
+        y_min = mapgen.quarry_bottom,
+        noise_threshold = 1.3,
+        noise_params = {
+            offset = 0,
+            scale = 32,
+            spread = {x = 250, y = 250, z = 250},
+            seed = 2443,
+            octaves = 4,
+            persistence = 0.75
+        }
+    })
+    -- Decorative Ores
+    minetest.register_ore({
+        ore_type = "blob",
+        ore = "blocks:cobble",
+        wherein = "blocks:stone",
+        clust_scarcity = 8 * 8 * 8,
+        clust_num_ores = 96,
+        clust_size = 7,
+        y_max = mapgen.quarry_top,
+        y_min = mapgen.quarry_bottom,
+    })
+    minetest.register_ore({
+        ore_type = "blob",
+        ore = "blocks:cobble",
+        wherein = "blocks:stone",
+        clust_scarcity = 4 * 4 * 4,
+        clust_num_ores = 48,
+        clust_size = 5,
+        y_max = mapgen.quarry_top,
+        y_min = mapgen.quarry_bottom,
+    })
+    minetest.register_ore({
+        ore_type = "blob",
+        ore = "blocks:gravel",
+        wherein = "blocks:stone",
+        clust_scarcity = 8 * 8 * 8,
+        clust_num_ores = 64,
+        clust_size = 6,
+        y_max = mapgen.quarry_top,
+        y_min = mapgen.quarry_bottom,
+    })
+    minetest.register_ore({
+        ore_type = "blob",
+        ore = "blocks:silver_sand",
+        wherein = "blocks:stone",
+        clust_scarcity = 8 * 8 * 8,
+        clust_num_ores = 48,
+        clust_size = 5,
+        y_max = mapgen.quarry_top,
+        y_min = mapgen.quarry_bottom,
+    })
+    minetest.register_ore({
+        ore_type = "blob",
+        ore = "blocks:silver_sandstone",
+        wherein = "blocks:stone",
+        clust_scarcity = 10 * 10 * 10,
+        clust_num_ores = 48,
+        clust_size = 5,
+        y_max = mapgen.quarry_top,
+        y_min = mapgen.quarry_bottom,
+    })
+    minetest.register_ore({
+        ore_type = "blob",
+        ore = "blocks:clay",
+        wherein = "blocks:stone",
+        clust_scarcity = 12 * 12 * 12,
+        clust_num_ores = 64,
+        clust_size = 6,
+        y_max = mapgen.quarry_top,
+        y_min = mapgen.quarry_bottom,
+    })
 end
 
-mapgen.register_quarry_terrain_decorations = function()
+mapgen.register_quarry_decorations = function()
     -- Caves
     minetest.register_decoration({
         deco_type = "schematic",
@@ -136,4 +279,17 @@ mapgen.register_quarry_terrain_decorations = function()
             rotation = "random"
         })
     end
+    -- For testing
+    --[[
+    minetest.register_decoration({
+        deco_type = "simple",
+        place_on = "blocks:stone",
+        sidelen = 8,
+        fill_ratio = 0.04,
+        y_max = mapgen.quarry_top,
+        y_min = mapgen.quarry_bottom,
+        flags = "all_floors",
+        decoration = "blocks:meselamp",
+    })]]--
+    mapgen.register_stalagmites("blocks:stone", {min = mapgen.quarry_bottom, max = mapgen.quarry_top}, 0.25, 22543, "quarry")
 end

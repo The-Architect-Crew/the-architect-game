@@ -11,6 +11,7 @@ dofile(path.."/stone.lua")
 dofile(path.."/ore.lua")
 dofile(path.."/underground.lua")
 dofile(path.."/sfcave.lua")
+dofile(path.."/stalagmites.lua")
 -- Deco blocks
 dofile(path.."/plank.lua")
 dofile(path.."/glass.lua")

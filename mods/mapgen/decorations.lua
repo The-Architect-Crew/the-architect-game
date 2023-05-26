@@ -226,7 +226,7 @@ mapgen.register_microbiome_decorations = function(base_name, data)
 end
 
 mapgen.register_microbiome_decorations("fire", {
-	height_min = mapgen.world_bottom,
+	height_min = mapgen.underground_limit,
 	height_max = mapgen.underground_start,
 	seed = 262,
 	base_node = {"blocks:cobble"}, -- surface_node matches the base_node, they also have to be the same length
@@ -245,7 +245,7 @@ mapgen.register_microbiome_decorations("fire", {
 })
 
 mapgen.register_microbiome_decorations("azure", {
-	height_min = mapgen.world_bottom,
+	height_min = mapgen.underground_limit,
 	height_max = mapgen.underground_start,
 	seed = 263,
 	base_node = {"blocks:desert_cobble", "blocks:sand", "blocks:desert_sand", "blocks:silver_sand", "blocks:dry_dirt"},
@@ -361,7 +361,7 @@ mapgen.register_microbiome_decorations("mese", {
 })]]--
 
 -- Mese micro-biome
-
+--[[
 mapgen.mese_biome_base_noise = {
 	offset = -2.35,
 	scale = 4,
@@ -510,6 +510,7 @@ for i=1,5 do
 		decoration = "flora:grass_mese_" .. i,
 	})
 end
+]]--
 
 -- Other Decorations
 
@@ -542,86 +543,97 @@ minetest.register_decoration({
 
 -- Rocks
 
-mapgen.register_stalagmites = function(base_node, seed, surface, secondary_base)
+mapgen.register_stalagmites = function(base_node, limits, rarity, seed, id)
 	local sname = string.match(base_node, ':(.*)')
-	local stalagmite_max_height = 0
-	if surface then stalagmite_max_height = 512 end
-	if secondary_base == nil then secondary_base = base_node end
+	local base = {}
+	if id == nil then
+		id = ""
+	else
+		id = "_" .. id
+	end
+	if type(base_node) == table then
+		for i=1,#base_node do
+			base[i] = base_node[i]
+		end
+	else
+		base[1] = base_node
+	end
 
 	-- Big Stalagmites/Stalactites
 
 	mapgen.np_stalagmites.seed = mapgen.np_stalagmites.seed  + seed
+	mapgen.np_stalagmites.offset = mapgen.np_stalagmites.offset  + ((rarity - 1) / 2)
 
 	minetest.register_decoration({
-		name = "blocks:stalagmite_base_" .. sname,
+		name = "stalagmite_base_" .. sname .. id,
 		deco_type = "simple",
 		param2 = 0,
-		place_on = {base_node, secondary_base},
+		place_on = base,
 		sidelen = 8,
 		noise_params = mapgen.np_stalagmites,
-		y_max = stalagmite_max_height,
-		y_min = mapgen.world_bottom,
+		y_max = limits.max,
+		y_min = limits.min,
 		flags = "all_floors",
 		decoration = "blocks:stalagmite_base_" .. sname,
 	})
 	minetest.register_decoration({
-		name = "blocks:stalactite_base_" .. sname,
+		name = "stalactite_base_" .. sname .. id,
 		deco_type = "simple",
 		param2 = 0,
-		place_on = {base_node, secondary_base},
+		place_on = base,
 		sidelen = 8,
 		noise_params = mapgen.np_stalagmites,
-		y_max = 256,
-		y_min = mapgen.world_bottom,
+		y_max = limits.max,
+		y_min = limits.min,
 		flags = "all_ceilings",
 		decoration = "blocks:stalactite_base_" .. sname,
 	})
 	minetest.register_decoration({
-		name = "blocks:stalagmite_middle_" .. sname,
+		name = "stalagmite_middle_" .. sname .. id,
 		deco_type = "simple",
 		param2 = 0,
 		place_on = {"blocks:stalagmite_base_" .. sname},
 		fill_ratio = 10.0,
-		y_max = 256,
-		y_min = mapgen.world_bottom,
+		y_max = limits.max,
+		y_min = limits.min,
 		height = 1,
 		height_max = 4,
 		flags = "all_floors, force_placement",
 		decoration = "blocks:stalagmite_middle_" .. sname,
 	})
 	minetest.register_decoration({
-		name = "blocks:stalactite_middle_" .. sname,
+		name = "stalactite_middle_" .. sname .. id,
 		deco_type = "simple",
 		param2 = 0,
 		place_on = {"blocks:stalactite_base_" .. sname},
 		fill_ratio = 10.0,
-		y_max = 256,
-		y_min = mapgen.world_bottom,
+		y_max = limits.max,
+		y_min = limits.min,
 		height = 1,
 		height_max = 2,
 		flags = "all_ceilings, force_placement",
 		decoration = "blocks:stalactite_middle_" .. sname,
 	})
 	minetest.register_decoration({
-		name = "blocks:stalagmite_top_" .. sname,
+		name = "stalagmite_top_" .. sname .. id,
 		deco_type = "simple",
 		param2 = 0,
 		place_on = {"blocks:stalagmite_middle_" .. sname},
 		fill_ratio = 10.0,
-		y_max = 256,
-		y_min = mapgen.world_bottom,
+		y_max = limits.max,
+		y_min = limits.min,
 		flags = "all_floors, force_placement",
 		place_offset_y = -1,
 		decoration = "blocks:stalagmite_top_" .. sname,
 	})
 	minetest.register_decoration({
-		name = "blocks:stalactite_top_" .. sname,
+		name = "stalactite_top_" .. sname .. id,
 		deco_type = "simple",
 		param2 = 0,
 		place_on = {"blocks:stalactite_middle_" .. sname},
 		fill_ratio = 10.0,
-		y_max = 256,
-		y_min = mapgen.world_bottom,
+		y_max = limits.max,
+		y_min = limits.min,
 		flags = "all_ceilings, force_placement",
 		place_offset_y = -1,
 		decoration = "blocks:stalactite_top_" .. sname,
@@ -631,42 +643,31 @@ mapgen.register_stalagmites = function(base_node, seed, surface, secondary_base)
 
 	for i=1,5 do
 		minetest.register_decoration({
-			name = "blocks:stalagmite_" .. sname .. "_" .. i,
+			name = "stalagmite_" .. sname .. "_" .. i .. id,
 			deco_type = "simple",
 			param2 = 0,
 			param2_max = 239,
-			place_on = {base_node, secondary_base},
+			place_on = base,
 			sidelen = 8,
-			fill_ratio = 0.02,
-			y_max = 0,
-			y_min = mapgen.world_bottom,
+			fill_ratio = 0.02 * rarity,
+			y_max = limits.max,
+			y_min = limits.min,
 			flags = "all_floors",
 			decoration = "blocks:stalagmite_" .. sname .. "_" .. i,
 		})
 		minetest.register_decoration({
-			name = "blocks:stalactite_" .. sname .. "_" .. i,
+			name = "stalactite_" .. sname .. "_" .. i .. id,
 			deco_type = "simple",
 			param2 = 0,
 			param2_max = 239,
-			place_on = {base_node, secondary_base},
+			place_on = base,
 			sidelen = 8,
-			fill_ratio = 0.02,
-			y_max = 256,
-			y_min = mapgen.world_bottom,
+			fill_ratio = 0.02 * rarity,
+			y_max = limits.max,
+			y_min = limits.min,
 			place_offset_y = 1,
 			flags = "all_ceilings",
 			decoration = "blocks:stalactite_" .. sname .. "_" .. i,
 		})
 	end
 end
-
-mapgen.register_stalagmites("blocks:stone", 1419)
-mapgen.register_stalagmites("blocks:obsidian", 2324)
-mapgen.register_stalagmites("blocks:sandstone", 4531, true)
-mapgen.register_stalagmites("blocks:desert_sandstone", 3325, true)
-mapgen.register_stalagmites("blocks:silver_sandstone", 6563, true)
-mapgen.register_stalagmites("blocks:desert_stone", 5244)
-mapgen.register_stalagmites("blocks:granite", 7333)
-mapgen.register_stalagmites("blocks:marble", 8578)
-mapgen.register_stalagmites("blocks:basalt", 9233)
-mapgen.register_stalagmites("blocks:ice", 4253, true, "blocks:cave_ice")

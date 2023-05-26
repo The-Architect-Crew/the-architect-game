@@ -152,6 +152,27 @@ mapgen.register_quarry_ores = function()
             persistence = 0.75
         }
     })
+    -- Large ores
+    minetest.register_ore({
+        ore_type = "blob",
+        ore = "blocks:basalt",
+        wherein = "blocks:stone",
+        clust_scarcity = 14 * 14 * 14,
+        clust_num_ores = 48,
+        clust_size = 6,
+        y_max = mapgen.quarry_top,
+        y_min = mapgen.quarry_bottom,
+    })
+    minetest.register_ore({
+        ore_type = "blob",
+        ore = "blocks:slate",
+        wherein = "blocks:stone",
+        clust_scarcity = 12 * 12 * 12,
+        clust_num_ores = 32,
+        clust_size = 6,
+        y_max = mapgen.quarry_top,
+        y_min = mapgen.quarry_bottom,
+    })
     -- Decorative Ores
     minetest.register_ore({
         ore_type = "blob",

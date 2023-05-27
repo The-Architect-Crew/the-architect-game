@@ -40,7 +40,7 @@ function mapgen.register_surface_biomes()
 		node_dungeon_alt = "blocks:mossycobble",
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
 		y_max = -65,
-		y_min = mapgen.underground_limit + 1,
+		y_min = mapgen.underground_start + 1,
 		heat_point = 0,
 		humidity_point = 65,
 	})
@@ -111,7 +111,7 @@ function mapgen.register_surface_biomes()
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
 		vertical_blend = 1,
 		y_max = -4,
-		y_min = mapgen.underground_limit + 1,
+		y_min = mapgen.underground_start + 1,
 		heat_point = 0,
 		humidity_point = 40,
 	})
@@ -151,7 +151,7 @@ function mapgen.register_surface_biomes()
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
 		vertical_blend = 1,
 		y_max = 3,
-		y_min = mapgen.underground_limit + 1,
+		y_min = mapgen.underground_start + 1,
 		heat_point = 25,
 		humidity_point = 65,
 	})
@@ -191,8 +191,8 @@ function mapgen.register_surface_biomes()
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
 		vertical_blend = 1,
 		y_max = 3,
-		y_min = mapgen.underground_limit + 1,
-    heat_point = 15,
+		y_min = mapgen.underground_start + 1,
+		heat_point = 15,
 		humidity_point = 35,
 	})
 
@@ -265,7 +265,7 @@ function mapgen.register_surface_biomes()
 		node_dungeon_alt = "blocks:mossycobble",
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
 		y_max = 3,
-		y_min = mapgen.underground_limit + 1,
+		y_min = mapgen.underground_start + 1,
 		heat_point = 45,
 		humidity_point = 33,
 	})
@@ -302,7 +302,7 @@ function mapgen.register_surface_biomes()
 		node_dungeon_alt = "blocks:mossycobble",
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
 		y_max = 3,
-		y_min = mapgen.underground_limit + 1,
+		y_min = mapgen.underground_start + 1,
 		heat_point = 32,
 		humidity_point = 65,
 	})
@@ -360,7 +360,7 @@ function mapgen.register_surface_biomes()
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
 		vertical_blend = 1,
 		y_max = -2,
-		y_min = mapgen.underground_limit + 1,
+		y_min = mapgen.underground_start + 1,
 		heat_point = 60,
 		humidity_point = 65,
 	})
@@ -398,7 +398,7 @@ function mapgen.register_surface_biomes()
 		node_dungeon_stair = "blocks:shapes_desert_stone_stair",
 		vertical_blend = 1,
 		y_max = 3,
-    y_min = mapgen.underground_limit + 1,
+		y_min = mapgen.underground_start + 1,
 		heat_point = 85,
 		humidity_point = 0,
 	})
@@ -435,7 +435,7 @@ function mapgen.register_surface_biomes()
 		node_dungeon = "blocks:sandstonebrick",
 		node_dungeon_stair = "blocks:shapes_sandstone_block_stair",
 		y_max = 3,
-    y_min = mapgen.underground_limit + 1,
+		y_min = mapgen.underground_start + 1,
 		heat_point = 45,
 		humidity_point = 0,
 	})
@@ -473,7 +473,7 @@ function mapgen.register_surface_biomes()
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
 		vertical_blend = 1,
 		y_max = 3,
-		y_min = mapgen.underground_limit + 1,
+		y_min = mapgen.underground_start + 1,
 		heat_point = 20,
 		humidity_point = 0,
 	})
@@ -528,7 +528,7 @@ function mapgen.register_surface_biomes()
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
 		vertical_blend = 1,
 		y_max = -2,
-		y_min = mapgen.underground_limit + 1,
+		y_min = mapgen.underground_start + 1,
 		heat_point = 89,
 		humidity_point = 48,
 	})
@@ -586,7 +586,7 @@ function mapgen.register_surface_biomes()
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
 		vertical_blend = 1,
 		y_max = -2,
-		y_min = mapgen.underground_limit + 1,
+		y_min = mapgen.underground_start + 1,
 		heat_point = 86,
 		humidity_point = 70,
 	})

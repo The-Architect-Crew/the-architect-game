@@ -132,7 +132,7 @@ minetest.register_node("flora:firevines", {
 	inventory_image = "flora_firevine.png",
 	wield_image = "flora_firevine.png",
 	paramtype = "light",
-	light_source = 8,
+	light_source = 12,
 	floodable = true,
 	sunlight_propagates = true,
 	walkable = false,

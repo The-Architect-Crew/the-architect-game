@@ -31,85 +31,62 @@ mapgen.register_tapered_vein = function(ore_definition)
     })
 end
 
-mapgen.register_microbiome_decorations = function(base_name, data)
-	local height_min = data.height_min
-	local height_max = data.height_max
-	local seed = data.seed
-	local base_node = data.base_node
-	local surface_node = data.surface_node
-	local small_plant_variation = true
-	local grass_variation = true
+mapgen.register_microbiome_base = function(data)
+	base_nodes = data.base_nodes
+	for i=1,#base_nodes do
+		minetest.register_decoration({
+			deco_type = "simple",
+			place_on = base_nodes[i].base,
+			noise_params = data.noise_params,
+			y_min = data.y_min,
+			y_max = data.y_max,
+			flags = "force_placement, all_floors",
+			decoration = base_nodes[i].floor,
+			place_offset_y = -1,
+		})
+		minetest.register_decoration({
+			deco_type = "simple",
+			place_on = base_nodes[i].base,
+			noise_params = data.noise_params,
+			y_min = data.y_min,
+			y_max = data.y_max,
+			flags = "force_placement, all_ceilings",
+			decoration = base_nodes[i].ceiling,
+			place_offset_y = -1,
+		})
+	end
+end
 
-	if (data.small_plant_variation == false) then
-		small_plant_variation = false
+mapgen.place_microbiome_flora = function(base_name, data)
+
+	local surface_nodes = data.surface_nodes
+	local ceiling_surface_nodes = {}
+
+	for i=1, #surface_nodes do
+		ceiling_surface_nodes[i] = surface_nodes[i] .. "_ceiling"
 	end
 
-	if (data.grass_variation == false) then
-		grass_variation = false
-	end
-
-	local grass = data.grass_node
-	local small_plant = data.main_small_plant
+	local grass = data.grass
+	local small_plant = data.small_plant
 	local secondary_small_plant = data.secondary_small_plant 	-- Optional
-	local large_plant = data.main_large_plant					-- Optional
+	local large_plant = data.large_plant					-- Optional
 	local secondary_large_plant = data.secondary_large_plant	-- Optional
-	local vines = data.main_vines
+	local vines = data.vines
 	local secondary_vines = data.secondary_vines				-- Optional
 	local moss = data.moss
 
-	local surface_fill = 0
-	local np_surface = nil
-	local np_ceiling = {
-		offset = -4,
-		scale = 4,
-		spread = {x = 96, y = 96, z = 96},
-		seed = 2522323233 + seed,
-		octaves = 1,
-		flags = "eased",
-	}
-	if data.surface_coverage == "full" then
-		surface_fill = 10.0
-		np_ceiling = {
-			offset = -0.55,
-			scale = 1,
-			spread = {x = 2, y = 2, z = 2},
-			seed = 2522323233 + seed,
-			octaves = 1,
-			flags = "absolute",
-		}
-	else
-		np_surface = np_ceiling
-		np_surface.offset = np_surface.offset + data.surface_coverage
-	end
+	local small_plant_variation = data.small_plant_variation
+	local grass_variation = data.grass_variation
 
-	-- Surface node, like dirt with grass for example
-	for i=1,#base_node do
-		minetest.register_decoration({
-			name = base_name .. "_" .. surface_node[i] .. "_surface",
-			deco_type = "simple",
-			place_on = {base_node[i]},
-			fill_ratio = surface_fill,
-			noise_params = np_surface,
-			y_max = height_max,
-			y_min = height_min,
-			spawn_by = "air",
-			num_spawn_by = 3,
-			flags = "all_floors, force_placement",
-			place_offset_y = -1, -- Requires force_placement
-			decoration = surface_node[i],
-		})
-	end
-
-	-- Large plants
 	if (large_plant) then
 		minetest.register_decoration({
 			name = base_name .. "_" .. large_plant .. "_large_plant",
 			deco_type = "simple",
-			place_on = surface_node,
+			place_on = surface_nodes,
 			sidelen = 12,
-			fill_ratio = data.plant_rarity/2,
-			y_max = height_max,
-			y_min = height_min,
+			fill_ratio = data.plant_rarity/4,
+			y_max = data.y_max,
+			y_min = data.y_min,
 			flags = "all_floors",
 			height = 3,
 			height_max = 8,
@@ -122,11 +99,11 @@ mapgen.register_microbiome_decorations = function(base_name, data)
 		minetest.register_decoration({
 			name = base_name .. "_" .. secondary_large_plant .. "_secondary_large_plant",
 			deco_type = "simple",
-			place_on = surface_node,
+			place_on = surface_nodes,
 			sidelen = 12,
-			fill_ratio = data.plant_rarity/2,
-			y_max = height_max,
-			y_min = height_min,
+			fill_ratio = data.plant_rarity/4,
+			y_max = data.y_max,
+			y_min = data.y_min,
 			flags = "all_floors",
 			height = 3,
 			height_max = 8,
@@ -140,23 +117,23 @@ mapgen.register_microbiome_decorations = function(base_name, data)
 	minetest.register_decoration({
 		name = base_name .. "_" .. vines .. "_vines",
 		deco_type = "simple",
-		place_on = base_node,
-		noise_params = np_ceiling,
-		y_max = height_max,
-		y_min = height_min,
+		place_on = ceiling_surface_nodes,
+		fill_ratio = data.plant_rarity * 2,
+		y_max = data.y_max,
+		y_min = data.y_min,
 		flags = "all_ceilings",
 		height = 3,
-		height_max = 8,
+		height_max = data.vines_height or 8,
 		decoration = vines,
 	})
 	if (secondary_vines) then
 		minetest.register_decoration({
 			name = base_name .. "_" .. secondary_vines .. "_secondary_vines",
 			deco_type = "simple",
-			place_on = base_node,
-			noise_params = np_ceiling,
-			y_max = height_max,
-			y_min = height_min,
+			place_on = ceiling_surface_nodes,
+			fill_ratio = data.plant_rarity * 2,
+			y_max = data.y_max,
+			y_min = data.y_min,
 			flags = "all_ceilings",
 			height = 3,
 			height_max = 8,
@@ -169,10 +146,10 @@ mapgen.register_microbiome_decorations = function(base_name, data)
 	minetest.register_decoration({
 		name = base_name .. "_" .. moss .. "_moss",
 		deco_type = "simple",
-		place_on = base_node,
-		noise_params = np_ceiling,
-		y_max = height_max,
-		y_min = height_min,
+		place_on = ceiling_surface_nodes,
+		fill_ratio = 10.0,
+		y_max = data.y_max,
+		y_min = data.y_min,
 		flags = "all_ceilings",
 		decoration = moss,
 	})
@@ -183,10 +160,10 @@ mapgen.register_microbiome_decorations = function(base_name, data)
 			minetest.register_decoration({
 				name = base_name .. "_" .. small_plant .. "_" .. i .. "_small_plant_" .. i,
 				deco_type = "simple",
-				place_on = surface_node,
+				place_on = surface_nodes,
 				fill_ratio = data.plant_rarity/5,
-				y_max = height_max,
-				y_min = height_min,
+				y_max = data.y_max,
+				y_min = data.y_min,
 				flags = "all_floors",
 				decoration = small_plant .. "_" .. i,
 			})
@@ -194,24 +171,23 @@ mapgen.register_microbiome_decorations = function(base_name, data)
 				minetest.register_decoration({
 					name = base_name .. "_" .. secondary_small_plant .. "_" .. i .. "_secondary_small_plant_" .. i,
 					deco_type = "simple",
-					place_on = surface_node,
+					place_on = surface_nodes,
 					fill_ratio = data.plant_rarity/5,
-					y_max = height_max,
-					y_min = height_min,
+					y_max = data.y_max,
+					y_min = data.y_min,
 					flags = "all_floors",
 					decoration = secondary_small_plant .. "_" .. i,
 				})
 			end
 		end
 	else
-		-- Small plants
 		minetest.register_decoration({
 			name = base_name .. "_" .. small_plant .. "_small_plant",
 			deco_type = "simple",
-			place_on = surface_node,
+			place_on = surface_nodes,
 			fill_ratio = data.plant_rarity,
-			y_max = height_max,
-			y_min = height_min,
+			y_max = data.y_max,
+			y_min = data.y_min,
 			flags = "all_floors",
 			decoration = small_plant,
 		})
@@ -219,10 +195,10 @@ mapgen.register_microbiome_decorations = function(base_name, data)
 			minetest.register_decoration({
 				name = base_name .. "_" .. secondary_small_plant .. "_secondary_small_plant",
 				deco_type = "simple",
-				place_on = surface_node,
+				place_on = surface_nodes,
 				fill_ratio = data.plant_rarity,
-				y_max = height_max,
-				y_min = height_min,
+				y_max = data.y_max,
+				y_min = data.y_min,
 				flags = "all_floors",
 				decoration = secondary_small_plant,
 			})
@@ -231,27 +207,25 @@ mapgen.register_microbiome_decorations = function(base_name, data)
 
 	if (grass_variation) then
 		for i=1,5 do
-			-- Grass
 			minetest.register_decoration({
 				name = base_name .. "_" .. grass .. "_" .. i .. "_grass_" .. i,
 				deco_type = "simple",
-				place_on = surface_node,
+				place_on = surface_nodes,
 				fill_ratio = data.grass_rarity/5,
-				y_max = height_max,
-				y_min = height_min,
+				y_max = data.y_max,
+				y_min = data.y_min,
 				flags = "all_floors",
 				decoration = grass .. "_" .. i,
 			})
 		end
 	else
-		-- Grass
 		minetest.register_decoration({
 			name = base_name .. "_" .. grass .. "_grass",
 			deco_type = "simple",
-			place_on = surface_node,
+			place_on = surface_nodes,
 			fill_ratio = data.grass_rarity,
-			y_max = height_max,
-			y_min = height_min,
+			y_max = data.y_max,
+			y_min = data.y_min,
 			flags = "all_floors",
 			decoration = grass,
 		})

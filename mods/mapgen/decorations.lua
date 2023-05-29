@@ -1,3 +1,4 @@
+--[[
 mapgen.register_microbiome_decorations("fire", {
 	height_min = mapgen.underground_limit,
 	height_max = mapgen.underground_start,
@@ -34,8 +35,8 @@ mapgen.register_microbiome_decorations("azure", {
 	main_vines = "flora:azure_vines",
 	--secondary_vines
 	moss = "flora:azure_moss",
-})
-
+})]]--
+--[[
 mapgen.register_microbiome_decorations("moonstone", {
 	height_min = mapgen.underground_start,
 	height_max = mapgen.sfcave_limit,
@@ -111,7 +112,7 @@ mapgen.register_microbiome_decorations("hell", {
 	main_vines = "blocks:obsidian",
 	--secondary_vines
 	moss = "blocks:obsidian",
-})
+})]]--
 --[[
 -- Should be the mese biome, but there are too many exceptions
 mapgen.register_microbiome_decorations("mese", {

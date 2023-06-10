@@ -815,7 +815,7 @@ mapgen.register_underground_decorations = function()
 		moss = "flora:azure_moss",
 	})
 	-- For testing
-    
+    --[[
 	minetest.register_decoration({
         deco_type = "simple",
         place_on = {"blocks:stone", "blocks:desert_stone", "blocks:ice", "blocks:sandstone"},
@@ -825,5 +825,5 @@ mapgen.register_underground_decorations = function()
         y_min = mapgen.underground_bottom,
         flags = "all_floors",
         decoration = "blocks:meselamp",
-    })
+    })]]--
 end

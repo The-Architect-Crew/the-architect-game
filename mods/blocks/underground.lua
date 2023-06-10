@@ -9,7 +9,7 @@ minetest.register_node("blocks:stone_icy", {
 	description = S("Icy Stone"),
 	tiles = {"blocks_stone_icy.png"},
 	groups = {cracky = 3, stone = 1},
-	drop = "blocks:cobble",
+	drop = "blocks:desert_cobble",
 	sounds = default.node_sound_ice_defaults(),
 })
 
@@ -121,38 +121,64 @@ minetest.register_node("blocks:stone_firemoss_ceiling", {
 	sounds = default.node_sound_stone_defaults(),
 })
 
-minetest.register_node("blocks:desert_cobble_azure", {
-	description = S("Desert Cobblestone with Azure Moss"),
-	tiles = {"blocks_desert_cobble.png^blocks_azure_moss_overlay.png", "blocks_desert_cobble.png", "blocks_desert_cobble.png^blocks_azure_moss_overlay_side.png"},
-	is_ground_content = false,
+minetest.register_node("blocks:desert_cobble_firemoss", {
+	description = S("Cobblestone with Firemoss"),
+	tiles = {"blocks_desert_cobble.png^blocks_firemoss_overlay.png", "blocks_desert_cobble.png", "blocks_desert_cobble.png^blocks_firemoss_overlay_side.png"},
+	groups = {cracky = 3, stone = 2},
 	drop = {
 		items = {
 			{
 				rarity = 1,
-				items = {"blocks:desert_stone_chunk 2"},
+				items = {"blocks:stone_chunk 2"},
 			},
 			{
 				rarity = 2,
-				items = {"blocks:azure_mycelia"},
+				items = {"blocks:firebranches"},
 			},
 			{
 				rarity = 2,
-				items = {"blocks:desert_stone_chunk"},
+				items = {"blocks:stone_chunk"},
 			},
 			{
 				rarity = 3,
-				items = {"blocks:azure_mycelia"},
+				items = {"blocks:firebranches"},
 			},
 		},
 	},
-	groups = {cracky = 3, stone = 2},
 	sounds = default.node_sound_stone_defaults(),
 })
 
-minetest.register_node("blocks:desert_cobble_azure_ceiling", {
-	description = S("Desert Cobblestone with Azure Moss (Ceiling)"),
-	tiles = {"blocks_desert_cobble.png", "blocks_desert_cobble.png^blocks_azure_moss_overlay.png", "blocks_desert_cobble.png^blocks_azure_moss_ceiling_overlay.png"},
-	is_ground_content = false,
+minetest.register_node("blocks:desert_cobble_firemoss_ceiling", {
+	description = S("Cobblestone with Firemoss (Ceiling)"),
+	tiles = {"blocks_desert_cobble.png", "blocks_desert_cobble.png^blocks_firemoss_overlay.png", "blocks_desert_cobble.png^blocks_firemoss_ceiling_overlay.png"},
+	groups = {cracky = 3, stone = 2},
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:stone_chunk 2"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:firebranches"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:stone_chunk"},
+			},
+			{
+				rarity = 3,
+				items = {"blocks:firebranches"},
+			},
+		},
+	},
+	sounds = default.node_sound_stone_defaults(),
+})
+
+minetest.register_node("blocks:desert_stone_firemoss", {
+	description = S("Desert Stone with Firemoss"),
+	tiles = {"blocks_desert_stone.png^blocks_firemoss_overlay.png", "blocks_desert_stone.png", "blocks_desert_stone.png^blocks_firemoss_overlay_side.png"},
+	groups = {cracky = 3, stone = 1},
 	drop = {
 		items = {
 			{
@@ -161,7 +187,7 @@ minetest.register_node("blocks:desert_cobble_azure_ceiling", {
 			},
 			{
 				rarity = 2,
-				items = {"blocks:azure_mycelia"},
+				items = {"blocks:firebranches"},
 			},
 			{
 				rarity = 2,
@@ -169,11 +195,37 @@ minetest.register_node("blocks:desert_cobble_azure_ceiling", {
 			},
 			{
 				rarity = 3,
-				items = {"blocks:azure_mycelia"},
+				items = {"blocks:firebranches"},
 			},
 		},
 	},
-	groups = {cracky = 3, stone = 2},
+	sounds = default.node_sound_stone_defaults(),
+})
+
+minetest.register_node("blocks:desert_stone_firemoss_ceiling", {
+	description = S("Desert Stone with Firemoss (Ceiling)"),
+	tiles = {"blocks_desert_stone.png", "blocks_desert_stone.png^blocks_firemoss_overlay.png", "blocks_desert_stone.png^blocks_firemoss_ceiling_overlay.png"},
+	groups = {cracky = 3, stone = 1},
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:desert_stone_chunk 2"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:firebranches"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:desert_stone_chunk"},
+			},
+			{
+				rarity = 3,
+				items = {"blocks:firebranches"},
+			},
+		},
+	},
 	sounds = default.node_sound_stone_defaults(),
 })
 
@@ -279,7 +331,7 @@ minetest.register_node("blocks:sandstone_azure", {
 	sounds = default.node_sound_stone_defaults(),
 })
 
-minetest.register_node("blocks:sandstone_azure", {
+minetest.register_node("blocks:sandstone_azure_ceiling", {
 	description = S("Sandstone with Azure Moss (Ceiling)"),
 	tiles = {"blocks_sandstone.png", "blocks_azure_moss_overlay.png", "blocks_sandstone.png^blocks_azure_moss_ceiling_overlay.png"},
 	groups = {crumbly = 1, cracky = 3},
@@ -293,7 +345,7 @@ minetest.register_node("blocks:desert_sandstone_azure", {
 	sounds = default.node_sound_stone_defaults(),
 })
 
-minetest.register_node("blocks:desert_sandstone_azure", {
+minetest.register_node("blocks:desert_sandstone_azure_ceiling", {
 	description = S("Desert Sandstone with Azure Moss (Ceiling)"),
 	tiles = {"blocks_desert_sandstone.png", "blocks_azure_moss_overlay.png", "blocks_desert_sandstone.png^blocks_azure_moss_ceiling_overlay.png"},
 	groups = {crumbly = 1, cracky = 3},
@@ -307,7 +359,7 @@ minetest.register_node("blocks:silver_sandstone_azure", {
 	sounds = default.node_sound_stone_defaults(),
 })
 
-minetest.register_node("blocks:desert_sandstone_azure", {
+minetest.register_node("blocks:desert_sandstone_azure_ceiling", {
 	description = S("Desert Sandstone with Azure Moss (Ceiling)"),
 	tiles = {"blocks_desert_sandstone.png", "blocks_azure_moss_overlay.png", "blocks_desert_sandstone.png^blocks_azure_moss_ceiling_overlay.png"},
 	groups = {crumbly = 1, cracky = 3},

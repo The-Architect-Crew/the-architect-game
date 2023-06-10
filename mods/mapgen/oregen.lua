@@ -392,7 +392,7 @@ function mapgen.register_ores()
 		clust_num_ores = 24,
 		clust_size     = 4,
 		y_max          = 8,
-		y_min          = mapgen.underground_start - 8,
+		y_min          = mapgen.underground_start,
 		biomes = mapgen.lush_biomes,
 	})
 	minetest.register_ore({
@@ -403,7 +403,7 @@ function mapgen.register_ores()
 		clust_num_ores = 32,
 		clust_size     = 5,
 		y_max          = 8,
-		y_min          = mapgen.underground_start - 8,
+		y_min          = mapgen.underground_start,
 		biomes = mapgen.icy_biomes,
 	})
 	minetest.register_ore({
@@ -414,7 +414,7 @@ function mapgen.register_ores()
 		clust_num_ores = 24,
 		clust_size     = 4,
 		y_max          = 8,
-		y_min          = mapgen.underground_start - 8,
+		y_min          = mapgen.underground_start,
 		biomes = mapgen.lush_biomes,
 	})
 	minetest.register_ore({
@@ -425,7 +425,7 @@ function mapgen.register_ores()
 		clust_num_ores = 24,
 		clust_size     = 4,
 		y_max          = 8,
-		y_min          = mapgen.underground_start - 8,
+		y_min          = mapgen.underground_start,
 	})
 	minetest.register_ore({
 		ore_type       = "scatter",
@@ -435,7 +435,7 @@ function mapgen.register_ores()
 		clust_num_ores = 24,
 		clust_size     = 4,
 		y_max          = 8,
-		y_min          = mapgen.underground_start - 8,
+		y_min          = mapgen.underground_start,
 	})
 	minetest.register_ore({
 		ore_type       = "scatter",
@@ -445,7 +445,7 @@ function mapgen.register_ores()
 		clust_num_ores = 24,
 		clust_size     = 4,
 		y_max          = 8,
-		y_min          = mapgen.underground_start - 8,
+		y_min          = mapgen.underground_start,
 	})
 	minetest.register_ore({
 		ore_type       = "scatter",
@@ -455,7 +455,7 @@ function mapgen.register_ores()
 		clust_num_ores = 24,
 		clust_size     = 4,
 		y_max          = 8,
-		y_min          = mapgen.underground_start - 8,
+		y_min          = mapgen.underground_start,
 	})
 	minetest.register_ore({
 		ore_type       = "scatter",
@@ -465,7 +465,7 @@ function mapgen.register_ores()
 		clust_num_ores = 24,
 		clust_size     = 4,
 		y_max          = 8,
-		y_min          = mapgen.underground_start - 8,
+		y_min          = mapgen.underground_start,
 	})
 	minetest.register_ore({
 		ore_type       = "scatter",
@@ -475,7 +475,7 @@ function mapgen.register_ores()
 		clust_num_ores = 8,
 		clust_size     = 6,
 		y_max          = 0,
-		y_min          = mapgen.underground_start - 8,
+		y_min          = mapgen.underground_start,
 	})
 	-- Ice
 	minetest.register_ore({
@@ -486,6 +486,6 @@ function mapgen.register_ores()
 		clust_num_ores = 3,
 		clust_size     = 4,
 		y_max          = 0,
-		y_min          = mapgen.underground_start - 8,
+		y_min          = mapgen.underground_start,
 	})
 end

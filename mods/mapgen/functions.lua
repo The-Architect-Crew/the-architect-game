@@ -32,7 +32,7 @@ mapgen.register_tapered_vein = function(ore_definition)
 end
 
 mapgen.register_microbiome_base = function(data)
-	base_nodes = data.base_nodes
+	local base_nodes = data.base_nodes
 	for i=1,#base_nodes do
 		minetest.register_decoration({
 			deco_type = "simple",
@@ -52,6 +52,24 @@ mapgen.register_microbiome_base = function(data)
 			y_max = data.y_max,
 			flags = "force_placement, all_ceilings",
 			decoration = base_nodes[i].ceiling,
+			place_offset_y = -1,
+		})
+	end
+end
+
+mapgen.register_microbiome_base_outline = function(data)
+	local base_nodes = data.base_nodes
+	for i=1,#base_nodes do
+		minetest.register_decoration({
+			deco_type = "simple",
+			place_on = base_nodes[i].base,
+			fill_ratio = 10.0,
+			y_min = data.y_min,
+			y_max = data.y_max,
+			spawn_by = data.outline,
+			num_spawn_by = 1,
+			flags = "force_placement, all_floors",
+			decoration = base_nodes[i].floor,
 			place_offset_y = -1,
 		})
 	end

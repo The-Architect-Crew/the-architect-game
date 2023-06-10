@@ -13,10 +13,10 @@ mapgen.register_underground_biomes = function()
     minetest.register_biome({
 		name = "icesheet_underground",
 		node_stone = "blocks:ice",
-		node_dungeon = "blocks:cobble",
-		node_dungeon_alt = "blocks:mossycobble",
-		node_dungeon_stair = "blocks:shapes_cobble_stair",
-		y_max = mapgen.underground_start,
+		node_dungeon = "variations:ice_big_tile",
+		node_dungeon_alt = "blocks:cracked_ice",
+		node_dungeon_stair = "variations:shapes_ice_tile_stair",
+		y_max = mapgen.underground_top,
 		y_min = mapgen.underground_bottom,
 		heat_point = 0,
 		humidity_point = 65,
@@ -27,7 +27,7 @@ mapgen.register_underground_biomes = function()
 		node_dungeon = "blocks:cobble",
 		node_dungeon_alt = "blocks:mossycobble",
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
-		y_max = mapgen.underground_start,
+		y_max = mapgen.underground_top,
 		y_min = mapgen.underground_bottom,
 		heat_point = 0,
 		humidity_point = 40,
@@ -38,7 +38,7 @@ mapgen.register_underground_biomes = function()
 		node_dungeon = "blocks:cobble",
 		node_dungeon_alt = "blocks:mossycobble",
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
-		y_max = mapgen.underground_start,
+		y_max = mapgen.underground_top,
 		y_min = mapgen.underground_bottom,
 		heat_point = 25,
 		humidity_point = 65,
@@ -49,7 +49,7 @@ mapgen.register_underground_biomes = function()
 		node_dungeon = "blocks:cobble",
 		node_dungeon_alt = "blocks:mossycobble",
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
-		y_max = mapgen.underground_start,
+		y_max = mapgen.underground_top,
 		y_min = mapgen.underground_bottom,
         heat_point = 15,
 		humidity_point = 35,
@@ -60,7 +60,7 @@ mapgen.register_underground_biomes = function()
 		node_dungeon = "blocks:cobble",
 		node_dungeon_alt = "blocks:mossycobble",
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
-		y_max = mapgen.underground_start,
+		y_max = mapgen.underground_top,
 		y_min = mapgen.underground_bottom,
 		heat_point = 45,
 		humidity_point = 35,
@@ -71,7 +71,7 @@ mapgen.register_underground_biomes = function()
 		node_dungeon = "blocks:cobble",
 		node_dungeon_alt = "blocks:mossycobble",
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
-		y_max = mapgen.underground_start,
+		y_max = mapgen.underground_top,
 		y_min = mapgen.underground_bottom,
 		heat_point = 45,
 		humidity_point = 33,
@@ -82,7 +82,7 @@ mapgen.register_underground_biomes = function()
 		node_dungeon = "blocks:cobble",
 		node_dungeon_alt = "blocks:mossycobble",
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
-		y_max = mapgen.underground_start,
+		y_max = mapgen.underground_top,
 		y_min = mapgen.underground_bottom,
 		heat_point = 32,
 		humidity_point = 65,
@@ -93,7 +93,7 @@ mapgen.register_underground_biomes = function()
 		node_dungeon = "blocks:cobble",
 		node_dungeon_alt = "blocks:mossycobble",
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
-		y_max = mapgen.underground_start,
+		y_max = mapgen.underground_top,
 		y_min = mapgen.underground_bottom,
 		heat_point = 60,
 		humidity_point = 65,
@@ -101,9 +101,9 @@ mapgen.register_underground_biomes = function()
     minetest.register_biome({
 		name = "desert_underground",
 		node_stone = "blocks:desert_stone",
-		node_dungeon = "blocks:desert_stone",
-		node_dungeon_stair = "blocks:shapes_desert_stone_stair",
-		y_max = mapgen.underground_start,
+		node_dungeon = "blocks:desert_cobble",
+		node_dungeon_stair = "blocks:shapes_desert_cobble_stair",
+		y_max = mapgen.underground_top,
         y_min = mapgen.underground_bottom,
 		heat_point = 85,
 		humidity_point = 0,
@@ -111,9 +111,9 @@ mapgen.register_underground_biomes = function()
     minetest.register_biome({
 		name = "sandstone_desert_underground",
 		node_stone = "blocks:sandstone",
-		node_dungeon = "blocks:sandstonebrick",
-		node_dungeon_stair = "blocks:shapes_sandstone_block_stair",
-		y_max = mapgen.underground_start,
+		node_dungeon = "variations:sandstone_brick",
+		node_dungeon_stair = "variations:shapes_sandstone_tile_stair",
+		y_max = mapgen.underground_top,
         y_min = mapgen.underground_bottom,
 		heat_point = 45,
 		humidity_point = 0,
@@ -124,7 +124,7 @@ mapgen.register_underground_biomes = function()
 		node_dungeon = "blocks:cobble",
 		node_dungeon_alt = "blocks:mossycobble",
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
-		y_max = mapgen.underground_start,
+		y_max = mapgen.underground_top,
 		y_min = mapgen.underground_bottom,
 		heat_point = 20,
 		humidity_point = 0,
@@ -135,7 +135,7 @@ mapgen.register_underground_biomes = function()
 		node_dungeon = "blocks:cobble",
 		node_dungeon_alt = "blocks:mossycobble",
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
-		y_max = mapgen.underground_start,
+		y_max = mapgen.underground_top,
 		y_min = mapgen.underground_bottom,
 		heat_point = 89,
 		humidity_point = 48,
@@ -146,7 +146,7 @@ mapgen.register_underground_biomes = function()
 		node_dungeon = "blocks:cobble",
 		node_dungeon_alt = "blocks:mossycobble",
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
-		y_max = mapgen.underground_start,
+		y_max = mapgen.underground_top,
 		y_min = mapgen.underground_bottom,
 		heat_point = 86,
 		humidity_point = 70,
@@ -224,6 +224,16 @@ mapgen.register_underground_ores = function()
 	})
 	minetest.register_ore({
 		ore_type = "blob",
+		ore = "blocks:gravel",
+		wherein = "blocks:stone",
+		clust_scarcity = 6 * 6 * 6,
+		clust_num_ores = 64,
+		clust_size = 6,
+		y_max = mapgen.underground_top,
+		y_min = mapgen.underground_bottom,
+	})
+	minetest.register_ore({
+		ore_type = "blob",
 		ore = "blocks:desert_cobble",
 		wherein = "blocks:desert_stone",
 		clust_scarcity = 8 * 8 * 8,
@@ -244,6 +254,16 @@ mapgen.register_underground_ores = function()
 	})
 	minetest.register_ore({
 		ore_type = "blob",
+		ore = "blocks:dark_dirt",
+		wherein = "blocks:desert_stone",
+		clust_scarcity = 6 * 6 * 6,
+		clust_num_ores = 64,
+		clust_size = 6,
+		y_max = mapgen.underground_top,
+		y_min = mapgen.underground_bottom,
+	})
+	minetest.register_ore({
+		ore_type = "blob",
 		ore = "blocks:sand",
 		wherein = "blocks:sandstone",
 		clust_scarcity = 6 * 6 * 6,
@@ -321,8 +341,419 @@ mapgen.register_underground_ores = function()
 		clust_size = 4,
 		y_max = mapgen.underground_top,
 		y_min = mapgen.underground_bottom,
+	})
+	minetest.register_ore({
+		ore_type = "blob",
+		ore = "blocks:snow",
+		wherein = {"blocks:ice", "blocks:cave_ice"},
+		clust_scarcity = 6 * 6 * 6,
+		clust_num_ores = 64,
+		clust_size = 6,
+		y_max = mapgen.underground_top,
+		y_min = mapgen.underground_bottom,
+	})
+	-- Actual Ores
+	-- Stone Base
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:stone_with_coal",
+		wherein        = "blocks:stone",
+		clust_scarcity = 8 * 8 * 8,
+		clust_num_ores = 9,
+		clust_size     = 3,
+		y_max          = mapgen.underground_top,
+		y_min          = mapgen.underground_bottom,
+	})
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:stone_with_coal",
+		wherein        = "blocks:stone",
+		clust_scarcity = 10 * 10 * 10,
+		clust_num_ores = 8,
+		clust_size     = 4,
+		y_max          = mapgen.underground_middle,
+		y_min          = mapgen.underground_bottom,
+	})
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:stone_with_tin",
+		wherein        = "blocks:stone",
+		clust_scarcity = 10 * 10 * 10,
+		clust_num_ores = 5,
+		clust_size     = 3,
+		y_max          = mapgen.underground_top,
+		y_min          = mapgen.underground_bottom,
+	})
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:stone_with_tin",
+		wherein        = "blocks:stone",
+		clust_scarcity = 13 * 13 * 13,
+		clust_num_ores = 8,
+		clust_size     = 4,
+		y_max          = mapgen.underground_middle,
+		y_min          = mapgen.underground_bottom,
+	})
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:stone_with_copper",
+		wherein        = "blocks:stone",
+		clust_scarcity = 9 * 9 * 9,
+		clust_num_ores = 5,
+		clust_size     = 3,
+		y_max          = mapgen.underground_top,
+		y_min          = mapgen.underground_bottom,
+	})
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:stone_with_copper",
+		wherein        = "blocks:stone",
+		clust_scarcity = 12 * 12 * 12,
+		clust_num_ores = 8,
+		clust_size     = 4,
+		y_max          = mapgen.underground_middle,
+		y_min          = mapgen.underground_bottom,
+	})
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:stone_with_iron",
+		wherein        = "blocks:stone",
+		clust_scarcity = 9 * 9 * 9,
+		clust_num_ores = 12,
+		clust_size     = 3,
+		y_max          = mapgen.underground_top,
+		y_min          = mapgen.underground_bottom,
+	})
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:stone_with_iron",
+		wherein        = "blocks:stone",
+		clust_scarcity = 7 * 7 * 7,
+		clust_num_ores = 10,
+		clust_size     = 5,
+		y_max          = mapgen.underground_middle,
+		y_min          = mapgen.underground_bottom,
+	})
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:stone_with_amethyst",
+		wherein        = "blocks:stone",
+		clust_scarcity = 11 * 11 * 11,
+		clust_num_ores = 7,
+		clust_size     = 3,
+		y_max          = mapgen.underground_middle,
+		y_min          = mapgen.underground_bottom,
+	})
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:stone_with_garnet",
+		wherein        = "blocks:stone",
+		clust_scarcity = 11 * 11 * 11,
+		clust_num_ores = 7,
+		clust_size     = 3,
+		y_max          = mapgen.underground_middle,
+		y_min          = mapgen.underground_bottom,
+	})
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:stone_with_silver",
+		wherein        = "blocks:stone",
+		clust_scarcity = 13 * 13 * 13,
+		clust_num_ores = 5,
+		clust_size     = 3,
+		y_max          = mapgen.underground_middle,
+		y_min          = mapgen.underground_bottom,
+	})
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:stone_with_gold",
+		wherein        = "blocks:stone",
+		clust_scarcity = 13 * 13 * 13,
+		clust_num_ores = 5,
+		clust_size     = 3,
+		y_max          = mapgen.underground_middle,
+		y_min          = mapgen.underground_bottom,
+	})
+	-- Desert Stone Base
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:desert_stone_with_coal",
+		wherein        = "blocks:desert_stone",
+		clust_scarcity = 8 * 8 * 8,
+		clust_num_ores = 9,
+		clust_size     = 3,
+		y_max          = mapgen.underground_top,
+		y_min          = mapgen.underground_bottom,
+	})
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:desert_stone_with_coal",
+		wherein        = "blocks:desert_stone",
+		clust_scarcity = 10 * 10 * 10,
+		clust_num_ores = 8,
+		clust_size     = 4,
+		y_max          = mapgen.underground_middle,
+		y_min          = mapgen.underground_bottom,
+	})
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:desert_stone_with_tin",
+		wherein        = "blocks:desert_stone",
+		clust_scarcity = 10 * 10 * 10,
+		clust_num_ores = 5,
+		clust_size     = 3,
+		y_max          = mapgen.underground_top,
+		y_min          = mapgen.underground_bottom,
+	})
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:desert_stone_with_tin",
+		wherein        = "blocks:desert_stone",
+		clust_scarcity = 13 * 13 * 13,
+		clust_num_ores = 8,
+		clust_size     = 4,
+		y_max          = mapgen.underground_middle,
+		y_min          = mapgen.underground_bottom,
+	})
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:desert_stone_with_copper",
+		wherein        = "blocks:desert_stone",
+		clust_scarcity = 9 * 9 * 9,
+		clust_num_ores = 5,
+		clust_size     = 3,
+		y_max          = mapgen.underground_top,
+		y_min          = mapgen.underground_bottom,
+	})
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:desert_stone_with_copper",
+		wherein        = "blocks:desert_stone",
+		clust_scarcity = 12 * 12 * 12,
+		clust_num_ores = 8,
+		clust_size     = 4,
+		y_max          = mapgen.underground_middle,
+		y_min          = mapgen.underground_bottom,
+	})
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:desert_stone_with_iron",
+		wherein        = "blocks:desert_stone",
+		clust_scarcity = 9 * 9 * 9,
+		clust_num_ores = 12,
+		clust_size     = 3,
+		y_max          = mapgen.underground_top,
+		y_min          = mapgen.underground_bottom,
+	})
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:desert_stone_with_iron",
+		wherein        = "blocks:desert_stone",
+		clust_scarcity = 7 * 7 * 7,
+		clust_num_ores = 10,
+		clust_size     = 5,
+		y_max          = mapgen.underground_middle,
+		y_min          = mapgen.underground_bottom,
+	})
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:desert_stone_with_amethyst",
+		wherein        = "blocks:desert_stone",
+		clust_scarcity = 11 * 11 * 11,
+		clust_num_ores = 7,
+		clust_size     = 3,
+		y_max          = mapgen.underground_middle,
+		y_min          = mapgen.underground_bottom,
+	})
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:desert_stone_with_garnet",
+		wherein        = "blocks:desert_stone",
+		clust_scarcity = 11 * 11 * 11,
+		clust_num_ores = 7,
+		clust_size     = 3,
+		y_max          = mapgen.underground_middle,
+		y_min          = mapgen.underground_bottom,
+	})
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:desert_stone_with_silver",
+		wherein        = "blocks:desert_stone",
+		clust_scarcity = 13 * 13 * 13,
+		clust_num_ores = 5,
+		clust_size     = 3,
+		y_max          = mapgen.underground_middle,
+		y_min          = mapgen.underground_bottom,
+	})
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:desert_stone_with_gold",
+		wherein        = "blocks:desert_stone",
+		clust_scarcity = 13 * 13 * 13,
+		clust_num_ores = 5,
+		clust_size     = 3,
+		y_max          = mapgen.underground_middle,
+		y_min          = mapgen.underground_bottom,
+	})
+	-- Sandstone Base
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:sandstone_with_coal",
+		wherein        = "blocks:sandstone",
+		clust_scarcity = 8 * 8 * 8,
+		clust_num_ores = 9,
+		clust_size     = 3,
+		y_max          = mapgen.underground_top,
+		y_min          = mapgen.underground_bottom,
+	})
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:sandstone_with_coal",
+		wherein        = "blocks:sandstone",
+		clust_scarcity = 10 * 10 * 10,
+		clust_num_ores = 8,
+		clust_size     = 4,
+		y_max          = mapgen.underground_middle,
+		y_min          = mapgen.underground_bottom,
+	})
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:sandstone_with_tin",
+		wherein        = "blocks:sandstone",
+		clust_scarcity = 10 * 10 * 10,
+		clust_num_ores = 5,
+		clust_size     = 3,
+		y_max          = mapgen.underground_top,
+		y_min          = mapgen.underground_bottom,
+	})
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:sandstone_with_tin",
+		wherein        = "blocks:sandstone",
+		clust_scarcity = 13 * 13 * 13,
+		clust_num_ores = 8,
+		clust_size     = 4,
+		y_max          = mapgen.underground_middle,
+		y_min          = mapgen.underground_bottom,
+	})
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:sandstone_with_copper",
+		wherein        = "blocks:sandstone",
+		clust_scarcity = 9 * 9 * 9,
+		clust_num_ores = 5,
+		clust_size     = 3,
+		y_max          = mapgen.underground_top,
+		y_min          = mapgen.underground_bottom,
+	})
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:sandstone_with_copper",
+		wherein        = "blocks:sandstone",
+		clust_scarcity = 12 * 12 * 12,
+		clust_num_ores = 8,
+		clust_size     = 4,
+		y_max          = mapgen.underground_middle,
+		y_min          = mapgen.underground_bottom,
+	})
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:sandstone_with_iron",
+		wherein        = "blocks:sandstone",
+		clust_scarcity = 9 * 9 * 9,
+		clust_num_ores = 12,
+		clust_size     = 3,
+		y_max          = mapgen.underground_top,
+		y_min          = mapgen.underground_bottom,
+	})
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:sandstone_with_iron",
+		wherein        = "blocks:sandstone",
+		clust_scarcity = 7 * 7 * 7,
+		clust_num_ores = 10,
+		clust_size     = 5,
+		y_max          = mapgen.underground_middle,
+		y_min          = mapgen.underground_bottom,
+	})
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:sandstone_with_amethyst",
+		wherein        = "blocks:sandstone",
+		clust_scarcity = 11 * 11 * 11,
+		clust_num_ores = 7,
+		clust_size     = 3,
+		y_max          = mapgen.underground_middle,
+		y_min          = mapgen.underground_bottom,
+	})
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:sandstone_with_garnet",
+		wherein        = "blocks:sandstone",
+		clust_scarcity = 11 * 11 * 11,
+		clust_num_ores = 7,
+		clust_size     = 3,
+		y_max          = mapgen.underground_middle,
+		y_min          = mapgen.underground_bottom,
+	})
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:sandstone_with_silver",
+		wherein        = "blocks:sandstone",
+		clust_scarcity = 13 * 13 * 13,
+		clust_num_ores = 5,
+		clust_size     = 3,
+		y_max          = mapgen.underground_middle,
+		y_min          = mapgen.underground_bottom,
+	})
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:sandstone_with_gold",
+		wherein        = "blocks:sandstone",
+		clust_scarcity = 13 * 13 * 13,
+		clust_num_ores = 5,
+		clust_size     = 3,
+		y_max          = mapgen.underground_middle,
+		y_min          = mapgen.underground_bottom,
+	})
+	-- Ice Base
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:ice_with_geode",
+		wherein        = {"blocks:ice", "blocks:cave_ice"},
+		clust_scarcity = 12 * 12 * 12,
+		clust_num_ores = 3,
+		clust_size     = 2,
+		y_max          = mapgen.underground_top,
+		y_min          = mapgen.underground_bottom,
+	})
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:ice_with_geode",
+		wherein        = {"blocks:ice", "blocks:cave_ice"},
+		clust_scarcity = 10 * 10 * 10,
+		clust_num_ores = 5,
+		clust_size     = 3,
+		y_max          = mapgen.underground_middle,
+		y_min          = mapgen.underground_bottom,
 	})
 end
+
+mapgen.underground_base_nodes = {
+	{base = "blocks:stone", floor = "blocks:stone_firemoss", ceiling = "blocks:stone_firemoss_ceiling"},
+	{base = "blocks:cobble", floor = "blocks:cobble_firemoss", ceiling = "blocks:cobble_firemoss_ceiling"},
+	{base = "blocks:desert_stone", floor = "blocks:desert_stone_firemoss", ceiling = "blocks:desert_stone_firemoss_ceiling"},
+	{base = "blocks:desert_cobble", floor = "blocks:desert_cobble_firemoss", ceiling = "blocks:desert_cobble_firemoss_ceiling"},
+	{base = "blocks:sandstone", floor = "blocks:sandstone_azure", ceiling = "blocks:sandstone_azure_ceiling"},
+	{base = "blocks:sand", floor = "blocks:sand_azure", ceiling = "blocks:sand_azure_ceiling"},
+	{base = "blocks:desert_sandstone", floor = "blocks:desert_sandstone_azure", ceiling = "blocks:desert_sandstone_azure_ceiling"},
+	{base = "blocks:desert_sand", floor = "blocks:desert_sand_azure", ceiling = "blocks:desert_sand_azure_ceiling"},
+	{base = "blocks:silver_sandstone", floor = "blocks:silver_sandstone_azure", ceiling = "blocks:silver_sandstone_azure_ceiling"},
+	{base = "blocks:silver_sand", floor = "blocks:silver_sand_azure", ceiling = "blocks:silver_sand_azure_ceiling"},
+	{base = "blocks:ice", floor = "blocks:ice_azure", ceiling = "blocks:ice_azure_ceiling"},
+	{base = "blocks:cave_ice", floor = "blocks:ice_azure", ceiling = "blocks:ice_azure_ceiling"},
+	{base = "blocks:cracked_ice", floor = "blocks:cracked_ice_azure", ceiling = "blocks:cracked_ice_azure_ceiling"}
+}
 
 mapgen.register_underground_decorations = function()
 	mapgen.register_microbiome_base({
@@ -338,27 +769,19 @@ mapgen.register_underground_decorations = function()
 			lacunarity = 4,
 			flags = "eased"
 		},
-		base_nodes = {
-			{base = "blocks:stone", floor = "blocks:stone_firemoss", ceiling = "blocks:stone_firemoss_ceiling"},
-			{base = "blocks:cobble", floor = "blocks:cobble_firemoss", ceiling = "blocks:cobble_firemoss_ceiling"},
-			{base = "blocks:desert_stone", floor = "blocks:desert_stone_firemoss", ceiling = "blocks:desert_stone_firemoss_ceiling"},
-			{base = "blocks:desert_cobble", floor = "blocks:desert_cobble_firemoss", ceiling = "blocks:desert_cobble_firemoss_ceiling"},
-			{base = "blocks:sandstone", floor = "blocks:sandstone_azure", ceiling = "blocks:sandstone_azure_ceiling"},
-			{base = "blocks:sand", floor = "blocks:sand_azure", ceiling = "blocks:sand_azure_ceiling"},
-			{base = "blocks:desert_sandstone", floor = "blocks:desert_sandstone_azure", ceiling = "blocks:desert_sandstone_azure_ceiling"},
-			{base = "blocks:desert_sand", floor = "blocks:desert_sand_azure", ceiling = "blocks:desert_sand_azure_ceiling"},
-			{base = "blocks:silver_sandstone", floor = "blocks:silver_sandstone_azure", ceiling = "blocks:silver_sandstone_azure_ceiling"},
-			{base = "blocks:silver_sand", floor = "blocks:silver_sand_azure", ceiling = "blocks:silver_sand_azure_ceiling"},
-			{base = "blocks:ice", floor = "blocks:ice_azure", ceiling = "blocks:ice_azure_ceiling"},
-			{base = "blocks:cave_ice", floor = "blocks:ice_azure", ceiling = "blocks:ice_azure_ceiling"},
-			{base = "blocks:cracked_ice", floor = "blocks:cracked_ice_azure", ceiling = "blocks:cracked_ice_azure_ceiling"},
-		}
+		base_nodes = mapgen.underground_base_nodes,
+	})
+	mapgen.register_microbiome_base_outline({
+		y_min = mapgen.underground_bottom,
+		y_max = mapgen.underground_top,
+		outline = "blocks:water_source",
+		base_nodes = mapgen.underground_base_nodes,
 	})
 	mapgen.place_microbiome_flora("fire_underground", {
         y_max = mapgen.underground_top,
         y_min = mapgen.underground_bottom,
 		seed = 262,
-		surface_nodes = {"blocks:cobble_firemoss", "blocks:stone_firemoss"},
+		surface_nodes = {"blocks:cobble_firemoss", "blocks:stone_firemoss", "blocks:desert_cobble_firemoss", "blocks:desert_stone_firemoss"},
 		small_plant_variation = true,
 		grass_variation = true,
 		grass = "flora:firegrass",
@@ -375,8 +798,7 @@ mapgen.register_underground_decorations = function()
         y_max = mapgen.underground_top,
         y_min = mapgen.underground_bottom,
 		seed = 263,
-		surface_nodes = {"blocks:desert_stone_azure", "blocks:desert_cobble_azure",
-		"blocks:sandstone_azure", "blocks:sand_azure",
+		surface_nodes = {"blocks:sandstone_azure", "blocks:sand_azure",
 		"blocks:desert_sandstone", "blocks:desert_sand_azure",
 		"blocks:silver_sandstone_azure", "blocks:silver_sand_azure",
 		"blocks:ice_azure", "blocks:cracked_ice_azure"},
@@ -393,15 +815,15 @@ mapgen.register_underground_decorations = function()
 		moss = "flora:azure_moss",
 	})
 	-- For testing
-    --[[
+    
 	minetest.register_decoration({
         deco_type = "simple",
-        place_on = "blocks:stone",
+        place_on = {"blocks:stone", "blocks:desert_stone", "blocks:ice", "blocks:sandstone"},
         sidelen = 8,
-        fill_ratio = 0.04,
+        fill_ratio = 0.08,
         y_max = mapgen.underground_top,
         y_min = mapgen.underground_bottom,
         flags = "all_floors",
         decoration = "blocks:meselamp",
-    })]]--
+    })
 end

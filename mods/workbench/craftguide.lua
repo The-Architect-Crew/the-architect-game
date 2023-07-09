@@ -109,7 +109,7 @@ local function craftguide_header_form(player)
         itemdesc = itemdesc:gsub("\n.*", "") -- First line of description only
         ret_form =
             "item_image_button[0.25,-0.9;0.8,0.8;"..itemname..";workbench_craftguide_header_"..itemname..";]".. -- item icon
-            craftguide_tooltip_list[itemname].. -- item tooltip
+            (craftguide_tooltip_list[itemname] or generate_item_tooltip(itemname)).. -- item tooltip
             "style_type[label;font_size=20;font=bold]"..
             "label[1.2,-0.7;"..itemdesc.."]".. -- item description (item name)
             "style_type[label;font_size=13;font=normal]"..
@@ -159,7 +159,7 @@ local function workbench_recipe_to_form(recipe_data, output_data)
                 ret_form = ret_form..
                     "item_image_button["..( 0.875 + ((j - 1) * item_width) )..","..( 0.875 + ((i - 1) * item_width) )..
                         ";"..item_scale..","..item_scale..";"..recipe_item..";workbench_craftguide_item_"..recipe_itemname..";]"..
-                        craftguide_tooltip_list[recipe_itemname]
+                        (craftguide_tooltip_list[recipe_itemname] or generate_item_tooltip(recipe_itemname))
             end
         end
     end
@@ -179,7 +179,7 @@ local function workbench_recipe_to_form(recipe_data, output_data)
         local output_itemstring = output_item:get_name().." "..output_item:get_count()
         ret_form = ret_form..
             "item_image_button["..1.4375 + ((index2 - 1) * output_item_width)..",7.75;"..output_item_scale..","..output_item_scale..";"..output_itemstring..";workbench_craftguide_item_"..output_itemname..";]"..
-            craftguide_tooltip_list[output_itemname]
+            (craftguide_tooltip_list[output_itemname] or generate_item_tooltip(output_itemname))
     end
 
     -- output arrow (crafting type)
@@ -257,7 +257,7 @@ local function mt_recipe_to_form(recipe_data)
                         ret_form = ret_form..
                             "item_image_button["..( 0.875 + ((j - 1) * item_width) )..","..( 0.875 + ((i - 1) * item_width) )..
                                 ";"..item_scale..","..item_scale..";"..recipe_item..";workbench_craftguide_item_"..recipe_itemname..";]"..
-                                craftguide_tooltip_list[recipe_itemname]
+                                (craftguide_tooltip_list[recipe_itemname] or generate_item_tooltip(recipe_itemname))
                     end
                 end
             end
@@ -277,7 +277,7 @@ local function mt_recipe_to_form(recipe_data)
 
     ret_form = ret_form..
         "item_image_button[1.4375,7.75;1,1;"..output_item..";workbench_craftguide_item_"..output_itemname..";]"..
-        craftguide_tooltip_list[output_itemname]..
+        (craftguide_tooltip_list[output_itemname] or generate_item_tooltip(output_itemname))..
         -- craft type
         "style[workbench_craftguide_ctype;border=false]"..
         "image_button[0.25,7.75;1,1;"..crafting_arrow..";workbench_craftguide_ctype;]"..
@@ -625,7 +625,7 @@ local function construct_itemlist_form(player)
         craftguide_data[playername].form_list[curr_page] = craftguide_data[playername].form_list[curr_page]..
             "item_image_button["..( 0.25 + ((item_count_in_row - 1) * 1.25))..","..( 0.25 + ((curr_row - 1) * 1.25))..
                 ";1,1;"..itemname..";workbench_craftguide_item_"..itemname..";]"..
-                craftguide_tooltip_list[itemname]
+                (craftguide_tooltip_list[itemname] or generate_item_tooltip(itemname))
     end
 
     if not craftguide_data[playername].form_list[1] then -- ensure first page is always constructed

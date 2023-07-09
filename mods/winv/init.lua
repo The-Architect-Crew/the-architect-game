@@ -9,6 +9,7 @@ winv.listrings = {} -- listrings between two inventories
 winv.mod_storage = minetest.get_mod_storage()
 
 local path = minetest.get_modpath("winv")
+dofile(path.."/helpers.lua") -- helper functions
 dofile(path.."/register.lua") -- handle registerations
 dofile(path.."/api.lua")
 

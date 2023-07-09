@@ -9,10 +9,12 @@ local craftguide_list = {} -- valid crafts list
 local craftguide_list_all = {} -- all possible items
 local craftguide_names_list = {} -- valid crafts names
 local craftguide_desc_list = {} -- valid crafts descriptions
+local craftguide_tooltip_list = {} -- valid crafts descriptions
 local craftguide_usage_list = {} -- usages list
 local craftguide_data = {} -- various player specific form data
 local craftguide_groups = {} -- manually defined groups
 local craftguide_groups_auto = {} -- automatically generated groups
+local craftguide_nonempty_modnames = {}
 
 function workbench:register_craftguide_group(groupname, def)
     craftguide_groups[groupname] = {
@@ -37,8 +39,6 @@ local function craftguide_init(player)
     craftguide_data[playername] = {
         active = false, -- whether form is active
         item = "", -- selected item
-        item_recipe_curr = 1, -- current recipe page
-        item_recipe_max = 1, -- max recipe page
         form_list = nil, -- cached recipe list
         fav_list = save_data.fav_list or {}, -- favourite list
         -- craft history
@@ -47,66 +47,29 @@ local function craftguide_init(player)
         -- pages
         curr_page = 1,
         max_page = 1,
-        -- search filter
-        filter = "",
-        old_filter = nil,
+        curr_recipe = 1, -- current recipe page
+        max_recipe = 1, -- max recipe page
+        -- usage
+        show_usage = nil,
+        curr_usage = 1,
+        max_usage = 1,
         -- content filter
         content = minetest.registered_items,
         content_name = "all",
-        old_content = nil,
+        content_old = nil,
+        -- search filter
+        filter_search = "",
+        filter_search_old = nil,
         -- mod filter
-        mod_filter = save_data.mod_filter or {},
-        show_mod_filter = nil,
-        old_mod_filter = {},
-        mod_filter_scroll = 0,
+        filter_mod = save_data.filter_mod or {},
+        filter_mod_show = nil,
+        filter_mod_old = {},
+        filter_mod_scroll = 0,
         -- adv filter
-        show_adv_filter = nil,
-        adv_filter_all = save_data.adv_filter_all or nil,
-        adv_filter_shapes = save_data.adv_filter_shapes or nil,
-        -- usage
-        show_usage = nil,
-        item_usage_curr = 1,
-        item_usage_max = 1,
+        filter_adv_show = nil,
+        filter_adv_all = save_data.filter_adv_all or nil,
+        filter_adv_shapes = save_data.filter_adv_shapes or nil,
     }
-end
-
--- check if item is group (prefix with group:)
-local function is_group(itemname)
-    if itemname:find("group:", 1, true) then
-        local groupstring = string.match(itemname, ':(.*)')
-        if groupstring and groupstring ~= "" then
-            return true
-        end
-    end
-end
-
--- check if item matches given group
-local function group_match(groupname, itemname)
-    local group_list = {}
-    local groupstring = string.match(groupname, ':(.*)')
-    for group in string.gmatch(groupstring, '([^,]+)') do
-        table.insert(group_list, group)
-    end
-
-    -- check item fulfill all groups
-    for i = 1, #group_list do
-        if minetest.get_item_group(itemname, group_list[i]) == 0 then
-            return nil
-        end
-    end
-    return true
-end
-
--- find the first item in specified group, if none found, return groupname
-local function find_first_in_group(groupname)
-    for itemname, def in pairs(minetest.registered_items) do
-        if def.groups.not_in_creative_inventory ~= 1 and def.groups.not_in_craftguide ~= 1 then
-            if group_match(groupname, itemname) then
-                return itemname
-            end
-        end
-    end
-    return groupname
 end
 
 -- generate item tooltip
@@ -120,7 +83,7 @@ local function generate_item_tooltip(itemname)
         desc = desc_from_table
         return "tooltip[workbench_craftguide_item_"..itemname..";"..desc.."]"
     end
-    if is_group(itemname) and desc == itemname then -- group tooltip
+    if winv.is_group(itemname) and desc == itemname then -- group tooltip
         local groupstring = itemname:gsub(",", "") -- remove all commas to prevent invalid fieldname
         local groupname = string.match(itemname, ':(.*)')
         desc = ccore.comment("Any "..groupname, itemname)
@@ -132,8 +95,8 @@ local function generate_item_tooltip(itemname)
     return "tooltip[workbench_craftguide_item_"..itemname..";"..desc.."]"
 end
 
--- generate top item display
-local function craftguide_display_form(player)
+-- generate right crafting header
+local function craftguide_header_form(player)
     local playername = player:get_player_name()
     if not craftguide_data[playername] or craftguide_data[playername].item == "" then
         return ""
@@ -143,18 +106,19 @@ local function craftguide_display_form(player)
     if craftguide_data[playername].item and craftguide_data[playername].item ~= "" then
         local itemname = craftguide_data[playername].item
         local itemdesc = minetest.registered_items[itemname].short_description or minetest.registered_items[itemname].description
-        itemdesc = itemdesc:gsub("\n.*", "") -- First line only
+        itemdesc = itemdesc:gsub("\n.*", "") -- First line of description only
         ret_form =
-            "item_image_button[0.25,-0.9;0.8,0.8;"..itemname..";workbench_craftguide_display_"..itemname..";]"..
-            generate_item_tooltip(itemname)..
+            "item_image_button[0.25,-0.9;0.8,0.8;"..itemname..";workbench_craftguide_header_"..itemname..";]".. -- item icon
+            craftguide_tooltip_list[itemname].. -- item tooltip
             "style_type[label;font_size=20;font=bold]"..
-            "label[1.2,-0.7;"..itemdesc.."]"..
+            "label[1.2,-0.7;"..itemdesc.."]".. -- item description (item name)
             "style_type[label;font_size=13;font=normal]"..
-            "label[1.2,-0.3;"..itemname.."]"
+            "label[1.2,-0.3;"..itemname.."]" -- item technical name
     end
     return ret_form
 end
 
+-- convert workbench recipe data to formspec
 local function workbench_recipe_to_form(recipe_data, output_data)
     local ret_form = ""
     -- apply dynamic input scale
@@ -172,7 +136,7 @@ local function workbench_recipe_to_form(recipe_data, output_data)
             local recipe_item = recipe_data.input[i][j]
             local recipe_itemname = ItemStack(recipe_item):get_name()
             local recipe_itemcount = ItemStack(recipe_item):get_count()
-            if is_group(recipe_itemname) then -- group label
+            if winv.is_group(recipe_itemname) then -- group label
                 local groupname = recipe_itemname
                 local groupstring = groupname:gsub(",", "") -- remove all commas to prevent invalid fieldname
                 if craftguide_groups[groupname] then
@@ -183,7 +147,7 @@ local function workbench_recipe_to_form(recipe_data, output_data)
                             ";"..item_scale..","..item_scale..";"..recipe_item..";workbench_craftguide_item_"..groupstring..";(G)]"..
                         "tooltip[workbench_craftguide_item_"..groupstring..";"..craftguide_groups[groupname].description.."]"
                 else
-                    recipe_itemname = find_first_in_group(groupname)
+                    recipe_itemname = winv.find_first_in_group(groupname)
                     recipe_item = recipe_itemname.." "..recipe_itemcount
                     craftguide_groups_auto[groupname] = groupstring
                     ret_form = ret_form..
@@ -195,7 +159,7 @@ local function workbench_recipe_to_form(recipe_data, output_data)
                 ret_form = ret_form..
                     "item_image_button["..( 0.875 + ((j - 1) * item_width) )..","..( 0.875 + ((i - 1) * item_width) )..
                         ";"..item_scale..","..item_scale..";"..recipe_item..";workbench_craftguide_item_"..recipe_itemname..";]"..
-                    generate_item_tooltip(recipe_itemname)
+                        craftguide_tooltip_list[recipe_itemname]
             end
         end
     end
@@ -215,7 +179,7 @@ local function workbench_recipe_to_form(recipe_data, output_data)
         local output_itemstring = output_item:get_name().." "..output_item:get_count()
         ret_form = ret_form..
             "item_image_button["..1.4375 + ((index2 - 1) * output_item_width)..",7.75;"..output_item_scale..","..output_item_scale..";"..output_itemstring..";workbench_craftguide_item_"..output_itemname..";]"..
-            generate_item_tooltip(output_itemname)
+            craftguide_tooltip_list[output_itemname]
     end
 
     -- output arrow (crafting type)
@@ -237,6 +201,7 @@ local function workbench_recipe_to_form(recipe_data, output_data)
     return ret_form
 end
 
+-- convert minetest recipe data to formspec
 local function mt_recipe_to_form(recipe_data)
     local ret_form = ""
     local width = recipe_data.width
@@ -269,7 +234,7 @@ local function mt_recipe_to_form(recipe_data)
                 local recipe_itemname = ItemStack(recipe_item):get_name()
                 if recipe_itemname then
                     local recipe_itemcount = ItemStack(recipe_item):get_count()
-                    if is_group(recipe_itemname) then -- group label
+                    if winv.is_group(recipe_itemname) then -- group label
                         local groupname = recipe_itemname
                         local groupstring = groupname:gsub(",", "") -- remove all commas to prevent invalid fieldname
                         if craftguide_groups[groupname] then
@@ -280,7 +245,7 @@ local function mt_recipe_to_form(recipe_data)
                                     ";"..item_scale..","..item_scale..";"..recipe_item..";workbench_craftguide_item_"..groupstring..";(G)]"..
                                 "tooltip[workbench_craftguide_item_"..groupstring..";"..craftguide_groups[groupname].description.."]"
                         else
-                            recipe_itemname = find_first_in_group(groupname)
+                            recipe_itemname = winv.find_first_in_group(groupname)
                             recipe_item = recipe_itemname.." "..recipe_itemcount
                             craftguide_groups_auto[groupname] = groupstring
                             ret_form = ret_form..
@@ -292,7 +257,7 @@ local function mt_recipe_to_form(recipe_data)
                         ret_form = ret_form..
                             "item_image_button["..( 0.875 + ((j - 1) * item_width) )..","..( 0.875 + ((i - 1) * item_width) )..
                                 ";"..item_scale..","..item_scale..";"..recipe_item..";workbench_craftguide_item_"..recipe_itemname..";]"..
-                            generate_item_tooltip(recipe_itemname)
+                                craftguide_tooltip_list[recipe_itemname]
                     end
                 end
             end
@@ -312,7 +277,7 @@ local function mt_recipe_to_form(recipe_data)
 
     ret_form = ret_form..
         "item_image_button[1.4375,7.75;1,1;"..output_item..";workbench_craftguide_item_"..output_itemname..";]"..
-        generate_item_tooltip(output_itemname)..
+        craftguide_tooltip_list[output_itemname]..
         -- craft type
         "style[workbench_craftguide_ctype;border=false]"..
         "image_button[0.25,7.75;1,1;"..crafting_arrow..";workbench_craftguide_ctype;]"..
@@ -320,6 +285,7 @@ local function mt_recipe_to_form(recipe_data)
     return ret_form
 end
 
+-- handle all workbench recipes
 local function handle_workbench_recipes(playername, item, srecipe_count)
     local ret_form = ""
     local recipe_count = srecipe_count
@@ -328,7 +294,7 @@ local function handle_workbench_recipes(playername, item, srecipe_count)
         for index, value in pairs(output_data) do
             local input_data = workbench_crafts.input[value.ctype][value.input_index]
             if input_data then
-                if (recipe_count + index) == craftguide_data[playername].item_recipe_curr then
+                if (recipe_count + index) == craftguide_data[playername].curr_recipe then
                     ret_form = ret_form.. workbench_recipe_to_form(input_data, value)
                 end
             end
@@ -338,6 +304,7 @@ local function handle_workbench_recipes(playername, item, srecipe_count)
     return recipe_count, ret_form
 end
 
+-- handle all minetest recipes
 local function handle_mt_recipes(playername, item, srecipe_count)
     local ret_form = ""
     local recipe_count = srecipe_count
@@ -345,7 +312,7 @@ local function handle_mt_recipes(playername, item, srecipe_count)
     if mt_output_data then
         for index, value in pairs(mt_output_data) do
             --recipe_count = recipe_count + 1
-            if (recipe_count + index) == craftguide_data[playername].item_recipe_curr then
+            if (recipe_count + index) == craftguide_data[playername].curr_recipe then
                 ret_form = ret_form.. mt_recipe_to_form(value)
             end
         end
@@ -407,7 +374,7 @@ local function craftguide_recipe_form(player)
     local ret_form =
         "image[0,0;7.75,9;winv_bg.png]"..
         "style[workbench_current_item;border=false]"..
-        craftguide_display_form(player)..
+        craftguide_header_form(player)..
         "box[0.25,0.25;7.275,7.275;#00000070]"..
         -- buttons (0.6 width)
         "style[workbench_craftguide_fav;border=false]"..
@@ -427,7 +394,7 @@ local function craftguide_recipe_form(player)
             for output_itemname, value in pairs(craftguide_usage_list[item]) do
                 for ctype, value2 in pairs(value) do
                     usage_count = usage_count + 1
-                    if usage_count == craftguide_data[playername].item_usage_curr then
+                    if usage_count == craftguide_data[playername].curr_usage then
                         if value2.utype == "mt" then
                             ret_form = ret_form.. mt_recipe_to_form(value2.data)
                         elseif value2.utype == "workbench" then
@@ -437,9 +404,9 @@ local function craftguide_recipe_form(player)
                 end
             end
 
-            craftguide_data[playername].item_usage_max = usage_count
+            craftguide_data[playername].max_usage = usage_count
             ret_form = ret_form..
-                "label[0.25,9.25;Usage " .. minetest.colorize("#FFFF00", tostring(craftguide_data[playername].item_usage_curr)) .. " / " .. tostring(usage_count) .. "]"
+                "label[0.25,9.25;Usage " .. minetest.colorize("#FFFF00", tostring(craftguide_data[playername].curr_usage)) .. " / " .. tostring(usage_count) .. "]"
             if usage_count > 1 then -- show arrows (recipe page)
                 ret_form = ret_form..
                     "image_button[6.5,7.83;0.5,0.8;winv_cicon_miniarrow.png^[transformFX;workbench_craftguide_usage_prev;;;false;]"..
@@ -460,8 +427,8 @@ local function craftguide_recipe_form(player)
                 total_count = #mt_output_data
             end
         end
-        if craftguide_data[playername].item_recipe_curr == 0 then
-            craftguide_data[playername].item_recipe_curr = total_count
+        if craftguide_data[playername].curr_recipe == 0 then
+            craftguide_data[playername].curr_recipe = total_count
         end
 
         local recipe_count = 0
@@ -486,10 +453,10 @@ local function craftguide_recipe_form(player)
             ret_form = ret_form.. op_form
         end
 
-        -- handle common displays (recipe page)
-        craftguide_data[playername].item_recipe_max = recipe_count
+        -- handle common header displays (recipe page)
+        craftguide_data[playername].max_recipe = recipe_count
         ret_form = ret_form..
-            "label[0.25,9.25;Recipe " .. minetest.colorize("#FFFF00", tostring(recipe_count - craftguide_data[playername].item_recipe_curr) + 1) .. " / " .. tostring(recipe_count) .. "]" -- reverse page count (ensure older recipes are shown first)
+            "label[0.25,9.25;Recipe " .. minetest.colorize("#FFFF00", tostring(recipe_count - craftguide_data[playername].curr_recipe) + 1) .. " / " .. tostring(recipe_count) .. "]" -- reverse page count (ensure older recipes are shown first)
         if recipe_count == 0 then -- no recipe found
             ret_form = ret_form..
                 "style[workbench_craftguide_no_recipe;border=false]"..
@@ -510,10 +477,10 @@ end
 -- get mod filter status of specified mod
 local function get_modfilter_status(modname, playername)
 	local data = craftguide_data[playername]
-	if not data.mod_filter or not next(data.mod_filter) then
+	if not data.filter_mod or not next(data.filter_mod) then
 		return true
 	end
-	for i, modfname in pairs(data.mod_filter) do
+	for i, modfname in pairs(data.filter_mod) do
 		if modfname == modname then
 			return false
 		end
@@ -524,7 +491,7 @@ end
 -- generate mod filter list
 local function modfilter_list(playername)
 	local modlist = ""
-	local modnames = minetest.get_modnames()
+	local modnames = craftguide_nonempty_modnames
 	for i, modname in ipairs(modnames) do
 		modlist = modlist.."checkbox[0.1,"..((i - 1) * 0.4 + 0.25)..";workbench_craftguide_modfilter_mod_"..modname..";"..modname..";"..tostring(get_modfilter_status(modname, playername)).."]"
 	end
@@ -532,12 +499,13 @@ local function modfilter_list(playername)
 end
 
 -- check if item matches mod filter
-local function mod_match(itemname, mod_filter)
-	if not mod_filter or not next(mod_filter) then
+-- mod filter contains mods that should be filtered out
+local function mod_match(itemname, filter_mod)
+	if not filter_mod or not next(filter_mod) then
 		return true
 	end
-	for i, modname in pairs(mod_filter) do
-		if itemname:lower():find(modname..":", 1, true) then
+	for i, modname in pairs(filter_mod) do
+		if winv.mod_match(itemname, modname) then
 			return nil
 		end
 	end
@@ -546,7 +514,7 @@ end
 
 -- check if item matches advanced filter(s)
 local function advfilter_check(playername, def)
-    if craftguide_data[playername].adv_filter_shapes then
+    if craftguide_data[playername].filter_adv_shapes then
         if (def.groups.shapes == 0 or not def.groups.shapes) and (def.groups.shapes_mesh == 0 or not def.groups.shapes_mesh) then
             return true
         end
@@ -557,12 +525,12 @@ end
 
 -- check if item matches search filter, returns closest to search filter
 local NO_MATCH = 999
-local function match(itemname, filter)
-	if filter == "" then
+local function match(itemname, filter_search)
+	if filter_search == "" then
 		return 0
 	end
-	if itemname:lower():find(filter, 1, true) then
-		return #itemname - #filter
+	if itemname:lower():find(filter_search, 1, true) then
+		return #itemname - #filter_search
 	end
 	return NO_MATCH
 end
@@ -593,30 +561,29 @@ local function construct_itemlist_form(player)
 	end
 
     -- create a list according to filters
-    local filter = craftguide_data[playername].filter
+    local filter_search = craftguide_data[playername].filter_search
     local filtered_list = {}
 	local order = {}
 
     local search_list = craftguide_list
-    if is_group(filter) or craftguide_data[playername].adv_filter_all then
+    if winv.is_group(filter_search) or craftguide_data[playername].filter_adv_all then
         search_list = craftguide_list_all
     end
     for itemname, def in pairs(search_list) do
         if craftguide_data[playername].content[itemname] then -- content filter
-            local mf = mod_match(itemname, craftguide_data[playername].mod_filter)
-            if mf then
-                if is_group(filter) then
-                    if group_match(filter, itemname) then
+            if mod_match(itemname, craftguide_data[playername].filter_mod) then
+                if winv.is_group(filter_search) then
+                    if winv.group_match(filter_search, itemname) then
                         filtered_list[#filtered_list+1] = itemname
                         order[itemname] = string.format("%02d", 1) .. itemname
                     end
                 else
-                    local m = match(description(def), filter)
+                    local m = match(description(def), filter_search)
                     if m > 0 then
-                        m = math.min(m, match(description(def, lang), filter))
+                        m = math.min(m, match(description(def, lang), filter_search))
                     end
                     if m > 0 then
-                        m = math.min(m, match(itemname, filter))
+                        m = math.min(m, match(itemname, filter_search))
                     end
 
                     if m < NO_MATCH then
@@ -658,7 +625,7 @@ local function construct_itemlist_form(player)
         craftguide_data[playername].form_list[curr_page] = craftguide_data[playername].form_list[curr_page]..
             "item_image_button["..( 0.25 + ((item_count_in_row - 1) * 1.25))..","..( 0.25 + ((curr_row - 1) * 1.25))..
                 ";1,1;"..itemname..";workbench_craftguide_item_"..itemname..";]"..
-                generate_item_tooltip(itemname)
+                craftguide_tooltip_list[itemname]
     end
 
     if not craftguide_data[playername].form_list[1] then -- ensure first page is always constructed
@@ -683,6 +650,9 @@ workbench:register_crafttype("drops", {
 minetest.register_on_mods_loaded(function()
     local start_time = os.clock()
     print("[workbench] caching craftguide items...")
+    -- get non empty mods
+    craftguide_nonempty_modnames = winv.get_nonempty_modnames()
+    -- generate drop crafts, and cache item descriptions and tooltips
     for itemname, def in pairs(minetest.registered_items) do
         -- handle drops
         local drops = def.drop
@@ -735,6 +705,7 @@ minetest.register_on_mods_loaded(function()
                 craftguide_desc_list[itemname] = ccore.comment(def.description, itemname..minetest.colorize("red", "\nUncraftable")) -- uncraftable description
             end
             craftguide_list_all[itemname] = def -- cache all valid items definitions
+            craftguide_tooltip_list[itemname] = generate_item_tooltip(itemname)
         end
     end
 
@@ -809,14 +780,14 @@ local function craftguide_form(player)
 
     -- mod filter handling
     local modfilter_form = ""
-    if cgdata.show_mod_filter then
-        local modf_length = #minetest.get_modnames()
+    if cgdata.filter_mod_show then
+        local modf_length = #craftguide_nonempty_modnames
         local modf_scroll = ""
         local modf_bg = 0
         if modf_length > 12 then
             modf_scroll =
                 "scrollbaroptions[max="..((modf_length - 12) * 4.1)..";thumbsize=15]"..
-                "scrollbar[3.625,4.4;0.3,4.2;vertical;workbench_craftguide_modfilter_scroll;"..(cgdata.mod_filter_scroll).."]"
+                "scrollbar[3.625,4.4;0.3,4.2;vertical;workbench_craftguide_modfilter_scroll;"..(cgdata.filter_mod_scroll).."]"
             modf_bg = modf_length - 12
         end
         modfilter_form =
@@ -835,16 +806,16 @@ local function craftguide_form(player)
 
     -- advanced filter handling
     local advfilter_form = ""
-    if cgdata.show_adv_filter then
+    if cgdata.filter_adv_show then
         local tt_shapes = ccore.comment("Hide all shapes", "Current status: Shown")
         local tc_shapes = "white"
         local tt_all = ccore.comment("Show all items (including uncraftables)", "Current status: Hidden")
         local tc_all = "grey"
-        if cgdata.adv_filter_shapes then
+        if cgdata.filter_adv_shapes then
             tt_shapes = ccore.comment("Hide all shapes", "Current status: Hidden")
             tc_shapes = "grey"
         end
-        if cgdata.adv_filter_all then
+        if cgdata.filter_adv_all then
             tt_all = ccore.comment("Show all items (including uncraftables)", "Current status: Shown")
             tc_all = "white"
         end
@@ -855,29 +826,29 @@ local function craftguide_form(player)
         "tooltip[workbench_craftguide_advfilter_all;"..tt_all.."]"
     end
 
-    -- general filter handling
-    local craftguide_filter_all = "image_button[-0.9,0.25;0.8,0.8;winv_cicon_all.png;workbench_craftguide_filter_all;;true;false;]"
-    local craftguide_filter_block = "image_button[-0.9,1.15;0.8,0.8;winv_cicon_block.png;workbench_craftguide_filter_block;;true;false;]"
-    local craftguide_filter_tool = "image_button[-0.9,2.05;0.8,0.8;winv_cicon_tool.png;workbench_craftguide_filter_tool;;true;false;]"
-    local craftguide_filter_craftitem = "image_button[-0.9,2.95;0.8,0.8;winv_cicon_craftitem.png;workbench_craftguide_filter_craftitem;;true;false;]"
-    local craftguide_filter_fav = "image_button[-0.9,4.75;0.8,0.8;winv_cicon_star.png;workbench_craftguide_favfilter;;true;false;]"
+    -- content handling
+    local craftguide_content_all = "image_button[-0.9,0.25;0.8,0.8;winv_cicon_all.png;workbench_craftguide_content_all;;true;false;]"
+    local craftguide_content_block = "image_button[-0.9,1.15;0.8,0.8;winv_cicon_block.png;workbench_craftguide_content_block;;true;false;]"
+    local craftguide_content_tool = "image_button[-0.9,2.05;0.8,0.8;winv_cicon_tool.png;workbench_craftguide_content_tool;;true;false;]"
+    local craftguide_content_craftitem = "image_button[-0.9,2.95;0.8,0.8;winv_cicon_craftitem.png;workbench_craftguide_content_craftitem;;true;false;]"
+    local craftguide_content_fav = "image_button[-0.9,4.75;0.8,0.8;winv_cicon_star.png;workbench_craftguide_content_fav;;true;false;]"
     local darken = "^[colorize:#00000055"
     if cgdata.content_name then
-        local icname = cgdata.content_name
-        if icname == "all" then
-            craftguide_filter_all = "image_button[-0.9,0.25;0.8,0.8;winv_cicon_all.png"..darken..";workbench_craftguide_filter_all;;true;false;]"
-        elseif icname == "block" then
-            craftguide_filter_block = "image_button[-0.9,1.15;0.8,0.8;winv_cicon_block.png"..darken..";workbench_craftguide_filter_block;;true;false;]"
-        elseif icname == "tool" then
-            craftguide_filter_tool = "image_button[-0.9,2.05;0.8,0.8;winv_cicon_tool.png"..darken..";workbench_craftguide_filter_tool;;true;false;]"
-        elseif icname == "craftitem" then
-            craftguide_filter_craftitem = "image_button[-0.9,2.95;0.8,0.8;winv_cicon_craftitem.png"..darken..";workbench_craftguide_filter_craftitem;;true;false;]"
-        elseif icname == "favourite" then
-            craftguide_filter_fav = "image_button[-0.9,4.75;0.8,0.8;winv_cicon_star.png"..darken..";workbench_craftguide_favfilter;;true;false;]"
+        local content_name = cgdata.content_name
+        if content_name == "all" then
+            craftguide_content_all = "image_button[-0.9,0.25;0.8,0.8;winv_cicon_all.png"..darken..";workbench_craftguide_content_all;;true;false;]"
+        elseif content_name == "block" then
+            craftguide_content_block = "image_button[-0.9,1.15;0.8,0.8;winv_cicon_block.png"..darken..";workbench_craftguide_content_block;;true;false;]"
+        elseif content_name == "tool" then
+            craftguide_content_tool = "image_button[-0.9,2.05;0.8,0.8;winv_cicon_tool.png"..darken..";workbench_craftguide_content_tool;;true;false;]"
+        elseif content_name == "craftitem" then
+            craftguide_content_craftitem = "image_button[-0.9,2.95;0.8,0.8;winv_cicon_craftitem.png"..darken..";workbench_craftguide_content_craftitem;;true;false;]"
+        elseif content_name == "favourite" then
+            craftguide_content_fav = "image_button[-0.9,4.75;0.8,0.8;winv_cicon_star.png"..darken..";workbench_craftguide_content_fav;;true;false;]"
         end
     end
 
-    local form =
+    local formspec =
         "formspec_version[4]"..
         "size[17.75, 9]"..
         "bgcolor[#00000099;true;#00000099]"..
@@ -889,19 +860,21 @@ local function craftguide_form(player)
             --left_form (1.25 per grid)
             "image[0,0;7.75,9;winv_bg.png]"..
             -- search icons
-			"field[0.25,7.75;5.25,1;workbench_craftguide_filter;;"..cgdata.filter.."]"..
+			"field[0.25,7.75;5.25,1;workbench_craftguide_filter;;"..cgdata.filter_search.."]"..
 			"field_close_on_enter[workbench_craftguide_filter;false]"..
 			"image_button[5.75,7.75;0.5,0.5;gui_pointer.png;workbench_craftguide_search;]"..
 			"image_button[5.75,8.25;0.5,0.5;gui_cross.png;workbench_craftguide_clear;]"..
-            -- general filter icons
-            craftguide_filter_all..
-			"tooltip[workbench_craftguide_filter_all;Show all]"..
-			craftguide_filter_block..
-			"tooltip[workbench_craftguide_filter_block;Show blocks only]"..
-			craftguide_filter_tool..
-			"tooltip[workbench_craftguide_filter_tool;Show tools only]"..
-			craftguide_filter_craftitem..
-			"tooltip[workbench_craftguide_filter_craftitem;Show craft items only]"..
+            -- content icons
+            craftguide_content_all..
+			"tooltip[workbench_craftguide_content_all;Show all]"..
+			craftguide_content_block..
+			"tooltip[workbench_craftguide_content_block;Show blocks only]"..
+			craftguide_content_tool..
+			"tooltip[workbench_craftguide_content_tool;Show tools only]"..
+			craftguide_content_craftitem..
+			"tooltip[workbench_craftguide_content_craftitem;Show craft items only]"..
+            craftguide_content_fav..
+            "tooltip[workbench_craftguide_content_fav;Show favourites only]"..
             -- item list
             "style_type[item_image_button;border=false]"..
             cgdata.form_list[cgdata.curr_page]..
@@ -909,14 +882,11 @@ local function craftguide_form(player)
 			"image_button[6.5,7.83;0.5,0.8;winv_cicon_miniarrow.png^[transformFX;workbench_craftguide_prev;;;false;]"..
 			"image_button[7,7.85;0.5,0.8;winv_cicon_miniarrow.png;workbench_craftguide_next;;;false;]"..
             "label[0.25,9.25;Page " .. minetest.colorize("#FFFF00", tostring(cgdata.curr_page)) .. " / " .. tostring(cgdata.max_page) .. "]"..
-            -- other filters
+            -- mod filter
 			"image_button[-0.9,3.85;0.8,0.8;winv_cicon_filter.png;workbench_craftguide_modfilter;;true;false;]"..
 			"tooltip[workbench_craftguide_modfilter;Filter by mods]"..
             modfilter_form.. -- mod filter popup
-
-            craftguide_filter_fav..
-            "tooltip[workbench_craftguide_favfilter;Show favourites only]"..
-
+            -- advanced filter
             "image_button[-0.9,5.65;0.8,0.8;winv_cicon_settings.png;workbench_craftguide_advfilter;;true;false;]"..
 			"tooltip[workbench_craftguide_advfilter;Advanced filters]"..
             advfilter_form.. -- adv filter popup
@@ -925,7 +895,7 @@ local function craftguide_form(player)
             --right_form (show recipe)
             craftguide_recipe_form(player)..
         "container_end[]"
-    return form
+    return formspec
 end
 
 winv:register_inventory("craftguide", {
@@ -962,19 +932,19 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
     end
 
     -- content filter
-    if fields.workbench_craftguide_filter_all then
+    if fields.workbench_craftguide_content_all then
         cgdata.content = minetest.registered_items
         cgdata.content_name = "all"
         reset_craftguide(playername)
-    elseif fields.workbench_craftguide_filter_block then
+    elseif fields.workbench_craftguide_content_block then
         cgdata.content = minetest.registered_nodes
         cgdata.content_name = "block"
         reset_craftguide(playername)
-    elseif fields.workbench_craftguide_filter_tool then
+    elseif fields.workbench_craftguide_content_tool then
         cgdata.content = minetest.registered_tools
         cgdata.content_name = "tool"
         reset_craftguide(playername)
-    elseif fields.workbench_craftguide_filter_craftitem then
+    elseif fields.workbench_craftguide_content_craftitem then
         cgdata.content = minetest.registered_craftitems
         cgdata.content_name = "craftitem"
         reset_craftguide(playername)
@@ -982,27 +952,27 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 
     -- mod filter
     if fields.workbench_craftguide_modfilter then -- toggle
-        if cgdata.show_mod_filter then
-            cgdata.show_mod_filter = nil
+        if cgdata.filter_mod_show then
+            cgdata.filter_mod_show = nil
         else
-            cgdata.show_mod_filter = true
-            cgdata.show_adv_filter = nil
+            cgdata.filter_mod_show = true
+            cgdata.filter_adv_show = nil
         end
     elseif fields.workbench_craftguide_modfilter_remove then
-        cgdata.show_mod_filter = nil
+        cgdata.filter_mod_show = nil
     end
 
-    if cgdata.show_mod_filter then
-        local modnames = minetest.get_modnames()
+    if cgdata.filter_mod_show then
+        local modnames = craftguide_nonempty_modnames
         for i, modname in ipairs(modnames) do
             local mfield = fields["workbench_craftguide_modfilter_mod_"..modname]
             if mfield then
                 if mfield == "false" then
-                    cgdata.mod_filter[#cgdata.mod_filter+1] = modname
+                    cgdata.filter_mod[#cgdata.filter_mod+1] = modname
                 elseif mfield == "true" then
-                    for j, modfname in pairs(cgdata.mod_filter) do
+                    for j, modfname in pairs(cgdata.filter_mod) do
                         if modfname == modname then
-                            cgdata.mod_filter[j] = nil
+                            cgdata.filter_mod[j] = nil
                         end
                     end
                 end
@@ -1010,12 +980,12 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
             end
         end
         if fields.workbench_craftguide_modfilter_reset then
-            cgdata.mod_filter = {}
+            cgdata.filter_mod = {}
             reset_craftguide(playername)
         elseif fields.workbench_craftguide_modfilter_clear then
-            cgdata.mod_filter = {}
+            cgdata.filter_mod = {}
             for i, modname in ipairs(modnames) do
-                cgdata.mod_filter[#cgdata.mod_filter+1] = modname
+                cgdata.filter_mod[#cgdata.filter_mod+1] = modname
             end
             reset_craftguide(playername)
         end
@@ -1023,44 +993,44 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 
     -- adv filter
     if fields.workbench_craftguide_advfilter then
-        if cgdata.show_adv_filter then
-            cgdata.show_adv_filter = nil
+        if cgdata.filter_adv_show then
+            cgdata.filter_adv_show = nil
         else
-            cgdata.show_adv_filter = true
-            cgdata.show_mod_filter = nil
+            cgdata.filter_adv_show = true
+            cgdata.filter_mod_show = nil
         end
     end
 
-    if cgdata.show_adv_filter then
+    if cgdata.filter_adv_show then
         if fields.workbench_craftguide_advfilter_all then
             reset_craftguide(playername)
-            if cgdata.adv_filter_all then
-                cgdata.adv_filter_all = nil
+            if cgdata.filter_adv_all then
+                cgdata.filter_adv_all = nil
             else
-                cgdata.adv_filter_all = true
+                cgdata.filter_adv_all = true
             end
         elseif fields.workbench_craftguide_advfilter_shapes then
             reset_craftguide(playername)
-            if cgdata.adv_filter_shapes then
-                cgdata.adv_filter_shapes = nil
+            if cgdata.filter_adv_shapes then
+                cgdata.filter_adv_shapes = nil
             else
-                cgdata.adv_filter_shapes = true
+                cgdata.filter_adv_shapes = true
             end
         end
     end
 
     -- search filter
     if fields.workbench_craftguide_clear then
-        cgdata.old_filter = cgdata.filter
-        cgdata.filter = ""
+        cgdata.filter_search_old = cgdata.filter
+        cgdata.filter_search = ""
         reset_craftguide(playername)
     end
 
     if fields.workbench_craftguide_search or fields.key_enter_field == "workbench_craftguide_filter" then
         local new_filter = fields.workbench_craftguide_filter:lower()
-        if new_filter ~= cgdata.filter then -- prevent unnecessary reconstruction
-            cgdata.old_filter = cgdata.filter
-            cgdata.filter = new_filter
+        if new_filter ~= cgdata.filter_search then -- prevent unnecessary reconstruction
+            cgdata.filter_search_old = cgdata.filter
+            cgdata.filter_search = new_filter
             reset_craftguide(playername)
         end
     end
@@ -1081,7 +1051,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
         end
     end
 
-    if fields.workbench_craftguide_favfilter then
+    if fields.workbench_craftguide_content_fav then
         cgdata.content = cgdata.fav_list
         cgdata.content_name = "favourite"
         reset_craftguide(playername)
@@ -1104,35 +1074,35 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 
     if cgdata.item and cgdata.item ~= "" then
         -- change recipes
-        if cgdata.item_recipe_max > 1 then
+        if cgdata.max_recipe > 1 then
             if fields.workbench_craftguide_recipe_next then -- previous recipe
-                if cgdata.item_recipe_curr <= 1 then
-                    cgdata.item_recipe_curr = cgdata.item_recipe_max
+                if cgdata.curr_recipe <= 1 then
+                    cgdata.curr_recipe = cgdata.max_recipe
                 else
-                    cgdata.item_recipe_curr = cgdata.item_recipe_curr - 1
+                    cgdata.curr_recipe = cgdata.curr_recipe - 1
                 end
             elseif fields.workbench_craftguide_recipe_prev then -- next recipe
-                if cgdata.item_recipe_curr >= cgdata.item_recipe_max then
-                    cgdata.item_recipe_curr = 1
+                if cgdata.curr_recipe >= cgdata.max_recipe then
+                    cgdata.curr_recipe = 1
                 else
-                    cgdata.item_recipe_curr = cgdata.item_recipe_curr + 1
+                    cgdata.curr_recipe = cgdata.curr_recipe + 1
                 end
             end
         end
 
         -- change usages
-        if cgdata.item_usage_max > 1 then
+        if cgdata.max_usage > 1 then
             if fields.workbench_craftguide_usage_next then
-                if cgdata.item_usage_curr >= cgdata.item_usage_max then
-                    cgdata.item_usage_curr = 1
+                if cgdata.curr_usage >= cgdata.max_usage then
+                    cgdata.curr_usage = 1
                 else
-                    cgdata.item_usage_curr = cgdata.item_usage_curr + 1
+                    cgdata.curr_usage = cgdata.curr_usage + 1
                 end
             elseif fields.workbench_craftguide_usage_prev then
-                if cgdata.item_usage_curr <= 1 then
-                    cgdata.item_usage_curr = cgdata.item_usage_max
+                if cgdata.curr_usage <= 1 then
+                    cgdata.curr_usage = cgdata.max_usage
                 else
-                    cgdata.item_usage_curr = cgdata.item_usage_curr - 1
+                    cgdata.curr_usage = cgdata.curr_usage - 1
                 end
             end
         end
@@ -1145,14 +1115,14 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
                 cgdata.item_view = cgdata.item_view - 1
 
                 cgdata.item = cgdata.history[cgdata.item_view]
-                cgdata.item_recipe_curr = 0 -- reset page
+                cgdata.curr_recipe = 0 -- reset page
             end
         elseif fields.workbench_craftguide_redo then
             if cgdata.item_view < #cgdata.history then
                 cgdata.item_view = cgdata.item_view + 1
 
                 cgdata.item = cgdata.history[cgdata.item_view]
-                cgdata.item_recipe_curr = 0 -- reset page
+                cgdata.curr_recipe = 0 -- reset page
             end
         end
     end
@@ -1172,8 +1142,8 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
                 end
                 -- set item
                 cgdata.item = itemname
-                cgdata.item_recipe_curr = 0 -- reset page
-                cgdata.item_usage_curr = 1 -- reset page
+                cgdata.curr_recipe = 0 -- reset page
+                cgdata.curr_usage = 1 -- reset page
                 cgdata.show_usage = nil
             end
         end
@@ -1185,8 +1155,8 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
         local groupstring = groupname:gsub(",", "") -- remove all commas to prevent invalid fieldname
         if (fields["workbench_craftguide_item_"..groupstring]) then
             --cgdata.item = def.redirect
-            --cgdata.item_recipe_curr = 1 -- reset page
-            cgdata.filter = groupname
+            --cgdata.curr_recipe = 1 -- reset page
+            cgdata.filter_search = groupname
             cgdata.content = minetest.registered_items
             cgdata.content_name = "all"
             reset_craftguide(playername)
@@ -1196,7 +1166,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
     -- automatically generated groups
     for groupname, groupstring in pairs(craftguide_groups_auto) do
         if (fields["workbench_craftguide_item_"..groupstring]) then
-            cgdata.filter = groupname
+            cgdata.filter_search = groupname
             cgdata.content = minetest.registered_items
             cgdata.content_name = "all"
             reset_craftguide(playername)
@@ -1221,8 +1191,8 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
     -- scroll and refresh
     if fields.workbench_craftguide_modfilter_scroll then
         local scrolldis = minetest.explode_scrollbar_event(fields.workbench_craftguide_modfilter_scroll)
-        if cgdata.mod_filter_scroll ~= scrolldis.value then
-            cgdata.mod_filter_scroll = scrolldis.value
+        if cgdata.filter_mod_scroll ~= scrolldis.value then
+            cgdata.filter_mod_scroll = scrolldis.value
         else -- if scroll doesn't match and event detected, means its from a different field
             player:set_inventory_formspec(craftguide_form(player))
             return -- prevents double update
@@ -1244,9 +1214,9 @@ local function save_craftguide_data(player)
             local cgdata = craftguide_data[playername]
             local save_data = {}
             save_data.fav_list = cgdata.fav_list
-            save_data.mod_filter = cgdata.mod_filter
-            save_data.adv_filter_all = cgdata.adv_filter_all
-            save_data.adv_filter_shapes = cgdata.adv_filter_shapes
+            save_data.filter_mod = cgdata.filter_mod
+            save_data.filter_adv_all = cgdata.filter_adv_all
+            save_data.filter_adv_shapes = cgdata.filter_adv_shapes
             player_meta:set_string("workbench:craftguide", minetest.serialize(save_data))
             craftguide_data[playername] = nil -- remove data
             print("[workbench] data saved for "..playername)

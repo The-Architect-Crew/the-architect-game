@@ -126,7 +126,7 @@ function shapes:register_shape(name, def)
 	-- modifers
 	local n_group = def.groups or itemmeta.groups
 	local r_group = table.copy(n_group)
-	r_group.not_in_creative_inventory = 1
+	--r_group.not_in_creative_inventory = 1
 	local stexture = def.texture or itemmeta.tiles[1]
 	local cncable = false
 	local sawable = false

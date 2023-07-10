@@ -522,20 +522,20 @@ end
 
 
 local function advfilter_check_shapes(playername, def)
-    if craftguide_data[playername].filter_adv_shapes then
+    if craftguide_data[playername].filter_adv_shapes then -- hide all shapes
         if (def.groups.shapes == 0 or not def.groups.shapes) and
         (def.groups.shapes_mesh == 0 or not def.groups.shapes_mesh) then
             return true
         end
-    else
+    else -- show all shapes
         return true
     end
 end
 
 local function advfilter_check_nici(playername, def)
-    if craftguide_data[playername].filter_adv_nici then
+    if craftguide_data[playername].filter_adv_nici then -- show all nici
         return true
-    else
+    else -- hide all nici
         if (def.groups.not_in_creative_inventory and def.groups.not_in_creative_inventory > 0) then -- disable not_in_creative_inventory items
             return nil
         else

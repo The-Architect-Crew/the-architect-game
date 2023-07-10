@@ -5,6 +5,7 @@ end
 
 local max_item_per_page = 36 -- items per page
 local max_item_per_row = 6 -- items per row
+
 local craftguide_list = {} -- valid crafts list
 local craftguide_list_all = {} -- all possible items
 local craftguide_names_list = {} -- valid crafts names
@@ -40,7 +41,9 @@ local function craftguide_init(player)
         active = false, -- whether form is active
         item = "", -- selected item
         form_list = nil, -- cached recipe list
+        filtered_list = nil, -- cached item list
         fav_list = save_data.fav_list or {}, -- favourite list
+        lang = nil, -- player language
         -- craft history
         history = nil, -- item history
         item_view = 0, -- viewing
@@ -569,8 +572,8 @@ local function description(def, lang_code)
 	return desc:gsub("\n.*", "") -- First line only
 end
 
--- generate item listing (left side)
-local function construct_itemlist_form(player)
+-- initalize item listing (left side)
+local function initialize_itemlist_form(player)
     local playername = player:get_player_name()
     if craftguide_data[playername].form_list then
         return
@@ -579,84 +582,105 @@ local function construct_itemlist_form(player)
     end
 
     -- get player language
-    local lang
-	local player_info = minetest.get_player_information(playername)
-	if player_info and player_info.lang_code ~= "" then
-		lang = player_info.lang_code
-	end
-
-    -- create a list according to filters
-    local filter_search = craftguide_data[playername].filter_search
-    local filtered_list = {}
-	local order = {}
-
-    local search_list = craftguide_list
-    if winv.is_group(filter_search) or craftguide_data[playername].filter_adv_all then
-        search_list = craftguide_list_all
+    local lang = craftguide_data[playername].lang
+    if not lang then
+        local player_info = minetest.get_player_information(playername)
+        if player_info and player_info.lang_code ~= "" then
+            lang = player_info.lang_code
+            craftguide_data[playername].lang = player_info.lang_code
+        end
     end
-    for itemname, def in pairs(search_list) do
-        if craftguide_data[playername].content[itemname] then -- content filter
-            if mod_match(itemname, craftguide_data[playername].filter_mod) then
-                if winv.is_group(filter_search) then
-                    if winv.group_match(filter_search, itemname) then
-                        filtered_list[#filtered_list+1] = itemname
-                        order[itemname] = string.format("%02d", 1) .. itemname
-                    end
-                else
-                    local m = match(description(def), filter_search)
-                    if m > 0 then
-                        m = math.min(m, match(description(def, lang), filter_search))
-                    end
-                    if m > 0 then
-                        m = math.min(m, match(itemname, filter_search))
-                    end
 
-                    if m < NO_MATCH then
-                        if advfilter_check(playername, def) then
+    local filtered_list = craftguide_data[playername].filtered_list
+    if not filtered_list then
+        -- create a list according to filters
+        filtered_list = {}
+        local filter_search = craftguide_data[playername].filter_search
+        local order = {}
+
+        local search_list = craftguide_list
+        if winv.is_group(filter_search) or craftguide_data[playername].filter_adv_all then
+            search_list = craftguide_list_all
+        end
+        for itemname, def in pairs(search_list) do
+            if craftguide_data[playername].content[itemname] then -- content filter
+                if mod_match(itemname, craftguide_data[playername].filter_mod) then
+                    if winv.is_group(filter_search) then
+                        if winv.group_match(filter_search, itemname) then
                             filtered_list[#filtered_list+1] = itemname
-                            -- Sort by match value first so closer matches appear earlier
-                            order[itemname] = string.format("%02d", m) .. itemname
+                            order[itemname] = string.format("%02d", 1) .. itemname
+                        end
+                    else
+                        local m = match(description(def), filter_search)
+                        if m > 0 then
+                            m = math.min(m, match(description(def, lang), filter_search))
+                        end
+                        if m > 0 then
+                            m = math.min(m, match(itemname, filter_search))
+                        end
+
+                        if m < NO_MATCH then
+                            if advfilter_check(playername, def) then
+                                filtered_list[#filtered_list+1] = itemname
+                                -- Sort by match value first so closer matches appear earlier
+                                order[itemname] = string.format("%02d", m) .. itemname
+                            end
                         end
                     end
                 end
             end
         end
+        table.sort(filtered_list, function(a, b) return order[a] < order[b] end)
+        craftguide_data[playername].filtered_list = filtered_list
+        craftguide_data[playername].max_page = math.ceil(#filtered_list / max_item_per_page)
+    end
+end
+
+-- generate item listring page (left size)
+local function construct_itemlist_page(player)
+    local playername = player:get_player_name()
+    -- ensure form has been initalized
+    if not craftguide_data[playername].form_list or not craftguide_data[playername].filtered_list then
+        initialize_itemlist_form(player)
     end
 
-    -- sort list according to filter match
-    table.sort(filtered_list, function(a, b) return order[a] < order[b] end)
+    local curr_page = craftguide_data[playername].curr_page
+    local filtered_list = craftguide_data[playername].filtered_list
+    -- ensure page hasn't been generated before
+    if not craftguide_data[playername].form_list[curr_page] then
+        local curr_page_start = max_item_per_page * (curr_page - 1) + 1
+        local curr_page_end = max_item_per_page * (curr_page)
 
-    -- construct form with filtered, sorted list
-    local count = 0
-    for index, itemname in ipairs(filtered_list) do
-        count = count + 1
-        local curr_page = math.ceil(count / max_item_per_page)
-        if not craftguide_data[playername].form_list[curr_page] then
-            craftguide_data[playername].form_list[curr_page] = ""
-        end
-        -- item counters
-        local item_count_in_page = count % max_item_per_page
-        if item_count_in_page == 0 then
-            item_count_in_page = max_item_per_page
-        end
-        local curr_row = math.ceil(item_count_in_page / max_item_per_row)
+        for index = curr_page_start, curr_page_end do
+            local itemname = filtered_list[index]
+            if itemname then
+                if not craftguide_data[playername].form_list[curr_page] then
+                    craftguide_data[playername].form_list[curr_page] = ""
+                end
+                -- item counters
+                local item_count_in_page = index % max_item_per_page
+                if item_count_in_page == 0 then
+                    item_count_in_page = max_item_per_page
+                end
+                local curr_row = math.ceil(item_count_in_page / max_item_per_row)
 
-        local item_count_in_row = count % max_item_per_row
-        if item_count_in_row == 0 then
-            item_count_in_row = max_item_per_row
+                local item_count_in_row = index % max_item_per_row
+                if item_count_in_row == 0 then
+                    item_count_in_row = max_item_per_row
+                end
+
+                -- construct form
+                craftguide_data[playername].form_list[curr_page] = craftguide_data[playername].form_list[curr_page]..
+                "item_image_button["..( 0.25 + ((item_count_in_row - 1) * 1.25))..","..( 0.25 + ((curr_row - 1) * 1.25))..
+                    ";1,1;"..itemname..";workbench_craftguide_item_"..itemname..";]"..
+                    (craftguide_tooltip_list[itemname] or generate_item_tooltip(itemname))
+            end
         end
 
-        -- construct form
-        craftguide_data[playername].form_list[curr_page] = craftguide_data[playername].form_list[curr_page]..
-            "item_image_button["..( 0.25 + ((item_count_in_row - 1) * 1.25))..","..( 0.25 + ((curr_row - 1) * 1.25))..
-                ";1,1;"..itemname..";workbench_craftguide_item_"..itemname..";]"..
-                (craftguide_tooltip_list[itemname] or generate_item_tooltip(itemname))
+        if craftguide_data[playername].max_page < 1 then -- ensure first page is always constructed
+            craftguide_data[playername].form_list[1] = "label[0.25,0.4;Nothing found...]"
+        end
     end
-
-    if not craftguide_data[playername].form_list[1] then -- ensure first page is always constructed
-        craftguide_data[playername].form_list[1] = "label[0.25,0.4;Nothing found...]"
-    end
-    craftguide_data[playername].max_page = math.ceil(count / max_item_per_page)
 end
 
 -- check if item is craftable (by mt crafting or workbench crafting)
@@ -798,10 +822,8 @@ local function craftguide_form(player)
         craftguide_init(player)
     end
     local cgdata = craftguide_data[playername]
-
-    if not cgdata.form_list then -- reconstruct item list if empty
-        construct_itemlist_form(player)
-    end
+    -- construct itemlist
+    construct_itemlist_page(player)
 
     -- mod filter handling
     local modfilter_form = ""
@@ -962,6 +984,7 @@ local function reset_craftguide(playername)
     craftguide_data[playername].curr_page = 1
     craftguide_data[playername].max_page = 1
     craftguide_data[playername].form_list = nil
+    craftguide_data[playername].filtered_list = nil
 end
 
 minetest.register_on_player_receive_fields(function(player, formname, fields)

@@ -43,7 +43,8 @@ end
 
 -- check if item is from specified mod (modname)
 function winv.mod_match(itemname, modname)
-    if itemname:lower():find(modname..":", 1, true) then
+    local item_modname = string.match(itemname, '(.*):')
+    if item_modname == modname then
         return true
     end
 end
@@ -72,4 +73,19 @@ function winv.get_nonempty_modnames(exclude_creative)
         end
 	end
     return ret_modnames
+end
+
+-- checks if item is in invalid mod (mod exists)
+-- situation will occur in cases of alias
+-- whereby the mod doesn't actually exists
+-- returns true if item is in invalid mod
+function winv.in_invalid_mod(itemname)
+    local modnames = minetest.get_modnames()
+    local item_modname = string.match(itemname, '(.*):')
+    for i, modname in ipairs(modnames) do
+        if item_modname == modname then
+            return
+        end
+    end
+    return true
 end

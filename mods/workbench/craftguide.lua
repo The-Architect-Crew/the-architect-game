@@ -500,15 +500,19 @@ end
 
 -- check if item matches mod filter
 -- mod filter contains mods that should be filtered out
+-- return true if item is not filtered out
 local function mod_match(itemname, filter_mod)
-	if not filter_mod or not next(filter_mod) then
+    if not filter_mod or not next(filter_mod) then -- empty mod filter (enable everything)
 		return true
 	end
 	for i, modname in pairs(filter_mod) do
 		if winv.mod_match(itemname, modname) then
-			return nil
+            return nil
 		end
 	end
+    if winv.in_invalid_mod(itemname) then -- invalid mod, mod doesn't actually exists!
+        return nil
+    end
 	return true
 end
 
@@ -848,6 +852,15 @@ local function craftguide_form(player)
         end
     end
 
+    -- page navigation
+    local craftguide_page_nav = "label[0.25,9.25;Page " .. minetest.colorize("#FFFF00", "-") .. " / -" .. "]"
+    if cgdata.max_page >= 1 then
+        craftguide_page_nav =
+            "image_button[6.5,7.83;0.5,0.8;winv_cicon_miniarrow.png^[transformFX;workbench_craftguide_prev;;;false;]"..
+            "image_button[7,7.85;0.5,0.8;winv_cicon_miniarrow.png;workbench_craftguide_next;;;false;]"..
+            "label[0.25,9.25;Page " .. minetest.colorize("#FFFF00", tostring(cgdata.curr_page)) .. " / " .. tostring(cgdata.max_page) .. "]"
+    end
+
     local formspec =
         "formspec_version[4]"..
         "size[17.75, 9]"..
@@ -879,9 +892,7 @@ local function craftguide_form(player)
             "style_type[item_image_button;border=false]"..
             cgdata.form_list[cgdata.curr_page]..
             -- arrows
-			"image_button[6.5,7.83;0.5,0.8;winv_cicon_miniarrow.png^[transformFX;workbench_craftguide_prev;;;false;]"..
-			"image_button[7,7.85;0.5,0.8;winv_cicon_miniarrow.png;workbench_craftguide_next;;;false;]"..
-            "label[0.25,9.25;Page " .. minetest.colorize("#FFFF00", tostring(cgdata.curr_page)) .. " / " .. tostring(cgdata.max_page) .. "]"..
+			craftguide_page_nav..
             -- mod filter
 			"image_button[-0.9,3.85;0.8,0.8;winv_cicon_filter.png;workbench_craftguide_modfilter;;true;false;]"..
 			"tooltip[workbench_craftguide_modfilter;Filter by mods]"..
@@ -967,22 +978,23 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
         for i, modname in ipairs(modnames) do
             local mfield = fields["workbench_craftguide_modfilter_mod_"..modname]
             if mfield then
-                if mfield == "false" then
+                if mfield == "false" then -- unchecked
                     cgdata.filter_mod[#cgdata.filter_mod+1] = modname
-                elseif mfield == "true" then
+                elseif mfield == "true" then -- checked
                     for j, modfname in pairs(cgdata.filter_mod) do
                         if modfname == modname then
                             cgdata.filter_mod[j] = nil
                         end
                     end
                 end
+
                 reset_craftguide(playername)
             end
         end
-        if fields.workbench_craftguide_modfilter_reset then
+        if fields.workbench_craftguide_modfilter_reset then -- enable all
             cgdata.filter_mod = {}
             reset_craftguide(playername)
-        elseif fields.workbench_craftguide_modfilter_clear then
+        elseif fields.workbench_craftguide_modfilter_clear then -- disable all
             cgdata.filter_mod = {}
             for i, modname in ipairs(modnames) do
                 cgdata.filter_mod[#cgdata.filter_mod+1] = modname
@@ -1058,17 +1070,19 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
     end
 
     -- change pages
-    if fields.workbench_craftguide_prev then -- previous page
-        if cgdata.curr_page <= 1 then
-            cgdata.curr_page = cgdata.max_page
-        else
-            cgdata.curr_page = cgdata.curr_page - 1
-        end
-    elseif fields.workbench_craftguide_next then -- next page
-        if cgdata.curr_page >= cgdata.max_page then
-            cgdata.curr_page = 1
-        else
-            cgdata.curr_page = cgdata.curr_page + 1
+    if cgdata.max_page > 0 then
+        if fields.workbench_craftguide_prev then -- previous page
+            if cgdata.curr_page <= 1 then
+                cgdata.curr_page = cgdata.max_page
+            else
+                cgdata.curr_page = cgdata.curr_page - 1
+            end
+        elseif fields.workbench_craftguide_next then -- next page
+            if cgdata.curr_page >= cgdata.max_page then
+                cgdata.curr_page = 1
+            else
+                cgdata.curr_page = cgdata.curr_page + 1
+            end
         end
     end
 

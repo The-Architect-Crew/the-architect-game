@@ -69,6 +69,7 @@ local function craftguide_init(player)
         filter_adv_show = nil,
         filter_adv_all = save_data.filter_adv_all or nil,
         filter_adv_shapes = save_data.filter_adv_shapes or nil,
+        filter_adv_nici = save_data.filter_adv_nici or nil,
     }
 end
 
@@ -516,13 +517,33 @@ local function mod_match(itemname, filter_mod)
 	return true
 end
 
--- check if item matches advanced filter(s)
-local function advfilter_check(playername, def)
+
+local function advfilter_check_shapes(playername, def)
     if craftguide_data[playername].filter_adv_shapes then
-        if (def.groups.shapes == 0 or not def.groups.shapes) and (def.groups.shapes_mesh == 0 or not def.groups.shapes_mesh) then
+        if (def.groups.shapes == 0 or not def.groups.shapes) and
+        (def.groups.shapes_mesh == 0 or not def.groups.shapes_mesh) then
             return true
         end
     else
+        return true
+    end
+end
+
+local function advfilter_check_nici(playername, def)
+    if craftguide_data[playername].filter_adv_nici then
+        return true
+    else
+        if (def.groups.not_in_creative_inventory and def.groups.not_in_creative_inventory > 0) then -- disable not_in_creative_inventory items
+            return nil
+        else
+            return true
+        end
+    end
+end
+
+-- check if item matches advanced filter(s)
+local function advfilter_check(playername, def)
+    if advfilter_check_shapes(playername, def) and advfilter_check_nici(playername, def) then
         return true
     end
 end
@@ -701,7 +722,7 @@ minetest.register_on_mods_loaded(function()
         end
 
         -- handle craft guide list
-        if def.description and def.description ~= "" and def.groups.not_in_craft_guide ~= 1 and itemname:find(":") then --and def.groups.not_in_creative_inventory ~= 1 then
+        if def.description and def.description ~= "" and def.groups.not_in_craft_guide ~= 1 and itemname:find(":") then
             if is_craftable(itemname) then
                 craftguide_list[itemname] = def -- cache all craftable items definitions
                 craftguide_desc_list[itemname] = ccore.comment(def.description, itemname) -- cache new description (postfix with itemname)
@@ -815,6 +836,8 @@ local function craftguide_form(player)
         local tc_shapes = "white"
         local tt_all = ccore.comment("Show all items (including uncraftables)", "Current status: Hidden")
         local tc_all = "grey"
+        local tt_nici = ccore.comment("Show 'not_in_creative_inventory' items", "Current status: Hidden")
+        local tc_nici = "grey"
         if cgdata.filter_adv_shapes then
             tt_shapes = ccore.comment("Hide all shapes", "Current status: Hidden")
             tc_shapes = "grey"
@@ -823,11 +846,21 @@ local function craftguide_form(player)
             tt_all = ccore.comment("Show all items (including uncraftables)", "Current status: Shown")
             tc_all = "white"
         end
+        if cgdata.filter_adv_nici then
+            tt_nici = ccore.comment("Show 'not_in_creative_inventory' items", "Current status: Shown")
+            tc_nici = "white"
+        end
+        local check_privs = minetest.check_player_privs(playername, {ban = true})
+        if not check_privs then
+            tt_nici = ccore.comment("Show 'not_in_creative_inventory' items", "Current status: Hidden\nInsufficient privileges to view 'not_in_creative_inventory' items!")
+        end
         advfilter_form =
         "button[-0.6,6.55;0.5,0.5;workbench_craftguide_advfilter_shapes;"..minetest.colorize(tc_shapes, "S").."]"..
         "tooltip[workbench_craftguide_advfilter_shapes;"..tt_shapes.."]"..
         "button[-0.6,7.15;0.5,0.5;workbench_craftguide_advfilter_all;"..minetest.colorize(tc_all, "A").."]"..
-        "tooltip[workbench_craftguide_advfilter_all;"..tt_all.."]"
+        "tooltip[workbench_craftguide_advfilter_all;"..tt_all.."]"..
+        "button[-0.6,7.75;0.5,0.5;workbench_craftguide_advfilter_nici;"..minetest.colorize(tc_nici, "C").."]"..
+        "tooltip[workbench_craftguide_advfilter_nici;"..tt_nici.."]"
     end
 
     -- content handling
@@ -1027,6 +1060,16 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
                 cgdata.filter_adv_shapes = nil
             else
                 cgdata.filter_adv_shapes = true
+            end
+        elseif fields.workbench_craftguide_advfilter_nici then
+            local check_privs = minetest.check_player_privs(playername, {ban = true})
+            if check_privs then
+                reset_craftguide(playername)
+                if cgdata.filter_adv_nici then
+                    cgdata.filter_adv_nici = nil
+                else
+                    cgdata.filter_adv_nici = true
+                end
             end
         end
     end
@@ -1231,6 +1274,7 @@ local function save_craftguide_data(player)
             save_data.filter_mod = cgdata.filter_mod
             save_data.filter_adv_all = cgdata.filter_adv_all
             save_data.filter_adv_shapes = cgdata.filter_adv_shapes
+            save_data.filter_adv_nici = cgdata.filter_adv_nici
             player_meta:set_string("workbench:craftguide", minetest.serialize(save_data))
             craftguide_data[playername] = nil -- remove data
             print("[workbench] data saved for "..playername)

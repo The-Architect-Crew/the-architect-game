@@ -403,3 +403,69 @@ minetest.register_node("blocks:cracked_ice_azure_ceiling", {
 	groups = {cracky = 3, cools_lava = 1, slippery = 3},
 	sounds = default.node_sound_ice_defaults(),
 })
+
+minetest.register_node("blocks:dirt_azure", {
+	description = S("Dirt with Azure Moss"),
+	tiles = {"blocks_azure_moss_overlay.png", "blocks_dirt.png", "blocks_dirt.png^blocks_azure_moss_overlay_side.png"},
+	groups = {crumbly = 3, soil = 1},
+	drop = "blocks:dirt",
+	sounds = default.node_sound_dirt_defaults({
+		footstep = {name = "default_grass_footstep", gain = 0.4},
+	}),
+})
+
+minetest.register_node("blocks:dirt_azure_ceiling", {
+	description = S("Dirt with Azure Moss (Ceiling)"),
+	tiles = {"blocks_dirt.png", "blocks_azure_moss_overlay.png", "blocks_dirt.png^blocks_azure_moss_ceiling_overlay.png"},
+	groups = {crumbly = 3, soil = 1, spreading_dirt_type = 1},
+	drop = "blocks:dirt",
+	sounds = default.node_sound_dirt_defaults({
+		footstep = {name = "default_grass_footstep", gain = 0.4},
+	}),
+})
+
+minetest.register_node("blocks:dirt_firemoss", {
+	description = S("Dirt with Firemoss"),
+	tiles = {"blocks_firemoss_overlay.png", "blocks_dirt.png", "blocks_dirt.png^blocks_firemoss_overlay_side.png"},
+	groups = {crumbly = 3, soil = 1},
+	drop = "blocks:dirt",
+	sounds = default.node_sound_dirt_defaults({
+		footstep = {name = "default_grass_footstep", gain = 0.4},
+	}),
+})
+
+minetest.register_node("blocks:dirt_firemoss_ceiling", {
+	description = S("Dirt with Firemoss (Ceiling)"),
+	tiles = {"blocks_dirt.png", "blocks_firemoss_overlay.png", "blocks_dirt.png^blocks_firemoss_ceiling_overlay.png"},
+	groups = {crumbly = 3, soil = 1, spreading_dirt_type = 1},
+	drop = "blocks:dirt",
+	sounds = default.node_sound_dirt_defaults({
+		footstep = {name = "default_grass_footstep", gain = 0.4},
+	}),
+})
+
+-- Mushroom Biome
+
+minetest.register_node("blocks:dirt_with_dark_mycelia", {
+	description = S("Dirt with Dark Mycelia"),
+	tiles = {"blocks_mushroom_grass.png^blocks_dark_mycelia.png", "blocks_dirt.png^blocks_dark_mycelia.png",
+		{name = "blocks_dirt.png^(blocks_mushroom_grass_side.png^blocks_dark_mycelia_side.png)",
+			tileable_vertical = false}},
+	groups = {crumbly = 3, soil = 1, spreading_dirt_type = 1},
+	drop = "blocks:dirt",
+	sounds = default.node_sound_dirt_defaults({
+		footstep = {name = "default_grass_footstep", gain = 0.25},
+	}),
+})
+
+minetest.register_node("blocks:dirt_with_viridis_mycelia", {
+	description = S("Dirt with Viridis Mushroom Mycelia"),
+	tiles = {"blocks_mushroom_grass.png^blocks_viridis_mycelia.png", "blocks_dirt.png^blocks_viridis_mycelia.png",
+		{name = "blocks_dirt.png^(blocks_mushroom_grass_side.png^blocks_viridis_mycelia_side.png)",
+			tileable_vertical = false}},
+	groups = {crumbly = 3, soil = 1, spreading_dirt_type = 1},
+	drop = "blocks:dirt",
+	sounds = default.node_sound_dirt_defaults({
+		footstep = {name = "default_grass_footstep", gain = 0.25},
+	}),
+})

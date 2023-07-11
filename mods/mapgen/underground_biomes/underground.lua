@@ -739,7 +739,7 @@ mapgen.register_underground_ores = function()
 	})
 end
 
-mapgen.underground_base_nodes = {
+mapgen.underground_microbiome_base_nodes = {
 	{base = "blocks:stone", floor = "blocks:stone_firemoss", ceiling = "blocks:stone_firemoss_ceiling"},
 	{base = "blocks:cobble", floor = "blocks:cobble_firemoss", ceiling = "blocks:cobble_firemoss_ceiling"},
 	{base = "blocks:desert_stone", floor = "blocks:desert_stone_firemoss", ceiling = "blocks:desert_stone_firemoss_ceiling"},
@@ -769,13 +769,13 @@ mapgen.register_underground_decorations = function()
 			lacunarity = 4,
 			flags = "eased"
 		},
-		base_nodes = mapgen.underground_base_nodes,
+		base_nodes = mapgen.underground_microbiome_base_nodes,
 	})
 	mapgen.register_microbiome_base_outline({
 		y_min = mapgen.underground_bottom,
 		y_max = mapgen.underground_top,
 		outline = "blocks:water_source",
-		base_nodes = mapgen.underground_base_nodes,
+		base_nodes = mapgen.underground_microbiome_base_nodes,
 	})
 	mapgen.place_microbiome_flora("fire_underground", {
         y_max = mapgen.underground_top,

@@ -7,7 +7,7 @@ function winv:register_inventory(inv_name, def)
 	local bdef = def.button
 	local bdata = {
 		texture = bdef.texture, -- main icon
-		pressed_texture = bdef.texture, -- icon when pressed
+		pressed_texture = bdef.pressed_texture or bdef.texture, -- icon when pressed
 		label = bdef.label or "", -- word label, defaults to nothing
 		tooltip = bdef.tooltip or inv_name, -- tooltip label, defaults to inv name
 	}

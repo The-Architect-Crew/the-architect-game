@@ -3,6 +3,18 @@
 Adds a new winventory.
 - `inv_name` : winventory name
 - `def` : table of definitions
+    - `button` : table containing button definitions for button accessing said winventory
+        - `texture` : button icon image
+        - `pressed_texture` : optional, button icon image when pressed
+        - `label` : optional, button label (defaults to `""`)
+        - `tooltip` : optional, tooltip (when mouse hovers over button) (defaults to `inv_name`)
+    - `lists` : table containing a list of inventory lists that the winventory contains, in the format of `"<list_name>"`, `<size>` (i.e. `{"main", 36}`)
+    - `button_function(player, formname, fields)` : optional, triggers specified function when button is pressed
+    - `requirement(player)` : function to be called when checking if the winventory should show for referenced player, return true to show, return nil to hide
+    - `formspec` : string containing winventory formspec
+    - `formspec_function(player)` : function to return a string containing winventory formspec, overwrites `formspec`
+    - `on_player_receive_fields(player, formname, fields)` : handles formspec input and fields, functions similar to normal minetest function, but add specifically to winv fields
+    - `hide_in_node` : optional, boolean as to whether to hide in node inventories (if utilized) (nil (false) by default)
 
 #### `winv:register_listring(inv1, inv2, listring)`
 Appends listrings between two specified winventories.

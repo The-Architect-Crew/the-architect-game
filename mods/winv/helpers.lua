@@ -75,7 +75,7 @@ function winv.get_nonempty_modnames(exclude_creative)
     return ret_modnames
 end
 
--- checks if item is in invalid mod (mod exists)
+-- checks if item is in invalid mod (mod dpoesn't exists)
 -- situation will occur in cases of alias
 -- whereby the mod doesn't actually exists
 -- returns true if item is in invalid mod
@@ -84,7 +84,7 @@ function winv.in_invalid_mod(itemname)
     local item_modname = string.match(itemname, '(.*):')
     for i, modname in ipairs(modnames) do
         if item_modname == modname then
-            return
+            return nil
         end
     end
     return true

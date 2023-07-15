@@ -135,6 +135,8 @@ local function craftguide_init(player)
 			end
 		end,
     }, playername)
+    local creative_inv = minetest.get_inventory({type = "detached", name = "winv_creative_" ..playername})
+    creative_inv:set_size("main", max_item_per_page)
 
     -- disable creative mode if don't have creative
     if not minetest.is_creative_enabled(playername) then
@@ -1570,7 +1572,9 @@ winv:register_inventory("craftguide", {
         return craftguide_form(player)
     end,
     on_exit = function(player)
+        local playername = player:get_player_name()
         winv.unhide_inventory(player, "all")
+        craftguide_data[playername].active = false
     end,
     on_player_receive_fields = craftguide_receive_fields,
 })

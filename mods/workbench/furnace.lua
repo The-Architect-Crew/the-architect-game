@@ -5,9 +5,8 @@ local function formspec_cooking(pos, player, add)
 	local spos = pos.x..","..pos.y..","..pos.z
 	local winv_listring = ""
 	if winv_exists then
-		local pmeta = player:get_meta()
 		local playername = player:get_player_name()
-		local right_inv = pmeta:get_string("winv:right")
+		local right_inv = winv.get_inventory(player, "right")
 		if right_inv == "player" then
 			winv_listring =
 				"listring[nodemeta:"..spos..";output]"..
@@ -24,7 +23,7 @@ local function formspec_cooking(pos, player, add)
 				"listring[nodemeta:"..spos..";output]"..
 				"listring[detached:winv_craft_"..playername..";input]"..
 				"listring[detached:winv_craft_"..playername..";output]"
-		elseif right_inv == "creative" then
+		elseif right_inv == "craftguide" then
 			winv_listring =
 				"listring[detached:winv_creative_"..playername..";main]"..
 				"listring[nodemeta:"..spos..";input]"..

@@ -11,15 +11,14 @@ local function assembler_formspec_crafting(pos, player, add)
 	local spos = pos.x..","..pos.y..","..pos.z -- node position for node inventory
 	local meta = minetest.get_meta(pos)
 	local winv_listring = ""
-    local pmeta = player:get_meta()
     local playername = player:get_player_name()
     -- =======================================================
     -- this part is for ONLY listring for winv inventories
     -- there are currently only 3 inventories you need to worry about
     -- "player" - player inv
     -- "crafting" - crafting grid inv
-    -- "creative" - creative inv
-    local right_inv = pmeta:get_string("winv:right") -- player_meta "winv:right" contains the info to get the inventory name
+    -- "craftguide" - craftguide/creative inv
+    local right_inv = winv.get_inventory(player, "right") -- contains the info to get the inventory name
     if right_inv == "player" then
         winv_listring =
             "listring[current_player;main]"..
@@ -34,7 +33,7 @@ local function assembler_formspec_crafting(pos, player, add)
             "listring[nodemeta:"..spos..";output]"..
             "listring[detached:winv_craft_"..playername..";input]"..
             "listring[detached:winv_craft_"..playername..";output]"
-    elseif right_inv == "creative" then
+    elseif right_inv == "craftguide" then
         winv_listring =
             "listring[detached:winv_creative_"..playername..";main]"..
             "listring[nodemeta:"..spos..";input]"..

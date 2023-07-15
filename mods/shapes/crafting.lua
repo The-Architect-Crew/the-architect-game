@@ -37,9 +37,8 @@ local function formspec_shapes(pos, player, def, add)
 	end
 	local winv_listring = ""
 	if winv_exists then
-		local pmeta = player:get_meta()
 		local playername = player:get_player_name()
-		local right_inv = pmeta:get_string("winv:right")
+		local right_inv = winv.get_inventory(player, "right")
 		if right_inv == "player" then
 			winv_listring =
 				"listring[current_player;main]"..

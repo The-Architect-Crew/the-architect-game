@@ -19,6 +19,4 @@ workbench:register_fueltype("normal")
 
 dofile(path.."/craftbench.lua")
 dofile(path.."/furnace.lua")
-
 dofile(path.."/craftguide.lua")
-dofile(path.."/furnace.lua")

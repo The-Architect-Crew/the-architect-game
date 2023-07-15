@@ -66,7 +66,6 @@ function crates:register_storage(name, def)
 	local function storage_formspec(player, pos)
 		local spos = pos.x..","..pos.y..","..pos.z
 		local meta = minetest.get_meta(pos)
-		local pmeta = player:get_meta()
 		local playername = player:get_player_name()
 		local label = meta:get_string("label")
 		local shared = meta:get_string("shared")
@@ -143,7 +142,7 @@ function crates:register_storage(name, def)
 		-- listrings for winv
 		local winv_listring = ""
 		if winv_exists then
-			local right_inv = pmeta:get_string("winv:right")
+			local right_inv = winv.get_inventory(player, "right")
 			if right_inv == "player" then
 				winv_listring =
 					"listring[nodemeta:"..spos..";main]"..

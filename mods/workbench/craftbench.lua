@@ -5,9 +5,8 @@ local function formspec_crafting(pos, player, add)
 	local meta = minetest.get_meta(pos)
 	local winv_listring = ""
 	if winv_exists then
-		local pmeta = player:get_meta()
 		local playername = player:get_player_name()
-		local right_inv = pmeta:get_string("winv:right")
+		local right_inv = winv.get_inventory(player, "right")
 		if right_inv == "player" then
 			winv_listring =
 				"listring[current_player;main]"..
@@ -22,7 +21,7 @@ local function formspec_crafting(pos, player, add)
 				"listring[nodemeta:"..spos..";output]"..
 				"listring[detached:winv_craft_"..playername..";input]"..
 				"listring[detached:winv_craft_"..playername..";output]"
-		elseif right_inv == "creative" then
+		elseif right_inv == "craftguide" then
 			winv_listring =
 				"listring[detached:winv_creative_"..playername..";main]"..
 				"listring[nodemeta:"..spos..";input]"..
@@ -293,7 +292,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 	local pos = workbench.craftbench[playername]
 	local meta = minetest.get_meta(pos)
 	if not locks.can_access(pos, player) then
-		return 0
+		return
 	end
 	if locks.fields(pos, player, fields, "workbench_craftbench", "Craftbench") then
 		show_formspec(pos, player)

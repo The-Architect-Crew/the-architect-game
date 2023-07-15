@@ -1072,13 +1072,6 @@ local function craftguide_form(player)
     end
 
     local formspec =
-        --"formspec_version[4]"..
-        --"size[17.75, 9]"..
-        --"bgcolor[#00000099;true;#00000099]"..
-        --"style_type[*;noclip=true;font_size=13]"..
-        --"style[workbench_craftguide_exit;border=false]"..
-        --"image_button[0.1,-0.6;0.5,0.5;winv_icon_player.png;workbench_craftguide_exit;]"..
-        --"tooltip[workbench_craftguide_exit;Return to main inventory]"..
         "container[0,0]"..
             --left_form (1.25 per grid)
             "image[0,0;7.75,9;winv_bg.png]"..
@@ -1150,8 +1143,10 @@ local function craftguide_receive_fields(player, formname, fields)
             cgdata.filter_adv_show = nil
             cgdata.filter_mod_show = nil
         end
+        winv.refresh(player)
     elseif fields.workbench_creative_remove then
         cgdata.creative_show = nil
+        winv.refresh(player)
     end
 
     if cgdata.creative_show then
@@ -1162,6 +1157,7 @@ local function craftguide_receive_fields(player, formname, fields)
             else
                 cgdata.creative = true
             end
+            winv.refresh(player)
         end
 
         -- creative count change
@@ -1175,6 +1171,7 @@ local function craftguide_receive_fields(player, formname, fields)
                 else
                     cgdata.creative_count = tonumber(new_count)
                 end
+                winv.refresh(player)
             end
         end
 
@@ -1185,6 +1182,7 @@ local function craftguide_receive_fields(player, formname, fields)
             elseif fields.workbench_creative_check_lv == "false" then -- unchecked
                 cgdata.creative_list_view = false
             end
+            winv.refresh(player)
         end
         -- creative give on button click
         if fields.workbench_creative_check_goc then
@@ -1193,6 +1191,7 @@ local function craftguide_receive_fields(player, formname, fields)
             elseif fields.workbench_creative_check_goc == "false" then -- unchecked
                 cgdata.creative_button_click = false
             end
+            winv.refresh(player)
         end
     end
 
@@ -1201,18 +1200,22 @@ local function craftguide_receive_fields(player, formname, fields)
         cgdata.content = minetest.registered_items
         cgdata.content_name = "all"
         reset_craftguide(playername)
+        winv.refresh(player)
     elseif fields.workbench_craftguide_content_block then
         cgdata.content = minetest.registered_nodes
         cgdata.content_name = "block"
         reset_craftguide(playername)
+        winv.refresh(player)
     elseif fields.workbench_craftguide_content_tool then
         cgdata.content = minetest.registered_tools
         cgdata.content_name = "tool"
         reset_craftguide(playername)
+        winv.refresh(player)
     elseif fields.workbench_craftguide_content_craftitem then
         cgdata.content = minetest.registered_craftitems
         cgdata.content_name = "craftitem"
         reset_craftguide(playername)
+        winv.refresh(player)
     end
 
     -- mod filter
@@ -1225,8 +1228,10 @@ local function craftguide_receive_fields(player, formname, fields)
             cgdata.filter_adv_show = nil
             cgdata.creative_show = nil
         end
+        winv.refresh(player)
     elseif fields.workbench_craftguide_modfilter_remove then
         cgdata.filter_mod_show = nil
+        winv.refresh(player)
     end
 
     -- show mod filter
@@ -1244,19 +1249,21 @@ local function craftguide_receive_fields(player, formname, fields)
                         end
                     end
                 end
-
                 reset_craftguide(playername)
+                winv.refresh(player)
             end
         end
         if fields.workbench_craftguide_modfilter_reset then -- enable all
             cgdata.filter_mod = {}
             reset_craftguide(playername)
+            winv.refresh(player)
         elseif fields.workbench_craftguide_modfilter_clear then -- disable all
             cgdata.filter_mod = {}
             for i, modname in ipairs(modnames) do
                 cgdata.filter_mod[#cgdata.filter_mod+1] = modname
             end
             reset_craftguide(playername)
+            winv.refresh(player)
         end
     end
 
@@ -1270,6 +1277,7 @@ local function craftguide_receive_fields(player, formname, fields)
             cgdata.filter_mod_show = nil
             cgdata.creative_show = nil
         end
+        winv.refresh(player)
     end
 
     -- show adv filter
@@ -1281,6 +1289,7 @@ local function craftguide_receive_fields(player, formname, fields)
             else
                 cgdata.filter_adv_all = true
             end
+            winv.refresh(player)
         elseif fields.workbench_craftguide_advfilter_shapes then
             reset_craftguide(playername)
             if cgdata.filter_adv_shapes then
@@ -1288,6 +1297,7 @@ local function craftguide_receive_fields(player, formname, fields)
             else
                 cgdata.filter_adv_shapes = true
             end
+            winv.refresh(player)
         elseif fields.workbench_craftguide_advfilter_nici then
             local check_privs = minetest.check_player_privs(playername, {ban = true})
             if check_privs then
@@ -1297,6 +1307,7 @@ local function craftguide_receive_fields(player, formname, fields)
                 else
                     cgdata.filter_adv_nici = true
                 end
+                winv.refresh(player)
             end
         end
     end
@@ -1306,6 +1317,7 @@ local function craftguide_receive_fields(player, formname, fields)
         cgdata.filter_search_old = cgdata.filter
         cgdata.filter_search = ""
         reset_craftguide(playername)
+        winv.refresh(player)
     end
 
     if fields.workbench_craftguide_search or fields.key_enter_field == "workbench_craftguide_filter" then
@@ -1314,6 +1326,7 @@ local function craftguide_receive_fields(player, formname, fields)
             cgdata.filter_search_old = cgdata.filter
             cgdata.filter_search = new_filter
             reset_craftguide(playername)
+            winv.refresh(player)
         end
     end
 
@@ -1330,6 +1343,7 @@ local function craftguide_receive_fields(player, formname, fields)
             if cgdata.content_name == "favourite" then
                 reset_craftguide(playername)
             end
+            winv.refresh(player)
         end
     end
 
@@ -1337,6 +1351,7 @@ local function craftguide_receive_fields(player, formname, fields)
         cgdata.content = cgdata.fav_list
         cgdata.content_name = "favourite"
         reset_craftguide(playername)
+        winv.refresh(player)
     end
 
     -- change pages
@@ -1347,12 +1362,14 @@ local function craftguide_receive_fields(player, formname, fields)
             else
                 cgdata.curr_page = cgdata.curr_page - 1
             end
+            winv.refresh(player)
         elseif fields.workbench_craftguide_next then -- next page
             if cgdata.curr_page >= cgdata.max_page then
                 cgdata.curr_page = 1
             else
                 cgdata.curr_page = cgdata.curr_page + 1
             end
+            winv.refresh(player)
         end
         if fields.workbench_craftguide_change_page then
             if cgdata.change_page then
@@ -1360,6 +1377,7 @@ local function craftguide_receive_fields(player, formname, fields)
             else
                 cgdata.change_page = true
             end
+            winv.refresh(player)
         end
     end
 
@@ -1377,6 +1395,7 @@ local function craftguide_receive_fields(player, formname, fields)
                 end
             end
             cgdata.change_page = nil
+            winv.refresh(player)
         end
     end
 
@@ -1389,12 +1408,14 @@ local function craftguide_receive_fields(player, formname, fields)
                 else
                     cgdata.curr_recipe = cgdata.curr_recipe - 1
                 end
+                winv.refresh(player)
             elseif fields.workbench_craftguide_recipe_prev then -- next recipe
                 if cgdata.curr_recipe >= cgdata.max_recipe then
                     cgdata.curr_recipe = 1
                 else
                     cgdata.curr_recipe = cgdata.curr_recipe + 1
                 end
+                winv.refresh(player)
             end
         end
 
@@ -1406,12 +1427,14 @@ local function craftguide_receive_fields(player, formname, fields)
                 else
                     cgdata.curr_usage = cgdata.curr_usage + 1
                 end
+                winv.refresh(player)
             elseif fields.workbench_craftguide_usage_prev then
                 if cgdata.curr_usage <= 1 then
                     cgdata.curr_usage = cgdata.max_usage
                 else
                     cgdata.curr_usage = cgdata.curr_usage - 1
                 end
+                winv.refresh(player)
             end
         end
     end
@@ -1424,6 +1447,7 @@ local function craftguide_receive_fields(player, formname, fields)
 
                 cgdata.item = cgdata.history[cgdata.item_view]
                 cgdata.curr_recipe = 0 -- reset page
+                winv.refresh(player)
             end
         elseif fields.workbench_craftguide_redo then
             if cgdata.item_view < #cgdata.history then
@@ -1431,6 +1455,7 @@ local function craftguide_receive_fields(player, formname, fields)
 
                 cgdata.item = cgdata.history[cgdata.item_view]
                 cgdata.curr_recipe = 0 -- reset page
+                winv.refresh(player)
             end
         end
     end
@@ -1467,6 +1492,7 @@ local function craftguide_receive_fields(player, formname, fields)
                 cgdata.curr_usage = 1 -- reset page
                 cgdata.show_usage = nil
             end
+            winv.refresh(player)
         end
     end
 
@@ -1475,12 +1501,11 @@ local function craftguide_receive_fields(player, formname, fields)
     for groupname, def in pairs(craftguide_groups) do
         local groupstring = groupname:gsub(",", "") -- remove all commas to prevent invalid fieldname
         if (fields["workbench_craftguide_item_"..groupstring]) then
-            --cgdata.item = def.redirect
-            --cgdata.curr_recipe = 1 -- reset page
             cgdata.filter_search = groupname
             cgdata.content = minetest.registered_items
             cgdata.content_name = "all"
             reset_craftguide(playername)
+            winv.refresh(player)
         end
     end
 
@@ -1491,6 +1516,7 @@ local function craftguide_receive_fields(player, formname, fields)
             cgdata.content = minetest.registered_items
             cgdata.content_name = "all"
             reset_craftguide(playername)
+            winv.refresh(player)
         end
     end
 
@@ -1501,17 +1527,13 @@ local function craftguide_receive_fields(player, formname, fields)
         else
             cgdata.show_usage = true
         end
+        winv.refresh(player)
     end
 
     -- unshow item
     if fields.workbench_craftguide_back then
         cgdata.item = ""
-    end
-
-    -- quitting
-    if fields.workbench_craftguide_exit then
-        cgdata.active = false
-        --winv.refresh(player) -- switch back to normal inventory
+        winv.refresh(player)
     end
 
     -- scroll and refresh
@@ -1521,16 +1543,14 @@ local function craftguide_receive_fields(player, formname, fields)
             cgdata.filter_mod_scroll = scrolldis.value
         else -- if scroll doesn't match and event detected, means its from a different field
             winv.refresh(player)
-            --player:set_inventory_formspec(craftguide_form(player))
             return -- prevents double update
         end
     end
 
     -- refresh and updates formspec (if not quitting and no scroll event)
-    if not fields.quit and not fields.workbench_craftguide_exit and not fields.workbench_craftguide_modfilter_scroll then
-        winv.refresh(player)
-        --player:set_inventory_formspec(craftguide_form(player))
-    end
+    -- if not fields.quit and not fields.workbench_craftguide_modfilter_scroll then
+    --     winv.refresh(player)
+    -- end
 end
 
 -- handling data saving

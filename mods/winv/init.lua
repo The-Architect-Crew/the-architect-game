@@ -107,7 +107,8 @@ winv:register_inventory("player", {
 })
 
 dofile(path.."/crafting.lua")
-dofile(path.."/creative.lua")
+dofile(path.."/creative_util.lua") -- non-inventory creative stuff
+--dofile(path.."/creative.lua") -- creative inventory
 dofile(path.."/home.lua")
 --dofile(path.."/remote.lua")
 

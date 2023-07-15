@@ -23,8 +23,9 @@ function winv:register_inventory(inv_name, def)
 		button_function = def.button_function or nil, -- player, formname, fields
 		formspec = formspec or nil,
 		formspec_function = def.formspec_function or nil, -- player, formname, fields
+		hide_in_node = def.hide_in_node or nil,
 		on_player_receive_fields = def.on_player_receive_fields,
-        hide_in_node = def.hide_in_node or nil,
+        on_exit = def.on_exit or nil,
 	}
 end
 

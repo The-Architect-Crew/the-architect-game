@@ -1,5 +1,75 @@
 local WINV_SELECTOR_AMOUNT = 3 -- gui selectors
 
+-- get the inventory of specified side
+function winv.get_inventory(player, side)
+	local playername = player:get_player_name()
+	if side == "left" then
+		return winv.data[playername].left
+	elseif side == "right" then
+		return winv.data[playername].right
+	end
+end
+
+-- check if an inventory is being shown currently
+-- return true if inventory is being shown, nil otherwise
+function winv.inventory_shown(player, inv_name)
+	local playername = player:get_player_name()
+	if (winv.data[playername].left == inv_name and not winv.data[playername].hide_left)
+	or (winv.data[playername].right == inv_name and not winv.data[playername].hide_right) then
+		return true
+	end
+end
+
+-- hide inventory (prevent from showing)
+function winv.hide_inventory(player, side)
+	local playername = player:get_player_name()
+	if side == "left" then
+		winv.data[playername].hide_left = true
+	elseif side == "right" then
+		winv.data[playername].hide_right = true
+	elseif side == "left_header" then
+		winv.data[playername].hide_left_header = true
+	elseif side == "right_header" then
+		winv.data[playername].hide_right_header = true
+	elseif side == "left_all" then
+		winv.data[playername].hide_left = true
+		winv.data[playername].hide_left_header = true
+	elseif side == "right_all" then
+		winv.data[playername].hide_right = true
+		winv.data[playername].hide_right_header = true
+	elseif side == "all" then
+		winv.data[playername].hide_left = true
+		winv.data[playername].hide_left_header = true
+		winv.data[playername].hide_right = true
+		winv.data[playername].hide_right_header = true
+	end
+end
+
+-- unhide inventory (if inventory was hidden)
+function winv.unhide_inventory(player, side)
+	local playername = player:get_player_name()
+	if side == "left" then
+		winv.data[playername].hide_left = nil
+	elseif side == "right" then
+		winv.data[playername].hide_right = nil
+	elseif side == "left_header" then
+		winv.data[playername].hide_left_header = nil
+	elseif side == "right_header" then
+		winv.data[playername].hide_right_header = nil
+	elseif side == "left_all" then
+		winv.data[playername].hide_left = nil
+		winv.data[playername].hide_left_header = nil
+	elseif side == "right_all" then
+		winv.data[playername].hide_right = nil
+		winv.data[playername].hide_right_header = nil
+	elseif side == "all" then
+		winv.data[playername].hide_left = nil
+		winv.data[playername].hide_left_header = nil
+		winv.data[playername].hide_right = nil
+		winv.data[playername].hide_right_header = nil
+	end
+end
+
 -- reset inventory
 function winv.reset_inventory(player)
 	local playername = player:get_player_name()
@@ -21,7 +91,11 @@ local function init_inventory_data(player)
 		left = left_inv,
 		right = right_inv,
 		active = nil,
-		switch_mode = switch_mode
+		switch_mode = switch_mode,
+		hide_left = nil,
+		hide_right = nil,
+		hide_left_header = nil,
+		hide_right_header = nil,
 	}
 end
 
@@ -113,6 +187,14 @@ function winv.init_inventory(player, nodeform)
 		winv.data[playername].active = true
 	end
 	local idata = winv.inventories
+
+	-- ensure inventory exists
+	if not idata[left_inv] or not idata[right_inv] then
+		winv.reset_inventory(player)
+		left_inv = default_left_inv
+		right_inv = default_right_inv
+	end
+
 	-- reset inventory to remove inventories that doesnt fit requirement
 	if left_inv ~= default_left_inv and right_inv ~= default_right_inv then
 		if idata[left_inv].req and not idata[left_inv].req(player) and not nodeform
@@ -141,17 +223,33 @@ function winv.init_inventory(player, nodeform)
 	if idata[right_inv].formspec_function then
 		right_form = idata[right_inv].formspec_function(player)
 	end
+	local left_nav_buttons = nav_buttons(player, 0, "left")
+	local right_nav_buttons = nav_buttons(player, 10, "right")
+
+	-- hiding
+	if winv.data[playername].hide_left then
+		left_form = ""
+	end
+	if winv.data[playername].hide_right and not nodeform then -- do not hide right in node form
+		right_form = ""
+	end
+	if winv.data[playername].hide_left_header then
+		left_nav_buttons = ""
+	end
+	if winv.data[playername].hide_right_header and not nodeform then -- do not hide right in node form
+		right_nav_buttons = ""
+	end
 
 	local form =
 		"formspec_version[4]"..
-		"size[17.75, 9]"..
+		"size[17.75, 10.5]"..
 		"bgcolor[#00000099;true;#00000099]"..
 		"style_type[*;noclip=true;font_size=13]"..
-		nav_buttons(player, 0, "left")..
+		left_nav_buttons..
 		"container[0,0]"..
 			left_form..
 		"container_end[]"..
-		nav_buttons(player, 10, "right")..
+		right_nav_buttons..
 		"container[10,0]"..
 			right_form..
 		"container_end[]"..
@@ -160,18 +258,30 @@ function winv.init_inventory(player, nodeform)
 		if force_form then
 			player:set_inventory_formspec(form)
 		end
-		return
-			"formspec_version[4]"..
-			"size[17.75, 10.25]"..
-			"bgcolor[#00000099;true;#00000099]"..
-			"style_type[*;noclip=true;font_size=13]"..
-			"container[0,0]"..
-				nodeform..
-			"container_end[]"..
-			nav_buttons(player, 10, "right_node", true)..
-			"container[10,0]"..
-				right_form..
-			"container_end[]"
+		if winv.data[playername].hide_left then
+			return
+				"formspec_version[4]"..
+				"size[17.75, 10.25]"..
+				"bgcolor[#00000099;true;#00000099]"..
+				"style_type[*;noclip=true;font_size=13]"..
+				nav_buttons(player, 10, "right_node", true)..
+				"container[10,0]"..
+					right_form..
+				"container_end[]"
+		else
+			return
+				"formspec_version[4]"..
+				"size[17.75, 10.25]"..
+				"bgcolor[#00000099;true;#00000099]"..
+				"style_type[*;noclip=true;font_size=13]"..
+				"container[0,0]"..
+					nodeform..
+				"container_end[]"..
+				nav_buttons(player, 10, "right_node", true)..
+				"container[10,0]"..
+					right_form..
+				"container_end[]"
+		end
 	elseif not nodeform then
 		return form
 	end
@@ -223,40 +333,52 @@ function winv.receive_fields(player, formname, fields)
 	for invname, invdata in pairs(winv.inventories) do
 		-- update form name
 		if fields["winv_"..invname.."_left"] then
-			if invdata.button_function then -- handle function instead
-				invdata.button_function(player, formname, fields)
-			else
-				if check_req(player, invname) then -- ensure meet requirement to show inventory
+			if check_req(player, invname) then -- ensure meet requirement to show inventory
+				if winv.inventories[left_inv].on_exit then
+					winv.inventories[left_inv].on_exit(player)
+				end
+				if invdata.button_function then -- handle function instead
+					invdata.button_function(player, formname, fields)
+				else
 					if switch_mode == "button" then
 						if right_inv ~= invname then -- do not force switch
 							winv.data[playername].left = invname
 						end
 					else
+						if winv.inventories[right_inv].on_exit then
+							winv.inventories[right_inv].on_exit(player)
+						end
 						winv.data[playername].left = invname
 						if right_inv == invname then -- force switch inventory if its the same
 							winv.data[playername].right = left_inv
 						end
 					end
+					winv.refresh(player)
 				end
-				winv.refresh(player)
 			end
 		elseif fields["winv_"..invname.."_right"] then
-			if invdata.button_function then -- handle function instead
-				invdata.button_function(player, formname, fields)
-			else
-				if check_req(player, invname) then -- ensure meet requirement to show inventory
+			if check_req(player, invname) then -- ensure meet requirement to show inventory
+				if winv.inventories[right_inv].on_exit then
+					winv.inventories[right_inv].on_exit(player)
+				end
+				if invdata.button_function then -- handle function instead
+					invdata.button_function(player, formname, fields)
+				else
 					if switch_mode == "button" then
 						if left_inv ~= invname then -- do not force switch
 							winv.data[playername].right = invname
 						end
 					else
+						if winv.inventories[left_inv].on_exit then
+							winv.inventories[left_inv].on_exit(player)
+						end
 						winv.data[playername].right = invname
 						if left_inv == invname then  -- switch inventory if its the same
 							winv.data[playername].left = right_inv
 						end
 					end
+					winv.refresh(player)
 				end
-				winv.refresh(player)
 			end
 		end
 		if invdata.on_player_receive_fields then
@@ -264,7 +386,13 @@ function winv.receive_fields(player, formname, fields)
 		end
 	end
 	if fields.winv_switch then -- button to swap inventory
+		if winv.inventories[left_inv].on_exit then
+			winv.inventories[left_inv].on_exit(player)
+		end
 		winv.data[playername].left = right_inv
+		if winv.inventories[right_inv].on_exit then
+			winv.inventories[right_inv].on_exit(player)
+		end
 		winv.data[playername].right = left_inv
 		winv.refresh(player)
 	end
@@ -290,8 +418,14 @@ function winv.node_receive_fields(player, formname, fields)
 		-- node handling
 		if fields["winv_"..invname.."_right_node"] then
 			if check_req(player, invname) then
+				if winv.inventories[right_inv].on_exit then
+					winv.inventories[right_inv].on_exit(player)
+				end
 				winv.data[playername].right = invname
 				if left_inv == invname then  -- switch inventory if its the same
+					if winv.inventories[left_inv].on_exit then
+						winv.inventories[left_inv].on_exit(player)
+					end
 					winv.data[playername].left = right_inv
 				end
 			end

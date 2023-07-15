@@ -27,6 +27,20 @@ end
 local path = minetest.get_modpath("workbench")
 dofile(path.."/craftguide_groups.lua")
 
+-- trash detached inventory
+local trash = minetest.create_detached_inventory("trash", {
+	-- Allow the stack to be placed and remove it in on_put()
+	-- This allows the creative inventory to restore the stack
+	allow_put = function(inv, listname, index, stack, player)
+		return stack:get_count()
+	end,
+	on_put = function(inv, listname)
+		inv:set_list(listname, {})
+	end,
+})
+trash:set_size("main", 1)
+
+-- craftguide initalization
 local function craftguide_init(player)
     local playername = player:get_player_name()
     local player_meta = player:get_meta()
@@ -37,10 +51,25 @@ local function craftguide_init(player)
         save_data = minetest.deserialize(player_meta:get_string("workbench:craftguide"))
     end
 
+    local saved_creative_list_view = save_data.creative_list_view
+    local saved_creative_button_click = save_data.creative_button_click
+    if saved_creative_list_view == nil then
+        saved_creative_list_view = true
+    end
+    if saved_creative_button_click == nil then
+        saved_creative_button_click = true
+    end
+
     craftguide_data[playername] = {
         active = false, -- whether form is active
+        creative = save_data.creative or nil, -- whether creative mode is enabled
+        creative_show = nil, -- whether creative options is show
+        creative_list_view = saved_creative_list_view, -- whether to use list view (true) or button view (false)
+        creative_button_click = saved_creative_button_click, -- whether to enable button click (true) or disable (false)
+        creative_count = save_data.creative_count or 1, -- creative count
         item = "", -- selected item
-        form_list = nil, -- cached recipe list
+        form_list = nil, -- cached formspec list
+        form_creative_list = nil, -- cached creative formspec list
         filtered_list = nil, -- cached item list
         fav_list = save_data.fav_list or {}, -- favourite list
         lang = nil, -- player language
@@ -50,12 +79,15 @@ local function craftguide_init(player)
         -- pages
         curr_page = 1,
         max_page = 1,
+        change_page = nil, -- change page handle
         curr_recipe = 1, -- current recipe page
         max_recipe = 1, -- max recipe page
+        change_recipe = nil, -- change recipe page handle
         -- usage
         show_usage = nil,
         curr_usage = 1,
         max_usage = 1,
+        change_usage = nil, -- change usage page handle
         -- content filter
         content = minetest.registered_items,
         content_name = "all",
@@ -74,6 +106,41 @@ local function craftguide_init(player)
         filter_adv_shapes = save_data.filter_adv_shapes or nil,
         filter_adv_nici = save_data.filter_adv_nici or nil,
     }
+
+    -- create creative inventory
+    minetest.create_detached_inventory("winv_creative_"..playername, {
+        allow_move = function(inv, from_list, from_index, to_list, to_index, count, player2)
+			local playername2 = player2 and player2:get_player_name() or ""
+			if not minetest.is_creative_enabled(playername2) or to_list == "main" then
+				return 0
+			end
+			return count
+		end,
+		allow_put = function(inv, listname, index, stack, player2)
+			return 0
+		end,
+		allow_take = function(inv, listname, index, stack, player2)
+			local playername2 = player2 and player2:get_player_name() or ""
+			if not minetest.is_creative_enabled(playername2) then
+				return 0
+			end
+			return -1
+		end,
+		on_move = function(inv, from_list, from_index, to_list, to_index, count, player2)
+		end,
+		on_take = function(inv, listname, index, stack, player2)
+            local playername2 = player2 and player2:get_player_name() or ""
+			if stack and stack:get_count() > 0 then
+				minetest.log("action", playername2.. " takes " ..stack:get_name().. " from creative inventory")
+			end
+		end,
+    }, playername)
+
+    -- disable creative mode if don't have creative
+    if not minetest.is_creative_enabled(playername) then
+        craftguide_data[playername].creative = nil
+        craftguide_data[playername].creative_show = nil
+    end
 end
 
 -- generate item tooltip
@@ -329,6 +396,11 @@ end
 local function craftguide_recipe_form(player)
     local playername = player:get_player_name()
     if not craftguide_data[playername] or craftguide_data[playername].item == "" then
+        if winv.get_inventory(player, "left") == "craftguide" then
+            winv.unhide_inventory(player, "right_all")
+        elseif winv.get_inventory(player, "right") == "craftguide" then
+            winv.unhide_inventory(player, "left_all")
+        end
         return ""
     end
 
@@ -374,22 +446,33 @@ local function craftguide_recipe_form(player)
         end
     end
 
+    local form_container = ""
+    if winv.get_inventory(player, "left") == "craftguide" then
+        form_container = "container[10,0]"
+        winv.hide_inventory(player, "right_all")
+    elseif winv.get_inventory(player, "right") == "craftguide" then
+        form_container = "container[-10,0]"
+        winv.hide_inventory(player, "left_all")
+    end
+
     -- background
     local ret_form =
-        "image[0,0;7.75,9;winv_bg.png]"..
-        "style[workbench_current_item;border=false]"..
-        craftguide_header_form(player)..
-        "box[0.25,0.25;7.275,7.275;#00000070]"..
-        -- buttons (0.6 width)
-        "style[workbench_craftguide_fav;border=false]"..
-        fav_button..
-        "style[workbench_craftguide_undo;border=false]"..
-        undo_button..
-        "tooltip[workbench_craftguide_undo;Undo to last recipe]"..
-        "style[workbench_craftguide_redo;border=false]"..
-        redo_button..
-        "tooltip[workbench_craftguide_redo;Redo to next recipe]"..
-        usage_button
+        form_container..
+            "image[0,0;7.75,9;winv_bg.png]"..
+            "style[workbench_current_item;border=false]"..
+            craftguide_header_form(player)..
+            "box[0.25,0.25;7.275,7.275;#00000070]"..
+            -- buttons (0.6 width)
+            "style[workbench_craftguide_fav;border=false]"..
+            fav_button..
+            "style[workbench_craftguide_undo;border=false]"..
+            undo_button..
+            "tooltip[workbench_craftguide_undo;Undo to last recipe]"..
+            "style[workbench_craftguide_redo;border=false]"..
+            redo_button..
+            "tooltip[workbench_craftguide_redo;Redo to next recipe]"..
+            "image_button[7.15,-0.6;0.5,0.5;winv_icon_cross.png;workbench_craftguide_back;;true;false;winv_icon_cross.png]"..
+            usage_button
 
     if craftguide_data[playername].show_usage then
         -- show usage
@@ -475,7 +558,7 @@ local function craftguide_recipe_form(player)
         end
     end
 
-    return ret_form
+    return ret_form.."container_end[]"
 end
 
 -- get mod filter status of specified mod
@@ -580,6 +663,9 @@ local function initialize_itemlist_form(player)
     else
         craftguide_data[playername].form_list = {}
     end
+    if not craftguide_data[playername].form_creative_list then
+        craftguide_data[playername].form_creative_list = "list[detached:winv_creative_"..playername..";main;0.25,0.25;6,6]"
+    end
 
     -- get player language
     local lang = craftguide_data[playername].lang
@@ -640,41 +726,52 @@ end
 local function construct_itemlist_page(player)
     local playername = player:get_player_name()
     -- ensure form has been initalized
-    if not craftguide_data[playername].form_list or not craftguide_data[playername].filtered_list then
+    if not craftguide_data[playername].form_list or not craftguide_data[playername].filtered_list or not craftguide_data[playername].form_creative_list then
         initialize_itemlist_form(player)
     end
 
     local curr_page = craftguide_data[playername].curr_page
     local filtered_list = craftguide_data[playername].filtered_list
     -- ensure page hasn't been generated before
-    if not craftguide_data[playername].form_list[curr_page] then
+    if not craftguide_data[playername].form_list[curr_page] or (craftguide_data[playername].creative and craftguide_data[playername].creative_list_view == true)  then
         local curr_page_start = max_item_per_page * (curr_page - 1) + 1
         local curr_page_end = max_item_per_page * (curr_page)
+        if (not craftguide_data[playername].creative) or (craftguide_data[playername].creative and craftguide_data[playername].creative_list_view == false) then
+            for index = curr_page_start, curr_page_end do
+                local itemname = filtered_list[index]
+                if itemname then
+                    if not craftguide_data[playername].form_list[curr_page] then
+                        craftguide_data[playername].form_list[curr_page] = ""
+                    end
+                    -- item counters
+                    local item_count_in_page = index % max_item_per_page
+                    if item_count_in_page == 0 then
+                        item_count_in_page = max_item_per_page
+                    end
+                    local curr_row = math.ceil(item_count_in_page / max_item_per_row)
 
-        for index = curr_page_start, curr_page_end do
-            local itemname = filtered_list[index]
-            if itemname then
-                if not craftguide_data[playername].form_list[curr_page] then
-                    craftguide_data[playername].form_list[curr_page] = ""
-                end
-                -- item counters
-                local item_count_in_page = index % max_item_per_page
-                if item_count_in_page == 0 then
-                    item_count_in_page = max_item_per_page
-                end
-                local curr_row = math.ceil(item_count_in_page / max_item_per_row)
+                    local item_count_in_row = index % max_item_per_row
+                    if item_count_in_row == 0 then
+                        item_count_in_row = max_item_per_row
+                    end
 
-                local item_count_in_row = index % max_item_per_row
-                if item_count_in_row == 0 then
-                    item_count_in_row = max_item_per_row
+                    -- construct form
+                    craftguide_data[playername].form_list[curr_page] = craftguide_data[playername].form_list[curr_page]..
+                    "item_image_button["..( 0.25 + ((item_count_in_row - 1) * 1.25))..","..( 0.25 + ((curr_row - 1) * 1.25))..
+                        ";1,1;"..itemname..";workbench_craftguide_item_"..itemname..";]"..
+                        (craftguide_tooltip_list[itemname] or generate_item_tooltip(itemname))
                 end
-
-                -- construct form
-                craftguide_data[playername].form_list[curr_page] = craftguide_data[playername].form_list[curr_page]..
-                "item_image_button["..( 0.25 + ((item_count_in_row - 1) * 1.25))..","..( 0.25 + ((curr_row - 1) * 1.25))..
-                    ";1,1;"..itemname..";workbench_craftguide_item_"..itemname..";]"..
-                    (craftguide_tooltip_list[itemname] or generate_item_tooltip(itemname))
             end
+        elseif (craftguide_data[playername].creative and craftguide_data[playername].creative_list_view == true) then
+            local creative_inv = minetest.get_inventory({type = "detached", name = "winv_creative_" ..playername})
+            local creative_list = {}
+            for index = curr_page_start, curr_page_end do
+                if filtered_list[index] then
+                    creative_list[#creative_list+1] = filtered_list[index].." "..craftguide_data[playername].creative_count
+                end
+            end
+            creative_inv:set_size("main", max_item_per_page)
+            creative_inv:set_list("main", creative_list)
         end
 
         if craftguide_data[playername].max_page < 1 then -- ensure first page is always constructed
@@ -825,6 +922,45 @@ local function craftguide_form(player)
     -- construct itemlist
     construct_itemlist_page(player)
 
+    -- creative toggle handling
+    local icon_offset_y = 0
+    local craftguide_creative =
+        "image_button[-0.9,5.65;0.8,0.8;winv_cicon_creative.png;workbench_creative_show;;true;false;]"..
+        "tooltip[workbench_creative_show;Toggle creative mode]"
+    local darken = "^[colorize:#00000055"
+    if minetest.is_creative_enabled(playername) then
+        icon_offset_y = 0.9
+        if cgdata.creative then
+            craftguide_creative = craftguide_creative.."label[5.95,9.25;Creative Mode]"
+        end
+
+        if cgdata.creative_show then
+            craftguide_creative = craftguide_creative..
+                "box[0,5.65;4,2.25;#49494AE6]".. -- fill to modfilter size: y = 3.1
+                "image_button[0,5.65;4,2.25;gui_invis.png;workbench_creative_bg;;true;false;]".. -- prevent bg access
+                "image_button[3.5,5.65;0.5,0.5;gui_cross_light.png;workbench_creative_remove;;true;false;]".. -- close window
+                --"button[-0.6,7.45;0.5,0.5;workbench_creative_toggle;T]"..
+                "style_type[label;font_size=16]"..
+                "label[0.1,6;Item Count:]"..
+                "style[workbench_creative_count;border=true]"..
+                "field[1.75,5.75;1.1,0.55;workbench_creative_count;;"..cgdata.creative_count.."]"..
+                "field_close_on_enter[workbench_creative_count;false]"..
+                "image_button[2.95,5.77;0.5,0.5;gui_pointer.png;workbench_creative_count_apply;]"..
+                "tooltip[workbench_creative_count_apply;Apply item count changes\nItem count will not show in button view]"..
+                "checkbox[0.1,6.55;workbench_creative_check_lv;List View;"..tostring(cgdata.creative_list_view).."]"..
+                "tooltip[workbench_creative_check_lv;Enable showing items via item lists\nDisabled: Show items with buttons]"..
+                "checkbox[0.1,6.95;workbench_creative_check_goc;Give on Click;"..tostring(cgdata.creative_button_click).."]"..
+                "tooltip[workbench_creative_check_goc;Enable giving items with button clicks]"..
+                "style_type[label;font_size=13]"
+
+            if cgdata.creative then
+                craftguide_creative = craftguide_creative.."button[0.1,7.2 5;3.8,0.6;workbench_creative_toggle;Turn Off Creative]"
+            else
+                craftguide_creative = craftguide_creative.."button[0.1,7.2 5;3.8,0.6;workbench_creative_toggle;Turn On Creative]"
+            end
+        end
+    end
+
     -- mod filter handling
     local modfilter_form = ""
     if cgdata.filter_mod_show then
@@ -839,9 +975,9 @@ local function craftguide_form(player)
         end
         modfilter_form =
             "box[0,3.85;4,4.9;#49494AE6]"..
-            "image_button[0,3.85;4,4.9;gui_invis.png;workbench_craftguide_modfilter_bg;;true;false;]"..
-            "button[-0.6,6.55;0.5,0.5;workbench_craftguide_modfilter_reset;R]"..
-            "image_button[-0.6,7.15;0.5,0.5;gui_cross.png;workbench_craftguide_modfilter_clear;]"..
+            "image_button[0,3.85;4,4.9;gui_invis.png;workbench_craftguide_modfilter_bg;;true;false;]".. -- prevent bg access
+            "button[-0.6,"..(6.55 + icon_offset_y)..";0.5,0.5;workbench_craftguide_modfilter_reset;R]"..
+            "image_button[-0.6,"..(7.15 + icon_offset_y)..";0.5,0.5;gui_cross.png;workbench_craftguide_modfilter_clear;]"..
             modf_scroll..
             "image_button[3.5,3.85;0.5,0.5;gui_cross_light.png;workbench_craftguide_modfilter_remove;;true;false;]"..
             "scroll_container[0,3.85;3.6,4.9;workbench_craftguide_modfilter_scroll;vertical;0.1]"..
@@ -877,11 +1013,11 @@ local function craftguide_form(player)
             tt_nici = ccore.comment("Show 'not_in_creative_inventory' items", "Current status: Hidden\nInsufficient privileges to view 'not_in_creative_inventory' items!")
         end
         advfilter_form =
-        "button[-0.6,6.55;0.5,0.5;workbench_craftguide_advfilter_shapes;"..minetest.colorize(tc_shapes, "S").."]"..
+        "button[-0.6,"..(6.55 + icon_offset_y)..";0.5,0.5;workbench_craftguide_advfilter_shapes;"..minetest.colorize(tc_shapes, "S").."]"..
         "tooltip[workbench_craftguide_advfilter_shapes;"..tt_shapes.."]"..
-        "button[-0.6,7.15;0.5,0.5;workbench_craftguide_advfilter_all;"..minetest.colorize(tc_all, "A").."]"..
+        "button[-0.6,"..(7.15 + icon_offset_y)..";0.5,0.5;workbench_craftguide_advfilter_all;"..minetest.colorize(tc_all, "A").."]"..
         "tooltip[workbench_craftguide_advfilter_all;"..tt_all.."]"..
-        "button[-0.6,7.75;0.5,0.5;workbench_craftguide_advfilter_nici;"..minetest.colorize(tc_nici, "C").."]"..
+        "button[-0.6,"..(7.75 + icon_offset_y)..";0.5,0.5;workbench_craftguide_advfilter_nici;"..minetest.colorize(tc_nici, "C").."]"..
         "tooltip[workbench_craftguide_advfilter_nici;"..tt_nici.."]"
     end
 
@@ -891,7 +1027,6 @@ local function craftguide_form(player)
     local craftguide_content_tool = "image_button[-0.9,2.05;0.8,0.8;winv_cicon_tool.png;workbench_craftguide_content_tool;;true;false;]"
     local craftguide_content_craftitem = "image_button[-0.9,2.95;0.8,0.8;winv_cicon_craftitem.png;workbench_craftguide_content_craftitem;;true;false;]"
     local craftguide_content_fav = "image_button[-0.9,4.75;0.8,0.8;winv_cicon_star.png;workbench_craftguide_content_fav;;true;false;]"
-    local darken = "^[colorize:#00000055"
     if cgdata.content_name then
         local content_name = cgdata.content_name
         if content_name == "all" then
@@ -913,22 +1048,44 @@ local function craftguide_form(player)
         craftguide_page_nav =
             "image_button[6.5,7.83;0.5,0.8;winv_cicon_miniarrow.png^[transformFX;workbench_craftguide_prev;;;false;]"..
             "image_button[7,7.85;0.5,0.8;winv_cicon_miniarrow.png;workbench_craftguide_next;;;false;]"..
-            "label[0.25,9.25;Page " .. minetest.colorize("#FFFF00", tostring(cgdata.curr_page)) .. " / " .. tostring(cgdata.max_page) .. "]"
+            "label[0.25,9.25;Page " .. minetest.colorize("#FFFF00", tostring(cgdata.curr_page)) .. " / " .. tostring(cgdata.max_page) .. "]"..
+            -- custom page handling
+            "style[workbench_craftguide_change_page;border=false]"..
+            "button[0.25,9.1;1.3,0.35;workbench_craftguide_change_page;]"
+
+        if cgdata.change_page then
+            craftguide_page_nav = craftguide_page_nav..
+                "box[-1,9.5;3.2,0.7;#49494AE6]"..
+                "label[-0.9,9.85;Go to page:]"..
+                "field[0.5,9.6;1.0,0.5;workbench_craftguide_change_page_count;;"..cgdata.curr_page.."]"..
+                "field_close_on_enter[workbench_craftguide_change_page_count;false]"..
+                "image_button[1.6,9.6;0.5,0.5;gui_pointer.png;workbench_craftguide_change_page_count_apply;]"..
+                ""
+        end
+    end
+
+    local form_list = cgdata.form_list[cgdata.curr_page]
+    if (cgdata.creative and cgdata.creative_list_view == true) then
+        form_list = cgdata.form_creative_list
     end
 
     local formspec =
-        "formspec_version[4]"..
-        "size[17.75, 9]"..
-        "bgcolor[#00000099;true;#00000099]"..
-        "style_type[*;noclip=true;font_size=13]"..
-        "style[workbench_craftguide_exit;border=false]"..
-        "image_button[0.1,-0.6;0.5,0.5;winv_icon_player.png;workbench_craftguide_exit;]"..
-        "tooltip[workbench_craftguide_exit;Return to main inventory]"..
+        --"formspec_version[4]"..
+        --"size[17.75, 9]"..
+        --"bgcolor[#00000099;true;#00000099]"..
+        --"style_type[*;noclip=true;font_size=13]"..
+        --"style[workbench_craftguide_exit;border=false]"..
+        --"image_button[0.1,-0.6;0.5,0.5;winv_icon_player.png;workbench_craftguide_exit;]"..
+        --"tooltip[workbench_craftguide_exit;Return to main inventory]"..
         "container[0,0]"..
             --left_form (1.25 per grid)
             "image[0,0;7.75,9;winv_bg.png]"..
+            -- trash field
+			"image[0.325,7.85;0.8,0.8;gui_trash.png]"..
+			"list[detached:trash;main;0.25,7.75;1,1;]"..
             -- search icons
-			"field[0.25,7.75;5.25,1;workbench_craftguide_filter;;"..cgdata.filter_search.."]"..
+			--"field[0.25,7.75;5.25,1;workbench_craftguide_filter;;"..cgdata.filter_search.."]"..
+			"field[1.5,7.75;4,1;workbench_craftguide_filter;;"..cgdata.filter_search.."]"..
 			"field_close_on_enter[workbench_craftguide_filter;false]"..
 			"image_button[5.75,7.75;0.5,0.5;gui_pointer.png;workbench_craftguide_search;]"..
 			"image_button[5.75,8.25;0.5,0.5;gui_cross.png;workbench_craftguide_clear;]"..
@@ -945,40 +1102,24 @@ local function craftguide_form(player)
             "tooltip[workbench_craftguide_content_fav;Show favourites only]"..
             -- item list
             "style_type[item_image_button;border=false]"..
-            cgdata.form_list[cgdata.curr_page]..
+            form_list..
             -- arrows
 			craftguide_page_nav..
+            -- creative
+            craftguide_creative..
             -- mod filter
 			"image_button[-0.9,3.85;0.8,0.8;winv_cicon_filter.png;workbench_craftguide_modfilter;;true;false;]"..
 			"tooltip[workbench_craftguide_modfilter;Filter by mods]"..
             modfilter_form.. -- mod filter popup
             -- advanced filter
-            "image_button[-0.9,5.65;0.8,0.8;winv_cicon_settings.png;workbench_craftguide_advfilter;;true;false;]"..
+            "image_button[-0.9,"..(5.65 + icon_offset_y)..";0.8,0.8;winv_cicon_settings.png;workbench_craftguide_advfilter;;true;false;]"..
 			"tooltip[workbench_craftguide_advfilter;Advanced filters]"..
             advfilter_form.. -- adv filter popup
         "container_end[]"..
-        "container[10,0]"..
-            --right_form (show recipe)
-            craftguide_recipe_form(player)..
-        "container_end[]"
+        --right_form (show recipe)
+        craftguide_recipe_form(player)
     return formspec
 end
-
-winv:register_inventory("craftguide", {
-    button = {
-        texture = "winv_icon_craftguide.png",
-        tooltip = "Craft Guide",
-    },
-    hide_in_node = true,
-    button_function = function(player)
-        local playername = player:get_player_name()
-        if not craftguide_data[playername] then
-            craftguide_init(player)
-        end
-        craftguide_data[playername].active = true
-        player:set_inventory_formspec(craftguide_form(player))
-    end,
-})
 
 local function reset_craftguide(playername)
     craftguide_data[playername].curr_page = 1
@@ -987,7 +1128,7 @@ local function reset_craftguide(playername)
     craftguide_data[playername].filtered_list = nil
 end
 
-minetest.register_on_player_receive_fields(function(player, formname, fields)
+local function craftguide_receive_fields(player, formname, fields)
     local playername = player:get_player_name()
     if not craftguide_data[playername] then -- ensure init data
         craftguide_init(player)
@@ -996,6 +1137,61 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
     local cgdata = craftguide_data[playername]
     if not (cgdata.active) then -- ensure form is active
         return
+    end
+
+    -- creative form toggle
+    if fields.workbench_creative_show then
+        if cgdata.creative_show then
+            cgdata.creative_show = nil
+        else
+            cgdata.creative_show = true
+            cgdata.filter_adv_show = nil
+            cgdata.filter_mod_show = nil
+        end
+    elseif fields.workbench_creative_remove then
+        cgdata.creative_show = nil
+    end
+
+    if cgdata.creative_show then
+        -- creative toggle
+        if fields.workbench_creative_toggle then
+            if cgdata.creative then
+                cgdata.creative = nil
+            else
+                cgdata.creative = true
+            end
+        end
+
+        -- creative count change
+        if fields.workbench_creative_count_apply or fields.key_enter_field == "workbench_creative_count" then
+            local new_count = fields.workbench_creative_count
+            if tonumber(new_count) then
+                if tonumber(new_count) < 1 then
+                    cgdata.creative_count = 1
+                elseif tonumber(new_count) > 99 then
+                    cgdata.creative_count = 99
+                else
+                    cgdata.creative_count = tonumber(new_count)
+                end
+            end
+        end
+
+        -- creative list view
+        if fields.workbench_creative_check_lv then
+            if fields.workbench_creative_check_lv == "true" then -- checked
+                cgdata.creative_list_view = true
+            elseif fields.workbench_creative_check_lv == "false" then -- unchecked
+                cgdata.creative_list_view = false
+            end
+        end
+        -- creative give on button click
+        if fields.workbench_creative_check_goc then
+            if fields.workbench_creative_check_goc == "true" then -- checked
+                cgdata.creative_button_click = true
+            elseif fields.workbench_creative_check_goc == "false" then -- unchecked
+                cgdata.creative_button_click = false
+            end
+        end
     end
 
     -- content filter
@@ -1018,17 +1214,20 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
     end
 
     -- mod filter
-    if fields.workbench_craftguide_modfilter then -- toggle
+    -- toggle mod filter
+    if fields.workbench_craftguide_modfilter then
         if cgdata.filter_mod_show then
             cgdata.filter_mod_show = nil
         else
             cgdata.filter_mod_show = true
             cgdata.filter_adv_show = nil
+            cgdata.creative_show = nil
         end
     elseif fields.workbench_craftguide_modfilter_remove then
         cgdata.filter_mod_show = nil
     end
 
+    -- show mod filter
     if cgdata.filter_mod_show then
         local modnames = craftguide_nonempty_modnames
         for i, modname in ipairs(modnames) do
@@ -1060,15 +1259,18 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
     end
 
     -- adv filter
+    -- toggle adv filter
     if fields.workbench_craftguide_advfilter then
         if cgdata.filter_adv_show then
             cgdata.filter_adv_show = nil
         else
             cgdata.filter_adv_show = true
             cgdata.filter_mod_show = nil
+            cgdata.creative_show = nil
         end
     end
 
+    -- show adv filter
     if cgdata.filter_adv_show then
         if fields.workbench_craftguide_advfilter_all then
             reset_craftguide(playername)
@@ -1150,6 +1352,30 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
                 cgdata.curr_page = cgdata.curr_page + 1
             end
         end
+        if fields.workbench_craftguide_change_page then
+            if cgdata.change_page then
+                cgdata.change_page = nil
+            else
+                cgdata.change_page = true
+            end
+        end
+    end
+
+    if cgdata.change_page then
+        if (fields.workbench_craftguide_change_page_count_apply or fields.key_enter_field == "workbench_craftguide_change_page_count")
+        or not fields.workbench_craftguide_change_page then
+            local new_page = fields.workbench_craftguide_change_page_count
+            if tonumber(new_page) then
+                if tonumber(new_page) < 1 then
+                    cgdata.curr_page = 1
+                elseif tonumber(new_page) > cgdata.max_page then
+                    cgdata.curr_page = cgdata.max_page
+                else
+                    cgdata.curr_page = tonumber(new_page)
+                end
+            end
+            cgdata.change_page = nil
+        end
     end
 
     if cgdata.item and cgdata.item ~= "" then
@@ -1210,13 +1436,26 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
     -- item redirect
     for index, itemname in ipairs(craftguide_names_list) do
         if (fields["workbench_craftguide_item_"..itemname]) then
-            if craftguide_list[itemname] then -- only show if craftable
+            if minetest.is_creative_enabled(playername) and cgdata.creative and cgdata.creative_button_click then -- creative, give item
+                local itemstack = ItemStack(itemname.." "..cgdata.creative_count)
+                minetest.log("action", playername.. " takes " ..itemname.. " from creative inventory")
+                local leftover = player:get_inventory():add_item("main", itemstack)
+                if leftover:is_empty() then
+                    if not winv.inventory_shown(player, "player") then
+                        minetest.chat_send_player(playername, "[creative] "..itemname.." added to inventory.")
+                    end
+                elseif leftover:get_count() == cgdata.creative_count then
+                    minetest.chat_send_player(playername, "[creative] "..itemname.." could not be added to inventory.")
+                else
+                    minetest.chat_send_player(playername, "[creative] "..itemname.." partially added to inventory.")
+                end
+            elseif craftguide_list[itemname] then -- only show if craftable
                 -- add to history
                 if not cgdata.history then
                     cgdata.history = {}
                     cgdata.item_view = 0
                 end
-                if cgdata.item ~= itemname then -- only add if different item
+                if cgdata.item ~= itemname and itemname ~= cgdata.history[#cgdata.history] then -- only add if different item
                     cgdata.history[#cgdata.history+1] = itemname
                     cgdata.item_view = #cgdata.history
                 end
@@ -1262,10 +1501,15 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
         end
     end
 
+    -- unshow item
+    if fields.workbench_craftguide_back then
+        cgdata.item = ""
+    end
+
     -- quitting
-    if fields.workbench_craftguide_exit or fields.quit then
+    if fields.workbench_craftguide_exit then
         cgdata.active = false
-        winv.refresh(player) -- switch back to normal inventory
+        --winv.refresh(player) -- switch back to normal inventory
     end
 
     -- scroll and refresh
@@ -1274,16 +1518,18 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
         if cgdata.filter_mod_scroll ~= scrolldis.value then
             cgdata.filter_mod_scroll = scrolldis.value
         else -- if scroll doesn't match and event detected, means its from a different field
-            player:set_inventory_formspec(craftguide_form(player))
+            winv.refresh(player)
+            --player:set_inventory_formspec(craftguide_form(player))
             return -- prevents double update
         end
     end
 
     -- refresh and updates formspec (if not quitting and no scroll event)
     if not fields.quit and not fields.workbench_craftguide_exit and not fields.workbench_craftguide_modfilter_scroll then
-        player:set_inventory_formspec(craftguide_form(player))
+        winv.refresh(player)
+        --player:set_inventory_formspec(craftguide_form(player))
     end
-end)
+end
 
 -- handling data saving
 local function save_craftguide_data(player)
@@ -1293,6 +1539,10 @@ local function save_craftguide_data(player)
             local player_meta = player:get_meta()
             local cgdata = craftguide_data[playername]
             local save_data = {}
+            save_data.creative = cgdata.creative
+            save_data.creative_list_view = cgdata.creative_list_view
+            save_data.creative_button_click = cgdata.creative_button_click
+            save_data.creative_count = cgdata.creative_count
             save_data.fav_list = cgdata.fav_list
             save_data.filter_mod = cgdata.filter_mod
             save_data.filter_adv_all = cgdata.filter_adv_all
@@ -1304,6 +1554,48 @@ local function save_craftguide_data(player)
         end
     end
 end
+
+winv:register_inventory("craftguide", {
+    button = {
+        texture = "winv_icon_craftguide.png",
+        tooltip = "Craft Guide",
+    },
+    --hide_in_node = true,
+    formspec_function = function(player)
+        local playername = player:get_player_name()
+        if not craftguide_data[playername] then
+            craftguide_init(player)
+        end
+        craftguide_data[playername].active = true
+        return craftguide_form(player)
+    end,
+    on_exit = function(player)
+        winv.unhide_inventory(player, "all")
+    end,
+    on_player_receive_fields = craftguide_receive_fields,
+})
+
+winv:register_listring("player", "craftguide", function(player)
+	local playername = player:get_player_name()
+	local listring = {
+		"listring[detached:winv_creative_"..playername..";main]",
+		"listring[current_player;main]",
+		"listring[detached:trash;main]",
+	}
+	return table.concat(listring, "")
+end)
+
+winv:register_listring("crafting", "craftguide", function(player)
+	local playername = player:get_player_name()
+	local listring = {
+		"listring[detached:winv_creative_"..playername..";main]",
+		"listring[detached:winv_craft_"..playername..";input]",
+		"listring[detached:trash;main]",
+		"listring[detached:winv_craft_"..playername..";output]",
+		"listring[detached:trash;main]",
+	}
+	return table.concat(listring, "")
+end)
 
 minetest.register_on_leaveplayer(function(player)
     save_craftguide_data(player)

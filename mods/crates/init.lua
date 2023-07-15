@@ -155,7 +155,7 @@ function crates:register_storage(name, def)
 					"listring[nodemeta:"..spos..";main]"..
 					"listring[detached:winv_craft_"..playername..";output]"..
 					"listring[nodemeta:"..spos..";main]"
-			elseif right_inv == "creative" then
+			elseif right_inv == "craftguide" then
 				winv_listring =
 					"listring[detached:winv_creative_"..playername..";main]"..
 					"listring[nodemeta:"..spos..";main]"..

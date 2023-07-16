@@ -499,7 +499,19 @@ local function craftguide_recipe_form(player)
             if usage_count > 1 then -- show arrows (recipe page)
                 ret_form = ret_form..
                     "image_button[6.5,7.83;0.5,0.8;winv_cicon_miniarrow.png^[transformFX;workbench_craftguide_usage_prev;;;false;]"..
-                    "image_button[7,7.85;0.5,0.8;winv_cicon_miniarrow.png;workbench_craftguide_usage_next;;;false;]"
+                    "image_button[7,7.85;0.5,0.8;winv_cicon_miniarrow.png;workbench_craftguide_usage_next;;;false;]"..
+                    -- go to recipe handling
+                    "style[workbench_craftguide_usage_change;border=false]"..
+                    "button[0.25,9.1;1.45,0.35;workbench_craftguide_usage_change;]"
+
+                if craftguide_data[playername].change_usage then
+                    ret_form = ret_form..
+                        "box[-1.1,9.5;3.3,0.7;#49494AE6]"..
+                        "label[-1,9.85;Go to usage:]"..
+                        "field[0.5,9.6;1.0,0.5;workbench_craftguide_usage_change_count;;"..craftguide_data[playername].curr_usage.."]"..
+                        "field_close_on_enter[workbench_craftguide_usage_change_count;false]"..
+                        "image_button[1.6,9.6;0.5,0.5;gui_pointer.png;workbench_craftguide_usage_change_count_apply;]"
+                end
             end
         end
     else
@@ -545,7 +557,7 @@ local function craftguide_recipe_form(player)
         -- handle common header displays (recipe page)
         craftguide_data[playername].max_recipe = recipe_count
         ret_form = ret_form..
-            "label[0.25,9.25;Recipe " .. minetest.colorize("#FFFF00", tostring(recipe_count - craftguide_data[playername].curr_recipe) + 1) .. " / " .. tostring(recipe_count) .. "]" -- reverse page count (ensure older recipes are shown first)
+            "label[0.25,9.25;Recipe " .. minetest.colorize("#FFFF00", tostring((recipe_count - craftguide_data[playername].curr_recipe) + 1)) .. " / " .. tostring(recipe_count) .. "]" -- reverse page count (ensure older recipes are shown first)
         if recipe_count == 0 then -- no recipe found
             ret_form = ret_form..
                 "style[workbench_craftguide_no_recipe;border=false]"..
@@ -556,7 +568,19 @@ local function craftguide_recipe_form(player)
         if recipe_count > 1 then -- show arrows (recipe page)
             ret_form = ret_form..
                 "image_button[6.5,7.83;0.5,0.8;winv_cicon_miniarrow.png^[transformFX;workbench_craftguide_recipe_prev;;;false;]"..
-                "image_button[7,7.85;0.5,0.8;winv_cicon_miniarrow.png;workbench_craftguide_recipe_next;;;false;]"
+                "image_button[7,7.85;0.5,0.8;winv_cicon_miniarrow.png;workbench_craftguide_recipe_next;;;false;]"..
+                -- go to recipe handling
+                "style[workbench_craftguide_recipe_change;border=false]"..
+                "button[0.25,9.1;1.55,0.35;workbench_craftguide_recipe_change;]"
+
+            if craftguide_data[playername].change_recipe then
+                ret_form = ret_form..
+                    "box[-1.15,9.5;3.35,0.7;#49494AE6]"..
+                    "label[-1.05,9.85;Go to recipe:]"..
+                    "field[0.5,9.6;1.0,0.5;workbench_craftguide_recipe_change_count;;"..((recipe_count - craftguide_data[playername].curr_recipe) + 1).."]"..
+                    "field_close_on_enter[workbench_craftguide_recipe_change_count;false]"..
+                    "image_button[1.6,9.6;0.5,0.5;gui_pointer.png;workbench_craftguide_recipe_change_count_apply;]"
+            end
         end
     end
 
@@ -1051,7 +1075,7 @@ local function craftguide_form(player)
             "image_button[6.5,7.83;0.5,0.8;winv_cicon_miniarrow.png^[transformFX;workbench_craftguide_prev;;;false;]"..
             "image_button[7,7.85;0.5,0.8;winv_cicon_miniarrow.png;workbench_craftguide_next;;;false;]"..
             "label[0.25,9.25;Page " .. minetest.colorize("#FFFF00", tostring(cgdata.curr_page)) .. " / " .. tostring(cgdata.max_page) .. "]"..
-            -- custom page handling
+            -- go to page handling
             "style[workbench_craftguide_change_page;border=false]"..
             "button[0.25,9.1;1.3,0.35;workbench_craftguide_change_page;]"
 
@@ -1061,8 +1085,7 @@ local function craftguide_form(player)
                 "label[-0.9,9.85;Go to page:]"..
                 "field[0.5,9.6;1.0,0.5;workbench_craftguide_change_page_count;;"..cgdata.curr_page.."]"..
                 "field_close_on_enter[workbench_craftguide_change_page_count;false]"..
-                "image_button[1.6,9.6;0.5,0.5;gui_pointer.png;workbench_craftguide_change_page_count_apply;]"..
-                ""
+                "image_button[1.6,9.6;0.5,0.5;gui_pointer.png;workbench_craftguide_change_page_count_apply;]"
         end
     end
 
@@ -1417,6 +1440,36 @@ local function craftguide_receive_fields(player, formname, fields)
                 end
                 winv.refresh(player)
             end
+            if fields.workbench_craftguide_recipe_change then
+                if cgdata.change_recipe then
+                    cgdata.change_recipe = nil
+                else
+                    cgdata.change_recipe = true
+                end
+                winv.refresh(player)
+            end
+        end
+
+        if cgdata.change_recipe then
+            if (fields.workbench_craftguide_recipe_change_count_apply or fields.key_enter_field == "workbench_craftguide_recipe_change_count") then
+                local new_recipe = fields.workbench_craftguide_recipe_change_count
+                if tonumber(new_recipe) then
+                    new_recipe = (cgdata.max_recipe - new_recipe) + 1
+                    if tonumber(new_recipe) < 1 then
+                        cgdata.curr_recipe = 1
+                    elseif tonumber(new_recipe) > cgdata.max_recipe then
+                        cgdata.curr_recipe = cgdata.max_recipe
+                    else
+                        cgdata.curr_recipe = tonumber(new_recipe)
+                    end
+                end
+                cgdata.change_recipe = nil
+                winv.refresh(player)
+            end
+            if not fields.workbench_craftguide_recipe_change then
+                cgdata.change_recipe = nil
+                winv.refresh(player)
+            end
         end
 
         -- change usages
@@ -1434,6 +1487,35 @@ local function craftguide_receive_fields(player, formname, fields)
                 else
                     cgdata.curr_usage = cgdata.curr_usage - 1
                 end
+                winv.refresh(player)
+            end
+            if fields.workbench_craftguide_usage_change then
+                if cgdata.change_usage then
+                    cgdata.change_usage = nil
+                else
+                    cgdata.change_usage = true
+                end
+                winv.refresh(player)
+            end
+        end
+
+        if cgdata.change_usage then
+            if (fields.workbench_craftguide_usage_change_count_apply or fields.key_enter_field == "workbench_craftguide_usage_change_count") then
+                local new_usage = fields.workbench_craftguide_usage_change_count
+                if tonumber(new_usage) then
+                    if tonumber(new_usage) < 1 then
+                        cgdata.curr_usage = 1
+                    elseif tonumber(new_usage) > cgdata.max_usage then
+                        cgdata.curr_usage = cgdata.max_usage
+                    else
+                        cgdata.curr_usage = tonumber(new_usage)
+                    end
+                end
+                cgdata.change_usage = nil
+                winv.refresh(player)
+            end
+            if not fields.workbench_craftguide_usage_change then
+                cgdata.change_usage = nil
                 winv.refresh(player)
             end
         end

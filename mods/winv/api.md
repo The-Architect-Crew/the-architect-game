@@ -26,12 +26,12 @@ Can technically be used to appends such similar elements that is shared between 
 - `inv2` : name of second specified winventory
 - `listring` : string containing formspec list with listrings
 
-### `winv.get_inventory(player, side)`
+#### `winv.get_inventory(player, side)`
 Returns the winventory name of the current winventory present on specified `side`
 - `player` : player object
 - `side` : string of either `left` or `right`, specifying the left and right side respectively
 
-### `winv.hide_inventory(player, side)`
+#### `winv.hide_inventory(player, side)`
 Hides the specified side completely from view, this is a permanent trigger, unless reversed with `winv.unhide_inventory` (see below).
 - `player` : player object
 - `side` : string of winventory side to hide, supports the following
@@ -43,12 +43,12 @@ Hides the specified side completely from view, this is a permanent trigger, unle
     6. `right_all` - hides both right side winventory and right side navigation header
     7. `all` - hides everything
 
-### `winv.inventory_shown(player, inv_name)`
+#### `winv.inventory_shown(player, inv_name)`
 Returns true if a specified winventory is not hidden (regardless of side and navigation headers visiblity are not considered), else nil
 - `player` : player object
 - `inv_name` : winventory name
 
-### `winv.unhide_inventory(player, side)`
+#### `winv.unhide_inventory(player, side)`
 Show/unhide the specified side, reverses the hide decision from `winv.hide_inventory`
 - `player` : player object
 - `side` : string of winventory side to unhide, supports the same as `winv.hide_inventory` (see above) but in reverse.

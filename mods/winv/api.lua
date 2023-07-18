@@ -10,16 +10,6 @@ function winv.get_inventory(player, side)
 	end
 end
 
--- check if an inventory is being shown currently
--- return true if inventory is being shown, nil otherwise
-function winv.inventory_shown(player, inv_name)
-	local playername = player:get_player_name()
-	if (winv.data[playername].left == inv_name and not winv.data[playername].hide_left)
-	or (winv.data[playername].right == inv_name and not winv.data[playername].hide_right) then
-		return true
-	end
-end
-
 -- hide inventory (prevent from showing)
 function winv.hide_inventory(player, side)
 	local playername = player:get_player_name()
@@ -67,6 +57,16 @@ function winv.unhide_inventory(player, side)
 		winv.data[playername].hide_left_header = nil
 		winv.data[playername].hide_right = nil
 		winv.data[playername].hide_right_header = nil
+	end
+end
+
+-- check if an inventory is being shown currently
+-- return true if inventory is being shown, nil otherwise
+function winv.inventory_shown(player, inv_name)
+	local playername = player:get_player_name()
+	if (winv.data[playername].left == inv_name and not winv.data[playername].hide_left)
+	or (winv.data[playername].right == inv_name and not winv.data[playername].hide_right) then
+		return true
 	end
 end
 

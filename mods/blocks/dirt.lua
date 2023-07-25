@@ -74,18 +74,6 @@ minetest.register_node("blocks:dirt_with_coniferous_litter", {
 	}),
 })
 
-minetest.register_node("blocks:dirt_with_mushroom_grass", {
-	description = S("Dirt with Mushroom Grass"),
-	tiles = {"blocks_mushroom_grass.png", "blocks_dirt.png",
-		{name = "blocks_dirt.png^blocks_mushroom_grass_side.png",
-			tileable_vertical = false}},
-	groups = {crumbly = 3, soil = 1, spreading_dirt_type = 1},
-	drop = "blocks:dirt",
-	sounds = default.node_sound_dirt_defaults({
-		footstep = {name = "default_grass_footstep", gain = 0.25},
-	}),
-})
-
 minetest.register_node("blocks:dry_dirt", {
 	description = S("Dry Dirt"),
 	tiles = {"blocks_dry_dirt.png"},

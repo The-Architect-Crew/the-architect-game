@@ -34,6 +34,7 @@ end
 mapgen.register_microbiome_base = function(data)
 	local base_nodes = data.base_nodes
 	for i=1,#base_nodes do
+		data.noise_params.seed = data.noise_params.seed * i
 		minetest.register_decoration({
 			deco_type = "simple",
 			place_on = base_nodes[i].base,

@@ -11,7 +11,7 @@ mapgen.mushroom_cavern_levels = {
     (mapgen.mushroom_middle + mapgen.mushroom_bottom) / 2
 }
 
-mapgen.mushroom_base = "blocks:dirt"
+mapgen.mushroom_base = "blocks:dirt_with_mycelia"
 
 mapgen.register_mushroom_biomes = function()
 	minetest.register_biome({
@@ -67,11 +67,51 @@ mapgen.register_mushroom_ores = function()
             }
         })
     end
+    -- Different mycelia
+    minetest.register_ore({
+        ore_type = "sheet",
+        ore = "blocks:dirt_with_viridis_mycelia",
+        wherein = mapgen.mushroom_base,
+        y_max = mapgen.mushroom_top,
+        y_min = mapgen.mushroom_bottom,
+        column_height_min = 28,
+        column_height_max = 32,
+        column_midpoint_factor = 0.5,
+        noise_params = {
+            offset = 0,
+            scale = 2,
+            spread = {x = 256, y = 256, z = 256},
+            seed = 723523,
+            octaves = 5,
+            persistence = 0.75,
+            lacunarity = 2.0,
+        },
+    })
+    --[[
+    minetest.register_ore({
+        ore_type = "sheet",
+        ore = "blocks:stone",
+        wherein = "air",
+        y_min = -31000,
+        y_max = 31000,
+        column_height_min = 28,
+        column_height_max = 32,
+        column_midpoint_factor = 0.5,
+        noise_params = {
+            offset = 0,
+            scale = 2,
+            spread = {x = 256, y = 256, z = 256},
+            seed = 723523,
+            octaves = 5,
+            persistence = 0.75,
+            lacunarity = 2.0,
+        },
+    })]]--
 end
 
 mapgen.mushroom_microbiome_base_nodes = {
-    {base = "blocks:dirt", floor = "blocks:dirt_firemoss", ceiling = "blocks:dirt_firemoss_ceiling"},
-	{base = "blocks:dirt", floor = "blocks:dirt_azure", ceiling = "blocks:dirt_azure_ceiling"},
+    {base = "blocks:dirt_with_mycelia", floor = "blocks:dirt_firemoss_mushroom", ceiling = "blocks:dirt_firemoss_mushroom_ceiling"},
+	{base = "blocks:dirt_with_mycelia", floor = "blocks:dirt_azure_mushroom", ceiling = "blocks:dirt_azure_mushroom_ceiling"},
 }
 
 mapgen.register_mushroom_decorations = function()
@@ -99,31 +139,30 @@ mapgen.register_mushroom_decorations = function()
         flags = "all_floors",
         decoration = "blocks:dirt_with_mushroom_grass",
     })
-    minetest.register_decoration({
+	minetest.register_decoration({
         deco_type = "simple",
-        place_on = "blocks:dirt_with_mushroom_grass",
-        sidelen = 8,
-        noise_params = {
-            offset = 0,
-            scale = 1.0,
-            spread = {x = 80, y = 80, z = 80},
-            seed = 6234,
-            octaves = 2,
-            persistence = 0.75,
-            flags = "eased"
-        },
+        place_on = "blocks:dirt_with_viridis_mycelia",
+        fill_ratio = 10.0,
         y_max = mapgen.mushroom_top,
         y_min = mapgen.mushroom_bottom,
-        flags = "all_floors, force_placement",
-        decoration = "blocks:dirt_with_viridis_mycelia",
-        place_offset_y = -1,
+        flags = "all_floors",
+        decoration = "blocks:dirt_with_viridis_grass",
+    })
+    minetest.register_decoration({
+        deco_type = "simple",
+        place_on = "blocks:dirt_with_dark_mycelia",
+        fill_ratio = 10.0,
+        y_max = mapgen.mushroom_top,
+        y_min = mapgen.mushroom_bottom,
+        flags = "all_floors",
+        decoration = "blocks:dirt_with_dark_grass",
     })
     -- Large Microbiome Mushrooms
     -- Azure
     for i=1,3 do
         minetest.register_decoration({
             deco_type = "schematic",
-            place_on = "blocks:dirt_azure",
+            place_on = "blocks:dirt_azure_mushroom",
             fill_ratio = 0.004,
             y_max = mapgen.mushroom_top,
             y_min = mapgen.mushroom_bottom,
@@ -136,7 +175,7 @@ mapgen.register_mushroom_decorations = function()
     for i=1,2 do
         minetest.register_decoration({
             deco_type = "schematic",
-            place_on = "blocks:dirt_azure",
+            place_on = "blocks:dirt_azure_mushroom",
             fill_ratio = 0.003,
             y_max = mapgen.mushroom_top,
             y_min = mapgen.mushroom_bottom,
@@ -148,7 +187,7 @@ mapgen.register_mushroom_decorations = function()
     end
     minetest.register_decoration({
         deco_type = "schematic",
-        place_on = "flora:dirt_azure",
+        place_on = "flora:dirt_azure_mushroom",
         fill_ratio = 0.001,
         y_max = mapgen.mushroom_top,
         y_min = mapgen.mushroom_bottom,
@@ -179,7 +218,7 @@ mapgen.register_mushroom_decorations = function()
     for i=1,3 do
         minetest.register_decoration({
             deco_type = "schematic",
-            place_on = "blocks:dirt_firemoss",
+            place_on = "blocks:dirt_firemoss_mushroom",
             fill_ratio = 0.004,
             y_max = mapgen.mushroom_top,
             y_min = mapgen.mushroom_bottom,
@@ -239,7 +278,7 @@ mapgen.register_mushroom_decorations = function()
     for i=1,3 do
         minetest.register_decoration({
             deco_type = "schematic",
-            place_on = "blocks:dirt_with_viridis_mycelia",
+            place_on = "blocks:dirt_with_viridis_grass",
             fill_ratio = 0.002,
             y_max = mapgen.mushroom_top,
             y_min = mapgen.mushroom_bottom,
@@ -248,6 +287,82 @@ mapgen.register_mushroom_decorations = function()
             place_offset_y = -2,
         })
     end
+    for i=1,3 do
+        minetest.register_decoration({
+            deco_type = "simple",
+            place_on = "blocks:dirt_with_viridis_grass",
+            sidelen = 8,
+            fill_ratio = 0.08,
+            y_max = mapgen.mushroom_top,
+            y_min = mapgen.mushroom_bottom,
+            flags = "all_floors",
+            decoration = "flora:viridis_ground_" .. i,
+        })
+        minetest.register_decoration({
+            deco_type = "simple",
+            place_on = "blocks:dirt_with_viridis_mycelia",
+            sidelen = 8,
+            fill_ratio = 0.08,
+            y_max = mapgen.mushroom_top,
+            y_min = mapgen.mushroom_bottom,
+            flags = "all_ceilings",
+            decoration = "flora:viridis_ceiling_" .. i,
+        })
+    end
+    -- Ghostshroom
+    for i=1,3 do
+        minetest.register_decoration({
+            deco_type = "simple",
+            place_on = "blocks:dirt_with_viridis_grass",
+            sidelen = 8,
+            fill_ratio = 0.08,
+            y_max = mapgen.mushroom_top,
+            y_min = mapgen.mushroom_bottom,
+            flags = "all_floors",
+            decoration = "flora:ghost_ground_" .. i,
+        })
+        minetest.register_decoration({
+            deco_type = "simple",
+            place_on = "blocks:dirt_with_viridis_mycelia",
+            sidelen = 8,
+            fill_ratio = 0.08,
+            y_max = mapgen.mushroom_top,
+            y_min = mapgen.mushroom_bottom,
+            flags = "all_ceilings",
+            decoration = "flora:ghost_ceiling_" .. i,
+        })
+    end
+    -- Amber mushrooms
+    minetest.register_decoration({
+        deco_type = "schematic",
+        place_on = "blocks:dirt_azure_mushroom",
+        fill_ratio = 0.0001,
+        y_max = mapgen.mushroom_top,
+        y_min = mapgen.mushroom_bottom,
+        flags = "all_floors, force_placement",
+        schematic = "schematics/underground/amber_mushroom_large.mts",
+        place_offset_y = -3,
+    })
+    minetest.register_decoration({
+        deco_type = "schematic",
+        place_on = "blocks:dirt_azure_mushroom",
+        fill_ratio = 0.0002,
+        y_max = mapgen.mushroom_top,
+        y_min = mapgen.mushroom_bottom,
+        flags = "all_floors, force_placement",
+        schematic = "schematics/underground/amber_mushroom_medium.mts",
+        place_offset_y = -3,
+    })
+    minetest.register_decoration({
+        deco_type = "schematic",
+        place_on = "blocks:dirt_azure_mushroom",
+        fill_ratio = 0.0003,
+        y_max = mapgen.mushroom_top,
+        y_min = mapgen.mushroom_bottom,
+        flags = "all_floors, force_placement",
+        schematic = "schematics/underground/amber_mushroom_small.mts",
+        place_offset_y = -2,
+    })
     -- Grass
     for i=1,5 do
         minetest.register_decoration({

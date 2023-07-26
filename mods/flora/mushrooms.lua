@@ -331,6 +331,10 @@ minetest.register_node("flora:ghost_cilia", {
 	sunlight_propagates = true;
 	groups = {mushroom = 1, oddly_breakable_by_hand = 1, flammable = 3},
 	sounds = default.node_sound_leaves_defaults(),
+	after_dig_node = function(pos, node, metadata, digger)
+		local nn = node.name
+		ccore.dig_dir(pos, {nn}, -1, digger)
+	end
 })
 minetest.register_node("flora:ghost_cilia_bottom", {
 	description = "Ghostshroom Cilia (Bottom)",
@@ -423,7 +427,6 @@ minetest.register_node("flora:ghost_ceiling_1", {
         type = "fixed",
         fixed = {-8/16, 4/16, -8/16, 8/16, 8/18, 8/16}
     },
-
 	on_place = function(itemstack, placer, pointed_thing)
 		local stack = ItemStack("flora:ghost_ceiling_" .. math.random(1,3))
 		local ret = minetest.item_place(stack, placer, pointed_thing)

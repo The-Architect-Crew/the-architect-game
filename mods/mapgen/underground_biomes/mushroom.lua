@@ -87,6 +87,25 @@ mapgen.register_mushroom_ores = function()
             lacunarity = 2.0,
         },
     })
+    minetest.register_ore({
+        ore_type = "sheet",
+        ore = "blocks:dirt_with_dark_mycelia",
+        wherein = mapgen.mushroom_base,
+        y_max = mapgen.mushroom_top,
+        y_min = mapgen.mushroom_bottom,
+        column_height_min = 12,
+        column_height_max = 24,
+        column_midpoint_factor = 0.5,
+        noise_params = {
+            offset = 0,
+            scale = 2,
+            spread = {x = 256, y = 256, z = 256},
+            seed = 723523,
+            octaves = 5,
+            persistence = 0.75,
+            lacunarity = 2.0,
+        },
+    })
     --[[
     minetest.register_ore({
         ore_type = "sheet",
@@ -309,7 +328,61 @@ mapgen.register_mushroom_decorations = function()
             decoration = "flora:viridis_ceiling_" .. i,
         })
     end
+    -- Darkshroom
+    for i=1,3 do
+        minetest.register_decoration({
+            deco_type = "schematic",
+            place_on = "blocks:dirt_with_dark_grass",
+            fill_ratio = 0.002,
+            y_max = mapgen.mushroom_top,
+            y_min = mapgen.mushroom_bottom,
+            flags = "all_floors, force_placement",
+            schematic = "schematics/underground/darkshroom" .. i .. ".mts",
+            place_offset_y = -2,
+        })
+    end
+    minetest.register_decoration({
+        deco_type = "simple",
+        place_on = "flora:dark_cap_spike",
+        fill_ratio = 10.0,
+        y_max = mapgen.mushroom_top,
+        y_min = mapgen.mushroom_bottom,
+        flags = "all_ceilings",
+        decoration = "flora:dark_spike",
+    })
     -- Ghostshroom
+    for i=1,3 do
+    minetest.register_decoration({
+        deco_type = "schematic",
+        place_on = "blocks:dirt_with_viridis_grass",
+        fill_ratio = 0.001,
+        y_max = mapgen.mushroom_top,
+        y_min = mapgen.mushroom_bottom,
+        flags = "all_floors, force_placement",
+        schematic = "schematics/underground/ghostshroom" .. i .. ".mts",
+        place_offset_y = -2,
+    })
+    end
+    minetest.register_decoration({
+        deco_type = "simple",
+        place_on = "flora:ghost_cap",
+        fill_ratio = 10.0,
+        y_max = mapgen.mushroom_top,
+        y_min = mapgen.mushroom_bottom,
+        flags = "all_ceilings",
+        decoration = "flora:ghost_cilia",
+        height = 3,
+        height_max = 8
+    })
+    minetest.register_decoration({
+        deco_type = "simple",
+        place_on = "flora:ghost_cilia",
+        fill_ratio = 10.0,
+        y_max = mapgen.mushroom_top,
+        y_min = mapgen.mushroom_bottom,
+        flags = "all_ceilings",
+        decoration = "flora:ghost_cilia_bottom",
+    })
     for i=1,3 do
         minetest.register_decoration({
             deco_type = "simple",

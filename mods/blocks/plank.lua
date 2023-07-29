@@ -103,6 +103,16 @@ minetest.register_node("blocks:mushroom_wood", {
 	sounds = default.node_sound_wood_defaults(),
 })
 
+minetest.register_node("blocks:amber_wood", {
+	description = S("Amber Wood Planks"),
+	paramtype2 = "facedir",
+	place_param2 = 0,
+	tiles = {"blocks_amber_wood.png"},
+	is_ground_content = false,
+	groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2, wood = 1},
+	sounds = default.node_sound_wood_defaults(),
+})
+
 minetest.register_node("blocks:dark_wood", {
 	description = S("Dark Mushroom Planks"),
 	paramtype2 = "facedir",

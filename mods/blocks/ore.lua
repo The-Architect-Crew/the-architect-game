@@ -116,6 +116,36 @@ minetest.register_node("blocks:stone_with_coalblock", {
 	sounds = default.node_sound_stone_defaults(),
 })
 
+minetest.register_node("blocks:dirt_with_dark_mycelia_and_coal", {
+	description = S("Dirt with Dark Mycelia and Coal"),
+	tiles = {"(blocks_dirt.png^blocks_mineral_coal.png)^blocks_dark_mycelia.png"},
+	groups = {crumbly = 3, soil = 1},
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:coal_lump"},
+			}
+		}
+	},
+	sounds = default.node_sound_dirt_defaults(),
+})
+
+minetest.register_node("blocks:dirt_with_viridis_mycelia_and_coal", {
+	description = S("Dirt with Viridis Mycelia and Coal"),
+	tiles = {"(blocks_dirt.png^blocks_mineral_coal.png)^blocks_viridis_mycelia.png"},
+	groups = {crumbly = 3, soil = 1},
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:coal_lump"},
+			}
+		}
+	},
+	sounds = default.node_sound_dirt_defaults(),
+})
+
 minetest.register_node("blocks:coalblock", {
 	description = S("Coal Block"),
 	tiles = {"blocks_coal_block.png"},
@@ -1409,6 +1439,27 @@ minetest.register_node("blocks:dirt_with_amber", {
 	sounds = default.node_sound_dirt_defaults(),
 })
 
+minetest.register_node("blocks:dirt_with_mycelia_and_amber", {
+	description = S("Dirt with Mycelia and Amber"),
+	tiles = {"(blocks_dirt.png^blocks_mineral_amber.png)^blocks_mushroom_mycelia.png"},
+	groups = {crumbly = 3, soil = 1},
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:amber_lump"},
+			},
+			{
+
+				rarity = 2,
+				items = {"blocks:amber_lump"},
+
+			},
+		}
+	},
+	sounds = default.node_sound_dirt_defaults(),
+})
+
 minetest.register_node("blocks:dry_dirt_with_amber", {
 	description = S("Amber Ore (Dry Dirt)"),
 	tiles = {"blocks_dry_dirt.png^blocks_mineral_amber.png"},
@@ -2647,6 +2698,16 @@ minetest.register_node("blocks:dark_dirt_with_fossils", {
 		items = blocks.fossil_drop_table
 	},
 	groups = {crumbly = 2},
+	sounds = default.node_sound_dirt_defaults(),
+})
+
+minetest.register_node("blocks:dirt_with_mycelia_and_fossils", {
+	description = S("Dirt with Mycelia and Fossils"),
+	tiles = {"(blocks_dirt.png^blocks_fossil_overlay.png)^blocks_mushroom_mycelia.png"},
+	groups = {crumbly = 3, soil = 1},
+	drop = {
+		items = blocks.fossil_drop_table
+	},
 	sounds = default.node_sound_dirt_defaults(),
 })
 

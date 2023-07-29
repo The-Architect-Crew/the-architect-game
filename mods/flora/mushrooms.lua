@@ -265,8 +265,10 @@ minetest.register_node("flora:dark_spike", {
 	is_ground_content = false,
 	sunlight_propagates = true,
 	paramtype = "light",
-	groups = {mushroom = 1, choppy = 3, attached_node = 1, oddly_breakable_by_hand = 1, flammable = 3},
-	sounds = default.node_sound_wood_defaults(),
+	walkable = false,
+	buildable_to = true,
+	groups = {mushroom = 1, choppy = 3, oddly_breakable_by_hand = 1, flammable = 3},
+	sounds = default.node_sound_stone_defaults(),
 })
 
 minetest.register_node("flora:amber_trunk", {

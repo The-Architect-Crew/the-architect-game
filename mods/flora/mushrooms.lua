@@ -100,6 +100,10 @@ minetest.register_node("flora:viridis_cilia", {
     drawtype = "mesh",
     mesh = "mushroom_cilia_small.obj",
 	is_ground_content = false,
+	sunlight_propagates = true,
+	walkable = false,
+	floodable = true,
+	buildable_to = true,
     light_source = 12,
 	groups = {mushroom = 1, snappy = 3, oddly_breakable_by_hand = 1, flammable = 3},
     selection_box = {
@@ -328,12 +332,15 @@ minetest.register_node("flora:ghost_cilia", {
 	paramtype = "light",
 	light_source = 8,
 	use_texture_alpha = "blend",
-	sunlight_propagates = true;
+	sunlight_propagates = true,
+	walkable = false,
+	floodable = true,
+	buildable_to = true,
 	groups = {mushroom = 1, oddly_breakable_by_hand = 1, flammable = 3},
 	sounds = default.node_sound_leaves_defaults(),
 	after_dig_node = function(pos, node, metadata, digger)
 		local nn = node.name
-		ccore.dig_dir(pos, {nn}, -1, digger)
+		ccore.dig_dir(pos, {nn, "flora:ghost_cilia_bottom"}, -1, digger)
 	end
 })
 minetest.register_node("flora:ghost_cilia_bottom", {
@@ -343,7 +350,10 @@ minetest.register_node("flora:ghost_cilia_bottom", {
 	paramtype = "light",
 	light_source = 8,
 	use_texture_alpha = "blend",
-	sunlight_propagates = true;
+	sunlight_propagates = true,
+	walkable = false,
+	floodable = true,
+	buildable_to = true,
 	groups = {mushroom = 1, oddly_breakable_by_hand = 1, flammable = 3},
 	sounds = default.node_sound_leaves_defaults(),
 })

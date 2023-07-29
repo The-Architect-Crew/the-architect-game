@@ -263,15 +263,13 @@ mapgen.register_mushroom_decorations = function()
         y_max = mapgen.mushroom_top,
         y_min = mapgen.mushroom_bottom,
 		seed = 44143,
-		surface_nodes = {"blocks:dirt_firemoss"},
+		surface_nodes = {"blocks:dirt_firemoss_mushroom"},
 		small_plant_variation = true,
 		grass_variation = true,
 		grass = "flora:firegrass",
 		small_plant = "flora:fireshroom",
 		plant_rarity = 0.1,
 		grass_rarity = 1,
-		large_plant = "flora:fireplant",
-		secondary_large_plant = "blocks:garnet",
 		vines = "flora:firevines",
 		vines_height = 16,
 		moss = "flora:firemoss",
@@ -280,7 +278,7 @@ mapgen.register_mushroom_decorations = function()
         y_max = mapgen.mushroom_top,
         y_min = mapgen.mushroom_bottom,
 		seed = 9923,
-		surface_nodes = {"blocks:dirt_azure"},
+		surface_nodes = {"blocks:dirt_azure_mushroom"},
 		small_plant_variation = true,
 		grass_variation = true,
 		grass = "flora:azure_grass",
@@ -288,7 +286,6 @@ mapgen.register_mushroom_decorations = function()
 		plant_rarity = 0.1,
 		grass_rarity = 1,
 		large_plant = "flora:azure_plant",
-		secondary_large_plant = "blocks:lapis_lazuli",
 		vines = "flora:azure_vines",
 		vines_height = 16,
 		moss = "flora:azure_moss",
@@ -301,11 +298,21 @@ mapgen.register_mushroom_decorations = function()
             fill_ratio = 0.002,
             y_max = mapgen.mushroom_top,
             y_min = mapgen.mushroom_bottom,
-            flags = "all_floors, force_placement",
+            flags = "all_floors, force_placement, place_center_x, place_center_z",
             schematic = "schematics/underground/viridis" .. i .. ".mts",
             place_offset_y = -2,
         })
     end
+    minetest.register_decoration({
+        deco_type = "schematic",
+        place_on = "blocks:dirt_with_viridis_mycelia",
+        fill_ratio = 0.004,
+        y_max = mapgen.mushroom_top,
+        y_min = mapgen.mushroom_bottom,
+        flags = "all_ceilings, force_placement, place_center_x, place_center_z",
+        schematic = "schematics/underground/viridis_ceiling.mts",
+        place_offset_y = -2,
+    })
     for i=1,3 do
         minetest.register_decoration({
             deco_type = "simple",
@@ -336,11 +343,21 @@ mapgen.register_mushroom_decorations = function()
             fill_ratio = 0.002,
             y_max = mapgen.mushroom_top,
             y_min = mapgen.mushroom_bottom,
-            flags = "all_floors, force_placement",
+            flags = "all_floors, force_placement, place_center_x, place_center_z",
             schematic = "schematics/underground/darkshroom" .. i .. ".mts",
             place_offset_y = -2,
         })
     end
+    minetest.register_decoration({
+        deco_type = "schematic",
+        place_on = "blocks:dirt_with_dark_mycelia",
+        fill_ratio = 0.004,
+        y_max = mapgen.mushroom_top,
+        y_min = mapgen.mushroom_bottom,
+        flags = "all_ceilings, force_placement, place_center_x, place_center_z",
+        schematic = "schematics/underground/darkshroom_ceiling.mts",
+        place_offset_y = -2,
+    })
     minetest.register_decoration({
         deco_type = "simple",
         place_on = "flora:dark_cap_spike",
@@ -352,17 +369,27 @@ mapgen.register_mushroom_decorations = function()
     })
     -- Ghostshroom
     for i=1,3 do
+        minetest.register_decoration({
+            deco_type = "schematic",
+            place_on = "blocks:dirt_with_viridis_grass",
+            fill_ratio = 0.001,
+            y_max = mapgen.mushroom_top,
+            y_min = mapgen.mushroom_bottom,
+            flags = "all_floors, force_placement, place_center_x, place_center_z",
+            schematic = "schematics/underground/ghostshroom" .. i .. ".mts",
+            place_offset_y = -2,
+        })
+    end
     minetest.register_decoration({
         deco_type = "schematic",
-        place_on = "blocks:dirt_with_viridis_grass",
-        fill_ratio = 0.001,
+        place_on = "blocks:dirt_with_viridis_mycelia",
+        fill_ratio = 0.002,
         y_max = mapgen.mushroom_top,
         y_min = mapgen.mushroom_bottom,
-        flags = "all_floors, force_placement",
-        schematic = "schematics/underground/ghostshroom" .. i .. ".mts",
+        flags = "all_ceilings, force_placement, place_center_x, place_center_z",
+        schematic = "schematics/underground/ghostshroom_ceiling.mts",
         place_offset_y = -2,
     })
-    end
     minetest.register_decoration({
         deco_type = "simple",
         place_on = "flora:ghost_cap",
@@ -412,7 +439,7 @@ mapgen.register_mushroom_decorations = function()
         fill_ratio = 0.0001,
         y_max = mapgen.mushroom_top,
         y_min = mapgen.mushroom_bottom,
-        flags = "all_floors, force_placement",
+        flags = "all_floors, force_placement, place_center_x, place_center_z",
         schematic = "schematics/underground/amber_mushroom_large.mts",
         place_offset_y = -3,
     })
@@ -422,7 +449,7 @@ mapgen.register_mushroom_decorations = function()
         fill_ratio = 0.0002,
         y_max = mapgen.mushroom_top,
         y_min = mapgen.mushroom_bottom,
-        flags = "all_floors, force_placement",
+        flags = "all_floors, force_placement, place_center_x, place_center_z",
         schematic = "schematics/underground/amber_mushroom_medium.mts",
         place_offset_y = -3,
     })
@@ -432,9 +459,19 @@ mapgen.register_mushroom_decorations = function()
         fill_ratio = 0.0003,
         y_max = mapgen.mushroom_top,
         y_min = mapgen.mushroom_bottom,
-        flags = "all_floors, force_placement",
+        flags = "all_floors, force_placement, place_center_x, place_center_z",
         schematic = "schematics/underground/amber_mushroom_small.mts",
         place_offset_y = -2,
+    })
+    minetest.register_decoration({
+        deco_type = "schematic",
+        place_on = "blocks:dirt_azure_mushroom_ceiling",
+        fill_ratio = 0.0003,
+        y_max = mapgen.mushroom_top,
+        y_min = mapgen.mushroom_bottom,
+        flags = "all_ceilings, force_placement, place_center_x, place_center_z",
+        schematic = "schematics/underground/amber_mushroom_ceiling.mts",
+        place_offset_y = -3,
     })
     -- Grass
     for i=1,5 do

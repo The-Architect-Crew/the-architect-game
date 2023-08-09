@@ -783,6 +783,7 @@ minetest.register_craftitem("blocks:lost_mese_crystal", {
 	description = S("Lost Mese Crystal"),
 	inventory_image = "blocks_lost_mese_crystal.png"
 })
+
 minetest.register_node("blocks:lost_mese", {
 	description = S("Lost Mese Block"),
 	tiles = {"blocks_lost_mese_block.png"},
@@ -790,6 +791,40 @@ minetest.register_node("blocks:lost_mese", {
 	groups = {cracky = 1},
 	sounds = default.node_sound_glass_defaults(),
 	light_source = 8,
+	on_place = function()
+		return
+	end,
+	on_use = function(itemstack, player)
+		local inv = player:get_inventory()
+		local free_slot = false
+		for inv_slot=1, inv:get_size("main") do
+			if inv:get_stack("main", inv_slot):is_empty() then
+				free_slot = inv_slot
+				break
+			end
+		end
+
+		local random = math.random(1, #blocks.random_nodes)
+		local random_node = minetest.registered_nodes[blocks.random_nodes[random]]
+
+		local amount = math.random(24, 48)
+
+		if free_slot then
+			itemstack:take_item()
+
+			minetest.chat_send_player(player:get_player_name(), "Lost Mese has converted into " .. amount .. " " .. ccore.strip_newlines(random_node.description) .. "!")
+
+			local new_stack = ItemStack(blocks.random_nodes[random])
+			new_stack:set_count(amount)
+
+			inv:set_stack("main", free_slot, new_stack)
+		else
+			minetest.chat_send_player(player:get_player_name(), "Lost Mese has no space to convert. You have missed " .. amount .. " " .. ccore.strip_newlines(random_node.description) .. ".")
+		end
+
+		return itemstack
+	end
+
 })
 
 -- Gold

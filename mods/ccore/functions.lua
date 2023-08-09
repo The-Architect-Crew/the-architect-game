@@ -8,6 +8,19 @@ function ccore.swap_node(pos, name)
 	minetest.swap_node(pos, node)
 end
 
+-- Scan groups for forbidden groups
+function ccore.scan_forbidden_groups(array1, array2)
+    local result = false
+    for i=1,#array1 do
+        for j=1,#array2 do
+            if array1[i] == array2[j] then
+                result = true
+            end
+        end
+    end
+    return result
+end
+
 -- int to time string
 function ccore.get_time(int)
 	if not tonumber(int) then

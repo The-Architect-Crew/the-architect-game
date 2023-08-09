@@ -32,3 +32,18 @@ dofile(path.."/sign.lua")
 dofile(path.."/itemframe.lua")
 -- Shapes
 dofile(path.."/shapes.lua")
+
+blocks.forbidden_groups = {
+    "not_in_creative_inventory",
+    "not_in_craftguide",
+}
+
+blocks.random_nodes = {}
+
+minetest.register_on_mods_loaded(function()
+    for name, definition in pairs(minetest.registered_nodes) do
+        if not ccore.scan_forbidden_groups(definition.groups, blocks.forbidden_groups) then
+            table.insert_all(blocks.random_nodes, {name})
+        end
+    end
+end)

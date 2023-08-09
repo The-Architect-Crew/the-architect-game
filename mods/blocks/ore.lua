@@ -778,6 +778,19 @@ minetest.register_node("blocks:mese_tech_crystal", {
 	sounds = default.node_sound_glass_defaults(),
 	light_source = 6,
 })
+-- Lost Mese
+minetest.register_craftitem("blocks:lost_mese_crystal", {
+	description = S("Lost Mese Crystal"),
+	inventory_image = "blocks_lost_mese_crystal.png"
+})
+minetest.register_node("blocks:lost_mese", {
+	description = S("Lost Mese Block"),
+	tiles = {"blocks_lost_mese_block.png"},
+	paramtype = "light",
+	groups = {cracky = 1},
+	sounds = default.node_sound_glass_defaults(),
+	light_source = 8,
+})
 
 -- Gold
 minetest.register_craftitem("blocks:gold_ingot", {
@@ -3069,6 +3082,22 @@ minetest.register_craft({
 	output = "blocks:mese_crystal_fragment 4",
 	recipe = {
 		{"blocks:mese_crystal"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:lost_mese_crystal 9",
+	recipe = {
+		{"blocks:lost_mese"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:lost_mese",
+	recipe = {
+		{"blocks:lost_mese_crystal", "blocks:lost_mese_crystal", "blocks:lost_mese_crystal"},
+		{"blocks:lost_mese_crystal", "blocks:lost_mese_crystal", "blocks:lost_mese_crystal"},
+		{"blocks:lost_mese_crystal", "blocks:lost_mese_crystal", "blocks:lost_mese_crystal"},
 	}
 })
 

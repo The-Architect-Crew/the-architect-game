@@ -737,6 +737,17 @@ mapgen.register_underground_ores = function()
 		y_max          = mapgen.underground_middle,
 		y_min          = mapgen.underground_bottom,
 	})
+	-- Lost Mese
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:lost_mese",
+		wherein        = mapgen.underground_stone_nodes,
+		clust_scarcity = mapgen.lost_mese_ore_params.scarcity,
+		clust_num_ores = mapgen.lost_mese_ore_params.num_ores,
+		clust_size     = mapgen.lost_mese_ore_params.clust_size,
+		y_max          = mapgen.underground_top,
+		y_min          = mapgen.underground_bottom,
+	})
 end
 
 mapgen.underground_microbiome_base_nodes = {

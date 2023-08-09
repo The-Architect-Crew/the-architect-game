@@ -24,6 +24,12 @@ mapgen.np_stalagmites = {
 	flags = "",
 }
 
+mapgen.lost_mese_ore_params = {
+	scarcity = 20 * 20 * 20,
+	num_ores = 3,
+	clust_size = 3,
+}
+
 mapgen.lush_biomes = {"grassland", "grassland_dunes", "grassland_ocean",
 					"coniferous_forest", "coniferous_forest_ocean", "coniferous_forest_dunes",
 					"deciduous_forest", "deciduous_forest_shore", "deciduous_forest_ocean",

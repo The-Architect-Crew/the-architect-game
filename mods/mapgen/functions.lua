@@ -161,7 +161,6 @@ mapgen.place_microbiome_flora = function(base_name, data)
 	end
 
 	-- Moss
-
 	minetest.register_decoration({
 		name = base_name .. "_" .. moss .. "_moss",
 		deco_type = "simple",
@@ -173,9 +172,9 @@ mapgen.place_microbiome_flora = function(base_name, data)
 		decoration = moss,
 	})
 
+	-- Small plants
 	if (small_plant_variation) then
 		for i=1,5 do
-			-- Small plants
 			minetest.register_decoration({
 				name = base_name .. "_" .. small_plant .. "_" .. i .. "_small_plant_" .. i,
 				deco_type = "simple",
@@ -224,6 +223,7 @@ mapgen.place_microbiome_flora = function(base_name, data)
 		end
 	end
 
+	-- Grass
 	if (grass_variation) then
 		for i=1,5 do
 			minetest.register_decoration({
@@ -251,7 +251,6 @@ mapgen.place_microbiome_flora = function(base_name, data)
 	end
 end
 
-
 mapgen.register_stalagmites = function(base_node, limits, rarity, seed, id)
 	local sname = string.match(base_node, ':(.*)')
 	local base = {}
@@ -269,7 +268,6 @@ mapgen.register_stalagmites = function(base_node, limits, rarity, seed, id)
 	end
 
 	-- Big Stalagmites/Stalactites
-
 	mapgen.np_stalagmites.seed = mapgen.np_stalagmites.seed  + seed
 	mapgen.np_stalagmites.offset = mapgen.np_stalagmites.offset  + ((rarity - 1) / 2)
 
@@ -349,7 +347,6 @@ mapgen.register_stalagmites = function(base_node, limits, rarity, seed, id)
 	})
 
 	-- Small Stalagmites/Stalactites
-
 	for i=1,5 do
 		minetest.register_decoration({
 			name = "stalagmite_" .. sname .. "_" .. i .. id,

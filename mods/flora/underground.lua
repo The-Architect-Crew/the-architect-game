@@ -1,4 +1,4 @@
--- Garnet (stone sub-biome flora)
+-- Fireshroom biome
 
 minetest.register_node("flora:firemoss", {
 	description = ccore.comment("Firemoss", "Glows in the dark"),
@@ -160,7 +160,7 @@ minetest.register_node("flora:firevines", {
 	end
 })
 
--- Lapis (Hot sub-biome flora)
+-- Azure biome
 minetest.register_node("flora:azure_moss", {
 	description = "Azure Moss",
 	tiles = {"flora_azure_moss.png"},
@@ -331,7 +331,7 @@ minetest.register_node("flora:azure_vines", {
 		ccore.dig_dir(pos, {nn}, -1, digger)
 	end
 })
--- Mese (deep sub-biome flora)
+-- Mese biome
 
 minetest.register_node("flora:moss_mese", {
 	description = ccore.comment("Mese Circuit Low Density Scaffolding", "Science can't say if it is a plant, actually"),

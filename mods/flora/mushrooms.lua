@@ -1,5 +1,4 @@
 -- Mushroom Biome
-
 minetest.register_node("flora:azure_trunk", {
 	description = "Azure Mushroom Trunk",
 	tiles = {"flora_azure_trunk_top.png", "flora_azure_trunk_top.png",
@@ -29,7 +28,6 @@ minetest.register_node("flora:azure_gills", {
 
 	on_place = minetest.rotate_node
 })
-
 minetest.register_node("flora:fireshroom_trunk", {
 	description = "Big Fireshroom Mushroom Trunk",
 	tiles = {"flora_fireshroom_trunk_top.png", "flora_fireshroom_trunk_top.png",
@@ -59,7 +57,6 @@ minetest.register_node("flora:fireshroom_gills", {
 
 	on_place = minetest.rotate_node
 })
-
 minetest.register_node("flora:viridis_trunk", {
 	description = "Viridis Mushroom Trunk",
 	tiles = {"flora_viridis_trunk_top.png", "flora_viridis_trunk_top.png",
@@ -112,7 +109,6 @@ minetest.register_node("flora:viridis_cilia", {
     },
 	sounds = default.node_sound_leaves_defaults(),
 })
-
 minetest.register_node("flora:viridis_ground_1", {
 	description = "Small Viridis Mushrooms",
 	drawtype = "plantlike",
@@ -141,7 +137,6 @@ minetest.register_node("flora:viridis_ground_1", {
 			itemstack:get_count() - (1 - ret:get_count()))
 	end,
 })
-
 for i = 2, 3 do
 	minetest.register_node("flora:viridis_ground_" .. i, {
 		description = "Small Viridis Mushrooms",
@@ -166,7 +161,6 @@ for i = 2, 3 do
 		},
 	})
 end
-
 minetest.register_node("flora:viridis_ceiling_1", {
 	description = "Small Viridis Mushrooms (Ceiling)",
 	drawtype = "plantlike",
@@ -194,7 +188,6 @@ minetest.register_node("flora:viridis_ceiling_1", {
 			itemstack:get_count() - (1 - ret:get_count()))
 	end,
 })
-
 for i = 2, 3 do
 	minetest.register_node("flora:viridis_ceiling_" .. i, {
 		description = "Small Viridis Mushrooms (Ceiling)",
@@ -218,7 +211,6 @@ for i = 2, 3 do
 		},
 	})
 end
-
 minetest.register_node("flora:dark_trunk", {
 	description = "Dark Mushroom Trunk",
 	tiles = {"flora_dark_trunk_top.png", "flora_dark_trunk_top.png",
@@ -270,7 +262,6 @@ minetest.register_node("flora:dark_spike", {
 	groups = {mushroom = 1, choppy = 3, oddly_breakable_by_hand = 1, flammable = 3},
 	sounds = default.node_sound_stone_defaults(),
 })
-
 minetest.register_node("flora:amber_trunk", {
 	description = "Amber Mushroom Trunk",
 	tiles = {"flora_amber_trunk_top.png", "flora_amber_trunk_top.png",
@@ -359,7 +350,6 @@ minetest.register_node("flora:ghost_cilia_bottom", {
 	groups = {mushroom = 1, oddly_breakable_by_hand = 1, flammable = 3},
 	sounds = default.node_sound_leaves_defaults(),
 })
-
 minetest.register_node("flora:ghost_ground_1", {
 	description = "Small Ghost Mushrooms",
 	drawtype = "mesh",
@@ -390,7 +380,6 @@ minetest.register_node("flora:ghost_ground_1", {
 			itemstack:get_count() - (1 - ret:get_count()))
 	end,
 })
-
 for i = 2, 3 do
 	minetest.register_node("flora:ghost_ground_" .. i, {
 		description = "Small Ghost Mushrooms",
@@ -417,7 +406,6 @@ for i = 2, 3 do
 		},
 	})
 end
-
 minetest.register_node("flora:ghost_ceiling_1", {
 	description = "Small Ghost Mushrooms (Ceiling)",
 	drawtype = "mesh",
@@ -446,7 +434,6 @@ minetest.register_node("flora:ghost_ceiling_1", {
 			itemstack:get_count() - (1 - ret:get_count()))
 	end,
 })
-
 for i = 2, 3 do
 	minetest.register_node("flora:ghost_ceiling_" .. i, {
 		description = "Small Ghost Mushrooms (Ceiling)",
@@ -472,7 +459,6 @@ for i = 2, 3 do
 		},
 	})
 end
-
 minetest.register_node("flora:mushroom_grass_1", {
 	description = "Mushroom Grass",
 	drawtype = "plantlike",
@@ -501,7 +487,6 @@ minetest.register_node("flora:mushroom_grass_1", {
 			itemstack:get_count() - (1 - ret:get_count()))
 	end,
 })
-
 for i = 2, 5 do
 	minetest.register_node("flora:mushroom_grass_" .. i, {
 		description = "Mushroom Grass",
@@ -526,7 +511,6 @@ for i = 2, 5 do
 		},
 	})
 end
-
 minetest.register_node("flora:mushroom_grass_tall_1", {
 	description = "Tall Mushroom Grass",
 	drawtype = "mesh",
@@ -557,7 +541,6 @@ minetest.register_node("flora:mushroom_grass_tall_1", {
 			itemstack:get_count() - (1 - ret:get_count()))
 	end,
 })
-
 for i = 2, 5 do
 	minetest.register_node("flora:mushroom_grass_tall_" .. i, {
 		description = "Tall Mushroom Grass",

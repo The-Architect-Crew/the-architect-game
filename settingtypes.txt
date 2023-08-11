@@ -1,0 +1,8 @@
+# This file contains settings of the-architect-game that can be changed in
+# minetest.conf
+
+[Development]
+
+#   Disable all workbench custom crafts
+#   Greatly speeds up load times for development purposes
+workbench_disable_crafts (Disable workbench crafts) bool false

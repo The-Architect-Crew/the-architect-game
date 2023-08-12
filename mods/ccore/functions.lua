@@ -9,16 +9,32 @@ function ccore.swap_node(pos, name)
 end
 
 -- Scan groups for forbidden groups
-function ccore.scan_forbidden_groups(array1, array2)
+function ccore.scan_forbidden_groups(groups, forbidden_groups)
     local result = false
-    for i=1,#array1 do
-        for j=1,#array2 do
-            if array1[i] == array2[j] then
+    for name,_ in pairs(groups) do
+        for i=1,#forbidden_groups do
+            if name == forbidden_groups[i] then
                 result = true
             end
         end
     end
     return result
+end
+
+function ccore.belongs(table, value)
+	local result = false
+	for i=1,#table do
+		if table[i] == value then
+			result = true
+			break
+		end
+	end
+	return result
+end
+
+-- Get modname
+function ccore.modname(name)
+	return string.match(name, '(.*):')
 end
 
 -- int to time string

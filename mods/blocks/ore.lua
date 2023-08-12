@@ -804,18 +804,35 @@ minetest.register_node("blocks:lost_mese", {
 			end
 		end
 
-		local random = math.random(1, #blocks.random_nodes)
-		local random_node = minetest.registered_nodes[blocks.random_nodes[random]]
+		local random
+		local random_node
+		local amount
+		local new_stack
 
-		local amount = math.random(24, 48)
+		local rarity = math.random(1,7)
+		if  rarity <= 3 then
+			random = math.random(1, #blocks.random_items)
+			random_node = minetest.registered_items[blocks.random_items[random]]
+			amount = math.random(24, 48)
+			new_stack = ItemStack(blocks.random_items[random])
+		elseif rarity > 3 and rarity <= 5 then
+			random = math.random(1, #blocks.rare_items)
+			random_node = minetest.registered_items[blocks.rare_items[random]]
+			amount = math.random(4, 8)
+			new_stack = ItemStack(blocks.rare_items[random])
+		elseif rarity > 5 then
+			random = math.random(1, #blocks.extra_rare_items)
+			random_node = minetest.registered_items[blocks.extra_rare_items[random]]
+			amount = math.random(1, 3)
+			new_stack = ItemStack(blocks.extra_rare_items[random])
+		end
 
 		if free_slot then
 			itemstack:take_item()
 
 			minetest.chat_send_player(player:get_player_name(), "Lost Mese has converted into " .. amount .. " " .. ccore.strip_newlines(random_node.description) .. "!")
 
-			local new_stack = ItemStack(blocks.random_nodes[random])
-			new_stack:set_count(amount)
+			new_stack:set_count(math.min(amount, new_stack:get_stack_max()))
 
 			inv:set_stack("main", free_slot, new_stack)
 		else

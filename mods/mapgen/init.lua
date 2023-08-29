@@ -56,11 +56,11 @@ dofile(path.."/functions.lua")
 dofile(path.."/noise.lua")
 dofile(path.."/mapgen.lua")
 dofile(path.."/oregen.lua")
-dofile(path.."/decorations.lua")
 dofile(path.."/flowergen.lua")
 dofile(path.."/grassspread.lua")
 dofile(path.."/mossspread.lua")
 
+dofile(biomes_path .. "/sfcave.lua")
 dofile(biomes_path .. "/underground.lua")
 dofile(biomes_path .. "/mushroom.lua")
 dofile(biomes_path .. "/quarry.lua")
@@ -68,18 +68,22 @@ dofile(biomes_path .. "/quarry.lua")
 -- Register biomes, ores and decorations
 local mapgen_name = minetest.get_mapgen_setting("mg_name")
 if mapgen_name ~= "singlenode" and mapgen_name ~= "flat" then
+	mapgen.register_sfcave_biomes()
 	mapgen.register_underground_biomes()
 	mapgen.register_quarry_biomes()
 	mapgen.register_mushroom_biomes()
 	mapgen.register_surface_biomes()
 
+	mapgen.register_sfcave_ores()
 	mapgen.register_underground_ores()
 	mapgen.register_mushroom_ores()
 	mapgen.register_quarry_ores()
 	mapgen.register_ores()
 
+	mapgen.register_sfcave_decorations()
 	mapgen.register_underground_decorations()
 	mapgen.register_mushroom_decorations()
 	mapgen.register_quarry_decorations()
 	mapgen.register_decorations()
+
 end

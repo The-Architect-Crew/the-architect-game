@@ -155,7 +155,7 @@ mapgen.place_microbiome_flora = function(base_name, data)
 			y_min = data.y_min,
 			flags = "all_ceilings",
 			height = 3,
-			height_max = 8,
+			height_max = data.vines_height or 8,
 			decoration = secondary_vines,
 		})
 	end

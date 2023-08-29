@@ -74,5 +74,4 @@ minetest.register_on_mods_loaded(function()
             end
         end
     end
-    print(dump(blocks.extra_rare_items))
 end)

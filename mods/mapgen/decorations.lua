@@ -36,7 +36,7 @@ mapgen.register_microbiome_decorations("azure", {
 	--secondary_vines
 	moss = "flora:azure_moss",
 })]]--
---[[
+
 mapgen.register_microbiome_decorations("moonstone", {
 	height_min = mapgen.underground_start,
 	height_max = mapgen.sfcave_limit,
@@ -93,6 +93,7 @@ mapgen.register_microbiome_decorations("frosty", {
 	secondary_vines = "flora:vines_frosty_moonstone",
 	moss = "flora:vines_frosty_horizontal",
 })
+--[[
 mapgen.register_microbiome_decorations("hell", {
 	small_plant_variation = false,
 	grass_variation = false,

@@ -813,7 +813,7 @@ minetest.register_node("blocks:lost_mese", {
 		if  rarity <= 3 then
 			random = math.random(1, #blocks.random_items)
 			random_node = minetest.registered_items[blocks.random_items[random]]
-			amount = math.random(24, 48)
+			amount = math.random(12, 24)
 			new_stack = ItemStack(blocks.random_items[random])
 		elseif rarity > 3 and rarity <= 5 then
 			random = math.random(1, #blocks.rare_items)

@@ -6,32 +6,9 @@
 
 -- All mapgens except mgv6
 
-mapgen.surface_nodes = {"blocks:stone", "blocks:dry_dirt", "blocks:dry_dirt_with_dry_grass", "blocks:dirt", "blocks:dirt_with_grass", "blocks:dirt_with_snow", "blocks:dirt_with_rainforest_litter", "blocks:dirt_with_coniferous_litter",
-"blocks:desert_stone", "blocks:desert_sand", "blocks:desert_sandstone", "blocks:sandstone", "blocks:sand", "blocks:silver_sandstone", "blocks:silver_sand", "blocks:chalk", "blocks:cobble",
-"blocks:cave_ice", "blocks:ice", "blocks:gravel", "blocks:snowblock", "blocks:permafrost", "blocks:permafrost_with_stones", "blocks:desert_cobble", "blocks:mossycobble", "blocks:dune_sand"} -- Hope I didn't miss any
-
 function mapgen.register_ores()
 	-- Stratum ores.
 	-- These obviously first.
-
-	minetest.register_ore({
-		ore_type        = "stratum",
-		ore             = "air",
-		wherein         = mapgen.surface_nodes,
-		clust_scarcity  = 1,
-		y_max           = -32,
-		y_min           = -128,
-		noise_params    = {
-			offset = mapgen.sfcaves_level,
-			scale = 16,
-			spread = {x = 16, y = 16, z = 16},
-			seed = 262,
-			octaves = 1,
-			flags = "eased",
-		},
-		np_stratum_thickness = mapgen.surface_cave_np,
-	})
-
 	for i=1, #blocks.stone_colors do
 		for j=1,8 do
 			minetest.register_ore({
@@ -59,6 +36,22 @@ function mapgen.register_ores()
 			})
 		end
 	end
+	-- Vein
+	mapgen.register_tapered_vein({
+        ore = "air",
+        wherein = mapgen.surface_nodes,
+        y_max = 512,
+        y_min = mapgen.sfcave_top,
+        noise_params = {
+            offset = -0.5,
+            scale = 1,
+            spread = {x = 50, y = 50, z = 50},
+            seed = 66234,
+            octaves = 3,
+            persistence = 0.75
+        },
+        taper_distance = 32,
+    })
 	-- Decorative Strata from MTG
 	-- Silver sandstone
 	minetest.register_ore({
@@ -214,7 +207,7 @@ function mapgen.register_ores()
 		clust_scarcity  = 16 * 16 * 16,
 		clust_size      = 5,
 		y_max           = 31000,
-		y_min           = mapgen.underground_start,
+		y_min           = mapgen.sfcave_bottom,
 		noise_threshold = 0.0,
 		noise_params    = {
 			offset = 0.5,
@@ -233,7 +226,7 @@ function mapgen.register_ores()
 		clust_scarcity  = 16 * 16 * 16,
 		clust_size      = 5,
 		y_max           = 31000,
-		y_min           = -31,
+		y_min           = mapgen.sfcave_bottom,
 		noise_threshold = 0.0,
 		noise_params    = {
 			offset = 0.5,
@@ -254,7 +247,7 @@ function mapgen.register_ores()
 		clust_scarcity  = 16 * 16 * 16,
 		clust_size      = 5,
 		y_max           = 31000,
-		y_min           = mapgen.underground_start,
+		y_min           = mapgen.sfcave_bottom,
 		noise_threshold = 0.0,
 		noise_params    = {
 			offset = 0.5,
@@ -273,7 +266,7 @@ function mapgen.register_ores()
 		clust_scarcity  = 24 * 24 * 24,
 		clust_size      = 10,
 		y_max           = 50,
-		y_min           = mapgen.underground_start,
+		y_min           = mapgen.sfcave_bottom,
 		noise_threshold = 0.0,
 		noise_params    = {
 			offset = -3.25,
@@ -380,112 +373,5 @@ function mapgen.register_ores()
 			octaves = 1,
 			persist = 0.70
 		},
-	})
-	-- Scatter ores
-	-- Decorative stuff that we don't want to actually influence the gameplay so it goes last
-	-- Surface caves
-	minetest.register_ore({
-		ore_type       = "scatter",
-		ore            = "blocks:mossy_stone",
-		wherein        = "blocks:stone",
-		clust_scarcity = 5 * 5 * 5,
-		clust_num_ores = 24,
-		clust_size     = 4,
-		y_max          = 8,
-		y_min          = mapgen.underground_start,
-		biomes = mapgen.lush_biomes,
-	})
-	minetest.register_ore({
-		ore_type       = "scatter",
-		ore            = "blocks:stone_icy",
-		wherein        = "blocks:stone",
-		clust_scarcity = 5 * 5 * 5,
-		clust_num_ores = 32,
-		clust_size     = 5,
-		y_max          = 8,
-		y_min          = mapgen.underground_start,
-		biomes = mapgen.icy_biomes,
-	})
-	minetest.register_ore({
-		ore_type       = "scatter",
-		ore            = "blocks:mossycobble",
-		wherein        = "blocks:cobble",
-		clust_scarcity = 5 * 5 * 5,
-		clust_num_ores = 24,
-		clust_size     = 4,
-		y_max          = 8,
-		y_min          = mapgen.underground_start,
-		biomes = mapgen.lush_biomes,
-	})
-	minetest.register_ore({
-		ore_type       = "scatter",
-		ore            = "blocks:mossy_desert_stone",
-		wherein        = "blocks:desert_stone",
-		clust_scarcity = 5 * 5 * 5,
-		clust_num_ores = 24,
-		clust_size     = 4,
-		y_max          = 8,
-		y_min          = mapgen.underground_start,
-	})
-	minetest.register_ore({
-		ore_type       = "scatter",
-		ore            = "blocks:mossy_desert_cobble",
-		wherein        = "blocks:desert_cobble",
-		clust_scarcity = 5 * 5 * 5,
-		clust_num_ores = 24,
-		clust_size     = 4,
-		y_max          = 8,
-		y_min          = mapgen.underground_start,
-	})
-	minetest.register_ore({
-		ore_type       = "scatter",
-		ore            = "blocks:mossy_sandstone",
-		wherein        = "blocks:sandstone",
-		clust_scarcity = 5 * 5 * 5,
-		clust_num_ores = 24,
-		clust_size     = 4,
-		y_max          = 8,
-		y_min          = mapgen.underground_start,
-	})
-	minetest.register_ore({
-		ore_type       = "scatter",
-		ore            = "blocks:mossy_desert_sandstone",
-		wherein        = "blocks:desert_sandstone",
-		clust_scarcity = 5 * 5 * 5,
-		clust_num_ores = 24,
-		clust_size     = 4,
-		y_max          = 8,
-		y_min          = mapgen.underground_start,
-	})
-	minetest.register_ore({
-		ore_type       = "scatter",
-		ore            = "blocks:mossy_silver_sandstone",
-		wherein        = "blocks:silver_sandstone",
-		clust_scarcity = 5 * 5 * 5,
-		clust_num_ores = 24,
-		clust_size     = 4,
-		y_max          = 8,
-		y_min          = mapgen.underground_start,
-	})
-	minetest.register_ore({
-		ore_type       = "scatter",
-		ore            = "blocks:stone_with_moonstone",
-		wherein        = "blocks:stone",
-		clust_scarcity = 8 * 8 * 8,
-		clust_num_ores = 8,
-		clust_size     = 6,
-		y_max          = 0,
-		y_min          = mapgen.underground_start,
-	})
-	-- Ice
-	minetest.register_ore({
-		ore_type       = "scatter",
-		ore            = "blocks:moonstone",
-		wherein        = {"blocks:ice","blocks:cave_ice"},
-		clust_scarcity = 12 * 12 * 12,
-		clust_num_ores = 3,
-		clust_size     = 4,
-		y_max          = 0,
-		y_min          = mapgen.underground_start,
 	})
 end

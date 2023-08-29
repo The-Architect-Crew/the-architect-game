@@ -33,12 +33,25 @@ end
 
 mapgen.register_microbiome_base = function(data)
 	local base_nodes = data.base_nodes
+	local noise_params
+	local fill_ratio
+
+	if (data.noise_params) then
+		noise_params = data.noise_params
+	else
+		noise_params = nil
+		fill_ratio = data.fill_ratio
+	end
+
 	for i=1,#base_nodes do
-		data.noise_params.seed = data.noise_params.seed * i
+		if (data.noise_params) then
+			data.noise_params.seed = data.noise_params.seed * i
+		end
 		minetest.register_decoration({
 			deco_type = "simple",
 			place_on = base_nodes[i].base,
-			noise_params = data.noise_params,
+			noise_params = noise_params,
+			fill_ratio = fill_ratio,
 			y_min = data.y_min,
 			y_max = data.y_max,
 			flags = "force_placement, all_floors",
@@ -48,7 +61,8 @@ mapgen.register_microbiome_base = function(data)
 		minetest.register_decoration({
 			deco_type = "simple",
 			place_on = base_nodes[i].base,
-			noise_params = data.noise_params,
+			noise_params = noise_params,
+			fill_ratio = fill_ratio,
 			y_min = data.y_min,
 			y_max = data.y_max,
 			flags = "force_placement, all_ceilings",

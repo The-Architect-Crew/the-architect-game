@@ -1,4 +1,4 @@
-mapgen.underground_top = mapgen.underground_start
+mapgen.underground_top = -128
 mapgen.underground_bottom = -768
 
 mapgen.underground_middle = (mapgen.underground_top + mapgen.underground_bottom) / 2

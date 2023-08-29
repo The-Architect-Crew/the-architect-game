@@ -1,17 +1,4 @@
 mapgen = {}
-mapgen.underground_start = -128 -- The level where surface caves end and underground begins
-mapgen.sfcaves_level = -64
-mapgen.sfcave_limit = -32 -- How high can sfcaves go
-
-mapgen.surface_cave_np = {
-	offset = -0.8 * 144,
-	scale = 144,
-	spread = {x = 144, y = 144, z = 144},
-	seed = 261,
-	octaves = 2,
-	persistence = 0.5,
-	lacunarity = 3,
-}
 
 mapgen.np_stalagmites = {
 	offset = -0.85,
@@ -35,7 +22,7 @@ mapgen.lush_biomes = {"grassland", "grassland_dunes", "grassland_ocean",
 					"deciduous_forest", "deciduous_forest_shore", "deciduous_forest_ocean",
 					"rainforest", "rainforest_swamp", "rainforest_ocean",
 					"chalk_grassland", "chalk_grassland_ocean"}
-mapgen.icy_biomes = {"cold_desert", "cold_desert_ocean",
+mapgen.frosty_biomes = {"cold_desert", "cold_desert_ocean",
 					"taiga", "taiga_ocean",
 					"snowy_grassland", "snowy_grassland_ocean",
 					"icesheet", "icesheet_ocean",

@@ -118,7 +118,7 @@ minetest.register_node("blocks:stone_with_coalblock", {
 
 minetest.register_node("blocks:dirt_with_dark_mycelia_and_coal", {
 	description = S("Dirt with Dark Mycelia and Coal"),
-	tiles = {"(blocks_dirt.png^blocks_mineral_coal.png)^blocks_dark_mycelia.png"},
+	tiles = {"blocks_dirt_with_dark_mycelia.png^blocks_mineral_coal.png"},
 	groups = {crumbly = 3, soil = 1},
 	drop = {
 		items = {
@@ -133,7 +133,7 @@ minetest.register_node("blocks:dirt_with_dark_mycelia_and_coal", {
 
 minetest.register_node("blocks:dirt_with_viridis_mycelia_and_coal", {
 	description = S("Dirt with Viridis Mycelia and Coal"),
-	tiles = {"(blocks_dirt.png^blocks_mineral_coal.png)^blocks_viridis_mycelia.png"},
+	tiles = {"blocks_dirt_with_viridis_mycelia.png^blocks_mineral_coal.png"},
 	groups = {crumbly = 3, soil = 1},
 	drop = {
 		items = {
@@ -1506,7 +1506,7 @@ minetest.register_node("blocks:dirt_with_amber", {
 
 minetest.register_node("blocks:dirt_with_mycelia_and_amber", {
 	description = S("Dirt with Mycelia and Amber"),
-	tiles = {"(blocks_dirt.png^blocks_mineral_amber.png)^blocks_mushroom_mycelia.png"},
+	tiles = {"blocks_dirt_with_mushroom_mycelia.png^blocks_mineral_amber.png"},
 	groups = {crumbly = 3, soil = 1},
 	drop = {
 		items = {
@@ -2768,7 +2768,7 @@ minetest.register_node("blocks:dark_dirt_with_fossils", {
 
 minetest.register_node("blocks:dirt_with_mycelia_and_fossils", {
 	description = S("Dirt with Mycelia and Fossils"),
-	tiles = {"(blocks_dirt.png^blocks_fossil_overlay.png)^blocks_mushroom_mycelia.png"},
+	tiles = {"blocks_dirt_with_mushroom_mycelia.png^blocks_fossil_overlay.png"},
 	groups = {crumbly = 3, soil = 1},
 	drop = {
 		items = blocks.fossil_drop_table

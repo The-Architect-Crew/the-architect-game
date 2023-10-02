@@ -2602,7 +2602,7 @@ minetest.register_node("blocks:slate_cobble", {
 
 minetest.register_node("blocks:stone_with_moonstone", {
 	description = S("Stone with Moonstone"),
-	tiles = {"blocks_stone.png^blocks_mineral_moonstone.png"},
+	tiles = ccore.fake_fake_contrast("blocks_stone.png^blocks_mineral_moonstone.png"),
 	paramtype = "light",
 	light_source = default.LIGHT_MAX,
 	drop = {

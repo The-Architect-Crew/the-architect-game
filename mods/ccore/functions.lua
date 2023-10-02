@@ -141,3 +141,27 @@ ccore.groups_copy = function(table)
     end
     return copy
 end
+
+ccore.fake_fake_contrast = function(textures)
+	if type(textures) == "table" then
+		textures = {
+			"(" .. textures[1] .. ")^[fill:16x16:#00000408",
+			"(" .. textures[2] .. ")^[fill:16x16:#00000588",
+			"(" .. textures[3] .. ")^[fill:16x16:#00000658",
+			"(" .. textures[4] .. ")^[fill:16x16:#00000658",
+			"(" .. textures[5] .. ")^[fill:16x16:#0000142A",
+			"(" .. textures[6] .. ")^[fill:16x16:#0000142A",
+		}
+		return textures
+	else
+		textures = {
+			"(" .. textures .. ")^[fill:16x16:#00000408",
+			"(" .. textures .. ")^[fill:16x16:#00000588",
+			"(" .. textures .. ")^[fill:16x16:#00000658",
+			"(" .. textures .. ")^[fill:16x16:#00000658",
+			"(" .. textures .. ")^[fill:16x16:#0000142A",
+			"(" .. textures .. ")^[fill:16x16:#0000142A",
+		}
+		return textures
+	end
+end

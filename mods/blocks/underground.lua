@@ -416,7 +416,7 @@ minetest.register_node("blocks:dirt_with_dark_mycelia", {
 
 minetest.register_node("blocks:dirt_with_dark_mycelia_glowing", {
 	description = S("Dirt with Dark Mycelia (Glowing)"),
-	tiles = {"blocks_dirt_with_dark_mycelia.png^blocks_dark_mycelia_glowing.png"},
+	tiles = ccore.fake_fake_contrast("blocks_dirt_with_dark_mycelia.png^blocks_dark_mycelia_glowing.png"),
 	groups = {crumbly = 3, soil = 1},
 	drop = "blocks:dirt",
 	paramtype = "light",
@@ -434,7 +434,7 @@ minetest.register_node("blocks:dirt_with_viridis_mycelia", {
 
 minetest.register_node("blocks:dirt_with_viridis_mycelia_glowing", {
 	description = S("Dirt with Viridis Mycelia (Glowing)"),
-	tiles = {"blocks_dirt_with_viridis_mycelia.png^blocks_viridis_mycelia_glowing.png"},
+	tiles = ccore.fake_fake_contrast("blocks_dirt_with_viridis_mycelia.png^blocks_viridis_mycelia_glowing.png"),
 	groups = {crumbly = 3, soil = 1},
 	drop = "blocks:dirt",
 	paramtype = "light",
@@ -452,7 +452,7 @@ minetest.register_node("blocks:dirt_with_mycelia", {
 
 minetest.register_node("blocks:dirt_with_mycelia_glowing", {
 	description = S("Dirt with Mycelia (Glowing)"),
-	tiles = {"blocks_dirt_with_mushroom_mycelia.png^blocks_mushroom_mycelia_glowing.png"},
+	tiles = ccore.fake_fake_contrast("blocks_dirt_with_mushroom_mycelia.png^blocks_mushroom_mycelia_glowing.png"),
 	groups = {crumbly = 3, soil = 1},
 	drop = "blocks:dirt",
 	paramtype = "light",

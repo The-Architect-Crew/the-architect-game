@@ -229,6 +229,37 @@ mapgen.register_mushroom_ores = function()
 		y_max          = mapgen.mushroom_top,
 		y_min          = mapgen.mushroom_bottom,
 	})
+    -- Decorative Ores
+    minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:dirt_with_mycelia_glowing",
+		wherein        = "blocks:dirt_with_mycelia",
+		clust_scarcity = 8 * 8 * 8,
+		clust_num_ores = 4,
+		clust_size     = 5,
+		y_max          = mapgen.mushroom_top,
+		y_min          = mapgen.mushroom_bottom,
+	})
+    minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:dirt_with_dark_mycelia_glowing",
+		wherein        = "blocks:dirt_with_dark_mycelia",
+		clust_scarcity = 8 * 8 * 8,
+		clust_num_ores = 4,
+		clust_size     = 5,
+		y_max          = mapgen.mushroom_top,
+		y_min          = mapgen.mushroom_bottom,
+	})
+    minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:dirt_with_viridis_mycelia_glowing",
+		wherein        = "blocks:dirt_with_viridis_mycelia",
+		clust_scarcity = 8 * 8 * 8,
+		clust_num_ores = 4,
+		clust_size     = 5,
+		y_max          = mapgen.mushroom_top,
+		y_min          = mapgen.mushroom_bottom,
+	})
 end
 
 mapgen.mushroom_microbiome_base_nodes = {
@@ -254,7 +285,7 @@ mapgen.register_mushroom_decorations = function()
 	})
 	minetest.register_decoration({
         deco_type = "simple",
-        place_on = mapgen.mushroom_base,
+        place_on = {mapgen.mushroom_base, "blocks:dirt_with_mushroom_mycelia_glowing"},
         fill_ratio = 10.0,
         y_max = mapgen.mushroom_top,
         y_min = mapgen.mushroom_bottom,
@@ -264,7 +295,7 @@ mapgen.register_mushroom_decorations = function()
     })
 	minetest.register_decoration({
         deco_type = "simple",
-        place_on = "blocks:dirt_with_viridis_mycelia",
+        place_on = {"blocks:dirt_with_viridis_mycelia", "blocks:dirt_with_viridis_mycelia_glowing"},
         fill_ratio = 10.0,
         y_max = mapgen.mushroom_top,
         y_min = mapgen.mushroom_bottom,
@@ -274,7 +305,7 @@ mapgen.register_mushroom_decorations = function()
     })
     minetest.register_decoration({
         deco_type = "simple",
-        place_on = "blocks:dirt_with_dark_mycelia",
+        place_on = {"blocks:dirt_with_dark_mycelia", "blocks:dirt_with_dark_mycelia_glowing"},
         fill_ratio = 10.0,
         y_max = mapgen.mushroom_top,
         y_min = mapgen.mushroom_bottom,

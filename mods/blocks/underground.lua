@@ -414,6 +414,16 @@ minetest.register_node("blocks:dirt_with_dark_mycelia", {
 	sounds = default.node_sound_dirt_defaults(),
 })
 
+minetest.register_node("blocks:dirt_with_dark_mycelia_glowing", {
+	description = S("Dirt with Dark Mycelia (Glowing)"),
+	tiles = {"blocks_dirt_with_dark_mycelia.png^blocks_dark_mycelia_glowing.png"},
+	groups = {crumbly = 3, soil = 1},
+	drop = "blocks:dirt",
+	paramtype = "light",
+	light_source = 8,
+	sounds = default.node_sound_dirt_defaults(),
+})
+
 minetest.register_node("blocks:dirt_with_viridis_mycelia", {
 	description = S("Dirt with Viridis Mycelia"),
 	tiles = {"blocks_dirt_with_viridis_mycelia.png"},
@@ -422,11 +432,31 @@ minetest.register_node("blocks:dirt_with_viridis_mycelia", {
 	sounds = default.node_sound_dirt_defaults(),
 })
 
+minetest.register_node("blocks:dirt_with_viridis_mycelia_glowing", {
+	description = S("Dirt with Viridis Mycelia (Glowing)"),
+	tiles = {"blocks_dirt_with_viridis_mycelia.png^blocks_viridis_mycelia_glowing.png"},
+	groups = {crumbly = 3, soil = 1},
+	drop = "blocks:dirt",
+	paramtype = "light",
+	light_source = 8,
+	sounds = default.node_sound_dirt_defaults(),
+})
+
 minetest.register_node("blocks:dirt_with_mycelia", {
 	description = S("Dirt with Mycelia"),
 	tiles = {"blocks_dirt_with_mushroom_mycelia.png"},
 	groups = {crumbly = 3, soil = 1},
 	drop = "blocks:dirt",
+	sounds = default.node_sound_dirt_defaults(),
+})
+
+minetest.register_node("blocks:dirt_with_mycelia_glowing", {
+	description = S("Dirt with Mycelia (Glowing)"),
+	tiles = {"blocks_dirt_with_mushroom_mycelia.png^blocks_mushroom_mycelia_glowing.png"},
+	groups = {crumbly = 3, soil = 1},
+	drop = "blocks:dirt",
+	paramtype = "light",
+	light_source = 8,
 	sounds = default.node_sound_dirt_defaults(),
 })
 

@@ -365,8 +365,6 @@ mapgen.register_stalagmites = function(base_node, limits, rarity, seed, id)
 		minetest.register_decoration({
 			name = "stalagmite_" .. sname .. "_" .. i .. id,
 			deco_type = "simple",
-			param2 = 0,
-			param2_max = 239,
 			place_on = base,
 			sidelen = 8,
 			fill_ratio = 0.02 * rarity,
@@ -378,14 +376,11 @@ mapgen.register_stalagmites = function(base_node, limits, rarity, seed, id)
 		minetest.register_decoration({
 			name = "stalactite_" .. sname .. "_" .. i .. id,
 			deco_type = "simple",
-			param2 = 0,
-			param2_max = 239,
 			place_on = base,
 			sidelen = 8,
 			fill_ratio = 0.02 * rarity,
 			y_max = limits.max,
 			y_min = limits.min,
-			place_offset_y = 1,
 			flags = "all_ceilings",
 			decoration = "blocks:stalactite_" .. sname .. "_" .. i,
 		})

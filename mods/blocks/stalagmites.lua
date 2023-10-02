@@ -13,7 +13,7 @@ blocks.register_stalagmites = function(base_node, drop)
 	local box_ceiling = {
 		type = "fixed",
 		fixed = {
-			{-4/16, -2/16 + 16/16, -4/16, 4/16, 8/16 + 16/16, 4/16},
+			{-4/16, -2/16, -4/16, 4/16, 8/16, 4/16},
 		},
 	}
 	local box_big = {
@@ -30,8 +30,6 @@ blocks.register_stalagmites = function(base_node, drop)
 			tiles = {"blocks_stalagmites_" .. sname .. ".png^[sheet:13x1:" .. i+4 .. ",0"},
 			inventory_image = "blocks_stalagmites_" .. sname .. ".png^[sheet:13x1:" .. i+4 .. ",0",
 			visual_scale = 2.0,
-			paramtype2 = "degrotate",
-			place_param2 = 0,
 			sunlight_propagates = true,
 			paramtype = "light",
 			light_source = 1,
@@ -59,12 +57,10 @@ blocks.register_stalagmites = function(base_node, drop)
 		})
 		minetest.register_node("blocks:stalactite_" .. sname .. "_" .. i, {
 			description = (base_description .. " Stalactite"),
-			drawtype = "plantlike",
+			drawtype = "mesh",
+			mesh = "stalactite.obj",
 			tiles = {"blocks_stalagmites_" .. sname .. ".png^[sheet:13x1:" .. i-1 .. ",0"},
 			inventory_image = "blocks_stalagmites_" .. sname .. ".png^[sheet:13x1:" .. i-1 .. ",0",
-			visual_scale = 2.0,
-			paramtype2 = "degrotate",
-			place_param2 = 0,
 			sunlight_propagates = true,
 			paramtype = "light",
 			light_source = 1,

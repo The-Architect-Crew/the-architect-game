@@ -68,6 +68,25 @@ mapgen.register_mushroom_ores = function()
             }
         })
     end
+    -- Tunnels
+    minetest.register_ore({
+        ore_type = "vein",
+        ore = "air",
+        wherein = mapgen.mushroom_base,
+        y_max = mapgen.mushroom_top,
+        y_min = mapgen.mushroom_bottom,
+        noise_threshold = 0.75,
+        noise_params = {
+            offset = 0,
+            scale = 1,
+            spread = {x = 48, y = 48, z = 48},
+            seed = 11243,
+            octaves = 4,
+            lacunarity = 1.25,
+            persistence = 0.75
+        },
+        random_factor = 0,
+    })
     -- Different mycelia
     minetest.register_ore({
         ore_type = "sheet",

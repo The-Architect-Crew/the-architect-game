@@ -511,6 +511,56 @@ for i = 2, 5 do
 		},
 	})
 end
+minetest.register_node("flora:mushroom_grass_ceiling_1", {
+	description = "Mushroom Grass (Ceiling)",
+	drawtype = "plantlike",
+	tiles = {"(flora_mushroom_grass.png^[transformFY)^[sheet:5x1:0,0"},
+	inventory_image = "(flora_mushroom_grass.png^[transformFY)^[sheet:5x1:0,0",
+	wield_image = "(flora_mushroom_grass.png^[transformFY)^[sheet:5x1:0,0",
+	paramtype = "light",
+	sunlight_propagates = true,
+	walkable = false,
+	floodable = true,
+	buildable_to = true,
+	groups = {snappy = 3, flora = 1, attached_node = 1, grass = 1,
+		normal_grass = 1, flammable = 1},
+	sounds = default.node_sound_leaves_defaults(),
+	selection_box = {
+		type = "fixed",
+		fixed = {-6 / 16, 5 / 16, -6 / 16, 6 / 16, 0.5, 6 / 16},
+	},
+
+	on_place = function(itemstack, placer, pointed_thing)
+		-- place a random grass node
+		local stack = ItemStack("flora:mushroom_grass_ceiling_" .. math.random(1,5))
+		local ret = minetest.item_place(stack, placer, pointed_thing)
+		return ItemStack("flora:mushroom_grass_ceiling_1 " ..
+			itemstack:get_count() - (1 - ret:get_count()))
+	end,
+})
+for i = 2, 5 do
+	minetest.register_node("flora:mushroom_grass_ceiling_" .. i, {
+		description = "Mushroom Grass (Ceiling)",
+		drawtype = "plantlike",
+		tiles = {"(flora_mushroom_grass.png^[transformFY)^[sheet:5x1:" .. i-1 .. ",0"},
+		inventory_image = "(flora_mushroom_grass.png^[transformFY)^[sheet:5x1:" .. i-1 .. ",0",
+		wield_image = "(flora_mushroom_grass.png^[transformFY)^[sheet:5x1:" .. i-1 .. ",0",
+		paramtype = "light",
+		sunlight_propagates = true,
+		walkable = false,
+		floodable = true,
+		buildable_to = true,
+		drop = "flora:mushroom_grass_ceiling_1",
+		groups = {snappy = 3, flora = 1, attached_node = 1,
+			not_in_creative_inventory = 1, grass = 1,
+			normal_grass = 1, flammable = 1},
+		sounds = default.node_sound_leaves_defaults(),
+		selection_box = {
+			type = "fixed",
+			fixed = {-6 / 16, 5 / 16, -6 / 16, 6 / 16, 0.5, 6 / 16},
+		},
+	})
+end
 minetest.register_node("flora:mushroom_grass_tall_1", {
 	description = "Tall Mushroom Grass",
 	drawtype = "mesh",
@@ -564,6 +614,60 @@ for i = 2, 5 do
 		selection_box = {
 			type = "fixed",
 			fixed = {-6 / 16, -0.5, -6 / 16, 6 / 16, -3 / 16, 6 / 16},
+		},
+	})
+end
+minetest.register_node("flora:mushroom_grass_tall_ceiling_1", {
+	description = "Tall Mushroom Grass (Ceiling)",
+	drawtype = "mesh",
+	mesh = "mushroom_cilia_small.obj",
+	tiles = {"flora_mushroom_grass_tall_ceiling.png^[sheet:5x1:0,0"},
+	inventory_image = "flora_mushroom_grass_tall_ceiling.png^[sheet:5x1:0,0",
+	wield_image = "flora_mushroom_grass_tall_ceiling.png^[sheet:5x1:0,0",
+	paramtype = "light",
+	light_source = 4,
+	sunlight_propagates = true,
+	walkable = false,
+	floodable = true,
+	buildable_to = true,
+	groups = {snappy = 3, flora = 1, attached_node = 1, grass = 1,
+		normal_grass = 1, flammable = 1},
+	sounds = default.node_sound_leaves_defaults(),
+	selection_box = {
+		type = "fixed",
+		fixed = {-6 / 16, 5 / 16, -6 / 16, 6 / 16, 0.5, 6 / 16},
+	},
+
+	on_place = function(itemstack, placer, pointed_thing)
+		-- place a random grass node
+		local stack = ItemStack("flora:mushroom_grass_tall_ceiling_" .. math.random(1,5))
+		local ret = minetest.item_place(stack, placer, pointed_thing)
+		return ItemStack("flora:mushroom_grass_tall_ceiling_1 " ..
+			itemstack:get_count() - (1 - ret:get_count()))
+	end,
+})
+for i = 2, 5 do
+	minetest.register_node("flora:mushroom_grass_tall_ceiling_" .. i, {
+		description = "Tall Mushroom Grass (Ceiling)",
+		drawtype = "mesh",
+		mesh = "mushroom_cilia_small.obj",
+		tiles = {"flora_mushroom_grass_tall_ceiling.png^[sheet:5x1:" .. i-1 .. ",0"},
+		inventory_image = "flora_mushroom_grass_tall_ceiling.png^[sheet:5x1:" .. i-1 .. ",0",
+		wield_image = "flora_mushroom_grass_tall_ceiling.png^[sheet:5x1:" .. i-1 .. ",0",
+		paramtype = "light",
+		light_source = 4,
+		sunlight_propagates = true,
+		walkable = false,
+		floodable = true,
+		buildable_to = true,
+		drop = "flora:mushroom_grass_tall_ceiling_1",
+		groups = {snappy = 3, flora = 1, attached_node = 1,
+			not_in_creative_inventory = 1, grass = 1,
+			normal_grass = 1, flammable = 1},
+		sounds = default.node_sound_leaves_defaults(),
+		selection_box = {
+			type = "fixed",
+			fixed = {-6 / 16, 5 / 16, -6 / 16, 6 / 16, 0.5, 6 / 16},
 		},
 	})
 end

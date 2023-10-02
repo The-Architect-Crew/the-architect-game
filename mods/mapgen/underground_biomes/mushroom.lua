@@ -603,6 +603,16 @@ mapgen.register_mushroom_decorations = function()
         })
         minetest.register_decoration({
             deco_type = "simple",
+            place_on = {"blocks:dirt_with_mushroom_grass", "blocks:dirt_with_mycelia"},
+            sidelen = 8,
+            fill_ratio = 0.08,
+            y_max = mapgen.mushroom_top,
+            y_min = mapgen.mushroom_bottom,
+            flags = "all_ceilings",
+            decoration = "flora:mushroom_grass_tall_ceiling_" .. i,
+        })
+        minetest.register_decoration({
+            deco_type = "simple",
             place_on = "blocks:dirt_with_mushroom_grass",
             sidelen = 8,
             fill_ratio = 0.8,
@@ -610,6 +620,16 @@ mapgen.register_mushroom_decorations = function()
             y_min = mapgen.mushroom_bottom,
             flags = "all_floors",
             decoration = "flora:mushroom_grass_" .. i,
+        })
+        minetest.register_decoration({
+            deco_type = "simple",
+            place_on = {"blocks:dirt_with_mushroom_grass", "blocks:dirt_with_mycelia"},
+            sidelen = 8,
+            fill_ratio = 0.8,
+            y_max = mapgen.mushroom_top,
+            y_min = mapgen.mushroom_bottom,
+            flags = "all_ceilings",
+            decoration = "flora:mushroom_grass_ceiling_" .. i,
         })
     end
     -- For testing

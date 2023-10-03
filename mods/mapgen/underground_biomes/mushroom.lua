@@ -15,26 +15,14 @@ mapgen.mushroom_base = "blocks:dirt_with_mycelia"
 mapgen.mushroom_extended_base = {"blocks:dirt_with_mycelia", "blocks:dirt_with_dark_mycelia", "blocks:dirt_with_viridis_mycelia"}
 
 mapgen.register_mushroom_biomes = function()
-	minetest.register_biome({
+    minetest.register_biome({
 		name = "mushroom",
 		node_stone = mapgen.mushroom_base,
-		node_dungeon = "variations:stone_big_tile",
-        node_dungeon_alt = "variations:stone_cross_tile",
-		node_dungeon_stair = "variations:shapes_stone_tile_stair",
-        node_cave_liquid = {"blocks:water_source", "blocks:lava_source"},
-		y_max = mapgen.mushroom_top,
-		y_min = mapgen.mushroom_middle,
-		heat_point = 50,
-		humidity_point = 50,
-	})
-    minetest.register_biome({
-		name = "mushroom_cavern",
-		node_stone = mapgen.mushroom_base,
-		node_dungeon = "variations:stone_big_tile",
-        node_dungeon_alt = "variations:stone_cross_tile",
-		node_dungeon_stair = "variations:shapes_stone_tile_stair",
+		node_dungeon = "variations:mud_brick",
+        node_dungeon_alt = "variations:mud_small_brick",
+		node_dungeon_stair = "variations:shapes_mud_tile_stair",
         node_cave_liquid = "air",
-		y_max = mapgen.mushroom_middle,
+		y_max = mapgen.mushroom_top,
 		y_min = mapgen.mushroom_bottom,
 		heat_point = 50,
 		humidity_point = 50,
@@ -420,7 +408,7 @@ mapgen.register_mushroom_decorations = function()
     minetest.register_decoration({
         deco_type = "schematic",
         place_on = "blocks:dirt_azure_mushroom",
-        fill_ratio = 0.0002,
+        fill_ratio = 0.0004,
         y_max = mapgen.mushroom_top,
         y_min = mapgen.mushroom_bottom,
         rotation = "random",
@@ -431,7 +419,7 @@ mapgen.register_mushroom_decorations = function()
     minetest.register_decoration({
         deco_type = "schematic",
         place_on = "blocks:dirt_azure_mushroom",
-        fill_ratio = 0.0004,
+        fill_ratio = 0.0008,
         y_max = mapgen.mushroom_top,
         y_min = mapgen.mushroom_bottom,
         rotation = "random",
@@ -442,7 +430,7 @@ mapgen.register_mushroom_decorations = function()
     minetest.register_decoration({
         deco_type = "schematic",
         place_on = "blocks:dirt_azure_mushroom",
-        fill_ratio = 0.0006,
+        fill_ratio = 0.0012,
         y_max = mapgen.mushroom_top,
         y_min = mapgen.mushroom_bottom,
         rotation = "random",
@@ -453,7 +441,7 @@ mapgen.register_mushroom_decorations = function()
     minetest.register_decoration({
         deco_type = "schematic",
         place_on = "blocks:dirt_azure_mushroom_ceiling",
-        fill_ratio = 0.0006,
+        fill_ratio = 0.0012,
         y_max = mapgen.mushroom_top,
         y_min = mapgen.mushroom_bottom,
         rotation = "random",
@@ -465,7 +453,7 @@ mapgen.register_mushroom_decorations = function()
         deco_type = "simple",
         place_on = {"blocks:dirt_azure_mushroom"},
         sidelen = 8,
-        fill_ratio = 0.15,
+        fill_ratio = 0.05,
         y_max = mapgen.mushroom_top,
         y_min = mapgen.mushroom_bottom,
         flags = "all_floors",

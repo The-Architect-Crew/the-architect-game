@@ -420,7 +420,7 @@ mapgen.register_mushroom_decorations = function()
     minetest.register_decoration({
         deco_type = "schematic",
         place_on = "blocks:dirt_azure_mushroom",
-        fill_ratio = 0.0001,
+        fill_ratio = 0.0002,
         y_max = mapgen.mushroom_top,
         y_min = mapgen.mushroom_bottom,
         rotation = "random",
@@ -431,7 +431,7 @@ mapgen.register_mushroom_decorations = function()
     minetest.register_decoration({
         deco_type = "schematic",
         place_on = "blocks:dirt_azure_mushroom",
-        fill_ratio = 0.0002,
+        fill_ratio = 0.0004,
         y_max = mapgen.mushroom_top,
         y_min = mapgen.mushroom_bottom,
         rotation = "random",
@@ -442,7 +442,7 @@ mapgen.register_mushroom_decorations = function()
     minetest.register_decoration({
         deco_type = "schematic",
         place_on = "blocks:dirt_azure_mushroom",
-        fill_ratio = 0.0003,
+        fill_ratio = 0.0006,
         y_max = mapgen.mushroom_top,
         y_min = mapgen.mushroom_bottom,
         rotation = "random",
@@ -453,13 +453,23 @@ mapgen.register_mushroom_decorations = function()
     minetest.register_decoration({
         deco_type = "schematic",
         place_on = "blocks:dirt_azure_mushroom_ceiling",
-        fill_ratio = 0.0003,
+        fill_ratio = 0.0006,
         y_max = mapgen.mushroom_top,
         y_min = mapgen.mushroom_bottom,
         rotation = "random",
         flags = "all_ceilings, force_placement, place_center_x, place_center_z",
         schematic = "schematics/underground/amber_mushroom_ceiling.mts",
         place_offset_y = -3,
+    })
+    minetest.register_decoration({
+        deco_type = "simple",
+        place_on = {"blocks:dirt_azure_mushroom"},
+        sidelen = 8,
+        fill_ratio = 0.15,
+        y_max = mapgen.mushroom_top,
+        y_min = mapgen.mushroom_bottom,
+        flags = "all_floors",
+        decoration = "flora:amber_mushroom_medium",
     })
     -- Microbiomes
     mapgen.place_microbiome_flora("fire_mushroom", {

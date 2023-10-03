@@ -59,8 +59,8 @@ minetest.register_node("flora:fireshroom_gills", {
 })
 minetest.register_node("flora:viridis_trunk", {
 	description = "Viridis Mushroom Trunk",
-	tiles = {"flora_viridis_trunk_top.png", "flora_viridis_trunk_top.png",
-		"flora_viridis_trunk.png"},
+	tiles = ccore.fake_fake_contrast({"flora_viridis_trunk_top.png", "flora_viridis_trunk_top.png",
+		"flora_viridis_trunk.png"}),
 	paramtype = "light",
 	paramtype2 = "facedir",
 	is_ground_content = false,
@@ -224,7 +224,7 @@ minetest.register_node("flora:dark_trunk", {
 })
 minetest.register_node("flora:dark_cap", {
 	description = "Dark Mushroom Cap",
-	tiles = {"flora_dark_cap.png"},
+	tiles = ccore.fake_fake_contrast("flora_dark_cap.png"),
 	is_ground_content = false,
 	paramtype = "light",
 	light_source = 8,
@@ -233,7 +233,7 @@ minetest.register_node("flora:dark_cap", {
 })
 minetest.register_node("flora:dark_cap_spike", {
 	description = "Dark Mushroom Cap",
-	tiles = {"flora_dark_cap.png", "flora_dark_cap_spike_bottom.png", "flora_dark_cap_spike_side.png"},
+	tiles = ccore.fake_fake_contrast({"flora_dark_cap.png", "flora_dark_cap_spike_bottom.png", "flora_dark_cap_spike_side.png"}),
 	is_ground_content = false,
 	drop = "flora:dark_cap",
 	paramtype = "light",
@@ -257,6 +257,7 @@ minetest.register_node("flora:dark_spike", {
 	is_ground_content = false,
 	sunlight_propagates = true,
 	paramtype = "light",
+	light_source = 1,
 	walkable = false,
 	buildable_to = true,
 	groups = {mushroom = 1, choppy = 3, oddly_breakable_by_hand = 1, flammable = 3},
@@ -287,6 +288,37 @@ minetest.register_node("flora:amber_gills", {
 	is_ground_content = false,
 	groups = {mushroom = 1, choppy = 3, oddly_breakable_by_hand = 1, flammable = 3},
 	sounds = default.node_sound_wood_defaults(),
+})
+minetest.register_node("flora:amber_mushroom_medium", {
+	description = "Amber Medium-Sized Mushroom",
+	drawtype = "mesh",
+	mesh = "mushroom_amber_medium.obj",
+	tiles = {"flora_amber_medium_trunk.png", "flora_amber_medium_cap.png", "flora_amber_medium_bottom.png"},
+	paramtype = "light",
+	light_source = 12,
+	paramtype2 = "facedir",
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"flora:amber_trunk"},
+			},
+			{
+				rarity = 2,
+				items = {"flora:amber_trunk"},
+			},
+		},
+	},
+	groups = {mushroom = 1, choppy = 3, oddly_breakable_by_hand = 1, flammable = 3},
+	sounds = default.node_sound_wood_defaults(),
+	selection_box = {
+		type = "fixed",
+		fixed = {-16/16, -8/16, -16/16, 16/16, -4/16, 16/16}
+	},
+	collision_box = {
+		type = "fixed",
+		fixed = {-12/16, -8/16, -12/16, 12/16, 24/16, 12/16}
+	}
 })
 minetest.register_node("flora:ghost_trunk", {
 	description = "Ghostshroom Trunk",

@@ -173,7 +173,7 @@ minetest.register_node("flora:viridis_ceiling_1", {
 	floodable = true,
 	buildable_to = true,
 	light_source = 8,
-	groups = {snappy = 3, flora = 1, attached_node = 1,
+	groups = {snappy = 3, flora = 1,
 		flammable = 1},
 	sounds = default.node_sound_leaves_defaults(),
     selection_box = {
@@ -202,7 +202,7 @@ for i = 2, 3 do
 		buildable_to = true,
 		light_source = 8,
 		drop = "flora:viridis_ceiling_1",
-		groups = {snappy = 3, flora = 1, attached_node = 1,
+		groups = {snappy = 3, flora = 1,
 			not_in_creative_inventory = 1, flammable = 1},
 		sounds = default.node_sound_leaves_defaults(),
 		selection_box = {
@@ -452,7 +452,7 @@ minetest.register_node("flora:ghost_ceiling_1", {
 	buildable_to = true,
 	use_texture_alpha = "blend",
 	light_source = 2,
-	groups = {snappy = 3, flora = 1, attached_node = 1,
+	groups = {snappy = 3, flora = 1,
 		flammable = 1},
 	sounds = default.node_sound_leaves_defaults(),
     selection_box = {
@@ -482,7 +482,7 @@ for i = 2, 3 do
 		use_texture_alpha = "blend",
 		drop = "flora:ghost_ceiling_1",
 		light_source = 2,
-		groups = {snappy = 3, flora = 1, attached_node = 1,
+		groups = {snappy = 3, flora = 1,
 			not_in_creative_inventory = 1, flammable = 1},
 		sounds = default.node_sound_leaves_defaults(),
 		selection_box = {
@@ -554,7 +554,7 @@ minetest.register_node("flora:mushroom_grass_ceiling_1", {
 	walkable = false,
 	floodable = true,
 	buildable_to = true,
-	groups = {snappy = 3, flora = 1, attached_node = 1, grass = 1,
+	groups = {snappy = 3, flora = 1, grass = 1,
 		normal_grass = 1, flammable = 1},
 	sounds = default.node_sound_leaves_defaults(),
 	selection_box = {
@@ -583,7 +583,7 @@ for i = 2, 5 do
 		floodable = true,
 		buildable_to = true,
 		drop = "flora:mushroom_grass_ceiling_1",
-		groups = {snappy = 3, flora = 1, attached_node = 1,
+		groups = {snappy = 3, flora = 1,
 			not_in_creative_inventory = 1, grass = 1,
 			normal_grass = 1, flammable = 1},
 		sounds = default.node_sound_leaves_defaults(),
@@ -662,7 +662,7 @@ minetest.register_node("flora:mushroom_grass_tall_ceiling_1", {
 	walkable = false,
 	floodable = true,
 	buildable_to = true,
-	groups = {snappy = 3, flora = 1, attached_node = 1, grass = 1,
+	groups = {snappy = 3, flora = 1, grass = 1,
 		normal_grass = 1, flammable = 1},
 	sounds = default.node_sound_leaves_defaults(),
 	selection_box = {
@@ -693,7 +693,7 @@ for i = 2, 5 do
 		floodable = true,
 		buildable_to = true,
 		drop = "flora:mushroom_grass_tall_ceiling_1",
-		groups = {snappy = 3, flora = 1, attached_node = 1,
+		groups = {snappy = 3, flora = 1,
 			not_in_creative_inventory = 1, grass = 1,
 			normal_grass = 1, flammable = 1},
 		sounds = default.node_sound_leaves_defaults(),

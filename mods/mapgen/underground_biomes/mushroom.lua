@@ -330,7 +330,7 @@ mapgen.register_mushroom_decorations = function()
             y_max = mapgen.mushroom_top,
             y_min = mapgen.mushroom_bottom,
             rotation = "random",
-            flags = "all_floors, force_placement, place_center_x, place_center_z",
+            flags = "all_floors, place_center_x, place_center_z",
             schematic = "schematics/underground/azureshroom_segment" .. i .. ".mts",
             place_offset_y = -1,
         })
@@ -343,7 +343,7 @@ mapgen.register_mushroom_decorations = function()
             y_max = mapgen.mushroom_top,
             y_min = mapgen.mushroom_bottom,
             rotation = "random",
-            flags = "all_floors, force_placement, place_center_x, place_center_z",
+            flags = "all_floors, place_center_x, place_center_z",
             schematic = "schematics/underground/azureshroom_medium" .. i .. ".mts",
             place_offset_y = -1,
         })
@@ -388,7 +388,7 @@ mapgen.register_mushroom_decorations = function()
             y_max = mapgen.mushroom_top,
             y_min = mapgen.mushroom_bottom,
             rotation = "random",
-            flags = "all_floors, force_placement, place_center_x, place_center_z",
+            flags = "all_floors, place_center_x, place_center_z",
             schematic = "schematics/underground/fireshroom" .. i .. ".mts",
             place_offset_y = -2,
         })
@@ -412,7 +412,7 @@ mapgen.register_mushroom_decorations = function()
         y_max = mapgen.mushroom_top,
         y_min = mapgen.mushroom_bottom,
         rotation = "random",
-        flags = "all_floors, force_placement, place_center_x, place_center_z",
+        flags = "all_floors, place_center_x, place_center_z",
         schematic = "schematics/underground/amber_mushroom_large.mts",
         place_offset_y = -3,
     })
@@ -423,7 +423,7 @@ mapgen.register_mushroom_decorations = function()
         y_max = mapgen.mushroom_top,
         y_min = mapgen.mushroom_bottom,
         rotation = "random",
-        flags = "all_floors, force_placement, place_center_x, place_center_z",
+        flags = "all_floors, place_center_x, place_center_z",
         schematic = "schematics/underground/amber_mushroom_medium.mts",
         place_offset_y = -3,
     })
@@ -434,7 +434,7 @@ mapgen.register_mushroom_decorations = function()
         y_max = mapgen.mushroom_top,
         y_min = mapgen.mushroom_bottom,
         rotation = "random",
-        flags = "all_floors, force_placement, place_center_x, place_center_z",
+        flags = "all_floors, place_center_x, place_center_z",
         schematic = "schematics/underground/amber_mushroom_small.mts",
         place_offset_y = -2,
     })
@@ -445,7 +445,7 @@ mapgen.register_mushroom_decorations = function()
         y_max = mapgen.mushroom_top,
         y_min = mapgen.mushroom_bottom,
         rotation = "random",
-        flags = "all_ceilings, force_placement, place_center_x, place_center_z",
+        flags = "all_ceilings, place_center_x, place_center_z",
         schematic = "schematics/underground/amber_mushroom_ceiling.mts",
         place_offset_y = -3,
     })
@@ -499,7 +499,7 @@ mapgen.register_mushroom_decorations = function()
             fill_ratio = 0.002,
             y_max = mapgen.mushroom_top,
             y_min = mapgen.mushroom_bottom,
-            flags = "all_floors, force_placement, place_center_x, place_center_z",
+            flags = "all_floors, place_center_x, place_center_z",
             schematic = "schematics/underground/viridis" .. i .. ".mts",
             place_offset_y = -2,
         })
@@ -511,7 +511,7 @@ mapgen.register_mushroom_decorations = function()
         y_max = mapgen.mushroom_top,
         y_min = mapgen.mushroom_bottom,
         rotation = "random",
-        flags = "all_ceilings, force_placement, place_center_x, place_center_z",
+        flags = "all_ceilings, place_center_x, place_center_z",
         schematic = "schematics/underground/viridis_ceiling.mts",
         place_offset_y = -2,
     })
@@ -545,7 +545,7 @@ mapgen.register_mushroom_decorations = function()
             fill_ratio = 0.002,
             y_max = mapgen.mushroom_top,
             y_min = mapgen.mushroom_bottom,
-            flags = "all_floors, force_placement, place_center_x, place_center_z",
+            flags = "all_floors, place_center_x, place_center_z",
             schematic = "schematics/underground/darkshroom" .. i .. ".mts",
             place_offset_y = -2,
         })
@@ -557,7 +557,7 @@ mapgen.register_mushroom_decorations = function()
         y_max = mapgen.mushroom_top,
         y_min = mapgen.mushroom_bottom,
         rotation = "random",
-        flags = "all_ceilings, force_placement, place_center_x, place_center_z",
+        flags = "all_ceilings, place_center_x, place_center_z",
         schematic = "schematics/underground/darkshroom_ceiling.mts",
         place_offset_y = -2,
     })
@@ -579,7 +579,7 @@ mapgen.register_mushroom_decorations = function()
             y_max = mapgen.mushroom_top,
             y_min = mapgen.mushroom_bottom,
             rotation = "random",
-            flags = "all_floors, force_placement, place_center_x, place_center_z",
+            flags = "all_floors, place_center_x, place_center_z",
             schematic = "schematics/underground/ghostshroom" .. i .. ".mts",
             place_offset_y = -2,
         })
@@ -591,7 +591,7 @@ mapgen.register_mushroom_decorations = function()
         y_max = mapgen.mushroom_top,
         y_min = mapgen.mushroom_bottom,
         rotation = "random",
-        flags = "all_ceilings, force_placement, place_center_x, place_center_z",
+        flags = "all_ceilings, place_center_x, place_center_z",
         schematic = "schematics/underground/ghostshroom_ceiling.mts",
         place_offset_y = -2,
     })

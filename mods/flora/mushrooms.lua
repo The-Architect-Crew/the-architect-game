@@ -14,6 +14,18 @@ minetest.register_node("flora:azure_cap", {
 	description = "Azure Mushroom Cap",
 	tiles = {"flora_azure_cap.png"},
 	is_ground_content = false,
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"flora:mycelium_azure"},
+			},
+			{
+				rarity = 2,
+				items = {"flora:mycelium_azure"},
+			}
+		},
+	},
 	groups = {mushroom = 1, choppy = 3, oddly_breakable_by_hand = 1, flammable = 3},
 	sounds = default.node_sound_wood_defaults(),
 })
@@ -23,6 +35,22 @@ minetest.register_node("flora:azure_gills", {
 	paramtype = "light",
 	is_ground_content = false,
     light_source = 8,
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"flora:mycelium_azure"},
+			},
+			{
+				rarity = 1,
+				items = {"flora:spores_azure"},
+			},
+			{
+				rarity = 2,
+				items = {"flora:spores_azure"},
+			}
+		},
+	},
 	groups = {mushroom = 1, choppy = 3, oddly_breakable_by_hand = 1, flammable = 3},
 	sounds = default.node_sound_wood_defaults(),
 
@@ -58,6 +86,22 @@ minetest.register_node("flora:fireshroom_cap", {
 	is_ground_content = false,
 	paramtype = "light",
 	light_source = 12,
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"flora:mycelium_fire"},
+			},
+			{
+				rarity = 1,
+				items = {"blocks:firebranches"},
+			},
+			{
+				rarity = 2,
+				items = {"flora:mycelium_fire"},
+			}
+		},
+	},
 	groups = {mushroom = 1, choppy = 3, oddly_breakable_by_hand = 1, flammable = 3},
 	sounds = default.node_sound_wood_defaults(),
 })
@@ -65,6 +109,22 @@ minetest.register_node("flora:fireshroom_gills", {
 	description = "Big Fireshroom Gills",
 	tiles = {"flora_fireshroom_gills.png"},
 	is_ground_content = false,
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"flora:mycelium_fire"},
+			},
+			{
+				rarity = 1,
+				items = {"flora:spores_fire"},
+			},
+			{
+				rarity = 2,
+				items = {"flora:spores_fire"},
+			}
+		},
+	},
 	groups = {mushroom = 1, choppy = 3, oddly_breakable_by_hand = 1, flammable = 3},
 	sounds = default.node_sound_wood_defaults(),
 
@@ -102,6 +162,26 @@ minetest.register_node("flora:viridis_cap", {
 	is_ground_content = false,
 	paramtype = "light",
     light_source = 12,
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"flora:mycelium_viridis"},
+			},
+			{
+				rarity = 2,
+				items = {"flora:mycelium_viridis"},
+			},
+			{
+				rarity = 3,
+				items = {"flora:mycelium_viridis"},
+			},
+			{
+				rarity = 3,
+				items = {"flora:mycelium_viridis"},
+			}
+		},
+	},
 	groups = {mushroom = 1, choppy = 3, oddly_breakable_by_hand = 1, flammable = 3},
 	sounds = default.node_sound_wood_defaults(),
 })
@@ -112,6 +192,26 @@ minetest.register_node("flora:viridis_gills", {
 	paramtype2 = "facedir",
 	is_ground_content = false,
     light_source = 14,
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"flora:mycelium_viridis"},
+			},
+			{
+				rarity = 2,
+				items = {"flora:spores_viridis"},
+			},
+			{
+				rarity = 2,
+				items = {"flora:spores_viridis"},
+			},
+			{
+				rarity = 3,
+				items = {"flora:mycelium_viridis"},
+			}
+		},
+	},
 	groups = {mushroom = 1, choppy = 3, oddly_breakable_by_hand = 1, flammable = 3},
 	sounds = default.node_sound_wood_defaults(),
 
@@ -148,6 +248,26 @@ minetest.register_node("flora:viridis_ground_1", {
 	floodable = true,
 	buildable_to = true,
 	light_source = 8,
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"flora:mycelium_viridis"},
+			},
+			{
+				rarity = 3,
+				items = {"flora:spores_grass_viridis"},
+			},
+			{
+				rarity = 3,
+				items = {"flora:mycelium_viridis"},
+			},
+			{
+				rarity = 8,
+				items = {"flora:glowing_mycelia_viridis"},
+			}
+		},
+	},
 	groups = {snappy = 3, flora = 1, attached_node = 1,
 		flammable = 1},
 	sounds = default.node_sound_leaves_defaults(),
@@ -177,7 +297,26 @@ for i = 2, 3 do
 		floodable = true,
 		buildable_to = true,
 		light_source = 8,
-		drop = "flora:viridis_ground_1",
+		drop = {
+			items = {
+				{
+					rarity = 1,
+					items = {"flora:mycelium_viridis"},
+				},
+				{
+					rarity = 3,
+					items = {"flora:spores_grass_viridis"},
+				},
+				{
+					rarity = 3,
+					items = {"flora:mycelium_viridis"},
+				},
+				{
+					rarity = 8,
+					items = {"flora:glowing_mycelia_viridis"},
+				}
+			},
+		},
 		groups = {snappy = 3, flora = 1, attached_node = 1,
 			not_in_creative_inventory = 1, flammable = 1},
 		sounds = default.node_sound_leaves_defaults(),
@@ -199,6 +338,26 @@ minetest.register_node("flora:viridis_ceiling_1", {
 	floodable = true,
 	buildable_to = true,
 	light_source = 8,
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"flora:mycelium_viridis"},
+			},
+			{
+				rarity = 3,
+				items = {"flora:spores_grass_viridis"},
+			},
+			{
+				rarity = 3,
+				items = {"flora:mycelium_viridis"},
+			},
+			{
+				rarity = 8,
+				items = {"flora:glowing_mycelia_viridis"},
+			}
+		},
+	},
 	groups = {snappy = 3, flora = 1,
 		flammable = 1},
 	sounds = default.node_sound_leaves_defaults(),
@@ -227,7 +386,26 @@ for i = 2, 3 do
 		floodable = true,
 		buildable_to = true,
 		light_source = 8,
-		drop = "flora:viridis_ceiling_1",
+		drop = {
+			items = {
+				{
+					rarity = 1,
+					items = {"flora:mycelium_viridis"},
+				},
+				{
+					rarity = 3,
+					items = {"flora:spores_grass_viridis"},
+				},
+				{
+					rarity = 3,
+					items = {"flora:mycelium_viridis"},
+				},
+				{
+					rarity = 8,
+					items = {"flora:glowing_mycelia_viridis"},
+				}
+			},
+		},
 		groups = {snappy = 3, flora = 1,
 			not_in_creative_inventory = 1, flammable = 1},
 		sounds = default.node_sound_leaves_defaults(),
@@ -282,6 +460,26 @@ minetest.register_node("flora:dark_cap", {
 	is_ground_content = false,
 	paramtype = "light",
 	light_source = 8,
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"flora:mycelium_dark"},
+			},
+			{
+				rarity = 2,
+				items = {"flora:mycelium_dark"},
+			},
+			{
+				rarity = 3,
+				items = {"flora:mycelium_dark"},
+			},
+			{
+				rarity = 3,
+				items = {"flora:mycelium_dark"},
+			}
+		},
+	},
 	groups = {mushroom = 1, choppy = 3, oddly_breakable_by_hand = 1, flammable = 3},
 	sounds = default.node_sound_wood_defaults(),
 })
@@ -289,9 +487,28 @@ minetest.register_node("flora:dark_cap_spike", {
 	description = "Dark Mushroom Cap",
 	tiles = ccore.fake_fake_contrast({"flora_dark_cap.png", "flora_dark_cap_spike_bottom.png", "flora_dark_cap_spike_side.png"}),
 	is_ground_content = false,
-	drop = "flora:dark_cap",
 	paramtype = "light",
 	light_source = 6,
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"flora:mycelium_dark"},
+			},
+			{
+				rarity = 2,
+				items = {"flora:mycelium_dark"},
+			},
+			{
+				rarity = 3,
+				items = {"flora:mycelium_dark"},
+			},
+			{
+				rarity = 3,
+				items = {"flora:mycelium_dark"},
+			}
+		},
+	},
 	groups = {mushroom = 1, choppy = 3, oddly_breakable_by_hand = 1, flammable = 3},
 	sounds = default.node_sound_wood_defaults(),
 })
@@ -301,6 +518,26 @@ minetest.register_node("flora:dark_gills", {
 	is_ground_content = false,
 	paramtype = "light",
 	light_source = 8,
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"flora:mycelium_dark"},
+			},
+			{
+				rarity = 2,
+				items = {"flora:spores_dark"},
+			},
+			{
+				rarity = 2,
+				items = {"flora:spores_dark"},
+			},
+			{
+				rarity = 3,
+				items = {"flora:mycelium_dark"},
+			}
+		},
+	},
 	groups = {mushroom = 1, choppy = 3, oddly_breakable_by_hand = 1, flammable = 3},
 	sounds = default.node_sound_wood_defaults(),
 })
@@ -329,6 +566,22 @@ minetest.register_node("flora:dark_grass_1", {
 	walkable = false,
 	floodable = true,
 	buildable_to = true,
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"flora:mycelium_dark"},
+			},
+			{
+				rarity = 3,
+				items = {"flora:spores_grass_dark"},
+			},
+			{
+				rarity = 3,
+				items = {"flora:mycelium_dark"},
+			}
+		},
+	},
 	groups = {snappy = 3, flora = 1, attached_node = 1, grass = 1,
 		normal_grass = 1, flammable = 1},
 	sounds = default.node_sound_leaves_defaults(),
@@ -358,7 +611,22 @@ for i = 2, 5 do
 		walkable = false,
 		floodable = true,
 		buildable_to = true,
-		drop = "flora:dark_grass_1",
+		drop = {
+			items = {
+				{
+					rarity = 1,
+					items = {"flora:mycelium_dark"},
+				},
+				{
+					rarity = 3,
+					items = {"flora:spores_grass_dark"},
+				},
+				{
+					rarity = 3,
+					items = {"flora:mycelium_dark"},
+				}
+			},
+		},
 		groups = {snappy = 3, flora = 1, attached_node = 1,
 			not_in_creative_inventory = 1, grass = 1,
 			normal_grass = 1, flammable = 1},
@@ -380,6 +648,22 @@ minetest.register_node("flora:dark_grass_ceiling_1", {
 	walkable = false,
 	floodable = true,
 	buildable_to = true,
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"flora:mycelium_dark"},
+			},
+			{
+				rarity = 3,
+				items = {"flora:spores_grass_dark"},
+			},
+			{
+				rarity = 3,
+				items = {"flora:mycelium_dark"},
+			}
+		},
+	},
 	groups = {snappy = 3, flora = 1, grass = 1,
 		normal_grass = 1, flammable = 1},
 	sounds = default.node_sound_leaves_defaults(),
@@ -408,7 +692,22 @@ for i = 2, 5 do
 		walkable = false,
 		floodable = true,
 		buildable_to = true,
-		drop = "flora:dark_grass_ceiling_1",
+		drop = {
+			items = {
+				{
+					rarity = 1,
+					items = {"flora:mycelium_dark"},
+				},
+				{
+					rarity = 3,
+					items = {"flora:spores_grass_dark"},
+				},
+				{
+					rarity = 3,
+					items = {"flora:mycelium_dark"},
+				}
+			},
+		},
 		groups = {snappy = 3, flora = 1,
 			not_in_creative_inventory = 1, grass = 1,
 			normal_grass = 1, flammable = 1},
@@ -433,6 +732,26 @@ minetest.register_node("flora:dark_grass_tall_1", {
 	walkable = false,
 	floodable = true,
 	buildable_to = true,
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"flora:mycelium_dark"},
+			},
+			{
+				rarity = 3,
+				items = {"flora:spores_grass_dark"},
+			},
+			{
+				rarity = 3,
+				items = {"flora:mycelium_dark"},
+			},
+			{
+				rarity = 4,
+				items = {"flora:glowing_mycelia_dark"},
+			},
+		},
+	},
 	groups = {snappy = 3, flora = 1, attached_node = 1, grass = 1,
 		normal_grass = 1, flammable = 1},
 	sounds = default.node_sound_leaves_defaults(),
@@ -464,7 +783,26 @@ for i = 2, 3 do
 		walkable = false,
 		floodable = true,
 		buildable_to = true,
-		drop = "flora:dark_grass_tall_1",
+		drop = {
+			items = {
+				{
+					rarity = 1,
+					items = {"flora:mycelium_dark"},
+				},
+				{
+					rarity = 3,
+					items = {"flora:spores_grass_dark"},
+				},
+				{
+					rarity = 3,
+					items = {"flora:mycelium_dark"},
+				},
+				{
+					rarity = 4,
+					items = {"flora:glowing_mycelia_dark"},
+				},
+			},
+		},
 		groups = {snappy = 3, flora = 1, attached_node = 1,
 			not_in_creative_inventory = 1, grass = 1,
 			normal_grass = 1, flammable = 1},
@@ -488,6 +826,26 @@ minetest.register_node("flora:dark_grass_tall_ceiling_1", {
 	walkable = false,
 	floodable = true,
 	buildable_to = true,
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"flora:mycelium_dark"},
+			},
+			{
+				rarity = 3,
+				items = {"flora:spores_grass_dark"},
+			},
+			{
+				rarity = 3,
+				items = {"flora:mycelium_dark"},
+			},
+			{
+				rarity = 4,
+				items = {"flora:glowing_mycelia_dark"},
+			},
+		},
+	},
 	groups = {snappy = 3, flora = 1, grass = 1,
 		normal_grass = 1, flammable = 1},
 	sounds = default.node_sound_leaves_defaults(),
@@ -518,7 +876,26 @@ for i = 2, 3 do
 		walkable = false,
 		floodable = true,
 		buildable_to = true,
-		drop = "flora:dark_grass_tall_ceiling_1",
+		drop = {
+			items = {
+				{
+					rarity = 1,
+					items = {"flora:mycelium_dark"},
+				},
+				{
+					rarity = 3,
+					items = {"flora:spores_grass_dark"},
+				},
+				{
+					rarity = 3,
+					items = {"flora:mycelium_dark"},
+				},
+				{
+					rarity = 4,
+					items = {"flora:glowing_mycelia_dark"},
+				},
+			},
+		},
 		groups = {snappy = 3, flora = 1,
 			not_in_creative_inventory = 1, grass = 1,
 			normal_grass = 1, flammable = 1},
@@ -573,6 +950,18 @@ minetest.register_node("flora:amber_cap", {
 	paramtype = "light",
 	light_source = 12,
 	is_ground_content = false,
+	drop = {
+		items = {
+			{
+				rarity = 2,
+				items = {"blocks:amber_shard"},
+			},
+			{
+				rarity = 3,
+				items = {"blocks:amber_shard"},
+			},
+		},
+	},
 	groups = {mushroom = 1, choppy = 3, oddly_breakable_by_hand = 1, flammable = 3},
 	sounds = default.node_sound_wood_defaults(),
 })
@@ -580,6 +969,22 @@ minetest.register_node("flora:amber_gills", {
 	description = "Amber Mushroom Gills",
 	tiles = {"flora_amber_gills.png"},
 	is_ground_content = false,
+	drop = {
+		items = {
+			{
+				rarity = 2,
+				items = {"blocks:amber_shard"},
+			},
+			{
+				rarity = 2,
+				items = {"flora:amber_sapling"},
+			},
+			{
+				rarity = 3,
+				items = {"blocks:amber_shard"},
+			},
+		},
+	},
 	groups = {mushroom = 1, choppy = 3, oddly_breakable_by_hand = 1, flammable = 3},
 	sounds = default.node_sound_wood_defaults(),
 })
@@ -596,6 +1001,10 @@ minetest.register_node("flora:amber_mushroom_medium", {
 			{
 				rarity = 1,
 				items = {"flora:amber_trunk"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:amber_shard"},
 			},
 			{
 				rarity = 2,
@@ -666,6 +1075,26 @@ minetest.register_node("flora:ghost_cap", {
 	paramtype = "light",
 	light_source = 12,
 	use_texture_alpha = "blend",
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"flora:mycelium_ghost"},
+			},
+			{
+				rarity = 2,
+				items = {"flora:mycelium_ghost"},
+			},
+			{
+				rarity = 3,
+				items = {"flora:mycelium_ghost"},
+			},
+			{
+				rarity = 3,
+				items = {"flora:mycelium_ghost"},
+			}
+		},
+	},
 	groups = {mushroom = 1, choppy = 3, oddly_breakable_by_hand = 1, flammable = 3},
 	sounds = default.node_sound_wood_defaults(),
 })
@@ -676,6 +1105,26 @@ minetest.register_node("flora:ghost_gills", {
 	paramtype = "light",
 	light_source = 12,
 	use_texture_alpha = "blend",
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"flora:mycelium_ghost"},
+			},
+			{
+				rarity = 2,
+				items = {"flora:spores_ghost"},
+			},
+			{
+				rarity = 2,
+				items = {"flora:spores_ghost"},
+			},
+			{
+				rarity = 3,
+				items = {"flora:mycelium_ghost"},
+			}
+		},
+	},
 	groups = {mushroom = 1, choppy = 3, oddly_breakable_by_hand = 1, flammable = 3},
 	sounds = default.node_sound_wood_defaults(),
 })
@@ -708,6 +1157,7 @@ minetest.register_node("flora:ghost_cilia_bottom", {
 	walkable = false,
 	floodable = true,
 	buildable_to = true,
+	drop = "flora:ghost_cilia",
 	groups = {mushroom = 1, oddly_breakable_by_hand = 1, flammable = 3},
 	sounds = default.node_sound_leaves_defaults(),
 })
@@ -726,6 +1176,22 @@ minetest.register_node("flora:ghost_ground_1", {
 	buildable_to = true,
 	use_texture_alpha = "blend",
 	light_source = 2,
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"flora:mycelium_ghost"},
+			},
+			{
+				rarity = 3,
+				items = {"flora:spores_grass_ghost"},
+			},
+			{
+				rarity = 3,
+				items = {"flora:mycelium_ghost"},
+			}
+		},
+	},
 	groups = {snappy = 3, flora = 1, attached_node = 1,
 		flammable = 1},
 	sounds = default.node_sound_leaves_defaults(),
@@ -756,8 +1222,23 @@ for i = 2, 3 do
 		floodable = true,
 		buildable_to = true,
 		use_texture_alpha = "blend",
-		drop = "flora:ghost_ground_1",
 		light_source = 2,
+		drop = {
+			items = {
+				{
+					rarity = 1,
+					items = {"flora:mycelium_ghost"},
+				},
+				{
+					rarity = 3,
+					items = {"flora:spores_grass_ghost"},
+				},
+				{
+					rarity = 3,
+					items = {"flora:mycelium_ghost"},
+				}
+			},
+		},
 		groups = {snappy = 3, flora = 1, attached_node = 1,
 			not_in_creative_inventory = 1, flammable = 1},
 		sounds = default.node_sound_leaves_defaults(),
@@ -781,6 +1262,22 @@ minetest.register_node("flora:ghost_ceiling_1", {
 	buildable_to = true,
 	use_texture_alpha = "blend",
 	light_source = 2,
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"flora:mycelium_ghost"},
+			},
+			{
+				rarity = 3,
+				items = {"flora:spores_grass_ghost"},
+			},
+			{
+				rarity = 3,
+				items = {"flora:mycelium_ghost"},
+			}
+		},
+	},
 	groups = {snappy = 3, flora = 1,
 		flammable = 1},
 	sounds = default.node_sound_leaves_defaults(),
@@ -809,8 +1306,23 @@ for i = 2, 3 do
 		floodable = true,
 		buildable_to = true,
 		use_texture_alpha = "blend",
-		drop = "flora:ghost_ceiling_1",
 		light_source = 2,
+		drop = {
+			items = {
+				{
+					rarity = 1,
+					items = {"flora:mycelium_ghost"},
+				},
+				{
+					rarity = 3,
+					items = {"flora:spores_grass_ghost"},
+				},
+				{
+					rarity = 3,
+					items = {"flora:mycelium_ghost"},
+				}
+			},
+		},
 		groups = {snappy = 3, flora = 1,
 			not_in_creative_inventory = 1, flammable = 1},
 		sounds = default.node_sound_leaves_defaults(),
@@ -845,6 +1357,22 @@ minetest.register_node("flora:mushroom_grass_1", {
 	walkable = false,
 	floodable = true,
 	buildable_to = true,
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"flora:mycelium"},
+			},
+			{
+				rarity = 3,
+				items = {"flora:spores_grass"},
+			},
+			{
+				rarity = 3,
+				items = {"flora:mycelium"},
+			}
+		},
+	},
 	groups = {snappy = 3, flora = 1, attached_node = 1, grass = 1,
 		normal_grass = 1, flammable = 1},
 	sounds = default.node_sound_leaves_defaults(),
@@ -874,7 +1402,22 @@ for i = 2, 5 do
 		walkable = false,
 		floodable = true,
 		buildable_to = true,
-		drop = "flora:mushroom_grass_1",
+		drop = {
+			items = {
+				{
+					rarity = 1,
+					items = {"flora:mycelium"},
+				},
+				{
+					rarity = 3,
+					items = {"flora:spores_grass"},
+				},
+				{
+					rarity = 3,
+					items = {"flora:mycelium"},
+				}
+			},
+		},
 		groups = {snappy = 3, flora = 1, attached_node = 1,
 			not_in_creative_inventory = 1, grass = 1,
 			normal_grass = 1, flammable = 1},
@@ -896,6 +1439,22 @@ minetest.register_node("flora:mushroom_grass_ceiling_1", {
 	walkable = false,
 	floodable = true,
 	buildable_to = true,
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"flora:mycelium"},
+			},
+			{
+				rarity = 3,
+				items = {"flora:spores_grass"},
+			},
+			{
+				rarity = 3,
+				items = {"flora:mycelium"},
+			}
+		},
+	},
 	groups = {snappy = 3, flora = 1, grass = 1,
 		normal_grass = 1, flammable = 1},
 	sounds = default.node_sound_leaves_defaults(),
@@ -924,7 +1483,22 @@ for i = 2, 5 do
 		walkable = false,
 		floodable = true,
 		buildable_to = true,
-		drop = "flora:mushroom_grass_ceiling_1",
+		drop = {
+			items = {
+				{
+					rarity = 1,
+					items = {"flora:mycelium"},
+				},
+				{
+					rarity = 3,
+					items = {"flora:spores_grass"},
+				},
+				{
+					rarity = 3,
+					items = {"flora:mycelium"},
+				}
+			},
+		},
 		groups = {snappy = 3, flora = 1,
 			not_in_creative_inventory = 1, grass = 1,
 			normal_grass = 1, flammable = 1},
@@ -949,6 +1523,26 @@ minetest.register_node("flora:mushroom_grass_tall_1", {
 	walkable = false,
 	floodable = true,
 	buildable_to = true,
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"flora:mycelium"},
+			},
+			{
+				rarity = 3,
+				items = {"flora:spores_grass"},
+			},
+			{
+				rarity = 3,
+				items = {"flora:mycelium"},
+			},
+			{
+				rarity = 4,
+				items = {"flora:glowing_mycelia"},
+			}
+		},
+	},
 	groups = {snappy = 3, flora = 1, attached_node = 1, grass = 1,
 		normal_grass = 1, flammable = 1},
 	sounds = default.node_sound_leaves_defaults(),
@@ -980,7 +1574,26 @@ for i = 2, 5 do
 		walkable = false,
 		floodable = true,
 		buildable_to = true,
-		drop = "flora:mushroom_grass_tall_1",
+		drop = {
+			items = {
+				{
+					rarity = 1,
+					items = {"flora:mycelium"},
+				},
+				{
+					rarity = 3,
+					items = {"flora:spores_grass"},
+				},
+				{
+					rarity = 3,
+					items = {"flora:mycelium"},
+				},
+				{
+					rarity = 4,
+					items = {"flora:glowing_mycelia"},
+				}
+			},
+		},
 		groups = {snappy = 3, flora = 1, attached_node = 1,
 			not_in_creative_inventory = 1, grass = 1,
 			normal_grass = 1, flammable = 1},
@@ -1004,6 +1617,26 @@ minetest.register_node("flora:mushroom_grass_tall_ceiling_1", {
 	walkable = false,
 	floodable = true,
 	buildable_to = true,
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"flora:mycelium"},
+			},
+			{
+				rarity = 3,
+				items = {"flora:spores_grass"},
+			},
+			{
+				rarity = 3,
+				items = {"flora:mycelium"},
+			},
+			{
+				rarity = 4,
+				items = {"flora:glowing_mycelia"},
+			}
+		},
+	},
 	groups = {snappy = 3, flora = 1, grass = 1,
 		normal_grass = 1, flammable = 1},
 	sounds = default.node_sound_leaves_defaults(),
@@ -1034,7 +1667,26 @@ for i = 2, 5 do
 		walkable = false,
 		floodable = true,
 		buildable_to = true,
-		drop = "flora:mushroom_grass_tall_ceiling_1",
+		drop = {
+			items = {
+				{
+					rarity = 1,
+					items = {"flora:mycelium"},
+				},
+				{
+					rarity = 3,
+					items = {"flora:spores_grass"},
+				},
+				{
+					rarity = 3,
+					items = {"flora:mycelium"},
+				},
+				{
+					rarity = 4,
+					items = {"flora:glowing_mycelia"},
+				}
+			},
+		},
 		groups = {snappy = 3, flora = 1,
 			not_in_creative_inventory = 1, grass = 1,
 			normal_grass = 1, flammable = 1},
@@ -1092,7 +1744,7 @@ minetest.register_craft({
 minetest.register_craft({
 	output = "flora:fire_cap",
 	recipe = {
-		{"flora:mycelium_fire", "flora:mycelium_fire"},
+		{"blocks:firebranches", "blocks:firebranches"},
 		{"flora:mycelium_fire", "flora:mycelium_fire"},
 	}
 })

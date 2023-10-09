@@ -6,6 +6,12 @@ minetest.register_craftitem("blocks:stick", {
 	groups = {stick = 1, flammable = 2},
 })
 
+minetest.register_craftitem("blocks:mushroom_stick", {
+	description = S("Mushroom Stick"),
+	inventory_image = "blocks_mushroom_stick.png",
+	groups = {stick = 1, flammable = 2},
+})
+
 minetest.register_craftitem("blocks:bone", {
 	description = S("Bone"),
 	inventory_image = "blocks_bone.png",
@@ -143,18 +149,6 @@ minetest.register_node("blocks:viridis_wood", {
 	sounds = default.node_sound_wood_defaults(),
 })
 
-minetest.register_craftitem("blocks:firebranches", {
-	description = ccore.comment("Pile of Glowing Sticks", "An excellent fuel source"),
-	inventory_image = "blocks_firebranches.png",
-	groups = {stick = 1, fire_biome = 1},
-})
-
-minetest.register_craftitem("blocks:azure_mycelium", {
-	description = S("Pile of Azure Mushroom Mycelia"),
-	inventory_image = "blocks_azure_mycelium.png",
-	groups = {azure = 1},
-})
-
 --
 -- == CRAFTS
 --
@@ -162,7 +156,77 @@ minetest.register_craftitem("blocks:azure_mycelium", {
 minetest.register_craft({
 	output = "blocks:stick 4",
 	recipe = {
-		{"group:wood"},
+		{"blocks:wood"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:stick 4",
+	recipe = {
+		{"blocks:junglewood"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:stick 4",
+	recipe = {
+		{"blocks:pine_wood"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:stick 4",
+	recipe = {
+		{"blocks:aspen_wood"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:stick 4",
+	recipe = {
+		{"blocks:cherry_wood"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:stick 4",
+	recipe = {
+		{"blocks:acacia_wood"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:stick 4",
+	recipe = {
+		{"blocks:amber_wood"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:mushroom_stick 2",
+	recipe = {
+		{"blocks:viridis_wood"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:mushroom_stick 2",
+	recipe = {
+		{"blocks:azure_wood"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:mushroom_stick 2",
+	recipe = {
+		{"blocks:ghost_wood"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:mushroom_stick 2",
+	recipe = {
+		{"blocks:dark_wood"},
 	}
 })
 
@@ -223,6 +287,48 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
+	output = "blocks:amber_wood 4",
+	recipe = {
+		{"flora:amber_trunk"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:azure_wood 4",
+	recipe = {
+		{"flora:azure_trunk"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:ghost_wood 4",
+	recipe = {
+		{"flora:ghost_trunk"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:dark_wood 4",
+	recipe = {
+		{"flora:dark_trunk"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:viridis_wood 4",
+	recipe = {
+		{"flora:viridis_trunk"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:firewood 4",
+	recipe = {
+		{"flora:fireshroom_trunk"},
+	}
+})
+
+minetest.register_craft({
 	output = "blocks:wood",
 	recipe = {
 		{"flora:bush_stem"},
@@ -253,17 +359,40 @@ minetest.register_craft({
 minetest.register_craft({
 	output = "blocks:firewood",
 	recipe = {
-		{"blocks:firebranches", "blocks:firebranches"},
-		{"blocks:firebranches", "blocks:firebranches"},
+		{"flora:firebranches", "flora:fire_mycelium"},
+		{"flora:fire_mycelium", "flora:firebranches"},
 	}
 })
 
 minetest.register_craft({
 	output = "blocks:azure_wood",
 	recipe = {
-		{"blocks:azure_mycelium", "blocks:azure_mycelium", "blocks:azure_mycelium"},
-		{"blocks:azure_mycelium", "blocks:azure_mycelium", "blocks:azure_mycelium"},
-		{"blocks:azure_mycelium", "blocks:azure_mycelium", "blocks:azure_mycelium"},
+		{"blocks:mushroom_stick", "flora:mycelium_azure"},
+		{"flora:mycelium_azure", "blocks:mushroom_stick"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:viridis_wood",
+	recipe = {
+		{"blocks:mushroom_stick", "blocks:viridis_mycelium"},
+		{"blocks:viridis_mycelium", "blocks:mushroom_stick"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:dark_wood",
+	recipe = {
+		{"blocks:mushroom_stick", "blocks:dark_mycelium"},
+		{"blocks:dark_mycelium", "blocks:mushroom_stick"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:ghost_wood",
+	recipe = {
+		{"blocks:mushroom_stick", "blocks:ghost_mycelium"},
+		{"blocks:ghost_mycelium", "blocks:mushroom_stick"},
 	}
 })
 

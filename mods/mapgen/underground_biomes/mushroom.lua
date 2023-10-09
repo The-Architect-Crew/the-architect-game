@@ -570,6 +570,48 @@ mapgen.register_mushroom_decorations = function()
         flags = "all_ceilings",
         decoration = "flora:dark_spike",
     })
+    for i=1,5 do
+        minetest.register_decoration({
+            deco_type = "simple",
+            place_on = "blocks:dirt_with_dark_grass",
+            sidelen = 8,
+            fill_ratio = 0.08,
+            y_max = mapgen.mushroom_top,
+            y_min = mapgen.mushroom_bottom,
+            flags = "all_floors",
+            decoration = "flora:dark_grass_tall_" .. i,
+        })
+        minetest.register_decoration({
+            deco_type = "simple",
+            place_on = {"blocks:dirt_with_dark_grass", "blocks:dirt_with_dark_mycelia"},
+            sidelen = 8,
+            fill_ratio = 0.08,
+            y_max = mapgen.mushroom_top,
+            y_min = mapgen.mushroom_bottom,
+            flags = "all_ceilings",
+            decoration = "flora:dark_grass_tall_ceiling_" .. i,
+        })
+        minetest.register_decoration({
+            deco_type = "simple",
+            place_on = "blocks:dirt_with_dark_grass",
+            sidelen = 8,
+            fill_ratio = 0.08,
+            y_max = mapgen.mushroom_top,
+            y_min = mapgen.mushroom_bottom,
+            flags = "all_floors",
+            decoration = "flora:dark_grass_" .. i,
+        })
+        minetest.register_decoration({
+            deco_type = "simple",
+            place_on = {"blocks:dirt_with_dark_grass", "blocks:dirt_with_dark_mycelia"},
+            sidelen = 8,
+            fill_ratio = 0.08,
+            y_max = mapgen.mushroom_top,
+            y_min = mapgen.mushroom_bottom,
+            flags = "all_ceilings",
+            decoration = "flora:dark_grass_ceiling_" .. i,
+        })
+    end
     -- Ghostshroom
     for i=1,3 do
         minetest.register_decoration({

@@ -410,7 +410,18 @@ minetest.register_node("blocks:dirt_with_dark_mycelia", {
 	description = S("Dirt with Dark Mycelia"),
 	tiles = {"blocks_dirt_with_dark_mycelia.png"},
 	groups = {crumbly = 3, soil = 1},
-	drop = "blocks:dirt",
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:dirt"},
+			},
+			{
+				rarity = 2,
+				items = {"flora:mycelium_dark"},
+			},
+		},
+	},
 	sounds = default.node_sound_dirt_defaults(),
 })
 
@@ -418,7 +429,22 @@ minetest.register_node("blocks:dirt_with_dark_mycelia_glowing", {
 	description = S("Dirt with Dark Mycelia (Glowing)"),
 	tiles = ccore.fake_fake_contrast("blocks_dirt_with_dark_mycelia.png^blocks_dark_mycelia_glowing.png"),
 	groups = {crumbly = 3, soil = 1},
-	drop = "blocks:dirt",
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:dirt"},
+			},
+			{
+				rarity = 2,
+				items = {"flora:glowing_mycelia_dark"},
+			},
+			{
+				rarity = 2,
+				items = {"flora:mycelium_dark 2"},
+			},
+		},
+	},
 	paramtype = "light",
 	light_source = 8,
 	sounds = default.node_sound_dirt_defaults(),
@@ -428,7 +454,18 @@ minetest.register_node("blocks:dirt_with_viridis_mycelia", {
 	description = S("Dirt with Viridis Mycelia"),
 	tiles = {"blocks_dirt_with_viridis_mycelia.png"},
 	groups = {crumbly = 3, soil = 1},
-	drop = "blocks:dirt",
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:dirt"},
+			},
+			{
+				rarity = 2,
+				items = {"flora:mycelium_viridis"},
+			},
+		},
+	},
 	sounds = default.node_sound_dirt_defaults(),
 })
 
@@ -436,7 +473,22 @@ minetest.register_node("blocks:dirt_with_viridis_mycelia_glowing", {
 	description = S("Dirt with Viridis Mycelia (Glowing)"),
 	tiles = ccore.fake_fake_contrast("blocks_dirt_with_viridis_mycelia.png^blocks_viridis_mycelia_glowing.png"),
 	groups = {crumbly = 3, soil = 1},
-	drop = "blocks:dirt",
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:dirt"},
+			},
+			{
+				rarity = 2,
+				items = {"flora:glowing_mycelia_viridis"},
+			},
+			{
+				rarity = 2,
+				items = {"flora:mycelium_viridis 2"},
+			},
+		},
+	},
 	paramtype = "light",
 	light_source = 8,
 	sounds = default.node_sound_dirt_defaults(),
@@ -446,7 +498,18 @@ minetest.register_node("blocks:dirt_with_mycelia", {
 	description = S("Dirt with Mycelia"),
 	tiles = {"blocks_dirt_with_mushroom_mycelia.png"},
 	groups = {crumbly = 3, soil = 1},
-	drop = "blocks:dirt",
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:dirt"},
+			},
+			{
+				rarity = 2,
+				items = {"flora:mycelium"},
+			},
+		},
+	},
 	sounds = default.node_sound_dirt_defaults(),
 })
 
@@ -454,7 +517,22 @@ minetest.register_node("blocks:dirt_with_mycelia_glowing", {
 	description = S("Dirt with Mycelia (Glowing)"),
 	tiles = ccore.fake_fake_contrast("blocks_dirt_with_mushroom_mycelia.png^blocks_mushroom_mycelia_glowing.png"),
 	groups = {crumbly = 3, soil = 1},
-	drop = "blocks:dirt",
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:dirt"},
+			},
+			{
+				rarity = 2,
+				items = {"flora:glowing_mycelia"},
+			},
+			{
+				rarity = 2,
+				items = {"flora:mycelium 2"},
+			},
+		},
+	},
 	paramtype = "light",
 	light_source = 8,
 	sounds = default.node_sound_dirt_defaults(),
@@ -534,4 +612,28 @@ minetest.register_node("blocks:dirt_firemoss_mushroom_ceiling", {
 	sounds = default.node_sound_dirt_defaults({
 		footstep = {name = "default_grass_footstep", gain = 0.4},
 	}),
+})
+
+-- Crafts
+
+minetest.register_craft({
+	output = "blocks:dirt_with_viridis_mycelia 3",
+	recipe = {
+		{"flora:mycelium_viridis", "blocks:dirt", "flora:mycelium_viridis"},
+		{"blocks:dirt", "flora:mycelium_viridis", "blocks:dirt"},
+	}
+})
+minetest.register_craft({
+	output = "blocks:dirt_with_dark_mycelia 3",
+	recipe = {
+		{"flora:mycelium_dark", "blocks:dirt", "flora:mycelium_dark"},
+		{"blocks:dirt", "flora:mycelium_dark", "blocks:dirt"},
+	}
+})
+minetest.register_craft({
+	output = "blocks:dirt_with_mycelia 3",
+	recipe = {
+		{"flora:mycelium", "blocks:dirt", "flora:mycelium"},
+		{"blocks:dirt", "flora:mycelium", "blocks:dirt"},
+	}
 })

@@ -133,7 +133,6 @@ minetest.register_node("flora:fireshroom_gills", {
 minetest.register_craftitem("flora:mycelium_fire", {
 	description = "Fire Mushroom Mycelia",
 	inventory_image = "flora_mycelium_fire.png",
-	groups = {azure = 1},
 })
 minetest.register_craftitem("flora:spores_fire", {
 	description = "Fire Spores",
@@ -433,7 +432,6 @@ minetest.register_node("flora:glowing_mycelia_viridis", {
 minetest.register_craftitem("flora:mycelium_viridis", {
 	description = "Viridis Mushroom Mycelia",
 	inventory_image = "flora_mycelium_viridis.png",
-	groups = {azure = 1},
 })
 minetest.register_craftitem("flora:spores_viridis", {
 	description = "Viridis Spores",
@@ -924,7 +922,6 @@ minetest.register_node("flora:glowing_mycelia_dark", {
 minetest.register_craftitem("flora:mycelium_dark", {
 	description = "Dark Mushroom Mycelia",
 	inventory_image = "flora_mycelium_dark.png",
-	groups = {azure = 1},
 })
 minetest.register_craftitem("flora:spores_dark", {
 	description = "Dark Spores",
@@ -1335,7 +1332,6 @@ end
 minetest.register_craftitem("flora:mycelium_ghost", {
 	description = "Ghost Mushroom Mycelia",
 	inventory_image = "flora_mycelium_ghost.png",
-	groups = {azure = 1},
 })
 minetest.register_craftitem("flora:spores_ghost", {
 	description = "Ghost Spores",
@@ -1715,7 +1711,6 @@ minetest.register_node("flora:glowing_mycelia", {
 minetest.register_craftitem("flora:mycelium", {
 	description = "Mushroom Mycelia",
 	inventory_image = "flora_mycelium.png",
-	groups = {azure = 1},
 })
 minetest.register_craftitem("flora:spores_grass", {
 	description = "Mushroom Grass Spores",

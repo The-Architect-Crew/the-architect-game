@@ -5,6 +5,7 @@ max_line_length = 1000
 globals = {
 	"minetest",
 	"core",
+	"table",
 }
 
 read_globals = {

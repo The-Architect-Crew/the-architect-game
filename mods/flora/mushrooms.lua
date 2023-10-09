@@ -1073,6 +1073,109 @@ minetest.register_craftitem("flora:spores_grass", {
 -- Recipes
 -- Crafting
 
+minetest.register_craft({
+	output = "flora:azure_cap",
+	recipe = {
+		{"flora:mycelium_azure", "flora:mycelium_azure"},
+		{"flora:mycelium_azure", "flora:mycelium_azure"},
+	}
+})
+
+minetest.register_craft({
+	output = "flora:azure_gills 2",
+	recipe = {
+		{"flora:spores_azure", "flora:spores_azure"},
+		{"flora:mycelium_azure", "flora:mycelium_azure"},
+	}
+})
+
+minetest.register_craft({
+	output = "flora:fire_cap",
+	recipe = {
+		{"flora:mycelium_fire", "flora:mycelium_fire"},
+		{"flora:mycelium_fire", "flora:mycelium_fire"},
+	}
+})
+
+minetest.register_craft({
+	output = "flora:fire_gills 2",
+	recipe = {
+		{"flora:spores_fire", "flora:spores_fire"},
+		{"flora:mycelium_fire", "flora:mycelium_fire"},
+	}
+})
+
+minetest.register_craft({
+	output = "flora:dark_cap",
+	recipe = {
+		{"flora:mycelium_dark", "flora:mycelium_dark"},
+		{"flora:mycelium_dark", "flora:mycelium_dark"},
+	}
+})
+
+minetest.register_craft({
+	output = "flora:dark_gills 2",
+	recipe = {
+		{"flora:spores_dark", "flora:spores_dark"},
+		{"flora:mycelium_dark", "flora:mycelium_dark"},
+	}
+})
+
+minetest.register_craft({
+	output = "flora:dark_cap_spike 2",
+	recipe = {
+		{"flora:dark_cap", "flora:dark_cap"},
+		{"flora:dark_spike", "flora:dark_spike"},
+	}
+})
+
+minetest.register_craft({
+	output = "flora:viridis_cap",
+	recipe = {
+		{"flora:mycelium_viridis", "flora:mycelium_viridis"},
+		{"flora:mycelium_viridis", "flora:mycelium_viridis"},
+	}
+})
+
+minetest.register_craft({
+	output = "flora:viridis_gills 2",
+	recipe = {
+		{"flora:spores_viridis", "flora:spores_viridis"},
+		{"flora:mycelium_viridis", "flora:mycelium_viridis"},
+	}
+})
+
+minetest.register_craft({
+	output = "flora:ghost_cap",
+	recipe = {
+		{"flora:mycelium_ghost", "flora:mycelium_ghost"},
+		{"flora:mycelium_ghost", "flora:mycelium_ghost"},
+	}
+})
+
+minetest.register_craft({
+	output = "flora:ghost_gills 2",
+	recipe = {
+		{"flora:spores_ghost", "flora:spores_ghost"},
+		{"flora:mycelium_ghost", "flora:mycelium_ghost"},
+	}
+})
+
+minetest.register_craft({
+	output = "flora:amber_cap",
+	recipe = {
+		{"blocks:amber_shard", "blocks:amber_shard"},
+		{"blocks:amber_wood", "blocks:amber_wood"},
+	}
+})
+
+minetest.register_craft({
+	output = "flora:amber_gills",
+	recipe = {
+		{"flora:amber_sapling"},
+		{"blocks:amber_wood"},
+	}
+})
 -- Fuel
 minetest.register_craft({
 	type = "fuel",

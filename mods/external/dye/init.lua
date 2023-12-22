@@ -8,21 +8,21 @@ local S = minetest.get_translator("dye")
 -- Make dye names and descriptions available globally
 
 dye.dyes = {
-	{"white",      "White",			"#FFFFFF"},
-	{"grey",       "Grey",			"#808080"},
-	{"dark_grey",  "Dark Grey",		"#A9A9A9"},
-	{"black",      "Black",			"#000000"},
-	{"violet",     "Violet",		"#800080"},
-	{"blue",       "Blue",			"#0000FF"},
-	{"cyan",       "Cyan",			"#00FFFF"},
-	{"dark_green", "Dark Green",	"#006400"},
-	{"green",      "Green",			"#008000"},
-	{"yellow",     "Yellow",		"#FFFF00"},
-	{"brown",      "Brown",			"#964B00"},
-	{"orange",     "Orange",		"#FFA500"},
-	{"red",        "Red",			"#FF0000"},
-	{"magenta",    "Magenta",		"#FF00FF"},
-	{"pink",       "Pink",			"#FFC0CB"},
+	{"white",      "White",         "#FFFFFF"},
+	{"grey",       "Grey",          "#808080"},
+	{"dark_grey",  "Dark Grey",     "#A9A9A9"},
+	{"black",      "Black",         "#000000"},
+	{"violet",     "Violet",        "#670CB4"},
+	{"blue",       "Blue",          "#0000FF"},
+	{"cyan",       "Cyan",          "#00FFFF"},
+	{"dark_green", "Dark Green",    "#006400"},
+	{"green",      "Green",         "#008000"},
+	{"yellow",     "Yellow",        "#FFFF00"},
+	{"brown",      "Brown",         "#964B00"},
+	{"orange",     "Orange",        "#FFA500"},
+	{"red",        "Red",           "#FF0000"},
+	{"magenta",    "Magenta",       "#FF00FF"},
+	{"pink",       "Pink",          "#FFC0CB"},
 }
 
 -- Define items

@@ -907,28 +907,6 @@ minetest.register_node("flora:crimson_leaves", {
 	after_place_node = after_place_leaves,
 })
 
--- Cave tree
-
-minetest.register_node("flora:cave_tree", {
-	description = S("Cave Tree Log"),
-	tiles = {"flora_cavetree.png"},
-	is_ground_content = false,
-	groups = {tree = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2},
-	sounds = default.node_sound_wood_defaults(),
-})
-
-minetest.register_node("flora:cave_tree_leaves", {
-	description = S("Cave Tree Leaves"),
-	drawtype = "allfaces_optional",
-	waving = 1,
-	tiles = {"flora_cavetree_leaves.png"},
-	special_tiles = {"flora_cavetree_leaves.png"},
-	paramtype = "light",
-	is_ground_content = false,
-	groups = {snappy = 3, leafdecay = 3, flammable = 2, leaves = 1},
-	sounds = default.node_sound_leaves_defaults(),
-})
-
 -- Bonsai Trees
 
 minetest.register_node("flora:jungle_tree_bonsai", {

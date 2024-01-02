@@ -374,4 +374,144 @@ function mapgen.register_ores()
 			persist = 0.70
 		},
 	})
+	-- Scatter ores
+	-- Amber
+
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:mud_with_amber",
+		wherein        = "blocks:mud",
+		clust_scarcity = 8 * 8 * 8,
+		clust_num_ores = 8,
+		clust_size     = 3,
+		y_max          = mapgen.terrain_ceiling,
+		y_min          = mapgen.sfcave_top,
+	})
+
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:sandstone_with_amber",
+		wherein        = "blocks:sandstone",
+		clust_scarcity = 8 * 8 * 8,
+		clust_num_ores = 8,
+		clust_size     = 3,
+		y_max          = mapgen.terrain_ceiling,
+		y_min          = mapgen.sfcave_top,
+	})
+
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:sand_with_amber",
+		wherein        = "blocks:sand",
+		clust_scarcity = 8 * 8 * 8,
+		clust_num_ores = 8,
+		clust_size     = 3,
+		y_max          = mapgen.terrain_ceiling,
+		y_min          = mapgen.sfcave_top,
+	})
+
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:dirt_with_amber",
+		wherein        = "blocks:dirt",
+		clust_scarcity = 8 * 8 * 8,
+		clust_num_ores = 8,
+		clust_size     = 3,
+		y_max          = mapgen.terrain_ceiling,
+		y_min          = mapgen.sfcave_top,
+	})
+
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:dry_dirt_with_amber",
+		wherein        = "blocks:dry_dirt",
+		clust_scarcity = 8 * 8 * 8,
+		clust_num_ores = 8,
+		clust_size     = 3,
+		y_max          = mapgen.terrain_ceiling,
+		y_min          = mapgen.sfcave_top,
+	})
+
+	-- Coal
+
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:stone_with_coal",
+		wherein        = "blocks:stone",
+		clust_scarcity = 8 * 8 * 8,
+		clust_num_ores = 8,
+		clust_size     = 3,
+		y_max          = mapgen.terrain_ceiling,
+		y_min          = mapgen.sfcave_bottom,
+	})
+
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:sandstone_with_coal",
+		wherein        = "blocks:sandstone",
+		clust_scarcity = 8 * 8 * 8,
+		clust_num_ores = 8,
+		clust_size     = 3,
+		y_max          = mapgen.terrain_ceiling,
+		y_min          = mapgen.sfcave_bottom,
+	})
+
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:desert_stone_with_coal",
+		wherein        = "blocks:desert_stone",
+		clust_scarcity = 8 * 8 * 8,
+		clust_num_ores = 8,
+		clust_size     = 3,
+		y_max          = mapgen.terrain_ceiling,
+		y_min          = mapgen.sfcave_bottom,
+	})
+
+	-- Tin
+
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:stone_with_tin",
+		wherein        = "blocks:stone",
+		clust_scarcity = 13 * 13 * 13,
+		clust_num_ores = 4,
+		clust_size     = 3,
+		y_max          = mapgen.sfcave_top,
+		y_min          = mapgen.sfcave_bottom,
+	})
+
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:desert_stone_with_tin",
+		wherein        = "blocks:desert_stone",
+		clust_scarcity = 13 * 13 * 13,
+		clust_num_ores = 4,
+		clust_size     = 3,
+		y_max          = mapgen.sfcave_top,
+		y_min          = mapgen.sfcave_bottom,
+	})
+
+	-- Copper
+
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:stone_with_copper",
+		wherein        = "blocks:stone",
+		clust_scarcity = 12 * 12 * 12,
+		clust_num_ores = 4,
+		clust_size     = 3,
+		y_max          = mapgen.sfcave_top,
+		y_min          = mapgen.sfcave_bottom,
+	})
+
+	minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:desert_stone_with_copper",
+		wherein        = "blocks:desert_stone",
+		clust_scarcity = 12 * 12 * 12,
+		clust_num_ores = 4,
+		clust_size     = 3,
+		y_max          = mapgen.sfcave_top,
+		y_min          = mapgen.sfcave_bottom,
+	})
 end

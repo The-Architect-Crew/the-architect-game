@@ -17,6 +17,8 @@ mapgen.lost_mese_ore_params = {
 	clust_size = 3,
 }
 
+mapgen.terrain_ceiling = 512 -- How high up the ores spawn in the terrain
+
 mapgen.lush_biomes = {"grassland", "grassland_dunes", "grassland_ocean",
 					"coniferous_forest", "coniferous_forest_ocean", "coniferous_forest_dunes",
 					"deciduous_forest", "deciduous_forest_shore", "deciduous_forest_ocean",

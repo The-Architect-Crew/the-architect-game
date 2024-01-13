@@ -1119,6 +1119,30 @@ minetest.register_node("flora:shrubbery", {
 	sounds = default.node_sound_leaves_defaults(),
 })
 
+minetest.register_node("flora:shrubbery_tall", {
+	description = "Tall Apple Tree Shrubbery",
+	drawtype = "mesh",
+	mesh = "shrubbery_tall.obj",
+	tiles = {"flora_tree.png", "flora_shrubbery.png"},
+	paramtype = "light",
+	use_texture_alpha = "clip",
+	sunlight_propagates = true,
+	collision_box = {
+		type = "fixed",
+		fixed = {
+			{-8/16, -8/16, -8/16, 8/16, 24/16, 8/16},
+		}
+	},
+	selection_box = {
+		type = "fixed",
+		fixed = {
+			{-8/16, -8/16, -8/16, 8/16, 24/16, 8/16},
+		}
+	},
+	groups = {snappy = 2, flammable = 2},
+	sounds = default.node_sound_leaves_defaults(),
+})
+
 minetest.register_node("flora:acacia_tree_shrubbery", {
 	description = "Acacia Tree Shrubbery",
 	drawtype = "mesh",
@@ -1127,6 +1151,30 @@ minetest.register_node("flora:acacia_tree_shrubbery", {
 	paramtype = "light",
 	use_texture_alpha = "clip",
 	sunlight_propagates = true,
+	groups = {snappy = 2, flammable = 2},
+	sounds = default.node_sound_leaves_defaults(),
+})
+
+minetest.register_node("flora:acacia_tree_shrubbery_tall", {
+	description = "Tall Acacia Tree Shrubbery",
+	drawtype = "mesh",
+	mesh = "shrubbery_tall.obj",
+	tiles = {"flora_acacia_tree.png", "flora_acacia_shrubbery.png"},
+	paramtype = "light",
+	use_texture_alpha = "clip",
+	sunlight_propagates = true,
+	collision_box = {
+		type = "fixed",
+		fixed = {
+			{-8/16, -8/16, -8/16, 8/16, 24/16, 8/16},
+		}
+	},
+	selection_box = {
+		type = "fixed",
+		fixed = {
+			{-8/16, -8/16, -8/16, 8/16, 24/16, 8/16},
+		}
+	},
 	groups = {snappy = 2, flammable = 2},
 	sounds = default.node_sound_leaves_defaults(),
 })
@@ -1143,6 +1191,30 @@ minetest.register_node("flora:aspen_tree_shrubbery", {
 	sounds = default.node_sound_leaves_defaults(),
 })
 
+minetest.register_node("flora:aspen_tree_shrubbery_tall", {
+	description = "Tall Aspen Tree Shrubbery",
+	drawtype = "mesh",
+	mesh = "shrubbery_tall.obj",
+	tiles = {"flora_aspen_tree.png", "flora_aspen_shrubbery.png"},
+	paramtype = "light",
+	use_texture_alpha = "clip",
+	sunlight_propagates = true,
+	collision_box = {
+		type = "fixed",
+		fixed = {
+			{-8/16, -8/16, -8/16, 8/16, 24/16, 8/16},
+		}
+	},
+	selection_box = {
+		type = "fixed",
+		fixed = {
+			{-8/16, -8/16, -8/16, 8/16, 24/16, 8/16},
+		}
+	},
+	groups = {snappy = 2, flammable = 2},
+	sounds = default.node_sound_leaves_defaults(),
+})
+
 minetest.register_node("flora:bone_tree_shrubbery", {
 	description = "Bone Tree Shrubbery",
 	drawtype = "mesh",
@@ -1151,6 +1223,30 @@ minetest.register_node("flora:bone_tree_shrubbery", {
 	paramtype = "light",
 	use_texture_alpha = "clip",
 	sunlight_propagates = true,
+	groups = {snappy = 2, flammable = 2},
+	sounds = default.node_sound_leaves_defaults(),
+})
+
+minetest.register_node("flora:bone_tree_shrubbery_tall", {
+	description = "Tall Bone Tree Shrubbery",
+	drawtype = "mesh",
+	mesh = "shrubbery_tall.obj",
+	tiles = {"flora_bone_tree.png", "flora_crimson_shrubbery.png"},
+	paramtype = "light",
+	use_texture_alpha = "clip",
+	sunlight_propagates = true,
+	collision_box = {
+		type = "fixed",
+		fixed = {
+			{-8/16, -8/16, -8/16, 8/16, 24/16, 8/16},
+		}
+	},
+	selection_box = {
+		type = "fixed",
+		fixed = {
+			{-8/16, -8/16, -8/16, 8/16, 24/16, 8/16},
+		}
+	},
 	groups = {snappy = 2, flammable = 2},
 	sounds = default.node_sound_leaves_defaults(),
 })
@@ -1167,6 +1263,30 @@ minetest.register_node("flora:cherry_tree_shrubbery", {
 	sounds = default.node_sound_leaves_defaults(),
 })
 
+minetest.register_node("flora:cherry_tree_shrubbery_tall", {
+	description = "Tall Cherry Tree Shrubbery",
+	drawtype = "mesh",
+	mesh = "shrubbery_tall.obj",
+	tiles = {"flora_cherry_tree.png", "flora_cherry_shrubbery.png"},
+	paramtype = "light",
+	use_texture_alpha = "clip",
+	sunlight_propagates = true,
+	collision_box = {
+		type = "fixed",
+		fixed = {
+			{-8/16, -8/16, -8/16, 8/16, 24/16, 8/16},
+		}
+	},
+	selection_box = {
+		type = "fixed",
+		fixed = {
+			{-8/16, -8/16, -8/16, 8/16, 24/16, 8/16},
+		}
+	},
+	groups = {snappy = 2, flammable = 2},
+	sounds = default.node_sound_leaves_defaults(),
+})
+
 minetest.register_node("flora:dry_shrubbery", {
 	description = "Dry Shrubbery",
 	drawtype = "mesh",
@@ -1175,6 +1295,30 @@ minetest.register_node("flora:dry_shrubbery", {
 	paramtype = "light",
 	use_texture_alpha = "clip",
 	sunlight_propagates = true,
+	groups = {snappy = 2, flammable = 2},
+	sounds = default.node_sound_leaves_defaults(),
+})
+
+minetest.register_node("flora:dry_shrubbery_tall", {
+	description = "Dry Tall Shrubbery",
+	drawtype = "mesh",
+	mesh = "shrubbery_tall.obj",
+	tiles = {"flora_tree.png", "flora_dry_shrubbery.png"},
+	paramtype = "light",
+	use_texture_alpha = "clip",
+	sunlight_propagates = true,
+	collision_box = {
+		type = "fixed",
+		fixed = {
+			{-8/16, -8/16, -8/16, 8/16, 24/16, 8/16},
+		}
+	},
+	selection_box = {
+		type = "fixed",
+		fixed = {
+			{-8/16, -8/16, -8/16, 8/16, 24/16, 8/16},
+		}
+	},
 	groups = {snappy = 2, flammable = 2},
 	sounds = default.node_sound_leaves_defaults(),
 })
@@ -1191,6 +1335,30 @@ minetest.register_node("flora:jungle_tree_shrubbery", {
 	sounds = default.node_sound_leaves_defaults(),
 })
 
+minetest.register_node("flora:jungle_tree_shrubbery_tall", {
+	description = "Tall Jungle Tree Shrubbery",
+	drawtype = "mesh",
+	mesh = "shrubbery_tall.obj",
+	tiles = {"flora_jungletree.png", "flora_jungle_shrubbery.png"},
+	paramtype = "light",
+	use_texture_alpha = "clip",
+	sunlight_propagates = true,
+	collision_box = {
+		type = "fixed",
+		fixed = {
+			{-8/16, -8/16, -8/16, 8/16, 24/16, 8/16},
+		}
+	},
+	selection_box = {
+		type = "fixed",
+		fixed = {
+			{-8/16, -8/16, -8/16, 8/16, 24/16, 8/16},
+		}
+	},
+	groups = {snappy = 2, flammable = 2},
+	sounds = default.node_sound_leaves_defaults(),
+})
+
 minetest.register_node("flora:pine_tree_shrubbery", {
 	description = "Pine Tree Shrubbery",
 	drawtype = "mesh",
@@ -1199,6 +1367,30 @@ minetest.register_node("flora:pine_tree_shrubbery", {
 	paramtype = "light",
 	use_texture_alpha = "clip",
 	sunlight_propagates = true,
+	groups = {snappy = 2, flammable = 2},
+	sounds = default.node_sound_leaves_defaults(),
+})
+
+minetest.register_node("flora:pine_tree_shrubbery_tall", {
+	description = "Tall Pine Tree Shrubbery",
+	drawtype = "mesh",
+	mesh = "shrubbery_tall.obj",
+	tiles = {"flora_pine_tree.png", "flora_pine_shrubbery.png"},
+	paramtype = "light",
+	use_texture_alpha = "clip",
+	sunlight_propagates = true,
+	collision_box = {
+		type = "fixed",
+		fixed = {
+			{-8/16, -8/16, -8/16, 8/16, 24/16, 8/16},
+		}
+	},
+	selection_box = {
+		type = "fixed",
+		fixed = {
+			{-8/16, -8/16, -8/16, 8/16, 24/16, 8/16},
+		}
+	},
 	groups = {snappy = 2, flammable = 2},
 	sounds = default.node_sound_leaves_defaults(),
 })
@@ -1536,11 +1728,27 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
+	output = "flora:shrubbery_tall",
+	recipe = {
+		{"flora:shrubbery"},
+		{"flora:shrubbery"},
+	}
+})
+
+minetest.register_craft({
 	output = "flora:acacia_tree_shrubbery",
 	recipe = {
 		{"flora:acacia_leaves", "flora:acacia_leaves", "flora:acacia_leaves"},
 		{"flora:acacia_leaves", "flora:acacia_leaves", "flora:acacia_leaves"},
 		{"blocks:stick", "blocks:stick", "blocks:stick"},
+	}
+})
+
+minetest.register_craft({
+	output = "flora:acacia_tree_shrubbery_tall",
+	recipe = {
+		{"flora:acacia_tree_shrubbery"},
+		{"flora:acacia_tree_shrubbery"},
 	}
 })
 
@@ -1554,11 +1762,27 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
+	output = "flora:aspen_tree_shrubbery_tall",
+	recipe = {
+		{"flora:aspen_tree_shrubbery"},
+		{"flora:aspen_tree_shrubbery"},
+	}
+})
+
+minetest.register_craft({
 	output = "flora:bone_tree_shrubbery",
 	recipe = {
 		{"flora:crimson_leaves", "flora:crimson_leaves", "flora:crimson_leaves"},
 		{"flora:crimson_leaves", "flora:crimson_leaves", "flora:crimson_leaves"},
 		{"blocks:bone", "blocks:bone", "blocks:bone"},
+	}
+})
+
+minetest.register_craft({
+	output = "flora:bone_tree_shrubbery_tall",
+	recipe = {
+		{"flora:bone_tree_shrubbery"},
+		{"flora:bone_tree_shrubbery"},
 	}
 })
 
@@ -1572,6 +1796,14 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
+	output = "flora:cherry_tree_shrubbery_tall",
+	recipe = {
+		{"flora:cherry_tree_shrubbery"},
+		{"flora:cherry_tree_shrubbery"},
+	}
+})
+
+minetest.register_craft({
 	output = "flora:dry_shrubbery",
 	recipe = {
 		{"flora:dry_leaves", "flora:dry_leaves", "flora:dry_leaves"},
@@ -1581,11 +1813,27 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
+	output = "flora:dry_shrubbery_tall",
+	recipe = {
+		{"flora:dry_shrubbery"},
+		{"flora:dry_shrubbery"},
+	}
+})
+
+minetest.register_craft({
 	output = "flora:jungle_tree_shrubbery",
 	recipe = {
-		{"flora:jungle_leaves", "flora:jungle_leaves", "flora:jungle_leaves"},
-		{"flora:jungle_leaves", "flora:jungle_leaves", "flora:jungle_leaves"},
+		{"flora:jungleleaves", "flora:jungleleaves", "flora:jungleleaves"},
+		{"flora:jungleleaves", "flora:jungleleaves", "flora:jungleleaves"},
 		{"blocks:stick", "blocks:stick", "blocks:stick"},
+	}
+})
+
+minetest.register_craft({
+	output = "flora:jungle_tree_shrubbery_tall",
+	recipe = {
+		{"flora:jungle_tree_shrubbery"},
+		{"flora:jungle_tree_shrubbery"},
 	}
 })
 
@@ -1595,6 +1843,14 @@ minetest.register_craft({
 		{"flora:pine_needles", "flora:pine_needles", "flora:pine_needles"},
 		{"flora:pine_needles", "flora:pine_needles", "flora:pine_needles"},
 		{"blocks:stick", "blocks:stick", "blocks:stick"},
+	}
+})
+
+minetest.register_craft({
+	output = "flora:pine_tree_shrubbery_tall",
+	recipe = {
+		{"flora:pine_tree_shrubbery"},
+		{"flora:pine_tree_shrubbery"},
 	}
 })
 

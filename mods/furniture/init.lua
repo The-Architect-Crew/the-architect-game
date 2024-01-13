@@ -150,15 +150,13 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
     end
 
     -- Textures
-    local alpha = "opaque"
+    local alpha = "blend"
     if (type(fdef.special_textures) == "table") then
         for i=1, #fdef.special_textures do
             tiles[i+1] = fdef.special_textures[i]
         end
-        alpha = "blend" -- Since we can't figure if any special texture has transparency
     elseif (type(fdef.special_textures) == "string") then
         tiles[2] = fdef.special_textures
-        alpha = "blend"
     end
 
     if fdef.active then
@@ -166,10 +164,8 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
             for i=1, #fdef.special_textures_active do
                 tiles_active[i+1] = fdef.special_textures_active[i]
             end
-            alpha = "blend"
         elseif (type(fdef.special_textures_active) == "string") then
             tiles_active[2] = fdef.special_textures_active
-            alpha = "blend"
         end
     end
 

@@ -264,7 +264,7 @@ mapgen.register_quarry_decorations = function()
         minetest.register_decoration({
             deco_type = "schematic",
             place_on = "blocks:stone",
-            fill_ratio = 0.0008 - (i * 0.0001),
+            fill_ratio = 0.0006 - (i * 0.00005),
             y_max = mapgen.quarry_top,
             y_min = mapgen.quarry_middle,
             flags = "force_placement, all_floors, all_ceilings, place_center_x, place_center_y, place_center_z",
@@ -277,7 +277,7 @@ mapgen.register_quarry_decorations = function()
         minetest.register_decoration({
             deco_type = "schematic",
             place_on = "blocks:stone",
-            fill_ratio = 0.0024  - (i * 0.0002),
+            fill_ratio = 0.0016  - (i * 0.00005),
             y_max = mapgen.quarry_top,
             y_min = mapgen.quarry_middle,
             flags = "force_placement, all_floors, all_ceilings, place_center_x, place_center_y, place_center_z",
@@ -322,7 +322,6 @@ mapgen.register_quarry_decorations = function()
         y_min = mapgen.quarry_bottom,
         flags = "all_floors",
         decoration = "blocks:meselamp",
-    })
-    ]]--
+    })]]--
     mapgen.register_stalagmites("blocks:stone", {min = mapgen.quarry_bottom, max = mapgen.quarry_top}, 0.25, 22543, "quarry")
 end

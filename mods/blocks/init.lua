@@ -32,6 +32,8 @@ dofile(path.."/sign.lua")
 dofile(path.."/itemframe.lua")
 -- Shapes
 dofile(path.."/shapes.lua")
+-- Misc
+dofile(path.."/mapgen.lua")
 
 blocks.forbidden_groups = {
     "not_in_creative_inventory",

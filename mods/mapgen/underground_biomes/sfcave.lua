@@ -260,7 +260,7 @@ mapgen.register_sfcave_ores = function()
 	})
 	minetest.register_ore({
 		ore_type = "blob",
-		ore = "blocks:snow",
+		ore = "blocks:snowblock",
 		wherein = {"blocks:ice", "blocks:cave_ice"},
 		clust_scarcity = 6 * 6 * 6,
 		clust_num_ores = 64,

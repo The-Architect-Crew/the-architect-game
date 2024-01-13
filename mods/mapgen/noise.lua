@@ -2,8 +2,8 @@
 local mapgen_name = minetest.get_mapgen_setting("mg_name")
 if mapgen_name ~= "singlenode" and mapgen_name ~= "flat" then
 	minetest.set_mapgen_setting("mg_name", "carpathian", true)
-	minetest.set_mapgen_setting("mg_flags", "caves, dungeons, light, decorations, biomes, ores", true)
-	minetest.set_mapgen_setting("mgcarpathian_spflags", "caverns, rivers", true)
+	minetest.set_mapgen_setting("mg_flags", "nocaves, dungeons, light, decorations, biomes, ores", true)
+	minetest.set_mapgen_setting("mgcarpathian_spflags", "nocaverns, rivers", true)
 end
 
 -- 2D noise that controls the shape/size of ridged mountains.

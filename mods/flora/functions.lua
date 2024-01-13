@@ -142,6 +142,12 @@ flora.saplings = {
 		schem_name = "pine_bush",
 		offset = {x = 1, y = 1, z = 1}
 	},
+	amber_tree_sapling = {
+		name = "amber tree sapling",
+		description = "amber tree",
+		schem_name = "amber_mushroom_medium",
+		offset = {x = 6, y = 3, z = 6}
+	},
 }
 
 function flora.grow(pos, plant_data)
@@ -180,7 +186,7 @@ minetest.register_lbm({
 			"flora:sapling_big", "flora:emergent_jungle_sapling",
 			"flora:pine_sapling_big", "flora:acacia_sapling_big",
 			"flora:aspen_sapling_big", "flora:cherry_sapling_big",
-			"flora:bone_sapling_big"},
+			"flora:bone_sapling_big", "flora:amber_sapling"},
 	action = function(pos)
 		minetest.get_node_timer(pos):start(math.random(300, 1500))
 	end

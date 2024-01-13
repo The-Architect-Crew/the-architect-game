@@ -1,4 +1,4 @@
--- Garnet (stone sub-biome flora)
+-- Fireshroom biome
 
 minetest.register_node("flora:firemoss", {
 	description = ccore.comment("Firemoss", "Glows in the dark"),
@@ -14,11 +14,11 @@ minetest.register_node("flora:firemoss", {
 		items = {
 			{
 				rarity = 1,
-				items = {"blocks:firebranches"},
+				items = {"flora:firebranches"},
 			},
 			{
 				rarity = 2,
-				items = {"blocks:firebranches"},
+				items = {"flora:firebranches"},
 			},
 		},
 	},
@@ -46,7 +46,7 @@ for i=1,5 do
 			items = {
 				{
 					rarity = 2,
-					items = {"blocks:firebranches"},
+					items = {"flora:firebranches"},
 				},
 			},
 		},
@@ -72,7 +72,7 @@ for i=1,5 do
 			items = {
 				{
 					rarity = 2,
-					items = {"blocks:firebranches 2"},
+					items = {"flora:firebranches 2"},
 				},
 			},
 		},
@@ -105,15 +105,15 @@ minetest.register_node("flora:fireplant", {
 		items = {
 			{
 				rarity = 1,
-				items = {"blocks:firebranches 2"},
+				items = {"flora:firebranches 2"},
 			},
 			{
 				rarity = 2,
-				items = {"blocks:firebranches 2"},
+				items = {"flora:firebranches 2"},
 			},
 			{
 				rarity = 3,
-				items = {"blocks:firebranches 2"},
+				items = {"flora:firebranches 2"},
 			},
 		},
 	},
@@ -124,7 +124,6 @@ minetest.register_node("flora:fireplant", {
 		ccore.dig_dir(pos, {nn}, 1, digger)
 	end
 })
-
 minetest.register_node("flora:firevines", {
 	description = "Firevines",
 	drawtype = "plantlike",
@@ -132,7 +131,7 @@ minetest.register_node("flora:firevines", {
 	inventory_image = "flora_firevine.png",
 	wield_image = "flora_firevine.png",
 	paramtype = "light",
-	light_source = 8,
+	light_source = 12,
 	floodable = true,
 	sunlight_propagates = true,
 	walkable = false,
@@ -144,11 +143,11 @@ minetest.register_node("flora:firevines", {
 		items = {
 			{
 				rarity = 1,
-				items = {"blocks:firebranches"},
+				items = {"flora:firebranches"},
 			},
 			{
 				rarity = 2,
-				items = {"blocks:firebranches"},
+				items = {"flora:firebranches"},
 			},
 		},
 	},
@@ -159,8 +158,12 @@ minetest.register_node("flora:firevines", {
 		ccore.dig_dir(pos, {nn}, -1, digger)
 	end
 })
-
--- Lapis (Hot sub-biome flora)
+minetest.register_craftitem("flora:firebranches", {
+	description = ccore.comment("Pile of Glowing Sticks", "An excellent fuel source"),
+	inventory_image = "flora_firebranches.png",
+	groups = {stick = 1, fire_biome = 1},
+})
+-- Azure biome
 minetest.register_node("flora:azure_moss", {
 	description = "Azure Moss",
 	tiles = {"flora_azure_moss.png"},
@@ -175,11 +178,11 @@ minetest.register_node("flora:azure_moss", {
 		items = {
 			{
 				rarity = 1,
-				items = {"blocks:azure_mycelium"},
+				items = {"flora:mycelium_azure"},
 			},
 			{
 				rarity = 3,
-				items = {"blocks:azure_mycelium"},
+				items = {"flora:mycelium_azure"},
 			},
 		},
 	},
@@ -204,11 +207,11 @@ for i=1,5 do
 			items = {
 				{
 					rarity = 1,
-					items = {"blocks:azure_mycelium"},
+					items = {"flora:mycelium_azure"},
 				},
 				{
 					rarity = 2,
-					items = {"blocks:azure_mycelium"},
+					items = {"flora:mycelium_azure"},
 				},
 			},
 		},
@@ -233,11 +236,11 @@ for i=1,5 do
 			items = {
 				{
 					rarity = 1,
-					items = {"blocks:azure_mycelium 2"},
+					items = {"flora:mycelium_azure 2"},
 				},
 				{
 					rarity = 3,
-					items = {"blocks:azure_mycelium 4"},
+					items = {"flora:mycelium_azure 4"},
 				},
 			},
 		},
@@ -271,11 +274,11 @@ minetest.register_node("flora:azure_plant", {
 		items = {
 			{
 				rarity = 1,
-				items = {"blocks:azure_mycelium 2"},
+				items = {"flora:mycelium_azure 2"},
 			},
 			{
 				rarity = 2,
-				items = {"blocks:azure_mycelium 4"},
+				items = {"flora:mycelium_azure 4"},
 			},
 		},
 	},
@@ -316,11 +319,11 @@ minetest.register_node("flora:azure_vines", {
 		items = {
 			{
 				rarity = 1,
-				items = {"blocks:azure_mycelium"},
+				items = {"flora:mycelium_azure"},
 			},
 			{
 				rarity = 2,
-				items = {"blocks:azure_mycelium 2"},
+				items = {"flora:mycelium_azure 2"},
 			},
 		},
 	},
@@ -331,7 +334,7 @@ minetest.register_node("flora:azure_vines", {
 		ccore.dig_dir(pos, {nn}, -1, digger)
 	end
 })
--- Mese (deep sub-biome flora)
+-- Mese biome
 
 minetest.register_node("flora:moss_mese", {
 	description = ccore.comment("Mese Circuit Low Density Scaffolding", "Science can't say if it is a plant, actually"),

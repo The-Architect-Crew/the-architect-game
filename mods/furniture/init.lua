@@ -298,7 +298,7 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
                 paramtype2 = "facedir",
                 sunlight_propagates = sunlight_active,
                 sounds = sounds,
-                drops = furniture_name,
+                drop = furniture_name,
                 on_rightclick = on_rightclick_active,
                 light_source = fdef.light_source_active or base_definition.light_source,
                 visual_scale = fdef.visual_scale_active or base_definition.visual_scale,
@@ -356,7 +356,7 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
                 paramtype2 = "facedir",
                 sunlight_propagates = sunlight_active,
                 sounds = sounds,
-                drops = furniture_name,
+                drop = furniture_name,
                 after_place_node = after_place_node_locked,
                 on_rightclick = on_rightclick_active_locked,
                 can_dig = can_dig_locked,
@@ -445,7 +445,7 @@ furniture.register("blocks:wood", furniture.woodlike_set, {"blocks:wood", "block
 furniture.register("blocks:acacia_wood", furniture.woodlike_set, {"blocks:acacia_wood", "blocks:stick"}, "variations_acacia_wood.png^[sheet:3x3:1,0")
 furniture.register("blocks:aspen_wood", furniture.woodlike_set, {"blocks:aspen_wood", "blocks:stick"}, "variations_aspen_wood.png^[sheet:3x3:1,0")
 furniture.register("blocks:junglewood", furniture.woodlike_set, {"blocks:junglewood", "blocks:stick"}, "variations_junglewood.png^[sheet:3x3:1,0")
-furniture.register("blocks:mushroom_wood", furniture.woodlike_set, {"blocks:mushroom_wood", "blocks:stick"}, "variations_mushroom_wood.png^[sheet:3x3:1,0")
+furniture.register("blocks:azure_wood", furniture.woodlike_set, {"blocks:azure_wood", "blocks:stick"}, "variations_azure_wood.png^[sheet:3x3:1,0")
 furniture.register("blocks:pine_wood", furniture.woodlike_set, {"blocks:pine_wood", "blocks:stick"}, "variations_pine_wood.png^[sheet:3x3:1,0")
 furniture.register("blocks:cherry_wood", furniture.woodlike_set, {"blocks:cherry_wood", "blocks:stick"}, "variations_cherry_wood.png^[sheet:3x3:1,0")
 furniture.register("blocks:steelblock", furniture.woodlike_set, {"blocks:steelblock", "blocks:steel_ingot"}, "variations_steelblock.png^[sheet:3x3:1,0")

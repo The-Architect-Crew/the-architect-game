@@ -8,6 +8,35 @@ function ccore.swap_node(pos, name)
 	minetest.swap_node(pos, node)
 end
 
+-- Scan groups for forbidden groups
+function ccore.scan_forbidden_groups(groups, forbidden_groups)
+    local result = false
+    for name,_ in pairs(groups) do
+        for i=1,#forbidden_groups do
+            if name == forbidden_groups[i] then
+                result = true
+            end
+        end
+    end
+    return result
+end
+
+function ccore.belongs(table, value)
+	local result = false
+	for i=1,#table do
+		if table[i] == value then
+			result = true
+			break
+		end
+	end
+	return result
+end
+
+-- Get modname
+function ccore.modname(name)
+	return string.match(name, '(.*):')
+end
+
 -- int to time string
 function ccore.get_time(int)
 	if not tonumber(int) then
@@ -111,4 +140,38 @@ ccore.groups_copy = function(table)
 		end
     end
     return copy
+end
+
+ccore.fake_fake_contrast = function(textures)
+	if type(textures) == "table" then
+		if not textures[4] then
+			textures = {
+				"(" .. textures[1] .. ")^[fill:16x16:#00000408",
+				"(" .. textures[2] .. ")^[fill:16x16:#00000588",
+				"(" .. textures[3] .. ")^[fill:16x16:#00000658",
+				"(" .. textures[3] .. ")^[fill:16x16:#00000658",
+				"(" .. textures[3] .. ")^[fill:16x16:#0000142A",
+				"(" .. textures[3] .. ")^[fill:16x16:#0000142A",
+			}
+		else
+			textures = {
+				"(" .. textures[1] .. ")^[fill:16x16:#00000408",
+				"(" .. textures[2] .. ")^[fill:16x16:#00000588",
+				"(" .. textures[3] .. ")^[fill:16x16:#00000658",
+				"(" .. textures[4] .. ")^[fill:16x16:#00000658",
+				"(" .. textures[5] .. ")^[fill:16x16:#0000142A",
+				"(" .. textures[6] .. ")^[fill:16x16:#0000142A",
+			}
+		end
+	else
+		textures = {
+			"(" .. textures .. ")^[fill:16x16:#00000408",
+			"(" .. textures .. ")^[fill:16x16:#00000588",
+			"(" .. textures .. ")^[fill:16x16:#00000658",
+			"(" .. textures .. ")^[fill:16x16:#00000658",
+			"(" .. textures .. ")^[fill:16x16:#0000142A",
+			"(" .. textures .. ")^[fill:16x16:#0000142A",
+		}
+	end
+	return textures
 end

@@ -1105,6 +1105,104 @@ minetest.register_node("flora:bone_tree_big_bonsai", {
 	sounds = default.node_sound_leaves_defaults(),
 })
 
+-- Shrubbery
+
+minetest.register_node("flora:shrubbery", {
+	description = "Apple Tree Shrubbery",
+	drawtype = "mesh",
+	mesh = "shrubbery.obj",
+	tiles = {"flora_tree.png", "flora_shrubbery.png"},
+	paramtype = "light",
+	use_texture_alpha = "clip",
+	sunlight_propagates = true,
+	groups = {snappy = 2, flammable = 2},
+	sounds = default.node_sound_leaves_defaults(),
+})
+
+minetest.register_node("flora:acacia_tree_shrubbery", {
+	description = "Acacia Tree Shrubbery",
+	drawtype = "mesh",
+	mesh = "shrubbery.obj",
+	tiles = {"flora_acacia_tree.png", "flora_acacia_shrubbery.png"},
+	paramtype = "light",
+	use_texture_alpha = "clip",
+	sunlight_propagates = true,
+	groups = {snappy = 2, flammable = 2},
+	sounds = default.node_sound_leaves_defaults(),
+})
+
+minetest.register_node("flora:aspen_tree_shrubbery", {
+	description = "Aspen Tree Shrubbery",
+	drawtype = "mesh",
+	mesh = "shrubbery.obj",
+	tiles = {"flora_aspen_tree.png", "flora_aspen_shrubbery.png"},
+	paramtype = "light",
+	use_texture_alpha = "clip",
+	sunlight_propagates = true,
+	groups = {snappy = 2, flammable = 2},
+	sounds = default.node_sound_leaves_defaults(),
+})
+
+minetest.register_node("flora:bone_tree_shrubbery", {
+	description = "Bone Tree Shrubbery",
+	drawtype = "mesh",
+	mesh = "shrubbery.obj",
+	tiles = {"flora_bone_tree.png", "flora_crimson_shrubbery.png"},
+	paramtype = "light",
+	use_texture_alpha = "clip",
+	sunlight_propagates = true,
+	groups = {snappy = 2, flammable = 2},
+	sounds = default.node_sound_leaves_defaults(),
+})
+
+minetest.register_node("flora:cherry_tree_shrubbery", {
+	description = "Cherry Tree Shrubbery",
+	drawtype = "mesh",
+	mesh = "shrubbery.obj",
+	tiles = {"flora_cherry_tree.png", "flora_cherry_shrubbery.png"},
+	paramtype = "light",
+	use_texture_alpha = "clip",
+	sunlight_propagates = true,
+	groups = {snappy = 2, flammable = 2},
+	sounds = default.node_sound_leaves_defaults(),
+})
+
+minetest.register_node("flora:dry_shrubbery", {
+	description = "Dry Shrubbery",
+	drawtype = "mesh",
+	mesh = "shrubbery.obj",
+	tiles = {"flora_tree.png", "flora_dry_shrubbery.png"},
+	paramtype = "light",
+	use_texture_alpha = "clip",
+	sunlight_propagates = true,
+	groups = {snappy = 2, flammable = 2},
+	sounds = default.node_sound_leaves_defaults(),
+})
+
+minetest.register_node("flora:jungle_tree_shrubbery", {
+	description = "Jungle Tree Shrubbery",
+	drawtype = "mesh",
+	mesh = "shrubbery.obj",
+	tiles = {"flora_jungletree.png", "flora_jungle_shrubbery.png"},
+	paramtype = "light",
+	use_texture_alpha = "clip",
+	sunlight_propagates = true,
+	groups = {snappy = 2, flammable = 2},
+	sounds = default.node_sound_leaves_defaults(),
+})
+
+minetest.register_node("flora:pine_tree_shrubbery", {
+	description = "Pine Tree Shrubbery",
+	drawtype = "mesh",
+	mesh = "shrubbery.obj",
+	tiles = {"flora_pine_tree.png", "flora_pine_shrubbery.png"},
+	paramtype = "light",
+	use_texture_alpha = "clip",
+	sunlight_propagates = true,
+	groups = {snappy = 2, flammable = 2},
+	sounds = default.node_sound_leaves_defaults(),
+})
+
 --
 -- register trees for leafdecay
 --
@@ -1425,6 +1523,78 @@ minetest.register_craft({
 	output = "flora:bone_sapling",
 	recipe = {
 		{"flora:bone_tree_bonsai"},
+	}
+})
+
+minetest.register_craft({
+	output = "flora:shrubbery",
+	recipe = {
+		{"flora:leaves", "flora:leaves", "flora:leaves"},
+		{"flora:leaves", "flora:leaves", "flora:leaves"},
+		{"blocks:stick", "blocks:stick", "blocks:stick"},
+	}
+})
+
+minetest.register_craft({
+	output = "flora:acacia_tree_shrubbery",
+	recipe = {
+		{"flora:acacia_leaves", "flora:acacia_leaves", "flora:acacia_leaves"},
+		{"flora:acacia_leaves", "flora:acacia_leaves", "flora:acacia_leaves"},
+		{"blocks:stick", "blocks:stick", "blocks:stick"},
+	}
+})
+
+minetest.register_craft({
+	output = "flora:aspen_tree_shrubbery",
+	recipe = {
+		{"flora:aspen_leaves", "flora:aspen_leaves", "flora:aspen_leaves"},
+		{"flora:aspen_leaves", "flora:aspen_leaves", "flora:aspen_leaves"},
+		{"blocks:stick", "blocks:stick", "blocks:stick"},
+	}
+})
+
+minetest.register_craft({
+	output = "flora:bone_tree_shrubbery",
+	recipe = {
+		{"flora:crimson_leaves", "flora:crimson_leaves", "flora:crimson_leaves"},
+		{"flora:crimson_leaves", "flora:crimson_leaves", "flora:crimson_leaves"},
+		{"blocks:bone", "blocks:bone", "blocks:bone"},
+	}
+})
+
+minetest.register_craft({
+	output = "flora:cherry_tree_shrubbery",
+	recipe = {
+		{"flora:cherry_leaves", "flora:cherry_leaves", "flora:cherry_leaves"},
+		{"flora:cherry_leaves", "flora:cherry_leaves", "flora:cherry_leaves"},
+		{"blocks:stick", "blocks:stick", "blocks:stick"},
+	}
+})
+
+minetest.register_craft({
+	output = "flora:dry_shrubbery",
+	recipe = {
+		{"flora:dry_leaves", "flora:dry_leaves", "flora:dry_leaves"},
+		{"flora:dry_leaves", "flora:dry_leaves", "flora:dry_leaves"},
+		{"flora:dry_shrub", "flora:dry_shrub", "flora:dry_shrub"},
+	}
+})
+
+minetest.register_craft({
+	output = "flora:jungle_tree_shrubbery",
+	recipe = {
+		{"flora:jungle_leaves", "flora:jungle_leaves", "flora:jungle_leaves"},
+		{"flora:jungle_leaves", "flora:jungle_leaves", "flora:jungle_leaves"},
+		{"blocks:stick", "blocks:stick", "blocks:stick"},
+	}
+})
+
+minetest.register_craft({
+	output = "flora:pine_tree_shrubbery",
+	recipe = {
+		{"flora:pine_needles", "flora:pine_needles", "flora:pine_needles"},
+		{"flora:pine_needles", "flora:pine_needles", "flora:pine_needles"},
+		{"blocks:stick", "blocks:stick", "blocks:stick"},
 	}
 })
 

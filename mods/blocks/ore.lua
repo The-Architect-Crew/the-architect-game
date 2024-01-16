@@ -66,11 +66,11 @@ minetest.register_node("blocks:sandstone_with_coal", {
 			},
 			{
 				rarity = 2,
-				items = {"blocks:sandstone_chunk"},
+				items = {"blocks:sand"},
 			},
 			{
 				rarity = 3,
-				items = {"blocks:sandstone_chunk 2"},
+				items = {"blocks:sand 2"},
 			},
 		},
 	},
@@ -450,11 +450,11 @@ minetest.register_node("blocks:sandstone_with_copper", {
 			},
 			{
 				rarity = 2,
-				items = {"blocks:sandstone_chunk"},
+				items = {"blocks:sand"},
 			},
 			{
 				rarity = 3,
-				items = {"blocks:sandstone_chunk 2"},
+				items = {"blocks:sand 2"},
 			},
 			{
 				rarity = 5,
@@ -599,11 +599,11 @@ minetest.register_node("blocks:sandstone_with_tin", {
 			},
 			{
 				rarity = 2,
-				items = {"blocks:sandstone_chunk"},
+				items = {"blocks:sand"},
 			},
 			{
 				rarity = 3,
-				items = {"blocks:sandstone_chunk 2"},
+				items = {"blocks:sand 2"},
 			},
 			{
 				rarity = 5,
@@ -1700,13 +1700,13 @@ minetest.register_node("blocks:sandstone_with_silver", {
 			{
 
 				rarity = 2,
-				items = {"blocks:sandstone_chunk"},
+				items = {"blocks:sand"},
 
 			},
 			{
 
 				rarity = 3,
-				items = {"blocks:sandstone_chunk"},
+				items = {"blocks:sand"},
 
 			},
 			{
@@ -2126,11 +2126,11 @@ minetest.register_node("blocks:sandstone_with_garnet", {
 			},
 			{
 				rarity = 2,
-				items = {"blocks:sandstone_chunk"},
+				items = {"blocks:sand"},
 			},
 			{
 				rarity = 3,
-				items = {"blocks:sandstone_chunk"},
+				items = {"blocks:sand"},
 			},
 			{
 				rarity = 5,

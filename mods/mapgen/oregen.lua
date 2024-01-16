@@ -36,22 +36,6 @@ function mapgen.register_ores()
 			})
 		end
 	end
-	-- Vein
-	mapgen.register_tapered_vein({
-        ore = "air",
-        wherein = mapgen.surface_nodes,
-        y_max = 512,
-        y_min = mapgen.sfcave_top,
-        noise_params = {
-            offset = -0.5,
-            scale = 1,
-            spread = {x = 50, y = 50, z = 50},
-            seed = 66234,
-            octaves = 3,
-            persistence = 0.75
-        },
-        taper_distance = 32,
-    })
 	-- Decorative Strata from MTG
 	-- Silver sandstone
 	minetest.register_ore({

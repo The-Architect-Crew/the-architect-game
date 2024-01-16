@@ -17,6 +17,8 @@ mapgen.lost_mese_ore_params = {
 	clust_size = 3,
 }
 
+mapgen.core_plating_barrier = -2305 -- Quarry Bottom - 1
+
 mapgen.terrain_ceiling = 512 -- How high up the ores spawn in the terrain
 
 mapgen.lush_biomes = {"grassland", "grassland_dunes", "grassland_ocean",
@@ -74,6 +76,14 @@ if mapgen_name ~= "singlenode" and mapgen_name ~= "flat" then
 	mapgen.register_mushroom_decorations()
 	mapgen.register_quarry_decorations()
 	mapgen.register_decorations()
+
+	minetest.register_ore({
+		ore_type = "stratum",
+		ore = "blocks:core_plating",
+		wherein = {"blocks:stone", "air"},
+		y_max = mapgen.core_plating_barrier,
+		y_min = mapgen.core_plating_barrier - 3,
+	})
 
 end
 -- Modifying light by placing glowing schems requires lighting recalc

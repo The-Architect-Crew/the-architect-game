@@ -18,7 +18,11 @@ dofile(patterns_path.."/corners.lua")
 
 patterns.all_colors = {"black", "brown", "cyan", "dark_blue", "dark_green", "dark_grey", "dark_pink", "green", "grey", "orange", "pink", "purple", "red", "white", "yellow"}
 
-patterns.stone_colors = {"black", "brown", "green"}
+-- Acrylic (hsl)
+patterns.obsidian_colors = {"cyan", "dark_blue", "dark_pink", "green", "orange", "purple", "red", "yellow"}
+
+-- Colorize
+patterns.stone_colors = {"black", "brown", "dark_green"}
 patterns.sandstone_colors = {"dark_blue", "dark_green", "pink", "purple"}
 patterns.silver_sandstone_colors = {"black", "brown", "cyan", "dark_blue", "dark_green", "dark_grey", "dark_pink", "green", "grey", "orange", "pink", "purple", "red", "white", "yellow"}
 
@@ -26,7 +30,7 @@ patterns.silver_sandstone_colors = {"black", "brown", "cyan", "dark_blue", "dark
 patterns.register_patterns("blocks:stone", patterns.stone_colors)
 patterns.register_patterns("blocks:sandstone", patterns.sandstone_colors)
 patterns.register_patterns("blocks:silver_sandstone", patterns.silver_sandstone_colors)
-patterns.register_patterns("blocks:obsidian", {"white"})
+patterns.register_patterns("blocks:obsidian", patterns.obsidian_colors, "hsl")
 
 -- Registers 30 nodes per material
 patterns.register_corners("blocks:stone")

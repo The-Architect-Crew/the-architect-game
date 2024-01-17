@@ -8,7 +8,8 @@
 
 function mapgen.register_ores()
 	-- Stratum ores.
-	-- These obviously first.
+	-- Rainbow Mesa
+    -- Placed first to prevent overwritten
 	for i=1, #blocks.stone_colors do
 		for j=1,8 do
 			minetest.register_ore({
@@ -38,132 +39,132 @@ function mapgen.register_ores()
 	end
 	-- Decorative Strata from MTG
 	-- Silver sandstone
-	minetest.register_ore({
-		ore_type        = "stratum",
-		ore             = "blocks:silver_sandstone",
-		wherein         = {"blocks:stone"},
-		clust_scarcity  = 1,
-		y_max           = 46,
-		y_min           = 10,
-		noise_params    = {
-			offset = 28,
-			scale = 16,
-			spread = {x = 128, y = 128, z = 128},
-			seed = 90122,
-			octaves = 1,
-		},
-		stratum_thickness = 4,
-		biomes = {"cold_desert"},
-	})
-	minetest.register_ore({
-		ore_type        = "stratum",
-		ore             = "blocks:silver_sandstone",
-		wherein         = {"blocks:stone"},
-		clust_scarcity  = 1,
-		y_max           = 42,
-		y_min           = 6,
-		noise_params    = {
-			offset = 24,
-			scale = 16,
-			spread = {x = 128, y = 128, z = 128},
-			seed = 90122,
-			octaves = 1,
-		},
-		stratum_thickness = 2,
-		biomes = {"cold_desert"},
-	})
-	-- Desert sandstone
-	minetest.register_ore({
-		ore_type        = "stratum",
-		ore             = "blocks:desert_sandstone",
-		wherein         = {"blocks:desert_stone"},
-		clust_scarcity  = 1,
-		y_max           = 46,
-		y_min           = 10,
-		noise_params    = {
-			offset = 28,
-			scale = 16,
-			spread = {x = 128, y = 128, z = 128},
-			seed = 90122,
-			octaves = 1,
-		},
-		stratum_thickness = 4,
-		biomes = {"desert"},
-	})
-	minetest.register_ore({
-		ore_type        = "stratum",
-		ore             = "blocks:desert_sandstone",
-		wherein         = {"blocks:desert_stone"},
-		clust_scarcity  = 1,
-		y_max           = 42,
-		y_min           = 6,
-		noise_params    = {
-			offset = 24,
-			scale = 16,
-			spread = {x = 128, y = 128, z = 128},
-			seed = 90122,
-			octaves = 1,
-		},
-		stratum_thickness = 2,
-		biomes = {"desert"},
-	})
-	-- Sandstone
-	minetest.register_ore({
-		ore_type        = "stratum",
-		ore             = "blocks:sandstone",
-		wherein         = {"blocks:desert_stone"},
-		clust_scarcity  = 1,
-		y_max           = 39,
-		y_min           = 3,
-		noise_params    = {
-			offset = 21,
-			scale = 16,
-			spread = {x = 128, y = 128, z = 128},
-			seed = 90122,
-			octaves = 1,
-		},
-		stratum_thickness = 2,
-		biomes = {"desert"},
-	})
+	-- minetest.register_ore({
+	-- 	ore_type        = "stratum",
+	-- 	ore             = "blocks:silver_sandstone",
+	-- 	wherein         = {"blocks:stone"},
+	-- 	clust_scarcity  = 1,
+	-- 	y_max           = 46,
+	-- 	y_min           = 10,
+	-- 	noise_params    = {
+	-- 		offset = 28,
+	-- 		scale = 16,
+	-- 		spread = {x = 128, y = 128, z = 128},
+	-- 		seed = 90122,
+	-- 		octaves = 1,
+	-- 	},
+	-- 	stratum_thickness = 4,
+	-- 	biomes = {"cold_desert"},
+	-- })
+	-- minetest.register_ore({
+	-- 	ore_type        = "stratum",
+	-- 	ore             = "blocks:silver_sandstone",
+	-- 	wherein         = {"blocks:stone"},
+	-- 	clust_scarcity  = 1,
+	-- 	y_max           = 42,
+	-- 	y_min           = 6,
+	-- 	noise_params    = {
+	-- 		offset = 24,
+	-- 		scale = 16,
+	-- 		spread = {x = 128, y = 128, z = 128},
+	-- 		seed = 90122,
+	-- 		octaves = 1,
+	-- 	},
+	-- 	stratum_thickness = 2,
+	-- 	biomes = {"cold_desert"},
+	-- })
+	-- -- Desert sandstone
+	-- minetest.register_ore({
+	-- 	ore_type        = "stratum",
+	-- 	ore             = "blocks:desert_sandstone",
+	-- 	wherein         = {"blocks:desert_stone"},
+	-- 	clust_scarcity  = 1,
+	-- 	y_max           = 46,
+	-- 	y_min           = 10,
+	-- 	noise_params    = {
+	-- 		offset = 28,
+	-- 		scale = 16,
+	-- 		spread = {x = 128, y = 128, z = 128},
+	-- 		seed = 90122,
+	-- 		octaves = 1,
+	-- 	},
+	-- 	stratum_thickness = 4,
+	-- 	biomes = {"desert"},
+	-- })
+	-- minetest.register_ore({
+	-- 	ore_type        = "stratum",
+	-- 	ore             = "blocks:desert_sandstone",
+	-- 	wherein         = {"blocks:desert_stone"},
+	-- 	clust_scarcity  = 1,
+	-- 	y_max           = 42,
+	-- 	y_min           = 6,
+	-- 	noise_params    = {
+	-- 		offset = 24,
+	-- 		scale = 16,
+	-- 		spread = {x = 128, y = 128, z = 128},
+	-- 		seed = 90122,
+	-- 		octaves = 1,
+	-- 	},
+	-- 	stratum_thickness = 2,
+	-- 	biomes = {"desert"},
+	-- })
+	-- -- Sandstone
+	-- minetest.register_ore({
+	-- 	ore_type        = "stratum",
+	-- 	ore             = "blocks:sandstone",
+	-- 	wherein         = {"blocks:desert_stone"},
+	-- 	clust_scarcity  = 1,
+	-- 	y_max           = 39,
+	-- 	y_min           = 3,
+	-- 	noise_params    = {
+	-- 		offset = 21,
+	-- 		scale = 16,
+	-- 		spread = {x = 128, y = 128, z = 128},
+	-- 		seed = 90122,
+	-- 		octaves = 1,
+	-- 	},
+	-- 	stratum_thickness = 2,
+	-- 	biomes = {"desert"},
+	-- })
 	-- Blob ore.
 	-- These before scatter ores to avoid other ores in blobs.
 	-- Decoration for chalk_grassland biome
-	minetest.register_ore({
-		ore_type        = "blob",
-		ore             = "blocks:chalk",
-		wherein         = {"blocks:chalk_with_grass"},
-		y_max           = 119,
-		y_min           = 20,
-		clust_size		= 8,
-		clust_scarcity 	= 6 * 6 * 6,
-		noise_threshold = -0.55,
-		noise_params    = {
-			offset = -0.3,
-			scale = -0.75,
-			spread = {x = 1024, y = 1024, z = 1024},
-			seed = 5520,
-			octaves = 6,
-			persist = 0.0,
-		},
-	})
-	minetest.register_ore({
-		ore_type        = "blob",
-		ore             = "blocks:chalk",
-		wherein         = {"blocks:chalk_with_grass"},
-		y_max           = 19,
-		y_min           = 9,
-		clust_size		= 7,
-		clust_scarcity 	= 11 * 11 * 11,
-		noise_threshold = -0.5,
-		noise_params    = {
-			offset = -0.3,
-			scale = -0.75,
-			spread = {x = 1024, y = 1024, z = 1024},
-			seed = 5520,
-			octaves = 3,
-			persist = 0.0,
-		},
-	})
+	-- minetest.register_ore({
+	-- 	ore_type        = "blob",
+	-- 	ore             = "blocks:chalk",
+	-- 	wherein         = {"blocks:chalk_with_grass"},
+	-- 	y_max           = 119,
+	-- 	y_min           = 20,
+	-- 	clust_size		= 8,
+	-- 	clust_scarcity 	= 6 * 6 * 6,
+	-- 	noise_threshold = -0.55,
+	-- 	noise_params    = {
+	-- 		offset = -0.3,
+	-- 		scale = -0.75,
+	-- 		spread = {x = 1024, y = 1024, z = 1024},
+	-- 		seed = 5520,
+	-- 		octaves = 6,
+	-- 		persist = 0.0,
+	-- 	},
+	-- })
+	-- minetest.register_ore({
+	-- 	ore_type        = "blob",
+	-- 	ore             = "blocks:chalk",
+	-- 	wherein         = {"blocks:chalk_with_grass"},
+	-- 	y_max           = 19,
+	-- 	y_min           = 9,
+	-- 	clust_size		= 7,
+	-- 	clust_scarcity 	= 11 * 11 * 11,
+	-- 	noise_threshold = -0.5,
+	-- 	noise_params    = {
+	-- 		offset = -0.3,
+	-- 		scale = -0.75,
+	-- 		spread = {x = 1024, y = 1024, z = 1024},
+	-- 		seed = 5520,
+	-- 		octaves = 3,
+	-- 		persist = 0.0,
+	-- 	},
+	-- })
 	-- Clay
 	minetest.register_ore({
 		ore_type        = "blob",
@@ -183,46 +184,25 @@ function mapgen.register_ores()
 			persist = 0.0
 		},
 	})
-	-- Silver sand
-	minetest.register_ore({
-		ore_type        = "blob",
-		ore             = "blocks:silver_sand",
-		wherein         = {"blocks:stone", "blocks:chalk"},
-		clust_scarcity  = 16 * 16 * 16,
-		clust_size      = 5,
-		y_max           = 31000,
-		y_min           = mapgen.sfcave_bottom,
-		noise_threshold = 0.0,
-		noise_params    = {
-			offset = 0.5,
-			scale = 0.2,
-			spread = {x = 5, y = 5, z = 5},
-			seed = 2316,
-			octaves = 1,
-			persist = 0.0
-		},
-	})
-	-- Dirt
-	minetest.register_ore({
-		ore_type        = "blob",
-		ore             = "blocks:dirt",
-		wherein         = {"blocks:stone"},
-		clust_scarcity  = 16 * 16 * 16,
-		clust_size      = 5,
-		y_max           = 31000,
-		y_min           = mapgen.sfcave_bottom,
-		noise_threshold = 0.0,
-		noise_params    = {
-			offset = 0.5,
-			scale = 0.2,
-			spread = {x = 5, y = 5, z = 5},
-			seed = 17676,
-			octaves = 1,
-			persist = 0.0
-		},
-		-- Only in lush biomes
-		biomes = mapgen.lush_biomes,
-	})
+	-- -- Silver sand
+	-- minetest.register_ore({
+	-- 	ore_type        = "blob",
+	-- 	ore             = "blocks:silver_sand",
+	-- 	wherein         = {"blocks:stone", "blocks:chalk"},
+	-- 	clust_scarcity  = 16 * 16 * 16,
+	-- 	clust_size      = 5,
+	-- 	y_max           = 31000,
+	-- 	y_min           = mapgen.sfcave_bottom,
+	-- 	noise_threshold = 0.0,
+	-- 	noise_params    = {
+	-- 		offset = 0.5,
+	-- 		scale = 0.2,
+	-- 		spread = {x = 5, y = 5, z = 5},
+	-- 		seed = 2316,
+	-- 		octaves = 1,
+	-- 		persist = 0.0
+	-- 	},
+	-- })
 	-- Gravel
 	minetest.register_ore({
 		ore_type        = "blob",
@@ -241,27 +221,6 @@ function mapgen.register_ores()
 			octaves = 1,
 			persist = 0.0
 		},
-	})
-	-- Tundra bone tree biome
-	minetest.register_ore({
-		ore_type        = "blob",
-		ore             = "blocks:permafrost_with_bone_roots",
-		wherein         = {"blocks:permafrost_with_stones"},
-		clust_scarcity  = 24 * 24 * 24,
-		clust_size      = 10,
-		y_max           = 50,
-		y_min           = mapgen.sfcave_bottom,
-		noise_threshold = 0.0,
-		noise_params    = {
-			offset = -3.25,
-			scale = 4.0,
-			spread = {x = 100, y = 100, z = 100},
-			seed = 662444,
-			octaves = 1,
-			persist = 0.0,
-			flags = "eased",
-		},
-		biomes = {"tundra"},
 	})
 	-- Sheet ores
 	-- Mud
@@ -303,61 +262,61 @@ function mapgen.register_ores()
 		}
 	})
 	-- Sandstone sheets in sand to allow for spawning of surface "stalagmites"
-	minetest.register_ore({
-		ore_type        = "sheet",
-		ore             = "blocks:sandstone",
-		wherein         = {"blocks:sand"},
-		y_max           = 512,
-		y_min           = -64,
-		noise_threshold = 1.0,
-		column_height_max = 1,
-		column_height_min = 1,
-		noise_params    = {
-			offset = -1,
-			scale = 8,
-			spread = {x = 50, y = 50, z = 1},
-			seed = 662,
-			octaves = 1,
-			persist = 0.70
-		},
-		biomes = {"sandstone_desert", "sandstone_desert_ocean", "desert_ocean"},
-	})
-	minetest.register_ore({
-		ore_type        = "sheet",
-		ore             = "blocks:desert_sandstone",
-		wherein         = {"blocks:desert_sand"},
-		y_max           = 512,
-		y_min           = -64,
-		noise_threshold = 1.0,
-		column_height_max = 1,
-		column_height_min = 1,
-		noise_params    = {
-			offset = -1,
-			scale = 8,
-			spread = {x = 50, y = 50, z = 1},
-			seed = 662,
-			octaves = 1,
-			persist = 0.70
-		},
-	})
-	minetest.register_ore({
-		ore_type        = "sheet",
-		ore             = "blocks:silver_sandstone",
-		wherein         = {"blocks:silver_sand"},
-		y_max           = 512,
-		y_min           = -64,
-		noise_threshold = 1.0,
-		column_height_max = 1,
-		column_height_min = 1,
-		noise_params    = {
-			offset = -1,
-			scale = 8,
-			spread = {x = 50, y = 50, z = 1},
-			seed = 662,
-			octaves = 1,
-			persist = 0.70
-		},
-	})
+	-- minetest.register_ore({
+	-- 	ore_type        = "sheet",
+	-- 	ore             = "blocks:sandstone",
+	-- 	wherein         = {"blocks:sand"},
+	-- 	y_max           = 512,
+	-- 	y_min           = -64,
+	-- 	noise_threshold = 1.0,
+	-- 	column_height_max = 1,
+	-- 	column_height_min = 1,
+	-- 	noise_params    = {
+	-- 		offset = -1,
+	-- 		scale = 8,
+	-- 		spread = {x = 50, y = 50, z = 1},
+	-- 		seed = 662,
+	-- 		octaves = 1,
+	-- 		persist = 0.70
+	-- 	},
+	-- 	biomes = {"sandstone_desert", "sandstone_desert_ocean", "desert_ocean"},
+	-- })
+	-- minetest.register_ore({
+	-- 	ore_type        = "sheet",
+	-- 	ore             = "blocks:desert_sandstone",
+	-- 	wherein         = {"blocks:desert_sand"},
+	-- 	y_max           = 512,
+	-- 	y_min           = -64,
+	-- 	noise_threshold = 1.0,
+	-- 	column_height_max = 1,
+	-- 	column_height_min = 1,
+	-- 	noise_params    = {
+	-- 		offset = -1,
+	-- 		scale = 8,
+	-- 		spread = {x = 50, y = 50, z = 1},
+	-- 		seed = 662,
+	-- 		octaves = 1,
+	-- 		persist = 0.70
+	-- 	},
+	-- })
+	-- minetest.register_ore({
+	-- 	ore_type        = "sheet",
+	-- 	ore             = "blocks:silver_sandstone",
+	-- 	wherein         = {"blocks:silver_sand"},
+	-- 	y_max           = 512,
+	-- 	y_min           = -64,
+	-- 	noise_threshold = 1.0,
+	-- 	column_height_max = 1,
+	-- 	column_height_min = 1,
+	-- 	noise_params    = {
+	-- 		offset = -1,
+	-- 		scale = 8,
+	-- 		spread = {x = 50, y = 50, z = 1},
+	-- 		seed = 662,
+	-- 		octaves = 1,
+	-- 		persist = 0.70
+	-- 	},
+	-- })
 	-- Scatter ores
 	-- Amber
 

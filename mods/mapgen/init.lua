@@ -18,22 +18,11 @@ mapgen.lost_mese_ore_params = {
 }
 
 mapgen.core_plating_barrier = -2305 -- Quarry Bottom - 1
-
 mapgen.terrain_ceiling = 512 -- How high up the ores spawn in the terrain
 
-mapgen.lush_biomes = {"grassland", "grassland_dunes", "grassland_ocean",
-					"coniferous_forest", "coniferous_forest_ocean", "coniferous_forest_dunes",
-					"deciduous_forest", "deciduous_forest_shore", "deciduous_forest_ocean",
-					"rainforest", "rainforest_swamp", "rainforest_ocean",
-					"chalk_grassland", "chalk_grassland_ocean"}
-mapgen.frosty_biomes = {"cold_desert", "cold_desert_ocean",
-					"taiga", "taiga_ocean",
-					"snowy_grassland", "snowy_grassland_ocean",
-					"icesheet", "icesheet_ocean",
-					"tundra", "tundra_highland", "tundra_ocean", "tundra_beach"}
-mapgen.hot_biomes = {"desert", "desert_ocean",
-					"sandstone_desert", "sandstone_desert_ocean",
-					"savanna", "savanna_shore", "savanna_ocean"}
+-- surface caves height for determining surface ores
+mapgen.sfcave_top = 16
+mapgen.sfcave_bottom = -127
 
 -- Clear default biomes, ores and decorations
 minetest.clear_registered_biomes()

@@ -133,6 +133,34 @@ minetest.register_node("blocks:obsidian", {
 	groups = {cracky = 1, level = 2},
 })
 
+minetest.register_node("blocks:obsidian_cursed", {
+	description = S("Cursed Obsidian"),
+	tiles = {"blocks_obsidian.png^[colorizehsl:-58:66"},
+	sounds = default.node_sound_stone_defaults(),
+	groups = {cracky = 1, level = 2},
+})
+
+minetest.register_node("blocks:obsidian_sickly", {
+	description = S("Sickly Obsidian"),
+	tiles = {"blocks_obsidian.png^[colorizehsl:107:74"},
+	sounds = default.node_sound_stone_defaults(),
+	groups = {cracky = 1, level = 2},
+})
+
+minetest.register_node("blocks:obsidian_hot", {
+	description = S("Hot Obsidian"),
+	tiles = {"blocks_obsidian.png^[colorizehsl:-2:64"},
+	sounds = default.node_sound_stone_defaults(),
+	groups = {cracky = 1, level = 2},
+})
+
+minetest.register_node("blocks:obsidian_crying", {
+	description = S("Crying Obsidian"),
+	tiles = {"blocks_obsidian.png^[colorizehsl:-173:65"},
+	sounds = default.node_sound_stone_defaults(),
+	groups = {cracky = 1, level = 2},
+})
+
 --
 -- COLORED STONE
 --

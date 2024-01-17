@@ -141,14 +141,19 @@ local function convert_craft(base_node, variant_node)
 	})
 end
 
-function variations.register_for_base(base_node, transparent, sunlight)
+function variations.register_for_base(base_node, tiles_override, transparent, sunlight)
 	local base_definition = minetest.registered_nodes[base_node]
 	ccore.station_comment(base_node, "Brickable")
 	for _, variation in ipairs(variations.variations) do
 		local sname = string.match(base_node, ':(.*)')
 		local variation_name = "variations:" .. sname .. "_" .. variation.name
 		local variation_description = ccore.strip_newlines(base_definition.description) .. " " .. variation.description
-		local tiles = {"variations_" .. sname .. ".png^[sheet:3x3:" .. variation.texture}
+		local tiles
+		if (tiles_override == nil) then
+			tiles = {"variations_" .. sname .. ".png^[sheet:3x3:" .. variation.texture}
+		else
+			tiles = {"(" .. tiles_override .. ")^[sheet:3x3:" .. variation.texture}
+		end
 		local paramtype_light = ""
 		local paramtype2 = nil
 		if (variation.rotation) then
@@ -519,6 +524,11 @@ variations.register_for_base("blocks:mese")
 variations.register_for_base("blocks:malachite_glass")
 variations.register_for_base("blocks:cobble")
 variations.register_for_base("blocks:moonstone")
+
+variations.register_for_base("blocks:obsidian_cursed", "variations_obsidian.png^[colorizehsl:-58:66")
+variations.register_for_base("blocks:obsidian_sickly", "variations_obsidian.png^[colorizehsl:107:74")
+variations.register_for_base("blocks:obsidian_hot", "variations_obsidian.png^[colorizehsl:-2:64")
+variations.register_for_base("blocks:obsidian_crying", "variations_obsidian.png^[colorizehsl:-173:65")
 
 variations.register_support("blocks:stone", "full", "wood")
 variations.register_support("blocks:sandstone", "full", "wood")

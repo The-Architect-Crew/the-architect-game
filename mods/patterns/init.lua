@@ -19,7 +19,7 @@ dofile(patterns_path.."/corners.lua")
 patterns.all_colors = {"black", "brown", "cyan", "dark_blue", "dark_green", "dark_grey", "dark_pink", "green", "grey", "orange", "pink", "purple", "red", "white", "yellow"}
 
 -- Acrylic (hsl)
-patterns.obsidian_colors = {"cyan", "dark_blue", "dark_pink", "green", "orange", "purple", "red", "yellow"}
+patterns.obsidian_colors = {"cyan", "dark_pink", "green", "red"}
 
 -- Colorize
 patterns.stone_colors = {"black", "brown", "dark_green"}

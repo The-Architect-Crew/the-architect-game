@@ -1,3 +1,5 @@
+furniture.tablesaw = {}
+
 -- Registration
 for i=1,#furniture.craftstation_materials do
 	local material = furniture.craftstation_materials[i]

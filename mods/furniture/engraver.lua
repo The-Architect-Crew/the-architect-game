@@ -5,6 +5,8 @@ local function engraver_formspec_crafting(pos, player, add)
 	local meta = minetest.get_meta(pos)
 	local winv_listring = ""
     local playername = player:get_player_name()
+	local selected_group = meta:get_string("pattern_group")
+	local selected_pattern = meta:get_string("pattern_type")
 
     local right_inv = winv.get_inventory(player, "right")
     if right_inv == "player" then
@@ -31,17 +33,17 @@ local function engraver_formspec_crafting(pos, player, add)
     end
 	local winv_formspec = {
 		"image[0,0;7.75,10.25;winv_bg.png]",
-		"list[nodemeta:"..spos..";input;0.875,0.25;1,1;0]",
-		"image[4.875,0.25;1,1;dye_grey.png]",
-		"list[nodemeta:"..spos..";input;4.875,0.25;1,1;1]",
-		furniture.engraver.tab_selection(),
-		furniture.engraver.patterns_tab(meta:get_string("pattern_group")),
-		"image[3.375,6.5;1,1;gui_arrow.png^[transformFY]",
+		"list[nodemeta:"..spos..";input;0.25,0.25;1,1;0]",
+		"image[6.5,0.25;1,1;dye_grey.png^[contrast:-48:-32]",
+		"list[nodemeta:"..spos..";input;6.5,0.25;1,1;1]",
+		furniture.engraver.tab_selection(selected_group),
+		furniture.engraver.patterns_tab(selected_group, selected_pattern),
+		"image[3.375,7.5;1,1;gui_arrow.png^[transformFY]",
 		"style[engraver_multiplier;border=false]",
-		"box[4.625,6.5;1,1;#00000040]",
-		"field[4.625,6.5;1,1;engraver_multiplier;;x"..meta:get_int("multiplier").."]",
+		"box[4.625,7.5;1,1;#00000040]",
+		"field[4.625,7.5;1,1;engraver_multiplier;;x"..meta:get_int("multiplier").."]",
 		"field_close_on_enter[engraver_multiplier;false]",
-		"list[nodemeta:"..spos..";output;3.35,7.75;1,1;]",
+		"list[nodemeta:"..spos..";output;3.35,8.75;1,1;]",
 		winv_listring,
 		"style_type[image;noclip=true]",
 		"image[-1.4,8.8;1.4,1.4;gui_tab.png]",
@@ -51,20 +53,21 @@ local function engraver_formspec_crafting(pos, player, add)
 	return winv.init_inventory(player, table.concat(winv_formspec, ""))
 end
 
-function furniture.engraver.tab_selection()
-	local posx = 4.0
+function furniture.engraver.tab_selection(selected_tab)
+	local posx = 5.0
 	local posy = 1.5
-	local x_offset = 0.5
+	local size = 0.5
 	local padding = 0.05
 
 	local buttons = {
-		"image_button[" .. posx .. "," .. posy .. ";0.5,0.5;patterns_single_color.png^[sheet:2x3:0,0;single;]",
+		"style[" .. selected_tab .. ";bgcolor=#AAAAAA]",
+		"image_button[" .. posx .. "," .. posy .. ";0.5,0.5;(patterns_single_color.png^[sheet:2x3:0,0)^[multiply:#888888;single;]",
 		"tooltip[single;Single Patterns]",
 	}
 
 	for _, group in ipairs(patterns.pattern_types) do
-		posx = posx + x_offset + padding
-		local button = "image_button[" .. posx .. "," .. posy .. ";0.5,0.5;patterns_" .. group[1] .. "_color.png^[sheet:4x3:3,2;" .. group[1] .. ";]"
+		posx = posx + size + padding
+		local button = "image_button[" .. posx .. "," .. posy .. ";0.5,0.5;(patterns_" .. group[1] .. "_color.png^[sheet:4x3:3,2)^[multiply:#AAAAAA;" .. group[1] .. ";]"
 		local tooltip = "tooltip[" .. group[1] .. ";" .. group[2] .. " Patterns]"
 
 		table.insert_all(buttons, {button, tooltip})
@@ -73,12 +76,12 @@ function furniture.engraver.tab_selection()
 	return table.concat(buttons, "")
 end
 
-function furniture.engraver.patterns_tab(group)
-	local buttons = {}
+function furniture.engraver.patterns_tab(group, selected_pattern)
+	local buttons = {"style[" .. selected_pattern .. ";bgcolor=#AAAAAA]"}
 	local posx
 	local posy
-	local x_offset = 1.0
-	local y_offset = 2.0
+	local x_offset = 1.5
+	local y_offset = 3.0
 	local padding = 0.25
 	if group == "single" then
 		for _, pattern in ipairs(patterns.patterns_single) do
@@ -91,7 +94,7 @@ function furniture.engraver.patterns_tab(group)
 			posx = ((pos-1)%4) * 1.0 + ((pos-1)%4) * padding + x_offset
 			posy = math.floor((pos-1)/4) + math.floor((pos-1)/4) * padding + y_offset
 
-			table.insert_all(buttons, {"image_button[" .. posx .. "," .. posy .. ";1.0,1.0;patterns_" .. group .. "_color.png^[sheet:" .. sheet .. ":" .. coords .. ";" .. name .. ";]"})
+			table.insert_all(buttons, {"image_button[" .. posx .. "," .. posy .. ";1.0,1.0;(patterns_" .. group .. "_color.png^[sheet:" .. sheet .. ":" .. coords .. ")^[multiply:#AAAAAA;" .. name .. ";]"})
 			table.insert_all(buttons, {"tooltip[" .. name .. ";" .. description .. "]"})
 		end
 	else
@@ -105,7 +108,7 @@ function furniture.engraver.patterns_tab(group)
 			posx = ((pos-1)%4) * 1.0 + ((pos-1)%4) * padding + x_offset
 			posy = math.floor((pos-1)/4) + math.floor((pos-1)/4) * padding + y_offset
 
-			table.insert_all(buttons, {"image_button[" .. posx .. "," .. posy .. ";1.0,1.0;patterns_" .. group .. "_color.png^[sheet:" .. sheet .. ":" .. coords .. ";" .. name .. ";]"})
+			table.insert_all(buttons, {"image_button[" .. posx .. "," .. posy .. ";1.0,1.0;(patterns_" .. group .. "_color.png^[sheet:" .. sheet .. ":" .. coords .. ")^[multiply:#AAAAAA;" .. name .. ";]"})
 			table.insert_all(buttons, {"tooltip[" .. name .. ";" .. description .. "]"})
 		end
 	end

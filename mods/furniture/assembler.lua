@@ -1,10 +1,5 @@
 furniture.assembler = {}
 
-workbench:register_crafttype("furniture", {
-	description = ccore.comment("Furniture Making", "Use a furniture assembler"),
-	icon = "crafticon_furniture.png",
-})
-
 local function assembler_formspec_crafting(pos, player, add)
 	local spos = pos.x..","..pos.y..","..pos.z
 	local meta = minetest.get_meta(pos)
@@ -41,12 +36,11 @@ local function assembler_formspec_crafting(pos, player, add)
 		"box[4.625,6.5;1,1;#00000040]",
 		"field[4.625,6.5;1,1;furniture_multiplier;;x"..meta:get_int("multiplier").."]",
 		"field_close_on_enter[furniture_multiplier;false]",
-		"list[nodemeta:"..spos..";output;3.35,7.75;2,2;]",
+		"list[nodemeta:"..spos..";output;3.35,7.75;1,1;]",
 		winv_listring,
 		"style_type[image;noclip=true]",
 		"image[-1.4,8.8;1.4,1.4;gui_tab.png]",
 		"image_button[-1.1,8.95;1.05,1.05;"..locks.icons(pos, "furniture_assembler", {"lock", "protect", "public"}).."]",
-        -- =======================================================
 		add
 	}
 	return winv.init_inventory(player, table.concat(winv_formspec, ""))
@@ -54,7 +48,7 @@ end
 
 local function assembler_show_formspec(pos, player, add)
 	local playername = player:get_player_name()
-	minetest.show_formspec(playername, "furniture:assembler", assembler_formspec_crafting(pos, player, add)) -- calls above formspec handler
+	minetest.show_formspec(playername, "furniture:assembler", assembler_formspec_crafting(pos, player, add))
 end
 
 local function assembler_apply_craft_result(pos, listname, index, stack, player, multiplier)

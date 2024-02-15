@@ -1,10 +1,5 @@
 furniture.brickmaker = {}
 
-workbench:register_crafttype("brickmaking", {
-	description = ccore.comment("Brick Making", "Use a variations brickmaker"),
-	icon = "crafticon_brickmaking.png",
-})
-
 local function brickmaker_formspec_crafting(pos, player, add)
 	local spos = pos.x..","..pos.y..","..pos.z
 	local meta = minetest.get_meta(pos)
@@ -41,9 +36,9 @@ local function brickmaker_formspec_crafting(pos, player, add)
 		"image[3.375,6.5;1,1;gui_arrow.png^[transformFY]",
 		"style[furniture_multiplier;border=false]",
 		"box[4.625,6.5;1,1;#00000040]",
-		"field[4.625,6.5;1,1;furniture_multiplier;;x"..meta:get_int("multiplier").."]", -- craft multiplier
+		"field[4.625,6.5;1,1;furniture_multiplier;;x"..meta:get_int("multiplier").."]",
 		"field_close_on_enter[furniture_multiplier;false]",
-		"list[nodemeta:"..spos..";output;3.35,7.75;2,2;]",
+		"list[nodemeta:"..spos..";output;3.35,7.75;1,1;]",
 		winv_listring,
 		"style_type[image;noclip=true]",
 		"image[-1.4,8.8;1.4,1.4;gui_tab.png]",

@@ -4,72 +4,84 @@ patterns.patterns = {
 		description = "Top Terminal";
 		texture = "0,0";
 		tiles = {12, 8, 1, 1, 1, 1};
+		position = 1;
 	},
 	{
 		name = "terminal_left";
 		description = "Left Terminal";
 		texture = "1,0";
 		tiles = {2, 2, 8, 12, 4, 2};
+		position = 2;
 	},
 	{
 		name = "horizontal";
 		description = "Horizontal";
 		texture = "2,0";
 		tiles = {12, 12, 3, 3, 3, 3};
+		position = 3;
 	},
 	{
 		name = "terminal_right";
 		description = "Right Terminal";
 		texture = "3,0";
 		tiles = {4, 4, 12, 8, 2, 4};
+		position = 4;
 	},
 	{
 		name = "vertical";
 		description = "Vertical";
 		texture = "0,1";
 		tiles = {8, 8, 5, 5, 5, 5};
+		position = 5;
 	},
 	{
 		name = "corner_tl";
 		description = "Top-Left Corner";
 		texture = "1,1";
 		tiles = {12, 5, 3, 12, 7, 6};
+		position = 6;
 	},
 	{
 		name = "corner_tr";
 		description = "Top-Right Corner";
 		texture = "2,1";
 		tiles = {12, 5, 12, 3, 6, 7};
+		position = 7;
 	},
 	{
 		name = "center";
 		description = "Center";
 		texture = "3,1";
 		tiles = {8, 8, 8, 8, 8, 8};
+		position = 8;
 	},
 	{
 		name = "terminal_bottom";
 		description = "Bottom Terminal";
 		texture = "0,2";
 		tiles = {8, 12, 9, 9, 9, 9};
+		position = 9;
 	},
 	{
 		name = "corner_bl";
 		description = "Bottom-Left Corner";
 		texture = "1,2";
 		tiles = {5, 12, 3, 12, 11, 10};
+		position = 10;
 	},
 	{
 		name = "corner_br";
 		description = "Bottom-Right Corner";
 		texture = "2,2";
 		tiles = {5, 12, 12, 3, 10, 11};
+		position = 11;
 	},
 	{
 		name = "rune";
 		description = "Rune";
 		texture = "3,2";
 		tiles = {12, 12, 12, 12, 12, 12};
+		position = 12;
 	}
 }
 
@@ -78,31 +90,37 @@ patterns.patterns_single = {
 		name = "square";
 		description = "Square";
 		texture = "0,0";
+		position = 1;
 	},
 	{
 		name = "triangle";
 		description = "Triangle";
 		texture = "0,1";
+		position = 2;
 	},
 	{
 		name = "circle";
 		description = "Circle";
 		texture = "0,2";
+		position = 3;
 	},
 	{
 		name = "pillar";
 		description = "Pillar";
 		texture = "1,0";
+		position = 4;
 	},
 	{
 		name = "diagonal";
 		description = "Diagonal";
 		texture = "1,1";
+		position = 5;
 	},
 	{
 		name = "chain";
 		description = "Chain";
 		texture = "1,2";
+		position = 6;
 	},
 }
 
@@ -127,8 +145,8 @@ patterns.colors = {
 }
 
 patterns.pattern_types = {
-	{"x", "X"},
-	{"spiral", "Spiral"}
+	{"x", "X", 1},
+	{"spiral", "Spiral", 2}
 }
 
 function patterns.assemble_texture(base_texture, pattern_data, pattern_type, color_data, colortype)
@@ -186,6 +204,8 @@ function patterns.register_patterns(base_node, limit, colortype)
 					drawtype = base_definition.drawtype,
 					paramtype2 = "facedir"
 					})
+
+				patterns.register_craft(base_node, pattern_type, pattern.name, color_string)
 				end
 			end
 		end
@@ -196,7 +216,7 @@ function patterns.register_patterns_single(base_node, limit, colortype)
 	local base_definition = minetest.registered_nodes[base_node]
 	for _, colors in ipairs(patterns.colors) do
 		if (patterns.check_limit(colors[1], limit)) then
-			for _, patterns in ipairs(patterns.patterns_single) do
+			for _, pattern in ipairs(patterns.patterns_single) do
 
 				local color_string = colors[1]
 				local color_name = colors[2]
@@ -205,13 +225,13 @@ function patterns.register_patterns_single(base_node, limit, colortype)
 				local saturation = colors[5]
 
 				local sname = string.match(base_node, ':(.*)')
-				local pattern_name = "patterns:" .. sname .. "_" .. patterns.name .. "_" .. color_string
-				local pattern_description = "Patterned " .. base_definition.description .. "\nPattern: " .. patterns.description .. "\nColor: " .. color_name
+				local pattern_name = "patterns:" .. sname .. "_" .. pattern.name .. "_" .. color_string
+				local pattern_description = "Patterned " .. base_definition.description .. "\nPattern: " .. pattern.description .. "\nColor: " .. color_name
 				local tiles = {}
 				if (colortype == "colorize") then
-					tiles = {"(" .. base_definition.tiles[1] .. "^[overlay:(patterns_single_shading.png\\^[sheet\\:2x3\\:" .. patterns.texture .. "))" .. "^((" .. base_definition.tiles[1] .. "^[colorize:#" .. color .. ":144)^[mask:(patterns_single_color.png\\^[sheet\\:2x3\\:" .. patterns.texture .. "))"}
+					tiles = {"(" .. base_definition.tiles[1] .. "^[overlay:(patterns_single_shading.png\\^[sheet\\:2x3\\:" .. pattern.texture .. "))" .. "^((" .. base_definition.tiles[1] .. "^[colorize:#" .. color .. ":144)^[mask:(patterns_single_color.png\\^[sheet\\:2x3\\:" .. pattern.texture .. "))"}
 				elseif (colortype == "hsl") then
-					tiles = {"(" .. base_definition.tiles[1] .. "^[overlay:(patterns_single_shading_strong.png\\^[sheet\\:2x3\\:" .. patterns.texture .. "))" .. "^((" .. base_definition.tiles[1] .. "^[colorizehsl:" .. hue .. ": " .. saturation .. ")^[mask:(patterns_single_color.png\\^[sheet\\:2x3\\:" .. patterns.texture .. "))"}
+					tiles = {"(" .. base_definition.tiles[1] .. "^[overlay:(patterns_single_shading_strong.png\\^[sheet\\:2x3\\:" .. pattern.texture .. "))" .. "^((" .. base_definition.tiles[1] .. "^[colorizehsl:" .. hue .. ": " .. saturation .. ")^[mask:(patterns_single_color.png\\^[sheet\\:2x3\\:" .. pattern.texture .. "))"}
 				end
 					minetest.register_node(pattern_name, {
 					description = pattern_description,
@@ -219,7 +239,25 @@ function patterns.register_patterns_single(base_node, limit, colortype)
 					groups = ccore.groups_copy(base_definition.groups),
 					drawtype = base_definition.drawtype
 				})
+
+				patterns.register_craft(base_node, "single", pattern.name, color_string)
 			end
 		end
 	end
+end
+
+function patterns.register_craft(base_node, pattern_type, pattern, color)
+	local pattern_node
+	local sname = string.match(base_node, ':(.*)')
+	if pattern_type == "single" then
+		pattern_node = "patterns:" .. sname .. "_" .. pattern .. "_" .. color
+	else
+		pattern_node = "patterns:" .. sname .. "_" .. pattern_type .. "_" .. pattern .. "_" .. color
+	end
+	workbench:register_craft({
+		type = "engraving",
+		category = pattern_type .. "_" .. pattern,
+		input =	{{base_node, "dye:" .. color}},
+		output = {{pattern_node}},
+	})
 end

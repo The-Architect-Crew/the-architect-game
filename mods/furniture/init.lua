@@ -2,6 +2,11 @@ furniture = {}
 
 local path = minetest.get_modpath("furniture")
 
+workbench:register_crafttype("furniture", {
+	description = ccore.comment("Furniture Making", "Use a furniture assembler"),
+	icon = "crafticon_furniture.png",
+})
+
 furniture.craftstation_materials = {
     "blocks:wood",
     "blocks:stone",
@@ -374,6 +379,7 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
 end
 
 -- Furniture crafting
+
 function furniture.register_crafting(base_node, i, materials_in, locked)
     local materials = furniture.table_copy(materials_in)
     local fdef = furniture.types[i]

@@ -1,5 +1,10 @@
 patterns = {}
 
+workbench:register_crafttype("engraving", {
+	description = ccore.comment("Engraving", "Use a pattern engraver"),
+	icon = "crafticon_patterns.png",
+})
+
 patterns.check_limit = function(term, table)
 	if (table == nil) then
 		return true

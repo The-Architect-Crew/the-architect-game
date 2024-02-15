@@ -1,10 +1,5 @@
 furniture.engraver = {}
 
-workbench:register_crafttype("engraving", {
-	description = ccore.comment("Engraving", "Use a pattern engraver"),
-	icon = "crafticon_patterns.png",
-})
-
 local function engraver_formspec_crafting(pos, player, add)
 	local spos = pos.x..","..pos.y..","..pos.z
 	local meta = minetest.get_meta(pos)
@@ -36,13 +31,17 @@ local function engraver_formspec_crafting(pos, player, add)
     end
 	local winv_formspec = {
 		"image[0,0;7.75,10.25;winv_bg.png]",
-		"list[nodemeta:"..spos..";input;0.875,0.25;5,5;]",
+		"list[nodemeta:"..spos..";input;0.875,0.25;1,1;0]",
+		"image[4.875,0.25;1,1;dye_grey.png]",
+		"list[nodemeta:"..spos..";input;4.875,0.25;1,1;1]",
+		furniture.engraver.tab_selection(),
+		furniture.engraver.patterns_tab(meta:get_string("pattern_group")),
 		"image[3.375,6.5;1,1;gui_arrow.png^[transformFY]",
 		"style[engraver_multiplier;border=false]",
 		"box[4.625,6.5;1,1;#00000040]",
 		"field[4.625,6.5;1,1;engraver_multiplier;;x"..meta:get_int("multiplier").."]",
 		"field_close_on_enter[engraver_multiplier;false]",
-		"list[nodemeta:"..spos..";output;3.35,7.75;2,2;]",
+		"list[nodemeta:"..spos..";output;3.35,7.75;1,1;]",
 		winv_listring,
 		"style_type[image;noclip=true]",
 		"image[-1.4,8.8;1.4,1.4;gui_tab.png]",
@@ -50,6 +49,67 @@ local function engraver_formspec_crafting(pos, player, add)
 		add
 	}
 	return winv.init_inventory(player, table.concat(winv_formspec, ""))
+end
+
+function furniture.engraver.tab_selection()
+	local posx = 4.0
+	local posy = 1.5
+	local x_offset = 0.5
+	local padding = 0.05
+
+	local buttons = {
+		"image_button[" .. posx .. "," .. posy .. ";0.5,0.5;patterns_single_color.png^[sheet:2x3:0,0;single;]",
+		"tooltip[single;Single Patterns]",
+	}
+
+	for _, group in ipairs(patterns.pattern_types) do
+		posx = posx + x_offset + padding
+		local button = "image_button[" .. posx .. "," .. posy .. ";0.5,0.5;patterns_" .. group[1] .. "_color.png^[sheet:4x3:3,2;" .. group[1] .. ";]"
+		local tooltip = "tooltip[" .. group[1] .. ";" .. group[2] .. " Patterns]"
+
+		table.insert_all(buttons, {button, tooltip})
+	end
+
+	return table.concat(buttons, "")
+end
+
+function furniture.engraver.patterns_tab(group)
+	local buttons = {}
+	local posx
+	local posy
+	local x_offset = 1.0
+	local y_offset = 2.0
+	local padding = 0.25
+	if group == "single" then
+		for _, pattern in ipairs(patterns.patterns_single) do
+			local sheet = "2x3"
+			local coords = pattern.texture
+			local name = group .. "_" .. pattern.name
+			local pos = pattern.position
+			local description = pattern.description
+
+			posx = ((pos-1)%4) * 1.0 + ((pos-1)%4) * padding + x_offset
+			posy = math.floor((pos-1)/4) + math.floor((pos-1)/4) * padding + y_offset
+
+			table.insert_all(buttons, {"image_button[" .. posx .. "," .. posy .. ";1.0,1.0;patterns_" .. group .. "_color.png^[sheet:" .. sheet .. ":" .. coords .. ";" .. name .. ";]"})
+			table.insert_all(buttons, {"tooltip[" .. name .. ";" .. description .. "]"})
+		end
+	else
+		for _, pattern in ipairs(patterns.patterns) do
+			local sheet = "4x3"
+			local coords = pattern.texture
+			local name = group .. "_" .. pattern.name
+			local pos = pattern.position
+			local description = pattern.description
+
+			posx = ((pos-1)%4) * 1.0 + ((pos-1)%4) * padding + x_offset
+			posy = math.floor((pos-1)/4) + math.floor((pos-1)/4) * padding + y_offset
+
+			table.insert_all(buttons, {"image_button[" .. posx .. "," .. posy .. ";1.0,1.0;patterns_" .. group .. "_color.png^[sheet:" .. sheet .. ":" .. coords .. ";" .. name .. ";]"})
+			table.insert_all(buttons, {"tooltip[" .. name .. ";" .. description .. "]"})
+		end
+	end
+	return table.concat(buttons, "")
 end
 
 local function engraver_show_formspec(pos, player, add)
@@ -62,7 +122,9 @@ local function engraver_apply_craft_result(pos, listname, index, stack, player, 
 	local inv = meta:get_inventory()
 	local craftlist = inv:get_list("input")
 
-	local output = workbench.craft_output(craftlist, "engraving", nil, 5, multiplier, nil)
+	local pattern_type = meta:get_string("pattern_type")
+
+	local output = workbench.craft_output(craftlist, "engraving", pattern_type, 2, multiplier, nil)
 
 	if output and output.item then
 		inv:set_list("output", output.item)
@@ -77,11 +139,13 @@ local function engraver_update(pos, listname, index, stack, player)
 	local craftlist = inv:get_list("input")
 	local outlist = inv:get_list("output")
 	local multiplier = meta:get_int("multiplier")
+	local pattern_type = meta:get_string("pattern_type")
+
 	if listname == "input" then
 		engraver_apply_craft_result(pos, listname, index, stack, player, multiplier)
 	end
 	if listname == "output" then
-		local output = workbench.craft_output(craftlist, "engraving", nil, 5, multiplier, nil)
+		local output = workbench.craft_output(craftlist, "engraving", pattern_type, 2, multiplier, nil)
 		local remainder = workbench.output_stack(outlist)
 		if output and output.dinput and meta:get_string("crafted") == "" then
 			inv:set_list("input", output.dinput)
@@ -101,12 +165,14 @@ end
 local function engraver_on_construct(pos)
 	local meta = minetest.get_meta(pos)
 	local inv = meta:get_inventory()
-	inv:set_size("input", 5*5)
+	inv:set_size("input", 2*1)
 	inv:set_size("output", 1*1)
 	meta:set_string("lock", "lock")
 	meta:set_int("multiplier", 1)
 	meta:set_string("crafted", "")
 	meta:set_string("owner", "")
+	meta:set_string("pattern_type", "")
+	meta:set_string("pattern_group", "single")
 	locks.init_infotext(pos, "Pattern Engraver")
 end
 
@@ -130,8 +196,8 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 	if locks.fields(pos, player, fields, "pattern_engraver", "Pattern Engraver") then
 		engraver_show_formspec(pos, player)
 	end
-	if fields.key_enter_field == "pattern_multiplier" then
-		local sub_multiplier = string.gsub(fields.pattern_multiplier, "x", "")
+	if fields.key_enter_field == "engraver_multiplier" then
+		local sub_multiplier = string.gsub(fields.engraver_multiplier, "x", "")
 		if tonumber(sub_multiplier) then
 			local multiplier = tonumber(sub_multiplier)
 			if multiplier > 99 then
@@ -144,6 +210,41 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 			engraver_show_formspec(pos, player)
 		end
 	end
+
+	for _, group in ipairs(patterns.pattern_types) do
+		for _, pattern in ipairs(patterns.patterns) do
+			local pattern_name = group[1] .. "_" .. pattern.name
+			if fields[pattern_name]~=nil then
+				meta:set_string("pattern_type", pattern_name)
+				engraver_update(pos, "input")
+				engraver_show_formspec(pos, player)
+			end
+		end
+	end
+
+	for _, pattern in ipairs(patterns.patterns_single) do
+		local pattern_name = "single_" .. pattern.name
+			if fields[pattern_name]~=nil then
+				meta:set_string("pattern_type", pattern_name)
+				engraver_update(pos, "input")
+				engraver_show_formspec(pos, player)
+			end
+	end
+
+	if fields["single"]~=nil then
+		meta:set_string("pattern_group", "single")
+		engraver_update(pos, "input")
+		engraver_show_formspec(pos, player)
+	end
+
+	for _, group in ipairs(patterns.pattern_types) do
+		if fields[group[1]]~=nil then
+			meta:set_string("pattern_group", group[1])
+			engraver_update(pos, "input")
+			engraver_show_formspec(pos, player)
+		end
+	end
+
 	if not fields.quit then
 		winv.node_receive_fields(player, formname, fields)
 		if winv.node_refresh(player) then

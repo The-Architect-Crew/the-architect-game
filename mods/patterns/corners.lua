@@ -82,7 +82,7 @@ function patterns.register_corners(base_node)
 				paramtype2 = "facedir"
 		})
 		workbench:register_craft({
-			type = "engraving",
+			type = "normal",
 			input =	{
 				{base_node, "blocks:" .. corner_materials[1]},
 				{"blocks:" .. corner_materials[1], "blocks:" .. corner_materials[1]},

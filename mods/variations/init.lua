@@ -1,5 +1,10 @@
 variations = {}
 
+workbench:register_crafttype("brickmaking", {
+	description = ccore.comment("Brick Making", "Use a variations brickmaker"),
+	icon = "crafticon_brickmaking.png",
+})
+
 variations.variations = {
 	{
 		name = "brick";

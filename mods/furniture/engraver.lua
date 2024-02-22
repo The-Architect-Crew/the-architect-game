@@ -61,13 +61,13 @@ function furniture.engraver.tab_selection(selected_tab)
 
 	local buttons = {
 		"style[" .. selected_tab .. ";bgcolor=#AAAAAA]",
-		"image_button[" .. posx .. "," .. posy .. ";0.5,0.5;(patterns_single_color.png^[sheet:2x3:0,0)^[multiply:#888888;single;]",
+		"image_button[" .. posx .. "," .. posy .. ";" .. size .. "," .. size .. ";(patterns_single_color.png^[sheet:2x3:0,0)^[multiply:#888888;single;]",
 		"tooltip[single;Single Patterns]",
 	}
 
 	for _, group in ipairs(patterns.pattern_types) do
 		posx = posx + size + padding
-		local button = "image_button[" .. posx .. "," .. posy .. ";0.5,0.5;(patterns_" .. group[1] .. "_color.png^[sheet:4x3:3,2)^[multiply:#AAAAAA;" .. group[1] .. ";]"
+		local button = "image_button[" .. posx .. "," .. posy .. ";" .. size .. "," .. size .. ";(patterns_" .. group[1] .. "_color.png^[sheet:4x3:3,2)^[multiply:#AAAAAA;" .. group[1] .. ";]"
 		local tooltip = "tooltip[" .. group[1] .. ";" .. group[2] .. " Patterns]"
 
 		table.insert_all(buttons, {button, tooltip})

@@ -54,7 +54,7 @@ local function protector_formspec_tab(pos, name)
     end
     local edit_tab = table.concat({
         "style_type[label,button;font_size=16]",
-        "label[0.25,0.25;Selected Area:" .. selected_area_name .. "]",
+        "label[0.25,0.25;Selected Area: " .. selected_area_name .. "]",
         "field[0.25,1.0;5.0,0.5;select_area;Select other ID in this block:;]",
         "field_close_on_enter[select_area;false]",
         "field[0.25,2.0;5.0,0.5;add_owner;Add owner:;]",
@@ -132,7 +132,7 @@ local function protector_after_place_node(pos, placer, itemstack, pointed_thing)
     meta:set_string("tab", "info")
     meta:set_string("selected_area_id", owned_block_area.id)
     meta:set_string("infotext", "Block area: " .. block_data.center.x .. "," .. block_data.center.y .. "," .. block_data.center.z .. "\n" ..
-                    "Owner: " .. block_area.owner .. "\nName:" .. block_area.name)
+                    "Owner: " .. block_area.owner .. "\nName: " .. block_area.name)
 end
 
 function protection.find_block_area(pos, name)
@@ -154,6 +154,7 @@ function protection.find_block_area(pos, name)
             end
         end
     end
+    return area_data
 end
 
 function protection.area_compare_pos(area1, area2)
@@ -291,8 +292,12 @@ end)
 
 minetest.register_node("protection:protector", {
     description = ccore.comment("Protector Block", "Protects based on a fixed grid of " .. protection.grid_xz .. "x" .. protection.grid_y .. "x" .. protection.grid_xz),
-    tiles = {"blocks_stone.png"},
+    drawtype = "mesh",
+    mesh = "protector.obj",
+    tiles = {"variations_steelblock.png^[sheet:3x3:1,0", "variations_wood.png^[sheet:3x3:1,0", "protection_protector.png"},
     groups = {cracky = 3},
+    paramtype = "light",
+    paramtype2 = "facedir",
 	sounds = default.node_sound_stone_defaults(),
     can_dig = function(pos, player)
         local meta = minetest.get_meta(pos)

@@ -1,0 +1,320 @@
+protection.protector = {}
+
+local function protector_formspec_tab(pos, name)
+    local meta = minetest.get_meta(pos)
+    local selected_tab = meta:get_string("tab")
+    local block_data = protection.get_grid_block(pos)
+    local areas_at_pos = {}
+    local selected_id = tonumber(meta:get_string("selected_id"))
+    local area_label_padding = 0.35
+    local area_label_pos = 3.75
+    local area_count = 0
+    for _,area in pairs(areas:getAreasAtPos(pos)) do
+        area_count = area_count + 1
+        if (area_count < 13) then
+            local area_label_y = area_label_pos + area_label_padding * area_count
+            table.insert_all(areas_at_pos, {"label[0.5," .. area_label_y .. ";" .. area.name .. " (" .. area.owner .. ")]"})
+        end
+    end
+    if #areas_at_pos > 0 then
+        areas_at_pos = table.concat(areas_at_pos, "")
+    else
+        areas_at_pos  = "label[0.5," .. area_label_pos + area_label_padding .. ";None]"
+    end
+    local protection_input = ""
+    if selected_id == nil then
+        protection_input = "field[0.25,7.0;7.0,0.5;protect;Protect this block as:;]"
+    end
+    local tab_switches = table.concat({
+        "style[" .. selected_tab .. ";bgcolor=#AAAAAA]",
+        "image_button[6.5,0.25;1.0,1.0;blocks_book.png^[hsl:0:-100:0;info;]",
+        "tooltip[info;Block Area Info]",
+        "image_button[6.5,1.5;1.0,1.0;gui_cube.png;edit;]",
+        "tooltip[edit;Edit Block Area]"
+    }, "")
+    local info_tab = table.concat({
+        "style_type[label;font_size=16]",
+        "label[0.25,1.0;Block area location (center): " .. block_data.center.x .. "," .. block_data.center.y .. "," .. block_data.center.z .. "]",
+        "label[0.25,1.75;Corner 1: " .. block_data.pos1.x .. "," .. block_data.pos1.y .. ","  .. block_data.pos1.z .. "]",
+        "label[0.25,2.25;Corner 2: " .. block_data.pos2.x .. "," .. block_data.pos2.y .. ","  .. block_data.pos2.z .. "]",
+        "label[0.25,3.75;Areas in this block:]",
+        areas_at_pos,
+        protection_input,
+        tab_switches
+    }, "")
+    -- Handles area ownership transfer, area opening, area sharing (with other players)
+    local area_id = tonumber(meta:get_string("selected_id"))
+    local area_open_status = "Undefined"
+    local selected_area_name = "No area selected."
+    if area_id ~= nil then
+        if (areas.areas[area_id].open) then
+            area_open_status = "Open"
+        else
+            area_open_status = "Closed"
+        end
+        selected_area_name = areas.areas[area_id].name
+    end
+    local edit_tab = table.concat({
+        "style_type[label,button;font_size=16]",
+        "label[0.25,0.25;Selected Area:" .. selected_area_name .. "]",
+        "field[0.25,1.0;5.0,0.5;select_area;Select other ID in this block:;]",
+        "field_close_on_enter[select_area;false]",
+        "field[0.25,2.0;5.0,0.5;add_owner;Add owner:;]",
+        "field_close_on_enter[add_owner;false]",
+        "field[0.25,3.0;5.0,0.5;rename;Rename area to:;]",
+        "field_close_on_enter[rename;false]",
+        "field[0.25,4.0;5.0,0.5;change_owner;Change owner to:;]",
+        "field_close_on_enter[change_owner;false]",
+        "button[1.75,5.25;4.5,0.5;open_toggle;Area status: " .. area_open_status .. "]",
+        tab_switches
+    }, "")
+    local tab = {}
+    if selected_tab == "info" then
+        tab = info_tab
+    elseif selected_tab == "edit" then
+        tab = edit_tab
+    end
+    return tab
+end
+
+local function protector_formspec(pos, player, add)
+	local spos = pos.x..","..pos.y..","..pos.z
+    local playername = player:get_player_name()
+    local selected_tab = protector_formspec_tab(pos, playername)
+	local winv_listring = ""
+    local right_inv = winv.get_inventory(player, "right")
+    if right_inv == "player" then
+        winv_listring =
+            "listring[current_player;main]"..
+            "listring[nodemeta:"..spos..";input]"..
+            "listring[current_player;main]"..
+            "listring[nodemeta:"..spos..";output]"
+    elseif right_inv == "crafting" then
+        winv_listring =
+            "listring[nodemeta:"..spos..";input]"..
+            "listring[detached:winv_craft_"..playername..";input]"..
+            "listring[nodemeta:"..spos..";input]"..
+            "listring[nodemeta:"..spos..";output]"..
+            "listring[detached:winv_craft_"..playername..";input]"..
+            "listring[detached:winv_craft_"..playername..";output]"
+    elseif right_inv == "craftguide" then
+        winv_listring =
+            "listring[detached:winv_creative_"..playername..";main]"..
+            "listring[nodemeta:"..spos..";input]"..
+            "listring[detached:trash;main]"..
+            "listring[nodemeta:"..spos..";output]"..
+            "listring[detached:trash;main]"
+    end
+	local winv_formspec = {
+		"image[0,0;7.75,7.75;winv_bg.png]",
+        selected_tab,
+		winv_listring,
+		add
+	}
+	return winv.init_inventory(player, table.concat(winv_formspec, ""))
+end
+
+local function protector_show_formspec(pos, player, add)
+	local playername = player:get_player_name()
+	minetest.show_formspec(playername, "protection:protector", protector_formspec(pos, player, add))
+end
+
+local function protector_on_construct(pos)
+	local meta = minetest.get_meta(pos)
+	meta:set_string("owner", "")
+end
+
+local function protector_after_place_node(pos, placer, itemstack, pointed_thing)
+	local meta = minetest.get_meta(pos)
+	local playername = placer:get_player_name()
+    local block_data = protection.get_grid_block(pos)
+    local block_area = protection.find_block_area(pos)
+    local owned_block_area = protection.find_block_area(pos, playername)
+	meta:set_string("owner", playername)
+    meta:set_string("tab", "info")
+    meta:set_string("selected_id", owned_block_area.id)
+    meta:set_string("infotext", "Block area: " .. block_data.center.x .. "," .. block_data.center.y .. "," .. block_data.center.z .. "\n" ..
+                    "Owner: " .. block_area.owner .. "\nName:" .. block_area.name)
+end
+
+function protection.find_block_area(pos, name)
+    local areas_at_pos = areas:getAreasAtPos(pos)
+    local block_data = protection.get_grid_block(pos)
+    if name ~= nil then
+        for id,area in pairs(areas_at_pos) do
+            if protection.pos_compare(area.pos1, block_data.pos1) and protection.pos_compare(area.pos2, block_data.pos2) then
+                if areas.areas[id].owner == name then
+                    return {name = area.name, owner = area.owner, id = id}
+                end
+            end
+        end
+    else
+        for _,area in pairs(areas_at_pos) do
+            if protection.pos_compare(area.pos1, block_data.pos1) and protection.pos_compare(area.pos2, block_data.pos2) then
+                return area
+            end
+        end
+    end
+    local area = {name = "Undefined", owner = "Unprotected", id = "undefined"}
+    return area
+end
+
+local function area_is_block(pos, area_id)
+    local block_data = protection.get_grid_block(pos)
+    local area_data = areas.areas[area_id]
+    if protection.pos_compare(area_data.pos1, block_data.pos1) and protection.pos_compare(area_data.pos2, block_data.pos2) then
+        return true
+    elseif protection.pos_compare(area_data.pos1, block_data.pos2) and protection.pos_compare(area_data.pos2, block_data.pos1) then
+        return true
+    end
+    return false
+end
+
+local function protect_block(pos, name, area_name, parent_id)
+    local block_data = protection.get_grid_block(pos)
+    local protection_possible, error_msg = areas:canPlayerAddArea(block_data.pos1, block_data.pos2, name)
+    local area_id = ""
+    if protection_possible then
+        minetest.chat_send_player(name, "Successfully protected " .. area_name .. "!")
+        area_id = areas:add(name, area_name, block_data.pos1, block_data.pos2, parent_id)
+		areas:save()
+    else
+        minetest.chat_send_player(name, "Failed to protect " .. area_name .. ", areas error: " .. error_msg)
+    end
+    return area_id
+end
+
+minetest.register_on_player_receive_fields(function(player, formname, fields)
+	if formname ~= "protection:protector" or not player then
+		return
+	end
+	local playername = player:get_player_name()
+	local pos = protection.protector[playername]
+	local meta = minetest.get_meta(pos)
+    local selected_id = tonumber(meta:get_string("selected_id"))
+
+    if fields.key_enter_field == "protect" then
+        local area_name = fields.protect
+        local area_id = protect_block(pos, playername, area_name)
+        meta:set_string("selected_id", area_id)
+        protector_show_formspec(pos, player)
+    end
+
+    if fields.key_enter_field == "select_area" then
+        local area_id = tonumber(fields.select_area)
+        if areas:isAreaOwner(area_id, playername) then
+            if area_is_block(pos, area_id) then
+                meta:set_string("selected_id", area_id)
+                protector_show_formspec(pos, player)
+            else
+                minetest.chat_send_player(playername, "That area is not an area of this block.")
+            end
+        else
+            minetest.chat_send_player(playername, "You do not own that area.")
+        end
+    end
+
+    if fields.key_enter_field == "add_owner" then
+        if selected_id ~= nil then
+            local new_owner = fields.add_owner
+            if areas:player_exists(new_owner) then
+                local selected_name = areas.areas[selected_id].name
+                protect_block(pos, new_owner, selected_name, selected_id)
+                protector_show_formspec(pos, player)
+            else
+                minetest.chat_send_player(playername, "Invalid player name.")
+            end
+        else
+            minetest.chat_send_player(playername, "You must select a block area first!")
+        end
+    end
+
+    if fields.key_enter_field == "change_owner" then
+        if selected_id ~= nil then
+            local new_owner = fields.change_owner
+            if areas:player_exists(new_owner) then
+                local selected_name = areas.areas[selected_id].name
+                areas.areas[selected_id].owner = new_owner
+                areas:save()
+                minetest.chat_send_player(playername, "Block area " .. selected_name .. " is now owned by " .. new_owner .. ".")
+                protector_show_formspec(pos, player)
+            else
+                minetest.chat_send_player(playername, "Invalid player name.")
+            end
+        else
+            minetest.chat_send_player(playername, "You must select a block area first!")
+        end
+    end
+
+    if fields.key_enter_field == "rename" then
+        if selected_id ~= nil then
+            local new_name = fields.rename
+            local old_name = areas.areas[selected_id].name
+            areas.areas[selected_id].name = new_name
+            minetest.chat_send_player(playername, "Renamed area " .. old_name .. " to " .. new_name .. ".")
+            protector_show_formspec(pos, player)
+        else
+            minetest.chat_send_player(playername, "You must select a block area first!")
+        end
+    end
+
+    if fields.open_toggle ~= nil then
+        if selected_id ~= nil then
+            local open = not areas.areas[selected_id].open
+            -- Save false as nil just like in the original areas chatcommand code
+            areas.areas[selected_id].open = open or nil
+            areas:save()
+            protector_show_formspec(pos, player)
+        end
+    end
+
+    if fields.info ~= nil then
+        meta:set_string("tab", "info")
+        protector_show_formspec(pos, player)
+    end
+
+    if fields.edit ~= nil then
+        meta:set_string("tab", "edit")
+        protector_show_formspec(pos, player)
+    end
+
+	if not fields.quit then
+		winv.node_receive_fields(player, formname, fields)
+		if winv.node_refresh(player) then
+			protector_show_formspec(pos, player)
+		end
+	end
+end)
+
+minetest.register_node("protection:protector", {
+    description = ccore.comment("Protector Block", "Protects based on a fixed grid of " .. protection.grid_xz .. "x" .. protection.grid_y .. "x" .. protection.grid_xz),
+    tiles = {"blocks_stone.png"},
+    groups = {cracky = 3},
+	sounds = default.node_sound_stone_defaults(),
+    can_dig = function(pos, player)
+        local meta = minetest.get_meta(pos)
+        if (player:get_player_name() == meta:get_string("owner")) then
+            return true
+        else
+            minetest.chat_send_player(player:get_player_name(), "Only the owner can remove a protector block.")
+            return false
+        end
+    end,
+    on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
+        local block_data = protection.get_grid_block(pos)
+        local name = clicker:get_player_name()
+        local meta = minetest.get_meta(pos)
+        minetest.chat_send_player(name, "This node belongs to the block: " .. block_data.center.x .. " " .. block_data.center.y .. " " .. block_data.center.z .. ".")
+        areas:setPos1(name, block_data.pos1)
+        areas:setPos2(name, block_data.pos2)
+        if (name == meta:get_string("owner")) then
+            protector_show_formspec(pos, clicker)
+		    protection.protector[name] = pos
+        else
+            minetest.chat_send_player(player:get_player_name(), "Only the owner can interact with a protector block.")
+            return itemstack
+        end
+    end,
+    on_construct = protector_on_construct,
+	after_place_node = protector_after_place_node,
+})

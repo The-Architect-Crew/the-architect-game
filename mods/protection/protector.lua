@@ -208,13 +208,13 @@ local function protector_place_grid(pos, playername)
 
     local epos = {}
 
-    epos[1] = {x = block_data.pos1.x, y = (block_data.pos1.y + block_data.pos2.y) / 2, z = (block_data.pos1.z + block_data.pos2.z) / 2}
-    epos[2] = {x = block_data.pos2.x, y =  (block_data.pos1.y + block_data.pos2.y) / 2, z = (block_data.pos1.z + block_data.pos2.z) / 2}
-    epos[3] = {x = (block_data.pos1.x + block_data.pos2.x) / 2, y =  (block_data.pos1.y + block_data.pos2.y) / 2, z = block_data.pos1.z}
-    epos[4] = {x = (block_data.pos1.x + block_data.pos2.x) / 2, y =  (block_data.pos1.y + block_data.pos2.y) / 2, z = block_data.pos2.z}
+    epos[1] = {x = block_data.pos1.x - 0.5, y = (block_data.pos1.y + block_data.pos2.y) / 2, z = (block_data.pos1.z + block_data.pos2.z) / 2}
+    epos[2] = {x = block_data.pos2.x + 0.5, y =  (block_data.pos1.y + block_data.pos2.y) / 2, z = (block_data.pos1.z + block_data.pos2.z) / 2}
+    epos[3] = {x = (block_data.pos1.x + block_data.pos2.x) / 2, y =  (block_data.pos1.y + block_data.pos2.y) / 2, z = block_data.pos1.z - 0.5}
+    epos[4] = {x = (block_data.pos1.x + block_data.pos2.x) / 2, y =  (block_data.pos1.y + block_data.pos2.y) / 2, z = block_data.pos2.z + 0.5}
 
-    local xz_side_length = protection.grid_xz
-    local y_side_length = protection.grid_y
+    local xz_side_length = protection.grid_xz + 1
+    local y_side_length = protection.grid_y + 1
     local thickness = 0.1
 
     if protection.protector_markers[playername] ~= nil then

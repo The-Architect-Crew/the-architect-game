@@ -1,4 +1,10 @@
 protection.protector = {}
+protection.protector_markers = {}
+
+minetest.register_on_leaveplayer(function(player)
+    local playername = player:get_player_name()
+    protection.protector_markers[playername] = nil
+end)
 
 local function protector_formspec_tab(pos, name)
     local meta = minetest.get_meta(pos)
@@ -38,6 +44,7 @@ local function protector_formspec_tab(pos, name)
         "label[0.25,1.75;Corner 1: " .. block_data.pos1.x .. "," .. block_data.pos1.y .. ","  .. block_data.pos1.z .. "]",
         "label[0.25,2.25;Corner 2: " .. block_data.pos2.x .. "," .. block_data.pos2.y .. ","  .. block_data.pos2.z .. "]",
         "label[0.25,3.75;Areas in this block:]",
+        "button[2.25,5.5;3.0,0.75;grid_toggle;Toggle protector grid]",
         areas_at_pos,
         protection_input,
         tab_switches
@@ -186,6 +193,95 @@ local function protect_block(pos, name, area_name, parent_id)
     return area_id
 end
 
+
+local function protector_place_grid(pos, playername)
+    local block_data = protection.get_grid_block(pos)
+    local cpos = {}
+    cpos[1] = {x = block_data.pos1.x, y =  block_data.pos1.y, z = block_data.pos1.z}
+    cpos[2] = {x = block_data.pos1.x, y =  block_data.pos1.y, z = block_data.pos2.z}
+    cpos[3] = {x = block_data.pos2.x, y =  block_data.pos1.y, z = block_data.pos1.z}
+    cpos[4] = {x = block_data.pos2.x, y =  block_data.pos1.y, z = block_data.pos2.z}
+    cpos[5] = {x = block_data.pos1.x, y =  block_data.pos2.y, z = block_data.pos1.z}
+    cpos[6] = {x = block_data.pos1.x, y =  block_data.pos2.y, z = block_data.pos2.z}
+    cpos[7] = {x = block_data.pos2.x, y =  block_data.pos2.y, z = block_data.pos1.z}
+    cpos[8] = {x = block_data.pos2.x, y =  block_data.pos2.y, z = block_data.pos2.z}
+
+    local epos = {}
+
+    epos[1] = {x = block_data.pos1.x, y = (block_data.pos1.y + block_data.pos2.y) / 2, z = (block_data.pos1.z + block_data.pos2.z) / 2}
+    epos[2] = {x = block_data.pos2.x, y =  (block_data.pos1.y + block_data.pos2.y) / 2, z = (block_data.pos1.z + block_data.pos2.z) / 2}
+    epos[3] = {x = (block_data.pos1.x + block_data.pos2.x) / 2, y =  (block_data.pos1.y + block_data.pos2.y) / 2, z = block_data.pos1.z}
+    epos[4] = {x = (block_data.pos1.x + block_data.pos2.x) / 2, y =  (block_data.pos1.y + block_data.pos2.y) / 2, z = block_data.pos2.z}
+
+    local xz_side_length = protection.grid_xz
+    local y_side_length = protection.grid_y
+    local thickness = 0.1
+
+    if protection.protector_markers[playername] ~= nil then
+        for i=1,8 do
+            if protection.protector_markers[playername]["corner" .. i] ~= nil then
+                protection.protector_markers[playername]["corner" .. i]:remove()
+                protection.protector_markers[playername]["corner" .. i] = nil
+            end
+        end
+        for i=1,4 do
+            if protection.protector_markers[playername]["edge" .. i] ~= nil then
+                protection.protector_markers[playername]["edge" .. i]:remove()
+                protection.protector_markers[playername]["edge" .. i] = nil
+            end
+        end
+    else
+        protection.protector_markers[playername] = {}
+    end
+
+    for i=1,8 do
+        protection.protector_markers[playername]["corner" .. i] = minetest.add_entity(cpos[i], "protection:pos")
+
+        if protection.protector_markers[playername]["corner" .. i] ~= nil then
+            protection.protector_markers[playername]["corner" .. i]:get_luaentity().player_name = playername
+        end
+    end
+    for i=1,2 do
+        protection.protector_markers[playername]["edge" .. i] = minetest.add_entity(epos[i], "protection:protector_edge")
+        if protection.protector_markers[playername]["edge" .. i] ~= nil then
+            protection.protector_markers[playername]["edge" .. i]:set_properties({
+                visual_size = {x = xz_side_length, y = y_side_length},
+                collisionbox = {-thickness, -y_side_length / 2, -xz_side_length / 2, thickness, y_side_length / 2, xz_side_length / 2}
+            })
+            protection.protector_markers[playername]["edge" .. i]:set_yaw(math.pi / 2)
+            protection.protector_markers[playername]["edge" .. i]:get_luaentity().player_name = playername
+        end
+    end
+    for i=3,4 do
+        protection.protector_markers[playername]["edge" .. i] = minetest.add_entity(epos[i], "protection:protector_edge")
+        if protection.protector_markers[playername]["edge" .. i] ~= nil then
+            protection.protector_markers[playername]["edge" .. i]:set_properties({
+                visual_size = {x = xz_side_length, y = y_side_length},
+                collisionbox = {-xz_side_length / 2, -y_side_length / 2, -thickness, xz_side_length / 2, y_side_length / 2, thickness}
+            })
+            protection.protector_markers[playername]["edge" .. i]:get_luaentity().player_name = playername
+        end
+    end
+end
+
+function protection.protector.remove_grid(name)
+    local grid = protection.protector_markers[name]
+
+    if not grid then
+        return
+    end
+
+    for i=1,8 do
+        grid["corner"..i]:remove()
+    end
+
+    for i=1,4 do
+        grid["edge"..i]:remove()
+    end
+
+    protection.protector_markers[name] = nil
+end
+
 minetest.register_on_player_receive_fields(function(player, formname, fields)
 	if formname ~= "protection:protector" or not player then
 		return
@@ -202,6 +298,14 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
             meta:set_string("selected_area_id", area_id)
         end
         protector_show_formspec(pos, player)
+    end
+
+    if fields.grid_toggle ~= nil then
+        if protection.protector_markers[playername] == nil then
+            protector_place_grid(pos, playername)
+        else
+            protection.protector.remove_grid(playername)
+        end
     end
 
     if fields.key_enter_field == "select_area" then

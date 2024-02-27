@@ -40,3 +40,19 @@ function protection.pos_compare(pos1, pos2)
         return false
     end
 end
+
+function protection.calculate_surface(pos1, pos2)
+    local length_x = math.abs(pos1.x - pos2.x)
+    local length_z = math.abs(pos1.z - pos2.z)
+    return length_x * length_z
+end
+function protection.calculate_volume(pos1, pos2)
+    local length_x = math.abs(pos1.x - pos2.x)
+    local length_y = math.abs(pos1.y - pos2.y)
+    local length_z = math.abs(pos1.z - pos2.z)
+    return length_x * length_z * length_y
+end
+function protection.calculate_cost(pos1, pos2)
+    local volume = protection.calculate_volume(pos1, pos2)
+    return volume * protection.mese_cost / 100
+end

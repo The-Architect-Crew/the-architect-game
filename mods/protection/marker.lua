@@ -10,6 +10,9 @@ local function marker_formspec(pos, player, area_bounds)
     local protect_input = ""
     local error_msg = ""
     local area_protectable, aerror = areas:canPlayerAddArea(area_bounds.pos1, area_bounds.pos2, playername)
+    local area_surface = protection.calculate_surface(area_bounds.pos1, area_bounds.pos2)
+    local area_volume = protection.calculate_volume(area_bounds.pos1, area_bounds.pos2)
+    local protection_cost = protection.calculate_cost(area_bounds.pos1, area_bounds.pos2)
 
     if area_protectable then
         y_input = "field[0.25,6.0;4.0,0.5;y_height;Set area height: ;" .. meta:get_string("area_height") .. "]" .. "field_close_on_enter[y_height;false]"
@@ -42,7 +45,11 @@ local function marker_formspec(pos, player, area_bounds)
     end
 	local winv_formspec = {
 		"image[0,0;7.75,7.75;winv_bg.png]",
+        "style_type[label;font_size=16]",
         "label[0.25,1.0;Area bounds: " .. protection.pos_to_string(area_bounds.pos1) .. " " .. protection.pos_to_string(area_bounds.pos2) .. "]",
+        "label[0.25,2.0;Area surface: " .. area_surface .. " nodes]",
+        "label[0.25,2.5;Area volume: " .. area_volume .. " nodes]",
+        "label[0.25,3.5;Protection cost: " .. protection_cost .. " lost mese]",
         y_input,
         protect_input,
         error_msg,

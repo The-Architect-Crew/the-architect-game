@@ -9,14 +9,17 @@ end)
 local function protector_formspec_tab(pos, name)
     local meta = minetest.get_meta(pos)
     local block_data = protection.get_grid_block(pos)
+    local protection_cost = protection.calculate_cost(block_data.pos1, block_data.pos2)
+    local area_surface = protection.calculate_surface(block_data.pos1, block_data.pos2)
+    local area_volume = protection.calculate_volume(block_data.pos1, block_data.pos2)
     local areas_at_pos = {}
     local selected_area_id = tonumber(meta:get_string("selected_area_id"))
-    local area_label_padding = 0.35
-    local area_label_pos = 3.75
+    local area_label_padding = 0.25
+    local area_label_pos = 4.0
     local area_count = 0
     for _,area in pairs(areas:getAreasAtPos(pos)) do
         area_count = area_count + 1
-        if (area_count < 13) then
+        if (area_count < 6) then
             local area_label_y = area_label_pos + area_label_padding * area_count
             table.insert_all(areas_at_pos, {"label[0.5," .. area_label_y .. ";" .. area.name .. " (" .. area.owner .. ")]"})
         end
@@ -26,8 +29,10 @@ local function protector_formspec_tab(pos, name)
     else
         areas_at_pos  = "label[0.5," .. area_label_pos + area_label_padding .. ";None]"
     end
+    local protection_cost_label = ""
     local protection_input = ""
     if selected_area_id == nil then
+        protection_cost_label = "label[0.25,3.5;Protection cost: " .. protection_cost .. " lost mese]"
         protection_input = "field[0.25,7.0;7.0,0.5;protect;Protect this block as:;]"
     end
     local selected_tab = meta:get_string("tab")
@@ -40,11 +45,14 @@ local function protector_formspec_tab(pos, name)
     }, "")
     local info_tab = table.concat({
         "style_type[label;font_size=16]",
-        "label[0.25,1.0;Block area location (center): " .. block_data.center.x .. "," .. block_data.center.y .. "," .. block_data.center.z .. "]",
-        "label[0.25,1.75;Corner 1: " .. block_data.pos1.x .. "," .. block_data.pos1.y .. ","  .. block_data.pos1.z .. "]",
-        "label[0.25,2.25;Corner 2: " .. block_data.pos2.x .. "," .. block_data.pos2.y .. ","  .. block_data.pos2.z .. "]",
-        "label[0.25,3.75;Areas in this block:]",
-        "button[2.25,5.5;3.0,0.75;grid_toggle;Toggle protector grid]",
+        "label[0.25,0.75;Block area location (center): " .. block_data.center.x .. "," .. block_data.center.y .. "," .. block_data.center.z .. "]",
+        "label[0.25,1.5;Corner 1: " .. block_data.pos1.x .. "," .. block_data.pos1.y .. ","  .. block_data.pos1.z .. "]",
+        "label[0.25,2.0;Corner 2: " .. block_data.pos2.x .. "," .. block_data.pos2.y .. ","  .. block_data.pos2.z .. "]",
+        "label[0.25,2.5;Area surface: " .. area_surface .. " nodes]",
+        "label[0.25,3.0;Area volume: " .. area_volume .. " nodes]",
+        protection_cost_label,
+        "label[0.25,4.0;Areas in this block:]",
+        "button[2.25,5.75;3.0,0.75;grid_toggle;Toggle protector grid]",
         areas_at_pos,
         protection_input,
         tab_switches

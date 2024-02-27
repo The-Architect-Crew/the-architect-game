@@ -217,8 +217,31 @@ end)
 
 minetest.register_node("protection:marker", {
     description = "Marker",
-    tiles = {"blocks_stone.png"},
-    groups = {cracky = 3},
+    drawtype = "mesh",
+    mesh = "marker.obj",
+    tiles = {"variations_steelblock.png^[sheet:3x3:1,0",
+        {
+            name = "protection_marker_animated.png",
+            backface_culling = true,
+            animation = {
+                type = "vertical_frames",
+                aspect_w = 16,
+                aspect_h = 16,
+                length = 4.0,
+            }
+        }
+    },
+    light_source = 8,
+    paramtype = light,
+    groups = {dig_immediate = 3},
+    selection_box = {
+        type = "fixed",
+        fixed = {-5/16, -8/16, -5/16, 5/16, 24/16, 5/16},
+    },
+    collision_box = {
+        type = "fixed",
+        fixed = {-5/16, -8/16, -5/16, 9/16, 24/16, 5/16},
+    },
     sounds = default.node_sound_stone_defaults(),
     on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
         local name = clicker:get_player_name()

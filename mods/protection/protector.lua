@@ -399,7 +399,15 @@ minetest.register_node("protection:protector", {
     drawtype = "mesh",
     mesh = "protector.obj",
     tiles = {"variations_steelblock.png^[sheet:3x3:1,0", "variations_wood.png^[sheet:3x3:1,0", "protection_protector.png"},
-    groups = {cracky = 3},
+    groups = {dig_immediate = 2},
+    selection_box = {
+        type = "fixed",
+        fixed = {-9/16, -8/16, -9/16, 9/16, 14/16, 9/16},
+    },
+    collision_box = {
+        type = "fixed",
+        fixed = {-9/16, -8/16, -9/16, 9/16, 14/16, 9/16},
+    },
     paramtype = "light",
     paramtype2 = "facedir",
 	sounds = default.node_sound_stone_defaults(),

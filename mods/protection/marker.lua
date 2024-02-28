@@ -1,4 +1,4 @@
-protection.marker = {}
+protection.markers = {}
 
 local function marker_formspec(pos, player, area_bounds)
 	local spos = pos.x..","..pos.y..","..pos.z
@@ -97,6 +97,7 @@ local function marker_locate_others(pos, playername)
     local last_marker
     local node
     local area_bounds = nil
+    local markers = {}
 
     for i=1,marker_search_distance do
         node = minetest.get_node({x = pos.x + i, y = pos.y, z = pos.z})
@@ -142,22 +143,25 @@ local function marker_locate_others(pos, playername)
             if meta:get_string("owner") == playername then
                 last_marker = {x = x_marker.x, y = pos.y, z = z_marker.z}
                 area_bounds = area_from_markers(pos, x_marker, z_marker, last_marker)
+                markers = {pos, x_marker, z_marker, last_marker}
             end
         end
     end
 
-    return area_bounds
+    return area_bounds, markers
 end
 
 
-local function set_bounds(pos, bounds)
-    local meta = minetest.get_meta(pos)
-    meta:set_string("pos1x", bounds.pos1.x)
-    meta:set_string("pos1y", bounds.pos1.y)
-    meta:set_string("pos1z", bounds.pos1.z)
-    meta:set_string("pos2x", bounds.pos2.x)
-    meta:set_string("pos2y", bounds.pos2.y)
-    meta:set_string("pos2z", bounds.pos2.z)
+local function set_bounds(markers, bounds)
+    for _,pos in ipairs(markers) do
+        local meta = minetest.get_meta(pos)
+        meta:set_string("pos1x", bounds.pos1.x)
+        meta:set_string("pos1y", bounds.pos1.y)
+        meta:set_string("pos1z", bounds.pos1.z)
+        meta:set_string("pos2x", bounds.pos2.x)
+        meta:set_string("pos2y", bounds.pos2.y)
+        meta:set_string("pos2z", bounds.pos2.z)
+    end
 end
 
 local function get_bounds(pos)
@@ -179,12 +183,20 @@ local function get_bounds(pos)
     return bounds
 end
 
+local function sync_set_string(markers, string, value)
+    for _,pos in ipairs(markers) do
+        local meta = minetest.get_meta(pos)
+        meta:set_string(string, value)
+    end
+end
+
 minetest.register_on_player_receive_fields(function(player, formname, fields)
 	if formname ~= "protection:marker_form" or not player then
 		return
 	end
 	local playername = player:get_player_name()
-    local pos = protection.marker[playername]
+    local markers = protection.markers[playername]
+    local pos = markers[1]-- Since they're synced it doesnt matter which one
     local meta = minetest.get_meta(pos)
 
     if fields.key_enter_field == "y_height" then
@@ -192,7 +204,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
         if tonumber(y_height) ~= nil then
             if tonumber(y_height) > 0 then
                 local area_bounds = get_bounds(pos)
-                meta:set_string("area_height", y_height)
+                sync_set_string(markers, "area_height", y_height)
                 area_bounds.pos2.y = area_bounds.pos2.y + tonumber(meta:get_string("area_height")) - 1
                 marker_show_formspec(pos, player, area_bounds)
             else
@@ -254,11 +266,11 @@ minetest.register_node("protection:marker", {
         local name = clicker:get_player_name()
         local meta = minetest.get_meta(pos)
         if (name == meta:get_string("owner")) then
-            local area_bounds = marker_locate_others(pos, name)
+            local area_bounds, markers = marker_locate_others(pos, name)
             if area_bounds ~= nil then
-                set_bounds(pos, area_bounds)
+                set_bounds(markers, area_bounds)
                 area_bounds.pos2.y = area_bounds.pos2.y + tonumber(meta:get_string("area_height")) - 1
-                protection.marker[name] = pos
+                protection.markers[name] = markers
                 marker_show_formspec(pos, clicker, area_bounds)
             else
                 minetest.chat_send_player(name, "[Area Marker]: Error: Ensure that the markers form a square and are at the same base height.")

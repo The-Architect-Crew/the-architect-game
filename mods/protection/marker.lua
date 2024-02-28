@@ -252,6 +252,7 @@ minetest.register_node("protection:marker", {
     },
     light_source = 8,
     paramtype = light,
+    sunlight_propagates = true,
     groups = {dig_immediate = 3},
     selection_box = {
         type = "fixed",

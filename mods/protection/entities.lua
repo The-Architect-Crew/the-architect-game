@@ -12,6 +12,7 @@ minetest.register_entity("protection:pos", {
         collisionbox = {-0.55, -0.55, -0.55, 0.55, 0.55, 0.55},
 		physical = false,
 		static_save = false,
+        pointable = false,
     },
     on_punch = function(self, hitter)
         if hitter:get_player_name() == self.player_name then
@@ -31,6 +32,7 @@ minetest.register_entity("protection:protector_edge", {
         glow = -1,
 		physical = false,
 		static_save = false,
+        pointable = false,
     },
     on_punch = function(self, hitter)
         if hitter:get_player_name() == self.player_name then
@@ -50,5 +52,6 @@ minetest.register_entity("protection:edge", {
         glow = -1,
 		physical = false,
 		static_save = false,
+        pointable = false,
     }
 })

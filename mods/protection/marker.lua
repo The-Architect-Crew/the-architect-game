@@ -370,7 +370,6 @@ minetest.register_node("protection:marker", {
         local name = digger:get_player_name()
         if protection.markers[name] ~= nil then
             for _,marker_pos in ipairs(protection.markers[name]) do
-                print(dump(marker_pos))
                 if protection.pos_compare(marker_pos, pos) then
                     marker_remove_grid(name)
                 end

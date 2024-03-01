@@ -282,14 +282,6 @@ function marker_remove_grid(name)
     protection.marker_grid[name] = nil
 end
 
-local function toggle_grid(pos, name)
-    if protection.marker_grid[name] == nil then
-        marker_place_grid(pos, name)
-    else
-        marker_remove_grid(name)
-    end
-end
-
 minetest.register_on_player_receive_fields(function(player, formname, fields)
 	if formname ~= "protection:marker_form" or not player then
 		return
@@ -306,8 +298,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
                 local area_bounds = get_bounds(pos)
                 sync_set_string(markers, "area_height", y_height)
                 area_bounds.pos2.y = area_bounds.pos2.y + tonumber(meta:get_string("area_height")) - 1
-                toggle_grid(pos, playername)
-                toggle_grid(pos, playername)
+                place_grid(pos, playername)
                 marker_show_formspec(pos, player, area_bounds)
             else
                 minetest.chat_send_player(playername, "[Area Marker]: Area height must be positive.")

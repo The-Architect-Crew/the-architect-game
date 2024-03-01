@@ -1,4 +1,5 @@
 protection.markers = {}
+protection.marker_grid = {}
 
 local function marker_formspec(pos, player, area_bounds)
 	local spos = pos.x..","..pos.y..","..pos.z
@@ -190,6 +191,105 @@ local function sync_set_string(markers, string, value)
     end
 end
 
+local function marker_place_grid(pos, playername)
+    local area_bounds = get_bounds(pos)
+    local meta = minetest.get_meta(pos)
+    area_bounds.pos2.y = area_bounds.pos2.y + tonumber(meta:get_string("area_height")) - 1
+    local cpos = {}
+    cpos[1] = {x = area_bounds.pos1.x, y =  area_bounds.pos1.y, z = area_bounds.pos1.z}
+    cpos[2] = {x = area_bounds.pos1.x, y =  area_bounds.pos1.y, z = area_bounds.pos2.z}
+    cpos[3] = {x = area_bounds.pos2.x, y =  area_bounds.pos1.y, z = area_bounds.pos1.z}
+    cpos[4] = {x = area_bounds.pos2.x, y =  area_bounds.pos1.y, z = area_bounds.pos2.z}
+    cpos[5] = {x = area_bounds.pos1.x, y =  area_bounds.pos2.y, z = area_bounds.pos1.z}
+    cpos[6] = {x = area_bounds.pos1.x, y =  area_bounds.pos2.y, z = area_bounds.pos2.z}
+    cpos[7] = {x = area_bounds.pos2.x, y =  area_bounds.pos2.y, z = area_bounds.pos1.z}
+    cpos[8] = {x = area_bounds.pos2.x, y =  area_bounds.pos2.y, z = area_bounds.pos2.z}
+
+    local epos = {}
+
+    epos[1] = {x = area_bounds.pos1.x - 0.5, y = (area_bounds.pos1.y + area_bounds.pos2.y) / 2, z = (area_bounds.pos1.z + area_bounds.pos2.z) / 2}
+    epos[2] = {x = area_bounds.pos2.x + 0.5, y =  (area_bounds.pos1.y + area_bounds.pos2.y) / 2, z = (area_bounds.pos1.z + area_bounds.pos2.z) / 2}
+    epos[3] = {x = (area_bounds.pos1.x + area_bounds.pos2.x) / 2, y =  (area_bounds.pos1.y + area_bounds.pos2.y) / 2, z = area_bounds.pos1.z - 0.5}
+    epos[4] = {x = (area_bounds.pos1.x + area_bounds.pos2.x) / 2, y =  (area_bounds.pos1.y + area_bounds.pos2.y) / 2, z = area_bounds.pos2.z + 0.5}
+
+    local x_side_length = math.abs(area_bounds.pos1.x - area_bounds.pos2.x) + 1
+    local y_side_length = math.abs(area_bounds.pos1.y - area_bounds.pos2.y) + 1
+    local z_side_length = math.abs(area_bounds.pos1.z - area_bounds.pos2.z) + 1
+    local thickness = 0.1
+
+    if protection.marker_grid[playername] ~= nil then
+        for i=1,8 do
+            if protection.marker_grid[playername]["corner" .. i] ~= nil then
+                protection.marker_grid[playername]["corner" .. i]:remove()
+                protection.marker_grid[playername]["corner" .. i] = nil
+            end
+        end
+        for i=1,4 do
+            if protection.marker_grid[playername]["edge" .. i] ~= nil then
+                protection.marker_grid[playername]["edge" .. i]:remove()
+                protection.marker_grid[playername]["edge" .. i] = nil
+            end
+        end
+    else
+        protection.marker_grid[playername] = {}
+    end
+
+    for i=1,8 do
+        protection.marker_grid[playername]["corner" .. i] = minetest.add_entity(cpos[i], "protection:pos")
+
+        if protection.marker_grid[playername]["corner" .. i] ~= nil then
+            protection.marker_grid[playername]["corner" .. i]:get_luaentity().player_name = playername
+        end
+    end
+    for i=1,2 do
+        protection.marker_grid[playername]["edge" .. i] = minetest.add_entity(epos[i], "protection:protector_edge")
+        if protection.marker_grid[playername]["edge" .. i] ~= nil then
+            protection.marker_grid[playername]["edge" .. i]:set_properties({
+                visual_size = {x = z_side_length, y = y_side_length},
+                collisionbox = {-thickness, -y_side_length / 2, -z_side_length / 2, thickness, y_side_length / 2, z_side_length / 2}
+            })
+            protection.marker_grid[playername]["edge" .. i]:set_yaw(math.pi / 2)
+            protection.marker_grid[playername]["edge" .. i]:get_luaentity().player_name = playername
+        end
+    end
+    for i=3,4 do
+        protection.marker_grid[playername]["edge" .. i] = minetest.add_entity(epos[i], "protection:protector_edge")
+        if protection.marker_grid[playername]["edge" .. i] ~= nil then
+            protection.marker_grid[playername]["edge" .. i]:set_properties({
+                visual_size = {x = x_side_length, y = y_side_length},
+                collisionbox = {-x_side_length / 2, -y_side_length / 2, -thickness, x_side_length / 2, y_side_length / 2, thickness}
+            })
+            protection.marker_grid[playername]["edge" .. i]:get_luaentity().player_name = playername
+        end
+    end
+end
+
+function marker_remove_grid(name)
+    local grid = protection.marker_grid[name]
+
+    if not grid then
+        return
+    end
+
+    for i=1,8 do
+        grid["corner"..i]:remove()
+    end
+
+    for i=1,4 do
+        grid["edge"..i]:remove()
+    end
+
+    protection.marker_grid[name] = nil
+end
+
+local function toggle_grid(pos, name)
+    if protection.marker_grid[name] == nil then
+        marker_place_grid(pos, name)
+    else
+        marker_remove_grid(name)
+    end
+end
+
 minetest.register_on_player_receive_fields(function(player, formname, fields)
 	if formname ~= "protection:marker_form" or not player then
 		return
@@ -206,6 +306,8 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
                 local area_bounds = get_bounds(pos)
                 sync_set_string(markers, "area_height", y_height)
                 area_bounds.pos2.y = area_bounds.pos2.y + tonumber(meta:get_string("area_height")) - 1
+                toggle_grid(pos, playername)
+                toggle_grid(pos, playername)
                 marker_show_formspec(pos, player, area_bounds)
             else
                 minetest.chat_send_player(playername, "[Area Marker]: Area height must be positive.")
@@ -221,6 +323,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
         area_bounds.pos2.y = area_bounds.pos2.y + tonumber(meta:get_string("area_height")) - 1
         local area_id = areas:add(playername, area_name, area_bounds.pos1, area_bounds.pos2, nil)
         if area_id ~= "" then
+            marker_remove_grid(playername)
             minetest.chat_send_player(playername, "[Area Marker]: Successfully protected area " .. area_name .. " with an id " .. area_id .. ".")
             areas:save()
         end
@@ -263,6 +366,20 @@ minetest.register_node("protection:marker", {
         fixed = {-5/16, -8/16, -5/16, 9/16, 24/16, 5/16},
     },
     sounds = default.node_sound_stone_defaults(),
+    on_dig = function(pos, node, digger)
+        local name = digger:get_player_name()
+        if protection.markers[name] ~= nil then
+            for _,marker_pos in ipairs(protection.markers[name]) do
+                print(dump(marker_pos))
+                if protection.pos_compare(marker_pos, pos) then
+                    marker_remove_grid(name)
+                end
+            end
+            return minetest.node_dig(pos, node, digger)
+        else
+            return minetest.node_dig(pos, node, digger)
+        end
+    end,
     on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
         local name = clicker:get_player_name()
         local meta = minetest.get_meta(pos)
@@ -272,6 +389,7 @@ minetest.register_node("protection:marker", {
                 set_bounds(markers, area_bounds)
                 area_bounds.pos2.y = area_bounds.pos2.y + tonumber(meta:get_string("area_height")) - 1
                 protection.markers[name] = markers
+                marker_place_grid(pos, name)
                 marker_show_formspec(pos, clicker, area_bounds)
             else
                 minetest.chat_send_player(name, "[Area Marker]: Error: Ensure that the markers form a square and are at the same base height.")

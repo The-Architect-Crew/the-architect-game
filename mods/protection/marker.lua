@@ -312,11 +312,13 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
         local area_name = fields.protect
         local area_bounds = get_bounds(pos)
         area_bounds.pos2.y = area_bounds.pos2.y + tonumber(meta:get_string("area_height")) - 1
-        local area_id = areas:add(playername, area_name, area_bounds.pos1, area_bounds.pos2, nil)
+        local area_id,aerror = areas:add(playername, area_name, area_bounds.pos1, area_bounds.pos2, nil)
         if area_id ~= "" then
             marker_remove_grid(playername)
             minetest.chat_send_player(playername, "[Area Marker]: Successfully protected area " .. area_name .. " with an id " .. area_id .. ".")
             areas:save()
+        else
+            minetest.chat_send_player(playername, "[Area Marker]: Failed to protect area: " .. aerror .. ".")
         end
     end
 

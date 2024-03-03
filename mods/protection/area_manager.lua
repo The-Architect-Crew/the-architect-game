@@ -373,6 +373,25 @@ minetest.register_node("protection:area_manager", {
     on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
         local name = clicker:get_player_name()
         local meta = minetest.get_meta(pos)
+        local selected_area = areas.areas[meta:get_string("selected_area_id")]
+        if selected_area == nil then
+            minetest.chat_send_player(name, "The selected area does not exist.")
+            selected_area = protection.find_owned_area(pos, name)
+            if (selected_area.id == "undefined") then
+                minetest.chat_send_player(name, "Can't find any relevant areas in this position.")
+                return itemstack
+            else
+                meta:set_string("selected_area_id", selected_area.id)
+                update_infotext(pos, selected_area.id)
+                protection.area_manager[name] = pos
+                minetest.chat_send_player(name, "Selecting area " .. selected_area.name .. ".")
+                area_manager_show_formspec(pos, clicker)
+            end
+        elseif pos_is_in_area(pos, meta:get_string("selected_area_id")) then
+            minetest.chat_send_player(name, "The area manager is not in the selected area.")
+            return itemstack
+        end
+
         if (name == meta:get_string("owner")) then
             protection.area_manager[name] = pos
             area_manager_show_formspec(pos, clicker)

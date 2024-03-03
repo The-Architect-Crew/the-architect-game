@@ -42,17 +42,51 @@ function protection.pos_compare(pos1, pos2)
 end
 
 function protection.calculate_surface(pos1, pos2)
-    local length_x = math.abs(pos1.x - pos2.x)
-    local length_z = math.abs(pos1.z - pos2.z)
+    local length_x = math.abs(pos1.x - pos2.x) + 1
+    local length_z = math.abs(pos1.z - pos2.z) + 1
     return length_x * length_z
 end
 function protection.calculate_volume(pos1, pos2)
-    local length_x = math.abs(pos1.x - pos2.x)
-    local length_y = math.abs(pos1.y - pos2.y)
-    local length_z = math.abs(pos1.z - pos2.z)
+    local length_x = math.abs(pos1.x - pos2.x) + 1
+    local length_y = math.abs(pos1.y - pos2.y) + 1
+    local length_z = math.abs(pos1.z - pos2.z) + 1
     return length_x * length_z * length_y
 end
 function protection.calculate_cost(pos1, pos2)
     local volume = protection.calculate_volume(pos1, pos2)
     return volume * protection.mese_cost / 100
+end
+
+function protection.find_block_area(pos, name)
+    local areas_at_pos = areas:getAreasAtPos(pos)
+    local block_data = protection.get_grid_block(pos)
+    local area_data = {name = "Undefined", owner = "Unprotected", id = "undefined"}
+    for id,area in pairs(areas_at_pos) do
+        if protection.area_compare_pos(area, block_data) then
+            if name ~= nil then
+                if areas.areas[id].owner == name then
+                    area_data = {name = area.name, owner = area.owner, id = id}
+                    return area_data
+                else
+                    return area_data
+                end
+            else
+                area_data = {name = area.name, owner = area.owner, id = id}
+                return area_data
+            end
+        end
+    end
+    return area_data
+end
+
+function protection.find_owned_area(pos, name)
+    local areas_at_pos = areas:getAreasAtPos(pos)
+    local area_data = {name = "Undefined", owner = "Unprotected", id = "undefined"}
+    for id,area in pairs(areas_at_pos) do
+        if areas.areas[id].owner == name then
+            area_data = {name = area.name, owner = area.owner, id = id}
+            return area_data
+        end
+    end
+    return area_data
 end

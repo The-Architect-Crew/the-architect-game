@@ -1,11 +1,6 @@
 protection.protector = {}
 protection.protector_markers = {}
 
-minetest.register_on_leaveplayer(function(player)
-    local playername = player:get_player_name()
-    protection.protector_markers[playername] = nil
-end)
-
 local function protector_formspec_tab(pos, name)
     local meta = minetest.get_meta(pos)
     local block_data = protection.get_grid_block(pos)
@@ -150,28 +145,6 @@ local function protector_after_place_node(pos, placer, itemstack, pointed_thing)
                     "Owner: " .. block_area.owner .. "\nName: " .. block_area.name)
 end
 
-function protection.find_block_area(pos, name)
-    local areas_at_pos = areas:getAreasAtPos(pos)
-    local block_data = protection.get_grid_block(pos)
-    local area_data = {name = "Undefined", owner = "Unprotected", id = "undefined"}
-    for id,area in pairs(areas_at_pos) do
-        if protection.area_compare_pos(area, block_data) then
-            if name ~= nil then
-                if areas.areas[id].owner == name then
-                    area_data = {name = area.name, owner = area.owner, id = id}
-                    return area_data
-                else
-                    return area_data
-                end
-            else
-                area_data = {name = area.name, owner = area.owner, id = id}
-                return area_data
-            end
-        end
-    end
-    return area_data
-end
-
 function protection.area_compare_pos(area1, area2)
     if protection.pos_compare(area1.pos1, area2.pos1) and protection.pos_compare(area1.pos2, area2.pos2) then
         return true
@@ -272,7 +245,7 @@ local function protector_place_grid(pos, playername)
     end
 end
 
-function protection.protector.remove_grid(name)
+local function protector_remove_grid(name)
     local grid = protection.protector_markers[name]
 
     if not grid then
@@ -312,7 +285,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
         if protection.protector_markers[playername] == nil then
             protector_place_grid(pos, playername)
         else
-            protection.protector.remove_grid(playername)
+            protector_remove_grid(playername)
         end
     end
 
@@ -367,6 +340,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
             local new_name = fields.rename
             local old_name = areas.areas[selected_area_id].name
             areas.areas[selected_area_id].name = new_name
+            areas:save()
             minetest.chat_send_player(playername, "Renamed area " .. old_name .. " to " .. new_name .. ".")
             protector_show_formspec(pos, player)
         else

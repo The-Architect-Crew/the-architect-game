@@ -347,16 +347,16 @@ end
 minetest.register_node("protection:area_manager", {
     description = ccore.comment("Area Manager", "Displays area info and allows area modification"),
     drawtype = "mesh",
-    mesh = "protector.obj",
-    tiles = {"variations_steelblock.png^[sheet:3x3:1,0", "variations_wood.png^[sheet:3x3:1,0", "protection_protector.png"},
+    mesh = "area_manager.obj",
+    tiles = {"variations_wood.png^[sheet:3x3:1,0", "variations_steelblock.png^[sheet:3x3:1,0", "protection_manager.png"},
     groups = {dig_immediate = 2},
     selection_box = {
         type = "fixed",
-        fixed = {-9/16, -8/16, -9/16, 9/16, 14/16, 9/16},
+        fixed = {-15/16, -8/16, -15/16, 15/16, 12/16, 16/16},
     },
     collision_box = {
         type = "fixed",
-        fixed = {-9/16, -8/16, -9/16, 9/16, 14/16, 9/16},
+        fixed = {-15/16, -8/16, -15/16, 15/16, 12/16, 16/16},
     },
     paramtype = "light",
     paramtype2 = "facedir",

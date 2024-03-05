@@ -415,6 +415,13 @@ minetest.register_node("protection:protector", {
             return false
         end
     end,
+    on_dig = function(pos, node, digger)
+        local playername = digger:get_player_name()
+        if protection.protector_markers[playername] ~= nil then
+            protector_remove_grid(playername)
+        end
+        minetest.node_dig(pos, node, digger)
+    end,
     on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
         local name = clicker:get_player_name()
         local meta = minetest.get_meta(pos)

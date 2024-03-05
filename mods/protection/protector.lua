@@ -145,6 +145,14 @@ local function protector_after_place_node(pos, placer, itemstack, pointed_thing)
                     "Owner: " .. block_area.owner .. "\nName: " .. block_area.name)
 end
 
+local function update_infotext(pos, area_id)
+    local meta = minetest.get_meta(pos)
+    local block_data = protection.get_grid_block(pos)
+    local block_area = protection.find_block_area(pos)
+    meta:set_string("infotext", "Block area: " .. block_data.center.x .. "," .. block_data.center.y .. "," .. block_data.center.z .. "\n" ..
+                    "Owner: " .. block_area.owner .. "\nName: " .. block_area.name)
+end
+
 function protection.area_compare_pos(area1, area2)
     if protection.pos_compare(area1.pos1, area2.pos1) and protection.pos_compare(area1.pos2, area2.pos2) then
         return true
@@ -277,6 +285,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
         local area_id = protect_block(pos, playername, area_name)
         if area_id ~= "" then
             meta:set_string("selected_area_id", area_id)
+            update_infotext(pos, area_id)
         end
         protector_show_formspec(pos, player)
     end
@@ -294,6 +303,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
         if areas:isAreaOwner(area_id, playername) then
             if area_is_block(pos, area_id) then
                 meta:set_string("selected_area_id", area_id)
+                update_infotext(pos, area_id)
                 protector_show_formspec(pos, player)
             else
                 minetest.chat_send_player(playername, "That area is not an area of this block.")
@@ -309,6 +319,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
             if areas:player_exists(new_owner) then
                 local selected_name = areas.areas[selected_area_id].name
                 protect_block(pos, new_owner, selected_name, selected_area_id)
+                update_infotext(pos, selected_area_id)
                 protector_show_formspec(pos, player)
             else
                 minetest.chat_send_player(playername, "Invalid player name.")
@@ -326,6 +337,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
                 areas.areas[selected_area_id].owner = new_owner
                 areas:save()
                 minetest.chat_send_player(playername, "Block area " .. selected_name .. " is now owned by " .. new_owner .. ".")
+                update_infotext(pos, selected_area_id)
                 protector_show_formspec(pos, player)
             else
                 minetest.chat_send_player(playername, "Invalid player name.")
@@ -342,6 +354,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
             areas.areas[selected_area_id].name = new_name
             areas:save()
             minetest.chat_send_player(playername, "Renamed area " .. old_name .. " to " .. new_name .. ".")
+            update_infotext(pos, selected_area_id)
             protector_show_formspec(pos, player)
         else
             minetest.chat_send_player(playername, "You must select a block area first!")

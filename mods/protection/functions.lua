@@ -150,13 +150,3 @@ function protection.take_mese(player, amount)
         return false
     end
 end
-
--- Test
-minetest.register_craftitem("protection:test", {
-    description = "testttt",
-    inventory_image = "blocks_book.png",
-   on_use = function(itemstack, user, pointed_thing)
-        local mese_count = protection.count_lost_mese(user)
-        minetest.chat_send_player(user:get_player_name(), "Lost mese crystals: " .. mese_count.crystals .. " Lost mese blocks: " .. mese_count.blocks)
-   end,
-})

@@ -334,6 +334,10 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
                 marker_remove_grid(playername)
                 minetest.chat_send_player(playername, "[Area Marker]: Successfully protected area " .. area_name .. " with an id " .. area_id .. " at the cost of " .. math.ceil(mese_cost) .. " lost mese.")
                 areas:save()
+                minetest.log("action", "Markers Protected an area, owner="..playername..
+				" AreaName="..area_name..
+				" StartPos="..minetest.pos_to_string(area_bounds.pos1)..
+				" EndPos="  ..minetest.pos_to_string(area_bounds.pos2))
             else
                 minetest.chat_send_player(playername, "[Area Marker]: Failed to protect area: " .. aerror .. ".")
             end

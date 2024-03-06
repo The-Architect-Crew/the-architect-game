@@ -279,9 +279,9 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 	local pos = protection.protector[playername]
 	local meta = minetest.get_meta(pos)
     local selected_area_id = tonumber(meta:get_string("selected_area_id"))
+    local block_data = protection.get_grid_block(pos)
 
     if fields.key_enter_field == "protect" then
-        local block_data = protection.get_grid_block(pos)
         local mese_cost = protection.calculate_cost(block_data.pos1, block_data.pos2)
         if protection.take_mese(player, mese_cost) ~= false then
             local area_name = fields.protect
@@ -290,6 +290,10 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
                 local area_id = protect_block(pos, playername, area_name)
                 meta:set_string("selected_area_id", area_id)
                 update_infotext(pos, area_id)
+                minetest.log("action", "Protector protected an area, owner="..playername..
+				" AreaName="..area_name..
+				" StartPos="..minetest.pos_to_string(block_data.pos1)..
+				" EndPos="  ..minetest.pos_to_string(block_data.pos2))
                 minetest.chat_send_player(playername, "Succesfully protected block at the cost of " .. mese_cost .. " lost mese.")
             else
                 minetest.chat_send_player(playername, "Couldn't protect block area: " .. aerror .. ".")
@@ -330,6 +334,10 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
                 local selected_name = areas.areas[selected_area_id].name
                 protect_block(pos, new_owner, selected_name, selected_area_id)
                 update_infotext(pos, selected_area_id)
+                minetest.log("action", "Protector added owner, owner=".. new_owner ..
+				" AreaName="..selected_name..
+				" StartPos="..minetest.pos_to_string(block_data.pos1)..
+				" EndPos="  ..minetest.pos_to_string(block_data.pos2))
                 protector_show_formspec(pos, player)
             else
                 minetest.chat_send_player(playername, "Invalid player name.")
@@ -346,6 +354,10 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
                 local selected_name = areas.areas[selected_area_id].name
                 areas.areas[selected_area_id].owner = new_owner
                 areas:save()
+                minetest.log("action", "Protector changed owner, owner=".. new_owner ..
+				" AreaName="..selected_name..
+				" StartPos="..minetest.pos_to_string(block_data.pos1)..
+				" EndPos="  ..minetest.pos_to_string(block_data.pos2))
                 minetest.chat_send_player(playername, "Block area " .. selected_name .. " is now owned by " .. new_owner .. ".")
                 update_infotext(pos, selected_area_id)
                 protector_show_formspec(pos, player)
@@ -363,6 +375,8 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
             local old_name = areas.areas[selected_area_id].name
             areas.areas[selected_area_id].name = new_name
             areas:save()
+            minetest.log("action", "Protector renamed area, id=" .. selected_area_id .. " old name=".. old_name ..
+            " new name="..new_name)
             minetest.chat_send_player(playername, "Renamed area " .. old_name .. " to " .. new_name .. ".")
             update_infotext(pos, selected_area_id)
             protector_show_formspec(pos, player)

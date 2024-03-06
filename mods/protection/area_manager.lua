@@ -265,11 +265,15 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
         if areas:player_exists(new_owner) then
             local selected_name = areas.areas[selected_area_id].name
             local area_data = areas.areas[selected_area_id]
-            local area_id,aerror = areas:add(playername, selected_name, area_data.pos1, area_data.pos2, selected_area_id)
+            local area_id,aerror = areas:add(new_owner, selected_name, area_data.pos1, area_data.pos2, selected_area_id)
             if area_id ~= "" then
                 marker_remove_grid(playername)
                 minetest.chat_send_player(playername, "[Area Manager]: Successfully shared area " .. selected_name .. " with " .. new_owner .. ".")
                 areas:save()
+                minetest.log("action", "Area Manager added owner, owner="..new_owner..
+				" AreaName="..selected_name..
+				" StartPos="..minetest.pos_to_string(area_data.pos1)..
+				" EndPos="  ..minetest.pos_to_string(area_data.pos2))
                 area_manager_show_formspec(pos, player)
             else
                 minetest.chat_send_player(playername, "[Area Manager]: Failed to share area: " .. aerror .. ".")
@@ -285,6 +289,10 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
             local selected_name = areas.areas[selected_area_id].name
             areas.areas[selected_area_id].owner = new_owner
             areas:save()
+            minetest.log("action", "Area Manager changed owner, owner="..new_owner..
+				" AreaName="..selected_name..
+				" StartPos="..minetest.pos_to_string(area_data.pos1)..
+				" EndPos="  ..minetest.pos_to_string(area_data.pos2))
             update_infotext(pos, selected_area_id)
             minetest.chat_send_player(playername, "Area " .. selected_name .. " is now owned by " .. new_owner .. ".")
             area_manager_show_formspec(pos, player)
@@ -298,6 +306,8 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
         local old_name = areas.areas[selected_area_id].name
         areas.areas[selected_area_id].name = new_name
         areas:save()
+        minetest.log("action", "Area Manager renamed area, id=" .. selected_area_id .. " old name=".. old_name ..
+				" new name="..new_name)
         update_infotext(pos, selected_area_id)
         minetest.chat_send_player(playername, "Renamed area " .. old_name .. " to " .. new_name .. ".")
         area_manager_show_formspec(pos, player)

@@ -92,15 +92,20 @@ local function area_from_markers(marker1, marker2, marker3, marker4)
 end
 
 local function marker_locate_others(pos, playername)
-    local marker_search_distance = 64
+    local player_has_areas_high = minetest.check_player_privs(playername, {areas_high_limit=true})
     local x_marker = false
     local z_marker = false
     local last_marker
     local node
     local area_bounds = nil
     local markers = {}
+    local search_distance = protection.marker_search_distance
 
-    for i=1,marker_search_distance do
+    if player_has_areas_high then
+        search_distance = protection.marker_search_distance_high
+    end
+
+    for i=1,search_distance do
         node = minetest.get_node({x = pos.x + i, y = pos.y, z = pos.z})
         if node.name == "protection:marker" then
             local meta = minetest.get_meta({x = pos.x + i, y = pos.y, z = pos.z})
@@ -119,7 +124,7 @@ local function marker_locate_others(pos, playername)
         end
     end
 
-    for i=1,marker_search_distance do
+    for i=1,search_distance do
         node = minetest.get_node({x = pos.x, y = pos.y, z = pos.z + i})
         if node.name == "protection:marker" then
             local meta = minetest.get_meta({x = pos.x, y = pos.y, z = pos.z + i})
@@ -295,11 +300,20 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
         local y_height = fields.y_height
         if tonumber(y_height) ~= nil then
             if tonumber(y_height) > 0 then
-                local area_bounds = get_bounds(pos)
-                sync_set_string(markers, "area_height", y_height)
-                area_bounds.pos2.y = area_bounds.pos2.y + tonumber(meta:get_string("area_height")) - 1
-                place_grid(pos, playername)
-                marker_show_formspec(pos, player, area_bounds)
+                local player_has_areas_high = minetest.check_player_privs(playername, {areas_high_limit=true})
+                local y_max = protection.y_max
+                if player_has_areas_high then
+                    y_max = protection.y_max_high
+                end
+                if tonumber(y_height) < y_max then
+                    local area_bounds = get_bounds(pos)
+                    sync_set_string(markers, "area_height", y_height)
+                    area_bounds.pos2.y = area_bounds.pos2.y + tonumber(meta:get_string("area_height")) - 1
+                    marker_place_grid(pos, playername)
+                    marker_show_formspec(pos, player, area_bounds)
+                else
+                    minetest.chat_send_player(playername, "[Area Marker]: Area too tall.")
+                end
             else
                 minetest.chat_send_player(playername, "[Area Marker]: Area height must be positive.")
             end

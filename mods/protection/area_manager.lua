@@ -253,10 +253,10 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
                 update_infotext(pos, area_id)
                 protector_show_formspec(pos, player)
             else
-                minetest.chat_send_player(playername, "This area manager is not located in that area.")
+                minetest.chat_send_player(playername, protection.chat_message("manager", "error", "This area manager is not located in that area.", "Select an area which contains this area manager."))
             end
         else
-            minetest.chat_send_player(playername, "You do not own that area.")
+            minetest.chat_send_player(playername, protection.chat_message("manager", "warning", "You do not own that area."))
         end
     end
 
@@ -268,7 +268,9 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
             local area_id,aerror = areas:add(new_owner, selected_name, area_data.pos1, area_data.pos2, selected_area_id)
             if area_id ~= "" then
                 marker_remove_grid(playername)
-                minetest.chat_send_player(playername, "[Area Manager]: Successfully shared area " .. selected_name .. " with " .. new_owner .. ".")
+                minetest.chat_send_player(playername, protection.chat_message("manager", "success",
+                                            "Successfuly shared area " .. minetest.colorize(protection.area_color, selected_name) ..
+                                            " with " .. minetest.colorize(protection.name_color, new_owner) .. "."))
                 areas:save()
                 minetest.log("action", "Area Manager added owner, owner="..new_owner..
 				" AreaName="..selected_name..
@@ -276,10 +278,10 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 				" EndPos="  ..minetest.pos_to_string(area_data.pos2))
                 area_manager_show_formspec(pos, player)
             else
-                minetest.chat_send_player(playername, "[Area Manager]: Failed to share area: " .. aerror .. ".")
+                minetest.chat_send_player(playername, protection.chat_message("manager", "error", "Failed to share area, " .. aerror .. "."))
             end
         else
-            minetest.chat_send_player(playername, "Invalid player name.")
+            minetest.chat_send_player(playername, protection.chat_message("manager", "error", "Invalid player name.", "Possibly a typing mistake."))
         end
     end
 
@@ -294,10 +296,12 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 				" StartPos="..minetest.pos_to_string(area_data.pos1)..
 				" EndPos="  ..minetest.pos_to_string(area_data.pos2))
             update_infotext(pos, selected_area_id)
-            minetest.chat_send_player(playername, "Area " .. selected_name .. " is now owned by " .. new_owner .. ".")
+            minetest.chat_send_player(playername, protection.chat_message("manager", "error", "Area " ..
+                                        minetest.colorize(protection.area_color, selected_name) ..
+                                        " is now owned by " .. minetest.colorize(protection.name_color, new_owner) .. "."))
             area_manager_show_formspec(pos, player)
         else
-            minetest.chat_send_player(playername, "Invalid player name.")
+            minetest.chat_send_player(playername, protection.chat_message("manager", "error", "Invalid player name.", "Possibly a typing mistake."))
         end
     end
 
@@ -309,7 +313,9 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
         minetest.log("action", "Area Manager renamed area, id=" .. selected_area_id .. " old name=".. old_name ..
 				" new name="..new_name)
         update_infotext(pos, selected_area_id)
-        minetest.chat_send_player(playername, "Renamed area " .. old_name .. " to " .. new_name .. ".")
+        minetest.chat_send_player(playername, protection.chat_message("manager", "success", "Renamed area " ..
+                                    minetest.colorize(protection.area_color, old_name) ..
+                                    " to " .. minetest.colorize(protection.area_color, new_name) .. "."))
         area_manager_show_formspec(pos, player)
     end
 
@@ -376,7 +382,7 @@ minetest.register_node("protection:area_manager", {
         if (player:get_player_name() == meta:get_string("owner")) then
             return true
         else
-            minetest.chat_send_player(player:get_player_name(), "Only the owner can remove an area manager.")
+            minetest.chat_send_player(player:get_player_name(), protection.chat_message("manager", "note", "Only the owner can remove an area manager.", "Maybe try asking them?"))
             return false
         end
     end,
@@ -392,20 +398,20 @@ minetest.register_node("protection:area_manager", {
         local meta = minetest.get_meta(pos)
         local selected_area = areas.areas[meta:get_string("selected_area_id")]
         if selected_area == nil then
-            minetest.chat_send_player(name, "The selected area does not exist.")
+            minetest.chat_send_player(name, protection.chat_message("manager", "error", "Selected area does not exist.", "Perhaps it was deleted since this manager was placed, try placing it again."))
             selected_area = protection.find_owned_area(pos, name)
             if (selected_area.id == "undefined") then
-                minetest.chat_send_player(name, "Can't find any relevant areas in this position.")
+                minetest.chat_send_player(name, protection.chat_message("manager", "error", "Can't find any relevant areas in this position.", "You probably do not own any areas at this exact position."))
                 return itemstack
             else
                 meta:set_string("selected_area_id", selected_area.id)
                 update_infotext(pos, selected_area.id)
                 protection.area_manager[name] = pos
-                minetest.chat_send_player(name, "Selecting area " .. selected_area.name .. ".")
+                minetest.chat_send_player(name, protection.chat_message("manager", "note", "Selecting area " .. minetest.colorize(protection.area_color,selected_area.name) .. "."))
                 area_manager_show_formspec(pos, clicker)
             end
         elseif pos_is_in_area(pos, meta:get_string("selected_area_id")) then
-            minetest.chat_send_player(name, "The area manager is not in the selected area.")
+            minetest.chat_send_player(name, protection.chat_message("manager", "error", "Area manager is not in the selected area.", "Perhaps the area has been modified, or this ID has been given to another area."))
             return itemstack
         end
 
@@ -413,7 +419,7 @@ minetest.register_node("protection:area_manager", {
             protection.area_manager[name] = pos
             area_manager_show_formspec(pos, clicker)
         else
-            minetest.chat_send_player(name, "Only the owner can interact with an area manager.")
+            minetest.chat_send_player(name, protection.chat_message("manager", "note", "Only the owner can interact with an area manager."))
             return itemstack
         end
     end,
@@ -422,7 +428,7 @@ minetest.register_node("protection:area_manager", {
         local pos = pointed_thing.above
         local owned_area = protection.find_owned_area(pos, name)
         if owned_area.id == "undefined" then
-            minetest.chat_send_player(name, "The area manager can only be placed in an area owned by you.")
+            minetest.chat_send_player(name, protection.chat_message("manager", "note", "The area manager can only be placed in an area owned by you.", "You probably do not own any areas at this exact position."))
         else
             minetest.item_place(itemstack, placer, pointed_thing)
         end

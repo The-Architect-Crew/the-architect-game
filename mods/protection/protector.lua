@@ -173,11 +173,12 @@ local function protect_block(pos, name, area_name, parent_id)
     local protection_possible, error_msg = areas:canPlayerAddArea(block_data.pos1, block_data.pos2, name)
     local area_id = ""
     if protection_possible then
-        minetest.chat_send_player(name, "Successfully protected " .. area_name .. "!")
+        minetest.chat_send_player(name, protection.chat_message("protector", "success", "Successfully protected block area " ..
+                                    minetest.colorize(protection.area_color, area_name) .. "."))
         area_id = areas:add(name, area_name, block_data.pos1, block_data.pos2, parent_id)
 		areas:save()
     else
-        minetest.chat_send_player(name, "Failed to protect " .. area_name .. ", areas error: " .. error_msg)
+        minetest.chat_send_player(name, protection.chat_message("protector", "error", "Failed to protect block area, " .. error_msg))
     end
     return area_id
 end
@@ -294,12 +295,14 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 				" AreaName="..area_name..
 				" StartPos="..minetest.pos_to_string(block_data.pos1)..
 				" EndPos="  ..minetest.pos_to_string(block_data.pos2))
-                minetest.chat_send_player(playername, "Succesfully protected block at the cost of " .. mese_cost .. " lost mese.")
+                minetest.chat_send_player(playername, protection.chat_message("protector", "success", "Succesfully protected block area " ..
+                                            minetest.colorize(protection.area_color, area_name) ..
+                                            " at the cost of " .. minetest.colorize(protection.price_color, mese_cost .. " lost mese") .. "."))
             else
-                minetest.chat_send_player(playername, "Couldn't protect block area: " .. aerror .. ".")
+                minetest.chat_send_player(playername, protection.chat_message("protector", "error", "Could not protect block area, " .. aerror .. "."))
             end
         else
-            minetest.chat_send_player(playername, "Insufficient funds.")
+            minetest.chat_send_player(playername, protection.chat_message("protector", "note", "Insufficient funds."))
         end
         protector_show_formspec(pos, player)
     end
@@ -320,10 +323,10 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
                 update_infotext(pos, area_id)
                 protector_show_formspec(pos, player)
             else
-                minetest.chat_send_player(playername, "That area is not an area of this block.")
+                minetest.chat_send_player(playername, protection.chat_message("protector", "error", "That area does not belong to this block."))
             end
         else
-            minetest.chat_send_player(playername, "You do not own that area.")
+            minetest.chat_send_player(playername, protection.chat_message("protector", "error", "You do not own that area."))
         end
     end
 
@@ -340,10 +343,10 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 				" EndPos="  ..minetest.pos_to_string(block_data.pos2))
                 protector_show_formspec(pos, player)
             else
-                minetest.chat_send_player(playername, "Invalid player name.")
+                minetest.chat_send_player(playername, protection.chat_message("protector", "error", "Invalid player name.", "Possibly a typing mistake."))
             end
         else
-            minetest.chat_send_player(playername, "You must select a block area first!")
+            minetest.chat_send_player(playername, protection.chat_message("protector", "error", "No block area selected."))
         end
     end
 
@@ -358,14 +361,16 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 				" AreaName="..selected_name..
 				" StartPos="..minetest.pos_to_string(block_data.pos1)..
 				" EndPos="  ..minetest.pos_to_string(block_data.pos2))
-                minetest.chat_send_player(playername, "Block area " .. selected_name .. " is now owned by " .. new_owner .. ".")
+                minetest.chat_send_player(playername, protection.chat_message("protector", "success", "Block area " ..
+                                            minetest.colorize(protection.area_color, selected_name) .. " is now owned by " ..
+                                            minetest.colorize(protection.name_color, new_owner) .. "."))
                 update_infotext(pos, selected_area_id)
                 protector_show_formspec(pos, player)
             else
-                minetest.chat_send_player(playername, "Invalid player name.")
+                minetest.chat_send_player(playername, protection.chat_message("protector", "error", "Invalid player name.", "Possibly a typing mistake."))
             end
         else
-            minetest.chat_send_player(playername, "You must select a block area first!")
+            minetest.chat_send_player(playername, protection.chat_message("protector", "error", "No block area selected."))
         end
     end
 
@@ -377,11 +382,13 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
             areas:save()
             minetest.log("action", "Protector renamed area, id=" .. selected_area_id .. " old name=".. old_name ..
             " new name="..new_name)
-            minetest.chat_send_player(playername, "Renamed area " .. old_name .. " to " .. new_name .. ".")
+            minetest.chat_send_player(playername, protection.chat_message("protector", "success", "Renamed area " ..
+                                        minetest.colorize(protection.area_color, old_name) .. " to " ..
+                                        minetest.colorize(protection.area_color, new_name) .. "."))
             update_infotext(pos, selected_area_id)
             protector_show_formspec(pos, player)
         else
-            minetest.chat_send_player(playername, "You must select a block area first!")
+            minetest.chat_send_player(playername, protection.chat_message("protector", "error", "No block area selected."))
         end
     end
 
@@ -414,7 +421,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 end)
 
 minetest.register_node("protection:protector", {
-    description = ccore.comment("Protector Block", "Protects based on a fixed grid of " .. protection.grid_xz .. "x" .. protection.grid_y .. "x" .. protection.grid_xz),
+    description = ccore.comment("Protector Station", "Protects based on a fixed grid of " .. protection.grid_xz .. "x" .. protection.grid_y .. "x" .. protection.grid_xz),
     drawtype = "mesh",
     mesh = "protector.obj",
     tiles = {"variations_steelblock.png^[sheet:3x3:1,0", "variations_wood.png^[sheet:3x3:1,0", "protection_protector.png"},
@@ -435,7 +442,7 @@ minetest.register_node("protection:protector", {
         if (player:get_player_name() == meta:get_string("owner")) then
             return true
         else
-            minetest.chat_send_player(player:get_player_name(), "Only the owner can remove a protector block.")
+            minetest.chat_send_player(player:get_player_name(), protection.chat_message("protector", "note", "Only the owner can remove a protector station.", "Maybe try asking them?"))
             return false
         end
     end,
@@ -453,7 +460,7 @@ minetest.register_node("protection:protector", {
             protection.protector[name] = pos
             protector_show_formspec(pos, clicker)
         else
-            minetest.chat_send_player(name, "Only the owner can interact with a protector block.")
+            minetest.chat_send_player(name, protection.chat_message("protector", "note", "Only the owner can interact with a protector block."))
             return itemstack
         end
     end,

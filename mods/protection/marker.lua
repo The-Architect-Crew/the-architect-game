@@ -312,13 +312,13 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
                     marker_place_grid(pos, playername)
                     marker_show_formspec(pos, player, area_bounds)
                 else
-                    minetest.chat_send_player(playername, "[Area Marker]: Area too tall.")
+                    minetest.chat_send_player(playername, protection.chat_message("marker", "error", "Area too tall.", "Your allowed maximum area height is " .. y_max .. "."))
                 end
             else
-                minetest.chat_send_player(playername, "[Area Marker]: Area height must be positive.")
+                minetest.chat_send_player(playername, protection.chat_message("marker", "error", "Area height must be positive."))
             end
         else
-            minetest.chat_send_player(playername, "[Area Marker]: Invalid area height.")
+            minetest.chat_send_player(playername, protection.chat_message("marker", "error", "Invalid area height.", "Supplied value could not be interpreted as a number."))
         end
     end
 
@@ -332,17 +332,19 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
             if can_add then
                 local area_id = areas:add(playername, area_name, area_bounds.pos1, area_bounds.pos2, nil)
                 marker_remove_grid(playername)
-                minetest.chat_send_player(playername, "[Area Marker]: Successfully protected area " .. area_name .. " with an id " .. area_id .. " at the cost of " .. math.ceil(mese_cost) .. " lost mese.")
+                minetest.chat_send_player(playername, protection.chat_message("marker", "success", "Successfully protected area " ..
+                                            minetest.colorize(protection.area_color, area_name) .. " with an id " .. area_id .. " at the cost of " ..
+                                            minetest.colorize(protection.price_color, math.ceil(mese_cost) .. " lost mese") .. "."))
                 areas:save()
                 minetest.log("action", "Markers Protected an area, owner="..playername..
 				" AreaName="..area_name..
 				" StartPos="..minetest.pos_to_string(area_bounds.pos1)..
 				" EndPos="  ..minetest.pos_to_string(area_bounds.pos2))
             else
-                minetest.chat_send_player(playername, "[Area Marker]: Failed to protect area: " .. aerror .. ".")
+                minetest.chat_send_player(playername, protection.chat_message("marker", "error", "Failed to protect area, " .. aerror .. "."))
             end
         else
-            minetest.chat_send_player(playername, "[Area Marker]: Insufficient funds.")
+            minetest.chat_send_player(playername, protection.chat_message("marker", "note", "Insufficient funds."))
         end
     end
 
@@ -355,7 +357,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 end)
 
 minetest.register_node("protection:marker", {
-    description = "Marker",
+    description = ccore.comment("Portable Marker", "Used to protect an area, place 4 in a square on the same elevation and use"),
     drawtype = "mesh",
     mesh = "marker.obj",
     tiles = {"variations_steelblock.png^[sheet:3x3:1,0",
@@ -391,10 +393,8 @@ minetest.register_node("protection:marker", {
                     marker_remove_grid(name)
                 end
             end
-            return minetest.node_dig(pos, node, digger)
-        else
-            return minetest.node_dig(pos, node, digger)
         end
+        return minetest.node_dig(pos, node, digger)
     end,
     on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
         local name = clicker:get_player_name()
@@ -408,10 +408,10 @@ minetest.register_node("protection:marker", {
                 marker_place_grid(pos, name)
                 marker_show_formspec(pos, clicker, area_bounds)
             else
-                minetest.chat_send_player(name, "[Area Marker]: Error: Ensure that the markers form a square and are at the same base height.")
+                minetest.chat_send_player(name, protection.chat_message("marker", "error", "Can not construct an area.", "Ensure that the markers form a square and are placed at the same elevation."))
             end
         else
-            minetest.chat_send_player(name, "[Area Marker]: Only the owner can interact with this marker.")
+            minetest.chat_send_player(name, protection.chat_message("marker", "note", "Only the owner can interact with this marker."))
             return itemstack
         end
     end,

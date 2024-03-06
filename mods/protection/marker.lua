@@ -326,13 +326,19 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
         local area_name = fields.protect
         local area_bounds = get_bounds(pos)
         area_bounds.pos2.y = area_bounds.pos2.y + tonumber(meta:get_string("area_height")) - 1
-        local area_id,aerror = areas:add(playername, area_name, area_bounds.pos1, area_bounds.pos2, nil)
-        if area_id ~= "" then
-            marker_remove_grid(playername)
-            minetest.chat_send_player(playername, "[Area Marker]: Successfully protected area " .. area_name .. " with an id " .. area_id .. ".")
-            areas:save()
+        local mese_cost = protection.calculate_cost(area_bounds.pos1, area_bounds.pos2)
+        if protection.take_mese(player, mese_cost) ~= false then
+            local can_add,aerror = areas:canPlayerAddArea(area_bounds.pos1, area_bounds.pos2, playername)
+            if can_add then
+                local area_id = areas:add(playername, area_name, area_bounds.pos1, area_bounds.pos2, nil)
+                marker_remove_grid(playername)
+                minetest.chat_send_player(playername, "[Area Marker]: Successfully protected area " .. area_name .. " with an id " .. area_id .. " at the cost of " .. math.ceil(mese_cost) .. " lost mese.")
+                areas:save()
+            else
+                minetest.chat_send_player(playername, "[Area Marker]: Failed to protect area: " .. aerror .. ".")
+            end
         else
-            minetest.chat_send_player(playername, "[Area Marker]: Failed to protect area: " .. aerror .. ".")
+            minetest.chat_send_player(playername, "[Area Marker]: Insufficient funds.")
         end
     end
 

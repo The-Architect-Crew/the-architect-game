@@ -281,11 +281,21 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
     local selected_area_id = tonumber(meta:get_string("selected_area_id"))
 
     if fields.key_enter_field == "protect" then
-        local area_name = fields.protect
-        local area_id = protect_block(pos, playername, area_name)
-        if area_id ~= "" then
-            meta:set_string("selected_area_id", area_id)
-            update_infotext(pos, area_id)
+        local block_data = protection.get_grid_block(pos)
+        local mese_cost = protection.calculate_cost(block_data.pos1, block_data.pos2)
+        if protection.take_mese(player, mese_cost) ~= false then
+            local area_name = fields.protect
+            local can_add,aerror = areas:canPlayerAddArea(block_data.pos1, block_data.pos2, playername)
+            if can_add then
+                local area_id = protect_block(pos, playername, area_name)
+                meta:set_string("selected_area_id", area_id)
+                update_infotext(pos, area_id)
+                minetest.chat_send_player(playername, "Succesfully protected block at the cost of " .. mese_cost .. " lost mese.")
+            else
+                minetest.chat_send_player(playername, "Couldn't protect block area: " .. aerror .. ".")
+            end
+        else
+            minetest.chat_send_player(playername, "Insufficient funds.")
         end
         protector_show_formspec(pos, player)
     end

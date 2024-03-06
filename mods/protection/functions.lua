@@ -90,3 +90,73 @@ function protection.find_owned_area(pos, name)
     end
     return area_data
 end
+
+function protection.count_lost_mese(player)
+    local playername = player:get_player_name()
+    local inv = minetest.get_inventory({type="player", name=playername})
+    local mese_count = {crystals = 0, blocks = 0}
+    local main_list = inv:get_list("main")
+    for _,itemstack in ipairs(main_list) do
+        if itemstack:get_name() == "blocks:lost_mese_crystal" then
+            mese_count.crystals = mese_count.crystals + itemstack:get_count()
+        elseif itemstack:get_name() == "blocks:lost_mese" then
+            mese_count.blocks = mese_count.blocks + itemstack:get_count()
+        end
+    end
+    return mese_count
+end
+
+function protection.subtract_mese(mese_count, amount)
+    local inv_amount = mese_count.crystals + mese_count.blocks * 9
+    if inv_amount < amount then
+        return false
+    else
+        local subtract_amount = {blocks = 0, crystals = 0, add = 0}
+        while amount > 0 do
+            if amount > 9 then
+                if mese_count.blocks > 0 then
+                    mese_count.blocks = mese_count.blocks - 1
+                    subtract_amount.blocks = subtract_amount.blocks + 1
+                else
+                    mese_count.crystals = mese_count.crystals - 9
+                    subtract_amount.crystals = subtract_amount.crystals + 9
+                end
+                amount = amount - 9
+            elseif mese_count.crystals < amount then
+                subtract_amount.add = 9 - amount
+                subtract_amount.blocks = subtract_amount.blocks + 1
+                amount = 0
+            elseif amount < 9 then
+                mese_count.crystals = mese_count.crystals - amount
+                subtract_amount.crystals = subtract_amount.crystals + amount
+                amount = 0
+            end
+        end
+        return subtract_amount
+    end
+end
+
+function protection.take_mese(player, amount)
+    amount = math.ceil(amount)
+    local mese_count = protection.count_lost_mese(player)
+    local subtract_amount = protection.subtract_mese(mese_count, amount)
+    if subtract_amount ~= false then
+        local playername = player:get_player_name()
+        local inv = minetest.get_inventory({type="player", name=playername})
+        inv:remove_item("main", "blocks:lost_mese_crystal " .. subtract_amount.crystals)
+        inv:add_item("main", "blocks:lost_mese_crystal " .. subtract_amount.add) -- For breaking down blocks into crystals
+        inv:remove_item("main", "blocks:lost_mese " .. subtract_amount.blocks)
+    else
+        return false
+    end
+end
+
+-- Test
+minetest.register_craftitem("protection:test", {
+    description = "testttt",
+    inventory_image = "blocks_book.png",
+   on_use = function(itemstack, user, pointed_thing)
+        local mese_count = protection.count_lost_mese(user)
+        minetest.chat_send_player(user:get_player_name(), "Lost mese crystals: " .. mese_count.crystals .. " Lost mese blocks: " .. mese_count.blocks)
+   end,
+})

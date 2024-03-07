@@ -113,7 +113,7 @@ local function area_manager_show_formspec(pos, player, add)
 end
 
 local function pos_is_in_area(pos, area_id)
-    local area_data = areas.areas[area_id]
+    local area_data = areas.areas[tonumber(area_id)]
     local pos_goe_pos1 = false
     local pos_loe_pos2 = false
 
@@ -402,7 +402,7 @@ minetest.register_node("protection:area_manager", {
     on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
         local name = clicker:get_player_name()
         local meta = minetest.get_meta(pos)
-        local selected_area = areas.areas[meta:get_string("selected_area_id")]
+        local selected_area = areas.areas[tonumber(meta:get_string("selected_area_id"))]
         if selected_area == nil then
             minetest.chat_send_player(name, protection.chat_message("manager", "error", "Selected area does not exist.", "Perhaps it was deleted since this manager was placed, try placing it again."))
             selected_area = protection.find_owned_area(pos, name)
@@ -416,7 +416,8 @@ minetest.register_node("protection:area_manager", {
                 minetest.chat_send_player(name, protection.chat_message("manager", "note", "Selecting area " .. minetest.colorize(protection.area_color,selected_area.name) .. "."))
                 area_manager_show_formspec(pos, clicker)
             end
-        elseif pos_is_in_area(pos, meta:get_string("selected_area_id")) then
+        end
+        if not pos_is_in_area(pos, meta:get_string("selected_area_id")) then
             minetest.chat_send_player(name, protection.chat_message("manager", "error", "Area manager is not in the selected area.", "Perhaps the area has been modified, or this ID has been given to another area."))
             return itemstack
         end

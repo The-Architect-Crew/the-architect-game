@@ -225,7 +225,10 @@ end
 local function update_infotext(pos, area_id)
     local meta = minetest.get_meta(pos)
     local area_data = areas.areas[area_id]
-    meta:set_string("infotext", "Selected Area: " .. area_id .. "\n" .. "Owner: " .. area_data.owner .. "\nName: " .. area_data.name)
+    meta:set_string("infotext", minetest.colorize(protection.protection_color, "Area Manager") ..
+                    "\nSelected Area: " .. minetest.colorize(protection.protection_color, area_id) ..
+                    "\nOwner: " .. minetest.colorize(protection.name_color, area_data.owner) ..
+                    "\nName: " .. minetest.colorize(protection.area_color, area_data.name))
 end
 
 minetest.register_on_player_receive_fields(function(player, formname, fields)
@@ -357,7 +360,10 @@ local function area_manager_after_place_node(pos, placer, itemstack, pointed_thi
 	meta:set_string("owner", playername)
     meta:set_string("tab", "info")
     meta:set_string("selected_area_id", selected_area.id)
-    meta:set_string("infotext", "Selected Area: " .. selected_area.id .. "\n" .. "Owner: " .. selected_area.owner .. "\nName: " .. selected_area.name)
+    meta:set_string("infotext", minetest.colorize(protection.protection_color, "Area Manager") ..
+                    "\nSelected Area: " .. minetest.colorize(protection.protection_color, selected_area.id) ..
+                    "\nOwner: " .. minetest.colorize(protection.name_color, selected_area.owner) ..
+                    "\nName: " .. minetest.colorize(protection.area_color, selected_area.name))
 end
 
 minetest.register_node("protection:area_manager", {
@@ -368,11 +374,11 @@ minetest.register_node("protection:area_manager", {
     groups = {dig_immediate = 2},
     selection_box = {
         type = "fixed",
-        fixed = {-15/16, -8/16, -15/16, 15/16, 12/16, 16/16},
+        fixed = {-15/16, -8/16, -15/16, 15/16, 13/16, 16/16},
     },
     collision_box = {
         type = "fixed",
-        fixed = {-15/16, -8/16, -15/16, 15/16, 12/16, 16/16},
+        fixed = {-15/16, -8/16, -15/16, 15/16, 13/16, 16/16},
     },
     paramtype = "light",
     paramtype2 = "facedir",

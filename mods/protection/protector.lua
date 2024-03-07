@@ -141,16 +141,20 @@ local function protector_after_place_node(pos, placer, itemstack, pointed_thing)
 	meta:set_string("owner", playername)
     meta:set_string("tab", "info")
     meta:set_string("selected_area_id", owned_block_area.id)
-    meta:set_string("infotext", "Block area: " .. block_data.center.x .. "," .. block_data.center.y .. "," .. block_data.center.z .. "\n" ..
-                    "Owner: " .. block_area.owner .. "\nName: " .. block_area.name)
+    meta:set_string("infotext", minetest.colorize(protection.protection_color, "Protector Station") ..
+                    "\nBlock area: " .. minetest.colorize(protection.protection_color, block_data.center.x .. "," .. block_data.center.y .. "," .. block_data.center.z) ..
+                    "\nOwner: " .. protection.colorize(protection.name_color, block_area.owner) ..
+                    "\nName: " .. protection.colorize(protection.area_color, block_area.name))
 end
 
 local function update_infotext(pos, area_id)
     local meta = minetest.get_meta(pos)
     local block_data = protection.get_grid_block(pos)
     local block_area = protection.find_block_area(pos)
-    meta:set_string("infotext", "Block area: " .. block_data.center.x .. "," .. block_data.center.y .. "," .. block_data.center.z .. "\n" ..
-                    "Owner: " .. block_area.owner .. "\nName: " .. block_area.name)
+    meta:set_string("infotext", minetest.colorize(protection.protection_color, "Protector Station") ..
+                    "\nBlock area: " .. minetest.colorize(protection.protection_color, block_data.center.x .. "," .. block_data.center.y .. "," .. block_data.center.z) ..
+                    "\nOwner: " .. protection.colorize(protection.name_color, block_area.owner) ..
+                    "\nName: " .. protection.colorize(protection.area_color, block_area.name))
 end
 
 function protection.area_compare_pos(area1, area2)

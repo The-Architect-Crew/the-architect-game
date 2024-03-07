@@ -74,7 +74,9 @@ local function marker_after_place_node(pos, placer, itemstack, pointed_thing)
     local playername = placer:get_player_name()
     meta:set_string("owner", playername)
     meta:set_string("area_height", "10")
-    meta:set_string("infotext", "Marker owned by: " .. playername .. "\nBase height: " .. pos.y)
+    meta:set_string("infotext", minetest.colorize(protection.protection_color, "Portable Marker") ..
+                    "\nOwner: " .. minetest.colorize(protection.name_color, playername) ..
+                    "\nBase height: " .. minetest.colorize(protection.protection_color, pos.y))
 end
 
 local function area_from_markers(marker1, marker2, marker3, marker4)

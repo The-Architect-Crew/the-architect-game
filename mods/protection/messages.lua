@@ -2,6 +2,10 @@ protection.protection_color = "#a0cf2c"
 protection.area_color = "#2ca4cf"
 protection.name_color = "#ffff00"
 protection.price_color = "#a89f6b"
+protection.true_color = "#00ff00"
+protection.false_color = "#ff0000"
+protection.dim_color = "#888888"
+protection.warning_color = "#ffdd00"
 
 local protection_stations = {
     marker = "Portable Marker",

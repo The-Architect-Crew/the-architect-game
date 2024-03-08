@@ -16,10 +16,10 @@ local function marker_formspec(pos, player, area_bounds)
     local protection_cost = protection.calculate_cost(area_bounds.pos1, area_bounds.pos2)
 
     if area_protectable then
-        y_input = "field[0.25,6.0;4.0,0.5;y_height;Set area height: ;" .. meta:get_string("area_height") .. "]" .. "field_close_on_enter[y_height;false]"
-        protect_input = "field[0.25,7.0;7.0,0.5;protect;Protect this area as: ;]"
+        y_input = "field[0.25,6.0;4.0,0.5;y_height;Set " .. minetest.colorize(protection.protection_color, "height") .. ": ;" .. meta:get_string("area_height") .. "]" .. "field_close_on_enter[y_height;false]"
+        protect_input = "field[0.25,7.0;7.0,0.5;protect;Protect this " .. minetest.colorize(protection.area_color, "area") .. " as: ;]"
     else
-        error_msg = "label[0.25,7.0;" .. aerror .. "]"
+        error_msg = "label[0.25,7.0;" .. minetest.colorize(protection.false_color, aerror) .. "]"
     end
 
     if right_inv == "player" then
@@ -47,10 +47,10 @@ local function marker_formspec(pos, player, area_bounds)
 	local winv_formspec = {
 		"image[0,0;7.75,7.75;winv_bg.png]",
         "style_type[label;font_size=16]",
-        "label[0.25,1.0;Area bounds: " .. protection.pos_to_string(area_bounds.pos1) .. " " .. protection.pos_to_string(area_bounds.pos2) .. "]",
-        "label[0.25,2.0;Area surface: " .. area_surface .. " nodes]",
-        "label[0.25,2.5;Area volume: " .. area_volume .. " nodes]",
-        "label[0.25,3.5;Protection cost: " .. protection_cost .. " lost mese]",
+        "label[0.25,1.0;Area bounds: " .. minetest.colorize(protection.protection_color, protection.pos_to_string(area_bounds.pos1) .. " " .. protection.pos_to_string(area_bounds.pos2)) .. "]",
+        "label[0.25,2.0;Area surface: " .. minetest.colorize(protection.warning_color, area_surface .. " nodes") .. "]",
+        "label[0.25,2.5;Area volume: " .. minetest.colorize(protection.warning_color, area_volume .. " nodes") .. "]",
+        "label[0.25,3.5;Protection cost: " ..  minetest.colorize(protection.price_color, protection_cost .. " lost mese") .. "]",
         y_input,
         protect_input,
         error_msg,
@@ -336,7 +336,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
                 marker_remove_grid(playername)
                 minetest.chat_send_player(playername, protection.chat_message("marker", "success", "Successfully protected area " ..
                                             minetest.colorize(protection.area_color, area_name) .. " with an id " .. area_id .. " at the cost of " ..
-                                            minetest.colorize(protection.price_color, math.ceil(mese_cost) .. " lost mese") .. "."))
+                                            minetest.colorize(protection.price_color, mese_cost .. " lost mese") .. "."))
                 areas:save()
                 minetest.log("action", "Markers Protected an area, owner="..playername..
 				" AreaName="..area_name..

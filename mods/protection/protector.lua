@@ -16,18 +16,19 @@ local function protector_formspec_tab(pos, name)
         area_count = area_count + 1
         if (area_count < 6) then
             local area_label_y = area_label_pos + area_label_padding * area_count
-            table.insert_all(areas_at_pos, {"label[0.5," .. area_label_y .. ";" .. area.name .. " (" .. area.owner .. ")]"})
+            table.insert_all(areas_at_pos, {"label[0.5," .. area_label_y .. ";" ..  minetest.colorize(protection.area_color, area.name) ..
+                                            " (" ..  minetest.colorize(protection.name_color, area.owner) .. ")]"})
         end
     end
     if #areas_at_pos > 0 then
         areas_at_pos = table.concat(areas_at_pos, "")
     else
-        areas_at_pos  = "label[0.5," .. area_label_pos + area_label_padding .. ";None]"
+        areas_at_pos  = "label[0.5," .. area_label_pos + area_label_padding .. ";" .. minetest.colorize(protection.dim_color, "None") .. "]"
     end
     local protection_cost_label = ""
     local protection_input = ""
     if selected_area_id == nil then
-        protection_cost_label = "label[0.25,3.5;Protection cost: " .. protection_cost .. " lost mese]"
+        protection_cost_label = "label[0.25,3.5;Protection cost: " ..  minetest.colorize(protection.price_color, protection_cost .. " lost mese") .. "]"
         protection_input = "field[0.25,7.0;7.0,0.5;protect;Protect this block as:;]"
     end
     local selected_tab = meta:get_string("tab")
@@ -40,11 +41,11 @@ local function protector_formspec_tab(pos, name)
     }, "")
     local info_tab = table.concat({
         "style_type[label;font_size=16]",
-        "label[0.25,0.75;Block area location (center): " .. block_data.center.x .. "," .. block_data.center.y .. "," .. block_data.center.z .. "]",
-        "label[0.25,1.5;Corner 1: " .. block_data.pos1.x .. "," .. block_data.pos1.y .. ","  .. block_data.pos1.z .. "]",
-        "label[0.25,2.0;Corner 2: " .. block_data.pos2.x .. "," .. block_data.pos2.y .. ","  .. block_data.pos2.z .. "]",
-        "label[0.25,2.5;Area surface: " .. area_surface .. " nodes]",
-        "label[0.25,3.0;Area volume: " .. area_volume .. " nodes]",
+        "label[0.25,0.75;Block area location (center): " .. minetest.colorize(protection.protection_color, block_data.center.x .. "," .. block_data.center.y .. "," .. block_data.center.z) .. "]",
+        "label[0.25,1.5;Corner 1: " .. minetest.colorize(protection.protection_color, block_data.pos1.x .. "," .. block_data.pos1.y .. ","  .. block_data.pos1.z) .. "]",
+        "label[0.25,2.0;Corner 2: " .. minetest.colorize(protection.protection_color, block_data.pos2.x .. "," .. block_data.pos2.y .. ","  .. block_data.pos2.z) .. "]",
+        "label[0.25,2.5;Area surface: " .. minetest.colorize(protection.warning_color, area_surface .. " nodes") .. "]",
+        "label[0.25,3.0;Area volume: " .. minetest.colorize(protection.warning_color, area_volume .. " nodes") .. "]",
         protection_cost_label,
         "label[0.25,4.0;Areas in this block:]",
         "button[2.25,5.75;3.0,0.75;grid_toggle;Toggle protector grid]",
@@ -52,28 +53,28 @@ local function protector_formspec_tab(pos, name)
         protection_input,
         tab_switches
     }, "")
-    local area_open_status = "Undefined"
-    local selected_area_name = "No area selected."
+    local area_open_status = minetest.colorize(protection.dim_color, "Undefined")
+    local selected_area_name = minetest.colorize(protection.dim_color, "No area selected.")
     if selected_area_id ~= nil then
         if (areas.areas[selected_area_id].open) then
-            area_open_status = "Open"
+            area_open_status = minetest.colorize(protection.true_color, "Open")
         else
-            area_open_status = "Closed"
+            area_open_status = minetest.colorize(protection.dim_color, "Closed")
         end
-        selected_area_name = areas.areas[selected_area_id].name
+        selected_area_name = minetest.colorize(protection.area_color, areas.areas[selected_area_id].name)
     end
     local edit_tab = table.concat({
         "style_type[label,button;font_size=16]",
-        "label[0.25,0.25;Selected Area: " .. selected_area_name .. "]",
-        "field[0.25,1.0;5.0,0.5;select_area;Select other ID in this block:;]",
+        "label[0.25,0.25;Selected Area: " ..  minetest.colorize(protection.area_color, selected_area_name) .. "]",
+        "field[0.25,1.0;5.0,0.5;select_area;Select other " .. minetest.colorize(protection.protection_color, "ID") .. " in this block:;]",
         "field_close_on_enter[select_area;false]",
-        "field[0.25,2.0;5.0,0.5;add_owner;Add owner:;]",
+        "field[0.25,2.0;5.0,0.5;add_owner;Add " .. minetest.colorize(protection.name_color, "owner") .. ":;]",
         "field_close_on_enter[add_owner;false]",
-        "field[0.25,3.0;5.0,0.5;rename;Rename area to:;]",
+        "field[0.25,3.0;5.0,0.5;rename;Rename " .. minetest.colorize(protection.area_color, "area") .. " to:;]",
         "field_close_on_enter[rename;false]",
-        "field[0.25,4.0;5.0,0.5;change_owner;Change owner to:;]",
+        "field[0.25,4.0;5.0,0.5;change_owner;Change " .. minetest.colorize(protection.name_color, "owner") .. " to:;]",
         "field_close_on_enter[change_owner;false]",
-        "button[1.75,5.25;4.5,0.5;open_toggle;Area status: " .. area_open_status .. "]",
+        "button[1.75,5.25;4.5,0.5;open_toggle;Area interact status: " .. area_open_status .. "]",
         tab_switches
     }, "")
     local tab = {}
@@ -143,8 +144,8 @@ local function protector_after_place_node(pos, placer, itemstack, pointed_thing)
     meta:set_string("selected_area_id", owned_block_area.id)
     meta:set_string("infotext", minetest.colorize(protection.protection_color, "Protector Station") ..
                     "\nBlock area: " .. minetest.colorize(protection.protection_color, block_data.center.x .. "," .. block_data.center.y .. "," .. block_data.center.z) ..
-                    "\nOwner: " .. protection.colorize(protection.name_color, block_area.owner) ..
-                    "\nName: " .. protection.colorize(protection.area_color, block_area.name))
+                    "\nOwner: " .. minetest.colorize(protection.name_color, block_area.owner) ..
+                    "\nName: " .. minetest.colorize(protection.area_color, block_area.name))
 end
 
 local function update_infotext(pos, area_id)
@@ -153,8 +154,8 @@ local function update_infotext(pos, area_id)
     local block_area = protection.find_block_area(pos)
     meta:set_string("infotext", minetest.colorize(protection.protection_color, "Protector Station") ..
                     "\nBlock area: " .. minetest.colorize(protection.protection_color, block_data.center.x .. "," .. block_data.center.y .. "," .. block_data.center.z) ..
-                    "\nOwner: " .. protection.colorize(protection.name_color, block_area.owner) ..
-                    "\nName: " .. protection.colorize(protection.area_color, block_area.name))
+                    "\nOwner: " .. minetest.colorize(protection.name_color, block_area.owner) ..
+                    "\nName: " .. minetest.colorize(protection.area_color, block_area.name))
 end
 
 function protection.area_compare_pos(area1, area2)
@@ -177,8 +178,6 @@ local function protect_block(pos, name, area_name, parent_id)
     local protection_possible, error_msg = areas:canPlayerAddArea(block_data.pos1, block_data.pos2, name)
     local area_id = ""
     if protection_possible then
-        minetest.chat_send_player(name, protection.chat_message("protector", "success", "Successfully protected block area " ..
-                                    minetest.colorize(protection.area_color, area_name) .. "."))
         area_id = areas:add(name, area_name, block_data.pos1, block_data.pos2, parent_id)
 		areas:save()
     else

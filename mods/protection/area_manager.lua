@@ -15,7 +15,8 @@ local function area_manager_formspec_tab(pos, name)
         area_count = area_count + 1
         if (area_count < 6) then
             local area_label_y = area_label_pos + area_label_padding * area_count
-            table.insert_all(areas_at_pos, {"label[0.5," .. area_label_y .. ";" .. area.name .. " (" .. area.owner .. ")]"})
+            table.insert_all(areas_at_pos, {"label[0.5," .. area_label_y .. ";" .. minetest.colorize(protection.area_color, area.name) ..
+                                            " (" ..  minetest.colorize(protection.name_color, area.owner) .. ")]"})
         end
     end
     if #areas_at_pos > 0 then
@@ -33,32 +34,32 @@ local function area_manager_formspec_tab(pos, name)
     }, "")
     local info_tab = table.concat({
         "style_type[label;font_size=16]",
-        "label[0.25,1.5;Corner 1: " .. area_data.pos1.x .. "," .. area_data.pos1.y .. ","  .. area_data.pos1.z .. "]",
-        "label[0.25,2.0;Corner 2: " .. area_data.pos2.x .. "," .. area_data.pos2.y .. ","  .. area_data.pos2.z .. "]",
-        "label[0.25,2.5;Area surface: " .. area_surface .. " nodes]",
-        "label[0.25,3.0;Area volume: " .. area_volume .. " nodes]",
+        "label[0.25,1.5;Corner 1: " .. minetest.colorize(protection.protection_color, area_data.pos1.x .. "," .. area_data.pos1.y .. ","  .. area_data.pos1.z) .. "]",
+        "label[0.25,2.0;Corner 2: " .. minetest.colorize(protection.protection_color, area_data.pos2.x .. "," .. area_data.pos2.y .. ","  .. area_data.pos2.z) .. "]",
+        "label[0.25,2.5;Area surface: " .. minetest.colorize(protection.warning_color, area_surface .. " nodes") .. "]",
+        "label[0.25,3.0;Area volume: " .. minetest.colorize(protection.warning_color, area_volume .. " nodes") .. "]",
         "label[0.25,4.0;Areas in this block:]",
         "button[2.25,5.75;3.0,0.75;grid_toggle;Toggle protector grid]",
         areas_at_pos,
         tab_switches
     }, "")
-    local area_open_status = "Closed"
+    local area_open_status = minetest.colorize(protection.dim_color, "Closed")
     if (areas.areas[selected_area_id].open) then
-        area_open_status = "Open"
+        area_open_status = minetest.colorize(protection.true_color, "Open")
     end
     selected_area_name = areas.areas[selected_area_id].name
     local edit_tab = table.concat({
         "style_type[label,button;font_size=16]",
-        "label[0.25,0.25;Selected Area: " .. selected_area_name .. "]",
-        "field[0.25,1.0;5.0,0.5;select_area;Select other ID in this position:;]",
+        "label[0.25,0.25;Selected " .. minetest.colorize(protection.area_color, "area") .. ": " ..  minetest.colorize(protection.area_color, selected_area_name) .. "]",
+        "field[0.25,1.0;5.0,0.5;select_area;Select other " .. minetest.colorize(protection.protection_color, "ID") .. " in this position:;]",
         "field_close_on_enter[select_area;false]",
-        "field[0.25,2.0;5.0,0.5;add_owner;Add owner:;]",
+        "field[0.25,2.0;5.0,0.5;add_owner;Add " .. minetest.colorize(protection.name_color, "owner") .. ":;]",
         "field_close_on_enter[add_owner;false]",
-        "field[0.25,3.0;5.0,0.5;rename;Rename area to:;]",
+        "field[0.25,3.0;5.0,0.5;rename;Rename " .. minetest.colorize(protection.area_color, "area") .. " to:;]",
         "field_close_on_enter[rename;false]",
-        "field[0.25,4.0;5.0,0.5;change_owner;Change owner to:;]",
+        "field[0.25,4.0;5.0,0.5;change_owner;Change " .. minetest.colorize(protection.name_color, "owner") .. " to:;]",
         "field_close_on_enter[change_owner;false]",
-        "button[1.75,5.25;4.5,0.5;open_toggle;Area status: " .. area_open_status .. "]",
+        "button[1.75,5.25;4.5,0.5;open_toggle;Area interact status: " .. area_open_status .. "]",
         tab_switches
     }, "")
     local tab = {}

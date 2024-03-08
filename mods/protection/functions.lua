@@ -54,7 +54,7 @@ function protection.calculate_volume(pos1, pos2)
 end
 function protection.calculate_cost(pos1, pos2)
     local volume = protection.calculate_volume(pos1, pos2)
-    return volume * protection.mese_cost / 100
+    return math.ceil(volume * protection.mese_cost / 100)
 end
 
 function protection.find_block_area(pos, name)
@@ -137,7 +137,6 @@ function protection.subtract_mese(mese_count, amount)
 end
 
 function protection.take_mese(player, amount)
-    amount = math.ceil(amount)
     local mese_count = protection.count_lost_mese(player)
     local subtract_amount = protection.subtract_mese(mese_count, amount)
     if subtract_amount ~= false then

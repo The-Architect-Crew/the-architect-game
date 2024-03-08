@@ -353,7 +353,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 	if not fields.quit then
 		winv.node_receive_fields(player, formname, fields)
 		if winv.node_refresh(player) then
-			protector_show_formspec(pos, player)
+			marker_show_formspec(pos, player)
 		end
 	end
 end)
@@ -375,7 +375,7 @@ minetest.register_node("protection:marker", {
         }
     },
     light_source = 8,
-    paramtype = light,
+    paramtype = "light",
     sunlight_propagates = true,
     groups = {dig_immediate = 3},
     selection_box = {

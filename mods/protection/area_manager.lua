@@ -47,7 +47,7 @@ local function area_manager_formspec_tab(pos, name)
     if (areas.areas[selected_area_id].open) then
         area_open_status = minetest.colorize(protection.true_color, "Open")
     end
-    selected_area_name = areas.areas[selected_area_id].name
+    local selected_area_name = areas.areas[selected_area_id].name
     local edit_tab = table.concat({
         "style_type[label,button;font_size=16]",
         "label[0.25,0.25;Selected " .. minetest.colorize(protection.area_color, "area") .. ": " ..  minetest.colorize(protection.area_color, selected_area_name) .. "]",
@@ -255,7 +255,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
             if pos_is_in_area(pos, area_id) then
                 meta:set_string("selected_area_id", area_id)
                 update_infotext(pos, area_id)
-                protector_show_formspec(pos, player)
+                area_manager_show_formspec(pos, player)
             else
                 minetest.chat_send_player(playername, protection.chat_message("manager", "error", "This area manager is not located in that area.", "Select an area which contains this area manager."))
             end
@@ -292,7 +292,8 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
     if fields.key_enter_field == "change_owner" then
         local new_owner = fields.change_owner
         if areas:player_exists(new_owner) then
-            local selected_name = areas.areas[selected_area_id].name
+            local area_data = areas.areas[selected_area_id]
+            local selected_name = area_data.name
             areas.areas[selected_area_id].owner = new_owner
             areas:save()
             minetest.log("action", "Area Manager changed owner, owner="..new_owner..

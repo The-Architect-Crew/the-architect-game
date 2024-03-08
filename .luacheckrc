@@ -9,7 +9,9 @@ globals = {
 	"areas",
 	"dye",
 	"player_api",
-	
+	"bucket",
+	"craftguide",
+	"doors",
 }
 
 exclude_files = {"mods/external"}

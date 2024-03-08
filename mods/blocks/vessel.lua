@@ -214,12 +214,6 @@ minetest.register_craft( {
 	recipe = "blocks:steel_bottle",
 })
 
-minetest.register_craft({
-	type = "fuel",
-	recipe = "blocks:vesselshelf",
-	burntime = 30,
-})
-
 -- Register glass fragments as dungeon loot
 if minetest.global_exists("dungeon_loot") then
 	dungeon_loot.register({

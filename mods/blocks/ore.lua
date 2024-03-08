@@ -3404,15 +3404,3 @@ minetest.register_craft({
 	output = "blocks:basalt",
 	recipe = "blocks:basalt_cobble",
 })
-
-minetest.register_craft({
-	type = "fuel",
-	recipe = "blocks:coal_lump",
-	burntime = 40,
-})
-
-minetest.register_craft({
-	type = "fuel",
-	recipe = "blocks:coalblock",
-	burntime = 370,
-})

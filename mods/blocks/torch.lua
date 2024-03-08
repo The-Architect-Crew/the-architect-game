@@ -154,12 +154,6 @@ minetest.register_craft({
 	}
 })
 
-minetest.register_craft({
-	type = "fuel",
-	recipe = "blocks:torch",
-	burntime = 4,
-})
-
 for i=1,#blocks.fire_types do
 	local name = blocks.fire_types[i][1]
 	local torch_description = blocks.fire_types[i][2]
@@ -299,11 +293,5 @@ for i=1,#blocks.fire_types do
 			{craft_material},
 			{"group:stick"},
 		}
-	})
-
-	minetest.register_craft({
-		type = "fuel",
-		recipe = "blocks:torch_" .. name,
-		burntime = 4,
 	})
 end

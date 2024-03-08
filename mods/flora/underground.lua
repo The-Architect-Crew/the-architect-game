@@ -159,7 +159,7 @@ minetest.register_node("flora:firevines", {
 	end
 })
 minetest.register_craftitem("flora:firebranches", {
-	description = ccore.comment("Pile of Glowing Sticks", "An excellent fuel source"),
+	description = ccore.comment("Pile of Glowing Sticks"),
 	inventory_image = "flora_firebranches.png",
 	groups = {stick = 1, fire_biome = 1},
 })

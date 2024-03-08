@@ -280,13 +280,3 @@ minetest.register_node("blocks:lava_flowing", {
 	groups = {lava = 3, liquid = 2, igniter = 1,
 		not_in_creative_inventory = 1},
 })
-
---
--- == CRAFTS
---
-
-minetest.register_craft({
-	type = "fuel",
-	recipe = "blocks:lava_source",
-	burntime = 60,
-})

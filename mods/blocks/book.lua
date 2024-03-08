@@ -250,27 +250,3 @@ minetest.register_craft({
 		{"group:wood", "group:wood", "group:wood"},
 	}
 })
-
-minetest.register_craft({
-	type = "fuel",
-	recipe = "blocks:paper",
-	burntime = 1,
-})
-
-minetest.register_craft({
-	type = "fuel",
-	recipe = "blocks:book",
-	burntime = 3,
-})
-
-minetest.register_craft({
-	type = "fuel",
-	recipe = "blocks:book_written",
-	burntime = 3,
-})
-
-minetest.register_craft({
-	type = "fuel",
-	recipe = "blocks:bookshelf",
-	burntime = 30,
-})

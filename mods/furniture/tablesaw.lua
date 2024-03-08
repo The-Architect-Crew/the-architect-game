@@ -236,7 +236,6 @@ function tablesaw_on_construct(pos)
 	local meta = minetest.get_meta(pos)
 	local inv = meta:get_inventory()
 	inv:set_size("input", 1)
-	inv:set_size("fuel", 1)
 	inv:set_size("output", 4*7)
 	inv:set_size("residue", 1)
 	inv:set_size("recycle", 1)
@@ -450,7 +449,7 @@ for i=1,#furniture.craftstation_materials do
 			if not locks.can_access(pos, player) then
 				return 0
 			end
-			-- disallow moving things in from within inventory to output / fuel
+			-- disallow moving things in from within inventory to output
 			if to_list == "output" or to_list == "residue" or to_list == "input" then
 				return 0
 			end

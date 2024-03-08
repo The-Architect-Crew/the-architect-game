@@ -198,7 +198,7 @@ for i=1,#furniture.craftstation_materials do
 		can_dig = function(pos, player)
 			local meta = minetest.get_meta(pos)
 			local inv = meta:get_inventory()
-			if inv:is_empty("input") and inv:is_empty("fuel") and inv:is_empty("output") then
+			if inv:is_empty("input") and inv:is_empty("output") then
 				if locks.can_access(pos, player) == true then
 					return true
 				end

@@ -498,27 +498,3 @@ for name, mat in pairs(craft_ingreds) do
 		}
 	})
 end
-
-minetest.register_craft({
-	type = "fuel",
-	recipe = "tools:pick_wood",
-	burntime = 6,
-})
-
-minetest.register_craft({
-	type = "fuel",
-	recipe = "tools:shovel_wood",
-	burntime = 4,
-})
-
-minetest.register_craft({
-	type = "fuel",
-	recipe = "tools:axe_wood",
-	burntime = 6,
-})
-
-minetest.register_craft({
-	type = "fuel",
-	recipe = "tools:sword_wood",
-	burntime = 5,
-})

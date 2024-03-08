@@ -389,7 +389,7 @@ function furniture.register_crafting(base_node, i, materials_in, locked)
     if modname == "blocks" then
         furniture_name = "furniture:" .. fdef.name .. "_" .. sname
     end
-    if locked then
+    if locked and (not minetest.global_exists("blocks")) then
         workbench:register_craft({
             type = "furniture",
             output = {
@@ -425,23 +425,24 @@ function furniture.register_crafting(base_node, i, materials_in, locked)
         end
     end
 end
-
 -- Locking
 
--- Craftitems
-minetest.register_craftitem("furniture:lock", {
-	description = "Locking Mechanism",
-	inventory_image = "furniture_lock.png",
-})
--- Crafting
-minetest.register_craft({
-	output = "furniture:lock",
-	recipe = {
-        {"", "default:steel_ingot", ""},
-		{"default:steel_ingot", "", "default:steel_ingot"},
-		{"default:steel_ingot", "default:steel_ingot", "default:steel_ingot"},
-	}
-})
+if not minetest.global_exists("blocks") then
+    -- Craftitems
+    minetest.register_craftitem("furniture:lock", {
+        description = "Locking Mechanism",
+        inventory_image = "furniture_lock.png",
+    })
+    -- Crafting
+    minetest.register_craft({
+        output = "furniture:lock",
+        recipe = {
+            {"", "default:steel_ingot", ""},
+            {"default:steel_ingot", "", "default:steel_ingot"},
+            {"default:steel_ingot", "default:steel_ingot", "default:steel_ingot"},
+        }
+    })
+end
 
 furniture.register("blocks:wood", furniture.woodlike_set, {"blocks:wood", "blocks:stick"}, "variations_wood.png^[sheet:3x3:1,0")
 furniture.register("blocks:acacia_wood", furniture.woodlike_set, {"blocks:acacia_wood", "blocks:stick"}, "variations_acacia_wood.png^[sheet:3x3:1,0")

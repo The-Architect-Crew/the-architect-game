@@ -1,72 +1,48 @@
 workbench.furnace = {}
-local winv_exists = minetest.global_exists("winv")
+
 local function formspec_cooking(pos, player, add)
 	local meta = minetest.get_meta(pos)
 	local spos = pos.x..","..pos.y..","..pos.z
 	local winv_listring = ""
-	if winv_exists then
-		local playername = player:get_player_name()
-		local right_inv = winv.get_inventory(player, "right")
-		if right_inv == "player" then
-			winv_listring =
-				"listring[nodemeta:"..spos..";output]"..
-				"listring[current_player;main]"..
-				"listring[nodemeta:"..spos..";input]"..
-				"listring[current_player;main]"..
-				"listring[nodemeta:"..spos..";fuel]"..
-				"listring[current_player;main]"
-		elseif right_inv == "crafting" then
-			winv_listring =
-				"listring[nodemeta:"..spos..";input]"..
-				"listring[detached:winv_craft_"..playername..";input]"..
-				"listring[nodemeta:"..spos..";input]"..
-				"listring[nodemeta:"..spos..";output]"..
-				"listring[detached:winv_craft_"..playername..";input]"..
-				"listring[detached:winv_craft_"..playername..";output]"
-		elseif right_inv == "craftguide" then
-			winv_listring =
-				"listring[detached:winv_creative_"..playername..";main]"..
-				"listring[nodemeta:"..spos..";input]"..
-				"listring[detached:trash;main]"..
-				"listring[nodemeta:"..spos..";fuel]"..
-				"listring[detached:trash;main]"..
-				"listring[nodemeta:"..spos..";output]"..
-				"listring[detached:trash;main]"
-		end
+	local playername = player:get_player_name()
+	local right_inv = winv.get_inventory(player, "right")
+	if right_inv == "player" then
+		winv_listring =
+			"listring[nodemeta:"..spos..";output]"..
+			"listring[current_player;main]"..
+			"listring[nodemeta:"..spos..";input]"..
+			"listring[current_player;main]"
+	elseif right_inv == "crafting" then
+		winv_listring =
+			"listring[nodemeta:"..spos..";input]"..
+			"listring[detached:winv_craft_"..playername..";input]"..
+			"listring[nodemeta:"..spos..";input]"..
+			"listring[nodemeta:"..spos..";output]"..
+			"listring[detached:winv_craft_"..playername..";input]"..
+			"listring[detached:winv_craft_"..playername..";output]"
+	elseif right_inv == "craftguide" then
+		winv_listring =
+			"listring[detached:winv_creative_"..playername..";main]"..
+			"listring[nodemeta:"..spos..";input]"..
+			"listring[detached:trash;main]"..
+			"listring[nodemeta:"..spos..";output]"..
+			"listring[detached:trash;main]"
 	end
-	local fireanim_form = ""
-	local ftime = meta:get_int("fueltime")
-	if ftime > 0 then
-		if winv_exists then
-			fireanim_form =
-				"animated_image[6.5,5.6;1,1;fuel_icon;gui_fire_animated.png;60;60;1]"..
-				"image_button[6.5,5.6;1,1;invisible.png;fuelamt;;false;false;invisible.png]"..
-				"tooltip[6.5,5.6;1,1;Fuel Left: "..ccore.get_time(ftime).." \n(Press to update)]"
-		else
-			fireanim_form =
-				"animated_image[8.675,2.575;1,1;fuel_icon;gui_fire_animated.png;60;60;1]"..
-				"image_button[8.675,2.575;1,1;invisible.png;fuelamt;;false;false;invisible.png]"..
-				"tooltip[8.675,2.575;1,1;Fuel Left: "..ccore.get_time(ftime).." \n(Press to update)]"
-		end
-	end
+
 	local winv_formspec = {
 		"image[0,0;7.75,7.75;winv_bg.png]",
 		-- input
-		"list[nodemeta:"..spos..";input;0.25,2.125;3,3;]",
+		"list[nodemeta:"..spos..";input;0.25,3.25;1,1;]",
 		-- arrow
-		"image[4,3.375;1,1;gui_arrow.png^[transformFYR90]",
+		"image[3.25,3.25;1,1;gui_arrow.png^[transformFYR90]",
 		-- multiplier
 		"style[workbench_multiplier;border=false]",
-		"box[4,2.125;1,1;#00000040]",
-		"field[4,2.125;1,1;workbench_multiplier;;x"..meta:get_int("multiplier").."]",
+		"box[3.25,2.125;1,1;#00000040]",
+		"field[3.25,2.125;1,1;workbench_multiplier;;x"..meta:get_int("multiplier").."]",
 		"field_close_on_enter[workbench_multiplier;false]",
 		-- output
-		"list[nodemeta:"..spos..";output;5.25,2.75;2,2;]",
-		-- fuel
-		"label[5.25,5.35;Fuel]",
-		"list[nodemeta:"..spos..";fuel;5.25,5.6;1,1;]",
-		"image[6.5,5.6;1,1;gui_fire_bgd.png]",
-		fireanim_form,
+		"list[nodemeta:"..spos..";output;6.5,3.25;1,1;]",
+		"animated_image[3.25,4.25;1,1;fuel_icon;gui_fire_animated.png;60;60;1]",
 		-- listring
 		winv_listring,
 		-- lock
@@ -75,50 +51,7 @@ local function formspec_cooking(pos, player, add)
 		"image_button[-1.1,6.5;1.05,1.05;"..locks.icons(pos, "workbench_furnace", {"lock", "protect", "public"}).."]",
 		add
 	}
-	local formspec = {
-		"formspec_version[4]",
-		"size[10.5,9.75]",
-		-- input
-		"label[0.2,0.3;Input]",
-		"box[0.2,0.5;3.9,3.9;#707070]",
-		"list[nodemeta:"..spos..";input;0.4,0.7;3,3;]",
-		-- arrow
-		"image[4.25,2.05;0.8,0.8;gui_arrow.png^[transformFYR90]",
-		-- multiplier
-		"style[workbench_multiplier;border=false]",
-		"box[4.25,1.325;0.8,0.7;#707070]",
-		"field[4.25,1.325;0.8,0.7;workbench_multiplier;;x"..meta:get_int("multiplier").."]",
-		"field_close_on_enter[workbench_multiplier;false]",
-		-- output
-		"label[5.2,0.925;Output]",
-		"box[5.2,1.125;2.65,2.65;#707070]",
-		"list[nodemeta:"..spos..";output;5.4,1.325;2,2;]",
-		-- fuel
-		"label[8.05,0.925;Fuel]",
-		"box[8.05,1.125;2.25,2.65;#707070]",
-		"list[nodemeta:"..spos..";fuel;8.675,1.325;1,1;]",
-		"image[8.675,2.575;1,1;gui_fire_bgd.png]",
-		fireanim_form,
-		-- player
-		"list[current_player;main;0.4,4.6;8,4;]",
-		-- listring
-		"listring[nodemeta:"..spos..";output]",
-		"listring[current_player;main]",
-		"listring[nodemeta:"..spos..";input]",
-		"listring[current_player;main]",
-		"listring[nodemeta:"..spos..";fuel]",
-		"listring[current_player;main]",
-		-- lock
-		"style_type[image;noclip=true]",
-		"image[-1.4,3;1.4,1.4;gui_tab.png]",
-		"image_button[-1.1,3.15;1.05,1.05;"..locks.icons(pos, "workbench_furnace", {"lock", "protect", "public"}).."]",
-		add
-	}
-	if winv_exists then
-		return winv.init_inventory(player, table.concat(winv_formspec, ""))
-	else
-		return table.concat(formspec, "")
-	end
+	return winv.init_inventory(player, table.concat(winv_formspec, ""))
 end
 
 local function show_formspec(pos, player, add)
@@ -130,60 +63,9 @@ local function apply_craft_result(pos, multiplier)
 	local meta = minetest.get_meta(pos)
 	local inv = meta:get_inventory()
 	local craftlist = inv:get_list("input")
-	local output = workbench.craft_output(craftlist, "cooking", nil, 3, multiplier)
-	if output and output.item and meta:get_int("fueltime") > 0 then -- sufficient fuel and valid output
+	local output = workbench.craft_output(craftlist, "cooking", nil, 1, multiplier)
+	if output and output.item then -- valid output
 		inv:set_list("output", output.item)
-	end
-end
-
-local function inactive_furnace(pos, player)
-	local meta = minetest.get_meta(pos)
-	ccore.swap_node(pos, "workbench:furnace")
-	meta:set_int("fueltime", 0)
-	locks.init_infotext(pos, "Furnace", "Inactive")
-	if player then
-		show_formspec(pos, player)
-	end
-end
-
-local function fuel_update(pos, passive, player)
-	local meta = minetest.get_meta(pos)
-	local inv = meta:get_inventory()
-	local craftlist = inv:get_list("input")
-	local fuellist = inv:get_list("fuel")
-	local multiplier = meta:get_int("multiplier")
-	if meta:get_int("fueltime") > 0 then -- if fueltimer running
-		local c_ftime = meta:get_int("fueltime")
-		meta:set_int("fueltime", c_ftime - 1)
-		locks.init_infotext(pos, "Furnace", "Active (Fuel Left: "..ccore.get_time(c_ftime - 1).. ")")
-		minetest.get_node_timer(pos):start(1)
-		if not passive and player then
-			show_formspec(pos, player)
-		end
-		-- reduce timer by 1
-	elseif meta:get_int("fueltime") <= 0 then -- if fueltimer empty
-		local ftime, fdinput = workbench:get_fuel(fuellist)
-		if passive then -- on passive timer (without player interaction)
-			inactive_furnace(pos, player)
-		else -- on active timer (timer started by player interaction)
-			local output = workbench.craft_output(craftlist, "cooking", nil, 3, multiplier)
-			if ftime and ftime > 0 and output and output.item then -- valid fuel and output > restart cooking
-				locks.init_infotext(pos, "Furnace", "Active (Fuel Left: "..ccore.get_time(ftime).. ")")
-				ccore.swap_node(pos, "workbench:furnace_active")
-				inv:set_list("fuel", fdinput) -- take fuel
-				meta:set_int("fueltime", ftime)
-				minetest.get_node_timer(pos):start(1)
-				-- start crafting
-				if inv:is_empty("input") ~= true and inv:is_empty("output") then
-					apply_craft_result(pos, multiplier)
-				end
-				if player then
-					show_formspec(pos, player)
-				end
-			else -- no more valid fuel / output > end cooking
-				inactive_furnace(pos, player)
-			end
-		end
 	end
 end
 
@@ -193,18 +75,15 @@ local function furnace_update(pos, listname, index, stack, player)
 	local craftlist = inv:get_list("input")
 	local outlist = inv:get_list("output")
 	local multiplier = meta:get_int("multiplier")
-	if listname == "fuel" then
-		fuel_update(pos, nil, player)
-	end
+
 	-- apply craft when output is empty
 	if listname == "input" then
 		inv:set_list("output", {})
 		apply_craft_result(pos, multiplier)
-		fuel_update(pos, nil, player)
 	end
 	-- remove items when taking from output
 	if listname == "output" then
-		local output = workbench.craft_output(craftlist, "cooking", nil, 3, multiplier)
+		local output = workbench.craft_output(craftlist, "cooking", nil, 1, multiplier)
 		local remainder = workbench.output_stack(outlist)
 		-- ensure there's nothing remaining in the output list, otherwise prevent modifying the input list
 		if output and output.dinput and meta:get_string("crafted") == "" then
@@ -219,7 +98,6 @@ local function furnace_update(pos, listname, index, stack, player)
 		-- if theres spare input, apply crafting again
 		if inv:is_empty("input") ~= true and inv:is_empty("output") then
 			apply_craft_result(pos, multiplier)
-			fuel_update(pos, nil, player)
 		end
 	end
 end
@@ -227,22 +105,20 @@ end
 local function furnace_on_construct(pos)
 	local meta = minetest.get_meta(pos)
 	local inv = meta:get_inventory()
-	inv:set_size("input", 3*3)
-	inv:set_size("fuel", 1)
-	inv:set_size("output", 2*2)
+	inv:set_size("input", 1*1)
+	inv:set_size("output", 1*1)
 	meta:set_string("lock", "lock")
 	meta:set_int("multiplier", 1)
 	meta:set_string("crafted", "")
 	meta:set_string("owner", "")
-	meta:set_int("fueltime", 0)
-	locks.init_infotext(pos, "Furnace", "Inactive")
+	locks.init_infotext(pos, "Furnace")
 end
 
 local function furnace_after_place_node(pos, placer, itemstack, pointed_thing)
 	local meta = minetest.get_meta(pos)
 	local playername = placer:get_player_name()
 	meta:set_string("owner", playername)
-	locks.init_infotext(pos, "Furnace", "Inactive")
+	locks.init_infotext(pos, "Furnace")
 end
 
 local function register_furnace(name, def)
@@ -276,17 +152,12 @@ local function register_furnace(name, def)
 		can_dig = function(pos, player)
 			local meta = minetest.get_meta(pos)
 			local inv = meta:get_inventory()
-			if inv:is_empty("input") and inv:is_empty("fuel") and inv:is_empty("output") then -- ensure table is empty
+			if inv:is_empty("input") and inv:is_empty("output") then -- ensure table is empty
 				if locks.can_access(pos, player) == true then
 					return true
 				end
 			end
 			return false
-		end,
-		on_timer = function(pos, elapsed)
-			local playername = workbench.furnace[minetest.pos_to_string(pos)] or ""
-			local player = minetest.get_player_by_name(playername)
-			fuel_update(pos, true, player)
 		end,
 		on_construct = furnace_on_construct,
 		after_place_node = furnace_after_place_node,
@@ -339,11 +210,6 @@ local function register_furnace(name, def)
 					minetest.chat_send_player(playername, "[workbench] Please remove all output items first.")
 					return 0
 				end
-			elseif listname == "fuel" then
-				local ftime = workbench:get_fuel({stack})
-				if ftime and ftime > 0 then
-					return stack:get_count()
-				end
 			end
 			return 0
 		end,
@@ -360,8 +226,7 @@ local function register_furnace(name, def)
 					minetest.chat_send_player(playername, "[workbench] Please remove all output items first.")
 					return 0
 				end
-			elseif listname == "output" or listname == "fuel" then
-				-- update fuel
+			elseif listname == "output" then
 				return stack:get_count()
 			else
 				return 0
@@ -406,12 +271,6 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 	if not locks.can_access(pos, player) then
 		return
 	end
-	if locks.fields(pos, player, fields, "workbench_furnace", "Furance") then
-		fuel_update(pos, nil, player)
-	end
-	if fields.fuelamt then
-		fuel_update(pos, nil, player)
-	end
 	if fields.key_enter_field == "workbench_multiplier" then
 		local sub_multiplier = string.gsub(fields.workbench_multiplier, "x", "")
 		if tonumber(sub_multiplier) then
@@ -442,12 +301,6 @@ end)
 register_furnace("workbench:furnace", {
 	description = "Furnace",
 	groups = {crumbly = 2},
-	tiles = {"workbench_furnace.png"},
-})
-
-register_furnace("workbench:furnace_active", {
-	description = "Furnace (Active)",
-	groups = {crumbly = 2, not_in_creative_inventory = 1},
 	tiles = {{
 		name = "workbench_furnace_animated.png",
 		animation = {
@@ -458,13 +311,4 @@ register_furnace("workbench:furnace_active", {
 		},
 	},},
 	light_source = 8,
-	drop = "workbench:furnace",
-})
-
-minetest.register_lbm({
-	name = "workbench:furnace_active",
-	nodenames = {"workbench:furnace_active"},
-	action = function(pos, node)
-		minetest.get_node_timer(pos):start(1)
-	end
 })

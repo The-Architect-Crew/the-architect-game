@@ -6,7 +6,13 @@ globals = {
 	"minetest",
 	"core",
 	"table",
+	"areas",
+	"dye",
+	"player_api",
+	
 }
+
+exclude_files = {"mods/external"}
 
 read_globals = {
 	string = {fields = {"split"}},

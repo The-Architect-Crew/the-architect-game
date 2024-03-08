@@ -3123,6 +3123,13 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
+	output = "blocks:mese_fiber 2",
+	recipe = {
+		{"blocks:mese_crystal_fragment"},
+	}
+})
+
+minetest.register_craft({
 	output = "blocks:mese_fragment_skeleton",
 	recipe = {
 		{"", "blocks:mese_fiber"},

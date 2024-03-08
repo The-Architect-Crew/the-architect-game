@@ -30,7 +30,7 @@ furniture.medieval_content = {
             name = "blocks_fire_animated.png",
             animation = {type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = 2.0}
         }},
-        special_materials = "blocks:coal",
+        special_materials = "blocks:coalblock",
         description = "Brazier",
         light_source = 12,
         box = {-7/16, -8/16, -7/16, 7/16, 3/16, 7/16},

@@ -472,3 +472,6 @@ furniture.register("blocks:rustblock", furniture.steampunk_set, {"blocks:rustblo
 
 furniture.register("blocks:steelblock", furniture.house_appliances, {"blocks:steelblock", "blocks:steel_ingot"}, "variations_steelblock.png^[sheet:3x3:1,0")
 furniture.register("blocks:steelblock", furniture.bathroom_set, {"blocks:steelblock", "blocks:steel_ingot"}, "variations_steelblock.png^[sheet:3x3:1,0")
+
+furniture.register("blocks:steelblock", furniture.medieval_lighting, {"blocks:steelblock", "blocks:steel_ingot"}, "variations_steelblock.png^[sheet:3x3:1,0")
+furniture.register("blocks:rustblock", furniture.medieval_lighting, {"blocks:rustblock", "blocks:rust_ingot"}, "variations_rustblock.png^[sheet:3x3:1,0")

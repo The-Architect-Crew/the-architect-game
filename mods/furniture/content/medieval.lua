@@ -50,7 +50,6 @@ furniture.medieval_lighting = {
     "brazier"
 }
 
-furniture.table_append(furniture.woodlike_set, furniture.medieval_lighting)
 furniture.table_append(furniture.stonelike_set, furniture.medieval_lighting)
 
 furniture.table_append(furniture.types, furniture.medieval_content)

@@ -181,16 +181,13 @@ minetest.register_node("workbench:furnace", {
 			{-0.375, 0.5, -0.375, 0.375, 1.5, 0.375},
 		},
 	},
-	groups = {crumbly = 2},
-	tiles = {{
-		name = "workbench_furnace_animated.png",
-		animation = {
-			type = "vertical_frames",
-			aspect_w = 70,
-			aspect_h = 58,
-			length = 1,
-		},
-	}},
+	groups = {dig_immediate = 2},
+	tiles = {"variations_stone.png^[sheet:3x3:1,0", "(variations_stone.png^[sheet:3x3:1,0)^[contrast:0:-64",
+		{
+			name = "blocks_fire_animated.png",
+			animation = {type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = 2.0}
+		}, "workbench_furnace.png",
+	},
 	light_source = 8,
 	paramtype = "light",
 	paramtype2 = "facedir",

@@ -1,4 +1,12 @@
 minetest.register_craft({
+	output = "furniture:gear",
+	recipe = {
+		{"", "blocks:steel_ingot", ""},
+		{"blocks:steel_ingot", "blocks:steel_ingot", "blocks:steel_ingot"},
+		{"", "blocks:steel_ingot", ""},
+	}
+})
+minetest.register_craft({
 	output = "furniture:arm",
 	recipe = {
 		{"furniture:gear", "blocks:steel_ingot", "furniture:gear"},

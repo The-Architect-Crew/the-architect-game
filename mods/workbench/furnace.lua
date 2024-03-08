@@ -158,7 +158,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		workbench.furnace[playername] = nil
 		workbench.furnace[minetest.pos_to_string(pos)] = nil
 	end
-	if winv_exists and not fields.quit then
+	if not fields.quit then
 		winv.node_receive_fields(player, formname, fields)
 		if winv.node_refresh(player) then
 			show_formspec(pos, player)

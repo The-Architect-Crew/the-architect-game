@@ -64,11 +64,6 @@ minetest.register_node("blocks:chain", {
 --
 -- == CRAFTS
 --
-minetest.register_craft({
-	type = "fuel",
-	recipe = "blocks:ladder_wood",
-	burntime = 7,
-})
 
 minetest.register_craft({
 	output = "blocks:ladder_wood 5",

@@ -111,6 +111,7 @@ local function furnace_on_construct(pos, material_description)
 	meta:set_int("multiplier", 1)
 	meta:set_string("crafted", "")
 	meta:set_string("owner", "")
+	meta:set_string("material", material_description)
 	locks.init_infotext(pos, material_description .. " Furnace")
 end
 
@@ -118,6 +119,7 @@ local function furnace_after_place_node(pos, material_description, placer, items
 	local meta = minetest.get_meta(pos)
 	local playername = placer:get_player_name()
 	meta:set_string("owner", playername)
+	meta:set_string("material", material_description)
 	locks.init_infotext(pos, material_description .. " Furnace")
 end
 
@@ -133,6 +135,9 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 	local meta = minetest.get_meta(pos)
 	if not locks.can_access(pos, player) then
 		return
+	end
+	if locks.fields(pos, player, fields, "workbench_furnace", 	meta:get_string("material") .. " Furnace") then
+		show_formspec(pos, player)
 	end
 	if fields.key_enter_field == "workbench_multiplier" then
 		local sub_multiplier = string.gsub(fields.workbench_multiplier, "x", "")

@@ -102,7 +102,7 @@ local function furnace_update(pos, listname, index, stack, player)
 	end
 end
 
-local function furnace_on_construct(pos)
+local function furnace_on_construct(pos, material_description)
 	local meta = minetest.get_meta(pos)
 	local inv = meta:get_inventory()
 	inv:set_size("input", 1*1)
@@ -111,14 +111,14 @@ local function furnace_on_construct(pos)
 	meta:set_int("multiplier", 1)
 	meta:set_string("crafted", "")
 	meta:set_string("owner", "")
-	locks.init_infotext(pos, "Furnace")
+	locks.init_infotext(pos, material_description .. " Furnace")
 end
 
-local function furnace_after_place_node(pos, placer, itemstack, pointed_thing)
+local function furnace_after_place_node(pos, material_description, placer, itemstack, pointed_thing)
 	local meta = minetest.get_meta(pos)
 	local playername = placer:get_player_name()
 	meta:set_string("owner", playername)
-	locks.init_infotext(pos, "Furnace")
+	locks.init_infotext(pos, material_description .. " Furnace")
 end
 
 minetest.register_on_player_receive_fields(function(player, formname, fields)
@@ -163,141 +163,151 @@ end)
 
 -- Registration
 
-minetest.register_node("workbench:furnace", {
-	description = "Furnace",
-	drawtype = "mesh",
-	mesh = "workbench_furnace.obj",
-	collision_box = {
-		type = "fixed",
-		fixed = {
-			{-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
-			{-0.375, 0.5, -0.375, 0.375, 1.5, 0.375},
+function workbench.register_furnace(modname, material)
+	local base_definition = minetest.registered_nodes[material]
+	local sname = string.match(material, ':(.*)')
+	local description = base_definition.description .. " Furnace"
+	local sounds = base_definition.sounds
+	minetest.register_node(modname .. ":furnace" .. sname, {
+		description = description,
+		drawtype = "mesh",
+		mesh = "workbench_furnace.obj",
+		collision_box = {
+			type = "fixed",
+			fixed = {
+				{-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
+				{-0.375, 0.5, -0.375, 0.375, 1.5, 0.375},
+			},
 		},
-	},
-	selection_box = {
-		type = "fixed",
-		fixed = {
-			{-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
-			{-0.375, 0.5, -0.375, 0.375, 1.5, 0.375},
+		selection_box = {
+			type = "fixed",
+			fixed = {
+				{-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
+				{-0.375, 0.5, -0.375, 0.375, 1.5, 0.375},
+			},
 		},
-	},
-	groups = {dig_immediate = 2},
-	tiles = {"variations_stone.png^[sheet:3x3:1,0", "(variations_stone.png^[sheet:3x3:1,0)^[contrast:0:-64",
-		{
-			name = "blocks_fire_animated.png",
-			animation = {type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = 2.0}
-		}, "workbench_furnace.png",
-	},
-	light_source = 8,
-	paramtype = "light",
-	paramtype2 = "facedir",
-	sunlight_propagates = true,
-	use_texture_alpha = "clip",
-	sounds = default.node_sound_stone_defaults(),
-	can_dig = function(pos, player)
-		local meta = minetest.get_meta(pos)
-		local inv = meta:get_inventory()
-		if inv:is_empty("input") and inv:is_empty("output") then -- ensure table is empty
-			if locks.can_access(pos, player) == true then
-				return true
+		groups = {dig_immediate = 3},
+		tiles = {"variations_" .. sname .. ".png^[sheet:3x3:1,0", "(variations_" .. sname .. ".png^[sheet:3x3:1,0)^[contrast:0:-64",
+			{
+				name = "blocks_fire_animated.png",
+				animation = {type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = 2.0}
+			}, "workbench_furnace.png",
+		},
+		light_source = 8,
+		paramtype = "light",
+		paramtype2 = "facedir",
+		sunlight_propagates = true,
+		use_texture_alpha = "clip",
+		sounds = sounds,
+		can_dig = function(pos, player)
+			local meta = minetest.get_meta(pos)
+			local inv = meta:get_inventory()
+			if inv:is_empty("input") and inv:is_empty("output") then -- ensure table is empty
+				if locks.can_access(pos, player) == true then
+					return true
+				end
 			end
-		end
-		return false
-	end,
-	on_construct = furnace_on_construct,
-	after_place_node = furnace_after_place_node,
-	on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
-		local playername = clicker:get_player_name()
-		local meta = minetest.get_meta(pos)
-		if not meta or meta and meta:get_string("owner") == "" then -- recreate meta if it doesnt exist
-			furnace_on_construct(pos)
-			furnace_after_place_node(pos, clicker, itemstack, pointed_thing)
-		end
+			return false
+		end,
+		on_construct = function(pos)
+			furnace_on_construct(pos, ccore.strip_newlines(base_definition.description))
+		end,
+		after_place_node = function(pos, placer, itemstack, pointed_thing)
+			furnace_after_place_node(pos, ccore.strip_newlines(base_definition.description), placer, itemstack, pointed_thing)
+		end,
+		on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
+			local playername = clicker:get_player_name()
+			local meta = minetest.get_meta(pos)
+			if not meta or meta and meta:get_string("owner") == "" then -- recreate meta if it doesnt exist
+				furnace_on_construct(pos)
+				furnace_after_place_node(pos, clicker, itemstack, pointed_thing)
+			end
 
-		if not locks.can_access(pos, clicker) then
+			if not locks.can_access(pos, clicker) then
+				return itemstack
+			end
+			show_formspec(pos, clicker)
+			workbench.furnace[playername] = pos
+			workbench.furnace[minetest.pos_to_string(pos)] = playername
+		end,
+		on_place = function(itemstack, placer, pointed_thing)
+			local pos = pointed_thing.above
+			local top_pos = {x=pos.x, y=pos.y+1, z=pos.z}
+			local topnode = minetest.get_node(top_pos).name
+			if minetest.registered_nodes[topnode].buildable_to then -- ensure top space is buildable
+				minetest.dig_node(top_pos) -- remove top space
+				minetest.item_place(itemstack, placer, pointed_thing)
+			end
 			return itemstack
-		end
-		show_formspec(pos, clicker)
-		workbench.furnace[playername] = pos
-		workbench.furnace[minetest.pos_to_string(pos)] = playername
-	end,
-	on_place = function(itemstack, placer, pointed_thing)
-		local pos = pointed_thing.above
-		local top_pos = {x=pos.x, y=pos.y+1, z=pos.z}
-		local topnode = minetest.get_node(top_pos).name
-		if minetest.registered_nodes[topnode].buildable_to then -- ensure top space is buildable
-			minetest.dig_node(top_pos) -- remove top space
-			minetest.item_place(itemstack, placer, pointed_thing)
-		end
-		return itemstack
-	end,
-	on_metadata_inventory_put = function(pos, listname, index, stack, player)
-		furnace_update(pos, listname, index, stack, player)
-	end,
-	on_metadata_inventory_take = function(pos, listname, index, stack, player)
-		furnace_update(pos, listname, index, stack, player)
-	end,
-	on_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
-		local meta = minetest.get_meta(pos)
-		local stack = meta:get_inventory():get_stack(from_list, from_index)
-		furnace_update(pos, from_list, from_index, stack, player)
-	end,
-	allow_metadata_inventory_put = function(pos, listname, index, stack, player)
-		local meta = minetest.get_meta(pos)
-		if not locks.can_access(pos, player) then
-			return 0
-		end
-		if listname == "input" then
-			if meta:get_string("crafted") == "" then
-				return stack:get_count()
-			else
-				local playername = player:get_player_name()
-				minetest.chat_send_player(playername, "[workbench] Please remove all output items first.")
-				return 0
-			end
-		end
-		return 0
-	end,
-	allow_metadata_inventory_take = function(pos, listname, index, stack, player)
-		local meta = minetest.get_meta(pos)
-		if not locks.can_access(pos, player) then
-			return 0
-		end
-		if listname == "input" then
-			if meta:get_string("crafted") == "" then
-				return stack:get_count()
-			else
-				local playername = player:get_player_name()
-				minetest.chat_send_player(playername, "[workbench] Please remove all output items first.")
-				return 0
-			end
-		elseif listname == "output" then
-			return stack:get_count()
-		else
-			return 0
-		end
-	end,
-	allow_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
-		if not locks.can_access(pos, player) then
-			return 0
-		end
-		-- disallow moving things in from within inventory to output
-		if to_list == "output" then
-			return 0
-		end
-		-- ensure output is empty before allowing modification of input
-		if from_list == "input" then
+		end,
+		on_metadata_inventory_put = function(pos, listname, index, stack, player)
+			furnace_update(pos, listname, index, stack, player)
+		end,
+		on_metadata_inventory_take = function(pos, listname, index, stack, player)
+			furnace_update(pos, listname, index, stack, player)
+		end,
+		on_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
 			local meta = minetest.get_meta(pos)
 			local stack = meta:get_inventory():get_stack(from_list, from_index)
-			if meta:get_string("crafted") == "" then
-				return stack:get_count()
-			else
-				local playername = player:get_player_name()
-				minetest.chat_send_player(playername, "[workbench] Please remove all output items first.")
+			furnace_update(pos, from_list, from_index, stack, player)
+		end,
+		allow_metadata_inventory_put = function(pos, listname, index, stack, player)
+			local meta = minetest.get_meta(pos)
+			if not locks.can_access(pos, player) then
 				return 0
 			end
-		else
+			if listname == "input" then
+				if meta:get_string("crafted") == "" then
+					return stack:get_count()
+				else
+					local playername = player:get_player_name()
+					minetest.chat_send_player(playername, "[workbench] Please remove all output items first.")
+					return 0
+				end
+			end
 			return 0
-		end
-	end,
-})
+		end,
+		allow_metadata_inventory_take = function(pos, listname, index, stack, player)
+			local meta = minetest.get_meta(pos)
+			if not locks.can_access(pos, player) then
+				return 0
+			end
+			if listname == "input" then
+				if meta:get_string("crafted") == "" then
+					return stack:get_count()
+				else
+					local playername = player:get_player_name()
+					minetest.chat_send_player(playername, "[workbench] Please remove all output items first.")
+					return 0
+				end
+			elseif listname == "output" then
+				return stack:get_count()
+			else
+				return 0
+			end
+		end,
+		allow_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
+			if not locks.can_access(pos, player) then
+				return 0
+			end
+			-- disallow moving things in from within inventory to output
+			if to_list == "output" then
+				return 0
+			end
+			-- ensure output is empty before allowing modification of input
+			if from_list == "input" then
+				local meta = minetest.get_meta(pos)
+				local stack = meta:get_inventory():get_stack(from_list, from_index)
+				if meta:get_string("crafted") == "" then
+					return stack:get_count()
+				else
+					local playername = player:get_player_name()
+					minetest.chat_send_player(playername, "[workbench] Please remove all output items first.")
+					return 0
+				end
+			else
+				return 0
+			end
+		end,
+	})
+end

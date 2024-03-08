@@ -8,7 +8,7 @@ globals = {
 	"table",
 }
 
-exclude_files = {files["mods/external"]}
+exclude_files = {"mods/external"}
 
 read_globals = {
 	string = {fields = {"split"}},

@@ -35,6 +35,7 @@ mapgen.register_quarry_biomes = function()
 end
 
 mapgen.register_quarry_ores = function()
+    --[[
     -- Cavern Base
     minetest.register_ore({
         ore_type = "stratum",
@@ -60,7 +61,7 @@ mapgen.register_quarry_ores = function()
             persistence = 0.5,
             flags = "absolute"
         }
-    })
+    })]]--
     -- Blobs for schematic caves
     minetest.register_ore({
         ore_type = "blob",
@@ -70,7 +71,7 @@ mapgen.register_quarry_ores = function()
         clust_num_ores = 8,
         clust_size = 3,
         y_max = mapgen.quarry_top,
-        y_min = mapgen.quarry_middle
+        y_min = mapgen.quarry_bottom
     })
     -- Small Ores
     minetest.register_ore({
@@ -248,6 +249,60 @@ mapgen.register_quarry_ores = function()
 end
 
 mapgen.register_quarry_decorations = function()
+    for i=1,4 do
+        minetest.register_decoration({
+            deco_type = "schematic",
+            place_on = "blocks:stone",
+            fill_ratio = 0.0005,
+            y_max = mapgen.quarry_top,
+            y_min = mapgen.quarry_bottom,
+            flags = "force_placement, all_floors, all_ceilings, place_center_x, place_center_y, place_center_z",
+            schematic = "schematics/underground/quarry_tunnels" .. i .. "_large.mts",
+            replacements = {["default:sandstone"] = "air"},
+            rotation = "random"
+        })
+    end
+    for i=1,4 do
+        minetest.register_decoration({
+            deco_type = "schematic",
+            place_on = {"blocks:stone", "variations:stone_big_tile"},
+            fill_ratio = 0.0002,
+            y_max = mapgen.quarry_top,
+            y_min = mapgen.quarry_bottom,
+            flags = "force_placement, all_floors, all_ceilings, place_center_x, place_center_y, place_center_z",
+            schematic = "schematics/underground/quarry_tunnels" .. i .. ".mts",
+            replacements = {["default:sandstone"] = "air", ["default:sand"] = "variations:stone_big_tile"},
+            rotation = "random"
+        })
+    end
+    for i=1,4 do
+        minetest.register_decoration({
+            deco_type = "schematic",
+            place_on = {"blocks:stone", "variations:stone_big_tile"},
+            fill_ratio = 0.0005,
+            y_max = mapgen.quarry_top,
+            y_min = mapgen.quarry_bottom,
+            flags = "force_placement, all_floors, all_ceilings, place_center_x, place_center_y, place_center_z",
+            schematic = "schematics/underground/quarry_tunnels" .. i .. "_small.mts",
+            replacements = {["default:sandstone"] = "air"},
+            rotation = "random"
+        })
+    end
+    minetest.register_decoration({
+        deco_type = "simple",
+        place_on = "variations:stone_big_tile",
+        spawn_by = "variations:stone_big_tile",
+        check_offset = -1,
+        num_spawn_by = 8,
+        sidelen = 8,
+        fill_ratio = 0.05,
+        y_max = mapgen.quarry_top,
+        y_min = mapgen.quarry_bottom,
+        flags = "all_ceilings, force_placement",
+        decoration = "blocks:meselamp",
+        place_offset_y = -1,
+    })
+    --[[
     -- Caves
     minetest.register_decoration({
         deco_type = "schematic",
@@ -310,7 +365,7 @@ mapgen.register_quarry_decorations = function()
             replacements = {["default:sandstone"] = "air"},
             rotation = "random"
         })
-    end
+    end]]--
     -- For testing
 --[[
     minetest.register_decoration({
@@ -323,5 +378,5 @@ mapgen.register_quarry_decorations = function()
         flags = "all_floors",
         decoration = "blocks:meselamp",
     })]]--
-    mapgen.register_stalagmites("blocks:stone", {min = mapgen.quarry_bottom, max = mapgen.quarry_top}, 0.25, 22543, "quarry")
+    --mapgen.register_stalagmites("blocks:stone", {min = mapgen.quarry_bottom, max = mapgen.quarry_top}, 0.25, 22543, "quarry")
 end

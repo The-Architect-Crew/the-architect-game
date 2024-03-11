@@ -235,6 +235,17 @@ mapgen.register_quarry_ores = function()
         y_max = mapgen.quarry_top,
         y_min = mapgen.quarry_bottom,
     })
+    -- Decoration
+    minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:stone_with_rune_vertical",
+		wherein        = "blocks:stone",
+		clust_scarcity = 7 * 7 * 7,
+		clust_num_ores = 3,
+		clust_size     = 4,
+		y_max          = mapgen.quarry_top,
+		y_min          = mapgen.quarry_bottom,
+	})
     -- Lost Mese
 	minetest.register_ore({
 		ore_type       = "scatter",
@@ -258,6 +269,19 @@ mapgen.register_quarry_decorations = function()
             y_min = mapgen.quarry_bottom,
             flags = "force_placement, all_floors, all_ceilings, place_center_x, place_center_y, place_center_z",
             schematic = "schematics/underground/quarry_tunnels" .. i .. "_large.mts",
+            replacements = {["default:sandstone"] = "air"},
+            rotation = "random"
+        })
+    end
+    for i=1,6 do
+        minetest.register_decoration({
+            deco_type = "schematic",
+            place_on = "blocks:stone",
+            fill_ratio = 0.0001,
+            y_max = mapgen.quarry_top,
+            y_min = mapgen.quarry_bottom,
+            flags = "force_placement, all_floors, all_ceilings, place_center_x, place_center_y, place_center_z",
+            schematic = "schematics/underground/quarry_terrain_small" .. i .. ".mts",
             replacements = {["default:sandstone"] = "air"},
             rotation = "random"
         })
@@ -299,7 +323,67 @@ mapgen.register_quarry_decorations = function()
         y_max = mapgen.quarry_top,
         y_min = mapgen.quarry_bottom,
         flags = "all_ceilings, force_placement",
-        decoration = "blocks:meselamp",
+        decoration = "blocks:stone_with_rune",
+        place_offset_y = -1,
+    })
+    minetest.register_decoration({
+        deco_type = "simple",
+        place_on = {"blocks:stone_with_rune"},
+        fill_ratio = 10.0,
+        y_max = mapgen.quarry_top,
+        y_min = mapgen.quarry_bottom,
+        flags = "all_floors, force_placement",
+        decoration = "variations:stone_big_tile",
+        place_offset_y = -1,
+    })
+    minetest.register_decoration({
+        deco_type = "simple",
+        place_on = {"blocks:stone_with_rune_vertical"},
+        fill_ratio = 10.0,
+        y_max = mapgen.quarry_top,
+        y_min = mapgen.quarry_bottom,
+        flags = "all_floors, all_ceilings, force_placement",
+        decoration = "variations:stone_big_tile",
+        place_offset_y = -1,
+    })
+    minetest.register_decoration({
+        deco_type = "simple",
+        place_on = "variations:stone_big_tile",
+        fill_ratio = 0.95,
+        y_max = mapgen.quarry_top,
+        y_min = mapgen.quarry_bottom,
+        flags = "all_floors, force_placement",
+        decoration = "variations:stone_brick",
+        place_offset_y = -1,
+    })
+    minetest.register_decoration({
+        deco_type = "simple",
+        place_on = "blocks:stone",
+        fill_ratio = 0.25,
+        y_max = mapgen.quarry_top,
+        y_min = mapgen.quarry_bottom,
+        flags = "all_floors, force_placement",
+        decoration = "variations:stone_big_tile",
+        place_offset_y = -1,
+    })
+    minetest.register_decoration({
+        deco_type = "simple",
+        place_on = "blocks:stone",
+        fill_ratio = 0.5,
+        y_max = mapgen.quarry_top,
+        y_min = mapgen.quarry_bottom,
+        flags = "all_floors, force_placement",
+        decoration = "variations:stone_brick",
+        place_offset_y = -1,
+    })
+    minetest.register_decoration({
+        deco_type = "simple",
+        place_on = "blocks:stone",
+        fill_ratio = 0.5,
+        y_max = mapgen.quarry_top,
+        y_min = mapgen.quarry_bottom,
+        flags = "all_ceilings, force_placement",
+        decoration = "variations:stone_big_tile",
         place_offset_y = -1,
     })
     --[[

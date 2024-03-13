@@ -1,9 +1,14 @@
 mapgen.quarry_top = -1537
 mapgen.quarry_bottom = -2304
 
+mapgen.quarry_schematic_margin = 128
+
 mapgen.quarry_middle = (mapgen.quarry_top + mapgen.quarry_bottom) / 2
 
 mapgen.quarry_cavern_level = (mapgen.quarry_middle + mapgen.quarry_bottom) / 2
+
+mapgen.quarry_schematic_upper_margin = mapgen.quarry_top - mapgen.quarry_schematic_margin
+mapgen.quarry_schematic_lower_margin = mapgen.quarry_bottom + mapgen.quarry_schematic_margin
 
 mapgen.quarry_base = "blocks:stone"
 
@@ -265,8 +270,8 @@ mapgen.register_quarry_decorations = function()
             deco_type = "schematic",
             place_on = "blocks:stone",
             fill_ratio = 0.0005,
-            y_max = mapgen.quarry_top,
-            y_min = mapgen.quarry_bottom,
+            y_max = mapgen.quarry_schematic_upper_margin,
+            y_min = mapgen.quarry_schematic_lower_margin,
             flags = "force_placement, all_floors, all_ceilings, place_center_x, place_center_y, place_center_z",
             schematic = "schematics/underground/quarry_tunnels" .. i .. "_large.mts",
             replacements = {["default:sandstone"] = "air"},
@@ -278,8 +283,8 @@ mapgen.register_quarry_decorations = function()
             deco_type = "schematic",
             place_on = "blocks:stone",
             fill_ratio = 0.0001,
-            y_max = mapgen.quarry_top,
-            y_min = mapgen.quarry_bottom,
+            y_max = mapgen.quarry_schematic_upper_margin,
+            y_min = mapgen.quarry_schematic_lower_margin,
             flags = "force_placement, all_floors, all_ceilings, place_center_x, place_center_y, place_center_z",
             schematic = "schematics/underground/quarry_terrain_small" .. i .. ".mts",
             replacements = {["default:sandstone"] = "air"},
@@ -291,8 +296,8 @@ mapgen.register_quarry_decorations = function()
             deco_type = "schematic",
             place_on = {"blocks:stone", "variations:stone_big_tile"},
             fill_ratio = 0.0002,
-            y_max = mapgen.quarry_top,
-            y_min = mapgen.quarry_bottom,
+            y_max = mapgen.quarry_schematic_upper_margin,
+            y_min = mapgen.quarry_schematic_lower_margin,
             flags = "force_placement, all_floors, all_ceilings, place_center_x, place_center_y, place_center_z",
             schematic = "schematics/underground/quarry_tunnels" .. i .. ".mts",
             replacements = {["default:sandstone"] = "air", ["default:sand"] = "variations:stone_big_tile"},
@@ -304,11 +309,90 @@ mapgen.register_quarry_decorations = function()
             deco_type = "schematic",
             place_on = {"blocks:stone", "variations:stone_big_tile"},
             fill_ratio = 0.0005,
-            y_max = mapgen.quarry_top,
-            y_min = mapgen.quarry_bottom,
+            y_max = mapgen.quarry_schematic_upper_margin,
+            y_min = mapgen.quarry_schematic_lower_margin,
             flags = "force_placement, all_floors, all_ceilings, place_center_x, place_center_y, place_center_z",
             schematic = "schematics/underground/quarry_tunnels" .. i .. "_small.mts",
             replacements = {["default:sandstone"] = "air"},
+            rotation = "random"
+        })
+    end
+    for i=1,3 do
+        minetest.register_decoration({
+            deco_type = "schematic",
+            place_on = {"variations:stone_big_tile"},
+            noise_params = {
+                offset = 0,
+                scale = 0.0005,
+                spread = {x = 32, y = 128, z = 32},
+                seed = 53933 + i,
+                octaves = 4,
+                persistence = 0.3,
+                lacunarity = 1.5,
+                flags = "noeased"
+            },
+            y_max = mapgen.quarry_schematic_upper_margin,
+            y_min = mapgen.quarry_schematic_lower_margin,
+            flags = "force_placement, all_floors, place_center_x, place_center_z",
+            schematic = "schematics/underground/quarry_landmark" .. i .. ".mts",
+            replacements = {["blocks:sandstone"] = "air"},
+            rotation = "random"
+        })
+    end
+    for i=1,2 do
+        minetest.register_decoration({
+            deco_type = "schematic",
+            place_on = {"variations:stone_big_tile"},
+            noise_params = {
+                offset = 0,
+                scale = 0.0025,
+                spread = {x = 32, y = 128, z = 32},
+                seed = 525 + i,
+                octaves = 4,
+                persistence = 0.3,
+                lacunarity = 1.5,
+                flags = "noeased"
+            },
+            y_max = mapgen.quarry_schematic_upper_margin,
+            y_min = mapgen.quarry_schematic_lower_margin,
+            flags = "force_placement, all_floors, place_center_x, place_center_z",
+            schematic = "schematics/underground/quarry_room" .. i .. ".mts",
+            replacements = {["blocks:sandstone"] = "air"},
+            rotation = "random"
+        })
+    end
+    for i=1,3 do
+        minetest.register_decoration({
+            deco_type = "schematic",
+            place_on = {"variations:stone_big_tile"},
+            noise_params = {
+                offset = 0,
+                scale = 0.05,
+                spread = {x = 32, y = 128, z = 32},
+                seed = 532214 + i,
+                octaves = 4,
+                persistence = 0.5,
+                lacunarity = 1.5,
+                flags = "noeased"
+            },
+            y_max = mapgen.quarry_schematic_upper_margin,
+            y_min = mapgen.quarry_schematic_lower_margin,
+            flags = "force_placement, all_floors, place_center_x, place_center_z",
+            schematic = "schematics/underground/quarry_furniture" .. i .. ".mts",
+            replacements = {["blocks:sandstone"] = "air"},
+            rotation = "random"
+        })
+    end
+    for i=1,1 do
+        minetest.register_decoration({
+            deco_type = "schematic",
+            place_on = {"variations:stone_big_tile"},
+            fill_ratio = 0.0075,
+            y_max = mapgen.quarry_schematic_upper_margin,
+            y_min = mapgen.quarry_schematic_lower_margin,
+            flags = "force_placement, all_floors, place_center_x, place_center_z",
+            schematic = "schematics/underground/quarry_stairs" .. i .. ".mts",
+            replacements = {["blocks:sandstone"] = "air"},
             rotation = "random"
         })
     end

@@ -499,5 +499,5 @@ mapgen.register_quarry_decorations = function()
         flags = "all_floors",
         decoration = "blocks:meselamp",
     })]]--
-    --mapgen.register_stalagmites("blocks:stone", {min = mapgen.quarry_bottom, max = mapgen.quarry_top}, 0.25, 22543, "quarry")
+    mapgen.register_stalagmites("blocks:stone", {min = mapgen.quarry_bottom, max = mapgen.quarry_top}, 0.25, 22543, "quarry")
 end

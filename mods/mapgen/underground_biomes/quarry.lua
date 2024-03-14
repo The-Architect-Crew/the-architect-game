@@ -23,7 +23,12 @@ local random = PcgRandom(262)
 local offset = mapgen.quarry_top
 
 while offset > mapgen.quarry_bottom do
-    offset = offset - random:next(2, 16)
+    local strata_big_jump = random:next(0, 1)
+    if strata_big_jump == 1 then
+        offset = offset - random:next(4, 12)
+    else
+        offset = offset - random:next(1, 4)
+    end
     local material_choice = random:next(1, #mapgen.quarry_strata_materials)
     table.insert_all(mapgen.quarry_strata, {{offset = offset, material = mapgen.quarry_strata_materials[material_choice]}})
 end

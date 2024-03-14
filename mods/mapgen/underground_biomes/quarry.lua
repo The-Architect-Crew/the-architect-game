@@ -12,6 +12,18 @@ mapgen.quarry_schematic_lower_margin = mapgen.quarry_bottom + mapgen.quarry_sche
 
 mapgen.quarry_base = "blocks:stone"
 
+mapgen.quarry_strata = {}
+mapgen.quarry_strata_materials = {"blocks:stone_dark_grey", "blocks:stone_grey", "blocks:stone_white", "blocks:stone_black"}
+
+local random = PcgRandom(262)
+local offset = mapgen.quarry_top
+
+while offset > mapgen.quarry_bottom do
+    offset = offset - random:next(2, 16)
+    local material_choice = random:next(1, #mapgen.quarry_strata_materials)
+    table.insert_all(mapgen.quarry_strata, {{offset = offset, material = mapgen.quarry_strata_materials[material_choice]}})
+end
+
 mapgen.register_quarry_biomes = function()
 	minetest.register_biome({
 		name = "quarry",
@@ -40,33 +52,26 @@ mapgen.register_quarry_biomes = function()
 end
 
 mapgen.register_quarry_ores = function()
-    --[[
-    -- Cavern Base
-    minetest.register_ore({
-        ore_type = "stratum",
-        ore = "air",
-        wherein = "blocks:stone",
-        y_max = mapgen.quarry_middle,
-		y_min = mapgen.quarry_bottom,
-        noise_params = {
-            offset = mapgen.quarry_cavern_level,
-            scale = 16,
-            spread = {x = 200, y = 200, z = 200},
-            seed = 61,
-            octaves = 5,
-            persistence = 0.5,
-            flags = "noeased"
-        },
-        np_stratum_thickness = {
-            offset = 0,
-            scale = 8,
-            spread = {x = 6, y = 6, z = 6},
-            seed = 884,
-            octaves = 2,
-            persistence = 0.5,
-            flags = "absolute"
-        }
-    })]]--
+    -- Decorative (and balancing) strata
+    for _,stratum_data in ipairs(mapgen.quarry_strata) do
+        minetest.register_ore({
+            ore_type = "stratum",
+            ore = stratum_data.material,
+            wherein = "blocks:stone",
+            y_max = mapgen.quarry_middle,
+            y_min = mapgen.quarry_bottom,
+            noise_params = {
+                offset = stratum_data.offset,
+                scale = 8,
+                spread = {x = 32, y = 32, z = 32},
+                seed = stratum_data.offset,
+                octaves = 2,
+                persistence = 0.5,
+                flags = "noeased"
+            },
+            stratum_thickness = 0.5
+        })
+    end
     -- Blobs for schematic caves
     minetest.register_ore({
         ore_type = "blob",

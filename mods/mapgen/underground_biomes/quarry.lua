@@ -336,16 +336,17 @@ mapgen.register_quarry_decorations = function()
             flags = "force_placement, all_floors, place_center_x, place_center_z",
             schematic = "schematics/underground/quarry_landmark" .. i .. ".mts",
             replacements = {["blocks:sandstone"] = "air"},
+            place_offset_y = -2,
             rotation = "random"
         })
     end
-    for i=1,2 do
+    for i=1,3 do
         minetest.register_decoration({
             deco_type = "schematic",
             place_on = {"variations:stone_big_tile"},
             noise_params = {
                 offset = 0,
-                scale = 0.0025,
+                scale = 0.0015,
                 spread = {x = 32, y = 128, z = 32},
                 seed = 525 + i,
                 octaves = 4,
@@ -358,6 +359,7 @@ mapgen.register_quarry_decorations = function()
             flags = "force_placement, all_floors, place_center_x, place_center_z",
             schematic = "schematics/underground/quarry_room" .. i .. ".mts",
             replacements = {["blocks:sandstone"] = "air"},
+            place_offset_y = -1,
             rotation = "random"
         })
     end
@@ -383,16 +385,17 @@ mapgen.register_quarry_decorations = function()
             rotation = "random"
         })
     end
-    for i=1,1 do
+    for i=1,3 do
         minetest.register_decoration({
             deco_type = "schematic",
             place_on = {"variations:stone_big_tile"},
-            fill_ratio = 0.0075,
+            fill_ratio = 0.003,
             y_max = mapgen.quarry_schematic_upper_margin,
             y_min = mapgen.quarry_schematic_lower_margin,
             flags = "force_placement, all_floors, place_center_x, place_center_z",
             schematic = "schematics/underground/quarry_stairs" .. i .. ".mts",
             replacements = {["blocks:sandstone"] = "air"},
+            place_offset_y = -1,
             rotation = "random"
         })
     end

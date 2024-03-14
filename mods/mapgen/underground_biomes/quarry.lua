@@ -15,6 +15,10 @@ mapgen.quarry_base = "blocks:stone"
 mapgen.quarry_strata = {}
 mapgen.quarry_strata_materials = {"blocks:stone_dark_grey", "blocks:stone_grey", "blocks:stone_white", "blocks:stone_black"}
 
+mapgen.quarry_extended_base = {"blocks:stone", "blocks:stone_dark_grey", "blocks:stone_grey", "blocks:stone_white", "blocks:stone_black"}
+
+mapgen.quarry_terrain_schem_base = {"variations:stone_big_tile", "blocks:stone", "blocks:stone_dark_grey", "blocks:stone_grey", "blocks:stone_white", "blocks:stone_black"}
+
 local random = PcgRandom(262)
 local offset = mapgen.quarry_top
 
@@ -76,7 +80,7 @@ mapgen.register_quarry_ores = function()
     minetest.register_ore({
         ore_type = "blob",
         ore = "air",
-        wherein = "blocks:stone",
+        wherein = mapgen.quarry_extended_base,
         clust_scarcity = 16 * 16 * 16,
         clust_num_ores = 8,
         clust_size = 3,
@@ -188,7 +192,7 @@ mapgen.register_quarry_ores = function()
     minetest.register_ore({
         ore_type = "blob",
         ore = "blocks:cobble",
-        wherein = "blocks:stone",
+        wherein = mapgen.quarry_extended_base,
         clust_scarcity = 8 * 8 * 8,
         clust_num_ores = 96,
         clust_size = 7,
@@ -198,7 +202,7 @@ mapgen.register_quarry_ores = function()
     minetest.register_ore({
         ore_type = "blob",
         ore = "blocks:cobble",
-        wherein = "blocks:stone",
+        wherein = mapgen.quarry_extended_base,
         clust_scarcity = 4 * 4 * 4,
         clust_num_ores = 48,
         clust_size = 5,
@@ -208,7 +212,7 @@ mapgen.register_quarry_ores = function()
     minetest.register_ore({
         ore_type = "blob",
         ore = "blocks:gravel",
-        wherein = "blocks:stone",
+        wherein = mapgen.quarry_extended_base,
         clust_scarcity = 8 * 8 * 8,
         clust_num_ores = 64,
         clust_size = 6,
@@ -218,7 +222,7 @@ mapgen.register_quarry_ores = function()
     minetest.register_ore({
         ore_type = "blob",
         ore = "blocks:silver_sand",
-        wherein = "blocks:stone",
+        wherein = mapgen.quarry_extended_base,
         clust_scarcity = 8 * 8 * 8,
         clust_num_ores = 48,
         clust_size = 5,
@@ -228,7 +232,7 @@ mapgen.register_quarry_ores = function()
     minetest.register_ore({
         ore_type = "blob",
         ore = "blocks:silver_sandstone",
-        wherein = "blocks:stone",
+        wherein = mapgen.quarry_extended_base,
         clust_scarcity = 10 * 10 * 10,
         clust_num_ores = 48,
         clust_size = 5,
@@ -238,7 +242,7 @@ mapgen.register_quarry_ores = function()
     minetest.register_ore({
         ore_type = "blob",
         ore = "blocks:clay",
-        wherein = "blocks:stone",
+        wherein = mapgen.quarry_extended_base,
         clust_scarcity = 12 * 12 * 12,
         clust_num_ores = 64,
         clust_size = 6,
@@ -250,8 +254,8 @@ mapgen.register_quarry_ores = function()
 		ore_type       = "scatter",
 		ore            = "blocks:stone_with_rune_vertical",
 		wherein        = "blocks:stone",
-		clust_scarcity = 7 * 7 * 7,
-		clust_num_ores = 3,
+		clust_scarcity = 6 * 6 * 6,
+		clust_num_ores = 4,
 		clust_size     = 4,
 		y_max          = mapgen.quarry_top,
 		y_min          = mapgen.quarry_bottom,
@@ -260,7 +264,7 @@ mapgen.register_quarry_ores = function()
 	minetest.register_ore({
 		ore_type       = "scatter",
 		ore            = "blocks:lost_mese",
-		wherein        = mapgen.quarry_base,
+		wherein        = mapgen.quarry_extended_base,
 		clust_scarcity = mapgen.lost_mese_ore_params.scarcity,
 		clust_num_ores = mapgen.lost_mese_ore_params.num_ores,
 		clust_size     = mapgen.lost_mese_ore_params.clust_size,
@@ -273,7 +277,7 @@ mapgen.register_quarry_decorations = function()
     for i=1,4 do
         minetest.register_decoration({
             deco_type = "schematic",
-            place_on = "blocks:stone",
+            place_on = mapgen.quarry_extended_base,
             fill_ratio = 0.0005,
             y_max = mapgen.quarry_schematic_upper_margin,
             y_min = mapgen.quarry_schematic_lower_margin,
@@ -286,7 +290,7 @@ mapgen.register_quarry_decorations = function()
     for i=1,6 do
         minetest.register_decoration({
             deco_type = "schematic",
-            place_on = "blocks:stone",
+            place_on = mapgen.quarry_extended_base,
             fill_ratio = 0.0001,
             y_max = mapgen.quarry_schematic_upper_margin,
             y_min = mapgen.quarry_schematic_lower_margin,
@@ -299,7 +303,7 @@ mapgen.register_quarry_decorations = function()
     for i=1,4 do
         minetest.register_decoration({
             deco_type = "schematic",
-            place_on = {"blocks:stone", "variations:stone_big_tile"},
+            place_on = mapgen.quarry_terrain_schem_base,
             fill_ratio = 0.0002,
             y_max = mapgen.quarry_schematic_upper_margin,
             y_min = mapgen.quarry_schematic_lower_margin,
@@ -312,7 +316,7 @@ mapgen.register_quarry_decorations = function()
     for i=1,4 do
         minetest.register_decoration({
             deco_type = "schematic",
-            place_on = {"blocks:stone", "variations:stone_big_tile"},
+            place_on = mapgen.quarry_terrain_schem_base,
             fill_ratio = 0.0005,
             y_max = mapgen.quarry_schematic_upper_margin,
             y_min = mapgen.quarry_schematic_lower_margin,

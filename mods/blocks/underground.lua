@@ -614,6 +614,65 @@ minetest.register_node("blocks:dirt_firemoss_mushroom_ceiling", {
 	}),
 })
 
+minetest.register_node("blocks:stone_with_rune", {
+	description = S("Stone with a Glowing Rune"),
+	tiles = ccore.fake_fake_contrast("((variations_stone.png^[sheet:3x3:1,0)^[overlay:blocks_quarry_rune_shading.png)^blocks_quarry_rune.png"),
+	groups = {cracky = 3, stone = 1},
+	paramtype = "light",
+	light_source = 12,
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:moonstone_powder"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:stone_chunk"},
+			},
+			{
+				rarity = 3,
+				items = {"blocks:stone_chunk 2"},
+			},
+			{
+				rarity = 5,
+				items = {"blocks:moonstone_powder"},
+			}
+		},
+	},
+	sounds = default.node_sound_stone_defaults(),
+})
+minetest.register_node("blocks:stone_with_rune_vertical", {
+	description = S("Stone with a Glowing Rune (vertical)"),
+	tiles = ccore.fake_fake_contrast({"(blocks_stone.png^[overlay:blocks_quarry_rune_vertical_top_shading.png)^blocks_quarry_rune_vertical_top.png",
+									"(blocks_stone.png^[overlay:blocks_quarry_rune_vertical_top_shading.png)^blocks_quarry_rune_vertical_top.png",
+									"(blocks_stone.png^[overlay:blocks_quarry_rune_vertical_shading.png)^blocks_quarry_rune_vertical.png"}),
+	groups = {cracky = 3, stone = 1},
+	paramtype = "light",
+	light_source = 10,
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:moonstone_powder"},
+			},
+			{
+				rarity = 2,
+				items = {"blocks:stone_chunk"},
+			},
+			{
+				rarity = 3,
+				items = {"blocks:stone_chunk 2"},
+			},
+			{
+				rarity = 5,
+				items = {"blocks:moonstone_powder"},
+			}
+		},
+	},
+	sounds = default.node_sound_stone_defaults(),
+})
+
 -- Crafts
 
 minetest.register_craft({

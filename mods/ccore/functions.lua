@@ -146,31 +146,31 @@ ccore.fake_fake_contrast = function(textures)
 	if type(textures) == "table" then
 		if not textures[4] then
 			textures = {
-				"(" .. textures[1] .. ")^[fill:16x16:#00000408",
-				"(" .. textures[2] .. ")^[fill:16x16:#00000588",
-				"(" .. textures[3] .. ")^[fill:16x16:#00000658",
-				"(" .. textures[3] .. ")^[fill:16x16:#00000658",
-				"(" .. textures[3] .. ")^[fill:16x16:#0000142A",
-				"(" .. textures[3] .. ")^[fill:16x16:#0000142A",
+				"(" .. textures[1] .. ")^[fill:16x16:#01010108",
+				"(" .. textures[2] .. ")^[fill:16x16:#01010490",
+				"(" .. textures[3] .. ")^[fill:16x16:#01010358",
+				"(" .. textures[3] .. ")^[fill:16x16:#01010358",
+				"(" .. textures[3] .. ")^[fill:16x16:#0303062A",
+				"(" .. textures[3] .. ")^[fill:16x16:#0303062A",
 			}
 		else
 			textures = {
-				"(" .. textures[1] .. ")^[fill:16x16:#00000408",
-				"(" .. textures[2] .. ")^[fill:16x16:#00000588",
-				"(" .. textures[3] .. ")^[fill:16x16:#00000658",
-				"(" .. textures[4] .. ")^[fill:16x16:#00000658",
-				"(" .. textures[5] .. ")^[fill:16x16:#0000142A",
-				"(" .. textures[6] .. ")^[fill:16x16:#0000142A",
+				"(" .. textures[1] .. ")^[fill:16x16:#01010108",
+				"(" .. textures[2] .. ")^[fill:16x16:#01010490",
+				"(" .. textures[3] .. ")^[fill:16x16:#01010358",
+				"(" .. textures[4] .. ")^[fill:16x16:#01010358",
+				"(" .. textures[5] .. ")^[fill:16x16:#0303062A",
+				"(" .. textures[6] .. ")^[fill:16x16:#0303062A",
 			}
 		end
 	else
 		textures = {
-			"(" .. textures .. ")^[fill:16x16:#00000408",
-			"(" .. textures .. ")^[fill:16x16:#00000588",
-			"(" .. textures .. ")^[fill:16x16:#00000658",
-			"(" .. textures .. ")^[fill:16x16:#00000658",
-			"(" .. textures .. ")^[fill:16x16:#0000142A",
-			"(" .. textures .. ")^[fill:16x16:#0000142A",
+			"(" .. textures .. ")^[fill:16x16:#01010108",
+			"(" .. textures .. ")^[fill:16x16:#01010490",
+			"(" .. textures .. ")^[fill:16x16:#01010358",
+			"(" .. textures .. ")^[fill:16x16:#01010358",
+			"(" .. textures .. ")^[fill:16x16:#0303062A",
+			"(" .. textures .. ")^[fill:16x16:#0303062A",
 		}
 	end
 	return textures

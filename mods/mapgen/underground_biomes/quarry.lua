@@ -68,7 +68,7 @@ mapgen.register_quarry_ores = function()
                 offset = stratum_data.offset,
                 scale = 8,
                 spread = {x = 32, y = 32, z = 32},
-                seed = stratum_data.offset,
+                seed = 262,
                 octaves = 2,
                 persistence = 0.5,
                 flags = "noeased"

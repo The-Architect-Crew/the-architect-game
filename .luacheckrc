@@ -19,6 +19,7 @@ exclude_files = {"mods/external"}
 read_globals = {
 	string = {fields = {"split"}},
 	table = {fields = {"copy", "getn"}},
+	PcgRandom,
 
 	-- Builtin
 	"vector", "ItemStack",

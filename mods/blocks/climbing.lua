@@ -61,6 +61,45 @@ minetest.register_node("blocks:chain", {
 	groups = {snappy=1,cracky=2,oddly_breakable_by_hand=2},
 	legacy_wallmounted = true
 })
+
+minetest.register_node("blocks:rope", {
+	description = ccore.comment("Climbing Rope", "Use with more rope to lower"),
+	drawtype = "plantlike",
+	tiles = {"blocks_rope.png"},
+	inventory_image = "blocks_rope.png",
+	wield_image = "blocks_rope.png",
+	paramtype = "light",
+	walkable = false,
+	climbable = true,
+	node_placement_prediction = "",
+	groups = {snappy=1,cracky=2,oddly_breakable_by_hand=2},
+	on_place = function(itemstack, placer, pointed_thing)
+		local pos = pointed_thing.above
+		local pos_above = {x = pos.x, y = pos.y + 1, z = pos.z}
+		local pos_under = pointed_thing.under
+
+		if minetest.get_node(pos_under).name == "blocks:rope" then
+			while (minetest.get_node(pos_under).name  == "blocks:rope") do
+				pos_under = {x = pos_under.x, y = pos_under.y - 1, z = pos_under.z}
+			end
+			if minetest.get_node(pos_under).name == "air" then
+				minetest.item_place_node(itemstack, placer, {type = "node", under = {x = pos_under.x, y = pos_under.y + 1, z = pos_under.z}, above = pos_under})
+				return itemstack
+			end
+		else
+			if minetest.get_node(pos_above).name ~= "air" then
+				minetest.item_place_node(itemstack, placer, pointed_thing)
+				return itemstack
+			else
+				minetest.chat_send_player(placer:get_player_name(), "The climbing rope needs something to attach to!")
+			end
+		end
+	end,
+	after_dig_node = function(pos, node, metadata, digger)
+		ccore.dig_dir(pos, {node.name}, 1, digger)
+		ccore.dig_dir(pos, {node.name}, -1, digger)
+	end,
+})
 --
 -- == CRAFTS
 --
@@ -89,6 +128,15 @@ minetest.register_craft({
 		{"blocks:steel_ingot"},
 		{"blocks:steel_ingot"},
 		{"blocks:steel_ingot"}
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:rope 3",
+	recipe = {
+		{"group:stick"},
+		{"group:stick"},
+		{"group:stick"},
 	}
 })
 -- Recycle

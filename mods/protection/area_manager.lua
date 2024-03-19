@@ -373,7 +373,7 @@ minetest.register_node("protection:area_manager", {
     drawtype = "mesh",
     mesh = "area_manager.obj",
     tiles = {"variations_wood.png^[sheet:3x3:1,0", "variations_steelblock.png^[sheet:3x3:1,0", "protection_manager.png"},
-    groups = {dig_immediate = 2},
+    groups = {dig_immediate = 3},
     selection_box = {
         type = "fixed",
         fixed = {-15/16, -8/16, -15/16, 15/16, 13/16, 16/16},

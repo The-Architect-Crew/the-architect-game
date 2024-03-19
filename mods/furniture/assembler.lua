@@ -162,7 +162,8 @@ for i=1,#furniture.craftstation_materials do
 	local base_definition = minetest.registered_nodes[material]
 	local sname = string.match(material, ':(.*)')
 	local description = base_definition.description .. " Furniture Assembler"
-	local groups = base_definition.groups
+	local groups = table.copy(base_definition.groups)
+	groups.dig_immediate = 3
 	local sounds = base_definition.sounds
 	local box = {-16/16, -8/16, -8/16, 16/16, 23/16, 8/16}
 	minetest.register_node("furniture:assembler_" .. sname, {

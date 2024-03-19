@@ -221,4 +221,6 @@ shapes:register_shape("blocks:wool_magenta")
 shapes:register_shape("blocks:wool_pink")
 -- streets.lua
 shapes:register_shape("blocks:asphalt")
+shapes:register_shape("blocks:asphalt_line", "cat:splitstair, cat:pane, cat:fence, cat:pole, cat:pillar, cat:pillarcrown, cat:beam")
+shapes:register_shape("blocks:asphalt_dashed_line", "cat:splitstair, cat:pane, cat:fence, cat:pole, cat:pillar, cat:pillarcrown, cat:beam")
 shapes:register_shape("blocks:concrete")

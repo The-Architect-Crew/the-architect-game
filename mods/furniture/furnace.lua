@@ -15,7 +15,7 @@ for i=1,#furniture.furnace_materials do
     workbench.register_furnace("furniture", material)
 
     minetest.register_craft({
-        output = "workbench:furnace_" .. sname,
+        output = "furniture:furnace_" .. sname,
         recipe = {
             {material, material, material},
             {material, "", material},

@@ -173,7 +173,7 @@ function workbench.register_furnace(modname, material)
 	local sname = string.match(material, ':(.*)')
 	local description = base_definition.description .. " Furnace"
 	local sounds = base_definition.sounds
-	minetest.register_node(modname .. ":furnace" .. sname, {
+	minetest.register_node(modname .. ":furnace_" .. sname, {
 		description = description,
 		drawtype = "mesh",
 		mesh = "workbench_furnace.obj",

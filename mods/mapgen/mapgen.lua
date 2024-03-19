@@ -334,7 +334,7 @@ function mapgen.register_surface_biomes()
 		depth_filler = 3,
 		node_riverbed = "blocks:sand",
 		depth_riverbed = 2,
-		node_water = "blocks:river_water_source",
+		node_water = "blocks:water_source",
 		node_water_top_height = 2,
 		node_dungeon = "blocks:cobble",
 		node_dungeon_alt = "blocks:mossycobble",

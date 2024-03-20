@@ -3057,6 +3057,22 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
+	output = "blocks:silverblock",
+	recipe = {
+		{"blocks:silver_ingot", "blocks:silver_ingot", "blocks:silver_ingot"},
+		{"blocks:silver_ingot", "blocks:silver_ingot", "blocks:silver_ingot"},
+		{"blocks:silver_ingot", "blocks:silver_ingot", "blocks:silver_ingot"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:silver_ingot 9",
+	recipe = {
+		{"blocks:silverblock"},
+	}
+})
+
+minetest.register_craft({
 	output = "blocks:goldblock",
 	recipe = {
 		{"blocks:gold_ingot", "blocks:gold_ingot", "blocks:gold_ingot"},
@@ -3361,6 +3377,12 @@ minetest.register_craft({
 	type = "cooking",
 	output = "blocks:copper_ingot",
 	recipe = "blocks:copper_lump",
+})
+
+minetest.register_craft({
+	type = "cooking",
+	output = "blocks:silver_ingot",
+	recipe = "blocks:silver_lump",
 })
 
 minetest.register_craft({

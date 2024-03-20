@@ -94,7 +94,7 @@ minetest.register_node("flora:fireshroom_cap", {
 			},
 			{
 				rarity = 1,
-				items = {"blocks:firebranches"},
+				items = {"flora:firebranches"},
 			},
 			{
 				rarity = 2,
@@ -1762,7 +1762,7 @@ minetest.register_craft({
 minetest.register_craft({
 	output = "flora:fire_cap",
 	recipe = {
-		{"blocks:firebranches", "blocks:firebranches"},
+		{"flora:firebranches", "flora:firebranches"},
 		{"flora:mycelium_fire", "flora:mycelium_fire"},
 	}
 })

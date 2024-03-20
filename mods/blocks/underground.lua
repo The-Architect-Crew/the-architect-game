@@ -25,7 +25,7 @@ minetest.register_node("blocks:cobble_firemoss", {
 			},
 			{
 				rarity = 2,
-				items = {"blocks:firebranches"},
+				items = {"flora:firebranches"},
 			},
 			{
 				rarity = 2,
@@ -33,7 +33,7 @@ minetest.register_node("blocks:cobble_firemoss", {
 			},
 			{
 				rarity = 3,
-				items = {"blocks:firebranches"},
+				items = {"flora:firebranches"},
 			},
 		},
 	},
@@ -52,7 +52,7 @@ minetest.register_node("blocks:cobble_firemoss_ceiling", {
 			},
 			{
 				rarity = 2,
-				items = {"blocks:firebranches"},
+				items = {"flora:firebranches"},
 			},
 			{
 				rarity = 2,
@@ -60,7 +60,7 @@ minetest.register_node("blocks:cobble_firemoss_ceiling", {
 			},
 			{
 				rarity = 3,
-				items = {"blocks:firebranches"},
+				items = {"flora:firebranches"},
 			},
 		},
 	},
@@ -79,7 +79,7 @@ minetest.register_node("blocks:stone_firemoss", {
 			},
 			{
 				rarity = 2,
-				items = {"blocks:firebranches"},
+				items = {"flora:firebranches"},
 			},
 			{
 				rarity = 2,
@@ -87,7 +87,7 @@ minetest.register_node("blocks:stone_firemoss", {
 			},
 			{
 				rarity = 3,
-				items = {"blocks:firebranches"},
+				items = {"flora:firebranches"},
 			},
 		},
 	},
@@ -106,7 +106,7 @@ minetest.register_node("blocks:stone_firemoss_ceiling", {
 			},
 			{
 				rarity = 2,
-				items = {"blocks:firebranches"},
+				items = {"flora:firebranches"},
 			},
 			{
 				rarity = 2,
@@ -114,7 +114,7 @@ minetest.register_node("blocks:stone_firemoss_ceiling", {
 			},
 			{
 				rarity = 3,
-				items = {"blocks:firebranches"},
+				items = {"flora:firebranches"},
 			},
 		},
 	},
@@ -133,7 +133,7 @@ minetest.register_node("blocks:desert_cobble_firemoss", {
 			},
 			{
 				rarity = 2,
-				items = {"blocks:firebranches"},
+				items = {"flora:firebranches"},
 			},
 			{
 				rarity = 2,
@@ -141,7 +141,7 @@ minetest.register_node("blocks:desert_cobble_firemoss", {
 			},
 			{
 				rarity = 3,
-				items = {"blocks:firebranches"},
+				items = {"flora:firebranches"},
 			},
 		},
 	},
@@ -160,7 +160,7 @@ minetest.register_node("blocks:desert_cobble_firemoss_ceiling", {
 			},
 			{
 				rarity = 2,
-				items = {"blocks:firebranches"},
+				items = {"flora:firebranches"},
 			},
 			{
 				rarity = 2,
@@ -168,7 +168,7 @@ minetest.register_node("blocks:desert_cobble_firemoss_ceiling", {
 			},
 			{
 				rarity = 3,
-				items = {"blocks:firebranches"},
+				items = {"flora:firebranches"},
 			},
 		},
 	},
@@ -187,7 +187,7 @@ minetest.register_node("blocks:desert_stone_firemoss", {
 			},
 			{
 				rarity = 2,
-				items = {"blocks:firebranches"},
+				items = {"flora:firebranches"},
 			},
 			{
 				rarity = 2,
@@ -195,7 +195,7 @@ minetest.register_node("blocks:desert_stone_firemoss", {
 			},
 			{
 				rarity = 3,
-				items = {"blocks:firebranches"},
+				items = {"flora:firebranches"},
 			},
 		},
 	},
@@ -214,7 +214,7 @@ minetest.register_node("blocks:desert_stone_firemoss_ceiling", {
 			},
 			{
 				rarity = 2,
-				items = {"blocks:firebranches"},
+				items = {"flora:firebranches"},
 			},
 			{
 				rarity = 2,
@@ -222,7 +222,7 @@ minetest.register_node("blocks:desert_stone_firemoss_ceiling", {
 			},
 			{
 				rarity = 3,
-				items = {"blocks:firebranches"},
+				items = {"flora:firebranches"},
 			},
 		},
 	},

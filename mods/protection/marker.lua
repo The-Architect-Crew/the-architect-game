@@ -329,9 +329,9 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
         local area_bounds = get_bounds(pos)
         area_bounds.pos2.y = area_bounds.pos2.y + tonumber(meta:get_string("area_height")) - 1
         local mese_cost = protection.calculate_cost(area_bounds.pos1, area_bounds.pos2)
-        if protection.take_mese(player, mese_cost) ~= false then
-            local can_add,aerror = areas:canPlayerAddArea(area_bounds.pos1, area_bounds.pos2, playername)
-            if can_add then
+        local can_add,aerror = areas:canPlayerAddArea(area_bounds.pos1, area_bounds.pos2, playername)
+        if can_add then
+            if protection.take_mese(player, mese_cost) ~= false then
                 local area_id = areas:add(playername, area_name, area_bounds.pos1, area_bounds.pos2, nil)
                 marker_remove_grid(playername)
                 minetest.chat_send_player(playername, protection.chat_message("marker", "success", "Successfully protected area " ..
@@ -339,14 +339,14 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
                                             minetest.colorize(protection.price_color, mese_cost .. " lost mese") .. "."))
                 areas:save()
                 minetest.log("action", "Markers Protected an area, owner="..playername..
-				" AreaName="..area_name..
-				" StartPos="..minetest.pos_to_string(area_bounds.pos1)..
-				" EndPos="  ..minetest.pos_to_string(area_bounds.pos2))
+                " AreaName="..area_name..
+                " StartPos="..minetest.pos_to_string(area_bounds.pos1)..
+                " EndPos="  ..minetest.pos_to_string(area_bounds.pos2))
             else
-                minetest.chat_send_player(playername, protection.chat_message("marker", "error", "Failed to protect area, " .. aerror .. "."))
+                minetest.chat_send_player(playername, protection.chat_message("marker", "note", "Insufficient funds."))
             end
         else
-            minetest.chat_send_player(playername, protection.chat_message("marker", "note", "Insufficient funds."))
+            minetest.chat_send_player(playername, protection.chat_message("marker", "error", "Failed to protect area, " .. aerror))
         end
     end
 

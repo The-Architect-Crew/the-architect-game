@@ -1,5 +1,7 @@
 furniture = {}
 
+furniture.storage = minetest.get_mod_storage()
+
 local path = minetest.get_modpath("furniture")
 
 workbench:register_crafttype("furniture", {
@@ -65,6 +67,7 @@ dofile(path.."/brickmaker.lua")
 dofile(path.."/engraver.lua")
 dofile(path.."/tablesaw.lua")
 dofile(path .."/furnace.lua")
+dofile(path .."/travelnet.lua")
 
 -- Anything that contains crafting registrations has to go after craftstations
 dofile(path.."/steampunk.lua")

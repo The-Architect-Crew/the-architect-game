@@ -620,6 +620,7 @@ function crates:register_storage(name, def)
 
 		end
 	end
+
 	-- portable variants
 	if def.portable then
 		-- ===============
@@ -786,6 +787,7 @@ function crates:register_storage(name, def)
 				})
 			end
 		end
+
 	end
 end
 
@@ -807,90 +809,6 @@ minetest.register_on_joinplayer(function(player, last_login)
 	temp_crates:set_list("main", {})
 end)
 
-crates:register_storage("crates:crate", {
-	description = "Crate",
-	columns = 6, -- 4 * row_slots inventory spaces
-	sorting = true, -- enable sorting functions
-	portable = true, -- enable portability (Able to be picked up)
-	dyeable = true, -- registers multi-coloured storage based on dye
-	dyemod = "^crates_crate_band.png", -- add texture overlays over dyed versions (after colorize applied)
-	colorlabel = "tag2", -- enable colorlabels (Ability to add little colour labels)
-	lock_order = {"lock", "protect", "public", "mail"}, -- order of locking modes
-	drawtype = "mesh",
-	mesh = "crates_crate.obj",
-	groups = {choppy = 2, oddly_breakable_by_hand = 2},
-	tiles = {"crates_crate.png"},
-	filled_tiles = {"crates_crate_filled.png"},
-	sunlight_propagates = true,
-	use_texture_alpha = "opaque",
-	paramtype = "light",
-	paramtype2 = "facedir",
-	sounds = default.node_sound_wood_defaults(),
-})
-
-crates:register_storage("crates:barrel", {
-	description = "Barrel",
-	columns = 4,
-	sorting = true,
-	portable = true,
-	dyeable = true,
-	dyemod = "^crates_barrel_band.png",
-	colorlabel = "sign",
-	lock_order = {"lock", "protect", "public", "mail"},
-	drawtype = "mesh",
-	mesh = "crates_barrel.obj",
-	groups = {choppy = 2, oddly_breakable_by_hand = 2},
-	tiles = {"crates_barrel.png"},
-	filled_tiles = {"crates_barrel_filled.png"},
-	sunlight_propagates = true,
-	use_texture_alpha = "opaque",
-	paramtype = "light",
-	paramtype2 = "facedir",
-	sounds = default.node_sound_wood_defaults(),
-})
-
-crates:register_storage("crates:chest", {
-	description = "Chest",
-	columns = 6,
-	sorting = true,
-	lock_order = {"lock", "protect", "public", "mail"},
-	groups = {choppy = 2, oddly_breakable_by_hand = 2},
-	tiles = {
-		"crates_chest_top.png",
-		"crates_chest_top.png",
-		"crates_chest_side.png",
-		"crates_chest_side.png",
-		"crates_chest_side.png",
-		"crates_chest_front.png"
-	},
-	paramtype = "light",
-	paramtype2 = "facedir",
-	sounds = default.node_sound_wood_defaults(),
-})
-
-minetest.register_craft({
-	output = "crates:chest",
-	recipe = {
-		{"group:wood", "group:wood", "group:wood"},
-		{"group:wood", "", "group:wood"},
-		{"group:wood", "group:wood", "group:wood"},
-	}
-})
-
-minetest.register_craft({
-	output = "crates:crate",
-	recipe = {
-		{"group:wood", "group:wood", "group:wood"},
-		{"group:wood", "crates:chest", "group:wood"},
-		{"group:wood", "group:wood", "group:wood"},
-	}
-})
-
-minetest.register_craft({
-	output = "crates:barrel",
-	recipe = {
-		{"group:wood"},
-		{"blocks:chest_locked"},
-		{"group:wood"},
-	}
-})
+dofile(path.."/crates.lua")
+dofile(path.."/barrels.lua")
+dofile(path.."/chests.lua")

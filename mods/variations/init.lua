@@ -200,6 +200,24 @@ function variations.register_for_base(base_node, tiles_override, transparent, su
 				{variation_name .. " " .. variation.recipe_amount},
 			},
 		})
+		if (variation.name == "brick") then
+			minetest.register_craft({
+				output = variation_name .. " 4",
+				recipe = {
+					{base_node, base_node},
+					{base_node, base_node},
+				}
+			})
+		elseif (variation.name == "big_tile") then
+			minetest.register_craft({
+				output = variation_name .. " 9",
+				recipe = {
+					{base_node, base_node, base_node},
+					{base_node, base_node, base_node},
+					{base_node, base_node, base_node},
+				}
+			})
+		end
 		convert_craft(base_node, variation_name)
 	end
 end

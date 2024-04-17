@@ -7,5 +7,6 @@ minetest.register_on_joinplayer(function(ObjectRef, last_login)
         inv:add_item("main", "protection:marker 4")
         inv:add_item("main", "protection:protector")
         inv:add_item("main", "blocks:rope 99")
+        inv:add_item("main", "blocks:imagination")
     end
 end)

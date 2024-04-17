@@ -130,3 +130,15 @@ minetest.register_craft({
 		{"blocks:imagination", "blocks:imagination"}
 	},
 })
+
+minetest.register_craft({
+	output = "blocks:wool_white",
+	recipe = {
+		{"group:leaves", "group:leaves", "group:leaves"},
+		{"group:leaves", "blocks:imagination", "group:leaves"},
+		{"group:leaves", "group:leaves", "group:leaves"},
+	},
+	replacements = {
+		{"blocks:imagination", "blocks:imagination"}
+	},
+})

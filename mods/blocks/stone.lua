@@ -166,21 +166,21 @@ minetest.register_node("blocks:obsidian_crying", {
 --
 
 blocks.stone_colors = {
-	{"black", "Black"},
-	{"brown", "Brown"},
-	{"cyan", "Cyan"},
-	{"dark_blue", "Dark Blue"},
-	{"dark_green", "Dark Green"},
-	{"dark_grey", "Dark Grey"},
-	{"dark_pink", "Dark Pink"},
-	{"green", "Green"},
-	{"grey", "Grey"},
-	{"orange", "Orange"},
-	{"pink", "Pink"},
-	{"purple", "Purple"},
-	{"red", "Red"},
-	{"white", "White"},
-	{"yellow", "Yellow"},
+	{"black", "Black", "black"},
+	{"brown", "Brown", "brown"},
+	{"cyan", "Cyan", "cyan"},
+	{"dark_blue", "Dark Blue", "blue"},
+	{"dark_green", "Dark Green", "dark_green"},
+	{"dark_grey", "Dark Grey", "dark_grey"},
+	{"dark_pink", "Dark Pink", "magenta"},
+	{"green", "Green", "green"},
+	{"grey", "Grey", "grey"},
+	{"orange", "Orange", "orange"},
+	{"pink", "Pink", "pink"},
+	{"purple", "Purple", "violet"},
+	{"red", "Red", "red"},
+	{"white", "White", "white"},
+	{"yellow", "Yellow", "yellow"},
 }
 
 for _, color in ipairs(blocks.stone_colors) do
@@ -272,6 +272,19 @@ minetest.register_craft({
 		{"blocks:silver_sandstone"},
 	}
 })
+
+for _, color in ipairs(blocks.stone_colors) do
+	minetest.register_craft({
+		output = "blocks:stone_" .. color[1],
+		type = "shapeless",
+		recipe = {"blocks:stone", "dye:" .. color[3]},
+	})
+	workbench:register_craft({
+		output = {{"blocks:stone_chunk 4", "dye:" .. color[3]}},
+		mod = "shapeless",
+		input = {{"blocks:stone_" .. color[1]}},
+	})
+end
 
 minetest.register_craft({
 	type = "cooking",

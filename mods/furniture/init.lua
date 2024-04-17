@@ -73,9 +73,6 @@ dofile(path.."/steampunk.lua")
 dofile(path.."/craftitems.lua")
 dofile(path.."/crafts.lua")
 
--- Testing stuff
-dofile(path.."/testing.lua")
-
 -- Furniture registration
 function furniture.register(base_node, limit, materials, texture)
     for i=1, #furniture.types do

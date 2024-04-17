@@ -1,47 +1,5 @@
 local S = default.get_translator
 
-minetest.register_node("furniture:gear_big_steel", {
-	description = S("Big Steel Gear"),
-    drawtype = "mesh",
-	tiles = {{
-        name = "furniture_gear_steel_big.png",
-        animation = {type = "vertical_frames", aspect_w = 128, aspect_h = 128, length = 4.0}
-    },
-    {
-        name = "furniture_gear_steel_big_inner.png",
-        animation = {type = "vertical_frames", aspect_w = 128, aspect_h = 128, length = 4.0}
-    },
-    "variations_steelblock.png^[sheet:3x3:1,0"},
-    mesh = "gear.obj",
-    paramtype = "light",
-    paramtype2 = "facedir",
-    light_source = 1,
-    use_texture_alpha = "clip",
-	groups = {cracky = 1, level = 2, dig_immediate = 3}, -- dig_immediate cause drawing a crack animation on a texture of this size is extremely resource-intensive
-	sounds = default.node_sound_metal_defaults(),
-})
-
-minetest.register_node("furniture:gear_big_rust", {
-	description = S("Big Rust Gear"),
-    drawtype = "mesh",
-	tiles = {{
-        name = "furniture_gear_rust_big.png",
-        animation = {type = "vertical_frames", aspect_w = 128, aspect_h = 128, length = 4.0}
-    },
-    {
-        name = "furniture_gear_rust_big_inner.png",
-        animation = {type = "vertical_frames", aspect_w = 128, aspect_h = 128, length = 4.0}
-    },
-    "variations_rustblock.png^[sheet:3x3:1,0"},
-    mesh = "gear.obj",
-    paramtype = "light",
-    paramtype2 = "facedir",
-    light_source = 1,
-    use_texture_alpha = "clip",
-	groups = {cracky = 1, level = 2, dig_immediate = 3},
-	sounds = default.node_sound_metal_defaults(),
-})
-
 minetest.register_node("furniture:scaffolding_steel", {
 	description = S("Steel Scaffolding"),
     drawtype = "mesh",
@@ -257,3 +215,23 @@ furniture.register_pipe_recipe("valve_large", "blocks:steel_ingot")
 furniture.register_pipes("copper", "Copper", "blocks:copper_ingot")
 furniture.register_pipes("steel", "Steel", "blocks:steel_ingot")
 furniture.register_pipes("rust", "Rusted", "blocks:rust_ingot")
+
+-- Crafting
+
+minetest.register_craft({
+    output = "furniture:scaffolding_steel",
+    recipe = {
+        {"blocks:steel_stick", "", "blocks:steel_stick"},
+        {"", "blocks:steel_stick", ""},
+        {"blocks:steel_stick", "", "blocks:steel_stick"},
+    }
+})
+
+minetest.register_craft({
+    output = "furniture:scaffolding_rust",
+    recipe = {
+        {"blocks:rust_stick", "", "blocks:rust_stick"},
+        {"", "blocks:rust_stick", ""},
+        {"blocks:rust_stick", "", "blocks:rust_stick"},
+    }
+})

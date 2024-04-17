@@ -14,7 +14,7 @@ for i = 1, #dyes do
 
 	minetest.register_craft{
 		type = "shapeless",
-		output = "wool:" .. name,
+		output = "blocks:wool_" .. name,
 		recipe = {"group:dye,color_" .. name, "group:wool"},
 	}
 end

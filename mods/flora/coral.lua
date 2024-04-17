@@ -226,3 +226,30 @@ minetest.register_node("flora:coral_skeleton", {
 	groups = {cracky = 3},
 	sounds = default.node_sound_stone_defaults(),
 })
+
+-- Crafting
+
+minetest.register_craft({
+	output = "dye:cyan 3",
+	recipe = {{"flora:coral_cyan"}}
+})
+
+minetest.register_craft({
+	output = "dye:pink 3",
+	recipe = {{"flora:coral_pink"}}
+})
+
+minetest.register_craft({
+	output = "dye:brown 3",
+	recipe = {{"flora:coral_brown"}}
+})
+
+minetest.register_craft({
+	output = "dye:orange 3",
+	recipe = {{"flora:coral_orange"}}
+})
+
+minetest.register_craft({
+	output = "dye:dark_green 3",
+	recipe = {{"flora:coral_green"}}
+})

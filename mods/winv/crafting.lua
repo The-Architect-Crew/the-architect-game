@@ -7,11 +7,11 @@ local function apply_craft_result(inv, player)
 	player_inv:set_list("winv_craftinput", craftlist)
 	-- update result
 	if output and output.item then
+        player_inv:set_list("winv_craftoutput", output.item)
 		inv:set_list("output", output.item)
-		player_inv:set_list("winv_craftoutput", output.item)
 	else
+        player_inv:set_list("winv_craftoutput", {})
 		inv:set_list("output", {})
-		player_inv:set_list("winv_craftoutput", {})
 	end
 end
 
@@ -20,12 +20,15 @@ local function apply_craft_update(inv, listname, player)
 	local multiplier = meta:get_int("winv_craft_multiplier")
 	local craftlist = inv:get_list("input")
 	local outlist = inv:get_list("output")
+	local player_inv = player:get_inventory()
+    player_inv:set_list("winv_craftoutput", outlist)
 	if listname == "output" then
 		local output = workbench.craft_output(craftlist, "normal", nil, 3, multiplier)
 		local remainder = workbench.output_stack(outlist)
 		-- ensure there's nothing remaining in the output list, otherwise prevent modifying the input list
 		if output and output.dinput and meta:get_string("winv_craft_crafted") == "" then
-			inv:set_list("input", output.dinput)
+			player_inv:set_list("winv_craftinput", output.dinput)
+            inv:set_list("input", output.dinput)
 			if remainder > 0 then
 				meta:set_string("winv_craft_crafted", "remainder")
 			end

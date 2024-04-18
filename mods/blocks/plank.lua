@@ -213,42 +213,42 @@ minetest.register_craft({
 minetest.register_craft({
 	output = "blocks:wood_jungle 4",
 	recipe = {
-		{"flora:jungletree"},
+		{"flora:tree_jungle"},
 	}
 })
 
 minetest.register_craft({
 	output = "blocks:wood_pine 4",
 	recipe = {
-		{"flora:pine_tree"},
+		{"flora:tree_pine"},
 	}
 })
 
 minetest.register_craft({
 	output = "blocks:wood_acacia 4",
 	recipe = {
-		{"flora:acacia_tree"},
+		{"flora:tree_acacia"},
 	}
 })
 
 minetest.register_craft({
 	output = "blocks:wood_aspen 4",
 	recipe = {
-		{"flora:aspen_tree"},
+		{"flora:tree_aspen"},
 	}
 })
 
 minetest.register_craft({
 	output = "blocks:wood_cherry 4",
 	recipe = {
-		{"flora:cherry_tree"},
+		{"flora:tree_cherry"},
 	}
 })
 
 minetest.register_craft({
 	output = "blocks:wood_bone 4",
 	recipe = {
-		{"flora:bone_tree"},
+		{"flora:tree_bone"},
 	}
 })
 

@@ -21,7 +21,7 @@ minetest.register_node("flora:tree", {
 	on_place = minetest.rotate_node
 })
 
-minetest.register_node("flora:tree_bark", {
+minetest.register_node("flora:treebark", {
 	description = S("Apple Tree Bark"),
 	tiles = {"flora_tree.png"},
 	paramtype2 = "facedir",
@@ -188,7 +188,7 @@ minetest.register_node("flora:apple_mark", {
 })
 
 
-minetest.register_node("flora:jungletree", {
+minetest.register_node("flora:tree_jungle", {
 	description = S("Jungle Log"),
 	tiles = {"flora_jungletree_top.png", "flora_jungletree_top.png",
 		"flora_jungletree.png"},
@@ -200,7 +200,7 @@ minetest.register_node("flora:jungletree", {
 	on_place = minetest.rotate_node
 })
 
-minetest.register_node("flora:jungletree_bark", {
+minetest.register_node("flora:treebark_jungle", {
 	description = S("Jungle Tree Bark"),
 	tiles = {"flora_jungletree.png"},
 	paramtype2 = "facedir",
@@ -211,7 +211,7 @@ minetest.register_node("flora:jungletree_bark", {
 	on_place = minetest.rotate_node
 })
 
-minetest.register_node("flora:jungleleaves", {
+minetest.register_node("flora:leaves_jungle", {
 	description = S("Jungle Tree Leaves"),
 	drawtype = "allfaces_optional",
 	waving = 1,
@@ -232,7 +232,7 @@ minetest.register_node("flora:jungleleaves", {
 	after_place_node = after_place_leaves,
 })
 
-minetest.register_node("flora:junglesapling", {
+minetest.register_node("flora:sapling_jungle", {
 	description = S("Jungle Tree Sapling"),
 	drawtype = "plantlike",
 	tiles = {"flora_junglesapling.png"},
@@ -268,7 +268,7 @@ minetest.register_node("flora:junglesapling", {
 	end,
 })
 
-minetest.register_node("flora:emergent_jungle_sapling", {
+minetest.register_node("flora:sapling_emergent_jungle", {
 	description = S("Emergent Jungle Tree Sapling"),
 	drawtype = "plantlike",
 	tiles = {"flora_emergent_jungle_sapling.png"},
@@ -304,7 +304,7 @@ minetest.register_node("flora:emergent_jungle_sapling", {
 })
 
 
-minetest.register_node("flora:pine_tree", {
+minetest.register_node("flora:tree_pine", {
 	description = S("Pine Log"),
 	tiles = {"flora_pine_tree_top.png", "flora_pine_tree_top.png",
 		"flora_pine_tree.png"},
@@ -316,7 +316,7 @@ minetest.register_node("flora:pine_tree", {
 	on_place = minetest.rotate_node
 })
 
-minetest.register_node("flora:pine_tree_bark", {
+minetest.register_node("flora:treebark_pine", {
 	description = S("Pine Tree Bark"),
 	tiles = {"flora_pine_tree.png"},
 	paramtype2 = "facedir",
@@ -327,7 +327,7 @@ minetest.register_node("flora:pine_tree_bark", {
 	on_place = minetest.rotate_node
 })
 
-minetest.register_node("flora:pine_needles",{
+minetest.register_node("flora:needles_pine",{
 	description = S("Pine Needles"),
 	drawtype = "allfaces_optional",
 	tiles = {"flora_pine_needles.png"},
@@ -347,7 +347,7 @@ minetest.register_node("flora:pine_needles",{
 	after_place_node = after_place_leaves,
 })
 
-minetest.register_node("flora:pine_sapling", {
+minetest.register_node("flora:sapling_pine", {
 	description = S("Pine Tree Sapling"),
 	drawtype = "plantlike",
 	tiles = {"flora_pine_sapling.png"},
@@ -383,7 +383,7 @@ minetest.register_node("flora:pine_sapling", {
 	end,
 })
 
-minetest.register_node("flora:pine_sapling_big", {
+minetest.register_node("flora:sapling_big_pine", {
 	description = S("Big Pine Tree Sapling"),
 	drawtype = "plantlike",
 	tiles = {"flora_pine_sapling_big.png"},
@@ -419,7 +419,7 @@ minetest.register_node("flora:pine_sapling_big", {
 	end,
 })
 
-minetest.register_node("flora:acacia_tree", {
+minetest.register_node("flora:tree_acacia", {
 	description = S("Acacia Log"),
 	tiles = {"flora_acacia_tree_top.png", "flora_acacia_tree_top.png",
 		"flora_acacia_tree.png"},
@@ -431,7 +431,7 @@ minetest.register_node("flora:acacia_tree", {
 	on_place = minetest.rotate_node
 })
 
-minetest.register_node("flora:acacia_tree_bark", {
+minetest.register_node("flora:treebark_acacia", {
 	description = S("Acacia Tree Bark"),
 	tiles = {"flora_acacia_tree.png"},
 	paramtype2 = "facedir",
@@ -442,7 +442,7 @@ minetest.register_node("flora:acacia_tree_bark", {
 	on_place = minetest.rotate_node
 })
 
-minetest.register_node("flora:acacia_leaves", {
+minetest.register_node("flora:leaves_acacia", {
 	description = S("Acacia Tree Leaves"),
 	drawtype = "allfaces_optional",
 	tiles = {"flora_acacia_leaves.png"},
@@ -463,7 +463,7 @@ minetest.register_node("flora:acacia_leaves", {
 	after_place_node = after_place_leaves,
 })
 
-minetest.register_node("flora:acacia_sapling", {
+minetest.register_node("flora:sapling_acacia", {
 	description = S("Acacia Tree Sapling"),
 	drawtype = "plantlike",
 	tiles = {"flora_acacia_sapling.png"},
@@ -499,7 +499,7 @@ minetest.register_node("flora:acacia_sapling", {
 	end,
 })
 
-minetest.register_node("flora:acacia_sapling_big", {
+minetest.register_node("flora:sapling_big_acacia", {
 	description = S("Big Acacia Tree Sapling"),
 	drawtype = "plantlike",
 	tiles = {"flora_acacia_sapling_big.png"},
@@ -536,7 +536,7 @@ minetest.register_node("flora:acacia_sapling_big", {
 })
 
 
-minetest.register_node("flora:aspen_tree", {
+minetest.register_node("flora:tree_aspen", {
 	description = S("Aspen Log"),
 	tiles = {"flora_aspen_tree_top.png", "flora_aspen_tree_top.png",
 		"flora_aspen_tree.png"},
@@ -548,7 +548,7 @@ minetest.register_node("flora:aspen_tree", {
 	on_place = minetest.rotate_node
 })
 
-minetest.register_node("flora:aspen_tree_bark", {
+minetest.register_node("flora:treebark_aspen", {
 	description = S("Aspen Tree Bark"),
 	tiles = {"flora_aspen_tree.png"},
 	paramtype2 = "facedir",
@@ -559,7 +559,7 @@ minetest.register_node("flora:aspen_tree_bark", {
 	on_place = minetest.rotate_node
 })
 
-minetest.register_node("flora:aspen_leaves", {
+minetest.register_node("flora:leaves_aspen", {
 	description = S("Aspen Tree Leaves"),
 	drawtype = "allfaces_optional",
 	tiles = {"flora_aspen_leaves.png"},
@@ -579,7 +579,7 @@ minetest.register_node("flora:aspen_leaves", {
 	after_place_node = after_place_leaves,
 })
 
-minetest.register_node("flora:aspen_sapling", {
+minetest.register_node("flora:sapling_aspen", {
 	description = S("Aspen Tree Sapling"),
 	drawtype = "plantlike",
 	tiles = {"flora_aspen_sapling.png"},
@@ -615,7 +615,7 @@ minetest.register_node("flora:aspen_sapling", {
 	end,
 })
 
-minetest.register_node("flora:aspen_sapling_big", {
+minetest.register_node("flora:sapling_big_aspen", {
 	description = S("Big Aspen Tree Sapling"),
 	drawtype = "plantlike",
 	tiles = {"flora_aspen_sapling_big.png"},
@@ -651,7 +651,7 @@ minetest.register_node("flora:aspen_sapling_big", {
 	end,
 })
 
-minetest.register_node("flora:cherry_tree", {
+minetest.register_node("flora:tree_cherry", {
 	description = S("Cherry Log"),
 	tiles = {"flora_cherry_tree_top.png", "flora_cherry_tree_top.png", "flora_cherry_tree.png"},
 	paramtype2 = "facedir",
@@ -662,7 +662,7 @@ minetest.register_node("flora:cherry_tree", {
 	on_place = minetest.rotate_node
 })
 
-minetest.register_node("flora:cherry_tree_bark", {
+minetest.register_node("flora:treebark_cherry", {
 	description = S("Cherry Tree Bark"),
 	tiles = {"flora_cherry_tree.png"},
 	paramtype2 = "facedir",
@@ -673,7 +673,7 @@ minetest.register_node("flora:cherry_tree_bark", {
 	on_place = minetest.rotate_node
 })
 
-minetest.register_node("flora:cherry_sapling", {
+minetest.register_node("flora:sapling_cherry", {
 	description = S("Cherry Tree Sapling"),
 	drawtype = "plantlike",
 	tiles = {"flora_cherry_sapling.png"},
@@ -709,7 +709,7 @@ minetest.register_node("flora:cherry_sapling", {
 	end,
 })
 
-minetest.register_node("flora:cherry_sapling_big", {
+minetest.register_node("flora:sapling_big_cherry", {
 	description = S("Big Cherry Tree Sapling"),
 	drawtype = "plantlike",
 	tiles = {"flora_cherry_sapling_big.png"},
@@ -745,7 +745,7 @@ minetest.register_node("flora:cherry_sapling_big", {
 	end,
 })
 
-minetest.register_node("flora:cherry_leaves", {
+minetest.register_node("flora:leaves_cherry", {
 	description = S("Cherry Tree Leaves"),
 	drawtype = "allfaces",
 	waving = 1,
@@ -773,7 +773,7 @@ minetest.register_node("flora:cherry_leaves", {
 	after_place_node = after_place_leaves,
 })
 
-minetest.register_node("flora:dry_leaves", {
+minetest.register_node("flora:leaves_dry", {
 	description = S("Dry Leaves"),
 	drawtype = "allfaces_optional",
 	tiles = {"flora_dry_leaves.png"},
@@ -786,7 +786,7 @@ minetest.register_node("flora:dry_leaves", {
 	after_place_node = after_place_leaves,
 })
 
-minetest.register_node("flora:bone_tree", {
+minetest.register_node("flora:tree_bone", {
 	description = S("Ossified Log"),
 	tiles = {"flora_bone_tree_top.png", "flora_bone_tree_top.png", "flora_bone_tree.png"},
 	paramtype2 = "facedir",
@@ -797,7 +797,7 @@ minetest.register_node("flora:bone_tree", {
 	on_place = minetest.rotate_node
 })
 
-minetest.register_node("flora:bone_tree_bark", {
+minetest.register_node("flora:treebark_bone", {
 	description = S("Ossified Bark"),
 	tiles = {"flora_bone_tree.png"},
 	paramtype2 = "facedir",
@@ -808,7 +808,7 @@ minetest.register_node("flora:bone_tree_bark", {
 	on_place = minetest.rotate_node
 })
 
-minetest.register_node("flora:bone_sapling", {
+minetest.register_node("flora:sapling_bone", {
 	description = S("Bone Tree Sapling"),
 	drawtype = "plantlike",
 	tiles = {"flora_bone_sapling.png"},
@@ -844,7 +844,7 @@ minetest.register_node("flora:bone_sapling", {
 	end,
 })
 
-minetest.register_node("flora:bone_sapling_big", {
+minetest.register_node("flora:sapling_big_bone", {
 	description = S("Big Bone Tree Sapling"),
 	drawtype = "plantlike",
 	tiles = {"flora_bone_sapling_big.png"},
@@ -880,7 +880,7 @@ minetest.register_node("flora:bone_sapling_big", {
 	end,
 })
 
-minetest.register_node("flora:crimson_leaves", {
+minetest.register_node("flora:leaves_crimson", {
 	description = S("Crimson Leaves"),
 	drawtype = "allfaces_optional",
 	tiles = {"flora_crimson_leaves.png"},
@@ -909,7 +909,7 @@ minetest.register_node("flora:crimson_leaves", {
 
 -- Bonsai Trees
 
-minetest.register_node("flora:jungle_tree_bonsai", {
+minetest.register_node("flora:bonsai_jungle", {
 	description = ccore.comment("Bonsai Jungle Tree", "Doesn't grow"),
 	drawtype = "plantlike",
 	tiles = {"flora_junglesapling.png"},
@@ -923,7 +923,7 @@ minetest.register_node("flora:jungle_tree_bonsai", {
 	sounds = default.node_sound_leaves_defaults(),
 })
 
-minetest.register_node("flora:jungle_tree_big_bonsai", {
+minetest.register_node("flora:bonsai_big_jungle", {
 	description = ccore.comment("Bonsai Big Jungle Tree", "Doesn't grow"),
 	drawtype = "plantlike",
 	tiles = {"flora_emergent_jungle_sapling.png"},
@@ -937,7 +937,7 @@ minetest.register_node("flora:jungle_tree_big_bonsai", {
 	sounds = default.node_sound_leaves_defaults(),
 })
 
-minetest.register_node("flora:tree_bonsai", {
+minetest.register_node("flora:bonsai", {
 	description = ccore.comment("Bonsai Apple Tree", "Doesn't grow"),
 	drawtype = "plantlike",
 	tiles = {"flora_sapling.png"},
@@ -951,7 +951,7 @@ minetest.register_node("flora:tree_bonsai", {
 	sounds = default.node_sound_leaves_defaults(),
 })
 
-minetest.register_node("flora:tree_big_bonsai", {
+minetest.register_node("flora:bonsai_big", {
 	description = ccore.comment("Bonsai Big Apple Tree", "Doesn't grow"),
 	drawtype = "plantlike",
 	tiles = {"flora_sapling_big.png"},
@@ -965,7 +965,7 @@ minetest.register_node("flora:tree_big_bonsai", {
 	sounds = default.node_sound_leaves_defaults(),
 })
 
-minetest.register_node("flora:pine_tree_bonsai", {
+minetest.register_node("flora:bonsai_pine", {
 	description = ccore.comment("Bonsai Pine Tree", "Doesn't grow"),
 	drawtype = "plantlike",
 	tiles = {"flora_pine_sapling.png"},
@@ -979,7 +979,7 @@ minetest.register_node("flora:pine_tree_bonsai", {
 	sounds = default.node_sound_leaves_defaults(),
 })
 
-minetest.register_node("flora:pine_tree_big_bonsai", {
+minetest.register_node("flora:bonsai_big_pine", {
 	description = ccore.comment("Bonsai Big Pine Tree", "Doesn't grow"),
 	drawtype = "plantlike",
 	tiles = {"flora_pine_sapling_big.png"},
@@ -993,7 +993,7 @@ minetest.register_node("flora:pine_tree_big_bonsai", {
 	sounds = default.node_sound_leaves_defaults(),
 })
 
-minetest.register_node("flora:acacia_tree_bonsai", {
+minetest.register_node("flora:bonsai_acacia", {
 	description = ccore.comment("Bonsai Acacia Tree", "Doesn't grow"),
 	drawtype = "plantlike",
 	tiles = {"flora_acacia_sapling.png"},
@@ -1007,7 +1007,7 @@ minetest.register_node("flora:acacia_tree_bonsai", {
 	sounds = default.node_sound_leaves_defaults(),
 })
 
-minetest.register_node("flora:acacia_tree_big_bonsai", {
+minetest.register_node("flora:bonsai_big_acacia", {
 	description = ccore.comment("Bonsai Big Acacia Tree", "Doesn't grow"),
 	drawtype = "plantlike",
 	tiles = {"flora_acacia_sapling_big.png"},
@@ -1021,7 +1021,7 @@ minetest.register_node("flora:acacia_tree_big_bonsai", {
 	sounds = default.node_sound_leaves_defaults(),
 })
 
-minetest.register_node("flora:aspen_tree_bonsai", {
+minetest.register_node("flora:bonsai_aspen", {
 	description = ccore.comment("Bonsai Aspen Tree", "Doesn't grow"),
 	drawtype = "plantlike",
 	tiles = {"flora_aspen_sapling.png"},
@@ -1035,7 +1035,7 @@ minetest.register_node("flora:aspen_tree_bonsai", {
 	sounds = default.node_sound_leaves_defaults(),
 })
 
-minetest.register_node("flora:aspen_tree_big_bonsai", {
+minetest.register_node("flora:bonsai_big_aspen", {
 	description = ccore.comment("Bonsai Big Aspen Tree", "Doesn't grow"),
 	drawtype = "plantlike",
 	tiles = {"flora_aspen_sapling_big.png"},
@@ -1049,7 +1049,7 @@ minetest.register_node("flora:aspen_tree_big_bonsai", {
 	sounds = default.node_sound_leaves_defaults(),
 })
 
-minetest.register_node("flora:cherry_tree_bonsai", {
+minetest.register_node("flora:bonsai_cherry", {
 	description = ccore.comment("Bonsai Cherry Tree", "Doesn't grow"),
 	drawtype = "plantlike",
 	tiles = {"flora_cherry_sapling.png"},
@@ -1063,7 +1063,7 @@ minetest.register_node("flora:cherry_tree_bonsai", {
 	sounds = default.node_sound_leaves_defaults(),
 })
 
-minetest.register_node("flora:cherry_tree_big_bonsai", {
+minetest.register_node("flora:bonsai_big_cherry", {
 	description = ccore.comment("Bonsai Big Cherry Tree", "Doesn't grow"),
 	drawtype = "plantlike",
 	tiles = {"flora_cherry_sapling_big.png"},
@@ -1077,7 +1077,7 @@ minetest.register_node("flora:cherry_tree_big_bonsai", {
 	sounds = default.node_sound_leaves_defaults(),
 })
 
-minetest.register_node("flora:bone_tree_bonsai", {
+minetest.register_node("flora:bonsai_bone", {
 	description = ccore.comment("Bonsai Bone Tree", "Doesn't grow"),
 	drawtype = "plantlike",
 	tiles = {"flora_bone_sapling.png"},
@@ -1091,7 +1091,7 @@ minetest.register_node("flora:bone_tree_bonsai", {
 	sounds = default.node_sound_leaves_defaults(),
 })
 
-minetest.register_node("flora:bone_tree_big_bonsai", {
+minetest.register_node("flora:bonsai_big_bone", {
 	description = ccore.comment("Bonsai Big Bone Tree", "Doesn't grow"),
 	drawtype = "plantlike",
 	tiles = {"flora_bone_sapling_big.png"},
@@ -1166,7 +1166,7 @@ minetest.register_node("flora:shrubbery_tall", {
 	sounds = default.node_sound_leaves_defaults(),
 })
 
-minetest.register_node("flora:acacia_tree_shrubbery", {
+minetest.register_node("flora:shrubbery_acacia", {
 	description = "Acacia Tree Shrubbery",
 	drawtype = "mesh",
 	mesh = "shrubbery.obj",
@@ -1178,7 +1178,7 @@ minetest.register_node("flora:acacia_tree_shrubbery", {
 	sounds = default.node_sound_leaves_defaults(),
 })
 
-minetest.register_node("flora:acacia_tree_shrubbery_big", {
+minetest.register_node("flora:shrubbery_big_acacia", {
 	description = "Big Acacia Tree Shrubbery Base",
 	drawtype = "mesh",
 	mesh = "shrubbery_big.obj",
@@ -1190,7 +1190,7 @@ minetest.register_node("flora:acacia_tree_shrubbery_big", {
 	sounds = default.node_sound_leaves_defaults(),
 })
 
-minetest.register_node("flora:acacia_tree_shrubbery_top", {
+minetest.register_node("flora:shrubbery_top_acacia", {
 	description = "Big Acacia Tree Shrubbery",
 	drawtype = "allfaces",
 	tiles = {"flora_acacia_shrubbery.png"},
@@ -1201,7 +1201,7 @@ minetest.register_node("flora:acacia_tree_shrubbery_top", {
 	sounds = default.node_sound_leaves_defaults(),
 })
 
-minetest.register_node("flora:acacia_tree_shrubbery_tall", {
+minetest.register_node("flora:shrubbery_tall_acacia", {
 	description = "Tall Acacia Tree Shrubbery",
 	drawtype = "mesh",
 	mesh = "shrubbery_tall.obj",
@@ -1225,7 +1225,7 @@ minetest.register_node("flora:acacia_tree_shrubbery_tall", {
 	sounds = default.node_sound_leaves_defaults(),
 })
 
-minetest.register_node("flora:aspen_tree_shrubbery", {
+minetest.register_node("flora:shrubbery_aspen", {
 	description = "Aspen Tree Shrubbery",
 	drawtype = "mesh",
 	mesh = "shrubbery.obj",
@@ -1237,7 +1237,7 @@ minetest.register_node("flora:aspen_tree_shrubbery", {
 	sounds = default.node_sound_leaves_defaults(),
 })
 
-minetest.register_node("flora:aspen_tree_shrubbery_big", {
+minetest.register_node("flora:shrubbery_big_aspen", {
 	description = "Big Aspen Tree Shrubbery Base",
 	drawtype = "mesh",
 	mesh = "shrubbery_big.obj",
@@ -1249,7 +1249,7 @@ minetest.register_node("flora:aspen_tree_shrubbery_big", {
 	sounds = default.node_sound_leaves_defaults(),
 })
 
-minetest.register_node("flora:aspen_tree_shrubbery_top", {
+minetest.register_node("flora:shrubbery_top_aspen", {
 	description = "Big Aspen Tree Shrubbery",
 	drawtype = "allfaces",
 	tiles = {"flora_aspen_shrubbery.png"},
@@ -1260,7 +1260,7 @@ minetest.register_node("flora:aspen_tree_shrubbery_top", {
 	sounds = default.node_sound_leaves_defaults(),
 })
 
-minetest.register_node("flora:aspen_tree_shrubbery_tall", {
+minetest.register_node("flora:shrubbery_tall_aspen", {
 	description = "Tall Aspen Tree Shrubbery",
 	drawtype = "mesh",
 	mesh = "shrubbery_tall.obj",
@@ -1284,7 +1284,7 @@ minetest.register_node("flora:aspen_tree_shrubbery_tall", {
 	sounds = default.node_sound_leaves_defaults(),
 })
 
-minetest.register_node("flora:bone_tree_shrubbery", {
+minetest.register_node("flora:shrubbery_bone", {
 	description = "Bone Tree Shrubbery",
 	drawtype = "mesh",
 	mesh = "shrubbery.obj",
@@ -1296,7 +1296,7 @@ minetest.register_node("flora:bone_tree_shrubbery", {
 	sounds = default.node_sound_leaves_defaults(),
 })
 
-minetest.register_node("flora:bone_tree_shrubbery_big", {
+minetest.register_node("flora:shrubbery_big_bone", {
 	description = "Big Bone Tree Shrubbery Base",
 	drawtype = "mesh",
 	mesh = "shrubbery_big.obj",
@@ -1308,7 +1308,7 @@ minetest.register_node("flora:bone_tree_shrubbery_big", {
 	sounds = default.node_sound_leaves_defaults(),
 })
 
-minetest.register_node("flora:bone_tree_shrubbery_top", {
+minetest.register_node("flora:shrubbery_top_bone", {
 	description = "Big Bone Tree Shrubbery",
 	drawtype = "allfaces",
 	tiles = {"flora_crimson_shrubbery.png"},
@@ -1319,7 +1319,7 @@ minetest.register_node("flora:bone_tree_shrubbery_top", {
 	sounds = default.node_sound_leaves_defaults(),
 })
 
-minetest.register_node("flora:bone_tree_shrubbery_tall", {
+minetest.register_node("flora:shrubbery_tall_bone", {
 	description = "Tall Bone Tree Shrubbery",
 	drawtype = "mesh",
 	mesh = "shrubbery_tall.obj",
@@ -1343,7 +1343,7 @@ minetest.register_node("flora:bone_tree_shrubbery_tall", {
 	sounds = default.node_sound_leaves_defaults(),
 })
 
-minetest.register_node("flora:cherry_tree_shrubbery", {
+minetest.register_node("flora:shrubbery_cherry", {
 	description = "Cherry Tree Shrubbery",
 	drawtype = "mesh",
 	mesh = "shrubbery.obj",
@@ -1355,7 +1355,7 @@ minetest.register_node("flora:cherry_tree_shrubbery", {
 	sounds = default.node_sound_leaves_defaults(),
 })
 
-minetest.register_node("flora:cherry_tree_shrubbery_big", {
+minetest.register_node("flora:shrubbery_big_cherry", {
 	description = "Big Cherry Tree Shrubbery Base",
 	drawtype = "mesh",
 	mesh = "shrubbery_big.obj",
@@ -1367,7 +1367,7 @@ minetest.register_node("flora:cherry_tree_shrubbery_big", {
 	sounds = default.node_sound_leaves_defaults(),
 })
 
-minetest.register_node("flora:cherry_tree_shrubbery_top", {
+minetest.register_node("flora:shrubbery_top_cherry", {
 	description = "Big Cherry Tree Shrubbery",
 	drawtype = "allfaces",
 	tiles = {"flora_cherry_shrubbery.png"},
@@ -1378,7 +1378,7 @@ minetest.register_node("flora:cherry_tree_shrubbery_top", {
 	sounds = default.node_sound_leaves_defaults(),
 })
 
-minetest.register_node("flora:cherry_tree_shrubbery_tall", {
+minetest.register_node("flora:shrubbery_tall_cherry", {
 	description = "Tall Cherry Tree Shrubbery",
 	drawtype = "mesh",
 	mesh = "shrubbery_tall.obj",
@@ -1402,7 +1402,7 @@ minetest.register_node("flora:cherry_tree_shrubbery_tall", {
 	sounds = default.node_sound_leaves_defaults(),
 })
 
-minetest.register_node("flora:dry_shrubbery", {
+minetest.register_node("flora:shrubbery_dry", {
 	description = "Dry Shrubbery",
 	drawtype = "mesh",
 	mesh = "shrubbery.obj",
@@ -1414,7 +1414,7 @@ minetest.register_node("flora:dry_shrubbery", {
 	sounds = default.node_sound_leaves_defaults(),
 })
 
-minetest.register_node("flora:dry_shrubbery_big", {
+minetest.register_node("flora:shrubbery_big_dry", {
 	description = "Dry Big Shrubbery Base",
 	drawtype = "mesh",
 	mesh = "shrubbery_big.obj",
@@ -1426,7 +1426,7 @@ minetest.register_node("flora:dry_shrubbery_big", {
 	sounds = default.node_sound_leaves_defaults(),
 })
 
-minetest.register_node("flora:dry_shrubbery_top", {
+minetest.register_node("flora:shrubbery_top_dry", {
 	description = "Dry Big Shrubbery",
 	drawtype = "allfaces",
 	tiles = {"flora_dry_shrubbery.png"},
@@ -1438,7 +1438,7 @@ minetest.register_node("flora:dry_shrubbery_top", {
 })
 
 
-minetest.register_node("flora:dry_shrubbery_tall", {
+minetest.register_node("flora:shrubbery_tall_dry", {
 	description = "Dry Tall Shrubbery",
 	drawtype = "mesh",
 	mesh = "shrubbery_tall.obj",
@@ -1462,7 +1462,7 @@ minetest.register_node("flora:dry_shrubbery_tall", {
 	sounds = default.node_sound_leaves_defaults(),
 })
 
-minetest.register_node("flora:jungle_tree_shrubbery", {
+minetest.register_node("flora:shrubbery_jungle", {
 	description = "Jungle Tree Shrubbery",
 	drawtype = "mesh",
 	mesh = "shrubbery.obj",
@@ -1474,7 +1474,7 @@ minetest.register_node("flora:jungle_tree_shrubbery", {
 	sounds = default.node_sound_leaves_defaults(),
 })
 
-minetest.register_node("flora:jungle_tree_shrubbery_big", {
+minetest.register_node("flora:shrubbery_big_jungle", {
 	description = "Big Jungle Tree Shrubbery Base",
 	drawtype = "mesh",
 	mesh = "shrubbery_big.obj",
@@ -1486,7 +1486,7 @@ minetest.register_node("flora:jungle_tree_shrubbery_big", {
 	sounds = default.node_sound_leaves_defaults(),
 })
 
-minetest.register_node("flora:jungle_tree_shrubbery_top", {
+minetest.register_node("flora:shrubbery_top_jungle", {
 	description = "Big Jungle Tree Shrubbery",
 	drawtype = "allfaces",
 	tiles = {"flora_jungle_shrubbery.png"},
@@ -1498,7 +1498,7 @@ minetest.register_node("flora:jungle_tree_shrubbery_top", {
 })
 
 
-minetest.register_node("flora:jungle_tree_shrubbery_tall", {
+minetest.register_node("flora:shrubbery_tall_jungle", {
 	description = "Tall Jungle Tree Shrubbery",
 	drawtype = "mesh",
 	mesh = "shrubbery_tall.obj",
@@ -1522,7 +1522,7 @@ minetest.register_node("flora:jungle_tree_shrubbery_tall", {
 	sounds = default.node_sound_leaves_defaults(),
 })
 
-minetest.register_node("flora:pine_tree_shrubbery", {
+minetest.register_node("flora:shrubbery_pine", {
 	description = "Pine Tree Shrubbery",
 	drawtype = "mesh",
 	mesh = "shrubbery.obj",
@@ -1534,7 +1534,7 @@ minetest.register_node("flora:pine_tree_shrubbery", {
 	sounds = default.node_sound_leaves_defaults(),
 })
 
-minetest.register_node("flora:pine_tree_shrubbery_big", {
+minetest.register_node("flora:shrubbery_big_pine", {
 	description = "Big Pine Tree Shrubbery Base",
 	drawtype = "mesh",
 	mesh = "shrubbery_big.obj",
@@ -1546,7 +1546,7 @@ minetest.register_node("flora:pine_tree_shrubbery_big", {
 	sounds = default.node_sound_leaves_defaults(),
 })
 
-minetest.register_node("flora:pine_tree_shrubbery_top", {
+minetest.register_node("flora:shrubbery_top_pine", {
 	description = "Big Pine Tree Shrubbery",
 	drawtype = "allfaces",
 	tiles = {"flora_pine_shrubbery.png"},
@@ -1557,7 +1557,7 @@ minetest.register_node("flora:pine_tree_shrubbery_top", {
 	sounds = default.node_sound_leaves_defaults(),
 })
 
-minetest.register_node("flora:pine_tree_shrubbery_tall", {
+minetest.register_node("flora:shrubbery_tall_pine", {
 	description = "Tall Pine Tree Shrubbery",
 	drawtype = "mesh",
 	mesh = "shrubbery_tall.obj",
@@ -1593,8 +1593,8 @@ if minetest.get_mapgen_setting("mg_name") == "v6" then
 	})
 
 	default.register_leafdecay({
-		trunks = {"flora:jungletree"},
-		leaves = {"flora:jungleleaves"},
+		trunks = {"flora:tree_jungle"},
+		leaves = {"flora:leaves_jungle"},
 		radius = 3,
 	})
 else
@@ -1605,39 +1605,39 @@ else
 	})
 
 	default.register_leafdecay({
-		trunks = {"flora:jungletree"},
-		leaves = {"flora:jungleleaves"},
+		trunks = {"flora:tree_jungle"},
+		leaves = {"flora:leaves_jungle"},
 		radius = 2,
 	})
 end
 
 default.register_leafdecay({
-	trunks = {"flora:pine_tree"},
-	leaves = {"flora:pine_needles"},
+	trunks = {"flora:tree_pine"},
+	leaves = {"flora:needles_pine"},
 	radius = 3,
 })
 
 default.register_leafdecay({
-	trunks = {"flora:acacia_tree"},
-	leaves = {"flora:acacia_leaves"},
+	trunks = {"flora:tree_acacia"},
+	leaves = {"flora:leaves_acacia"},
 	radius = 2,
 })
 
 default.register_leafdecay({
-	trunks = {"flora:aspen_tree"},
-	leaves = {"flora:aspen_leaves"},
+	trunks = {"flora:tree_aspen"},
+	leaves = {"flora:leaves_aspen"},
 	radius = 3,
 })
 
 default.register_leafdecay({
-	trunks = {"flora:cherry_tree"},
-	leaves = {"flora:cherry_leaves"},
+	trunks = {"flora:tree_cherry"},
+	leaves = {"flora:leaves_cherry"},
 	radius = 3,
 })
 
 default.register_leafdecay({
-	trunks = {"flora:bone_tree"},
-	leaves = {"flora:crimson_leaves"},
+	trunks = {"flora:tree_bone"},
+	leaves = {"flora:leaves_crimson"},
 	radius = 2,
 })
 
@@ -1646,39 +1646,39 @@ default.register_leafdecay({
 --
 
 minetest.register_craft({
-	output = "flora:emergent_jungle_sapling",
+	output = "flora:sapling_emergent_jungle",
 	recipe = {
-		{"flora:junglesapling", "flora:junglesapling", "flora:junglesapling"},
-		{"flora:junglesapling", "flora:junglesapling", "flora:junglesapling"},
-		{"flora:junglesapling", "flora:junglesapling", "flora:junglesapling"},
+		{"flora:sapling_jungle", "flora:sapling_jungle", "flora:sapling_jungle"},
+		{"flora:sapling_jungle", "flora:sapling_jungle", "flora:sapling_jungle"},
+		{"flora:sapling_jungle", "flora:sapling_jungle", "flora:sapling_jungle"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:jungle_tree_big_bonsai",
+	output = "flora:bonsai_big_jungle",
 	recipe = {
-		{"flora:emergent_jungle_sapling"},
+		{"flora:sapling_emergent_jungle"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:emergent_jungle_sapling",
+	output = "flora:sapling_emergent_jungle",
 	recipe = {
-		{"flora:jungle_tree_big_bonsai"},
+		{"flora:bonsai_big_jungle"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:jungle_tree_bonsai",
+	output = "flora:bonsai_jungle",
 	recipe = {
-		{"flora:junglesapling"},
+		{"flora:sapling_jungle"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:junglesapling",
+	output = "flora:sapling_jungle",
 	recipe = {
-		{"flora:jungle_tree_bonsai"},
+		{"flora:bonsai_jungle"},
 	}
 })
 
@@ -1692,7 +1692,7 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = "flora:tree_big_bonsai",
+	output = "flora:bonsai_big",
 	recipe = {
 		{"flora:sapling_big"},
 	}
@@ -1701,12 +1701,12 @@ minetest.register_craft({
 minetest.register_craft({
 	output = "flora:sapling_big",
 	recipe = {
-		{"flora:tree_big_bonsai"},
+		{"flora:bonsai_big"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:tree_bonsai",
+	output = "flora:bonsai",
 	recipe = {
 		{"flora:sapling"},
 	}
@@ -1715,192 +1715,192 @@ minetest.register_craft({
 minetest.register_craft({
 	output = "flora:sapling",
 	recipe = {
-		{"flora:tree_bonsai"},
+		{"flora:bonsai"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:pine_sapling_big",
+	output = "flora:sapling_big_pine",
 	recipe = {
-		{"flora:pine_sapling", "flora:pine_sapling", "flora:pine_sapling"},
-		{"flora:pine_sapling", "flora:pine_sapling", "flora:pine_sapling"},
-		{"flora:pine_sapling", "flora:pine_sapling", "flora:pine_sapling"},
+		{"flora:sapling_pine", "flora:sapling_pine", "flora:sapling_pine"},
+		{"flora:sapling_pine", "flora:sapling_pine", "flora:sapling_pine"},
+		{"flora:sapling_pine", "flora:sapling_pine", "flora:sapling_pine"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:pine_tree_big_bonsai",
+	output = "flora:bonsai_big_pine",
 	recipe = {
-		{"flora:pine_sapling_big"},
+		{"flora:sapling_big_pine"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:pine_sapling_big",
+	output = "flora:sapling_big_pine",
 	recipe = {
-		{"flora:pine_tree_big_bonsai"},
+		{"flora:bonsai_big_pine"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:pine_tree_bonsai",
+	output = "flora:bonsai_pine",
 	recipe = {
-		{"flora:pine_sapling"},
+		{"flora:sapling_pine"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:pine_sapling",
+	output = "flora:sapling_pine",
 	recipe = {
-		{"flora:pine_tree_bonsai"},
+		{"flora:bonsai_pine"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:acacia_sapling_big",
+	output = "flora:sapling_big_acacia",
 	recipe = {
-		{"flora:acacia_sapling", "flora:acacia_sapling", "flora:acacia_sapling"},
-		{"flora:acacia_sapling", "flora:acacia_sapling", "flora:acacia_sapling"},
-		{"flora:acacia_sapling", "flora:acacia_sapling", "flora:acacia_sapling"},
+		{"flora:sapling_acacia", "flora:sapling_acacia", "flora:sapling_acacia"},
+		{"flora:sapling_acacia", "flora:sapling_acacia", "flora:sapling_acacia"},
+		{"flora:sapling_acacia", "flora:sapling_acacia", "flora:sapling_acacia"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:acacia_tree_big_bonsai",
+	output = "flora:bonsai_big_acacia",
 	recipe = {
-		{"flora:acacia_sapling_big"},
+		{"flora:sapling_big_acacia"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:acacia_sapling_big",
+	output = "flora:sapling_big_acacia",
 	recipe = {
-		{"flora:acacia_tree_big_bonsai"},
+		{"flora:bonsai_big_acacia"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:acacia_tree_bonsai",
+	output = "flora:bonsai_acacia",
 	recipe = {
-		{"flora:acacia_sapling"},
+		{"flora:sapling_acacia"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:acacia_sapling",
+	output = "flora:sapling_acacia",
 	recipe = {
-		{"flora:acacia_tree_bonsai"},
+		{"flora:bonsai_acacia"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:aspen_sapling_big",
+	output = "flora:sapling_big_aspen",
 	recipe = {
-		{"flora:aspen_sapling", "flora:aspen_sapling", "flora:aspen_sapling"},
-		{"flora:aspen_sapling", "flora:aspen_sapling", "flora:aspen_sapling"},
-		{"flora:aspen_sapling", "flora:aspen_sapling", "flora:aspen_sapling"},
+		{"flora:sapling_aspen", "flora:sapling_aspen", "flora:sapling_aspen"},
+		{"flora:sapling_aspen", "flora:sapling_aspen", "flora:sapling_aspen"},
+		{"flora:sapling_aspen", "flora:sapling_aspen", "flora:sapling_aspen"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:aspen_tree_big_bonsai",
+	output = "flora:bonsai_big_aspen",
 	recipe = {
-		{"flora:aspen_sapling_big"},
+		{"flora:sapling_big_aspen"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:aspen_sapling_big",
+	output = "flora:sapling_big_aspen",
 	recipe = {
-		{"flora:aspen_tree_big_bonsai"},
+		{"flora:bonsai_big_aspen"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:aspen_tree_bonsai",
+	output = "flora:bonsai_aspen",
 	recipe = {
-		{"flora:aspen_sapling"},
+		{"flora:sapling_aspen"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:aspen_sapling",
+	output = "flora:sapling_aspen",
 	recipe = {
-		{"flora:aspen_tree_bonsai"},
+		{"flora:bonsai_aspen"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:cherry_sapling_big",
+	output = "flora:sapling_big_cherry",
 	recipe = {
-		{"flora:cherry_sapling", "flora:cherry_sapling", "flora:cherry_sapling"},
-		{"flora:cherry_sapling", "flora:cherry_sapling", "flora:cherry_sapling"},
-		{"flora:cherry_sapling", "flora:cherry_sapling", "flora:cherry_sapling"},
+		{"flora:sapling_cherry", "flora:sapling_cherry", "flora:sapling_cherry"},
+		{"flora:sapling_cherry", "flora:sapling_cherry", "flora:sapling_cherry"},
+		{"flora:sapling_cherry", "flora:sapling_cherry", "flora:sapling_cherry"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:cherry_tree_big_bonsai",
+	output = "flora:bonsai_big_cherry",
 	recipe = {
-		{"flora:cherry_sapling_big"},
+		{"flora:sapling_big_cherry"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:cherry_sapling_big",
+	output = "flora:sapling_big_cherry",
 	recipe = {
-		{"flora:cherry_tree_big_bonsai"},
+		{"flora:bonsai_big_cherry"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:cherry_tree_bonsai",
+	output = "flora:bonsai_cherry",
 	recipe = {
-		{"flora:cherry_sapling"},
+		{"flora:sapling_cherry"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:cherry_sapling",
+	output = "flora:sapling_cherry",
 	recipe = {
-		{"flora:cherry_tree_bonsai"},
+		{"flora:bonsai_cherry"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:bone_sapling_big",
+	output = "flora:sapling_big_bone",
 	recipe = {
-		{"flora:bone_sapling", "flora:bone_sapling", "flora:bone_sapling"},
-		{"flora:bone_sapling", "flora:bone_sapling", "flora:bone_sapling"},
-		{"flora:bone_sapling", "flora:bone_sapling", "flora:bone_sapling"},
+		{"flora:sapling_bone", "flora:sapling_bone", "flora:sapling_bone"},
+		{"flora:sapling_bone", "flora:sapling_bone", "flora:sapling_bone"},
+		{"flora:sapling_bone", "flora:sapling_bone", "flora:sapling_bone"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:bone_tree_big_bonsai",
+	output = "flora:bonsai_big_bone",
 	recipe = {
-		{"flora:bone_sapling_big"},
+		{"flora:sapling_big_bone"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:bone_sapling_big",
+	output = "flora:sapling_big_bone",
 	recipe = {
-		{"flora:bone_tree_big_bonsai"},
+		{"flora:bonsai_big_bone"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:bone_tree_bonsai",
+	output = "flora:bonsai_bone",
 	recipe = {
-		{"flora:bone_sapling"},
+		{"flora:sapling_bone"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:bone_sapling",
+	output = "flora:sapling_bone",
 	recipe = {
-		{"flora:bone_tree_bonsai"},
+		{"flora:bonsai_bone"},
 	}
 })
 
@@ -1940,270 +1940,282 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = "flora:acacia_tree_shrubbery",
+	output = "flora:shrubbery_acacia",
 	recipe = {
-		{"flora:acacia_leaves", "flora:acacia_leaves"},
-		{"flora:acacia_leaves", "flora:acacia_leaves"},
+		{"flora:leaves_acacia", "flora:leaves_acacia"},
+		{"flora:leaves_acacia", "flora:leaves_acacia"},
 		{"blocks:stick", "blocks:stick"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:acacia_tree_shrubbery_big",
+	output = "flora:shrubbery_big_acacia",
 	recipe = {
-		{"flora:acacia_leaves", "flora:acacia_leaves", "flora:acacia_leaves"},
-		{"flora:acacia_leaves", "flora:acacia_leaves", "flora:acacia_leaves"},
+		{"flora:leaves_acacia", "flora:leaves_acacia", "flora:leaves_acacia"},
+		{"flora:leaves_acacia", "flora:leaves_acacia", "flora:leaves_acacia"},
 		{"blocks:stick", "blocks:stick", "blocks:stick"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:acacia_tree_shrubbery_top",
+	output = "flora:shrubbery_top_acacia",
 	recipe = {
-		{"flora:acacia_leaves", "flora:acacia_leaves", "flora:acacia_leaves"},
-		{"flora:acacia_leaves", "flora:acacia_leaves", "flora:acacia_leaves"},
-		{"flora:acacia_leaves", "flora:acacia_leaves", "flora:acacia_leaves"},
+		{"flora:leaves_acacia", "flora:leaves_acacia", "flora:leaves_acacia"},
+		{"flora:leaves_acacia", "flora:leaves_acacia", "flora:leaves_acacia"},
+		{"flora:leaves_acacia", "flora:leaves_acacia", "flora:leaves_acacia"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:acacia_tree_shrubbery_tall",
+	output = "flora:shrubbery_tall_acacia",
 	recipe = {
-		{"flora:acacia_tree_shrubbery"},
-		{"flora:acacia_tree_shrubbery"},
+		{"flora:shrubbery_acacia"},
+		{"flora:shrubbery_acacia"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:aspen_tree_shrubbery",
+	output = "flora:shrubbery_aspen",
 	recipe = {
-		{"flora:aspen_leaves", "flora:aspen_leaves"},
-		{"flora:aspen_leaves", "flora:aspen_leaves"},
+		{"flora:leaves_aspen", "flora:leaves_aspen"},
+		{"flora:leaves_aspen", "flora:leaves_aspen"},
 		{"blocks:stick", "blocks:stick"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:aspen_tree_shrubbery_big",
+	output = "flora:shrubbery_big_aspen",
 	recipe = {
-		{"flora:aspen_leaves", "flora:aspen_leaves", "flora:aspen_leaves"},
-		{"flora:aspen_leaves", "flora:aspen_leaves", "flora:aspen_leaves"},
+		{"flora:leaves_aspen", "flora:leaves_aspen", "flora:leaves_aspen"},
+		{"flora:leaves_aspen", "flora:leaves_aspen", "flora:leaves_aspen"},
 		{"blocks:stick", "blocks:stick", "blocks:stick"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:aspen_tree_shrubbery_top",
+	output = "flora:shrubbery_top_aspen",
 	recipe = {
-		{"flora:aspen_leaves", "flora:aspen_leaves", "flora:aspen_leaves"},
-		{"flora:aspen_leaves", "flora:aspen_leaves", "flora:aspen_leaves"},
-		{"flora:aspen_leaves", "flora:aspen_leaves", "flora:aspen_leaves"},
+		{"flora:leaves_aspen", "flora:leaves_aspen", "flora:leaves_aspen"},
+		{"flora:leaves_aspen", "flora:leaves_aspen", "flora:leaves_aspen"},
+		{"flora:leaves_aspen", "flora:leaves_aspen", "flora:leaves_aspen"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:aspen_tree_shrubbery_tall",
+	output = "flora:shrubbery_tall_aspen",
 	recipe = {
-		{"flora:aspen_tree_shrubbery"},
-		{"flora:aspen_tree_shrubbery"},
+		{"flora:shrubbery_aspen"},
+		{"flora:shrubbery_aspen"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:bone_tree_shrubbery",
+	output = "flora:shrubbery_bone",
 	recipe = {
-		{"flora:crimson_leaves", "flora:crimson_leaves"},
-		{"flora:crimson_leaves", "flora:crimson_leaves"},
+		{"flora:leaves_crimson", "flora:leaves_crimson"},
+		{"flora:leaves_crimson", "flora:leaves_crimson"},
 		{"blocks:bone", "blocks:bone"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:bone_tree_shrubbery_big",
+	output = "flora:shrubbery_big_bone",
 	recipe = {
-		{"flora:crimson_leaves", "flora:crimson_leaves", "flora:crimson_leaves"},
-		{"flora:crimson_leaves", "flora:crimson_leaves", "flora:crimson_leaves"},
+		{"flora:leaves_crimson", "flora:leaves_crimson", "flora:leaves_crimson"},
+		{"flora:leaves_crimson", "flora:leaves_crimson", "flora:leaves_crimson"},
 		{"blocks:bone", "blocks:bone", "blocks:bone"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:bone_tree_shrubbery_top",
+	output = "flora:shrubbery_top_bone",
 	recipe = {
-		{"flora:crimson_leaves", "flora:crimson_leaves", "flora:crimson_leaves"},
-		{"flora:crimson_leaves", "flora:crimson_leaves", "flora:crimson_leaves"},
-		{"flora:crimson_leaves", "flora:crimson_leaves", "flora:crimson_leaves"},
+		{"flora:leaves_crimson", "flora:leaves_crimson", "flora:leaves_crimson"},
+		{"flora:leaves_crimson", "flora:leaves_crimson", "flora:leaves_crimson"},
+		{"flora:leaves_crimson", "flora:leaves_crimson", "flora:leaves_crimson"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:bone_tree_shrubbery_tall",
+	output = "flora:shrubbery_tall_bone",
 	recipe = {
-		{"flora:bone_tree_shrubbery"},
-		{"flora:bone_tree_shrubbery"},
+		{"flora:shrubbery_bone"},
+		{"flora:shrubbery_bone"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:cherry_tree_shrubbery",
+	output = "flora:shrubbery_cherry",
 	recipe = {
-		{"flora:cherry_leaves", "flora:cherry_leaves"},
-		{"flora:cherry_leaves", "flora:cherry_leaves"},
+		{"flora:leaves_cherry", "flora:leaves_cherry"},
+		{"flora:leaves_cherry", "flora:leaves_cherry"},
 		{"blocks:stick", "blocks:stick"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:cherry_tree_shrubbery_big",
+	output = "flora:shrubbery_big_cherry",
 	recipe = {
-		{"flora:cherry_leaves", "flora:cherry_leaves", "flora:cherry_leaves"},
-		{"flora:cherry_leaves", "flora:cherry_leaves", "flora:cherry_leaves"},
+		{"flora:leaves_cherry", "flora:leaves_cherry", "flora:leaves_cherry"},
+		{"flora:leaves_cherry", "flora:leaves_cherry", "flora:leaves_cherry"},
 		{"blocks:stick", "blocks:stick", "blocks:stick"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:cherry_tree_shrubbery_top",
+	output = "flora:shrubbery_top_cherry",
 	recipe = {
-		{"flora:cherry_leaves", "flora:cherry_leaves", "flora:cherry_leaves"},
-		{"flora:cherry_leaves", "flora:cherry_leaves", "flora:cherry_leaves"},
-		{"flora:cherry_leaves", "flora:cherry_leaves", "flora:cherry_leaves"},
+		{"flora:leaves_cherry", "flora:leaves_cherry", "flora:leaves_cherry"},
+		{"flora:leaves_cherry", "flora:leaves_cherry", "flora:leaves_cherry"},
+		{"flora:leaves_cherry", "flora:leaves_cherry", "flora:leaves_cherry"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:cherry_tree_shrubbery_tall",
+	output = "flora:shrubbery_tall_cherry",
 	recipe = {
-		{"flora:cherry_tree_shrubbery"},
-		{"flora:cherry_tree_shrubbery"},
+		{"flora:shrubbery_cherry"},
+		{"flora:shrubbery_cherry"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:dry_shrubbery",
+	output = "flora:shrubbery_dry",
 	recipe = {
-		{"flora:dry_leaves", "flora:dry_leaves"},
-		{"flora:dry_leaves", "flora:dry_leaves"},
+		{"flora:leaves_dry", "flora:leaves_dry"},
+		{"flora:leaves_dry", "flora:leaves_dry"},
 		{"flora:dry_shrub", "flora:dry_shrub"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:dry_shrubbery_big",
+	output = "flora:shrubbery_big_dry",
 	recipe = {
-		{"flora:dry_leaves", "flora:dry_leaves", "flora:dry_leaves"},
-		{"flora:dry_leaves", "flora:dry_leaves", "flora:dry_leaves"},
+		{"flora:leaves_dry", "flora:leaves_dry", "flora:leaves_dry"},
+		{"flora:leaves_dry", "flora:leaves_dry", "flora:leaves_dry"},
 		{"flora:dry_shrub", "flora:dry_shrub", "flora:dry_shrub"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:dry_shrubbery_top",
+	output = "flora:shrubbery_top_dry",
 	recipe = {
-		{"flora:dry_leaves", "flora:dry_leaves", "flora:dry_leaves"},
-		{"flora:dry_leaves", "flora:dry_leaves", "flora:dry_leaves"},
-		{"flora:dry_leaves", "flora:dry_leaves", "flora:dry_leaves"},
+		{"flora:leaves_dry", "flora:leaves_dry", "flora:leaves_dry"},
+		{"flora:leaves_dry", "flora:leaves_dry", "flora:leaves_dry"},
+		{"flora:leaves_dry", "flora:leaves_dry", "flora:leaves_dry"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:dry_shrubbery_tall",
+	output = "flora:shrubbery_tall_dry",
 	recipe = {
-		{"flora:dry_shrubbery"},
-		{"flora:dry_shrubbery"},
+		{"flora:shrubbery_dry"},
+		{"flora:shrubbery_dry"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:jungle_tree_shrubbery",
+	output = "flora:shrubbery_jungle",
 	recipe = {
-		{"flora:jungleleaves", "flora:jungleleaves"},
-		{"flora:jungleleaves", "flora:jungleleaves"},
+		{"flora:leaves_jungle", "flora:leaves_jungle"},
+		{"flora:leaves_jungle", "flora:leaves_jungle"},
 		{"blocks:stick", "blocks:stick"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:jungle_tree_shrubbery_big",
+	output = "flora:shrubbery_big_jungle",
 	recipe = {
-		{"flora:jungleleaves", "flora:jungleleaves", "flora:jungleleaves"},
-		{"flora:jungleleaves", "flora:jungleleaves", "flora:jungleleaves"},
+		{"flora:leaves_jungle", "flora:leaves_jungle", "flora:leaves_jungle"},
+		{"flora:leaves_jungle", "flora:leaves_jungle", "flora:leaves_jungle"},
 		{"blocks:stick", "blocks:stick", "blocks:stick"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:jungle_tree_shrubbery_top",
+	output = "flora:shrubbery_top_jungle",
 	recipe = {
-		{"flora:jungleleaves", "flora:jungleleaves", "flora:jungleleaves"},
-		{"flora:jungleleaves", "flora:jungleleaves", "flora:jungleleaves"},
-		{"flora:jungleleaves", "flora:jungleleaves", "flora:jungleleaves"},
+		{"flora:leaves_jungle", "flora:leaves_jungle", "flora:leaves_jungle"},
+		{"flora:leaves_jungle", "flora:leaves_jungle", "flora:leaves_jungle"},
+		{"flora:leaves_jungle", "flora:leaves_jungle", "flora:leaves_jungle"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:jungle_tree_shrubbery_tall",
+	output = "flora:shrubbery_tall_jungle",
 	recipe = {
-		{"flora:jungle_tree_shrubbery"},
-		{"flora:jungle_tree_shrubbery"},
+		{"flora:shrubbery_jungle"},
+		{"flora:shrubbery_jungle"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:pine_tree_shrubbery",
+	output = "flora:shrubbery_pine",
 	recipe = {
-		{"flora:pine_needles", "flora:pine_needles"},
-		{"flora:pine_needles", "flora:pine_needles"},
+		{"flora:needles_pine", "flora:needles_pine"},
+		{"flora:needles_pine", "flora:needles_pine"},
 		{"blocks:stick", "blocks:stick"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:pine_tree_shrubbery_big",
+	output = "flora:shrubbery_big_pine",
 	recipe = {
-		{"flora:pine_needles", "flora:pine_needles", "flora:pine_needles"},
-		{"flora:pine_needles", "flora:pine_needles", "flora:pine_needles"},
+		{"flora:needles_pine", "flora:needles_pine", "flora:needles_pine"},
+		{"flora:needles_pine", "flora:needles_pine", "flora:needles_pine"},
 		{"blocks:stick", "blocks:stick", "blocks:stick"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:pine_tree_shrubbery_top",
+	output = "flora:shrubbery_top_pine",
 	recipe = {
-		{"flora:pine_needles", "flora:pine_needles", "flora:pine_needles"},
-		{"flora:pine_needles", "flora:pine_needles", "flora:pine_needles"},
-		{"flora:pine_needles", "flora:pine_needles", "flora:pine_needles"},
+		{"flora:needles_pine", "flora:needles_pine", "flora:needles_pine"},
+		{"flora:needles_pine", "flora:needles_pine", "flora:needles_pine"},
+		{"flora:needles_pine", "flora:needles_pine", "flora:needles_pine"},
 	}
 })
 
 minetest.register_craft({
-	output = "flora:pine_tree_shrubbery_tall",
+	output = "flora:shrubbery_tall_pine",
 	recipe = {
-		{"flora:pine_tree_shrubbery"},
-		{"flora:pine_tree_shrubbery"},
+		{"flora:shrubbery_pine"},
+		{"flora:shrubbery_pine"},
 	}
 })
 
-local bark_craft_list = {"tree", "jungletree", "pine_tree", "acacia_tree", "aspen_tree", "cherry_tree", "bone_tree"}
-for _, names in ipairs(bark_craft_list) do
+
+
+
+local bark_craft_list = {
+    {"tree", "treebark"},
+    {"tree_jungle", "treebark_jungle"},
+    {"tree_pine", "treebark_pine"},
+    {"tree_acacia", "treebark_acacia"},
+    {"tree_aspen", "treebark_aspen"},
+    {"tree_cherry", "treebark_cherry"},
+    {"tree_bone", "tree_bone"}
+}
+
+for _, rows in ipairs(bark_craft_list) do
 	minetest.register_craft({
-		output = "flora:"..names.." 4",
+		output = "flora:"..rows[1].." 4",
 		recipe = {
-			{"flora:"..names.."_bark"},
+			{"flora:"..rows[2]},
 		}
 	})
 
 	minetest.register_craft({
-		output = "flora:"..names.."_bark",
+		output = "flora:"..rows[2],
 		recipe = {
-			{"flora:"..names, "flora:"..names},
-			{"flora:"..names, "flora:"..names},
+			{"flora:"..rows[1], "flora:"..rows[1]},
+			{"flora:"..rows[1], "flora:"..rows[1]},
 		}
 	})
 end
 
 minetest.register_craft({
 	type = "cooking",
-	output = "flora:dry_leaves",
+	output = "flora:leaves_dry",
 	recipe = "group:leaves",
 })

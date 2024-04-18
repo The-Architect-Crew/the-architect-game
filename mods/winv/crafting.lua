@@ -5,12 +5,13 @@ local function apply_craft_result(inv, player)
 	local output = workbench.craft_output(craftlist, "normal", nil, 3, multiplier)
 	local player_inv = player:get_inventory()
 	player_inv:set_list("winv_craftinput", craftlist)
+
 	-- update result
 	if output and output.item then
-        player_inv:set_list("winv_craftoutput", output.item)
+		player_inv:set_list("winv_craftoutput", output.item)
 		inv:set_list("output", output.item)
 	else
-        player_inv:set_list("winv_craftoutput", {})
+		player_inv:set_list("winv_craftoutput", {})
 		inv:set_list("output", {})
 	end
 end
@@ -21,14 +22,15 @@ local function apply_craft_update(inv, listname, player)
 	local craftlist = inv:get_list("input")
 	local outlist = inv:get_list("output")
 	local player_inv = player:get_inventory()
-    player_inv:set_list("winv_craftoutput", outlist)
+	player_inv:set_list("winv_craftoutput", outlist)
+
 	if listname == "output" then
 		local output = workbench.craft_output(craftlist, "normal", nil, 3, multiplier)
 		local remainder = workbench.output_stack(outlist)
 		-- ensure there's nothing remaining in the output list, otherwise prevent modifying the input list
 		if output and output.dinput and meta:get_string("winv_craft_crafted") == "" then
 			player_inv:set_list("winv_craftinput", output.dinput)
-            inv:set_list("input", output.dinput)
+			inv:set_list("input", output.dinput)
 			if remainder > 0 then
 				meta:set_string("winv_craft_crafted", "remainder")
 			end
@@ -53,13 +55,13 @@ local function init_detached_craft(player)
 			end
 			return count
 		end,
-        allow_put = function(inv, listname, index, stack, player2)
+		allow_put = function(inv, listname, index, stack, player2)
 			if listname == "output" then -- prevent putting items into craft output
 				return 0
 			end
 			return stack:get_count()
 		end,
-        allow_take = function(inv, listname, index, stack, player2)
+		allow_take = function(inv, listname, index, stack, player2)
 			if listname == "input" then
 				if meta:get_string("winv_craft_crafted") == "" then
 					return stack:get_count()
@@ -74,13 +76,13 @@ local function init_detached_craft(player)
 				return 0
 			end
 		end,
-        on_move = function(inv, from_list, from_index, to_list, to_index, count, player2)
+		on_move = function(inv, from_list, from_index, to_list, to_index, count, player2)
 			apply_craft_result(inv, player2)
 		end,
-        on_put = function(inv, listname, index, stack, player2)
+		on_put = function(inv, listname, index, stack, player2)
 			apply_craft_result(inv, player2)
 		end,
-        on_take = function(inv, listname, index, stack, player2)
+		on_take = function(inv, listname, index, stack, player2)
 			if listname == "input" then
 				apply_craft_result(inv, player2)
 			elseif listname == "output" then

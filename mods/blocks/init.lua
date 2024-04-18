@@ -1,6 +1,8 @@
 blocks = {}
 
 local path = minetest.get_modpath("blocks")
+-- Alias
+dofile(path.."/alias_old.lua")
 -- Ground
 dofile(path.."/dirt.lua")
 dofile(path.."/snow.lua")

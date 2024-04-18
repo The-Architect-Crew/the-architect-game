@@ -61,18 +61,18 @@ end
 
 local barrel_crafts = {
     { "", "blocks:wood" },
-    { "acacia", "blocks:acacia_wood" },
-    { "aspen", "blocks:aspen_wood" },
-    { "bonewood", "blocks:bonewood" },
-    { "firewood", "blocks:firewood" },
-    { "junglewood", "blocks:junglewood" },
-    { "azure_wood", "blocks:azure_wood" },
-    { "pine_wood", "blocks:pine_wood" },
-    { "cherry_wood", "blocks:cherry_wood" },
-    { "amber_wood", "blocks:amber_wood" },
-    { "dark_wood", "blocks:dark_wood" },
-    { "ghost_wood", "blocks:ghost_wood" },
-    { "viridis_wood", "blocks:viridis_wood" }
+    { "acacia", "blocks:wood_acacia" },
+    { "aspen", "blocks:wood_aspen" },
+    { "bonewood", "blocks:wood_bone" },
+    { "firewood", "blocks:wood_fire" },
+    { "junglewood", "blocks:wood_jungle" },
+    { "azure_wood", "blocks:wood_azure" },
+    { "pine_wood", "blocks:wood_pine" },
+    { "cherry_wood", "blocks:wood_cherry" },
+    { "amber_wood", "blocks:wood_amber" },
+    { "dark_wood", "blocks:wood_dark" },
+    { "ghost_wood", "blocks:wood_ghost" },
+    { "viridis_wood", "blocks:wood_viridis" }
 }
 
 for _, row in ipairs(barrel_crafts) do

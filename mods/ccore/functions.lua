@@ -10,15 +10,14 @@ end
 
 -- Scan groups for forbidden groups
 function ccore.scan_forbidden_groups(groups, forbidden_groups)
-    local result = false
     for name,_ in pairs(groups) do
         for i=1,#forbidden_groups do
             if name == forbidden_groups[i] then
-                result = true
+                return true
             end
         end
     end
-    return result
+    return false
 end
 
 function ccore.belongs(table, value)

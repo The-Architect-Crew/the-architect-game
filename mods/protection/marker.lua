@@ -353,7 +353,9 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 	if not fields.quit then
 		winv.node_receive_fields(player, formname, fields)
 		if winv.node_refresh(player) then
-			marker_show_formspec(pos, player)
+            local area_bounds = get_bounds(pos)
+            area_bounds.pos2.y = area_bounds.pos2.y + tonumber(meta:get_string("area_height")) - 1
+			marker_show_formspec(pos, player, area_bounds)
 		end
 	end
 end)

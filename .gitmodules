@@ -1,3 +1,6 @@
 [submodule "mods/minetest-skygen"]
 	path = mods/minetest-skygen
 	url = https://github.com/theraven262/minetest-skygen
+[submodule "mods/draconis"]
+	path = mods/draconis
+	url = https://github.com/The-Architect-Crew/draconis

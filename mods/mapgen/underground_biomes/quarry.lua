@@ -17,7 +17,7 @@ mapgen.quarry_strata_materials = {"blocks:stone_dark_grey", "blocks:stone_grey",
 
 mapgen.quarry_extended_base = {"blocks:stone", "blocks:stone_dark_grey", "blocks:stone_grey", "blocks:stone_white", "blocks:stone_black"}
 
-mapgen.quarry_terrain_schem_base = {"variations:stone_big_tile", "blocks:stone", "blocks:stone_dark_grey", "blocks:stone_grey", "blocks:stone_white", "blocks:stone_black"}
+mapgen.quarry_terrain_schem_base = {"variations:tile_big_stone", "blocks:stone", "blocks:stone_dark_grey", "blocks:stone_grey", "blocks:stone_white", "blocks:stone_black"}
 
 local random = PcgRandom(262)
 local offset = mapgen.quarry_top
@@ -37,9 +37,9 @@ mapgen.register_quarry_biomes = function()
 	minetest.register_biome({
 		name = "quarry",
 		node_stone = mapgen.quarry_base,
-		node_dungeon = "variations:stone_big_tile",
-        node_dungeon_alt = "variations:stone_cross_tile",
-		node_dungeon_stair = "variations:shapes_stone_tile_stair",
+		node_dungeon = "variations:tile_big_stone",
+        node_dungeon_alt = "variations:tile_cross_stone",
+		node_dungeon_stair = "variations:shapes_tile_stone_stair",
         node_cave_liquid = "air",
 		y_max = mapgen.quarry_top,
 		y_min = mapgen.quarry_bottom,
@@ -302,7 +302,7 @@ mapgen.register_quarry_decorations = function()
             y_min = mapgen.quarry_schematic_lower_margin,
             flags = "force_placement, all_floors, all_ceilings, place_center_x, place_center_y, place_center_z",
             schematic = "schematics/underground/quarry_tunnels" .. i .. ".mts",
-            replacements = {["default:sandstone"] = "air", ["default:sand"] = "variations:stone_big_tile"},
+            replacements = {["default:sandstone"] = "air", ["default:sand"] = "variations:tile_big_stone"},
             rotation = "random"
         })
     end
@@ -322,7 +322,7 @@ mapgen.register_quarry_decorations = function()
     for i=1,3 do
         minetest.register_decoration({
             deco_type = "schematic",
-            place_on = {"variations:stone_big_tile"},
+            place_on = {"variations:tile_big_stone"},
             noise_params = {
                 offset = 0,
                 scale = 0.0005,
@@ -345,7 +345,7 @@ mapgen.register_quarry_decorations = function()
     for i=1,3 do
         minetest.register_decoration({
             deco_type = "schematic",
-            place_on = {"variations:stone_big_tile"},
+            place_on = {"variations:tile_big_stone"},
             noise_params = {
                 offset = 0,
                 scale = 0.0015,
@@ -368,7 +368,7 @@ mapgen.register_quarry_decorations = function()
     for i=1,3 do
         minetest.register_decoration({
             deco_type = "schematic",
-            place_on = {"variations:stone_big_tile"},
+            place_on = {"variations:tile_big_stone"},
             noise_params = {
                 offset = 0,
                 scale = 0.05,
@@ -390,7 +390,7 @@ mapgen.register_quarry_decorations = function()
     for i=1,3 do
         minetest.register_decoration({
             deco_type = "schematic",
-            place_on = {"variations:stone_big_tile"},
+            place_on = {"variations:tile_big_stone"},
             fill_ratio = 0.003,
             y_max = mapgen.quarry_schematic_upper_margin,
             y_min = mapgen.quarry_schematic_lower_margin,
@@ -403,8 +403,8 @@ mapgen.register_quarry_decorations = function()
     end
     minetest.register_decoration({
         deco_type = "simple",
-        place_on = "variations:stone_big_tile",
-        spawn_by = "variations:stone_big_tile",
+        place_on = "variations:tile_big_stone",
+        spawn_by = "variations:tile_big_stone",
         check_offset = -1,
         num_spawn_by = 8,
         sidelen = 8,
@@ -422,7 +422,7 @@ mapgen.register_quarry_decorations = function()
         y_max = mapgen.quarry_top,
         y_min = mapgen.quarry_bottom,
         flags = "all_floors, force_placement",
-        decoration = "variations:stone_big_tile",
+        decoration = "variations:tile_big_stone",
         place_offset_y = -1,
     })
     minetest.register_decoration({
@@ -432,17 +432,17 @@ mapgen.register_quarry_decorations = function()
         y_max = mapgen.quarry_top,
         y_min = mapgen.quarry_bottom,
         flags = "all_floors, all_ceilings, force_placement",
-        decoration = "variations:stone_big_tile",
+        decoration = "variations:tile_big_stone",
         place_offset_y = -1,
     })
     minetest.register_decoration({
         deco_type = "simple",
-        place_on = "variations:stone_big_tile",
+        place_on = "variations:tile_big_stone",
         fill_ratio = 0.95,
         y_max = mapgen.quarry_top,
         y_min = mapgen.quarry_bottom,
         flags = "all_floors, force_placement",
-        decoration = "variations:stone_brick",
+        decoration = "variations:brick_stone",
         place_offset_y = -1,
     })
     minetest.register_decoration({
@@ -452,7 +452,7 @@ mapgen.register_quarry_decorations = function()
         y_max = mapgen.quarry_top,
         y_min = mapgen.quarry_bottom,
         flags = "all_floors, force_placement",
-        decoration = "variations:stone_big_tile",
+        decoration = "variations:tile_big_stone",
         place_offset_y = -1,
     })
     minetest.register_decoration({
@@ -462,7 +462,7 @@ mapgen.register_quarry_decorations = function()
         y_max = mapgen.quarry_top,
         y_min = mapgen.quarry_bottom,
         flags = "all_floors, force_placement",
-        decoration = "variations:stone_brick",
+        decoration = "variations:brick_stone",
         place_offset_y = -1,
     })
     minetest.register_decoration({
@@ -472,12 +472,12 @@ mapgen.register_quarry_decorations = function()
         y_max = mapgen.quarry_top,
         y_min = mapgen.quarry_bottom,
         flags = "all_ceilings, force_placement",
-        decoration = "variations:stone_big_tile",
+        decoration = "variations:tile_big_stone",
         place_offset_y = -1,
     })
     minetest.register_decoration({
         deco_type = "simple",
-        place_on = "variations:stone_big_tile",
+        place_on = "variations:tile_big_stone",
         fill_ratio = 0.01,
         y_max = mapgen.quarry_top,
         y_min = mapgen.quarry_bottom,

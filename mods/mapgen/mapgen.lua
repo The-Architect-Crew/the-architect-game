@@ -244,7 +244,7 @@ function mapgen.register_surface_biomes()
 		depth_filler = 2,
 		node_riverbed = "blocks:sand",
 		depth_riverbed = 2,
-		node_dungeon = "variations:chalk_brick",
+		node_dungeon = "variations:brick_chalk",
 		node_dungeon_stair = "blocks:shapes_chalk_stair",
 		y_max = 31000,
 		y_min = 4,

@@ -13,9 +13,9 @@ mapgen.register_underground_biomes = function()
     minetest.register_biome({
 		name = "icesheet_underground",
 		node_stone = "blocks:ice",
-		node_dungeon = "variations:ice_big_tile",
+		node_dungeon = "variations:tile_big_ice",
 		node_dungeon_alt = "blocks:cracked_ice",
-		node_dungeon_stair = "variations:shapes_ice_tile_stair",
+		node_dungeon_stair = "variations:shapes_tile_ice_stair",
 		y_max = mapgen.underground_top,
 		y_min = mapgen.underground_bottom,
 		heat_point = 0,
@@ -111,8 +111,8 @@ mapgen.register_underground_biomes = function()
     minetest.register_biome({
 		name = "sandstone_desert_underground",
 		node_stone = "blocks:sandstone",
-		node_dungeon = "variations:sandstone_brick",
-		node_dungeon_stair = "variations:shapes_sandstone_tile_stair",
+		node_dungeon = "variations:brick_sandstone",
+		node_dungeon_stair = "variations:shapes_tile_sandstone_stair",
 		y_max = mapgen.underground_top,
         y_min = mapgen.underground_bottom,
 		heat_point = 45,

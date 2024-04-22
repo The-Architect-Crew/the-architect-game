@@ -21,7 +21,7 @@ variations.variations = {
 		recipe_amount = 14,
 	},
 	{
-		name = "big_tile";
+		name = "tile_big";
 		description = "Big Tile";
 		texture = "1,0";
 		enabled_shapes = "cat:slab, cat:cube, cat:step, cat:corner, cat:stair, cat:splitstair, cat:pole, cat:pillar, cat:pillarcrown, cat:beam, cat:slope, cat:fence";
@@ -64,7 +64,7 @@ variations.variations = {
 		recipe_amount = 20,
 	},
 	{
-		name = "small_brick";
+		name = "brick_small";
 		description = "Small Brick";
 		texture = "1,1";
 		enabled_shapes = "slab1, slab4, slab, slab12, slab14, cube, step, cat:corner, cat:stair";
@@ -78,7 +78,7 @@ variations.variations = {
 		recipe_amount = 18,
 	},
 	{
-		name = "small_tile";
+		name = "tile_small";
 		description = "Small Tile";
 		texture = "2,1";
 		enabled_shapes = "slab1, slab4, slab, slab12, slab14, cube, step, cat:corner, cat:stair";
@@ -108,7 +108,7 @@ variations.variations = {
 		recipe_amount = 11,
 	},
 	{
-		name = "cross_tile";
+		name = "tile_cross";
 		description = "Cross Tile";
 		texture = "1,2";
 		enabled_shapes = "slab1, slab4, slab, slab12, slab14, cube, step, cat:corner, cat:stair";
@@ -122,7 +122,7 @@ variations.variations = {
 		recipe_amount = 21,
 	},
 	{
-		name = "spiral_tile";
+		name = "tile_spiral";
 		description = "Spiral Tile";
 		texture = "2,2";
 		enabled_shapes = "slab1, slab4, slab, slab12, slab14, cube, step, cat:corner, cat:stair";
@@ -151,7 +151,7 @@ function variations.register_for_base(base_node, tiles_override, transparent, su
 	ccore.station_comment(base_node, "Brickable")
 	for _, variation in ipairs(variations.variations) do
 		local sname = string.match(base_node, ':(.*)')
-		local variation_name = "variations:" .. sname .. "_" .. variation.name
+		local variation_name = "variations:" .. variation.name .. "_" .. sname
 		local variation_description = ccore.strip_newlines(base_definition.description) .. " " .. variation.description
 		local tiles
 		if (tiles_override == nil) then
@@ -208,7 +208,7 @@ function variations.register_for_base(base_node, tiles_override, transparent, su
 					{base_node, base_node},
 				}
 			})
-		elseif (variation.name == "big_tile") then
+		elseif (variation.name == "tile_big") then
 			minetest.register_craft({
 				output = variation_name .. " 9",
 				recipe = {
@@ -226,7 +226,7 @@ function variations.register_checker(base_node, second_node, name, transparent, 
 	local base_definition = minetest.registered_nodes[base_node]
 	for _, variation in ipairs(variations.variations) do
 		local sname = string.match(base_node, ':(.*)') .. "_" .. string.match(second_node, ':(.*)')
-		local variation_name = "variations:" .. sname .. "_checker_" .. variation.name
+		local variation_name = "variations:" .. variation.name .. "_checker_" .. sname
 		local variation_description = name .. " " .. variation.description
 		local tiles = {"variations_" .. sname .. "_checker.png^[sheet:3x3:" .. variation.texture}
 		local paramtype_light = ""
@@ -255,8 +255,8 @@ function variations.register_checker(base_node, second_node, name, transparent, 
 		minetest.register_craft({
 			output = variation_name,
 			recipe = {
-				{"variations:" .. string.match(base_node, ':(.*)') .. "_" .. variation.name, "variations:" .. string.match(second_node, ':(.*)') .. "_" .. variation.name},
-				{"variations:" .. string.match(second_node, ':(.*)') .. "_" .. variation.name, "variations:" .. string.match(base_node, ':(.*)') .. "_" .. variation.name},
+				{"variations:" .. variation.name .. "_" .. string.match(base_node, ':(.*)'), "variations:" .. variation.name .. "_" .. string.match(second_node, ':(.*)')},
+				{"variations:" .. variation.name .. "_" .. string.match(second_node, ':(.*)'), "variations:" .. variation.name .. "_" .. string.match(base_node, ':(.*)')},
 			}
 		})
 	end
@@ -279,8 +279,8 @@ function variations.register_support(base_node, support_type, support_material, 
 	local sname = string.match(base_node, ':(.*)')
 	local craft_secondary = variations.supp_craft[support_material]
 	for _, variation in ipairs(variations.variations) do
-		local variation_name = "variations:" .. sname .. "_" .. variation.name .. "_support_" .. support_material
-		local variation_clean_name = "variations:" .. sname .. "_" .. variation.name
+		local variation_name = "variations:" .. variation.name .. "_" .. sname .. "_support_" .. support_material
+		local variation_clean_name = "variations:" .. variation.name .. "_" .. sname
 		local variation_description = ccore.strip_newlines(base_definition.description) .. " " .. variation.description .. " with " .. variations.supp_desc[support_material] .. " Support"
 		local tiles
 		if (support_type == "full") then
@@ -396,7 +396,7 @@ function variations.register_frame(base_node)
 	for _, frame in ipairs(variations.frames) do
 		for _, variation in ipairs(variations.frame_variations) do
 			local sname = string.match(base_node, ':(.*)')
-			local frame_name = "variations:" .. sname .. "_" .. variation.name .. "_" .. frame.name
+			local frame_name = "variations:" .. variation.name .. "_" .. frame.name .. "_" .. sname
 			local frame_description = ccore.comment(ccore.strip_newlines(base_definition.description) .. " Frame", "Type: " .. variation.description .. "\nSegment: " .. frame.description)
 			local tiles = {"(variations_" .. sname .. ".png^[mask:(variations_glass_mask.png\\^[sheet\\:3x5\\:" .. variation.texture .. "," .. frame.texture .. "))", "variations_" .. sname .. ".png"}
 			minetest.register_node(frame_name, {
@@ -432,10 +432,10 @@ function variations.register_stainglass(base_node)
 	for _, frame in ipairs(variations.frames) do
 		for _, variation in ipairs(variations.frame_variations) do
 			local sname = string.match(base_node, ':(.*)')
-			local frame_dark_name = "variations:stainglass_dark_" .. sname .. "_" .. variation.name .. "_" .. frame.name
+			local frame_dark_name = "variations:stainglass_dark_" .. variation.name .. "_" .. frame.name .. "_" .. sname
 			local frame_dark_description = ccore.comment(ccore.strip_newlines(base_definition.description) .. " Dark Stainglass", "Type: " .. variation.description .. "\nSegment: " .. frame.description)
 			local tiles_dark = {"variations_stainglass_" .. sname .. ".png^[sheet:3x5:" .. variation.texture .. "," .. frame.texture, "variations_void.png"}
-			local frame_light_name = "variations:stainglass_light_" .. sname .. "_" .. variation.name .. "_" .. frame.name
+			local frame_light_name = "variations:stainglass_light_" .. variation.name .. "_" .. frame.name .. "_" .. sname
 			local frame_light_description = ccore.comment(ccore.strip_newlines(base_definition.description) .. " Light Stainglass", "Type: " .. variation.description .. "\nSegment: " .. frame.description)
 			local tiles_light = {"variations_stainglass_light_" .. sname .. ".png^[sheet:3x5:" .. variation.texture .. "," .. frame.texture, "variations_glass.png"}
 			minetest.register_node(frame_dark_name, {

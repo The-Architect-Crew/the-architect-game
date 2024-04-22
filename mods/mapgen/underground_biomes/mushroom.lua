@@ -18,9 +18,9 @@ mapgen.register_mushroom_biomes = function()
     minetest.register_biome({
 		name = "mushroom",
 		node_stone = mapgen.mushroom_base,
-		node_dungeon = "variations:mud_brick",
-        node_dungeon_alt = "variations:mud_small_brick",
-		node_dungeon_stair = "variations:shapes_mud_tile_stair",
+		node_dungeon = "variations:brick_mud",
+        node_dungeon_alt = "variations:brick_small_mud",
+		node_dungeon_stair = "variations:shapes_tile_mud_stair",
         node_cave_liquid = "air",
 		y_max = mapgen.mushroom_top,
 		y_min = mapgen.mushroom_bottom,

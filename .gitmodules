@@ -1,0 +1,3 @@
+[submodule "mods/minetest-skygen"]
+	path = mods/minetest-skygen
+	url = https://github.com/theraven262/minetest-skygen

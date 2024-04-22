@@ -7,3 +7,6 @@
 [submodule "mods/animalia"]
 	path = mods/animalia
 	url = https://github.com/The-Architect-Crew/animalia
+[submodule "mods/the-architect-server"]
+	path = mods/the-architect-server
+	url = https://github.com/The-Architect-Crew/the-architect-server

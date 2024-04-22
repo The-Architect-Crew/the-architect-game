@@ -69,7 +69,10 @@ blocks.rare_mods = {"tools", "furniture"}
 
 minetest.register_on_mods_loaded(function()
     for name, definition in pairs(minetest.registered_items) do
-        if (not ccore.scan_forbidden_groups(definition.groups, blocks.forbidden_groups)) and (not ccore.belongs(blocks.blocked_mods, ccore.modname(name))) and (not string.find(name, "shapes_")) then
+        if (not ccore.scan_forbidden_groups(definition.groups, blocks.forbidden_groups)) and
+        (not ccore.belongs(blocks.blocked_mods, ccore.modname(name))) and
+        (not string.find(name, "shapes_")) and
+        (not string.find(name, "_with_")) then
             if ccore.belongs(blocks.extra_rare_items, name) then
                 break
             elseif ccore.belongs(blocks.rare_mods, ccore.modname(name)) then

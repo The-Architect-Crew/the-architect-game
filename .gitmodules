@@ -4,3 +4,6 @@
 [submodule "mods/draconis"]
 	path = mods/draconis
 	url = https://github.com/The-Architect-Crew/draconis
+[submodule "mods/animalia"]
+	path = mods/animalia
+	url = https://github.com/The-Architect-Crew/animalia

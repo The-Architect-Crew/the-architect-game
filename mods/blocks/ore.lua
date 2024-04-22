@@ -814,16 +814,25 @@ minetest.register_node("blocks:lost_mese", {
 			random = math.random(1, #blocks.random_items)
 			random_node = minetest.registered_items[blocks.random_items[random]]
 			amount = math.random(2, 6)
+			if string.find(blocks.random_items[random], "tools:") then
+				amount = 1
+			end
 			new_stack = ItemStack(blocks.random_items[random])
 		elseif rarity > 3 and rarity <= 5 then
 			random = math.random(1, #blocks.rare_items)
 			random_node = minetest.registered_items[blocks.rare_items[random]]
 			amount = math.random(1, 4)
+			if string.find(blocks.rare_items[random], "tools:") then
+				amount = 1
+			end
 			new_stack = ItemStack(blocks.rare_items[random])
 		elseif rarity > 5 then
 			random = math.random(1, #blocks.extra_rare_items)
 			random_node = minetest.registered_items[blocks.extra_rare_items[random]]
 			amount = math.random(1, 2)
+			if string.find(blocks.extra_rare_items[random], "tools:") then
+				amount = 1
+			end
 			new_stack = ItemStack(blocks.extra_rare_items[random])
 		end
 

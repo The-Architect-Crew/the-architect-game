@@ -40,26 +40,25 @@ local function loot_chest_formspec(player, pos)
 	local playername = player:get_player_name()
 
 	local winv_listring = ""
-	if winv_exists then
-		local right_inv = winv.get_inventory(player, "right")
-		if right_inv == "player" then
-			winv_listring =
-				"listring[nodemeta:"..spos..";main]"..
-				"listring[current_player;main]"
-		elseif right_inv == "crafting" then
-			winv_listring =
-				"listring[nodemeta:"..spos..";main]"..
-				"listring[detached:winv_craft_"..playername..";input]"..
-				"listring[nodemeta:"..spos..";main]"..
-				"listring[detached:winv_craft_"..playername..";output]"..
-				"listring[nodemeta:"..spos..";main]"
-		elseif right_inv == "craftguide" then
-			winv_listring =
-				"listring[detached:winv_creative_"..playername..";main]"..
-				"listring[nodemeta:"..spos..";main]"..
-				"listring[detached:trash;main]"
-		end
+	local right_inv = winv.get_inventory(player, "right")
+	if right_inv == "player" then
+		winv_listring =
+			"listring[nodemeta:"..spos..";main]"..
+			"listring[current_player;main]"
+	elseif right_inv == "crafting" then
+		winv_listring =
+			"listring[nodemeta:"..spos..";main]"..
+			"listring[detached:winv_craft_"..playername..";input]"..
+			"listring[nodemeta:"..spos..";main]"..
+			"listring[detached:winv_craft_"..playername..";output]"..
+			"listring[nodemeta:"..spos..";main]"
+	elseif right_inv == "craftguide" then
+		winv_listring =
+			"listring[detached:winv_creative_"..playername..";main]"..
+			"listring[nodemeta:"..spos..";main]"..
+			"listring[detached:trash;main]"
 	end
+
 	local winv_formspec = {
 		"image[0,0;7.75,8.0;winv_bg.png]",
 		-- storage

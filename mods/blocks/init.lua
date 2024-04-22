@@ -64,7 +64,7 @@ blocks.extra_rare_items = {
     "tools:shovel_diamond",
 }
 
-blocks.blocked_mods = {"quests", "variations", "patterns", "flora"}
+blocks.blocked_mods = {"quests", "variations", "patterns", "flora", "draconis", "animalia"}
 blocks.rare_mods = {"tools", "furniture"}
 
 minetest.register_on_mods_loaded(function()

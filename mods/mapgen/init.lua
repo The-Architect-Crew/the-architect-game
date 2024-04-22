@@ -88,7 +88,7 @@ if mapgen_name ~= "singlenode" and mapgen_name ~= "flat" then
 end
 -- Modifying light by placing glowing schems requires lighting recalc
 minetest.register_on_generated(function(minp, maxp, blockseed)
-	local vm = minetest.get_voxel_manip()
+	local vm = minetest.get_mapgen_object("voxelmanip")
     local emin, emax = vm:read_from_map(minp, maxp)
 	minetest.fix_light(emin, emax)
 end)

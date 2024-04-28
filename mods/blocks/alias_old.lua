@@ -211,4 +211,17 @@ function blocks.alias_variation(material)
     register_shapes_alias("variations:" .. material .. "_spiral_tile", "variations:tile_spiral_" .. material)
 end
 
+minetest.register_alias("blocks:obsidian_block", "variations:tile_big_obsidian")
+minetest.register_alias("blocks:obsidianbrick", "variations:brick_obsidian")
+minetest.register_alias("blocks:stone_block", "variations:tile_big_stone")
+minetest.register_alias("blocks:stonebrick", "variations:brick_stone")
+minetest.register_alias("blocks:sandstone_block", "variations:tile_big_sandstone")
+minetest.register_alias("blocks:sandstonebrick", "variations:brick_sandstone")
+minetest.register_alias("blocks:desert_stone_block", "variations:tile_big_desert_stone")
+minetest.register_alias("blocks:desert_stonebrick", "variations:brick_desert_stone")
+minetest.register_alias("blocks:silver_sandstone_block", "variations:tile_big_silver_sandstone")
+minetest.register_alias("blocks:silver_sandstonebrick", "variations:brick_silver_sandstone")
+minetest.register_alias("blocks:desert_sandstone_block", "variations:tile_big_desert_sandstone")
+minetest.register_alias("blocks:desert_sandstonebrick", "variations:brick_desert_sandstone")
+
 --minetest.register_alias("blocks:oldname", "blocks:newname")

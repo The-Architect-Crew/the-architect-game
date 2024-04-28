@@ -10,3 +10,6 @@
 [submodule "mods/the-architect-server"]
 	path = mods/the-architect-server
 	url = https://github.com/The-Architect-Crew/the-architect-server
+[submodule "mods/external/creatura"]
+	path = mods/external/creatura
+	url = https://github.com/The-Architect-Crew/creatura

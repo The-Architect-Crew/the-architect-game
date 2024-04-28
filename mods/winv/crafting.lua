@@ -142,8 +142,8 @@ winv:register_inventory("crafting", {
 			local sub_multiplier = string.gsub(fields.winv_craft_multiplier, "x", "")
 			if tonumber(sub_multiplier) then
 				local multiplier = tonumber(sub_multiplier)
-				if multiplier > 99 then
-					multiplier = 99
+				if multiplier > 100 then
+					multiplier = 100
 				elseif multiplier < 1 then
 					multiplier = 1
 				end

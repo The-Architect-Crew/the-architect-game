@@ -144,8 +144,8 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		if tonumber(sub_multiplier) then
 			local multiplier = tonumber(sub_multiplier)
 			if meta:get_int("multiplier") ~= multiplier then -- ensure there's changes in multiplier for update
-				if multiplier > 99 then
-					multiplier = 99
+				if multiplier > 100 then
+					multiplier = 100
 				elseif multiplier < 1 then
 					multiplier = 1
 				end

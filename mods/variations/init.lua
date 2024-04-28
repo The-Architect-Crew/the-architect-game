@@ -220,6 +220,7 @@ function variations.register_for_base(base_node, tiles_override, transparent, su
 		end
 		convert_craft(base_node, variation_name)
 	end
+	blocks.alias_variation(string.match(base_node, ':(.*)'))
 end
 
 function variations.register_checker(base_node, second_node, name, transparent, sunlight)

@@ -325,8 +325,17 @@ minetest.register_craft({
 minetest.register_craft({
 	output = "blocks:wood_fire",
 	recipe = {
-		{"flora:firebranches", "flora:fire_mycelium"},
-		{"flora:fire_mycelium", "flora:firebranches"},
+		{"flora:firebranches", "flora:mycelium_fire"},
+		{"flora:mycelium_fire", "flora:firebranches"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:wood_fire",
+	recipe = {
+		{"flora:firebranches", "flora:firebranches", "flora:firebranches"},
+		{"flora:firebranches", "flora:firebranches", "flora:firebranches"},
+		{"flora:firebranches", "flora:firebranches", "flora:firebranches"},
 	}
 })
 

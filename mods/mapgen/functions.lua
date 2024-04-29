@@ -60,18 +60,6 @@ mapgen.register_microbiome_base = function(data)
 		})
 		minetest.register_decoration({
 			deco_type = "simple",
-			place_on = base_nodes[i].floor,
-			noise_params = noise_params,
-			fill_ratio = fill_ratio,
-			y_min = data.y_min,
-			y_max = data.y_max,
-			spawn_by = "blocks:water_source",
-			flags = "force_placement, all_floors",
-			decoration = base_nodes[i].base,
-			place_offset_y = -1,
-		})
-		minetest.register_decoration({
-			deco_type = "simple",
 			place_on = base_nodes[i].base,
 			noise_params = noise_params,
 			fill_ratio = fill_ratio,

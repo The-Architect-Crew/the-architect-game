@@ -478,8 +478,8 @@ mapgen.register_quarry_decorations = function()
     minetest.register_decoration({
         deco_type = "simple",
         place_on = "variations:tile_big_stone",
-        fill_ratio = 0.01,
-        y_max = mapgen.quarry_top,
+        fill_ratio = 0.005,
+        y_max = mapgen.quarry_top - 1,
         y_min = mapgen.quarry_bottom,
         flags = "all_floors, force_placement",
         decoration = "quests:quarry_loot_chest",

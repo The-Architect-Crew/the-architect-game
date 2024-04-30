@@ -7,18 +7,19 @@ local S = default.get_translator
 minetest.register_craftitem("blocks:stick", {
 	description = S("Stick"),
 	inventory_image = "blocks_stick.png",
-	groups = {stick = 1, flammable = 2},
+	groups = {stick = 1, flammable = 2, loot = 1},
 })
 
 minetest.register_craftitem("blocks:stick_mushroom", {
 	description = S("Mushroom Stick"),
 	inventory_image = "blocks_mushroom_stick.png",
-	groups = {stick = 1, flammable = 2},
+	groups = {stick = 1, flammable = 2, loot = 2},
 })
 
 minetest.register_craftitem("blocks:bone", {
 	description = S("Bone"),
 	inventory_image = "blocks_bone.png",
+	groups = {loot = 3}
 })
 
 --
@@ -31,7 +32,7 @@ minetest.register_node("blocks:wood", {
 	place_param2 = 0,
 	tiles = {"blocks_wood.png"},
 	is_ground_content = false,
-	groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2, wood = 1},
+	groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2, wood = 1, loot = 1},
 	sounds = default.node_sound_wood_defaults(),
 })
 
@@ -41,7 +42,7 @@ minetest.register_node("blocks:wood_jungle", {
 	place_param2 = 0,
 	tiles = {"blocks_junglewood.png"},
 	is_ground_content = false,
-	groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2, wood = 1},
+	groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2, wood = 1, loot = 1},
 	sounds = default.node_sound_wood_defaults(),
 })
 
@@ -51,7 +52,7 @@ minetest.register_node("blocks:wood_pine", {
 	place_param2 = 0,
 	tiles = {"blocks_pine_wood.png"},
 	is_ground_content = false,
-	groups = {choppy = 3, oddly_breakable_by_hand = 2, flammable = 3, wood = 1},
+	groups = {choppy = 3, oddly_breakable_by_hand = 2, flammable = 3, wood = 1, loot = 1},
 	sounds = default.node_sound_wood_defaults(),
 })
 
@@ -61,7 +62,7 @@ minetest.register_node("blocks:wood_acacia", {
 	place_param2 = 0,
 	tiles = {"blocks_acacia_wood.png"},
 	is_ground_content = false,
-	groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2, wood = 1},
+	groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2, wood = 1, loot = 1},
 	sounds = default.node_sound_wood_defaults(),
 })
 
@@ -71,7 +72,7 @@ minetest.register_node("blocks:wood_aspen", {
 	place_param2 = 0,
 	tiles = {"blocks_aspen_wood.png"},
 	is_ground_content = false,
-	groups = {choppy = 3, oddly_breakable_by_hand = 2, flammable = 3, wood = 1},
+	groups = {choppy = 3, oddly_breakable_by_hand = 2, flammable = 3, wood = 1, loot = 1},
 	sounds = default.node_sound_wood_defaults(),
 })
 
@@ -81,7 +82,7 @@ minetest.register_node("blocks:wood_cherry", {
 	place_param2 = 0,
 	tiles = {"blocks_cherry_wood.png"},
 	is_ground_content = false,
-	groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2, wood = 1},
+	groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2, wood = 1, loot = 1},
 	sounds = default.node_sound_wood_defaults(),
 })
 
@@ -91,7 +92,7 @@ minetest.register_node("blocks:wood_bone", {
 	place_param2 = 0,
 	tiles = {"blocks_bonewood.png"},
 	is_ground_content = false,
-	groups = {choppy = 3, oddly_breakable_by_hand = 2, wood = 1},
+	groups = {choppy = 3, oddly_breakable_by_hand = 2, wood = 1, loot = 3},
 	sounds = default.node_sound_wood_defaults(),
 })
 
@@ -103,7 +104,7 @@ minetest.register_node("blocks:wood_fire", {
 	light_source = 4,
 	tiles = {"blocks_firewood.png"},
 	is_ground_content = false,
-	groups = {choppy = 3, oddly_breakable_by_hand = 2, wood = 1, fire_biome = 1},
+	groups = {choppy = 3, oddly_breakable_by_hand = 2, wood = 1, fire_biome = 1, loot = 2},
 	sounds = default.node_sound_wood_defaults(),
 })
 
@@ -113,7 +114,7 @@ minetest.register_node("blocks:wood_azure", {
 	place_param2 = 0,
 	tiles = {"blocks_azure_wood.png"},
 	is_ground_content = false,
-	groups = {choppy = 3, oddly_breakable_by_hand = 2, wood = 1, azure = 1},
+	groups = {choppy = 3, oddly_breakable_by_hand = 2, wood = 1, azure = 1, loot = 2},
 	sounds = default.node_sound_wood_defaults(),
 })
 
@@ -123,7 +124,7 @@ minetest.register_node("blocks:wood_amber", {
 	place_param2 = 0,
 	tiles = {"blocks_amber_wood.png"},
 	is_ground_content = false,
-	groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2, wood = 1},
+	groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2, wood = 1, loot = 3},
 	sounds = default.node_sound_wood_defaults(),
 })
 
@@ -133,7 +134,7 @@ minetest.register_node("blocks:wood_dark", {
 	place_param2 = 0,
 	tiles = {"blocks_dark_wood.png"},
 	is_ground_content = false,
-	groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2, wood = 1},
+	groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2, wood = 1, loot = 4},
 	sounds = default.node_sound_wood_defaults(),
 })
 
@@ -143,7 +144,7 @@ minetest.register_node("blocks:wood_ghost", {
 	place_param2 = 0,
 	tiles = {"blocks_ghost_wood.png"},
 	is_ground_content = false,
-	groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2, wood = 1},
+	groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2, wood = 1, loot = 4},
 	sounds = default.node_sound_wood_defaults(),
 })
 
@@ -153,7 +154,7 @@ minetest.register_node("blocks:wood_viridis", {
 	place_param2 = 0,
 	tiles = {"blocks_viridis_wood.png"},
 	is_ground_content = false,
-	groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2, wood = 1},
+	groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2, wood = 1, loot = 4},
 	sounds = default.node_sound_wood_defaults(),
 })
 

@@ -34,7 +34,7 @@ minetest.register_node("blocks:torch", {
 	walkable = false,
 	liquids_pointable = false,
 	light_source = 12,
-	groups = {choppy=2, dig_immediate=3, flammable=1, attached_node=1, torch=1},
+	groups = {choppy=2, dig_immediate=3, flammable=1, attached_node=1, torch=1, loot = 1},
 	drop = "blocks:torch",
 	selection_box = {
 		type = "wallmounted",
@@ -175,7 +175,7 @@ for i=1,#blocks.fire_types do
 		walkable = false,
 		liquids_pointable = false,
 		light_source = 12,
-		groups = {choppy=2, dig_immediate=3, flammable=1, attached_node=1, torch=1},
+		groups = {choppy=2, dig_immediate=3, flammable=1, attached_node=1, torch=1, loot = 2},
 		drop = "blocks:torch_" .. name,
 		selection_box = {
 			type = "wallmounted",

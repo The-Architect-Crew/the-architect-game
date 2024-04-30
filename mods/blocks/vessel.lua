@@ -46,7 +46,7 @@ minetest.register_node("blocks:vesselshelf", {
 		"blocks_wood.png", "blocks_vesselshelf.png", "blocks_vesselshelf.png"},
 	paramtype2 = "facedir",
 	is_ground_content = false,
-	groups = {choppy = 3, oddly_breakable_by_hand = 2, flammable = 3},
+	groups = {choppy = 3, oddly_breakable_by_hand = 2, flammable = 3, loot = 4},
 	sounds = default.node_sound_wood_defaults(),
 
 	on_construct = function(pos)
@@ -111,7 +111,7 @@ minetest.register_node("blocks:glass_bottle", {
 		type = "fixed",
 		fixed = {-0.25, -0.5, -0.25, 0.25, 0.3, 0.25}
 	},
-	groups = {vessel = 1, dig_immediate = 3, attached_node = 1},
+	groups = {vessel = 1, dig_immediate = 3, attached_node = 1, loot = 3},
 	sounds = default.node_sound_glass_defaults(),
 })
 
@@ -137,7 +137,7 @@ minetest.register_node("blocks:drinking_glass", {
 		type = "fixed",
 		fixed = {-0.25, -0.5, -0.25, 0.25, 0.3, 0.25}
 	},
-	groups = {vessel = 1, dig_immediate = 3, attached_node = 1},
+	groups = {vessel = 1, dig_immediate = 3, attached_node = 1, loot = 3},
 	sounds = default.node_sound_glass_defaults(),
 })
 
@@ -163,7 +163,7 @@ minetest.register_node("blocks:steel_bottle", {
 		type = "fixed",
 		fixed = {-0.25, -0.5, -0.25, 0.25, 0.3, 0.25}
 	},
-	groups = {vessel = 1, dig_immediate = 3, attached_node = 1},
+	groups = {vessel = 1, dig_immediate = 3, attached_node = 1, loot = 3},
 	sounds = default.node_sound_defaults(),
 })
 

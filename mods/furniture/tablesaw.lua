@@ -314,7 +314,7 @@ for i=1,#furniture.craftstation_materials do
 	local description = base_definition.description .. " Table Saw"
 	local groups = table.copy(base_definition.groups)
 	groups.dig_immediate = 3
-	groups.not_loot = 1
+	groups.loot = nil
 	local sounds = base_definition.sounds
 	local box = {-16/16, -8/16, -10/16, 16/16, 24/16, 8/16}
 	minetest.register_node("furniture:tablesaw_" .. sname, {

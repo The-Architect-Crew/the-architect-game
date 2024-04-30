@@ -1,40 +1,3 @@
-local function loot_chest_roll_item()
-	local itemstack = ""
-	local random
-
-	if math.random(0,2) == 1 then
-		local rarity = math.random(1,6)
-		local amount
-		if  rarity <= 3 then
-			random = math.random(1, #blocks.random_items)
-			amount = math.random(2, 6)
-			if string.find(blocks.random_items[random], "tools:") then
-				amount = 1
-			end
-			itemstack = ItemStack(blocks.random_items[random])
-			itemstack:set_count(amount)
-		elseif rarity > 3 and rarity <= 5 then
-			random = math.random(1, #blocks.rare_items)
-			amount = math.random(1, 4)
-			if string.find(blocks.rare_items[random], "tools:") then
-				amount = 1
-			end
-			itemstack = ItemStack(blocks.rare_items[random])
-			itemstack:set_count(amount)
-		elseif rarity > 5 then
-			random = math.random(1, #blocks.extra_rare_items)
-			amount = math.random(1, 2)
-			if string.find(blocks.extra_rare_items[random], "tools:") then
-				amount = 1
-			end
-			itemstack = ItemStack(blocks.extra_rare_items[random])
-			itemstack:set_count(amount)
-		end
-	end
-
-	return itemstack
-end
-
 local function loot_chest_formspec(player, pos)
 	local spos = pos.x..","..pos.y..","..pos.z
 	local playername = player:get_player_name()
@@ -97,9 +60,12 @@ local function loot_chest_on_rightclick(pos, node, clicker, itemstack, pointed_t
 		local inv = meta:get_inventory()
 		inv:set_size("main", 6*6)
 		for i=1,36 do
-			inv:set_stack("main", i, loot_chest_roll_item())
+			if math.random() > math.random(0.33, 0.75) then
+				inv:set_stack("main", i, blocks.roll_loot(0.75))
+			end
 		end
 		meta:set_int("filled", 1)
+		meta:set_string("infotext", "Ancient Chest\nPlundered by " .. playername .. ".")
 	end
 	quests.loot_chest[playername] = pos
 	show_loot_chest_formspec(clicker, pos)

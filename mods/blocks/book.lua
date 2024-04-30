@@ -196,13 +196,13 @@ end)
 minetest.register_craftitem("blocks:paper", {
 	description = S("Paper"),
 	inventory_image = "blocks_paper.png",
-	groups = {flammable = 3},
+	groups = {flammable = 3, loot = 1},
 })
 
 minetest.register_craftitem("blocks:book", {
 	description = S("Book"),
 	inventory_image = "blocks_book.png",
-	groups = {book = 1, flammable = 3},
+	groups = {book = 1, flammable = 3, loot = 1},
 	on_use = book_on_use,
 })
 

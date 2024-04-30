@@ -3,33 +3,34 @@ local S = default.get_translator
 minetest.register_node("blocks:sand", {
 	description = S("Sand"),
 	tiles = {"blocks_sand.png"},
-	groups = {crumbly = 3, falling_node = 1, sand = 1},
+	groups = {crumbly = 3, falling_node = 1, sand = 1, loot = 1},
 	sounds = default.node_sound_sand_defaults(),
 })
 
 minetest.register_node("blocks:desert_sand", {
 	description = S("Desert Sand"),
 	tiles = {"blocks_desert_sand.png"},
-	groups = {crumbly = 3, falling_node = 1, sand = 1},
+	groups = {crumbly = 3, falling_node = 1, sand = 1, loot = 1},
 	sounds = default.node_sound_sand_defaults(),
 })
 
 minetest.register_node("blocks:silver_sand", {
 	description = S("Silver Sand"),
 	tiles = {"blocks_silver_sand.png"},
-	groups = {crumbly = 3, falling_node = 1, sand = 1},
+	groups = {crumbly = 3, falling_node = 1, sand = 1, loot = 1},
 	sounds = default.node_sound_sand_defaults(),
 })
 
 minetest.register_craftitem("blocks:flint", {
 	description = S("Flint"),
-	inventory_image = "blocks_flint.png"
+	inventory_image = "blocks_flint.png",
+	groups = {loot = 2}
 })
 
 minetest.register_node("blocks:gravel", {
 	description = S("Gravel"),
 	tiles = {"blocks_gravel.png"},
-	groups = {crumbly = 2, falling_node = 1},
+	groups = {crumbly = 2, falling_node = 1, loot = 1},
 	sounds = default.node_sound_gravel_defaults(),
 	drop = {
 		max_items = 1,
@@ -43,7 +44,7 @@ minetest.register_node("blocks:gravel", {
 minetest.register_node("blocks:fine_gravel", {
 	description = S("Fine Gravel"),
 	tiles = {"blocks_fine_gravel.png"},
-	groups = {crumbly = 2, falling_node = 1},
+	groups = {crumbly = 2, falling_node = 1, loot = 3},
 	sounds = default.node_sound_gravel_defaults(),
 })
 

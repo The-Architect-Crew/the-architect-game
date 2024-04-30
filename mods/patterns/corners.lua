@@ -69,6 +69,11 @@ function patterns.register_corners(base_node)
 		local overlay_top = "([combine:16x16:12,4=" .. segment6 .. ":0,0=" .. segment7 .. ")"
 		local overlay_bottom = "(" .. overlay_top .. "^[transformR90)"
 
+		local groups = ccore.groups_copy(base_definition.groups)
+		if groups.loot then
+			groups.loot = groups.loot + 1
+		end
+
 		minetest.register_node(corner_name, {
 			description = corner_description,
 			tiles = {"(" .. base_texture.. "^patterns_shadow_overlay_top.png)^" .. overlay_top,
@@ -77,7 +82,7 @@ function patterns.register_corners(base_node)
 					base_texture,
 					base_texture,
 					"(" .. base_texture .. "^patterns_shadow_overlay_front.png)^" .. overlay_front},
-				groups = ccore.groups_copy(base_definition.groups),
+				groups = groups,
 				drawtype = base_definition.drawtype,
 				paramtype2 = "facedir"
 		})

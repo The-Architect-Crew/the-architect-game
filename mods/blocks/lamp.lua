@@ -29,7 +29,7 @@ function blocks.register_mesepost(name, def)
 		light_source = default.LIGHT_MAX,
 		sunlight_propagates = true,
 		is_ground_content = false,
-		groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2},
+		groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2, loot = 3},
 		sounds = default.node_sound_wood_defaults(),
 	}
 	for k, v in pairs(default_fields) do
@@ -51,7 +51,7 @@ minetest.register_node("blocks:meselamp", {
 	paramtype = "light",
 	sunlight_propagates = true,
 	is_ground_content = false,
-	groups = {cracky = 3, oddly_breakable_by_hand = 3},
+	groups = {cracky = 3, oddly_breakable_by_hand = 3, loot = 3},
 	sounds = default.node_sound_glass_defaults(),
 	light_source = default.LIGHT_MAX,
 })
@@ -93,7 +93,7 @@ minetest.register_node("blocks:amethyst_lantern", {
 	paramtype = "light",
 	sunlight_propagates = true,
 	is_ground_content = false,
-	groups = {cracky = 3, oddly_breakable_by_hand = 1},
+	groups = {cracky = 3, oddly_breakable_by_hand = 1, loot = 2},
 	sounds = default.node_sound_glass_defaults(),
 	light_source = 13,
 })
@@ -104,7 +104,7 @@ minetest.register_node("blocks:garnet_lantern", {
 	paramtype = "light",
 	sunlight_propagates = true,
 	is_ground_content = false,
-	groups = {cracky = 3, oddly_breakable_by_hand = 1},
+	groups = {cracky = 3, oddly_breakable_by_hand = 1, loot = 2},
 	sounds = default.node_sound_glass_defaults(),
 	light_source = 13,
 })

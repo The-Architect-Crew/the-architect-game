@@ -111,6 +111,8 @@ local function itemframe_dig(pos, player)
 end
 
 local function register_itemframe(material, desc, def)
+	local groups = table.copy(def.groups)
+	groups.loot = 3
 	minetest.register_node("blocks:itemframe_"..material, {
 		description = desc.." Item Frame",
 		drawtype = "nodebox",
@@ -120,7 +122,7 @@ local function register_itemframe(material, desc, def)
 				{-0.4375, -0.4375, 0.4375, 0.4375, 0.4375, 0.5},
 			}
 		},
-		groups = def.groups,
+		groups = groups,
 		sounds = def.sounds,
 		on_rotate = false,
 		sunlight_propagates = true,
@@ -153,7 +155,7 @@ local function register_itemframe(material, desc, def)
 				{-0.4375, 0.4375, 0.4375, 0.4375, 0.5, 0.4375},
 			}
 		},
-		groups = def.groups,
+		groups = groups,
 		sounds = def.sounds,
 		on_rotate = false,
 		sunlight_propagates = true,

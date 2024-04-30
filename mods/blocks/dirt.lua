@@ -3,7 +3,7 @@ local S = default.get_translator
 minetest.register_node("blocks:dirt", {
 	description = S("Dirt"),
 	tiles = {"blocks_dirt.png"},
-	groups = {crumbly = 3, soil = 1},
+	groups = {crumbly = 3, soil = 1, loot = 1},
 	sounds = default.node_sound_dirt_defaults(),
 })
 
@@ -77,7 +77,7 @@ minetest.register_node("blocks:dirt_with_coniferous_litter", {
 minetest.register_node("blocks:dry_dirt", {
 	description = S("Dry Dirt"),
 	tiles = {"blocks_dry_dirt.png"},
-	groups = {crumbly = 3, soil = 1},
+	groups = {crumbly = 3, soil = 1, loot = 1},
 	sounds = default.node_sound_dirt_defaults(),
 })
 
@@ -108,7 +108,7 @@ minetest.register_node("blocks:chalk_with_grass", {
 minetest.register_node("blocks:dark_dirt", {
 	description = "Dark Dirt",
 	tiles = {"blocks_dark_dirt.png"},
-	groups = {crumbly=2},
+	groups = {crumbly=2, loot = 2},
 	sounds = default.node_sound_dirt_defaults(),
 })
 

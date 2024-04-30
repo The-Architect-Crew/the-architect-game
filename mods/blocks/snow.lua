@@ -21,7 +21,7 @@ minetest.register_node("blocks:snow", {
 			{-0.5, -0.5, -0.5, 0.5, -6 / 16, 0.5},
 		},
 	},
-	groups = {crumbly = 3, falling_node = 1, snowy = 1},
+	groups = {crumbly = 3, falling_node = 1, snowy = 1, loot = 2},
 	sounds = default.node_sound_snow_defaults(),
 
 	on_construct = function(pos)
@@ -35,7 +35,7 @@ minetest.register_node("blocks:snow", {
 minetest.register_node("blocks:snowblock", {
 	description = S("Snow Block"),
 	tiles = {"blocks_snow.png"},
-	groups = {crumbly = 3, cools_lava = 1, snowy = 1},
+	groups = {crumbly = 3, cools_lava = 1, snowy = 1, loot = 3},
 	sounds = default.node_sound_snow_defaults(),
 
 	on_construct = function(pos)
@@ -64,7 +64,7 @@ minetest.register_node("blocks:ice", {
 	tiles = {"blocks_ice.png"},
 	is_ground_content = false,
 	paramtype = "light",
-	groups = {cracky = 3, cools_lava = 1, slippery = 3},
+	groups = {cracky = 3, cools_lava = 1, slippery = 3, loot = 2},
 	sounds = default.node_sound_ice_defaults(),
 })
 
@@ -85,7 +85,7 @@ minetest.register_node("blocks:cracked_ice", {
 	is_ground_content = true,
 	paramtype = "light",
 	drop = "blocks:ice",
-	groups = {cracky = 3, cools_lava = 1, slippery = 3},
+	groups = {cracky = 3, cools_lava = 1, slippery = 3, loot = 3},
 	sounds = default.node_sound_ice_defaults(),
 })
 

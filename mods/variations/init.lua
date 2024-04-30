@@ -168,10 +168,14 @@ function variations.register_for_base(base_node, tiles_override, transparent, su
 			sunlight = true
 			paramtype_light = "light"
 		end
+		local groups = ccore.groups_copy(base_definition.groups)
+		if groups.loot then
+			groups.loot = groups.loot + 1
+		end
 		minetest.register_node(variation_name, {
 			description = variation_description,
 			tiles = tiles,
-			groups = ccore.groups_copy(base_definition.groups),
+			groups = groups,
 			drawtype = base_definition.drawtype,
 			use_texture_alpha = transparent or base_definition.use_texture_alpha,
 			paramtype = paramtype_light or base_definition.paramtype,
@@ -239,10 +243,14 @@ function variations.register_checker(base_node, second_node, name, transparent, 
 			sunlight = true
 			paramtype_light = "light"
 		end
+		local groups = ccore.groups_copy(base_definition.groups)
+		if groups.loot then
+			groups.loot = groups.loot + 1
+		end
 		minetest.register_node(variation_name, {
 			description = variation_description,
 			tiles = tiles,
-			groups = ccore.groups_copy(base_definition.groups),
+			groups = groups,
 			drawtype = base_definition.drawtype,
 			use_texture_alpha = transparent or base_definition.use_texture_alpha,
 			paramtype = paramtype_light or base_definition.paramtype,
@@ -294,10 +302,14 @@ function variations.register_support(base_node, support_type, support_material, 
 			sunlight = true
 			paramtype_light = "light"
 		end
+		local groups = ccore.groups_copy(base_definition.groups)
+		if groups.loot then
+			groups.loot = groups.loot + 1
+		end
 		minetest.register_node(variation_name, {
 			description = variation_description,
 			tiles = tiles,
-			groups = ccore.groups_copy(base_definition.groups),
+			groups = groups,
 			drawtype = base_definition.drawtype,
 			use_texture_alpha = transparent or base_definition.use_texture_alpha,
 			paramtype = paramtype_light or base_definition.paramtype,
@@ -323,10 +335,14 @@ function variations.register_support(base_node, support_type, support_material, 
 	elseif (support_type == "single") then
 		tiles_base = {base_definition.tiles[1] .. "^variations_support_" .. support_material .. "_single.png"}
 	end
+	local groups = ccore.groups_copy(base_definition.groups)
+	if groups.loot then
+		groups.loot = groups.loot + 1
+	end
 	minetest.register_node("variations:" .. sname .. "_support_" .. support_material, {
 		description = ccore.strip_newlines(base_definition.description) .. " with " .. variations.supp_desc[support_material] .. " Support",
 		tiles = tiles_base,
-		groups = ccore.groups_copy(base_definition.groups),
+		groups = groups,
 		drawtype = base_definition.drawtype,
 		use_texture_alpha = base_definition.use_texture_alpha,
 		paramtype = base_definition.paramtype,
@@ -400,10 +416,12 @@ function variations.register_frame(base_node)
 			local frame_name = "variations:" .. variation.name .. "_" .. frame.name .. "_" .. sname
 			local frame_description = ccore.comment(ccore.strip_newlines(base_definition.description) .. " Frame", "Type: " .. variation.description .. "\nSegment: " .. frame.description)
 			local tiles = {"(variations_" .. sname .. ".png^[mask:(variations_glass_mask.png\\^[sheet\\:3x5\\:" .. variation.texture .. "," .. frame.texture .. "))", "variations_" .. sname .. ".png"}
+			local groups = ccore.groups_copy(base_definition.groups)
+			groups.loot = nil
 			minetest.register_node(frame_name, {
 				description = frame_description,
 				tiles = tiles,
-				groups = ccore.groups_copy(base_definition.groups),
+				groups = groups,
 				drawtype = "mesh",
 				mesh = "frame.obj",
 				collision_box = {
@@ -439,10 +457,12 @@ function variations.register_stainglass(base_node)
 			local frame_light_name = "variations:stainglass_light_" .. variation.name .. "_" .. frame.name .. "_" .. sname
 			local frame_light_description = ccore.comment(ccore.strip_newlines(base_definition.description) .. " Light Stainglass", "Type: " .. variation.description .. "\nSegment: " .. frame.description)
 			local tiles_light = {"variations_stainglass_light_" .. sname .. ".png^[sheet:3x5:" .. variation.texture .. "," .. frame.texture, "variations_glass.png"}
+			local groups = ccore.groups_copy(base_definition.groups)
+			groups.loot = nil
 			minetest.register_node(frame_dark_name, {
 				description = frame_dark_description,
 				tiles = tiles_dark,
-				groups = ccore.groups_copy(base_definition.groups),
+				groups = groups,
 				drawtype = "mesh",
 				mesh = "frame.obj",
 				collision_box = {
@@ -467,7 +487,7 @@ function variations.register_stainglass(base_node)
 			minetest.register_node(frame_light_name, {
 				description = frame_light_description,
 				tiles = tiles_light,
-				groups = ccore.groups_copy(base_definition.groups),
+				groups = groups,
 				drawtype = "mesh",
 				mesh = "frame.obj",
 				collision_box = {

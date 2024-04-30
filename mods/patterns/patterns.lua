@@ -184,6 +184,11 @@ function patterns.register_patterns(base_node, limit, colortype)
 			local color_string = color[1]
 			local color_name = color[2]
 
+			local groups = ccore.groups_copy(base_definition.groups)
+			if groups.loot then
+				groups.loot = groups.loot + 1
+			end
+
 			for _, pattern in ipairs(patterns.patterns) do
 				local sname = string.match(base_node, ':(.*)')
 				local pattern_name = "patterns:" .. sname .. "_" .. pattern_type .. "_" .. pattern.name .. "_" .. color_string
@@ -200,7 +205,7 @@ function patterns.register_patterns(base_node, limit, colortype)
 				minetest.register_node(pattern_name, {
 					description = pattern_description,
 					tiles = tiles,
-					groups = ccore.groups_copy(base_definition.groups),
+					groups = groups,
 					drawtype = base_definition.drawtype,
 					paramtype2 = "facedir"
 					})
@@ -228,6 +233,11 @@ function patterns.register_patterns_single(base_node, limit, colortype)
 				local pattern_name = "patterns:" .. sname .. "_" .. pattern.name .. "_" .. color_string
 				local pattern_description = "Patterned " .. base_definition.description .. "\nPattern: " .. pattern.description .. "\nColor: " .. color_name
 				local tiles = {}
+				local groups = ccore.groups_copy(base_definition.groups)
+				if groups.loot then
+					groups.loot = groups.loot + 1
+				end
+
 				if (colortype == "colorize") then
 					tiles = {"(" .. base_definition.tiles[1] .. "^[overlay:(patterns_single_shading.png\\^[sheet\\:2x3\\:" .. pattern.texture .. "))" .. "^((" .. base_definition.tiles[1] .. "^[colorize:#" .. color .. ":144)^[mask:(patterns_single_color.png\\^[sheet\\:2x3\\:" .. pattern.texture .. "))"}
 				elseif (colortype == "hsl") then
@@ -236,7 +246,7 @@ function patterns.register_patterns_single(base_node, limit, colortype)
 					minetest.register_node(pattern_name, {
 					description = pattern_description,
 					tiles = tiles,
-					groups = ccore.groups_copy(base_definition.groups),
+					groups = groups,
 					drawtype = base_definition.drawtype
 				})
 

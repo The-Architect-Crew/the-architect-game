@@ -19,7 +19,6 @@ minetest.register_node("blocks:core_plating", {
 minetest.register_craftitem("blocks:imagination", {
 	description = ccore.comment("Imagination", "Contained fourth wall-breaking reality glitch\nUsed to craft the still unavailable materials"),
 	inventory_image = "blocks_imagination.png",
-	groups = {not_loot = 1}
 })
 
 -- Crafting

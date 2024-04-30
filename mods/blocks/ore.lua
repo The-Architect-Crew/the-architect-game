@@ -5,7 +5,7 @@ local S = default.get_translator
 minetest.register_craftitem("blocks:coal_lump", {
 	description = S("Coal Lump"),
 	inventory_image = "blocks_coal_lump.png",
-	groups = {coal = 1, flammable = 1}
+	groups = {coal = 1, flammable = 1, loot = 2}
 })
 
 minetest.register_node("blocks:stone_with_coal", {
@@ -150,14 +150,15 @@ minetest.register_node("blocks:coalblock", {
 	description = S("Coal Block"),
 	tiles = {"blocks_coal_block.png"},
 	is_ground_content = false,
-	groups = {cracky = 3},
+	groups = {cracky = 3, loot = 3},
 	sounds = default.node_sound_stone_defaults(),
 })
 
 -- Iron
 minetest.register_craftitem("blocks:iron_lump", {
 	description = S("Iron Lump"),
-	inventory_image = "blocks_iron_lump.png"
+	inventory_image = "blocks_iron_lump.png",
+	groups = {loot = 2}
 })
 
 minetest.register_node("blocks:stone_with_iron", {
@@ -297,12 +298,14 @@ minetest.register_node("blocks:silver_sandstone_with_iron", {
 
 minetest.register_craftitem("blocks:steel_ingot", {
 	description = S("Steel Ingot"),
-	inventory_image = "blocks_steel_ingot.png"
+	inventory_image = "blocks_steel_ingot.png",
+	groups = {loot = 3}
 })
 
 minetest.register_craftitem("blocks:steel_stick", {
 	description = S("Steel Stick"),
-	inventory_image = "blocks_steel_stick.png"
+	inventory_image = "blocks_steel_stick.png",
+	groups = {loot = 3}
 })
 
 minetest.register_node("blocks:steelblock", {
@@ -310,19 +313,21 @@ minetest.register_node("blocks:steelblock", {
 	tiles = {"blocks_steel_block_top.png", "blocks_steel_block_top.png", "blocks_steel_block.png"},
 	is_ground_content = false,
 	paramtype2 = "facedir",
-	groups = {cracky = 1, level = 2, pipes_connect = 1},
+	groups = {cracky = 1, level = 2, pipes_connect = 1, loot = 4},
 	sounds = default.node_sound_metal_defaults(),
 })
 
 -- Steampunk
 minetest.register_craftitem("blocks:rust_ingot", {
 	description = S("Rusted Ingot"),
-	inventory_image = "blocks_rust_ingot.png"
+	inventory_image = "blocks_rust_ingot.png",
+	groups = {loot = 3}
 })
 
 minetest.register_craftitem("blocks:rust_stick", {
 	description = S("Rusted Stick"),
-	inventory_image = "blocks_rust_stick.png"
+	inventory_image = "blocks_rust_stick.png",
+	groups = {loot = 3}
 })
 
 minetest.register_node("blocks:rustblock", {
@@ -330,7 +335,7 @@ minetest.register_node("blocks:rustblock", {
 	tiles = {"blocks_rust_block_top.png", "blocks_rust_block_top.png", "blocks_rust_block.png"},
 	is_ground_content = false,
 	paramtype2 = "facedir",
-	groups = {cracky = 1, level = 2, pipes_connect = 1},
+	groups = {cracky = 1, level = 2, pipes_connect = 1, loot = 4},
 	sounds = default.node_sound_metal_defaults(),
 })
 
@@ -339,7 +344,7 @@ minetest.register_node("blocks:rustblock_hazard", {
 	tiles = {"blocks_rust_block_hazard_top.png", "blocks_rust_block_hazard_top.png", "blocks_rust_block_hazard.png"},
 	is_ground_content = false,
 	paramtype2 = "facedir",
-	groups = {cracky = 1, level = 2},
+	groups = {cracky = 1, level = 2, loot = 4},
 	sounds = default.node_sound_metal_defaults(),
 })
 
@@ -348,24 +353,27 @@ minetest.register_node("blocks:steelblock_hazard", {
 	tiles = {"blocks_steel_block_hazard_top.png", "blocks_steel_block_hazard_top.png", "blocks_steel_block_hazard.png"},
 	is_ground_content = false,
 	paramtype2 = "facedir",
-	groups = {cracky = 1, level = 2},
+	groups = {cracky = 1, level = 2, loot = 4},
 	sounds = default.node_sound_metal_defaults(),
 })
 
 -- Copper
 minetest.register_craftitem("blocks:copper_ingot", {
 	description = S("Copper Ingot"),
-	inventory_image = "blocks_copper_ingot.png"
+	inventory_image = "blocks_copper_ingot.png",
+	groups = {loot = 2}
 })
 
 minetest.register_craftitem("blocks:copper_patinated_ingot", {
 	description = S("Patinated Copper Ingot"),
-	inventory_image = "blocks_copper_patinated_ingot.png"
+	inventory_image = "blocks_copper_patinated_ingot.png",
+	groups = {loot = 3}
 })
 
 minetest.register_craftitem("blocks:copper_lump", {
 	description = S("Copper Lump"),
-	inventory_image = "blocks_copper_lump.png"
+	inventory_image = "blocks_copper_lump.png",
+	groups = {loot = 2}
 })
 
 minetest.register_node("blocks:stone_with_copper", {
@@ -509,7 +517,7 @@ minetest.register_node("blocks:copperblock", {
 	tiles = {"blocks_copper_block_top.png", "blocks_copper_block_top.png", "blocks_copper_block.png"},
 	is_ground_content = false,
 	paramtype2 = "facedir",
-	groups = {cracky = 1, level = 2, pipes_connect = 1},
+	groups = {cracky = 1, level = 2, pipes_connect = 1, loot = 3},
 	sounds = default.node_sound_metal_defaults(),
 })
 
@@ -518,19 +526,21 @@ minetest.register_node("blocks:copperblock_patinated", {
 	tiles = {"blocks_copper_block_patinated_top.png", "blocks_copper_block_patinated_top.png", "blocks_copper_block_patinated.png"},
 	is_ground_content = false,
 	paramtype2 = "facedir",
-	groups = {cracky = 1, level = 2, pipes_connect = 1},
+	groups = {cracky = 1, level = 2, pipes_connect = 1, loot = 4},
 	sounds = default.node_sound_metal_defaults(),
 })
 
 -- Tin
 minetest.register_craftitem("blocks:tin_ingot", {
 	description = S("Tin Ingot"),
-	inventory_image = "blocks_tin_ingot.png"
+	inventory_image = "blocks_tin_ingot.png",
+	groups = {loot = 2}
 })
 
 minetest.register_craftitem("blocks:tin_lump", {
 	description = S("Tin Lump"),
-	inventory_image = "blocks_tin_lump.png"
+	inventory_image = "blocks_tin_lump.png",
+	groups = {loot = 2}
 })
 
 minetest.register_node("blocks:stone_with_tin", {
@@ -647,14 +657,15 @@ minetest.register_node("blocks:tinblock", {
 	tiles = {"blocks_tin_block_top.png", "blocks_tin_block_top.png", "blocks_tin_block.png"},
 	is_ground_content = false,
 	paramtype2 = "facedir",
-	groups = {cracky = 1, level = 2},
+	groups = {cracky = 1, level = 2, loot = 4},
 	sounds = default.node_sound_metal_defaults(),
 })
 
 -- Bronze
 minetest.register_craftitem("blocks:bronze_ingot", {
 	description = S("Bronze Ingot"),
-	inventory_image = "blocks_bronze_ingot.png"
+	inventory_image = "blocks_bronze_ingot.png",
+	groups = {loot = 3}
 })
 
 minetest.register_node("blocks:bronzeblock", {
@@ -662,7 +673,7 @@ minetest.register_node("blocks:bronzeblock", {
 	tiles = {"blocks_bronze_block_top.png", "blocks_bronze_block_top.png", "blocks_bronze_block.png"},
 	is_ground_content = false,
 	paramtype2 = "facedir",
-	groups = {cracky = 1, level = 2},
+	groups = {cracky = 1, level = 2, loot = 5},
 	sounds = default.node_sound_metal_defaults(),
 })
 
@@ -670,21 +681,25 @@ minetest.register_node("blocks:bronzeblock", {
 minetest.register_craftitem("blocks:mese_crystal", {
 	description = S("Mese Crystal"),
 	inventory_image = "blocks_mese_crystal.png",
+	groups = {loot = 3}
 })
 
 minetest.register_craftitem("blocks:mese_crystal_fragment", {
 	description = S("Mese Crystal Fragment"),
 	inventory_image = "blocks_mese_crystal_fragment.png",
+	groups = {loot = 3}
 })
 
 minetest.register_craftitem("blocks:mese_fiber", {
 	description = S("Mese Fibers"),
 	inventory_image = "blocks_mese_fiber.png",
+	groups = {loot = 3}
 })
 
 minetest.register_craftitem("blocks:mese_fragment_skeleton", {
 	description = S("Mese Fragment Skeleton"),
 	inventory_image = "blocks_mese_fragment_skeleton.png",
+	groups = {loot = 3}
 })
 
 minetest.register_node("blocks:stone_with_mese", {
@@ -745,7 +760,7 @@ minetest.register_node("blocks:mese", {
 	description = S("Mese Block"),
 	tiles = {"blocks_mese_block.png"},
 	paramtype = "light",
-	groups = {cracky = 1, level = 2},
+	groups = {cracky = 1, level = 2, loot = 5},
 	sounds = default.node_sound_stone_defaults(),
 	light_source = 3,
 })
@@ -796,56 +811,14 @@ minetest.register_node("blocks:lost_mese", {
 	end,
 	on_use = function(itemstack, player)
 		local inv = player:get_inventory()
-		local free_slot = false
-		for inv_slot=1, inv:get_size("main") do
-			if inv:get_stack("main", inv_slot):is_empty() then
-				free_slot = inv_slot
-				break
-			end
-		end
+		local random_item = ItemStack(blocks.roll_loot(0.9))
 
-		local random
-		local random_node
-		local amount
-		local new_stack
-
-		local rarity = math.random(1,6)
-		if  rarity <= 3 then
-			random = math.random(1, #blocks.random_items)
-			random_node = minetest.registered_items[blocks.random_items[random]]
-			amount = math.random(2, 6)
-			if string.find(blocks.random_items[random], "tools:") then
-				amount = 1
-			end
-			new_stack = ItemStack(blocks.random_items[random])
-		elseif rarity > 3 and rarity <= 5 then
-			random = math.random(1, #blocks.rare_items)
-			random_node = minetest.registered_items[blocks.rare_items[random]]
-			amount = math.random(1, 4)
-			if string.find(blocks.rare_items[random], "tools:") then
-				amount = 1
-			end
-			new_stack = ItemStack(blocks.rare_items[random])
-		elseif rarity > 5 then
-			random = math.random(1, #blocks.extra_rare_items)
-			random_node = minetest.registered_items[blocks.extra_rare_items[random]]
-			amount = math.random(1, 2)
-			if string.find(blocks.extra_rare_items[random], "tools:") then
-				amount = 1
-			end
-			new_stack = ItemStack(blocks.extra_rare_items[random])
-		end
-
-		if free_slot then
+		if inv:room_for_item("main", random_item) then
 			itemstack:take_item()
-
-			minetest.chat_send_player(player:get_player_name(), "Lost Mese has converted into " .. amount .. " " .. ccore.strip_newlines(random_node.description) .. "!")
-
-			new_stack:set_count(math.min(amount, new_stack:get_stack_max()))
-
-			inv:set_stack("main", free_slot, new_stack)
+			minetest.chat_send_player(player:get_player_name(), "Lost Mese has converted into " .. random_item:get_count() .. " " .. random_item:get_short_description() .. "!")
+			inv:add_item("main", random_item)
 		else
-			minetest.chat_send_player(player:get_player_name(), "Lost Mese has no space to convert. You have missed " .. amount .. " " .. ccore.strip_newlines(random_node.description) .. ".")
+			minetest.chat_send_player(player:get_player_name(), "Lost Mese has no space to convert. You have missed " .. random_item:get_count() .. " " .. random_item:get_short_description() .. ".")
 		end
 
 		return itemstack
@@ -856,12 +829,14 @@ minetest.register_node("blocks:lost_mese", {
 -- Gold
 minetest.register_craftitem("blocks:gold_ingot", {
 	description = S("Gold Ingot"),
-	inventory_image = "blocks_gold_ingot.png"
+	inventory_image = "blocks_gold_ingot.png",
+	groups = {loot = 3}
 })
 
 minetest.register_craftitem("blocks:gold_lump", {
 	description = S("Gold Lump"),
-	inventory_image = "blocks_gold_lump.png"
+	inventory_image = "blocks_gold_lump.png",
+	groups = {loot = 3}
 })
 
 minetest.register_node("blocks:stone_with_gold", {
@@ -1039,7 +1014,7 @@ minetest.register_node("blocks:goldblock", {
 	tiles = {"blocks_gold_block_top.png", "blocks_gold_block_top.png", "blocks_gold_block.png"},
 	is_ground_content = false,
 	paramtype2 = "facedir",
-	groups = {cracky = 1},
+	groups = {cracky = 1, loot = 5},
 	sounds = default.node_sound_metal_defaults(),
 })
 
@@ -1126,6 +1101,7 @@ minetest.register_node("blocks:granite_with_electrum", {
 minetest.register_craftitem("blocks:diamond", {
 	description = S("Diamond"),
 	inventory_image = "blocks_diamond.png",
+	groups = {loot = 4}
 })
 
 minetest.register_node("blocks:stone_with_diamond", {
@@ -1240,7 +1216,7 @@ minetest.register_node("blocks:diamondblock", {
 	description = S("Diamond Block"),
 	tiles = {"blocks_diamond_block.png"},
 	is_ground_content = false,
-	groups = {cracky = 1, level = 3},
+	groups = {cracky = 1, level = 3, loot = 5},
 	sounds = default.node_sound_stone_defaults(),
 })
 
@@ -1268,16 +1244,19 @@ minetest.register_node("blocks:diamond_cluster", {
 minetest.register_craftitem("blocks:amber_shard", {
 	description = S("Amber Shard"),
 	inventory_image = "blocks_amber_shard.png",
+	groups = {loot = 2}
 })
 
 minetest.register_craftitem("blocks:amber_lump", {
 	description = S("Amber Lump"),
 	inventory_image = "blocks_amber_lump.png",
+	groups = {loot = 2}
 })
 
 minetest.register_craftitem("blocks:amber_glass_tile", {
 	description = S("Amber Glass Tile"),
 	inventory_image = "blocks_amber_glass_tile.png",
+	groups = {loot = 2}
 })
 
 minetest.register_node("blocks:stone_with_amber", {
@@ -1594,7 +1573,7 @@ minetest.register_node("blocks:amber", {
 	description = S("Amber"),
 	tiles = {"blocks_amber.png"},
 	is_ground_content = false,
-	groups = {cracky = 3, oddly_breakable_by_hand = 3},
+	groups = {cracky = 3, oddly_breakable_by_hand = 3, loot = 2},
 	sounds = default.node_sound_glass_defaults(),
 })
 
@@ -1622,12 +1601,14 @@ minetest.register_node("blocks:amber_cluster", {
 -- Silver
 minetest.register_craftitem("blocks:silver_ingot", {
 	description = S("Silver Ingot"),
-	inventory_image = "blocks_silver_ingot.png"
+	inventory_image = "blocks_silver_ingot.png",
+	groups = {loot = 3}
 })
 
 minetest.register_craftitem("blocks:silver_lump", {
 	description = S("Silver Lump"),
-	inventory_image = "blocks_silver_lump.png"
+	inventory_image = "blocks_silver_lump.png",
+	groups = {loot = 3}
 })
 
 minetest.register_node("blocks:stone_with_silver", {
@@ -1767,19 +1748,21 @@ minetest.register_node("blocks:silverblock", {
 	tiles = {"blocks_silver_block_top.png", "blocks_silver_block_top.png", "blocks_silver_block.png"},
 	is_ground_content = false,
 	paramtype2 = "facedir",
-	groups = {cracky = 1},
+	groups = {cracky = 1, loot = 5},
 	sounds = default.node_sound_metal_defaults(),
 })
 
 -- Mithril
 minetest.register_craftitem("blocks:mithril_ingot", {
 	description = S("Mithril Ingot"),
-	inventory_image = "blocks_mithril_ingot.png"
+	inventory_image = "blocks_mithril_ingot.png",
+	groups = {loot = 6}
 })
 
 minetest.register_craftitem("blocks:mithril_lump", {
 	description = S("Mithril Lump"),
-	inventory_image = "blocks_mithril_lump.png"
+	inventory_image = "blocks_mithril_lump.png",
+	groups = {loot = 6}
 })
 
 minetest.register_node("blocks:stone_with_mithril", {
@@ -1814,7 +1797,7 @@ minetest.register_node("blocks:mithrilblock", {
 	tiles = {"blocks_mithril_block_top.png", "blocks_mithril_block_top.png", "blocks_mithril_block.png"},
 	is_ground_content = false,
 	paramtype2 = "facedir",
-	groups = {cracky = 1, level = 3},
+	groups = {cracky = 1, level = 3, loot = 7},
 	sounds = default.node_sound_metal_defaults(),
 })
 
@@ -2036,6 +2019,7 @@ minetest.register_node("blocks:silver_sandstone_with_amethyst", {
 minetest.register_craftitem("blocks:amethyst_crystal", {
 	description = S("Amethyst Crystal"),
 	inventory_image = "blocks_amethyst_crystal.png",
+	groups = {loot = 3}
 })
 
 minetest.register_node("blocks:amethyst", {
@@ -2046,7 +2030,7 @@ minetest.register_node("blocks:amethyst", {
 	use_texture_alpha = "blend",
 	is_ground_content = true,
 	sunlight_propagates = true,
-	groups = {cracky = 2},
+	groups = {cracky = 2, loot = 3},
 	sounds = default.node_sound_glass_defaults(),
 })
 
@@ -2287,6 +2271,7 @@ minetest.register_node("blocks:obsidian_with_garnet", {
 minetest.register_craftitem("blocks:garnet_crystal", {
 	description = S("Garnet Crystal"),
 	inventory_image = "blocks_garnet_crystal.png",
+	groups = {loot = 3}
 })
 
 minetest.register_node("blocks:garnet", {
@@ -2297,7 +2282,7 @@ minetest.register_node("blocks:garnet", {
 	use_texture_alpha = "blend",
 	is_ground_content = true,
 	sunlight_propagates = true,
-	groups = {cracky = 2},
+	groups = {cracky = 2, loot = 3},
 	sounds = default.node_sound_glass_defaults(),
 })
 
@@ -2326,7 +2311,7 @@ minetest.register_node("blocks:turquoise", {
 	description = S("Turquoise"),
 	tiles = {"blocks_turquoise.png"},
 	is_ground_content = true,
-	groups = {cracky = 2},
+	groups = {cracky = 2, loot = 4},
 	sounds = default.node_sound_stone_defaults(),
 })
 
@@ -2335,7 +2320,7 @@ minetest.register_node("blocks:lapis_lazuli", {
 	description = S("Lapis Lazuli"),
 	tiles = {"blocks_lapis_lazuli.png"},
 	is_ground_content = true,
-	groups = {cracky = 2},
+	groups = {cracky = 2, loot = 4},
 	sounds = default.node_sound_stone_defaults(),
 })
 
@@ -2362,6 +2347,7 @@ minetest.register_node("blocks:lapis_lazuli_cluster", {
 minetest.register_craftitem("blocks:lapis_chunk", {
 	description = S("Lapis Lazuli Chunk"),
 	inventory_image = "blocks_lapis_chunk.png",
+	groups = {loot = 3}
 })
 
 minetest.register_node("blocks:marble_with_lapis", {
@@ -2400,13 +2386,14 @@ minetest.register_node("blocks:malachite", {
 	description = S("Malachite"),
 	tiles = {"blocks_malachite.png"},
 	is_ground_content = true,
-	groups = {cracky = 2},
+	groups = {cracky = 2, loot = 4},
 	sounds = default.node_sound_stone_defaults(),
 })
 
 minetest.register_craftitem("blocks:malachite_chunk", {
 	description = S("Malachite Chunk"),
 	inventory_image = "blocks_malachite_chunk.png",
+	groups = {loot = 3}
 })
 
 minetest.register_node("blocks:malachite_glass_cluster", {
@@ -2434,7 +2421,7 @@ minetest.register_node("blocks:basalt", {
 	description = S("Basalt"),
 	tiles = {"blocks_basalt.png"},
 	is_ground_content = true,
-	groups = {cracky = 3},
+	groups = {cracky = 3, loot = 3},
 	drop = "blocks:basalt_cobble",
 	sounds = default.node_sound_stone_defaults(),
 })
@@ -2442,13 +2429,14 @@ minetest.register_node("blocks:basalt", {
 minetest.register_craftitem("blocks:basalt_chunk", {
 	description = S("Basalt Chunk"),
 	inventory_image = "blocks_basalt_chunk.png",
+	groups = {loot = 2}
 })
 
 minetest.register_node("blocks:basalt_cobble", {
 	description = S("Basalt Cobble"),
 	tiles = {"blocks_basalt_cobble.png"},
 	is_ground_content = true,
-	groups = {cracky = 3},
+	groups = {cracky = 3, loot = 3},
 	sounds = default.node_sound_stone_defaults(),
 })
 
@@ -2457,7 +2445,7 @@ minetest.register_node("blocks:chalk", {
 	description = S("Chalk"),
 	tiles = {"blocks_chalk.png"},
 	is_ground_content = true,
-	groups = {crumbly=2,cracky = 2},
+	groups = {crumbly=2,cracky = 2, loot = 2},
 	drop = "blocks:chalk_powder 4",
 	sounds = default.node_sound_stone_defaults(),
 })
@@ -2465,6 +2453,7 @@ minetest.register_node("blocks:chalk", {
 minetest.register_craftitem("blocks:chalk_powder", {
 	description = S("Chalk Powder"),
 	inventory_image = "blocks_chalk_powder.png",
+	groups = {loot = 2}
 })
 
 -- Granite
@@ -2472,13 +2461,14 @@ minetest.register_node("blocks:granite", {
 	description = S("Granite"),
 	tiles = {"blocks_granite.png"},
 	is_ground_content = true,
-	groups = {cracky = 2},
+	groups = {cracky = 2, loot = 3},
 	sounds = default.node_sound_stone_defaults(),
 })
 
 minetest.register_craftitem("blocks:granite_chunk", {
 	description = S("Granite Chunk"),
 	inventory_image = "blocks_granite_chunk.png",
+	groups = {loot = 3}
 })
 
 -- Marble
@@ -2486,13 +2476,14 @@ minetest.register_node("blocks:marble", {
 	description = S("Marble"),
 	tiles = {"blocks_marble.png"},
 	is_ground_content = true,
-	groups = {cracky = 3},
+	groups = {cracky = 3, loot = 4},
 	sounds = default.node_sound_stone_defaults(),
 })
 
 minetest.register_craftitem("blocks:marble_chunk", {
 	description = S("Marble Chunk"),
 	inventory_image = "blocks_marble_chunk.png",
+	groups = {loot = 3}
 })
 
 -- Mese biome
@@ -2555,7 +2546,7 @@ minetest.register_node("blocks:mud", {
 	description = S("Mud"),
 	tiles = {"blocks_mud.png", "blocks_mud_side.png"},
 	is_ground_content = true,
-	groups = {crumbly = 3},
+	groups = {crumbly = 3, loot = 2},
 	drop = "blocks:mud_lump 4",
 	sounds = default.node_sound_dirt_defaults({
 		footstep = "",
@@ -2565,6 +2556,7 @@ minetest.register_node("blocks:mud", {
 minetest.register_craftitem("blocks:mud_lump", {
 	description = S("Mud Lump"),
 	inventory_image = "blocks_mud_lump.png",
+	groups = {loot = 2}
 })
 
 -- Porphyry
@@ -2572,7 +2564,7 @@ minetest.register_node("blocks:porphyry", {
 	description = S("Porphyry"),
 	tiles = {"blocks_porphyry.png"},
 	is_ground_content = true,
-	groups = {cracky = 2},
+	groups = {cracky = 2, loot = 7},
 	sounds = default.node_sound_stone_defaults(),
 })
 
@@ -2581,7 +2573,7 @@ minetest.register_node("blocks:serpentine", {
 	description = S("Serpentine"),
 	tiles = {"blocks_serpentine.png"},
 	is_ground_content = true,
-	groups = {cracky = 3},
+	groups = {cracky = 3, loot = 4},
 	sounds = default.node_sound_stone_defaults(),
 })
 
@@ -2590,7 +2582,7 @@ minetest.register_node("blocks:slate", {
 	description = S("Slate"),
 	tiles = {"blocks_slate.png"},
 	is_ground_content = true,
-	groups = {cracky = 2},
+	groups = {cracky = 2, loot = 3},
 	drop = "blocks:slate_cobble",
 	sounds = default.node_sound_stone_defaults(),
 })
@@ -2598,12 +2590,13 @@ minetest.register_node("blocks:slate", {
 minetest.register_craftitem("blocks:slate_chunk", {
 	description = S("Slate Chunk"),
 	inventory_image = "blocks_slate_chunk.png",
+	groups = {loot = 2}
 })
 
 minetest.register_node("blocks:slate_cobble", {
 	description = S("Slate Cobble"),
 	tiles = {"blocks_slate_cobble.png"},
-	groups = {cracky = 2},
+	groups = {cracky = 2, loot = 3},
 	sounds = default.node_sound_stone_defaults(),
 })
 
@@ -2650,7 +2643,7 @@ minetest.register_node("blocks:moonstone_crystal", {
 	light_source = minetest.LIGHT_MAX,
 	use_texture_alpha = "clip",
 	sunlight_propagates = true,
-	groups = {cracky = 3, oddly_breakable_by_hand = 3},
+	groups = {cracky = 3, oddly_breakable_by_hand = 3, loot = 2},
 	selection_box = {
 		type = "fixed",
 		fixed = {-8 / 16, -8/16, -8 / 16, 8 / 16, -4/16, 8 / 16},
@@ -2661,6 +2654,7 @@ minetest.register_node("blocks:moonstone_crystal", {
 minetest.register_craftitem("blocks:moonstone_powder", {
 	description = S("Moonstone Powder"),
 	inventory_image = "blocks_moonstone_powder.png",
+	groups = {loot = 3}
 })
 
 minetest.register_node("blocks:moonstone", {
@@ -2670,7 +2664,7 @@ minetest.register_node("blocks:moonstone", {
 	drawtype = "glasslike",
 	use_texture_alpha = "blend",
 	light_source = default.LIGHT_MAX,
-	groups = {cracky = 3},
+	groups = {cracky = 3, loot = 4},
 	sounds = default.node_sound_glass_defaults(),
 })
 
@@ -2857,19 +2851,20 @@ minetest.register_node("blocks:mineral_salt", {
 	tiles = {"blocks_mineral_salt.png"},
 	is_ground_content = true,
 	drop = "blocks:mineral_salt_cobble",
-	groups = {crumbly=2,cracky=2},
+	groups = {crumbly=2,cracky=2, loot = 3},
 	sounds = default.node_sound_stone_defaults(),
 })
 
 minetest.register_craftitem("blocks:mineral_salt_chunk", {
 	description = S("Mineral Salt Chunk"),
 	inventory_image = "blocks_mineral_salt_chunk.png",
+	groups = {loot = 3}
 })
 
 minetest.register_node("blocks:mineral_salt_cobble", {
 	description = S("Mineral Salt Cobble"),
 	tiles = {"blocks_mineral_salt_cobble.png"},
-	groups = {crumbly=2,cracky=2},
+	groups = {crumbly=2,cracky=2, loot = 3},
 	sounds = default.node_sound_stone_defaults(),
 })
 

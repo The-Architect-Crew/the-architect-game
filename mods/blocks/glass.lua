@@ -9,7 +9,7 @@ minetest.register_node("blocks:glass", {
 	paramtype2 = "glasslikeliquidlevel",
 	sunlight_propagates = true,
 	is_ground_content = false,
-	groups = {cracky = 3, oddly_breakable_by_hand = 3},
+	groups = {cracky = 3, oddly_breakable_by_hand = 3, loot = 1},
 	sounds = default.node_sound_glass_defaults(),
 })
 
@@ -23,7 +23,7 @@ minetest.register_node("blocks:obsidian_glass", {
 	is_ground_content = false,
 	sunlight_propagates = true,
 	sounds = default.node_sound_glass_defaults(),
-	groups = {cracky = 3},
+	groups = {cracky = 3, loot = 2},
 })
 
 minetest.register_node("blocks:glass_frosted", {
@@ -35,7 +35,7 @@ minetest.register_node("blocks:glass_frosted", {
 	paramtype2 = "glasslikeliquidlevel",
 	sunlight_propagates = true,
 	is_ground_content = false,
-	groups = {cracky = 3, oddly_breakable_by_hand = 3},
+	groups = {cracky = 3, oddly_breakable_by_hand = 3, loot = 2},
 	sounds = default.node_sound_glass_defaults(),
 })
 
@@ -51,7 +51,7 @@ minetest.register_node("blocks:medieval_glass", {
 	paramtype2 = "glasslikeliquidlevel",
 	sunlight_propagates = true,
 	is_ground_content = false,
-	groups = {cracky = 3, oddly_breakable_by_hand = 3},
+	groups = {cracky = 3, oddly_breakable_by_hand = 3, loot = 3},
 	sounds = default.node_sound_glass_defaults(),
 })
 
@@ -65,7 +65,7 @@ minetest.register_node("blocks:amber_glass", {
 	paramtype = "light",
 	sunlight_propagates = true,
 	is_ground_content = false,
-	groups = {cracky = 3, oddly_breakable_by_hand = 3},
+	groups = {cracky = 3, oddly_breakable_by_hand = 3, loot = 3},
 	sounds = default.node_sound_glass_defaults(),
 })
 
@@ -77,7 +77,7 @@ minetest.register_node("blocks:amber_medieval_glass", {
 	paramtype = "light",
 	sunlight_propagates = true,
 	is_ground_content = false,
-	groups = {cracky = 3, oddly_breakable_by_hand = 3},
+	groups = {cracky = 3, oddly_breakable_by_hand = 3, loot = 3},
 	sounds = default.node_sound_glass_defaults(),
 })
 
@@ -90,7 +90,7 @@ minetest.register_node("blocks:malachite_glass", {
 	paramtype = "light",
 	sunlight_propagates = true,
 	is_ground_content = false,
-	groups = {cracky = 3, oddly_breakable_by_hand = 3},
+	groups = {cracky = 3, oddly_breakable_by_hand = 3, loot = 3},
 	sounds = default.node_sound_glass_defaults(),
 })
 

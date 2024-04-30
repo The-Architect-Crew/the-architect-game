@@ -8,7 +8,7 @@ crates:register_storage("crates:crate", {
     lock_order = {"lock", "protect", "public", "mail"}, -- order of locking modes
     drawtype = "mesh",
     mesh = "crates_crate.obj",
-    groups = {choppy = 2, oddly_breakable_by_hand = 2},
+    groups = {choppy = 2, oddly_breakable_by_hand = 2, loot = 3},
     tiles = {"crates_crate.png"},
     filled_tiles = {"crates_crate_filled.png"},
     sunlight_propagates = true,
@@ -48,7 +48,7 @@ for _, row in ipairs(crate_types) do
         lock_order = {"lock", "protect", "public", "mail"}, -- order of locking modes
         drawtype = "mesh",
         mesh = "crates_crate.obj",
-        groups = {choppy = 2, oddly_breakable_by_hand = 2},
+        groups = {choppy = 2, oddly_breakable_by_hand = 2, loot = 3},
         tiles = variant_tiles,
         filled_tiles = variant_filled_tiles,
         sunlight_propagates = true,

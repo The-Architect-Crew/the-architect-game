@@ -3,7 +3,7 @@ local S = default.get_translator
 minetest.register_node("blocks:stone", {
 	description = S("Stone"),
 	tiles = {"blocks_stone.png"},
-	groups = {cracky = 3, stone = 1},
+	groups = {cracky = 3, stone = 1, loot = 1},
 	drop = "blocks:cobble",
 	legacy_mineral = true,
 	sounds = default.node_sound_stone_defaults(),
@@ -12,12 +12,13 @@ minetest.register_node("blocks:stone", {
 minetest.register_craftitem("blocks:stone_chunk", {
 	description = S("Stone Chunk"),
 	inventory_image = "blocks_stone_chunk.png",
+	groups = {loot = 1}
 })
 
 minetest.register_node("blocks:cobble", {
 	description = S("Cobblestone"),
 	tiles = {"blocks_cobble.png"},
-	groups = {cracky = 3, stone = 2},
+	groups = {cracky = 3, stone = 2, loot = 2},
 	sounds = default.node_sound_stone_defaults(),
 })
 
@@ -41,7 +42,7 @@ minetest.register_node("blocks:mossy_stone", {
 minetest.register_node("blocks:desert_stone", {
 	description = S("Desert Stone"),
 	tiles = {"blocks_desert_stone.png"},
-	groups = {cracky = 3, stone = 1},
+	groups = {cracky = 3, stone = 1, loot = 2},
 	drop = "blocks:desert_cobble",
 	legacy_mineral = true,
 	sounds = default.node_sound_stone_defaults(),
@@ -50,13 +51,14 @@ minetest.register_node("blocks:desert_stone", {
 minetest.register_craftitem("blocks:desert_stone_chunk", {
 	description = S("Desert Stone Chunk"),
 	inventory_image = "blocks_desert_stone_chunk.png",
+	groups = {loot = 2}
 })
 
 minetest.register_node("blocks:desert_cobble", {
 	description = S("Desert Cobblestone"),
 	tiles = {"blocks_desert_cobble.png"},
 	is_ground_content = false,
-	groups = {cracky = 3, stone = 2},
+	groups = {cracky = 3, stone = 2, loot = 2},
 	sounds = default.node_sound_stone_defaults(),
 })
 
@@ -79,7 +81,7 @@ minetest.register_node("blocks:mossy_desert_stone", {
 minetest.register_node("blocks:sandstone", {
 	description = S("Sandstone"),
 	tiles = {"blocks_sandstone.png"},
-	groups = {crumbly = 1, cracky = 3},
+	groups = {crumbly = 1, cracky = 3, loot = 2},
 	sounds = default.node_sound_stone_defaults(),
 })
 
@@ -94,7 +96,7 @@ minetest.register_node("blocks:mossy_sandstone", {
 minetest.register_node("blocks:desert_sandstone", {
 	description = S("Desert Sandstone"),
 	tiles = {"blocks_desert_sandstone.png"},
-	groups = {crumbly = 1, cracky = 3},
+	groups = {crumbly = 1, cracky = 3, loot = 2},
 	sounds = default.node_sound_stone_defaults(),
 })
 
@@ -109,7 +111,7 @@ minetest.register_node("blocks:mossy_desert_sandstone", {
 minetest.register_node("blocks:silver_sandstone", {
 	description = S("Silver Sandstone"),
 	tiles = {"blocks_silver_sandstone.png"},
-	groups = {crumbly = 1, cracky = 3},
+	groups = {crumbly = 1, cracky = 3, loot = 2},
 	sounds = default.node_sound_stone_defaults(),
 })
 
@@ -124,41 +126,42 @@ minetest.register_node("blocks:mossy_silver_sandstone", {
 minetest.register_craftitem("blocks:obsidian_shard", {
 	description = S("Obsidian Shard"),
 	inventory_image = "blocks_obsidian_shard.png",
+	groups = {loot = 3}
 })
 
 minetest.register_node("blocks:obsidian", {
 	description = S("Obsidian"),
 	tiles = {"blocks_obsidian.png"},
 	sounds = default.node_sound_stone_defaults(),
-	groups = {cracky = 1, level = 2},
+	groups = {cracky = 1, level = 2, loot = 3},
 })
 
 minetest.register_node("blocks:obsidian_cursed", {
 	description = S("Cursed Obsidian"),
 	tiles = {"blocks_obsidian.png^[colorizehsl:-58:66"},
 	sounds = default.node_sound_stone_defaults(),
-	groups = {cracky = 1, level = 2},
+	groups = {cracky = 1, level = 2, loot = 3},
 })
 
 minetest.register_node("blocks:obsidian_sickly", {
 	description = S("Sickly Obsidian"),
 	tiles = {"blocks_obsidian.png^[colorizehsl:107:74"},
 	sounds = default.node_sound_stone_defaults(),
-	groups = {cracky = 1, level = 2},
+	groups = {cracky = 1, level = 2, loot = 3},
 })
 
 minetest.register_node("blocks:obsidian_hot", {
 	description = S("Hot Obsidian"),
 	tiles = {"blocks_obsidian.png^[colorizehsl:-2:64"},
 	sounds = default.node_sound_stone_defaults(),
-	groups = {cracky = 1, level = 2},
+	groups = {cracky = 1, level = 2, loot = 3},
 })
 
 minetest.register_node("blocks:obsidian_crying", {
 	description = S("Crying Obsidian"),
 	tiles = {"blocks_obsidian.png^[colorizehsl:-173:65"},
 	sounds = default.node_sound_stone_defaults(),
-	groups = {cracky = 1, level = 2},
+	groups = {cracky = 1, level = 2, loot = 3},
 })
 
 --
@@ -188,7 +191,7 @@ for _, color in ipairs(blocks.stone_colors) do
 	minetest.register_node("blocks:stone_" .. color[1], {
 		description = S(color[2] .. " Stone"),
 		tiles = {"blocks_stone_" .. color[1] .. ".png"},
-		groups = {cracky = 3, stone = 1},
+		groups = {cracky = 3, stone = 1, loot = 3},
 		sounds = default.node_sound_stone_defaults(),
 	})
 end

@@ -8,7 +8,7 @@ minetest.register_node("furniture:scaffolding_steel", {
     paramtype = "light",
     sunlight_propagates = true,
     use_texture_alpha = "clip",
-	groups = {cracky = 1, level = 2},
+	groups = {cracky = 1, level = 2, loot = 3},
 	sounds = default.node_sound_metal_defaults(),
 })
 
@@ -20,7 +20,7 @@ minetest.register_node("furniture:scaffolding_rust", {
     paramtype = "light",
     sunlight_propagates = true,
     use_texture_alpha = "clip",
-	groups = {cracky = 1, level = 2},
+	groups = {cracky = 1, level = 2, loot = 3},
 	sounds = default.node_sound_metal_defaults(),
 })
 
@@ -153,7 +153,7 @@ function furniture.register_pipes(cname, sname, craftitem)
                 paramtype2 = "facedir",
                 sunlight_propagates = true,
                 use_texture_alpha = "clip",
-                groups = {cracky = 1, level = 2},
+                groups = {cracky = 1, level = 2, loot = 4},
                 sounds = default.node_sound_metal_defaults(),
             })
             furniture.register_pipe_recipe(ptype .. "_" .. psize, craftitem, cname)
@@ -172,7 +172,7 @@ function furniture.register_pipes(cname, sname, craftitem)
         paramtype2 = "facedir",
         sunlight_propagates = true,
         use_texture_alpha = "clip",
-        groups = {cracky = 1, level = 2},
+        groups = {cracky = 1, level = 2, loot = 4},
         sounds = default.node_sound_metal_defaults(),
     })
     furniture.register_pipe_recipe("converter", craftitem, cname)
@@ -190,7 +190,7 @@ function furniture.register_pipes(cname, sname, craftitem)
         paramtype2 = "facedir",
         sunlight_propagates = true,
         use_texture_alpha = "clip",
-        groups = {cracky = 1, level = 2},
+        groups = {cracky = 1, level = 2, loot = 5},
         sounds = default.node_sound_metal_defaults(),
     })
     furniture.register_pipe_recipe("valve_small", craftitem, cname)
@@ -206,7 +206,7 @@ minetest.register_node("furniture:pipe_valve_large", {
     paramtype2 = "facedir",
     sunlight_propagates = true,
     use_texture_alpha = "clip",
-    groups = {cracky = 1, level = 2},
+    groups = {cracky = 1, level = 2, loot = 5},
     sounds = default.node_sound_metal_defaults(),
 })
 

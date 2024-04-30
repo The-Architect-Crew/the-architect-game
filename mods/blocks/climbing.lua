@@ -18,7 +18,7 @@ minetest.register_node("blocks:ladder_wood", {
 		--wall_bottom = = <default>
 		--wall_side = = <default>
 	},
-	groups = {choppy = 2, oddly_breakable_by_hand = 3, flammable = 2},
+	groups = {choppy = 2, oddly_breakable_by_hand = 3, flammable = 2, loot = 2},
 	legacy_wallmounted = true,
 	sounds = default.node_sound_wood_defaults(),
 })
@@ -41,7 +41,7 @@ minetest.register_node("blocks:ladder_steel", {
 		--wall_bottom = = <default>
 		--wall_side = = <default>
 	},
-	groups = {cracky = 2},
+	groups = {cracky = 2, loot = 2},
 	sounds = default.node_sound_metal_defaults(),
 })
 -- Chain
@@ -58,7 +58,7 @@ minetest.register_node("blocks:chain", {
 	selection_box = {
 		type = "wallmounted",
 	},
-	groups = {snappy=1,cracky=2,oddly_breakable_by_hand=2},
+	groups = {snappy=1,cracky=2,oddly_breakable_by_hand=2, loot = 2},
 	legacy_wallmounted = true
 })
 
@@ -72,7 +72,7 @@ minetest.register_node("blocks:rope", {
 	walkable = false,
 	climbable = true,
 	node_placement_prediction = "",
-	groups = {snappy=1,cracky=2,oddly_breakable_by_hand=2},
+	groups = {snappy=1,cracky=2,oddly_breakable_by_hand=2, loot = 1},
 	on_place = function(itemstack, placer, pointed_thing)
 		local pos = pointed_thing.above
 		local pos_above = {x = pos.x, y = pos.y + 1, z = pos.z}

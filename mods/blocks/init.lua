@@ -37,50 +37,35 @@ dofile(path.."/shapes.lua")
 -- Misc
 dofile(path.."/mapgen.lua")
 
-blocks.forbidden_groups = {
-    "not_in_creative_inventory",
-    "not_in_craftguide",
-    "not_loot"
+blocks.loot = {
+    loot_level1 = {},
+    loot_level2 = {},
+    loot_level3 = {},
+    loot_level4 = {},
+    loot_level5 = {},
+    loot_level6 = {},
+    loot_level7 = {},
+    loot_level8 = {}
 }
-
-blocks.random_items = {}
-blocks.rare_items = {}
-blocks.extra_rare_items = {
-    "blocks:goldblock",
-    "blocks:silverblock",
-    "blocks:steelblock",
-    "blocks:mithrilblock",
-    "blocks:diamondblock",
-    "blocks:mese",
-    "blocks:tinblock",
-    "blocks:copperblock",
-    "blocks:copperblock_patinated",
-    "tools:pick_mese",
-    "tools:pick_diamond",
-    "tools:axe_mese",
-    "tools:axe_diamond",
-    "tools:sword_mese",
-    "tools:sword_diamond",
-    "tools:shovel_mese",
-    "tools:shovel_diamond",
-}
-
-blocks.blocked_mods = {"quests", "variations", "patterns", "protection", "flora", "draconis", "animalia"}
-blocks.rare_mods = {"tools", "furniture"}
 
 minetest.register_on_mods_loaded(function()
     for name, definition in pairs(minetest.registered_items) do
-        if (not ccore.scan_forbidden_groups(definition.groups, blocks.forbidden_groups)) and
-        (not ccore.belongs(blocks.blocked_mods, ccore.modname(name))) and
-        (not string.find(name, "shapes_")) and
-        (not string.find(name, "_with_")) then
-            if ccore.belongs(blocks.extra_rare_items, name) then
-                break
-            elseif ccore.belongs(blocks.rare_mods, ccore.modname(name)) then
-                table.insert_all(blocks.rare_items, {name})
-            else
-                table.insert_all(blocks.random_items, {name})
-            end
+        if definition.groups.loot and not string.find(name, "shapes_") then
+            table.insert_all(blocks.loot["loot_level" .. definition.groups.loot], {name})
         end
     end
 end)
+
+function blocks.roll_loot(falloff, level)
+    if level == nil then level = 1 end
+    local itemstack
+    if (math.random() < falloff) and (level < 8) then
+        itemstack = blocks.roll_loot(falloff, level + 1)
+    else
+        local amount = math.random(1, math.max(1, 10-2*level))
+        local cat_size = #blocks.loot["loot_level" .. level]
+        local random_id = math.random(1, cat_size)
+        itemstack = blocks.loot["loot_level" .. level][random_id] .. " " .. amount
+    end
+    return itemstack
+end

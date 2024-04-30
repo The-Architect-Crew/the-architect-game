@@ -3,17 +3,19 @@ local S = default.get_translator
 minetest.register_craftitem("blocks:clay_brick", {
 	description = S("Clay Brick"),
 	inventory_image = "blocks_clay_brick.png",
+	groups = {loot = 1}
 })
 
 minetest.register_craftitem("blocks:clay_lump", {
 	description = S("Clay Lump"),
 	inventory_image = "blocks_clay_lump.png",
+	groups = {loot = 1}
 })
 
 minetest.register_node("blocks:clay", {
 	description = S("Clay"),
 	tiles = {"blocks_clay.png"},
-	groups = {crumbly = 3},
+	groups = {crumbly = 3, loot = 1},
 	drop = "blocks:clay_lump 4",
 	sounds = default.node_sound_dirt_defaults(),
 })
@@ -21,7 +23,7 @@ minetest.register_node("blocks:clay", {
 minetest.register_node("blocks:clay_hard", {
 	description = S("Hardened Clay"),
 	tiles = {"blocks_clay_hard.png"},
-	groups = {crumbly = 2},
+	groups = {crumbly = 2, loot = 2},
 	sounds = default.node_sound_dirt_defaults(),
 })
 
@@ -34,7 +36,7 @@ minetest.register_node("blocks:brick", {
 		"blocks_brick.png",
 	},
 	is_ground_content = false,
-	groups = {cracky = 3},
+	groups = {cracky = 3, loot = 2},
 	sounds = default.node_sound_stone_defaults(),
 })
 

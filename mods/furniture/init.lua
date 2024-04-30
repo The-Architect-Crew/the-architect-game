@@ -110,6 +110,9 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
     local sounds = base_definition.sounds
     local collision_box = {type = "fixed", fixed = fdef.box}
     local groups = ccore.groups_copy(base_definition.groups)
+    if groups.loot then
+        groups.loot = groups.loot + 1
+    end
     if fdef.groups then
         furniture.dictionary_append(groups, fdef.groups)
     end

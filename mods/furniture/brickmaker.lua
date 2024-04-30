@@ -166,6 +166,7 @@ for i=1,#furniture.craftstation_materials do
 	local description = base_definition.description .. " Variations Brickmaker"
 	local groups = table.copy(base_definition.groups)
 	groups.dig_immediate = 3
+	groups.not_loot = 1
 	local sounds = base_definition.sounds
 	local box = {-16/16, -8/16, -15/16, 16/16, 23/16, 15/16}
 	minetest.register_node("furniture:brickmaker_" .. sname, {

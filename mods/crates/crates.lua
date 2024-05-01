@@ -10,7 +10,7 @@ crates:register_storage("crates:crate", {
     mesh = "crates_crate.obj",
     groups = {choppy = 2, oddly_breakable_by_hand = 2, loot = 3},
     tiles = {"crates_crate.png"},
-    filled_tiles = {"crates_crate_filled.png"},
+    filled_tiles = {"crates_crate.png^crates_crate_filled.png"},
     sunlight_propagates = true,
     use_texture_alpha = "opaque",
     paramtype = "light",

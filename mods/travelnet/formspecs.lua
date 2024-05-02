@@ -1,5 +1,5 @@
 
-function tavelnet.travelnet_formspec(pos, player)
+function travelnet.formspec(pos, player)
 	local spos = pos.x..","..pos.y..","..pos.z
 	local meta = minetest.get_meta(pos)
 	local winv_listring = ""
@@ -68,18 +68,19 @@ function tavelnet.travelnet_formspec(pos, player)
         tab = first_tab
     end
 	local winv_formspec = {
+        "label[0,0;base formspec]",
 		"image[0,0;7.75,10.25;winv_bg.png]",
         tab_switches,
         tab,
 		winv_listring,
 		"style_type[image;noclip=true]",
 		"image[-1.4,8.8;1.4,1.4;gui_tab.png]",
-		"image_button[-1.1,8.95;1.05,1.05;"..locks.icons(pos, "furniture_travelnet", {"lock", "protect", "public"}).."]"
+		"image_button[-1.1,8.95;1.05,1.05;"..locks.icons(pos, "travelnet", {"lock", "protect", "public"}).."]"
 	}
 	return winv.init_inventory(player, table.concat(winv_formspec, ""))
 end
 
-function tavelnet.attach_network_formspec(pos, player)
+function travelnet.attach_network_formspec(pos, player)
 	local spos = pos.x..","..pos.y..","..pos.z
 	local meta = minetest.get_meta(pos)
 	local winv_listring = ""
@@ -132,23 +133,31 @@ function tavelnet.attach_network_formspec(pos, player)
             "listring[detached:trash;main]"
     end
 	local winv_formspec = {
+        "label[0,0;attach net formspec]",
 		"image[0,0;7.75,10.25;winv_bg.png]",
         network_dropdown,
         create_network,
 		winv_listring,
 		"style_type[image;noclip=true]",
 		"image[-1.4,8.8;1.4,1.4;gui_tab.png]",
-		"image_button[-1.1,8.95;1.05,1.05;"..locks.icons(pos, "furniture_travelnet", {"lock", "protect", "public"}).."]"
+		"image_button[-1.1,8.95;1.05,1.05;"..locks.icons(pos, "travelnet", {"lock", "protect", "public"}).."]"
 	}
 	return winv.init_inventory(player, table.concat(winv_formspec, ""))
 end
 
-function tavelnet.create_station_formspec(pos, player)
+function travelnet.create_station_formspec(pos, player)
 	local spos = pos.x..","..pos.y..","..pos.z
 	local meta = minetest.get_meta(pos)
 	local winv_listring = ""
     local playername = player:get_player_name()
     local right_inv = winv.get_inventory(player, "right")
+
+    local selected_netid = meta:get_int("selected_netid")
+
+    local station_data = table.concat({
+        "field[0.25,1.0;7.0,0.5;station_name;Station name:;New Station]",
+    },"")
+
     if right_inv == "player" then
         winv_listring =
             "listring[current_player;main]"..
@@ -172,32 +181,35 @@ function tavelnet.create_station_formspec(pos, player)
             "listring[detached:trash;main]"
     end
 	local winv_formspec = {
+        "label[0,0;create station formspec]",
+        "label[0,1;selected net: " .. selected_netid .. " " .. travelnet.get_network_name(selected_netid) .. "]",
 		"image[0,0;7.75,10.25;winv_bg.png]",
+        station_data,
 		winv_listring,
 		"style_type[image;noclip=true]",
 		"image[-1.4,8.8;1.4,1.4;gui_tab.png]",
-		"image_button[-1.1,8.95;1.05,1.05;"..locks.icons(pos, "furniture_travelnet", {"lock", "protect", "public"}).."]"
+		"image_button[-1.1,8.95;1.05,1.05;"..locks.icons(pos, "travelnet", {"lock", "protect", "public"}).."]"
 	}
 	return winv.init_inventory(player, table.concat(winv_formspec, ""))
 end
 
-function tavelnet.travelnet_show_formspec(pos, player)
+function travelnet.show_formspec(pos, player)
 	local playername = player:get_player_name()
-	minetest.show_formspec(playername, "furniture:travelnet", travelnet.travelnet_formspec(pos, player))
+	minetest.show_formspec(playername, "travelnet:travelnet", travelnet.formspec(pos, player))
 end
 
-function tavelnet.travelnet_show_attach_network_formspec(pos, player)
+function travelnet.show_attach_network_formspec(pos, player)
 	local playername = player:get_player_name()
-	minetest.show_formspec(playername, "furniture:travelnet_attach_network", travelnet.attach_network_formspec(pos, player))
+	minetest.show_formspec(playername, "travelnet:attach_network", travelnet.attach_network_formspec(pos, player))
 end
 
-function tavelnet.travelnet_show_create_station_formspec(pos, player)
+function travelnet.show_create_station_formspec(pos, player)
 	local playername = player:get_player_name()
-	minetest.show_formspec(playername, "furniture:travelnet_create_station", travelnet.create_station_formspec(pos, player))
+	minetest.show_formspec(playername, "travelnet:create_station", travelnet.create_station_formspec(pos, player))
 end
 
 minetest.register_on_player_receive_fields(function(player, formname, fields)
-	if formname ~= "furniture:travelnet" or not player then
+	if formname ~= "travelnet:travelnet" or not player then
 		return
 	end
 	local playername = player:get_player_name()
@@ -208,20 +220,20 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		return 0
 	end
 
-	if locks.fields(pos, player, fields, "furniture_travelnet", "TravelNet") then
-		travelnet.travelnet_show_formspec(pos, player)
+	if locks.fields(pos, player, fields, "travelnet", "TravelNet") then
+		travelnet.show_formspec(pos, player)
 	end
 
 	if not fields.quit then
 		winv.node_receive_fields(player, formname, fields)
 		if winv.node_refresh(player) then
-			travelnet.travelnet_show_formspec(pos, player)
+			travelnet.show_formspec(pos, player)
 		end
 	end
 end)
 
 minetest.register_on_player_receive_fields(function(player, formname, fields)
-	if formname ~= "furniture:travelnet_attach_network" or not player then
+	if formname ~= "travelnet:attach_network" or not player then
 		return
 	end
 	local playername = player:get_player_name()
@@ -232,25 +244,30 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		return 0
 	end
 
-	if locks.fields(pos, player, fields, "furniture_travelnet", "TravelNet") then
-		travelnet.travelnet_show_formspec(pos, player)
+	if locks.fields(pos, player, fields, "travelnet", "TravelNet") then
+		travelnet.show_attach_network_formspec(pos, player)
 	end
 
     if fields.key_enter_field == "create_network" then
         if fields.create_network ~= "" then
-            travelnet.register_network(fields.create_network, playername)
-            travelnet.travelnet_show_attach_network_formspec(pos, player)
+            local netid = travelnet.register_network(fields.create_network, playername)
+            if netid then
+                meta:set_int("selected_netid", netid)
+                meta:set_int("attached_network", 1)
+                travelnet.show_create_station_formspec(pos, player)
+            else
+                travelnet.show_attach_network_formspec(pos, player)
+            end
         end
     end
 
-    local netnames = travelnet.get_available_network_names(playername)
-    if #netnames > 0 then
-        for dropid=1,#netnames do
-            if fields.dropdown == dropid then
-                local netid = netnames[dropid]
-                meta:set_int("selected_netid", netid)
+    local netids = travelnet.get_available_network_ids(playername)
+    if #netids > 0 then
+        for netid=1,#netids do
+            if tonumber(fields.selected_network) == netid then
+                meta:set_int("selected_netid", netids[netid])
                 meta:set_int("attached_network", 1)
-                travelnet.travelnet_show_create_station_formspec(pos, player)
+                travelnet.show_create_station_formspec(pos, player)
             end
         end
     end
@@ -258,7 +275,44 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 	if not fields.quit then
 		winv.node_receive_fields(player, formname, fields)
 		if winv.node_refresh(player) then
-			travelnet.travelnet_show_attach_network_formspec(pos, player)
+			travelnet.show_attach_network_formspec(pos, player)
+		end
+	end
+end)
+
+minetest.register_on_player_receive_fields(function(player, formname, fields)
+	if formname ~= "travelnet:create_station" or not player then
+		return
+	end
+	local playername = player:get_player_name()
+	local pos = travelnet[playername]
+	local meta = minetest.get_meta(pos)
+
+	if not locks.can_access(pos, player) then
+		return 0
+	end
+
+	if locks.fields(pos, player, fields, "travelnet", "TravelNet") then
+		travelnet.show_create_station_formspec(pos, player)
+	end
+
+    if fields.key_enter_field == "station_name" then
+        local netid = meta:get_int("selected_netid")
+        local statid = travelnet.register_station(pos, fields.station_name, playername, netid)
+        if statid then
+            meta:set_int("station_id", statid)
+            meta:set_int("created_station", 1)
+            travelnet.show_formspec(pos, player)
+        else
+            minetest.chat_send_player(playername, "A station with named " .. fields.station_name .. " has already been created by you.")
+            travelnet.show_create_station_formspec(pos, player)
+        end
+    end
+
+	if not fields.quit then
+		winv.node_receive_fields(player, formname, fields)
+		if winv.node_refresh(player) then
+			travelnet.show_create_station_formspec(pos, player)
 		end
 	end
 end)

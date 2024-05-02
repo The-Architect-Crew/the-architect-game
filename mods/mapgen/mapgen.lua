@@ -228,7 +228,7 @@ function mapgen.register_surface_biomes()
 		node_dungeon_alt = "blocks:mossycobble",
 		node_dungeon_stair = "blocks:shapes_cobble_stair",
 		y_max = 3,
-		y_min = -255,
+		y_min = mapgen.sfcave_bottom + 1,
 		heat_point = 45,
 		humidity_point = 35,
 	})

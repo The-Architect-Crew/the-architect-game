@@ -12,10 +12,10 @@ function travelnet.formspec(pos, player)
     if playername == meta:get_string("owner") then
         tab_switches = table.concat({
             "style[" .. selected_tab .. ";bgcolor=#AAAAAA]",
-            "image_button[6.5,0.25;1.0,1.0;blocks_book.png^[hsl:0:-100:0;travel;]",
-            "tooltip[info;Travel]",
-            "image_button[6.5,1.5;1.0,1.0;gui_cube.png;settings;]",
-            "tooltip[edit;Edit Station]"
+            "image_button[5.5,9.0;1.0,1.0;travelnet_travel.png;travel;]",
+            "tooltip[travel;Travel]",
+            "image_button[6.5,9.0;1.0,1.0;travelnet_edit_network.png;settings;]",
+            "tooltip[settings;Edit Network]"
         }, "")
     else
         selected_tab = "travel"
@@ -23,15 +23,12 @@ function travelnet.formspec(pos, player)
     local settings_tab = ""
     if selected_tab == "settings" then
         local network_ids = travelnet.get_available_network_ids(playername)
+        local dropdown_names = travelnet.get_available_network_names(playername)
         local selected_network_dropid
         for i=1,#network_ids do
             if tonumber(network_ids[i]) == station_netid then
                 selected_network_dropid = i
             end
-        end
-        local dropdown_names = {}
-        for i=1,#network_ids do
-            dropdown_names[i] = travelnet.get_network_name(network_ids[i]) .. " (" .. travelnet.get_network_owner(network_ids[i]) .. ")"
         end
 
         local editing_network_id = meta:get_int("editing_network")
@@ -40,18 +37,17 @@ function travelnet.formspec(pos, player)
 
         if editing_network_id ~= 0 then
             local editing_network_name = travelnet.get_network_name(editing_network_id)
-            local editing_network_owner = travelnet.get_network_owner(editing_network_id)
-            selected_label = "label[0.25,1.5;Selected Network: " .. editing_network_name .. " (" .. editing_network_owner .. ")" .. "]"
+            selected_label = "label[0.25,1.5;Selected Network: " .. editing_network_name .. "]"
 
             local network_users = travelnet.get_network_users(editing_network_id)
-            share_network = "field[0.25,2.5;7.0,0.5;share_users;Share this Network with\n(separate names with commas):;]" ..
-                            "field[0.25,3.5;7.0,0.5;remove_users;Remove Network Access for\n(separate names with commas):;]" ..
+            share_network = "field[0.25,2.5;7.0,0.5;share_users;Share this Network with:;]" ..
+                            "field[0.25,3.5;7.0,0.5;remove_users;Remove Network Access for:;]" ..
                             "label[0.25,4.5;This network can be used by:\n" .. table.concat(network_users, ",\n") .. "]"
         end
 
         settings_tab = table.concat({
             "label[0.25,0.25;Select Network:]",
-            "dropdown[0.25,0.75;5.0,0.5;edit_network;" .. table.concat(dropdown_names, ",") .. ";" .. selected_network_dropid .. ";true]",
+            "dropdown[0.25,0.5;7.0,0.5;edit_network;" .. table.concat(dropdown_names, ",") .. ";" .. selected_network_dropid .. ";true]",
             selected_label,
             share_network,
         }, "")
@@ -65,9 +61,9 @@ function travelnet.formspec(pos, player)
             local station_name = travelnet.get_station_name(available_stations[i], station_netid)
             local station_owner = travelnet.get_station_owner(available_stations[i], station_netid)
             if tonumber(available_stations[i]) ==  station_id then
-                table.insert_all(station_buttons, {"button[0.25," .. posy .. ";5.0,0.5;selected_station;" .. station_name .. " (" .. station_owner .. ")]"})
+                table.insert_all(station_buttons, {"button[0.25," .. posy .. ";6.75,0.5;selected_station;" .. station_name .. " (" .. station_owner .. ")]"})
             else
-                table.insert_all(station_buttons, {"button[0.25," .. posy .. ";5.0,0.5;" .. available_stations[i] .. ";" .. station_name .. " (" .. station_owner .. ")]"})
+                table.insert_all(station_buttons, {"button[0.25," .. posy .. ";6.75,0.5;" .. available_stations[i] .. ";" .. station_name .. " (" .. station_owner .. ")]"})
             end
                 posy = posy + 0.5
         end
@@ -77,11 +73,12 @@ function travelnet.formspec(pos, player)
         local scrollbar = ""
         if #available_stations > 18 then
             scrollbar = "scrollbaroptions[max=" .. #available_stations - 18 .. "]" ..
-                        "scrollbar[6.0,0.25;0.25,7.0;vertical;stations_scrollbar;]"
+                        "scrollbar[7.25,0.25;0.25,7.0;vertical;stations_scrollbar;]"
         end
 
         travel_tab = table.concat({
-            "scroll_container[0.25,0.25;2.25,2.0;stations_scrollbar;vertical;]",
+            "label[0.25,0.25;Travel to:]",
+            "scroll_container[0.25,0.5;7.25,7.0;stations_scrollbar;vertical;]",
             "style[selected_station;bgcolor=#AAAAAA]",
             station_buttons,
             "scroll_container_end[]",
@@ -117,8 +114,8 @@ function travelnet.formspec(pos, player)
         tab = settings_tab
     end
 	local winv_formspec = {
-        "label[0,0;base formspec]",
 		"image[0,0;7.75,10.25;winv_bg.png]",
+        "style_type[label;font_size=+0]",
         tab_switches,
         tab,
 		winv_listring,
@@ -140,14 +137,14 @@ function travelnet.create_station_formspec(pos, player)
 
     local netinfo = ""
     if attached_network == 1 then
-        netinfo = "label[0.25,7.5;Selected Network: " .. travelnet.get_network_name(selected_netid) .. " (" .. travelnet.get_network_owner(selected_netid) .. ")]"
+        netinfo = "label[0.25,3.5;Selected Network:\nName: " .. travelnet.get_network_name(selected_netid) .. "\nOwner: " .. travelnet.get_network_owner(selected_netid) .. "]"
     end
 
     local station_data = table.concat({
         "field[0.25,2.5;7.0,0.5;station_name;Station name:;New Station]",
     },"")
     local network_dropdown = ""
-    local create_network = "field[0.25,1.5;5.0,0.5;create_network;Create Network and Attach:;New Network]" ..
+    local create_network = "field[0.25,1.5;7.0,0.5;create_network;Create Network and Attach:;New Network]" ..
     "field_close_on_enter[create_network;false]"
 
     local available_networks = travelnet.get_available_network_ids(playername)
@@ -168,7 +165,7 @@ function travelnet.create_station_formspec(pos, player)
         end
         network_dropdown = table.concat({
             "label[0.25,0.25;Attach to an Existing Network:]",
-            "dropdown[0.25,0.5;5.0,0.5;selected_network;" .. network_names .. ";" .. selected_network_dropid .. ";true]",
+            "dropdown[0.25,0.5;7.0,0.5;selected_network;" .. network_names .. ";" .. selected_network_dropid .. ";true]",
         }, "")
     end
 
@@ -195,8 +192,8 @@ function travelnet.create_station_formspec(pos, player)
             "listring[detached:trash;main]"
     end
 	local winv_formspec = {
-        "label[0,0;create station formspec]",
 		"image[0,0;7.75,10.25;winv_bg.png]",
+        "style_type[label;font_size=+0]",
         station_data,
         netinfo,
         network_dropdown,

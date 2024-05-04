@@ -1,4 +1,3 @@
-
 function travelnet.on_construct(pos)
 	local meta = minetest.get_meta(pos)
 	meta:set_string("lock", "lock")
@@ -12,6 +11,7 @@ function travelnet.after_place_node(pos, placer, itemstack, pointed_thing)
 	local playername = placer:get_player_name()
 	meta:set_string("owner", playername)
     meta:set_string("editors", playername)
+    meta:set_string("selected_tab", "travel")
     meta:set_int("attached_network", 0)
     meta:set_int("created_station", 0)
 	locks.init_infotext(pos, "TravelNet")
@@ -33,17 +33,9 @@ minetest.register_node("travelnet:station", {
             travelnet.after_place_node(pos, clicker, itemstack, pointed_thing)
         end
 
-        if meta:get_int("attached_network") == 0 then
+        if meta:get_int("created_station") == 0 then
             if meta:get_string("owner") == playername then
-                travelnet[playername] = pos
-                travelnet.show_attach_network_formspec(pos, clicker)
-            else
-                minetest.chat_send_player(playername, "This TravelNet station has not yet been configured by the owner.")
-                return itemstack
-            end
-        elseif meta:get_int("created_station") == 0 then
-            if meta:get_string("owner") == playername then
-                travelnet[playername] = pos
+                travelnet.pos[playername] = pos
                 travelnet.show_create_station_formspec(pos, clicker)
             else
                 minetest.chat_send_player(playername, "This TravelNet station has not yet been configured by the owner.")
@@ -54,7 +46,7 @@ minetest.register_node("travelnet:station", {
                 return itemstack
             end
             travelnet.show_formspec(pos, clicker)
-            travelnet[playername] = pos
+            travelnet.pos[playername] = pos
         end
     end,
     on_dig = function(pos, node, digger)
@@ -63,7 +55,7 @@ minetest.register_node("travelnet:station", {
         if meta:get_int("created_station") == 1 then
             if meta:get_string("owner") == playername then
                 local statid = meta:get_int("station_id")
-                local netid = meta:get_int("selected_netid")
+                local netid = meta:get_int("station_netid")
                 travelnet.delete_station(statid, netid)
                 minetest.node_dig(pos, node, digger)
             else

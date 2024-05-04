@@ -11,16 +11,25 @@ function travelnet.get_network_users(netid)
     return string.match(travelnet.storage:get_string("network_" .. netid), '(.*):'):split(",")
 end
 
-function travelnet.get_station_name(statid)
-    return travelnet.storage:get_string("station_" .. statid):split(",")[1]
+function travelnet.get_network_stations(netid)
+    local stations = travelnet.storage:get_string("network_" .. netid .. "_stations")
+    if stations ~= "" then
+        return stations:split(",")
+    else
+        return false
+    end
 end
 
-function travelnet.get_station_owner(statid)
-    return travelnet.storage:get_string("station_" .. statid):split(",")[2]
+function travelnet.get_station_name(statid, netid)
+    return travelnet.storage:get_string("station_" .. statid .. ":" .. netid):split(",")[1]
 end
 
-function travelnet.get_station_pos(statid)
-    return minetest.string_to_pos(travelnet.storage:get_string("pos_" .. statid))
+function travelnet.get_station_owner(statid, netid)
+    return travelnet.storage:get_string("station_" .. statid .. ":" .. netid):split(",")[2]
+end
+
+function travelnet.get_station_pos(statid, netid)
+    return minetest.string_to_pos(travelnet.storage:get_string("pos_" .. statid .. ":" .. netid))
 end
 
 function travelnet.set_network_name(netid, name)
@@ -36,13 +45,13 @@ function travelnet.set_network_users(netid, users)
     travelnet.storage:set_string("network_" .. netid, users .. ":" .. netname .. "," .. netowner)
 end
 
-function travelnet.set_station_name(statid, name)
-    local owner = travelnet.get_station_owner(statid)
-    travelnet.storage.set_string("station_" .. statid, name .. "," .. owner)
+function travelnet.set_station_name(statid, netid, name)
+    local owner = travelnet.get_station_owner(statid, netid)
+    travelnet.storage.set_string("station_" .. statid .. ":" .. netid, name .. "," .. owner)
 end
 
-function travelnet.set_station_pos(statid, pos)
-    travelnet.storage.set_string("pos_" .. statid, minetest.pos_to_string(pos))
+function travelnet.set_station_pos(statid, netid, pos)
+    travelnet.storage.set_string("pos_" .. statid .. ":" .. netid, minetest.pos_to_string(pos))
 end
 
 function travelnet.get_available_network_names(user)

@@ -1,5 +1,6 @@
 travelnet = {}
 
+travelnet.pos = {}
 travelnet.storage = minetest.get_mod_storage()
 
 local path = minetest.get_modpath("travelnet")

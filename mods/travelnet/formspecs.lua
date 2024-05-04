@@ -29,8 +29,13 @@ function travelnet.formspec(pos, player)
                 selected_network_dropid = i
             end
         end
+        local dropdown_names = {}
+        local network_ids = travelnet.get_available_network_ids(playername)
+        for i=1,#network_ids do
+            dropdown_names[i] = travelnet.get_network_name(network_ids[i]) .. " (" .. travelnet.get_network_owner(network_ids[i]) .. ")"
+        end
         settings_tab = table.concat({
-            "dropdown[0.25,0.25;5.0,0.5;selected_network;" .. table.concat(travelnet.get_available_network_names(playername), ",") .. ";" .. selected_network_dropid .. ";true]",
+            "dropdown[0.25,0.25;5.0,0.5;selected_network;" .. table.concat(dropdown_names, ",") .. ";" .. selected_network_dropid .. ";true]",
         }, "")
     end
     local travel_tab = ""
@@ -40,23 +45,29 @@ function travelnet.formspec(pos, player)
         local posy = 0.25
         for i=1,#available_stations do
             local station_name = travelnet.get_station_name(available_stations[i], station_netid)
+            local station_owner = travelnet.get_station_owner(available_stations[i], station_netid)
             if tonumber(available_stations[i]) ==  station_id then
-                table.insert_all(station_buttons, {"label[0.25," .. posy .. ";" .. station_name .. "]"})
+                table.insert_all(station_buttons, {"button[0.25," .. posy .. ";5.0,0.5;selected_station;" .. station_name .. " (" .. station_owner .. ")]"})
             else
-                table.insert_all(station_buttons, {"button[0.25," .. posy .. ";5.0,0.5;" .. available_stations[i] .. ";" .. station_name .. "]"})
+                table.insert_all(station_buttons, {"button[0.25," .. posy .. ";5.0,0.5;" .. available_stations[i] .. ";" .. station_name .. " (" .. station_owner .. ")]"})
             end
                 posy = posy + 0.5
         end
 
         station_buttons = table.concat(station_buttons, "")
 
+        local scrollbar = ""
+        if #available_stations > 18 then
+            scrollbar = "scrollbaroptions[max=" .. #available_stations - 18 .. "]" ..
+                        "scrollbar[6.0,0.25;0.25,7.0;vertical;stations_scrollbar;]"
+        end
+
         travel_tab = table.concat({
-            "style_type[scroll_container;noclip=false]",
             "scroll_container[0.25,0.25;2.25,2.0;stations_scrollbar;vertical;]",
+            "style[selected_station;bgcolor=#AAAAAA]",
             station_buttons,
             "scroll_container_end[]",
-            "scrollbaroptions[max=" .. 10 - #available_stations .. "]",
-            "scrollbar[6.0,0.25;0.25,7.0;vertical;stations_scrollbar;]",
+            scrollbar,
         }, "")
     end
     if right_inv == "player" then
@@ -111,7 +122,7 @@ function travelnet.create_station_formspec(pos, player)
 
     local netinfo = ""
     if attached_network == 1 then
-        netinfo = "label[0.25,7.5;Selected Network: " .. travelnet.get_network_name(selected_netid) .. "]"
+        netinfo = "label[0.25,7.5;Selected Network: " .. travelnet.get_network_name(selected_netid) .. " (" .. travelnet.get_network_owner(selected_netid) .. ")]"
     end
 
     local station_data = table.concat({
@@ -209,6 +220,8 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
         local statid = available_stations[i]
         if fields[statid] then
             local target_pos = travelnet.get_station_pos(statid, netid)
+            local target_param2 = minetest.get_node(target_pos).param2
+            player:set_look_horizontal(minetest.dir_to_yaw(minetest.facedir_to_dir(target_param2)) + math.pi)
             player:set_pos(target_pos)
             minetest.close_formspec(playername, formname)
         end

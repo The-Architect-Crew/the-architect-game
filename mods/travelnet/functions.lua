@@ -1,5 +1,6 @@
 function travelnet.register_network(name, creator)
     local latest_id = travelnet.storage:get_int("latest_network_id")
+    if latest_id == 0 then latest_id = 1 end
     local owned_network_ids = travelnet.storage:get_string(creator .. "_network_index")
     local appended_networks = latest_id
 
@@ -37,11 +38,12 @@ end
 
 function travelnet.register_station(pos, name, owner, netid)
     local latest_id = travelnet.storage:get_int("latest_network_" .. netid .. "_id")
+    if latest_id == 0 then latest_id = 1 end
     local selected_id = latest_id
     local owned_station_ids = travelnet.storage:get_string(owner .. "_station_index")
     local network_stations = travelnet.get_network_stations(netid)
 
-    for i=0,latest_id do
+    for i=1,latest_id do
         if travelnet.storage:get_string("station_" .. i) == "deleted" then
             selected_id = i
             break
@@ -50,7 +52,7 @@ function travelnet.register_station(pos, name, owner, netid)
 
     local appended_station = selected_id
 
-    if owned_station_ids ~= 0 then
+    if owned_station_ids ~= "" then
         for _,statid in ipairs(owned_station_ids:split(",")) do
 
             local station_name = travelnet.get_station_name(statid, netid)
@@ -97,8 +99,6 @@ function travelnet.delete_station(statid, netid)
     for _,indid in ipairs(travelnet.storage:get_string("network_" .. netid .. "_stations"):split(",")) do
         if tonumber(indid) ~= tonumber(statid) then
             table.insert_all(new_netindex, {indid})
-        else
-            print("deleted,yep")
         end
     end
 

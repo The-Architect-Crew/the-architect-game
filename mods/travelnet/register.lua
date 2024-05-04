@@ -42,8 +42,8 @@ minetest.register_node("travelnet:station", {
     },
     paramtype = "light",
     paramtype2 = "facedir",
-    on_construct = on_construct,
-    after_place_node = after_place_node,
+    on_construct = travelnet.on_construct,
+    after_place_node = travelnet.after_place_node,
     on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
         local playername = clicker:get_player_name()
         local meta = minetest.get_meta(pos)

@@ -22,9 +22,11 @@ function travelnet.formspec(pos, player)
     end
     local settings_tab = ""
     if selected_tab == "settings" then
-        local network_ids = travelnet.get_available_network_ids(playername)
-        local dropdown_names = travelnet.get_available_network_names(playername)
-        local selected_network_dropid
+        local network_ids = travelnet.get_owned_network_ids(playername)
+        print(dump(network_ids))
+        local dropdown_names = travelnet.get_owned_network_names(playername)
+        print(dump(dropdown_names))
+        local selected_network_dropid = 1
         for i=1,#network_ids do
             if tonumber(network_ids[i]) == station_netid then
                 selected_network_dropid = i
@@ -33,6 +35,8 @@ function travelnet.formspec(pos, player)
 
         local editing_network_id = meta:get_int("editing_network")
         local selected_label = "label[0.25,1.5;No network selected for editing.]"
+        local rename_network = ""
+        local change_owner = ""
         local share_network = ""
 
         if editing_network_id ~= 0 then
@@ -40,15 +44,20 @@ function travelnet.formspec(pos, player)
             selected_label = "label[0.25,1.5;Selected Network: " .. editing_network_name .. "]"
 
             local network_users = travelnet.get_network_users(editing_network_id)
-            share_network = "field[0.25,2.5;7.0,0.5;share_users;Share this Network with:;]" ..
-                            "field[0.25,3.5;7.0,0.5;remove_users;Remove Network Access for:;]" ..
-                            "label[0.25,4.5;This network can be used by:\n" .. table.concat(network_users, ",\n") .. "]"
+            rename_network = "field[0.25,2.5;7.0,0.5;rename_network;Rename Network to:;]"
+            change_owner = "field[0.25,3.5;7.0,0.5;change_owner;Change Network Owner to:;]"
+            share_network = "field[0.25,4.5;7.0,0.5;share_users;Share this Network with:;]" ..
+                            "field[0.25,5.5;7.0,0.5;remove_users;Remove Network Access for:;]" ..
+                            "label[0.25,6.5;This network can be used by:\n" .. table.concat(network_users, ",\n") .. "]"
         end
+
 
         settings_tab = table.concat({
             "label[0.25,0.25;Select Network:]",
             "dropdown[0.25,0.5;7.0,0.5;edit_network;" .. table.concat(dropdown_names, ",") .. ";" .. selected_network_dropid .. ";true]",
             selected_label,
+            rename_network,
+            change_owner,
             share_network,
         }, "")
     end
@@ -252,7 +261,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
     if fields.share_users then
         if fields.share_users ~= "" then
             local users = fields.share_users:split(",")
-            travelnet.share_network(meta:get_int("editing_network"), users)
+            travelnet.add_network_users(meta:get_int("editing_network"), users)
             travelnet.show_formspec(pos, player)
         end
     end
@@ -262,6 +271,19 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
             local users = fields.remove_users:split(",")
             travelnet.remove_network_users(meta:get_int("editing_network"), users)
             travelnet.show_formspec(pos, player)
+        end
+    end
+
+    if fields.rename_network then
+        if fields.rename_network ~= "" then
+            travelnet.set_network_name(meta:get_int("editing_network"), fields.rename_network)
+            travelnet.show_formspec(pos, player)
+        end
+    end
+
+    if fields.change_owner then
+        if fields.change_owner ~= "" then
+            travelnet.change_network_owner(meta:get_int("editing_network"), fields.change_owner)
         end
     end
 

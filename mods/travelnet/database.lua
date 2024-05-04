@@ -34,6 +34,7 @@ end
 
 function travelnet.set_network_name(netid, name)
     local netusers = travelnet.get_network_users(netid)
+    netusers = table.concat(netusers, ",")
     local netowner = travelnet.get_network_owner(netid)
     travelnet.storage:set_string("network_" .. netid, netusers .. ":" .. name .. "," .. netowner)
 end
@@ -45,9 +46,24 @@ function travelnet.set_network_users(netid, users)
     travelnet.storage:set_string("network_" .. netid, users .. ":" .. netname .. "," .. netowner)
 end
 
+function travelnet.set_network_owner(netid, new_owner)
+    local netname = travelnet.get_network_name(netid)
+    local users = travelnet.get_network_users(netid)
+    users = table.concat(users, ",")
+    travelnet.storage:set_string("network_" .. netid, users .. ":" .. netname .. "," .. new_owner)
+
+    local owned_networks = travelnet.storage:get_string(new_owner .. "_owned_network_index")
+    if owned_networks ~= "" then
+        owned_networks = owned_networks .. "," .. netid
+    else
+        owned_networks = netid
+    end
+    travelnet.storage:set_string(new_owner .. "_owned_network_index", owned_networks)
+end
+
 function travelnet.set_station_name(statid, netid, name)
     local owner = travelnet.get_station_owner(statid, netid)
-    travelnet.storage.set_string("station_" .. statid .. ":" .. netid, name .. "," .. owner)
+    travelnet.storage:set_string("station_" .. statid .. ":" .. netid, name .. "," .. owner)
 end
 
 function travelnet.set_station_pos(statid, netid, pos)
@@ -55,9 +71,22 @@ function travelnet.set_station_pos(statid, netid, pos)
 end
 
 function travelnet.get_available_network_names(user)
-    local user_networks = travelnet.storage:get_string(user .. "_network_index")
+    local user_networks = travelnet.get_available_network_ids(user)
     local network_names = {}
-    for _,netid in ipairs(user_networks:split(",")) do
+    for _,netid in ipairs(user_networks) do
+        table.insert_all(network_names, {travelnet.get_network_name(netid)})
+    end
+    return network_names
+end
+
+function travelnet.get_owned_network_ids(user)
+    return travelnet.storage:get_string(user .. "_owned_network_index"):split(",")
+end
+
+function travelnet.get_owned_network_names(user)
+    local owned_netids = travelnet.get_owned_network_ids(user)
+    local network_names = {}
+    for _,netid in ipairs(owned_netids) do
         table.insert_all(network_names, {travelnet.get_network_name(netid)})
     end
     return network_names

@@ -1,11 +1,12 @@
 function travelnet.register_network(name, creator)
     local latest_id = travelnet.storage:get_int("latest_network_id")
     if latest_id == 0 then latest_id = 1 end
-    local owned_network_ids = travelnet.storage:get_string(creator .. "_network_index")
+    local accessible_network_ids = travelnet.storage:get_string(creator .. "_network_index")
+    local owned_network_ids = travelnet.storage:get_string(creator .. "_owned_network_index")
     local appended_networks = latest_id
 
-    if owned_network_ids ~= "" then
-        for _,netid in ipairs(owned_network_ids:split(",")) do
+    if accessible_network_ids ~= "" then
+        for _,netid in ipairs(accessible_network_ids:split(",")) do
             local network_name = travelnet.get_network_name(netid)
             local network_owner = travelnet.get_network_owner(netid)
             if (network_name == name) and (network_owner == creator) then
@@ -16,12 +17,13 @@ function travelnet.register_network(name, creator)
     end
 
     travelnet.storage:set_string("network_" .. latest_id, creator .. ":" .. name .. "," .. creator)
-    travelnet.storage:set_string(creator .. "_network_index", owned_network_ids .. appended_networks)
+    travelnet.storage:set_string(creator .. "_owned_network_index", owned_network_ids .. appended_networks)
+    travelnet.storage:set_string(creator .. "_network_index", accessible_network_ids .. appended_networks)
     travelnet.storage:set_int("latest_network_id", latest_id + 1)
     return latest_id
 end
 
-function travelnet.share_network(netid, users)
+function travelnet.add_network_users(netid, users)
     local network_users = travelnet.get_network_users(netid)
 
     for i=1,#users do
@@ -61,6 +63,23 @@ function travelnet.remove_network_users(netid, users)
     end
 
     travelnet.set_network_users(netid, resulting_users)
+end
+
+function travelnet.change_network_owner(netid, new_owner)
+    if minetest.player_exists(new_owner) then
+        local owner = travelnet.get_network_owner(netid)
+        local owned_networks = travelnet.storage:get_string(owner .. "_owned_network_index"):split(",")
+        local new_owned_networks = {}
+        for i=1,#owned_networks do
+            if owned_networks[i] ~= netid then
+                table.insert_all(new_owned_networks, {owned_networks[i]})
+            end
+        end
+        travelnet.storage:set_string(owner .. "_owned_network_index", table.concat(new_owned_networks, ","))
+
+        travelnet.add_network_users(netid, {new_owner})
+        travelnet.set_network_owner(netid, new_owner)
+    end
 end
 
 function travelnet.register_station(pos, name, owner, netid)

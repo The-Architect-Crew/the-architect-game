@@ -22,20 +22,38 @@ function travelnet.formspec(pos, player)
     end
     local settings_tab = ""
     if selected_tab == "settings" then
-        local available_networks = travelnet.get_available_network_ids(playername)
+        local network_ids = travelnet.get_available_network_ids(playername)
         local selected_network_dropid
-        for i=1,#available_networks do
-            if tonumber(available_networks[i]) == station_netid then
+        for i=1,#network_ids do
+            if tonumber(network_ids[i]) == station_netid then
                 selected_network_dropid = i
             end
         end
         local dropdown_names = {}
-        local network_ids = travelnet.get_available_network_ids(playername)
         for i=1,#network_ids do
             dropdown_names[i] = travelnet.get_network_name(network_ids[i]) .. " (" .. travelnet.get_network_owner(network_ids[i]) .. ")"
         end
+
+        local editing_network_id = meta:get_int("editing_network")
+        local selected_label = "label[0.25,1.5;No network selected for editing.]"
+        local share_network = ""
+
+        if editing_network_id ~= 0 then
+            local editing_network_name = travelnet.get_network_name(editing_network_id)
+            local editing_network_owner = travelnet.get_network_owner(editing_network_id)
+            selected_label = "label[0.25,1.5;Selected Network: " .. editing_network_name .. " (" .. editing_network_owner .. ")" .. "]"
+
+            local network_users = travelnet.get_network_users(editing_network_id)
+            share_network = "field[0.25,2.5;7.0,0.5;share_users;Share this Network with\n(separate names with commas):;]" ..
+                            "field[0.25,3.5;7.0,0.5;remove_users;Remove Network Access for\n(separate names with commas):;]" ..
+                            "label[0.25,4.5;This network can be used by:\n" .. table.concat(network_users, ",\n") .. "]"
+        end
+
         settings_tab = table.concat({
-            "dropdown[0.25,0.25;5.0,0.5;selected_network;" .. table.concat(dropdown_names, ",") .. ";" .. selected_network_dropid .. ";true]",
+            "label[0.25,0.25;Select Network:]",
+            "dropdown[0.25,0.75;5.0,0.5;edit_network;" .. table.concat(dropdown_names, ",") .. ";" .. selected_network_dropid .. ";true]",
+            selected_label,
+            share_network,
         }, "")
     end
     local travel_tab = ""
@@ -224,6 +242,29 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
             player:set_look_horizontal(minetest.dir_to_yaw(minetest.facedir_to_dir(target_param2)) + math.pi)
             player:set_pos(target_pos)
             minetest.close_formspec(playername, formname)
+        end
+    end
+
+    local available_networks = travelnet.get_available_network_ids(playername)
+
+    if fields.edit_network then
+        meta:set_int("editing_network", available_networks[tonumber(fields.edit_network)])
+        travelnet.show_formspec(pos, player)
+    end
+
+    if fields.share_users then
+        if fields.share_users ~= "" then
+            local users = fields.share_users:split(",")
+            travelnet.share_network(meta:get_int("editing_network"), users)
+            travelnet.show_formspec(pos, player)
+        end
+    end
+
+    if fields.remove_users then
+        if fields.remove_users ~= "" then
+            local users = fields.remove_users:split(",")
+            travelnet.remove_network_users(meta:get_int("editing_network"), users)
+            travelnet.show_formspec(pos, player)
         end
     end
 

@@ -25,15 +25,42 @@ function travelnet.share_network(netid, users)
     local network_users = travelnet.get_network_users(netid)
 
     for i=1,#users do
-        for j=1,#network_users do
-            if users[i] == network_users[j] then
-                break
+        if minetest.player_exists(users[i]) then
+            local add = true
+            for j=1,#network_users do
+                if users[i] == network_users[j] then
+                    add = false
+                end
             end
-            table.insert_all(network_users, {users[i]})
+            if add then
+                table.insert_all(network_users, {users[i]})
+            end
         end
     end
 
     travelnet.set_network_users(netid, network_users)
+end
+
+function travelnet.remove_network_users(netid, users)
+    local network_users = travelnet.get_network_users(netid)
+    local owner = travelnet.get_network_owner(netid)
+    local resulting_users = {}
+
+    for i=1,#network_users do
+        local add = true
+        for j=1,#users do
+            if minetest.player_exists(users[j]) and (users[j] ~= owner) then
+                if users[j] == network_users[i] then
+                    add = false
+                end
+            end
+        end
+        if add then
+            table.insert_all(resulting_users, {network_users[i]})
+        end
+    end
+
+    travelnet.set_network_users(netid, resulting_users)
 end
 
 function travelnet.register_station(pos, name, owner, netid)

@@ -355,9 +355,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
     if fields.key_enter_field == "station_name" then
         if attached_network == 1 then
             local netid = meta:get_int("station_netid")
-            print(netid)
             local statid = travelnet.register_station(pos, travelnet.filter(fields.station_name), playername, netid)
-            print(statid)
             if statid then
                 meta:set_int("station_id", tonumber(statid))
                 meta:set_int("created_station", 1)

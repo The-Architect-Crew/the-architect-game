@@ -25,7 +25,6 @@ function travelnet.get_station_name(statid, netid)
 end
 
 function travelnet.get_station_owner(statid, netid)
-    print(dump(travelnet.storage:get_string("station_" .. statid .. ":" .. netid):split(",")))
     return travelnet.storage:get_string("station_" .. statid .. ":" .. netid):split(",")[2]
 end
 

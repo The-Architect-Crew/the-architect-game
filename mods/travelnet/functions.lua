@@ -133,11 +133,9 @@ function travelnet.register_station(pos, name, owner, netid)
     end
 
     local appended_station = selected_id
-    print(selected_id)
 
     if owned_station_ids ~= "" then
         for _,indid in ipairs(owned_station_ids:split(",")) do
-            print(indid)
             local owned_station_id = indid:split(":")[1]
             local owned_station_netid = indid:split(":")[2]
             local station_name = travelnet.get_station_name(owned_station_id, owned_station_netid)
@@ -163,7 +161,6 @@ function travelnet.register_station(pos, name, owner, netid)
     travelnet.storage:set_string(owner .. "_station_index", owned_station_ids .. appended_station)
 
     if tonumber(selected_id:split(":")[1]) == latest_id then
-        print("yes")
         travelnet.storage:set_int("latest_network_" .. netid .. "_id", latest_id + 1)
     end
 
@@ -184,7 +181,7 @@ function travelnet.delete_station(statid, netid)
 
     for _,network_statid in ipairs(travelnet.storage:get_string("network_" .. netid .. "_stations"):split(",")) do
         if tonumber(network_statid) ~= tonumber(statid) then
-            table.insert_all(new_netindex, {indid})
+            table.insert_all(new_netindex, {network_statid})
         end
     end
 
@@ -208,9 +205,6 @@ function travelnet.update_infotext(pos)
     local meta = minetest.get_meta(pos)
     local statid = meta:get_int("station_id")
     local netid = meta:get_int("station_netid")
-    print("In infotext")
-    print(statid)
-    print(netid)
     local owner = travelnet.get_station_owner(statid, netid)
     local station_name = travelnet.get_station_name(statid, netid)
     local network_name = travelnet.get_network_name(netid)

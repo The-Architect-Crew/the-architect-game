@@ -1,3 +1,17 @@
+function travelnet.filter(input)
+    input = string.gsub(input, ",", " ")
+    input = string.gsub(input, ";", " ")
+    input = string.gsub(input, ":", " ")
+    return input
+end
+
+function travelnet.filter_table(table)
+    for i=1,#table do
+        table[i] = travelnet.filter(table[i])
+    end
+    return table
+end
+
 function travelnet.register_network(name, creator)
     local latest_id = travelnet.storage:get_int("latest_network_id")
     if latest_id == 0 then latest_id = 1 end
@@ -36,6 +50,14 @@ function travelnet.add_network_users(netid, users)
             end
             if add then
                 table.insert_all(network_users, {users[i]})
+
+                local user_networks = travelnet.storage:get_string(users[i] .. "_network_index")
+                if user_networks == "" then
+                    user_networks = netid
+                else
+                    user_networks = user_networks .. "," .. netid
+                end
+                travelnet.storage:set_string(users[i] .. "_network_index", user_networks)
             end
         end
     end
@@ -46,6 +68,7 @@ end
 function travelnet.remove_network_users(netid, users)
     local network_users = travelnet.get_network_users(netid)
     local owner = travelnet.get_network_owner(netid)
+    local network_stations = travelnet.get_network_stations(netid)
     local resulting_users = {}
 
     for i=1,#network_users do
@@ -54,6 +77,19 @@ function travelnet.remove_network_users(netid, users)
             if minetest.player_exists(users[j]) and (users[j] ~= owner) then
                 if users[j] == network_users[i] then
                     add = false
+                    for k=1,#network_stations do
+                        if travelnet.get_station_owner(network_stations[k], netid) == users[j] then
+                            travelnet.delete_station(network_stations[k], netid)
+                        end
+                    end
+                    local user_networks = travelnet.storage:get_string(users[i] .. "_network_index")
+                    local resulting_netids = {}
+                    for _,accessible_netid in ipairs(user_networks:split(",")) do
+                        if accessible_netid ~= netid then
+                            table.insert_all(resulting_netids, accessible_netid)
+                        end
+                    end
+                    travelnet.storage:set_string(users[i] .. "_network_index", table.concat(resulting_netids, ","))
                 end
             end
         end
@@ -85,24 +121,27 @@ end
 function travelnet.register_station(pos, name, owner, netid)
     local latest_id = travelnet.storage:get_int("latest_network_" .. netid .. "_id")
     if latest_id == 0 then latest_id = 1 end
-    local selected_id = latest_id
+    local selected_id = latest_id .. ":" .. netid
     local owned_station_ids = travelnet.storage:get_string(owner .. "_station_index")
     local network_stations = travelnet.get_network_stations(netid)
 
     for i=1,latest_id do
-        if travelnet.storage:get_string("station_" .. i) == "deleted" then
-            selected_id = i
+        if travelnet.storage:get_string("station_" .. i .. ":" .. netid) == "deleted" then
+            selected_id = i .. ":" .. netid
             break
         end
     end
 
     local appended_station = selected_id
+    print(selected_id)
 
     if owned_station_ids ~= "" then
-        for _,statid in ipairs(owned_station_ids:split(",")) do
-
-            local station_name = travelnet.get_station_name(statid, netid)
-            local station_owner = travelnet.get_station_owner(statid, netid)
+        for _,indid in ipairs(owned_station_ids:split(",")) do
+            print(indid)
+            local owned_station_id = indid:split(":")[1]
+            local owned_station_netid = indid:split(":")[2]
+            local station_name = travelnet.get_station_name(owned_station_id, owned_station_netid)
+            local station_owner = travelnet.get_station_owner(owned_station_id, owned_station_netid)
             if (station_name == name) and (station_owner == owner) then
                 return false
             end
@@ -110,8 +149,8 @@ function travelnet.register_station(pos, name, owner, netid)
         appended_station = "," .. appended_station
     end
 
-    travelnet.storage:set_string("station_" .. selected_id .. ":" .. netid, name .. "," .. owner)
-    travelnet.storage:set_string("pos_" .. selected_id .. ":" .. netid, minetest.pos_to_string(pos))
+    travelnet.storage:set_string("station_" .. selected_id, name .. "," .. owner)
+    travelnet.storage:set_string("pos_" .. selected_id, minetest.pos_to_string(pos))
 
     if network_stations then
         network_stations = table.concat(table.insert_all(network_stations, {latest_id}), ",")
@@ -123,11 +162,12 @@ function travelnet.register_station(pos, name, owner, netid)
 
     travelnet.storage:set_string(owner .. "_station_index", owned_station_ids .. appended_station)
 
-    if selected_id == latest_id then
+    if tonumber(selected_id:split(":")[1]) == latest_id then
+        print("yes")
         travelnet.storage:set_int("latest_network_" .. netid .. "_id", latest_id + 1)
     end
 
-    return selected_id
+    return selected_id:split(":")[1]
 end
 
 function travelnet.delete_station(statid, netid)
@@ -142,11 +182,21 @@ function travelnet.delete_station(statid, netid)
         end
     end
 
-    for _,indid in ipairs(travelnet.storage:get_string("network_" .. netid .. "_stations"):split(",")) do
-        if tonumber(indid) ~= tonumber(statid) then
+    for _,network_statid in ipairs(travelnet.storage:get_string("network_" .. netid .. "_stations"):split(",")) do
+        if tonumber(network_statid) ~= tonumber(statid) then
             table.insert_all(new_netindex, {indid})
         end
     end
+
+    local station_meta = minetest.get_meta(minetest.string_to_pos(travelnet.storage:get_string("pos_" .. statid .. ":" .. netid)))
+    station_meta:set_string("owner", "")
+    station_meta:set_string("editors", "")
+    station_meta:set_string("selected_tab", "travel")
+    station_meta:set_int("attached_network", 0)
+    station_meta:set_int("editing_network", 0)
+    station_meta:set_int("created_station", 0)
+    station_meta:set_int("station_id", 0)
+    station_meta:set_int("station_netid", 0)
 
     travelnet.storage:set_string(owner .. "_station_index", table.concat(new_index, ","))
     travelnet.storage:set_string("network_" .. netid .. "_stations", table.concat(new_netindex, ","))
@@ -158,6 +208,9 @@ function travelnet.update_infotext(pos)
     local meta = minetest.get_meta(pos)
     local statid = meta:get_int("station_id")
     local netid = meta:get_int("station_netid")
+    print("In infotext")
+    print(statid)
+    print(netid)
     local owner = travelnet.get_station_owner(statid, netid)
     local station_name = travelnet.get_station_name(statid, netid)
     local network_name = travelnet.get_network_name(netid)
@@ -165,4 +218,30 @@ function travelnet.update_infotext(pos)
     locks.init_infotext(pos, "TravelNet station " .. station_name ..
                             "\nowned by " .. owner ..
                             "\non network " .. network_name)
+end
+
+function travelnet.dump_player_data(invoker, playername)
+    if minetest.player_exists(playername) then
+        local owned_networks = travelnet.get_owned_network_ids(playername)
+        local owned_network_names = travelnet.get_owned_network_names(playername)
+
+        minetest.chat_send_player(invoker, "Network data for " .. playername .. ":")
+        for i=1,#owned_networks do
+            minetest.chat_send_player(invoker, owned_networks[i] .. " " .. owned_network_names[i])
+        end
+
+        local owned_statids = travelnet.storage:get_string(playername .. "_station_index"):split(",")
+
+        minetest.chat_send_player(invoker, "Station data for " .. playername .. ":")
+
+        for i=1,#owned_statids do
+            local owned_station_id = owned_statids[i]:split(":")[1]
+            local owned_station_network_id = owned_statids[i]:split(":")[2]
+            minetest.chat_send_player(invoker, owned_station_id .. " " .. travelnet.get_station_name(owned_station_id, owned_station_network_id) ..
+                                    "\non network " .. owned_station_network_id .. " " .. travelnet.get_network_name(owned_station_network_id))
+        end
+    end
+end
+
+function travelnet.dump_network_data(netid)
 end

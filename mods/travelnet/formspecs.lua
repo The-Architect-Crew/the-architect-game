@@ -23,9 +23,7 @@ function travelnet.formspec(pos, player)
     local settings_tab = ""
     if selected_tab == "settings" then
         local network_ids = travelnet.get_owned_network_ids(playername)
-        print(dump(network_ids))
         local dropdown_names = travelnet.get_owned_network_names(playername)
-        print(dump(dropdown_names))
         local selected_network_dropid = 1
         for i=1,#network_ids do
             if tonumber(network_ids[i]) == station_netid then
@@ -65,7 +63,7 @@ function travelnet.formspec(pos, player)
     if selected_tab == "travel" then
         local available_stations = travelnet.get_network_stations(station_netid)
         local station_buttons = {}
-        local posy = 0.25
+        local posy = 0.0
         for i=1,#available_stations do
             local station_name = travelnet.get_station_name(available_stations[i], station_netid)
             local station_owner = travelnet.get_station_owner(available_stations[i], station_netid)
@@ -80,14 +78,15 @@ function travelnet.formspec(pos, player)
         station_buttons = table.concat(station_buttons, "")
 
         local scrollbar = ""
-        if #available_stations > 18 then
-            scrollbar = "scrollbaroptions[max=" .. #available_stations - 18 .. "]" ..
-                        "scrollbar[7.25,0.25;0.25,7.0;vertical;stations_scrollbar;]"
+        if #available_stations > 16 then
+            scrollbar = "scrollbaroptions[max=" .. #available_stations + 4 .. "]" ..
+                        "scrollbar[7.25,0.5;0.25,8.0;vertical;stations_scrollbar;]"
         end
 
         travel_tab = table.concat({
             "label[0.25,0.25;Travel to:]",
-            "scroll_container[0.25,0.5;7.25,7.0;stations_scrollbar;vertical;]",
+            "style_type[button;noclip=false]",
+            "scroll_container[0.25,0.5;7.25,8.0;stations_scrollbar;vertical;]",
             "style[selected_station;bgcolor=#AAAAAA]",
             station_buttons,
             "scroll_container_end[]",
@@ -127,6 +126,7 @@ function travelnet.formspec(pos, player)
         "style_type[label;font_size=+0]",
         tab_switches,
         tab,
+        "style_type[label;font_size=]",
 		winv_listring,
 		"style_type[image;noclip=true]",
 		"image[-1.4,8.8;1.4,1.4;gui_tab.png]",
@@ -207,6 +207,7 @@ function travelnet.create_station_formspec(pos, player)
         netinfo,
         network_dropdown,
         create_network,
+        "style_type[label;font_size=]",
 		winv_listring,
 		"style_type[image;noclip=true]",
 		"image[-1.4,8.8;1.4,1.4;gui_tab.png]",
@@ -260,7 +261,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 
     if fields.share_users then
         if fields.share_users ~= "" then
-            local users = fields.share_users:split(",")
+            local users = travelnet.filter_table(fields.share_users:split(","))
             travelnet.add_network_users(meta:get_int("editing_network"), users)
             travelnet.show_formspec(pos, player)
         end
@@ -268,7 +269,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 
     if fields.remove_users then
         if fields.remove_users ~= "" then
-            local users = fields.remove_users:split(",")
+            local users = travelnet.filter_table(fields.remove_users:split(","))
             travelnet.remove_network_users(meta:get_int("editing_network"), users)
             travelnet.show_formspec(pos, player)
         end
@@ -276,14 +277,14 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 
     if fields.rename_network then
         if fields.rename_network ~= "" then
-            travelnet.set_network_name(meta:get_int("editing_network"), fields.rename_network)
+            travelnet.set_network_name(meta:get_int("editing_network"), travelnet.filter(fields.rename_network))
             travelnet.show_formspec(pos, player)
         end
     end
 
     if fields.change_owner then
         if fields.change_owner ~= "" then
-            travelnet.change_network_owner(meta:get_int("editing_network"), fields.change_owner)
+            travelnet.change_network_owner(meta:get_int("editing_network"), travelnet.filter(fields.change_owner))
         end
     end
 
@@ -328,7 +329,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 
     if fields.key_enter_field == "create_network" then
         if fields.create_network ~= "" then
-            local netid = travelnet.register_network(fields.create_network, playername)
+            local netid = travelnet.register_network(travelnet.filter(fields.create_network), playername)
             if netid then
                 meta:set_int("station_netid", netid)
                 meta:set_int("attached_network", 1)
@@ -354,15 +355,17 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
     if fields.key_enter_field == "station_name" then
         if attached_network == 1 then
             local netid = meta:get_int("station_netid")
-            local statid = travelnet.register_station(pos, fields.station_name, playername, netid)
+            print(netid)
+            local statid = travelnet.register_station(pos, travelnet.filter(fields.station_name), playername, netid)
+            print(statid)
             if statid then
-                meta:set_int("station_id", statid)
+                meta:set_int("station_id", tonumber(statid))
                 meta:set_int("created_station", 1)
                 travelnet.update_infotext(pos)
                 travelnet.show_formspec(pos, player)
             else
                 local network_name = travelnet.get_network_name(netid)
-                minetest.chat_send_player(playername, "A station with named " .. fields.station_name .. " has already been created on network " .. network_name .. " by you.")
+                minetest.chat_send_player(playername, "A station with named " .. travelnet.filter(fields.station_name) .. " has already been created on network " .. network_name .. " by you.")
                 travelnet.show_create_station_formspec(pos, player)
             end
         else

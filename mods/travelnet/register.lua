@@ -2,7 +2,6 @@ function travelnet.on_construct(pos)
 	local meta = minetest.get_meta(pos)
 	meta:set_string("lock", "lock")
 	meta:set_string("owner", "")
-    meta:set_string("editors", "")
 	locks.init_infotext(pos, "TravelNet")
 end
 
@@ -10,7 +9,6 @@ function travelnet.after_place_node(pos, placer, itemstack, pointed_thing)
 	local meta = minetest.get_meta(pos)
 	local playername = placer:get_player_name()
 	meta:set_string("owner", playername)
-    meta:set_string("editors", playername)
     meta:set_string("selected_tab", "travel")
     meta:set_int("attached_network", 0)
     meta:set_int("created_station", 0)
@@ -30,7 +28,7 @@ minetest.register_node("travelnet:station", {
                         aspect_w = 16,
                         aspect_h = 16,
                         length = 2.0,
-                    },
+                    }
                 }
             },
     use_texture_alpha = "blend",
@@ -65,6 +63,10 @@ minetest.register_node("travelnet:station", {
             travelnet.after_place_node(pos, clicker, itemstack, pointed_thing)
         end
 
+        if not locks.can_access(pos, clicker) then
+            return itemstack
+        end
+
         if meta:get_int("created_station") == 0 then
             if meta:get_string("owner") == playername then
                 local available_networks = travelnet.get_available_network_ids(playername)
@@ -79,9 +81,6 @@ minetest.register_node("travelnet:station", {
                 return itemstack
             end
         elseif (meta:get_int("created_station") == 1) and (meta:get_int("attached_network") == 1) then
-            if not locks.can_access(pos, clicker) then
-                return itemstack
-            end
             travelnet.show_formspec(pos, clicker)
             travelnet.pos[playername] = pos
         end

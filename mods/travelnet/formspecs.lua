@@ -289,6 +289,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
     if fields.change_owner then
         if fields.change_owner ~= "" then
             travelnet.change_network_owner(meta:get_int("editing_network"), travelnet.filter(fields.change_owner))
+            travelnet.show_formspec(pos, player)
         end
     end
 

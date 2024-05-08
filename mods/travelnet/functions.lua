@@ -39,6 +39,7 @@ end
 
 function travelnet.add_network_users(netid, users)
     local network_users = travelnet.get_network_users(netid)
+    local network_name = travelnet.get_network_name(netid)
 
     for i=1,#users do
         if minetest.player_exists(users[i]) then
@@ -50,6 +51,7 @@ function travelnet.add_network_users(netid, users)
             end
             if add then
                 table.insert_all(network_users, {users[i]})
+                minetest.chat_send_player(users[i], "You have been granted access to the travelnet network " .. network_name .. ".")
 
                 local user_networks = travelnet.storage:get_string(users[i] .. "_network_index")
                 if user_networks == "" then
@@ -67,6 +69,7 @@ end
 
 function travelnet.remove_network_users(netid, users)
     local network_users = travelnet.get_network_users(netid)
+    local network_name = travelnet.get_network_name(netid)
     local owner = travelnet.get_network_owner(netid)
     local network_stations = travelnet.get_network_stations(netid)
     local resulting_users = {}
@@ -90,6 +93,8 @@ function travelnet.remove_network_users(netid, users)
                         end
                     end
                     travelnet.storage:set_string(users[j] .. "_network_index", table.concat(resulting_netids, ","))
+                    minetest.chat_send_player(users[j], "You have been revoked access from the travelnet network " .. network_name ..
+                                                ", all your stations on this network have been disconnected and reset.")
                 end
             end
         end
@@ -186,8 +191,7 @@ function travelnet.delete_station(statid, netid)
     end
 
     local station_meta = minetest.get_meta(minetest.string_to_pos(travelnet.storage:get_string("pos_" .. statid .. ":" .. netid)))
-    station_meta:set_string("owner", "")
-    station_meta:set_string("editors", "")
+    station_meta:set_string("owner", owner)
     station_meta:set_string("selected_tab", "travel")
     station_meta:set_int("attached_network", 0)
     station_meta:set_int("editing_network", 0)

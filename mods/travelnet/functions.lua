@@ -82,14 +82,14 @@ function travelnet.remove_network_users(netid, users)
                             travelnet.delete_station(network_stations[k], netid)
                         end
                     end
-                    local user_networks = travelnet.storage:get_string(users[i] .. "_network_index")
+                    local user_networks = travelnet.storage:get_string(users[j] .. "_network_index")
                     local resulting_netids = {}
                     for _,accessible_netid in ipairs(user_networks:split(",")) do
-                        if accessible_netid ~= netid then
-                            table.insert_all(resulting_netids, accessible_netid)
+                        if tonumber(accessible_netid) ~= tonumber(netid) then
+                            table.insert_all(resulting_netids, {accessible_netid})
                         end
                     end
-                    travelnet.storage:set_string(users[i] .. "_network_index", table.concat(resulting_netids, ","))
+                    travelnet.storage:set_string(users[j] .. "_network_index", table.concat(resulting_netids, ","))
                 end
             end
         end
@@ -218,10 +218,17 @@ function travelnet.dump_player_data(invoker, playername)
     if minetest.player_exists(playername) then
         local owned_networks = travelnet.get_owned_network_ids(playername)
         local owned_network_names = travelnet.get_owned_network_names(playername)
+        local available_networks = travelnet.get_available_network_ids(playername)
+        local available_network_names = travelnet.get_available_network_names(playername)
 
-        minetest.chat_send_player(invoker, "Network data for " .. playername .. ":")
+        minetest.chat_send_player(invoker, "Owned Network data for " .. playername .. ":")
         for i=1,#owned_networks do
             minetest.chat_send_player(invoker, owned_networks[i] .. " " .. owned_network_names[i])
+        end
+
+        minetest.chat_send_player(invoker, "Available Network data for " .. playername .. ":")
+        for i=1,#available_networks do
+            minetest.chat_send_player(invoker, available_networks[i] .. " " .. available_network_names[i])
         end
 
         local owned_statids = travelnet.storage:get_string(playername .. "_station_index"):split(",")

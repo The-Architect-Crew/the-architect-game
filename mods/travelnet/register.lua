@@ -21,20 +21,32 @@ minetest.register_node("travelnet:station", {
     drawtype = "mesh",
     mesh = "travelnet_station.obj",
     description = "TravelNet",
-    tiles = {"travelnet_station.png"},
+    tiles = {"variations_wood.png^[sheet:3x3:1,0", "variations_steelblock.png^[sheet:3x3:1,0",
+                "blocks_glass_frosted.png", {
+                    name = "travelnet_station_special.png",
+                    backface_culling = true,
+                    animation = {
+                        type = "vertical_frames",
+                        aspect_w = 16,
+                        aspect_h = 16,
+                        length = 2.0,
+                    },
+                }
+            },
+    use_texture_alpha = "blend",
     groups = {dig_immediate = 3},
     sounds = default.sounds_stone_defaults,
     selection_box = {
         type = "fixed",
         fixed = {
-            {-8/16,-8/16,-8/16,8/16,41/16,8/16},
+            {-11/16,-8/16,-8/16,9/16,41/16,8/16},
         }
     },
     collision_box = {
         type = "fixed",
         fixed = {
-            {-8/16,-8/16,-8/16,-8/16,24/16,8/16},
-            {8/16,-8/16,-8/16,8/16,24/16,8/16},
+            {-8/16,-8/16,-8/16,-7/16,24/16,8/16},
+            {7/16,-8/16,-8/16,8/16,24/16,8/16},
             {-8/16,-8/16,8/16,8/16,24/16,8/16},
             {-8/16,-8/16,-8/16,8/16,-8/16,8/16},
             {-8/16,20/16,-8/16,8/16,41/16,8/16},

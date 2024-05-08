@@ -37,6 +37,10 @@ function travelnet.formspec(pos, player)
         local change_owner = ""
         local share_network = ""
 
+        if editing_network_id == 0 and network_ids ~= nil then
+            editing_network_id = tonumber(network_ids[1])
+        end
+
         if editing_network_id ~= 0 then
             local editing_network_name = travelnet.get_network_name(editing_network_id)
             selected_label = "label[0.25,1.5;Selected Network: " .. editing_network_name .. "]"

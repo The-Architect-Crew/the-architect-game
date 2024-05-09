@@ -714,11 +714,11 @@ minetest.register_node("blocks:stone_with_mese", {
 			},
 			{
 				rarity = 2,
-				items = {"blocks:marble_chunk"},
+				items = {"blocks:stone_chunk"},
 			},
 			{
 				rarity = 3,
-				items = {"blocks:marble_chunk"},
+				items = {"blocks:stone_chunk"},
 			},
 			{
 				rarity = 7,

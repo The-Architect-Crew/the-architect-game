@@ -288,6 +288,13 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
     if fields.rename_network then
         if fields.rename_network ~= "" then
             travelnet.set_network_name(meta:get_int("editing_network"), travelnet.filter(fields.rename_network))
+            local stations = travelnet.get_network_stations(netid)
+            if stations then
+                for i=1,#stations do
+                    local station_pos = travelnet.get_station_pos(stations[i], netid)
+                    travelnet.update_infotext(station_pos)
+                end
+            end
             travelnet.show_formspec(pos, player)
         end
     end

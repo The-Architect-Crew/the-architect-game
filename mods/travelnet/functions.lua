@@ -211,12 +211,10 @@ function travelnet.update_infotext(pos)
     local meta = minetest.get_meta(pos)
     local statid = meta:get_int("station_id")
     local netid = meta:get_int("station_netid")
-    local owner = travelnet.get_station_owner(statid, netid)
     local station_name = travelnet.get_station_name(statid, netid)
     local network_name = travelnet.get_network_name(netid)
 
     locks.init_infotext(pos, "TravelNet station " .. station_name ..
-                            "\nowned by " .. owner ..
                             "\non network " .. network_name)
 end
 

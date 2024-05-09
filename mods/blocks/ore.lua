@@ -756,6 +756,21 @@ minetest.register_node("blocks:marble_with_mese", {
 	sounds = default.node_sound_stone_defaults(),
 })
 
+minetest.register_node("blocks:dirt_with_viridis_mycelia_and_mese", {
+	description = S("Dirt with Viridis Mycelia and Mese"),
+	tiles = {"(blocks_dirt_with_viridis_mycelia.png^[overlay:blocks_mineral_mese_shading.png)^blocks_mineral_mese.png"},
+	groups = {crumbly = 3, soil = 1},
+	drop = {
+		items = {
+			{
+				rarity = 1,
+				items = {"blocks:mese_crystal"},
+			}
+		}
+	},
+	sounds = default.node_sound_dirt_defaults(),
+})
+
 minetest.register_node("blocks:mese", {
 	description = S("Mese Block"),
 	tiles = {"blocks_mese_block.png"},

@@ -242,6 +242,16 @@ mapgen.register_quarry_ores = function()
         y_max = mapgen.quarry_top,
         y_min = mapgen.quarry_bottom,
     })
+    minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:stone_with_mese",
+		wherein        = "blocks:stone",
+		clust_scarcity = 10 * 10 * 10,
+		clust_num_ores = 5,
+		clust_size     = 3,
+		y_max          = mapgen.quarry_top,
+		y_min          = mapgen.quarry_bottom,
+	})
     -- Decoration
     minetest.register_ore({
 		ore_type       = "scatter",

@@ -225,6 +225,16 @@ mapgen.register_mushroom_ores = function()
 		y_max          = mapgen.mushroom_top,
 		y_min          = mapgen.mushroom_bottom,
 	})
+    minetest.register_ore({
+		ore_type       = "scatter",
+		ore            = "blocks:dirt_with_viridis_mycelia_and_mese",
+		wherein        = "blocks:dirt_with_viridis_mycelia",
+		clust_scarcity = 8 * 8 * 8,
+		clust_num_ores = 6,
+		clust_size     = 4,
+		y_max          = mapgen.mushroom_top,
+		y_min          = mapgen.mushroom_bottom,
+	})
     -- Lost Mese
 	minetest.register_ore({
 		ore_type       = "scatter",

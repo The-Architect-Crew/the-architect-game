@@ -19,6 +19,7 @@ travelnet.materials = {
 local path = minetest.get_modpath("travelnet")
 
 dofile(path .."/database.lua")
+dofile(path .."/messages.lua")
 dofile(path .."/formspecs.lua")
 dofile(path .."/functions.lua")
 dofile(path .."/chatcommands.lua")

@@ -43,16 +43,15 @@ function travelnet.formspec(pos, player)
 
         if editing_network_id ~= 0 then
             local editing_network_name = travelnet.get_network_name(editing_network_id)
-            selected_label = "label[0.25,1.5;Selected Network: " .. editing_network_name .. "]"
+            selected_label = "label[0.25,1.5;Selected Network: " .. minetest.colorize(travelnet.network_color, editing_network_name) .. "]"
 
             local network_users = travelnet.get_network_users(editing_network_id)
             rename_network = "field[0.25,2.5;7.0,0.5;rename_network;Rename Network to:;]"
             change_owner = "field[0.25,3.5;7.0,0.5;change_owner;Change Network Owner to:;]"
             share_network = "field[0.25,4.5;7.0,0.5;share_users;Share this Network with:;]" ..
                             "field[0.25,5.5;7.0,0.5;remove_users;Remove Network Access for:;]" ..
-                            "label[0.25,6.5;This network can be used by:\n" .. table.concat(network_users, ",\n") .. "]"
+                            "label[0.25,6.5;This network can be used by:\n" .. minetest.colorize(travelnet.name_color, table.concat(network_users, ",\n")) .. "]"
         end
-
 
         settings_tab = table.concat({
             "label[0.25,0.25;Select Network:]",
@@ -72,9 +71,13 @@ function travelnet.formspec(pos, player)
             local station_name = travelnet.get_station_name(available_stations[i], station_netid)
             local station_owner = travelnet.get_station_owner(available_stations[i], station_netid)
             if tonumber(available_stations[i]) ==  station_id then
-                table.insert_all(station_buttons, {"button[0.25," .. posy .. ";6.75,0.5;selected_station;" .. station_name .. " (" .. station_owner .. ")]"})
+                table.insert_all(station_buttons, {"button[0.25," .. posy .. ";6.75,0.5;selected_station;" ..
+                minetest.colorize(travelnet.travelnet_color, station_name) .. " (" ..
+                minetest.colorize(travelnet.name_color, station_owner) .. ")]"})
             else
-                table.insert_all(station_buttons, {"button[0.25," .. posy .. ";6.75,0.5;" .. available_stations[i] .. ";" .. station_name .. " (" .. station_owner .. ")]"})
+                table.insert_all(station_buttons, {"button[0.25," .. posy .. ";6.75,0.5;" .. available_stations[i] .. ";" ..
+                minetest.colorize(travelnet.travelnet_color, station_name) .. " (" ..
+                minetest.colorize(travelnet.name_color, station_owner) .. ")]"})
             end
                 posy = posy + 0.5
         end
@@ -150,7 +153,9 @@ function travelnet.create_station_formspec(pos, player)
 
     local netinfo = ""
     if attached_network == 1 then
-        netinfo = "label[0.25,3.5;Selected Network:\nName: " .. travelnet.get_network_name(selected_netid) .. "\nOwner: " .. travelnet.get_network_owner(selected_netid) .. "]"
+        netinfo = "label[0.25,3.5;Selected Network:\nName: " ..
+        minetest.colorize(travelnet.network_color, travelnet.get_network_name(selected_netid)) .. "\nOwner: " ..
+        minetest.colorize(travelnet.name_color, travelnet.get_network_owner(selected_netid)) .. "]"
     end
 
     local station_data = table.concat({
@@ -178,7 +183,8 @@ function travelnet.create_station_formspec(pos, player)
         end
         network_dropdown = table.concat({
             "label[0.25,0.25;Attach to an Existing Network:]",
-            "dropdown[0.25,0.5;7.0,0.5;selected_network;" .. network_names .. ";" .. selected_network_dropid .. ";true]",
+            "dropdown[0.25,0.5;7.0,0.5;selected_network;" ..
+            minetest.colorize(travelnet.network_color, network_names) .. ";" .. selected_network_dropid .. ";true]",
         }, "")
     end
 
@@ -340,7 +346,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
                 meta:set_int("attached_network", 1)
                 travelnet.show_create_station_formspec(pos, player)
             else
-                minetest.chat_send_player(playername, "You've already created a network with that name")
+                minetest.chat_send_player(playername, travelnet.chat_message("error", "You have already created a network with that name"))
                 travelnet.show_create_station_formspec(pos, player)
             end
         end
@@ -368,11 +374,14 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
                 travelnet.show_formspec(pos, player)
             else
                 local network_name = travelnet.get_network_name(netid)
-                minetest.chat_send_player(playername, "A station with named " .. travelnet.filter(fields.station_name) .. " has already been created on network " .. network_name .. " by you.")
+                minetest.chat_send_player(playername, travelnet.chat_message("error", "A station named " ..
+                                            minetest.colorize(travelnet.travelnet_color, travelnet.filter(fields.station_name)) ..
+                                            " has already been created on network " ..
+                                            minetest.colorize(travelnet.network_color, network_name) .. " by you."))
                 travelnet.show_create_station_formspec(pos, player)
             end
         else
-            minetest.chat_send_player(playername, "A station needs to be attached to a network first.")
+            minetest.chat_send_player(playername, travelnet.chat_message("error", "The station is not attached to a network.", "Select a network or create one."))
         end
     end
 

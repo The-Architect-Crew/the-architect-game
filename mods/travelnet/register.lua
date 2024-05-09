@@ -98,7 +98,7 @@ for i=1,#travelnet.materials do
                     travelnet.pos[playername] = pos
                     travelnet.show_create_station_formspec(pos, clicker)
                 else
-                    minetest.chat_send_player(playername, "This TravelNet station has not yet been configured by the owner.")
+                    minetest.chat_send_player(playername, travelnet.chat_message("warning", "This TravelNet station has not yet been configured by the owner."))
                     return itemstack
                 end
             elseif (meta:get_int("created_station") == 1) and (meta:get_int("attached_network") == 1) then
@@ -116,7 +116,7 @@ for i=1,#travelnet.materials do
                     travelnet.delete_station(statid, netid)
                     minetest.node_dig(pos, node, digger)
                 else
-                    minetest.chat_send_player(playername, "Only the owner can remove a travelnet.")
+                    minetest.chat_send_player(playername, travelnet.chat_message("warning", "Only the owner can remove a travelnet."))
                 end
             else
                 minetest.node_dig(pos, node, digger)

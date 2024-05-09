@@ -51,7 +51,8 @@ function travelnet.add_network_users(netid, users)
             end
             if add then
                 table.insert_all(network_users, {users[i]})
-                minetest.chat_send_player(users[i], "You have been granted access to the travelnet network " .. network_name .. ".")
+                minetest.chat_send_player(users[i], travelnet.chat_message("note", "You have been granted access to the travelnet network " ..
+                                            minetest.colorize(travelnet.network_color, network_name) .. "."))
 
                 local user_networks = travelnet.storage:get_string(users[i] .. "_network_index")
                 if user_networks == "" then
@@ -93,8 +94,9 @@ function travelnet.remove_network_users(netid, users)
                         end
                     end
                     travelnet.storage:set_string(users[j] .. "_network_index", table.concat(resulting_netids, ","))
-                    minetest.chat_send_player(users[j], "You have been revoked access from the travelnet network " .. network_name ..
-                                                ", all your stations on this network have been disconnected and reset.")
+                    minetest.chat_send_player(users[j], travelnet.chat_message("note", "You have been revoked access from the travelnet network " ..
+                                                travelnet.colorize(travelnet.network_color, network_name) ..
+                                                ", all your stations on this network have been disconnected and reset."))
                 end
             end
         end

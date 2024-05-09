@@ -158,9 +158,9 @@ function travelnet.register_station(pos, name, owner, netid)
     travelnet.storage:set_string("pos_" .. selected_id, minetest.pos_to_string(pos))
 
     if network_stations then
-        network_stations = table.concat(table.insert_all(network_stations, {latest_id}), ",")
+        network_stations = table.concat(table.insert_all(network_stations, {selected_id:split(":")[1]}), ",")
     else
-        network_stations = latest_id
+        network_stations = selected_id:split(":")[1]
     end
 
     travelnet.storage:set_string("network_" .. netid .. "_stations", network_stations)

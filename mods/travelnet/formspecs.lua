@@ -70,14 +70,17 @@ function travelnet.formspec(pos, player)
         for i=1,#available_stations do
             local station_name = travelnet.get_station_name(available_stations[i], station_netid)
             local station_owner = travelnet.get_station_owner(available_stations[i], station_netid)
+            local station_pos = travelnet.get_station_pos(available_stations[i], station_netid)
             if tonumber(available_stations[i]) ==  station_id then
                 table.insert_all(station_buttons, {"button[0.25," .. posy .. ";6.75,0.5;selected_station;" ..
                 minetest.colorize(travelnet.travelnet_color, station_name) .. " (" ..
-                minetest.colorize(travelnet.name_color, station_owner) .. ")]"})
+                minetest.colorize(travelnet.name_color, station_owner) .. ") " ..
+                minetest.colorize(travelnet.location_color, minetest.pos_to_string(station_pos)) .. "]"})
             else
                 table.insert_all(station_buttons, {"button[0.25," .. posy .. ";6.75,0.5;" .. available_stations[i] .. ";" ..
                 minetest.colorize(travelnet.travelnet_color, station_name) .. " (" ..
-                minetest.colorize(travelnet.name_color, station_owner) .. ")]"})
+                minetest.colorize(travelnet.name_color, station_owner) .. ") " ..
+                minetest.colorize(travelnet.location_color, minetest.pos_to_string(station_pos)) .. "]"})
             end
                 posy = posy + 0.5
         end
@@ -92,6 +95,7 @@ function travelnet.formspec(pos, player)
 
         travel_tab = table.concat({
             "label[0.25,0.25;Travel to:]",
+            "label[0.25,10.0;On Network: " .. minetest.colorize(travelnet.network_color, travelnet.get_network_name(station_netid)) .. "]",
             "style_type[button;noclip=false]",
             "scroll_container[0.25,0.5;7.25,8.0;stations_scrollbar;vertical;]",
             "style[selected_station;bgcolor=#AAAAAA]",

@@ -1,6 +1,6 @@
-minetest.register_chatcommand("station_data", {
+minetest.register_chatcommand("travelnet_data", {
     params = "<name>",
-    description = "Print travelnet station data for the player",
+    description = "Print TravelNet station data for the player",
     privs = {server=true},
     func = function(name, param)
         if (param ~= "") and (param ~= nil) then

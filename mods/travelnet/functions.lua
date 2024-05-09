@@ -94,7 +94,7 @@ function travelnet.remove_network_users(netid, users)
                         end
                     end
                     travelnet.storage:set_string(users[j] .. "_network_index", table.concat(resulting_netids, ","))
-                    minetest.chat_send_player(users[j], travelnet.chat_message("note", "You have been revoked access from the travelnet network " ..
+                    minetest.chat_send_player(users[j], travelnet.chat_message("note", "You have been revoked access from the TravelNet network " ..
                                                 minetest.colorize(travelnet.network_color, network_name) ..
                                                 ", all your stations on this network have been disconnected and reset."))
                 end
@@ -246,7 +246,4 @@ function travelnet.dump_player_data(invoker, playername)
                                     "\non network " .. owned_station_network_id .. " " .. travelnet.get_network_name(owned_station_network_id))
         end
     end
-end
-
-function travelnet.dump_network_data(netid)
 end

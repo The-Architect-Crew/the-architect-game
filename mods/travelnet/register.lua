@@ -107,16 +107,13 @@ for i=1,#travelnet.materials do
             end
         end,
         on_dig = function(pos, node, digger)
-            local playername = digger:get_player_name()
             local meta = minetest.get_meta(pos)
             if meta:get_int("created_station") == 1 then
-                if meta:get_string("owner") == playername then
+                if locks.can_access(pos, digger) == true then
                     local statid = meta:get_int("station_id")
                     local netid = meta:get_int("station_netid")
                     travelnet.delete_station(statid, netid)
                     minetest.node_dig(pos, node, digger)
-                else
-                    minetest.chat_send_player(playername, travelnet.chat_message("warning", "Only the owner can remove a travelnet."))
                 end
             else
                 minetest.node_dig(pos, node, digger)

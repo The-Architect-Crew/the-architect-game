@@ -18,6 +18,6 @@ function travelnet.chat_message(message_type, message, hint)
     if hint == nil then
         hint = ""
     end
-    return "<" .. minetest.colorize(travelnet.travelnet_color, "Travelnet Station") .. "> " ..
+    return "<" .. minetest.colorize(travelnet.travelnet_color, "TravelNet") .. "> " ..
             message_types[message_type] .. " " .. message .. " " .. minetest.colorize("#888888", hint)
 end

@@ -262,6 +262,9 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
             player:set_look_horizontal(minetest.dir_to_yaw(minetest.facedir_to_dir(target_param2)) + math.pi)
             player:set_pos(target_pos)
             minetest.close_formspec(playername, formname)
+            minetest.chat_send_player(playername, travelnet.chat_message("success", "Arrived at station " ..
+                                        minetest.colorize(travelnet.travelnet_color, station_name) .. " at the position " ..
+                                        minetest.colorize(travelnet.location_color, minetest.pos_to_string(target_pos)) .. "."))
         end
     end
 

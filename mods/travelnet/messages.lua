@@ -1,6 +1,7 @@
 travelnet.travelnet_color = "#397bff"
 travelnet.network_color = "#ff4e39"
 travelnet.name_color = "#ffff00"
+travelnet.location_color = "#a0cf2c"
 travelnet.price_color = "#a89f6b"
 travelnet.true_color = "#00ff00"
 travelnet.false_color = "#ff0000"

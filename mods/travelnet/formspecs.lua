@@ -263,11 +263,12 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
         if fields[statid] then
             local target_pos = travelnet.get_station_pos(statid, netid)
             local target_param2 = minetest.get_node(target_pos).param2
+            local target_name = travelnet.get_station_name(statid, netid)
             player:set_look_horizontal(minetest.dir_to_yaw(minetest.facedir_to_dir(target_param2)) + math.pi)
             player:set_pos(target_pos)
             minetest.close_formspec(playername, formname)
             minetest.chat_send_player(playername, travelnet.chat_message("success", "Arrived at station " ..
-                                        minetest.colorize(travelnet.travelnet_color, station_name) .. " at the position " ..
+                                        minetest.colorize(travelnet.travelnet_color, target_name) .. " at the position " ..
                                         minetest.colorize(travelnet.location_color, minetest.pos_to_string(target_pos)) .. "."))
         end
     end

@@ -1,5 +1,7 @@
 furniture = {}
 
+furniture.storage = minetest.get_mod_storage()
+
 local path = minetest.get_modpath("furniture")
 
 workbench:register_crafttype("furniture", {

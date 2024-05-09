@@ -243,7 +243,10 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 	local playername = player:get_player_name()
 	local pos = travelnet.pos[playername]
 	local meta = minetest.get_meta(pos)
+    local station_id = meta:get_int("station_id")
     local netid = meta:get_int("station_netid")
+    local station_name = travelnet.get_station_name(station_id, netid)
+    local network_name = travelnet.get_network_name(netid)
 
 	if not locks.can_access(pos, player) then
 		return 0
@@ -316,7 +319,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
         travelnet.show_formspec(pos, player)
     end
 
-	if locks.fields(pos, player, fields, "travelnet", "TravelNet") then
+	if locks.fields(pos, player, fields, "travelnet", "TravelNet station " .. station_name .. "\non network " .. network_name) then
 		travelnet.show_formspec(pos, player)
 	end
 

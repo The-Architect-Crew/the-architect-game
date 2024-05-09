@@ -45,7 +45,7 @@ minetest.register_craftitem("furniture:display_panel", {
 	inventory_image = "furniture_display_panel.png",
 })
 minetest.register_craftitem("furniture:cpu", {
-	description = S("Mese CPU Unit"),
+	description = S("Mese CPU"),
 	inventory_image = "furniture_cpu.png",
 })
 minetest.register_craftitem("furniture:display", {

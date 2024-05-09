@@ -142,3 +142,15 @@ minetest.register_craft({
 		{"blocks:imagination", "blocks:imagination"}
 	},
 })
+
+minetest.register_craft({
+	output = "blocks:diamond",
+	recipe = {
+		{"", "blocks:mese_crystal", ""},
+		{"blocks:mese_crystal", "blocks:imagination", "blocks:mese_crystal"},
+		{"", "blocks:mese_crystal", ""}
+	},
+	replacements = {
+		{"blocks:imagination", "blocks:imagination"}
+	},
+})

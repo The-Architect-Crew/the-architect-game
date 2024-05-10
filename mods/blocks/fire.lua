@@ -29,7 +29,7 @@ minetest.register_node("blocks:fire", {
     floodable = true,
 	use_texture_alpha = "clip",
     light_source = default.LIGHT_MAX,
-    groups = {oddly_breakable_by_hand = 1, loot = 3},
+    groups = {loot = 3, dig_immediate = 3},
 })
 
 minetest.register_node("blocks:campfire", {
@@ -51,7 +51,7 @@ minetest.register_node("blocks:campfire", {
     floodable = true,
 	use_texture_alpha = "clip",
     light_source = default.LIGHT_MAX,
-    groups = {oddly_breakable_by_hand = 1, loot = 3},
+    groups = {dig_immediate = 3, loot = 3},
     selection_box = {
         type = "fixed",
         fixed = {-14 / 16, -0.5, -14 / 16, 14 / 16, 16 / 16, 14 / 16},
@@ -73,7 +73,7 @@ minetest.register_node("blocks:pyre", {
     floodable = true,
 	use_texture_alpha = "clip",
     light_source = default.LIGHT_MAX,
-    groups = {oddly_breakable_by_hand = 1, loot = 4},
+    groups = {dig_immediate = 3, loot = 4},
     selection_box = {
         type = "fixed",
         fixed = {-20 / 16, -12 / 16, -20 / 16, 20 / 16, 48 / 16, 20 / 16},
@@ -88,7 +88,7 @@ minetest.register_node("blocks:embers", {
     }},
     paramtype = "light",
     light_source = 6,
-    groups = {oddly_breakable_by_hand = 1, loot = 3},
+    groups = {dig_immediate = 3, loot = 3},
     sounds = default.node_sound_gravel_defaults()
 })
 
@@ -147,7 +147,7 @@ for i=1,#blocks.fire_types do
         floodable = true,
 		use_texture_alpha = "clip",
         light_source = default.LIGHT_MAX,
-        groups = {oddly_breakable_by_hand = 1},
+        groups = {dig_immediate = 3, loot = 3},
     })
 
     minetest.register_node("blocks:embers_" .. name, {
@@ -158,7 +158,7 @@ for i=1,#blocks.fire_types do
         }},
         paramtype = "light",
         light_source = 6,
-        groups = {oddly_breakable_by_hand = 1},
+        groups = {dig_immediate = 3, loot = 3},
         sounds = default.node_sound_gravel_defaults()
     })
 
@@ -181,7 +181,7 @@ for i=1,#blocks.fire_types do
         floodable = true,
 		use_texture_alpha = "clip",
         light_source = default.LIGHT_MAX,
-        groups = {oddly_breakable_by_hand = 1},
+        groups = {dig_immediate = 3, loot = 3},
         selection_box = {
             type = "fixed",
             fixed = {-14 / 16, -0.5, -14 / 16, 14 / 16, 16 / 16, 14 / 16},
@@ -203,7 +203,7 @@ for i=1,#blocks.fire_types do
         floodable = true,
 		use_texture_alpha = "clip",
         light_source = default.LIGHT_MAX,
-        groups = {oddly_breakable_by_hand = 1},
+        groups = {dig_immediate = 3, loot = 4},
         selection_box = {
             type = "fixed",
             fixed = {-20 / 16, -12 / 16, -20 / 16, 20 / 16, 48 / 16, 20 / 16},

@@ -3219,6 +3219,22 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
+	output = "blocks:mithrilblock",
+	recipe = {
+		{"blocks:mithril_ingot", "blocks:mithril_ingot", "blocks:mithril_ingot"},
+		{"blocks:mithril_ingot", "blocks:mithril_ingot", "blocks:mithril_ingot"},
+		{"blocks:mithril_ingot", "blocks:mithril_ingot", "blocks:mithril_ingot"},
+	}
+})
+
+minetest.register_craft({
+	output = "blocks:mithril_ingot 9",
+	recipe = {
+		{"blocks:mithrilblock"},
+	}
+})
+
+minetest.register_craft({
 	output = "blocks:amber",
 	recipe = {
 		{"blocks:amber_shard", "blocks:amber_shard", "blocks:amber_shard"},
@@ -3408,6 +3424,12 @@ minetest.register_craft({
 	type = "cooking",
 	output = "blocks:gold_ingot",
 	recipe = "blocks:gold_lump",
+})
+
+minetest.register_craft({
+	type = "cooking",
+	output = "blocks:mithril_ingot",
+	recipe = "blocks:mithril_lump",
 })
 
 minetest.register_craft({

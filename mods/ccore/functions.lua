@@ -119,7 +119,7 @@ function ccore.strip_newlines(string)
 	return string.match(string, '(.*)\n') or string
 end
 
-ccore.not_inherited = {"wood", "stone", "fire_biome", "azure", "sand", "stick"}
+ccore.not_inherited = {"wood", "stone", "fire_biome", "azure", "sand", "stick", "loot"}
 
 ccore.groups_copy = function(table)
     local copy = {}

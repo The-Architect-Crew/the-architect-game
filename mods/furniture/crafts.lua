@@ -39,7 +39,7 @@ minetest.register_craft({
 	}
 })
 minetest.register_craft({
-	output = "furniture:arm_holder",
+	output = "furniture:holder",
 	recipe = {
 		{"blocks:mese_crystal_fragment", "", ""},
 		{"blocks:mese_crystal_fragment", "blocks:steel_ingot", "furniture:arm"},

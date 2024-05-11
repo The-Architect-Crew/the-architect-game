@@ -101,7 +101,7 @@ minetest.register_node("flora:sapling_jungle", {
 
 	on_place = function(itemstack, placer, pointed_thing)
 		itemstack = flora.sapling_on_place(itemstack, placer, pointed_thing,
-			"flora:junglesapling",
+			"flora:sapling_jungle",
 			-- minp, maxp to be checked, relative to sapling pos
 			-- minp_relative.y = 1 because sapling pos has been checked
 			{x = -2, y = 1, z = -2},
@@ -137,7 +137,7 @@ minetest.register_node("flora:sapling_emergent_jungle", {
 
 	on_place = function(itemstack, placer, pointed_thing)
 		itemstack = flora.sapling_on_place(itemstack, placer, pointed_thing,
-			"flora:emergent_jungle_sapling",
+			"flora:sapling_emergent_jungle",
 			-- minp, maxp to be checked, relative to sapling pos
 			{x = -3, y = -5, z = -3},
 			{x = 3, y = 31, z = 3},
@@ -172,7 +172,7 @@ minetest.register_node("flora:sapling_pine", {
 
 	on_place = function(itemstack, placer, pointed_thing)
 		itemstack = flora.sapling_on_place(itemstack, placer, pointed_thing,
-			"flora:pine_sapling",
+			"flora:sapling_pine",
 			-- minp, maxp to be checked, relative to sapling pos
 			-- minp_relative.y = 1 because sapling pos has been checked
 			{x = -2, y = 1, z = -2},
@@ -208,7 +208,7 @@ minetest.register_node("flora:sapling_big_pine", {
 
 	on_place = function(itemstack, placer, pointed_thing)
 		itemstack = flora.sapling_on_place(itemstack, placer, pointed_thing,
-			"flora:pine_sapling_big",
+			"flora:sapling_big_pine",
 			-- minp, maxp to be checked, relative to sapling pos
 			-- minp_relative.y = 1 because sapling pos has been checked
 			{x = -6, y = 2, z = -6},
@@ -244,7 +244,7 @@ minetest.register_node("flora:sapling_acacia", {
 
 	on_place = function(itemstack, placer, pointed_thing)
 		itemstack = flora.sapling_on_place(itemstack, placer, pointed_thing,
-			"flora:acacia_sapling",
+			"flora:sapling_acacia",
 			-- minp, maxp to be checked, relative to sapling pos
 			-- minp_relative.y = 1 because sapling pos has been checked
 			{x = -4, y = 1, z = -4},
@@ -280,7 +280,7 @@ minetest.register_node("flora:sapling_big_acacia", {
 
 	on_place = function(itemstack, placer, pointed_thing)
 		itemstack = flora.sapling_on_place(itemstack, placer, pointed_thing,
-			"flora:acacia_sapling_big",
+			"flora:sapling_big_acacia",
 			-- minp, maxp to be checked, relative to sapling pos
 			-- minp_relative.y = 1 because sapling pos has been checked
 			{x = -7, y = 2, z = -7},
@@ -316,7 +316,7 @@ minetest.register_node("flora:sapling_aspen", {
 
 	on_place = function(itemstack, placer, pointed_thing)
 		itemstack = flora.sapling_on_place(itemstack, placer, pointed_thing,
-			"flora:aspen_sapling",
+			"flora:sapling_aspen",
 			-- minp, maxp to be checked, relative to sapling pos
 			-- minp_relative.y = 1 because sapling pos has been checked
 			{x = -2, y = 1, z = -2},
@@ -352,7 +352,7 @@ minetest.register_node("flora:sapling_big_aspen", {
 
 	on_place = function(itemstack, placer, pointed_thing)
 		itemstack = flora.sapling_on_place(itemstack, placer, pointed_thing,
-			"flora:aspen_sapling_big",
+			"flora:sapling_big_aspen",
 			-- minp, maxp to be checked, relative to sapling pos
 			-- minp_relative.y = 1 because sapling pos has been checked
 			{x = -4, y = 2, z = -4},
@@ -388,7 +388,7 @@ minetest.register_node("flora:sapling_cherry", {
 
 	on_place = function(itemstack, placer, pointed_thing)
 		itemstack = flora.sapling_on_place(itemstack, placer, pointed_thing,
-			"flora:cherry_sapling",
+			"flora:sapling_cherry",
 			-- minp, maxp to be checked, relative to sapling pos
 			-- minp_relative.y = 1 because sapling pos has been checked
 			{x = -4, y = 1, z = -4},
@@ -424,7 +424,7 @@ minetest.register_node("flora:sapling_big_cherry", {
 
 	on_place = function(itemstack, placer, pointed_thing)
 		itemstack = flora.sapling_on_place(itemstack, placer, pointed_thing,
-			"flora:cherry_sapling_big",
+			"flora:sapling_big_cherry",
 			-- minp, maxp to be checked, relative to sapling pos
 			-- minp_relative.y = 1 because sapling pos has been checked
 			{x = -8, y = 1, z = -8},
@@ -460,7 +460,7 @@ minetest.register_node("flora:sapling_bone", {
 
 	on_place = function(itemstack, placer, pointed_thing)
 		itemstack = flora.sapling_on_place(itemstack, placer, pointed_thing,
-			"flora:bone_sapling",
+			"flora:sapling_bone",
 			-- minp, maxp to be checked, relative to sapling pos
 			-- minp_relative.y = 1 because sapling pos has been checked
 			{x = -3, y = 1, z = -3},
@@ -496,7 +496,7 @@ minetest.register_node("flora:sapling_big_bone", {
 
 	on_place = function(itemstack, placer, pointed_thing)
 		itemstack = flora.sapling_on_place(itemstack, placer, pointed_thing,
-			"flora:bone_sapling_big",
+			"flora:sapling_big_bone",
 			-- minp, maxp to be checked, relative to sapling pos
 			-- minp_relative.y = 1 because sapling pos has been checked
 			{x = -5, y = 1, z = -5},

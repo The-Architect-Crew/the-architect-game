@@ -401,31 +401,17 @@ minetest.register_node("flora:leaves_crimson", {
 -- register trees for leafdecay
 --
 
-if minetest.get_mapgen_setting("mg_name") == "v6" then
-	default.register_leafdecay({
-		trunks = {"flora:tree"},
-		leaves = {"flora:apple", "flora:leaves"},
-		radius = 2,
-	})
+default.register_leafdecay({
+	trunks = {"flora:tree"},
+	leaves = {"flora:apple", "flora:leaves"},
+	radius = 3,
+})
 
-	default.register_leafdecay({
-		trunks = {"flora:tree_jungle"},
-		leaves = {"flora:leaves_jungle"},
-		radius = 3,
-	})
-else
-	default.register_leafdecay({
-		trunks = {"flora:tree"},
-		leaves = {"flora:apple", "flora:leaves"},
-		radius = 3,
-	})
-
-	default.register_leafdecay({
-		trunks = {"flora:tree_jungle"},
-		leaves = {"flora:leaves_jungle"},
-		radius = 2,
-	})
-end
+default.register_leafdecay({
+	trunks = {"flora:tree_jungle"},
+	leaves = {"flora:leaves_jungle"},
+	radius = 2,
+})
 
 default.register_leafdecay({
 	trunks = {"flora:tree_pine"},

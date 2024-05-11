@@ -134,10 +134,9 @@ function travelnet.formspec(pos, player)
     end
 	local winv_formspec = {
 		"image[0,0;7.75,10.25;winv_bg.png]",
-        "style_type[label;font_size=+0]",
+        "style_type[label,button,field;font_size=+0]",
         tab_switches,
         tab,
-        "style_type[label;font_size=]",
 		winv_listring,
 		"style_type[image;noclip=true]",
 		"image[-1.4,8.8;1.4,1.4;gui_tab.png]",
@@ -216,12 +215,11 @@ function travelnet.create_station_formspec(pos, player)
     end
 	local winv_formspec = {
 		"image[0,0;7.75,10.25;winv_bg.png]",
-        "style_type[label;font_size=+0]",
+        "style_type[label,button,field;font_size=+0]",
         station_data,
         netinfo,
         network_dropdown,
         create_network,
-        "style_type[label;font_size=]",
 		winv_listring,
 		"style_type[image;noclip=true]",
 		"image[-1.4,8.8;1.4,1.4;gui_tab.png]",

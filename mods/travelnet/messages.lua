@@ -1,4 +1,4 @@
-travelnet.travelnet_color = "#397bff"
+travelnet.travelnet_color = "#80aaff"
 travelnet.network_color = "#ff4e39"
 travelnet.name_color = "#ffff00"
 travelnet.location_color = "#a0cf2c"

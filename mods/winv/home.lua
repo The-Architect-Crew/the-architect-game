@@ -189,13 +189,13 @@ local function tp_home(player, hname)
 			end
 			local hpos = homesdata[hname]
 			homes_chat(name, "Warping to '"..hname.."' home ("..hpos.x..", "..hpos.y..", "..hpos.z..")...")
-			player:set_fov(410, false, 15)
+			player:set_fov(360, false, 4)
 			hinv.teleporting = true
 			minetest.sound_play("winv_home_teleport", {
 				gain = 0.5,
 				to_player = name,
 			})
-			minetest.after(4, function()
+			minetest.after(1, function()
 				if minetest.is_player(player) then
 					player:set_fov(0)
 					player:set_pos(hpos)

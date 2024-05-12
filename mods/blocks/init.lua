@@ -62,8 +62,12 @@ function blocks.roll_loot(falloff, level)
     if (math.random() < falloff) and (level < 8) then
         itemstack = blocks.roll_loot(falloff, level + 1)
     else
-        local amount = math.random(1, math.max(1, 10-2*level))
         local cat_size = #blocks.loot["loot_level" .. level]
+        if cat_size == 0 then
+            level = level - 1
+            cat_size = #blocks.loot["loot_level" .. level]
+        end
+        local amount = math.random(1, math.max(1, 10-2*level))
         local random_id = math.random(1, cat_size)
         itemstack = blocks.loot["loot_level" .. level][random_id] .. " " .. amount
     end

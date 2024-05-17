@@ -146,8 +146,8 @@ minetest.register_node("flora:leaves_jungle", {
 	drop = {
 		max_items = 1,
 		items = {
-			{items = {"flora:junglesapling"}, rarity = 20},
-			{items = {"flora:jungleleaves"}}
+			{items = {"flora:sapling_jungle"}, rarity = 20},
+			{items = {"flora:leaves_jungle"}}
 		}
 	},
 	sounds = default.node_sound_leaves_defaults(),
@@ -189,8 +189,8 @@ minetest.register_node("flora:needles_pine",{
 	drop = {
 		max_items = 1,
 		items = {
-			{items = {"flora:pine_sapling"}, rarity = 20},
-			{items = {"flora:pine_needles"}}
+			{items = {"flora:sapling_pine"}, rarity = 20},
+			{items = {"flora:needles_pine"}}
 		}
 	},
 	sounds = default.node_sound_leaves_defaults(),
@@ -233,8 +233,8 @@ minetest.register_node("flora:leaves_acacia", {
 	drop = {
 		max_items = 1,
 		items = {
-			{items = {"flora:acacia_sapling"}, rarity = 20},
-			{items = {"flora:acacia_leaves"}}
+			{items = {"flora:sapling_acacia"}, rarity = 20},
+			{items = {"flora:leaves_acacia"}}
 		}
 	},
 	sounds = default.node_sound_leaves_defaults(),
@@ -276,8 +276,8 @@ minetest.register_node("flora:leaves_aspen", {
 	drop = {
 		max_items = 1,
 		items = {
-			{items = {"flora:aspen_sapling"}, rarity = 20},
-			{items = {"flora:aspen_leaves"}}
+			{items = {"flora:sapling_aspen"}, rarity = 20},
+			{items = {"flora:leaves_aspen"}}
 		}
 	},
 	sounds = default.node_sound_leaves_defaults(),
@@ -320,13 +320,13 @@ minetest.register_node("flora:leaves_cherry", {
 		items = {
 			{
 				-- player will get sapling with 1/20 chance
-				items = {"flora:cherry_sapling"},
+				items = {"flora:sapling_cherry"},
 				rarity = 20,
 			},
 			{
 				-- player will get leaves only if he get no saplings,
 				-- this is because max_items is 1
-				items = {"flora:cherry_leaves"},
+				items = {"flora:leaves_cherry"},
 			}
 		}
 	},
@@ -382,13 +382,13 @@ minetest.register_node("flora:leaves_crimson", {
 		items = {
 			{
 				-- player will get sapling with 1/20 chance
-				items = {"flora:bone_sapling"},
+				items = {"flora:sapling_bone"},
 				rarity = 20,
 			},
 			{
 				-- player will get leaves only if he get no saplings,
 				-- this is because max_items is 1
-				items = {"flora:crimson_leaves"},
+				items = {"flora:leaves_crimson"},
 			}
 		}
 	},

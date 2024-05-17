@@ -179,14 +179,16 @@ end
 
 minetest.register_lbm({
 	name = "flora:convert_saplings_to_node_timer",
-	nodenames = {"flora:sapling", "flora:junglesapling",
-			"flora:pine_sapling", "flora:acacia_sapling",
-			"flora:aspen_sapling", "flora:cherry_sapling",
-			"flora:bone_sapling",
-			"flora:sapling_big", "flora:emergent_jungle_sapling",
-			"flora:pine_sapling_big", "flora:acacia_sapling_big",
-			"flora:aspen_sapling_big", "flora:cherry_sapling_big",
-			"flora:bone_sapling_big", "flora:amber_sapling"},
+	nodenames = {"flora:sapling", "flora:sapling_jungle",
+			"flora:sapling_pine", "flora:sapling_acacia",
+			"flora:sapling_aspen", "flora:sapling_cherry",
+			"flora:sapling_bone",
+			"flora:sapling_big", "flora:sapling_emergent_jungle",
+			"flora:sapling_big_pine", "flora:sapling_big_acacia",
+			"flora:sapling_big_aspen", "flora:sapling_big_cherry",
+			"flora:sapling_big_bone", "flora:sapling_amber",
+			"flora:bush_sapling", "flora:blueberry_bush_sapling",
+			"flora:acacia_bush_sapling", "flora:pine_bush_sapling"},
 	action = function(pos)
 		minetest.get_node_timer(pos):start(math.random(300, 1500))
 	end

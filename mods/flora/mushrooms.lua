@@ -1037,7 +1037,7 @@ minetest.register_node("flora:amber_mushroom_medium", {
 		fixed = {-12/16, -8/16, -12/16, 12/16, 24/16, 12/16}
 	}
 })
-minetest.register_node("flora:amber_sapling", {
+minetest.register_node("flora:sapling_amber", {
 	description = "Amber Tree Sapling",
 	drawtype = "plantlike",
 	tiles = {"flora_amber_sapling.png"},

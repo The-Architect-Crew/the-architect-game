@@ -24,7 +24,7 @@ minetest.register_alias("default:junglegrass", "flora:junglegrass_1")
 minetest.register_alias("default:dirt", "blocks:dirt")
 minetest.register_alias("default:dry_dirt", "blocks:dry_dirt")
 
-minetest.register_alias("default:bush_stem", "flora:bush_stem")
+minetest.register_alias("default:bush_stem", "flora:stem_bush")
 minetest.register_alias("default:bush_leaves", "flora:leaves_bush")
 minetest.register_alias("default:blueberry_bush_leaves_with_berries", "flora:leaves_bush_blueberry_with_berries")
 minetest.register_alias("default:blueberry_bush_leaves", "flora:leaves_bush_blueberry")

@@ -155,7 +155,6 @@ minetest.register_alias("flora:acacia_bush_sapling", "flora:sapling_bush_acacia"
 minetest.register_alias("flora:pine_bush_needles", "flora:needles_bush_pine")
 minetest.register_alias("flora:pine_bush_stem", "flora:stem_bush_pine")
 minetest.register_alias("flora:pine_bush_sapling", "flora:sapling_bush_pine")
-minetest.register_alias("flora:bone_bush_leaves", "flora:leaves_bush_bone")
 minetest.register_alias("flora:bone_bush_stem", "flora:stem_bush_bone")
 minetest.register_alias("flora:bone_bush_sapling", "flora:sapling_bush_bone")
 minetest.register_alias("flora:blueberry_bush_leaves", "flora:leaves_bush_blueberry")

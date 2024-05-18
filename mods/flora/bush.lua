@@ -341,6 +341,6 @@ default.register_leafdecay({
 
 default.register_leafdecay({
 	trunks = {"flora:stem_bush_bone"},
-	leaves = {"flora:leaves_bush_bone"},
+	leaves = {"flora:leaves_bone"},
 	radius = 1,
 })

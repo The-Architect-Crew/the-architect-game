@@ -188,11 +188,11 @@ minetest.register_node("flora:vines_dry_horizontal", {
 			},
 			{
 				rarity = 1,
-				items = {"flora:dry_leaves"},
+				items = {"flora:leaves_dry"},
 			},
 			{
 				rarity = 2,
-				items = {"flora:dry_leaves 2"},
+				items = {"flora:leaves_dry 2"},
 			},
 			{
 				rarity = 3,
@@ -228,11 +228,11 @@ minetest.register_node("flora:vines_dry", {
 			},
 			{
 				rarity = 1,
-				items = {"flora:dry_leaves"},
+				items = {"flora:leaves_dry"},
 			},
 			{
 				rarity = 2,
-				items = {"flora:dry_leaves 2"},
+				items = {"flora:leaves_dry 2"},
 			},
 			{
 				rarity = 3,
@@ -308,7 +308,7 @@ minetest.register_node("flora:vines_dry_with_moonstone", {
 			},
 			{
 				rarity = 2,
-				items = {"flora:dry_leaves"},
+				items = {"flora:leaves_dry"},
 			},
 			{
 				rarity = 2,
@@ -365,7 +365,7 @@ for i=1,5 do
 				},
 				{
 					rarity = 3,
-					items = {"flora:dry_leaves"},
+					items = {"flora:leaves_dry"},
 				},
 			},
 		},
@@ -396,11 +396,11 @@ minetest.register_node("flora:vines_frosty_horizontal", {
 			},
 			{
 				rarity = 1,
-				items = {"flora:dry_leaves"},
+				items = {"flora:leaves_dry"},
 			},
 			{
 				rarity = 2,
-				items = {"flora:dry_leaves 2"},
+				items = {"flora:leaves_dry 2"},
 			},
 			{
 				rarity = 3,
@@ -436,11 +436,11 @@ minetest.register_node("flora:vines_frosty", {
 			},
 			{
 				rarity = 1,
-				items = {"flora:dry_leaves"},
+				items = {"flora:leaves_dry"},
 			},
 			{
 				rarity = 2,
-				items = {"flora:dry_leaves 2"},
+				items = {"flora:leaves_dry 2"},
 			},
 			{
 				rarity = 3,
@@ -516,7 +516,7 @@ minetest.register_node("flora:vines_frosty_with_moonstone", {
 			},
 			{
 				rarity = 2,
-				items = {"flora:dry_leaves"},
+				items = {"flora:leaves_dry"},
 			},
 			{
 				rarity = 2,

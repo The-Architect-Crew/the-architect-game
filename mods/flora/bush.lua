@@ -10,7 +10,7 @@ local function grow_sapling(...)
 	return flora.grow_sapling(...)
 end
 
-minetest.register_node("flora:bush_stem", {
+minetest.register_node("flora:stem_bush", {
 	description = S("Bush Stem"),
 	drawtype = "plantlike",
 	visual_scale = 1.41,
@@ -27,7 +27,7 @@ minetest.register_node("flora:bush_stem", {
 	},
 })
 
-minetest.register_node("flora:bush_leaves", {
+minetest.register_node("flora:leaves_bush", {
 	description = S("Bush Leaves"),
 	drawtype = "allfaces_optional",
 	tiles = {"flora_leaves_simple.png"},
@@ -36,8 +36,8 @@ minetest.register_node("flora:bush_leaves", {
 	drop = {
 		max_items = 1,
 		items = {
-			{items = {"flora:bush_sapling"}, rarity = 5},
-			{items = {"flora:bush_leaves"}}
+			{items = {"flora:sapling_bush"}, rarity = 5},
+			{items = {"flora:leaves_bush"}}
 		}
 	},
 	sounds = default.node_sound_leaves_defaults(),
@@ -45,7 +45,7 @@ minetest.register_node("flora:bush_leaves", {
 	after_place_node = after_place_leaves,
 })
 
-minetest.register_node("flora:bush_sapling", {
+minetest.register_node("flora:sapling_bush", {
 	description = S("Bush Sapling"),
 	drawtype = "plantlike",
 	tiles = {"flora_bush_sapling.png"},
@@ -69,7 +69,7 @@ minetest.register_node("flora:bush_sapling", {
 
 	on_place = function(itemstack, placer, pointed_thing)
 		itemstack = flora.sapling_on_place(itemstack, placer, pointed_thing,
-			"flora:bush_sapling",
+			"flora:sapling_bush",
 			-- minp, maxp to be checked, relative to sapling pos
 			{x = -1, y = 0, z = -1},
 			{x = 1, y = 1, z = 1},
@@ -87,7 +87,7 @@ minetest.register_craftitem("flora:blueberries", {
 	on_use = minetest.item_eat(2),
 })
 
-minetest.register_node("flora:blueberry_bush_leaves_with_berries", {
+minetest.register_node("flora:leaves_bush_blueberry_with_berries", {
 	description = S("Blueberry Bush Leaves with Berries"),
 	drawtype = "allfaces_optional",
 	tiles = {"flora_blueberry_bush_leaves.png^flora_blueberry_overlay.png"},
@@ -95,15 +95,15 @@ minetest.register_node("flora:blueberry_bush_leaves_with_berries", {
 	groups = {snappy = 3, flammable = 2, leaves = 1, dig_immediate = 3},
 	drop = "flora:blueberries",
 	sounds = default.node_sound_leaves_defaults(),
-	node_dig_prediction = "flora:blueberry_bush_leaves",
+	node_dig_prediction = "flora:leaves_bush_blueberry",
 
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
-		minetest.set_node(pos, {name = "flora:blueberry_bush_leaves"})
+		minetest.set_node(pos, {name = "flora:leaves_bush_blueberry"})
 		minetest.get_node_timer(pos):start(math.random(300, 1500))
 	end,
 })
 
-minetest.register_node("flora:blueberry_bush_leaves", {
+minetest.register_node("flora:leaves_bush_blueberry", {
 	description = S("Blueberry Bush Leaves"),
 	drawtype = "allfaces_optional",
 	tiles = {"flora_blueberry_bush_leaves.png"},
@@ -112,8 +112,8 @@ minetest.register_node("flora:blueberry_bush_leaves", {
 	drop = {
 		max_items = 1,
 		items = {
-			{items = {"flora:blueberry_bush_sapling"}, rarity = 5},
-			{items = {"flora:blueberry_bush_leaves"}}
+			{items = {"flora:sapling_bush_blueberry"}, rarity = 5},
+			{items = {"flora:leaves_bush_blueberry"}}
 		}
 	},
 	sounds = default.node_sound_leaves_defaults(),
@@ -122,14 +122,14 @@ minetest.register_node("flora:blueberry_bush_leaves", {
 		if minetest.get_node_light(pos) < 11 then
 			minetest.get_node_timer(pos):start(200)
 		else
-			minetest.set_node(pos, {name = "flora:blueberry_bush_leaves_with_berries"})
+			minetest.set_node(pos, {name = "flora:leaves_bush_blueberry_with_berries"})
 		end
 	end,
 
 	after_place_node = after_place_leaves,
 })
 
-minetest.register_node("flora:blueberry_bush_sapling", {
+minetest.register_node("flora:sapling_bush_blueberry", {
 	description = S("Blueberry Bush Sapling"),
 	drawtype = "plantlike",
 	tiles = {"flora_blueberry_bush_sapling.png"},
@@ -153,7 +153,7 @@ minetest.register_node("flora:blueberry_bush_sapling", {
 
 	on_place = function(itemstack, placer, pointed_thing)
 		itemstack = flora.sapling_on_place(itemstack, placer, pointed_thing,
-			"flora:blueberry_bush_sapling",
+			"flora:sapling_bush_blueberry",
 			-- minp, maxp to be checked, relative to sapling pos
 			{x = -1, y = 0, z = -1},
 			{x = 1, y = 1, z = 1},
@@ -164,7 +164,7 @@ minetest.register_node("flora:blueberry_bush_sapling", {
 	end,
 })
 
-minetest.register_node("flora:acacia_bush_stem", {
+minetest.register_node("flora:stem_bush_acacia", {
 	description = S("Acacia Bush Stem"),
 	drawtype = "plantlike",
 	visual_scale = 1.41,
@@ -181,7 +181,7 @@ minetest.register_node("flora:acacia_bush_stem", {
 	},
 })
 
-minetest.register_node("flora:acacia_bush_leaves", {
+minetest.register_node("flora:leaves_bush_acacia", {
 	description = S("Acacia Bush Leaves"),
 	drawtype = "allfaces_optional",
 	tiles = {"flora_acacia_leaves_simple.png"},
@@ -190,8 +190,8 @@ minetest.register_node("flora:acacia_bush_leaves", {
 	drop = {
 		max_items = 1,
 		items = {
-			{items = {"flora:acacia_bush_sapling"}, rarity = 5},
-			{items = {"flora:acacia_bush_leaves"}}
+			{items = {"flora:sapling_bush_acacia"}, rarity = 5},
+			{items = {"flora:leaves_bush_acacia"}}
 		}
 	},
 	sounds = default.node_sound_leaves_defaults(),
@@ -199,7 +199,7 @@ minetest.register_node("flora:acacia_bush_leaves", {
 	after_place_node = after_place_leaves,
 })
 
-minetest.register_node("flora:acacia_bush_sapling", {
+minetest.register_node("flora:sapling_bush_acacia", {
 	description = S("Acacia Bush Sapling"),
 	drawtype = "plantlike",
 	tiles = {"flora_acacia_bush_sapling.png"},
@@ -223,7 +223,7 @@ minetest.register_node("flora:acacia_bush_sapling", {
 
 	on_place = function(itemstack, placer, pointed_thing)
 		itemstack = flora.sapling_on_place(itemstack, placer, pointed_thing,
-			"flora:acacia_bush_sapling",
+			"flora:sapling_bush_acacia",
 			-- minp, maxp to be checked, relative to sapling pos
 			{x = -1, y = 0, z = -1},
 			{x = 1, y = 1, z = 1},
@@ -234,7 +234,7 @@ minetest.register_node("flora:acacia_bush_sapling", {
 	end,
 })
 
-minetest.register_node("flora:pine_bush_stem", {
+minetest.register_node("flora:stem_bush_pine", {
 	description = S("Pine Bush Stem"),
 	drawtype = "plantlike",
 	visual_scale = 1.41,
@@ -251,7 +251,7 @@ minetest.register_node("flora:pine_bush_stem", {
 	},
 })
 
-minetest.register_node("flora:pine_bush_needles", {
+minetest.register_node("flora:needles_bush_pine", {
 	description = S("Pine Bush Needles"),
 	drawtype = "allfaces_optional",
 	tiles = {"flora_pine_needles.png"},
@@ -260,8 +260,8 @@ minetest.register_node("flora:pine_bush_needles", {
 	drop = {
 		max_items = 1,
 		items = {
-			{items = {"flora:pine_bush_sapling"}, rarity = 5},
-			{items = {"flora:pine_bush_needles"}}
+			{items = {"flora:sapling_bush_pine"}, rarity = 5},
+			{items = {"flora:needles_bush_pine"}}
 		}
 	},
 	sounds = default.node_sound_leaves_defaults(),
@@ -269,7 +269,7 @@ minetest.register_node("flora:pine_bush_needles", {
 	after_place_node = after_place_leaves,
 })
 
-minetest.register_node("flora:pine_bush_sapling", {
+minetest.register_node("flora:sapling_bush_pine", {
 	description = S("Pine Bush Sapling"),
 	drawtype = "plantlike",
 	tiles = {"flora_pine_bush_sapling.png"},
@@ -293,7 +293,7 @@ minetest.register_node("flora:pine_bush_sapling", {
 
 	on_place = function(itemstack, placer, pointed_thing)
 		itemstack = flora.sapling_on_place(itemstack, placer, pointed_thing,
-			"flora:pine_bush_sapling",
+			"flora:sapling_bush_pine",
 			-- minp, maxp to be checked, relative to sapling pos
 			{x = -1, y = 0, z = -1},
 			{x = 1, y = 1, z = 1},
@@ -304,7 +304,7 @@ minetest.register_node("flora:pine_bush_sapling", {
 	end,
 })
 
-minetest.register_node("flora:bone_bush_stem", {
+minetest.register_node("flora:stem_bush_bone", {
 	description = S("Ossified Bush Stem"),
 	drawtype = "plantlike",
 	visual_scale = 1.41,
@@ -322,19 +322,25 @@ minetest.register_node("flora:bone_bush_stem", {
 })
 
 default.register_leafdecay({
-	trunks = {"flora:bush_stem"},
-	leaves = {"flora:bush_leaves"},
+	trunks = {"flora:stem_bush"},
+	leaves = {"flora:leaves_bush"},
 	radius = 1,
 })
 
 default.register_leafdecay({
-	trunks = {"flora:acacia_bush_stem"},
-	leaves = {"flora:acacia_bush_leaves"},
+	trunks = {"flora:stem_bush_acacia"},
+	leaves = {"flora:leaves_bush_acacia"},
 	radius = 1,
 })
 
 default.register_leafdecay({
-	trunks = {"flora:pine_bush_stem"},
-	leaves = {"flora:pine_bush_needles"},
+	trunks = {"flora:stem_bush_pine"},
+	leaves = {"flora:needles_bush_pine"},
+	radius = 1,
+})
+
+default.register_leafdecay({
+	trunks = {"flora:stem_bush_bone"},
+	leaves = {"flora:needles_bush_bone"},
 	radius = 1,
 })

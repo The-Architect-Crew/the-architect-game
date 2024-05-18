@@ -1061,7 +1061,7 @@ minetest.register_node("flora:sapling_amber", {
 
 	on_place = function(itemstack, placer, pointed_thing)
 		itemstack = flora.sapling_on_place(itemstack, placer, pointed_thing,
-			"flora:amber_sapling",
+			"flora:sapling_amber",
 			-- minp, maxp to be checked, relative to sapling pos
 			-- minp_relative.y = 1 because sapling pos has been checked
 			{x = -5, y = -4, z = -5},
@@ -1845,7 +1845,7 @@ minetest.register_craft({
 minetest.register_craft({
 	output = "flora:amber_gills",
 	recipe = {
-		{"flora:amber_sapling"},
+		{"flora:sapling_amber"},
 		{"blocks:amber_wood"},
 	}
 })

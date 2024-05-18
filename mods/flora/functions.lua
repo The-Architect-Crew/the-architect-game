@@ -46,103 +46,103 @@ flora.saplings = {
 		schem_name = "apple_tree_large",
 		offset = {x = 6, y = 2, z = 6}
 	},
-	pine_sapling = {
+	sapling_pine = {
 		name = "pine tree sapling",
 		description = "pine tree",
 		schem_name = "pine_tree_from_sapling",
 		offset = {x = 2, y = 1, z = 2}
 	},
-	pine_sapling_big = {
+	sapling_big_pine = {
 		name = "big pine tree sapling",
 		description = "huge pine tree",
 		schem_name = "pine_tree_large",
 		offset = {x = 6, y = 2, z = 6}
 	},
-	acacia_sapling = {
+	sapling_acacia = {
 		name = "acacia tree sapling",
 		description = "acacia tree",
 		schem_name = "acacia_tree_from_sapling",
 		offset = {x = 4, y = 1, z = 4}
 	},
-	acacia_sapling_big = {
+	sapling_big_acacia = {
 		name = "big acacia tree sapling",
 		description = "huge acacia tree",
 		schem_name = "acacia_tree_large",
 		offset = {x = 7, y = 2, z = 7}
 	},
-	aspen_sapling = {
+	sapling_aspen = {
 		name = "aspen tree sapling",
 		description = "aspen tree",
 		schem_name = "aspen_tree_from_sapling",
 		offset = {x = 2, y = 1, z = 2}
 	},
-	aspen_sapling_big = {
+	sapling_big_aspen = {
 		name = "big aspen tree sapling",
 		description = "huge aspen tree",
 		schem_name = "aspen_tree_large",
 		offset = {x = 4, y = 2, z = 4}
 	},
-	cherry_sapling = {
+	sapling_cherry = {
 		name = "cherry tree sapling",
 		description = "cherry tree",
 		schem_name = "cherry_tree",
 		offset = {x = 4, y = 1, z = 4}
 	},
-	cherry_sapling_big = {
+	sapling_big_cherry = {
 		name = "big cherry tree sapling",
 		description = "huge cherry tree",
 		schem_name = "cherry_tree_large",
 		offset = {x = 8, y = 1, z = 8}
 	},
-	bone_sapling = {
+	sapling_bone = {
 		name = "bone tree sapling",
 		description = "bone tree",
 		schem_name = "bone_tree",
 		offset = {x = 3, y = 1, z = 3}
 	},
-	bone_sapling_big = {
+	sapling_big_bone = {
 		name = "big bone tree sapling",
 		description = "huge bone tree",
 		schem_name = "bone_tree_large",
 		offset = {x = 5, y = 1, z = 5}
 	},
-	junglesapling = {
+	sapling_jungle = {
 		name = "jungle tree sapling",
 		description = "jungle tree",
 		schem_name = "jungle_tree_from_sapling",
 		offset = {x = 2, y = 1, z = 2}
 	},
-	emergent_jungle_sapling = {
+	sapling_emergent_jungle = {
 		name = "emergent jungle tree sapling",
 		description = "emergent jungle tree",
 		schem_name = "emergent_jungle_tree_from_sapling",
 		offset = {x = 3, y = 5, z = 3}
 	},
-	bush_sapling = {
+	sapling_bush = {
 		name = "bush sapling",
 		description = "bush",
 		schem_name = "bush",
 		offset = {x = 1, y = 1, z = 1}
 	},
-	blueberry_bush_sapling = {
+	sapling_bush_blueberry = {
 		name = "blueberry bush sapling",
 		description = "blueberry bush",
 		schem_name = "blueberry_bush",
 		offset = {x = 1, y = 0, z = 1}
 	},
-	acacia_bush_sapling = {
+	sapling_bush_acacia = {
 		name = "acacia bush sapling",
 		description = "acacia bush",
 		schem_name = "acacia_bush",
 		offset = {x = 1, y = 1, z = 1}
 	},
-	pine_bush_sapling = {
+	sapling_bush_pine = {
 		name = "pine bush sapling",
 		description = "pine bush",
 		schem_name = "pine_bush",
 		offset = {x = 1, y = 1, z = 1}
 	},
-	amber_tree_sapling = {
+	sapling_amber = {
 		name = "amber tree sapling",
 		description = "amber tree",
 		schem_name = "amber_mushroom_medium",
@@ -187,8 +187,8 @@ minetest.register_lbm({
 			"flora:sapling_big_pine", "flora:sapling_big_acacia",
 			"flora:sapling_big_aspen", "flora:sapling_big_cherry",
 			"flora:sapling_big_bone", "flora:sapling_amber",
-			"flora:bush_sapling", "flora:blueberry_bush_sapling",
-			"flora:acacia_bush_sapling", "flora:pine_bush_sapling"},
+			"flora:sapling_bush", "flora:sapling_bush_blueberry",
+			"flora:sapling_bush_acacia", "flora:sapling_bush_pine"},
 	action = function(pos)
 		minetest.get_node_timer(pos):start(math.random(300, 1500))
 	end

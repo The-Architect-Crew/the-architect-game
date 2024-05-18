@@ -339,6 +339,7 @@ default.register_leafdecay({
 	radius = 1,
 })
 
+
 default.register_leafdecay({
 	trunks = {"flora:stem_bush_bone"},
 	leaves = {"flora:leaves_crimson"},

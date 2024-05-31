@@ -35,7 +35,7 @@ minetest.register_craft({
 minetest.register_craft({
 	output = "blocks:granite",
 	type = "shapeless",
-	recipe = {"blocks:imagination", "blocks:coalblock"},
+	recipe = {"blocks:imagination", "blocks:stone_dark_grey"},
 	replacements = {
 		{"blocks:imagination", "blocks:imagination"}
 	},

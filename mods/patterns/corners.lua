@@ -89,11 +89,12 @@ function patterns.register_corners(base_node)
 		workbench:register_craft({
 			type = "normal",
 			input =	{
-				{base_node, "blocks:" .. corner_materials[1]},
-				{"blocks:" .. corner_materials[1], "blocks:" .. corner_materials[1]},
+				{base_node, base_node, ""},
+				{base_node, base_node, "blocks:" .. corner_materials[1]},
+				{"", "blocks:" .. corner_materials[1], "blocks:" .. corner_materials[1]},
 			},
 			output = {
-				{corner_name .. " 3"},
+				{corner_name .. " 6"},
 			},
 		})
 	end

@@ -990,7 +990,7 @@ minetest.register_node("flora:amber_gills", {
 			},
 			{
 				rarity = 2,
-				items = {"flora:amber_sapling"},
+				items = {"flora:sapling_amber"},
 			},
 			{
 				rarity = 3,

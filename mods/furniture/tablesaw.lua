@@ -281,6 +281,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 			meta:set_int("multiplier", multiplier)
 			tablesaw_apply_craft_result(pos, category, multiplier)
 			tablesaw_update(pos, "input", nil, nil, player)
+			tablesaw_show_formspec(pos, player)
 		end
 	end
 	if not fields.quit then

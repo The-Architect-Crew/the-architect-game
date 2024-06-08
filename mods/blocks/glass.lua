@@ -69,7 +69,7 @@ minetest.register_node("blocks:amber_glass", {
 	sounds = default.node_sound_glass_defaults(),
 })
 
-minetest.register_node("blocks:amber_medieval_glass", {
+minetest.register_node("blocks:amber_glass_medieval", {
 	description = S("Medieval Amber Glass"),
 	drawtype = "glasslike_framed_optional",
 	tiles = {"blocks_amber_glass_medieval.png", "blocks_amber_glass_medieval_detail.png"},

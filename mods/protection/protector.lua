@@ -142,7 +142,7 @@ local function protector_after_place_node(pos, placer, itemstack, pointed_thing)
 	meta:set_string("owner", playername)
     meta:set_string("tab", "info")
     meta:set_string("selected_area_id", owned_block_area.id)
-    meta:set_string("infotext", minetest.colorize(protection.protection_color, "Protector Station") ..
+    meta:set_string("infotext", minetest.colorize(protection.protection_color, "Protector Station\n(owned by " .. placer .. ")") ..
                     "\nBlock area: " .. minetest.colorize(protection.protection_color, block_data.center.x .. "," .. block_data.center.y .. "," .. block_data.center.z) ..
                     "\nOwner: " .. minetest.colorize(protection.name_color, block_area.owner) ..
                     "\nName: " .. minetest.colorize(protection.area_color, block_area.name))
